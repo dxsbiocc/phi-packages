@@ -59,8 +59,11 @@ Phi 官方共享环境和应用级色板由主程序提供，本仓库不复制�
 
 ## 导入边界与第三方内容
 
-- `resources/plugins/office/` 暂未导入：现有 Office skills 许可证明确禁止复制和第三方分发；
-  为保持组件完整性，本次排除整个 Office 插件。需要获得相应授权或替换受限组件后再纳入。
+- `resources/plugins/office/` 暂未导入：其中 `skills/xlsx/LICENSE.txt`、`skills/pptx/LICENSE.txt`
+  保留了限制复制和第三方分发的专有许可声明，因此本次未公开分发现有完整 Office 包。
+  `skills/pdf/LICENSE.txt` 是 Apache 2.0；整包排除不表示每个组件采用相同许可。
+  获得相应授权或替换受限组件后，才能把完整包纳入本次公开分发范围。
+  本机已安装的 Office 仍显示在 Phi 的“全部插件”和“已安装”列表中。
 - `resources/skills/create-wrapper/` 留在 Phi：它属于引擎内置创作技能。
 - 保留已导入文件原有的许可证、引用、作者和上游来源记录。本仓库包含 nf-core 等上游内容；
   导入不改变其原有许可条件。

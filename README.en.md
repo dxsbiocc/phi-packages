@@ -50,7 +50,7 @@ Run the boundary checks with `node --test tests/content-boundaries.test.mjs`.
 
 ## Import exclusions and third-party content
 
-- `resources/plugins/office/` was not imported: the existing Office skill licenses explicitly prohibit copying and third-party distribution. The entire Office plugin was excluded to preserve component integrity. It can be included after obtaining the necessary authorization or replacing the restricted components.
+- `resources/plugins/office/` was not imported: its included `skills/xlsx/LICENSE.txt` and `skills/pptx/LICENSE.txt` retain proprietary terms restricting copying and third-party distribution, so this release omits the existing composite Office bundle. `skills/pdf/LICENSE.txt` is Apache 2.0; the bundle exclusion does not imply that every component has the same license. The complete bundle can enter this distribution scope after the necessary authorization or replacement of the restricted components. An existing local Office installation remains visible in Phi’s All plugins and Installed lists.
 - `resources/skills/create-wrapper/` remains in Phi as a built-in engine authoring skill.
 - Imported files retain their original licenses, citations, authors, and upstream provenance. This repository includes upstream content such as nf-core; importing it does not change its existing license terms.
 - This repository currently has no single repository-wide open-source license.

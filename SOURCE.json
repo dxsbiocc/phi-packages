@@ -19,7 +19,7 @@
   "excluded": [
     {
       "path": "resources/plugins/office/",
-      "reason": "Existing Office skill licenses explicitly prohibit copying and third-party distribution; the entire composite plugin is omitted."
+      "reason": "Included XLSX and PPTX components retain proprietary LICENSE.txt terms restricting copying and third-party distribution, so the existing composite Office bundle is omitted. The PDF component has an Apache 2.0 license."
     },
     {
       "path": "resources/skills/create-wrapper/",
