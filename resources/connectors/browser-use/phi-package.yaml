@@ -1,7 +1,7 @@
 schemaVersion: 1
 id: browser-use
 type: mcp
-version: 1.0.0
+version: 1.0.1
 title: Browser Use
 summary: 运行云端浏览器任务并查看执行结果
 connector:

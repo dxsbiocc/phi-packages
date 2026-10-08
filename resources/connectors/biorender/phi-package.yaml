@@ -1,7 +1,7 @@
 schemaVersion: 1
 id: biorender
 type: mcp
-version: 1.0.0
+version: 1.0.1
 title: BioRender
 summary: 搜索科学插图素材和生成科研图示
 connector:

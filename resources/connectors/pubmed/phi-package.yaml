@@ -1,7 +1,7 @@
 schemaVersion: 1
 id: pubmed
 type: mcp
-version: 1.0.0
+version: 1.0.1
 title: PubMed
 summary: 检索生物医学文献、摘要和可获取的 PMC 全文
 connector:

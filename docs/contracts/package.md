@@ -1,6 +1,6 @@
 # Package contract
 
-contractVersion: 1.2.0
+contractVersion: 1.3.0
 
 A **package** is the unit Phi distributes: one skill, wrapper, MCP connector, or
 plugin, with a manifest, an exact file list, and a version. This contract defines
@@ -113,6 +113,25 @@ Archives are covered by the signature through their `sha256` in the index. A rem
 (`https://`) registry must be `official` (remote registries are not implemented yet);
 a local directory registry may be `imported`, because the user chose it.
 
+### 4.2 Content icons (1.3.0)
+
+An entry may include `iconAsset: { "path": "icons/skill-scanpy-1.0.0.svg", "sha256":
+"<64 lowercase hex>", "size": 1234 }`. `path` is a safe, `/`-separated relative
+path with no empty, `.` or `..` segments, backslashes, drive prefixes, URL syntax,
+encoded path segments, or control characters. Only `.svg`, `.png`, `.webp`, `.jpg`,
+and `.jpeg` are supported. `size` is an integer from 1 through 262144 bytes.
+
+The optional source icon uses the corresponding default `icon.<extension>` filename
+at the package root, beside its manifest or `SKILL.md`. Lookup prefers SVG, PNG,
+WebP, JPG, then JPEG. Generated wrapper packages check their family root, then their
+root `wrapper/` adapter directory; arbitrary nested images are not catalog icons.
+The builder includes the icon in the package's `files.json` and archive and publishes
+an exact sidecar copy at `icons/<type>-<id>-<version>.<extension>`. Sidecar size and
+SHA-256 must match before display; a signed index covers this descriptor like archive
+metadata. Installed icons remain verified package files. Absence of `iconAsset`
+keeps older registry entries valid and uses the type fallback. See
+[content icon convention and attribution](../content-icons.md).
+
 ## 5. Install
 
 1. **Plan** — resolve `dependsOn` against installed packages and the registry; refuse
@@ -171,3 +190,5 @@ decision record and a deprecation window.
 - **1.1.0** (2026-10-02): package types `wrapper` and `mcp`. Additive.
 - **1.2.0** (2026-10-02): registry signature and trust tiers (§ 4.1), `trust` in
   `.source.json`, known registries, prompted updates, offline import (§ 6). Additive.
+- **1.3.0** (2026-10-08): optional content icons and signed registry sidecar metadata
+  (§ 4.2), with packaged file-list verification. Additive.

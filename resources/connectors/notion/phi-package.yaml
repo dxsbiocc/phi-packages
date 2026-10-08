@@ -1,7 +1,7 @@
 schemaVersion: 1
 id: notion
 type: mcp
-version: 1.0.0
+version: 1.0.1
 title: Notion
 summary: 搜索、读取和整理工作区内容
 connector:

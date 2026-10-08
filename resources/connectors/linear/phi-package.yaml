@@ -1,7 +1,7 @@
 schemaVersion: 1
 id: linear
 type: mcp
-version: 1.0.0
+version: 1.0.1
 title: Linear
 summary: 管理问题、项目和团队工作流
 connector:

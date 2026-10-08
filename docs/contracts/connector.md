@@ -1,6 +1,6 @@
 # Connector contract
 
-contractVersion: 1.0.0
+contractVersion: 1.1.0
 
 A **connector** gives Phi an MCP server: a remote HTTP server (most catalog entries) or
 a local stdio server that runs in a managed environment. Connectors are distributed as
@@ -14,11 +14,17 @@ distribution design §8.3). See the [package](package.md),
 ```text
 <connector-id>/
   phi-package.yaml          # type: mcp, with the `connector` block (§ 2)
-  icon.svg | icon.png       # optional, shown in the catalog
+  icon.<extension>         # optional SVG, PNG, WebP, JPG, or JPEG catalog image
   environment.yml           # stdio only, optional (§ 3)
   locks/<platform>.txt      # with environment.yml
   <server files>            # stdio only: what `command` runs, when not provided by the environment
 ```
+
+Package-local icons follow [package contract](package.md) § 4.2 and the
+[content icon convention](../content-icons.md). The builder retains the image in the
+verified archive and emits optional registry sidecar metadata, so directory-source
+catalogs can show icons before installation and installed connectors retain them.
+Missing or invalid images use the MCP fallback; no `connector` field is required.
 
 ## 2. The `connector` block
 
@@ -67,3 +73,8 @@ as added. Entries that need an app newer than this one show but cannot be added.
 `contractVersion` follows the content distribution design §4.4: minor versions are
 additive only (for example allowing `secrets`); anything else needs a decision record
 and a deprecation window.
+
+## Changes
+
+- **1.1.0** (2026-10-08): clarify optional package-local images and registry sidecars
+  using package contract 1.3.0. Additive; existing connectors remain valid.

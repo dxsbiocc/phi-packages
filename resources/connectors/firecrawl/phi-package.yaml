@@ -1,7 +1,7 @@
 schemaVersion: 1
 id: firecrawl
 type: mcp
-version: 1.0.0
+version: 1.0.1
 title: Firecrawl
 summary: 搜索、抓取和解析网页内容
 connector:

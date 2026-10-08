@@ -1,7 +1,7 @@
 schemaVersion: 1
 id: figma
 type: mcp
-version: 1.0.0
+version: 1.0.1
 title: Figma
 summary: 获取设计上下文和生成图表
 connector:

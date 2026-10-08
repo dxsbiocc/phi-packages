@@ -1,7 +1,7 @@
 schemaVersion: 1
 id: clinical-trials
 type: mcp
-version: 1.0.0
+version: 1.0.1
 title: Clinical Trials
 summary: 检索 ClinicalTrials.gov 临床试验
 connector:

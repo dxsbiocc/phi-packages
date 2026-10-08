@@ -1,7 +1,7 @@
 schemaVersion: 1
 id: google-drive
 type: mcp
-version: 1.0.0
+version: 1.0.1
 title: Google Drive
 summary: 搜索、读取和上传云端文件
 connector:

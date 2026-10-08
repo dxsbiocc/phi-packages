@@ -1,7 +1,7 @@
 schemaVersion: 1
 id: biorxiv
 type: mcp
-version: 1.0.0
+version: 1.0.1
 title: bioRxiv
 summary: 检索 bioRxiv 和 medRxiv 预印本
 connector:

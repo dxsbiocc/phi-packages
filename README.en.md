@@ -69,3 +69,4 @@ that can be added through Phi's existing directory installation flow without app
 - Keep wrapper include targets, support files, and test data together so copying an adapter alone does not leave missing dependencies.
 - Check component references when modifying plugins. Local MCP services continue to run in managed environments on the user's machine.
 - Do not commit secrets, account configuration, installed environments, or Nextflow run outputs.
+- Default package-local `icon.svg`, `icon.png`, `icon.webp`, `icon.jpg`, or `icon.jpeg` files travel with content; see [content icons](docs/content-icons.md) for the convention and existing brand attribution.

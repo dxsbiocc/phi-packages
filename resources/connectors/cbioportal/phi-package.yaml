@@ -1,7 +1,7 @@
 schemaVersion: 1
 id: cbioportal
 type: mcp
-version: 1.0.0
+version: 1.0.1
 title: cBioPortal
 summary: 查询癌症基因组研究、样本、突变和临床数据
 connector:

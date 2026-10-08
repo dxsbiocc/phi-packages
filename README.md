@@ -78,3 +78,4 @@ Phi 官方共享环境和应用级色板由主程序提供，本仓库不复制�
 - Wrapper 保留其 include 目标、辅助文件和测试数据，避免只复制适配器造成依赖丢失。
 - 修改插件时同时核对组件引用；本地 MCP 服务仍在用户机器的受管理环境中运行。
 - 不提交密钥、账户配置、环境安装目录或 Nextflow 运行结果。
+- 包自身的默认 `icon.svg`、`icon.png`、`icon.webp`、`icon.jpg` 或 `icon.jpeg` 随内容分发；约定与现有品牌图标来源见 [内容图标](docs/content-icons.md)。

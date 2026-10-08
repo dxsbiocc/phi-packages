@@ -13,8 +13,8 @@
     "plugins": 1,
     "pluginSkills": 1,
     "wrapperAdapters": 652,
-    "importedFiles": 7867,
-    "importedBytes": 85105062
+    "importedFiles": 7885,
+    "importedBytes": 85272892
   },
   "excluded": [
     {
@@ -42,7 +42,8 @@
     "The initial snapshot was copied byte-for-byte. Its original counts are retained in initialImportCounts; current counts reflect the corrected distribution scope.",
     "Shared runtime and application palette definitions were removed from this repository. Contract/design documents remain reference snapshots maintained in Phi.",
     "Eight differential-expression modules now carry executable local Conda specifications and use public frozen container references. Analysis scripts, parameter contracts and wrapper entrypoints are unchanged.",
-    "The Phi source repository was not modified by this content-repository correction."
+    "The Phi source repository was not modified by this content-repository correction.",
+    "Eighteen existing Phi connector brand icons were copied byte-for-byte into package-local icon files; only those connector versions changed to 1.0.1. BioMCP remains 1.0.0 with no authored logo. See docs/content-icons.md for attribution and byte records."
   ],
   "initialImportCounts": {
     "standaloneSkills": 14,
@@ -98,5 +99,142 @@
       "origin": "Authored in phi-packages after the initial Phi snapshot. Uses official pinned biomcp-cli 0.9.1 native wheels.",
       "packageVersion": "1.0.0"
     }
-  ]
+  ],
+  "iconMigration": {
+    "migratedAt": "2026-10-08",
+    "sourceRepository": "https://github.com/dxsbiocc/phi",
+    "sourceDirectory": "src/renderer/src/features/mcp/assets/",
+    "sourcePackageVersion": "1.0.0",
+    "packageVersion": "1.0.1",
+    "assetCount": 18,
+    "assetBytes": 167830,
+    "files": [
+      {
+        "id": "biorender",
+        "path": "resources/connectors/biorender/icon.jpg",
+        "sourcePath": "src/renderer/src/features/mcp/assets/biorender.jpg",
+        "sha256": "5058279cd72d517919bce9623c803c0d334a918740b2785ac1b47ea87c33b311",
+        "size": 3566
+      },
+      {
+        "id": "biorxiv",
+        "path": "resources/connectors/biorxiv/icon.png",
+        "sourcePath": "src/renderer/src/features/mcp/assets/biorxiv.png",
+        "sha256": "ce412025016e5535bbb5aa1d8a3b7e84c67f22dfe2c638d7eb2447188df80d52",
+        "size": 59601
+      },
+      {
+        "id": "browser-use",
+        "path": "resources/connectors/browser-use/icon.png",
+        "sourcePath": "src/renderer/src/features/mcp/assets/browser-use.png",
+        "sha256": "c0da08801542a6c68f9837530c93820b80da0dcdf086c009866e119f9e13c109",
+        "size": 43719
+      },
+      {
+        "id": "canva",
+        "path": "resources/connectors/canva/icon.jpg",
+        "sourcePath": "src/renderer/src/features/mcp/assets/canva.jpg",
+        "sha256": "ecfbe1a4a05cd342b14b9d7b2323a5637a72a3469b5ce6462a75c37b33af4012",
+        "size": 2512
+      },
+      {
+        "id": "cbioportal",
+        "path": "resources/connectors/cbioportal/icon.png",
+        "sourcePath": "src/renderer/src/features/mcp/assets/cbioportal.png",
+        "sha256": "d19e84d8f61376ffec1408a882ed38447a0ba168ddf75a947b2b0c9a0d7522f0",
+        "size": 2587
+      },
+      {
+        "id": "clinical-trials",
+        "path": "resources/connectors/clinical-trials/icon.png",
+        "sourcePath": "src/renderer/src/features/mcp/assets/clinical-trials.png",
+        "sha256": "6136f7db817a75fd75a5ef4dfeb548733bfa7d875c2d7e917a2d1485943e0420",
+        "size": 24196
+      },
+      {
+        "id": "composio",
+        "path": "resources/connectors/composio/icon.svg",
+        "sourcePath": "src/renderer/src/features/mcp/assets/composio.svg",
+        "sha256": "8da32432515f89f3f81992340ae2feda38c6e2f2b807a1a509922a8ca8d1cd53",
+        "size": 7479
+      },
+      {
+        "id": "figma",
+        "path": "resources/connectors/figma/icon.jpg",
+        "sourcePath": "src/renderer/src/features/mcp/assets/figma.jpg",
+        "sha256": "bdece31fd7626aaad1f75c9b96026a867d0d34bebb0ba85cff280f573b0cd604",
+        "size": 1834
+      },
+      {
+        "id": "firecrawl",
+        "path": "resources/connectors/firecrawl/icon.png",
+        "sourcePath": "src/renderer/src/features/mcp/assets/firecrawl.png",
+        "sha256": "37e85b43b4b9cdbd689e9e710410caa4c8a240b42dd21ef8edd5edde9a6116df",
+        "size": 8927
+      },
+      {
+        "id": "gmail",
+        "path": "resources/connectors/gmail/icon.svg",
+        "sourcePath": "src/renderer/src/features/mcp/assets/gmail.svg",
+        "sha256": "8ae53aecbb00adfecbefb557e10234e44183bd2d826a756f10393e29c0cb2691",
+        "size": 2418
+      },
+      {
+        "id": "google-drive",
+        "path": "resources/connectors/google-drive/icon.svg",
+        "sourcePath": "src/renderer/src/features/mcp/assets/google-drive.svg",
+        "sha256": "373f7efb45157b05017318550023f7e807519ae12e767a40f107326d85187e8b",
+        "size": 1521
+      },
+      {
+        "id": "linear",
+        "path": "resources/connectors/linear/icon.svg",
+        "sourcePath": "src/renderer/src/features/mcp/assets/linear.svg",
+        "sha256": "a213893f4d76eba22c3bebe05e9627704a3469e0f81f8a732bdf7ebbebf6f4d7",
+        "size": 499
+      },
+      {
+        "id": "notion",
+        "path": "resources/connectors/notion/icon.svg",
+        "sourcePath": "src/renderer/src/features/mcp/assets/notion.svg",
+        "sha256": "f34ddba7d44c7c8701b73c43dd3762355e460c54f6eb0f0f628e01af4629aeb8",
+        "size": 1472
+      },
+      {
+        "id": "open-targets",
+        "path": "resources/connectors/open-targets/icon.svg",
+        "sourcePath": "src/renderer/src/features/mcp/assets/open-targets.svg",
+        "sha256": "319081e74bcb3d6c2dd2d472e0699cff39488b93713576441c54285ed4c2bb94",
+        "size": 745
+      },
+      {
+        "id": "pubmed",
+        "path": "resources/connectors/pubmed/icon.svg",
+        "sourcePath": "src/renderer/src/features/mcp/assets/pubmed.svg",
+        "sha256": "a677ecb9865f7a0dbfff9863672a05acdb642af1774da954145c83140ddc51cf",
+        "size": 886
+      },
+      {
+        "id": "serpapi",
+        "path": "resources/connectors/serpapi/icon.svg",
+        "sourcePath": "src/renderer/src/features/mcp/assets/serpapi.svg",
+        "sha256": "53656f8526033e4323a0d6c502cf1caf3f4ab17be72c2f83be37bd0cec9163e8",
+        "size": 1848
+      },
+      {
+        "id": "slack",
+        "path": "resources/connectors/slack/icon.svg",
+        "sourcePath": "src/renderer/src/features/mcp/assets/slack.svg",
+        "sha256": "fd9e7be2ea0056bcbab54e03b027c5be9b1d1c2d157821c06de2d563982c05fb",
+        "size": 1738
+      },
+      {
+        "id": "tavily",
+        "path": "resources/connectors/tavily/icon.svg",
+        "sourcePath": "src/renderer/src/features/mcp/assets/tavily.svg",
+        "sha256": "320ef37b5a13331bee4d756c6aed45422e61e73a02816ac3a4768815f6ed5153",
+        "size": 2282
+      }
+    ]
+  }
 }
