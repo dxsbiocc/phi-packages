@@ -1,6 +1,6 @@
 # Package contract
 
-contractVersion: 1.3.0
+contractVersion: 1.4.0
 
 A **package** is the unit Phi distributes: one skill, wrapper, MCP connector, or
 plugin, with a manifest, an exact file list, and a version. This contract defines
@@ -110,7 +110,7 @@ the trusted first-party public keys. Reading a registry gives it a **trust tier*
 | `index.sig.json` unreadable, or an embedded key's signature does not verify | **rejected** |
 
 Archives are covered by the signature through their `sha256` in the index. A remote
-(`https://`) registry must be `official` (remote registries are not implemented yet);
+(`https://`) registry must be `official`; the fixed Phi Packages source now implements this requirement;
 a local directory registry may be `imported`, because the user chose it.
 
 ### 4.2 Content icons (1.3.0)
@@ -132,6 +132,24 @@ metadata. Installed icons remain verified package files. Absence of `iconAsset`
 keeps older registry entries valid and uses the type fallback. See
 [content icon convention and attribution](../content-icons.md).
 
+### 4.3 Official remote catalog (1.4.0)
+
+Phi Packages is the primary domain-content source at
+`https://github.com/dxsbiocc/phi-packages/releases/download/catalog-v1/`.
+A signed index, connector `manifestAsset: { path, sha256, size }` YAML sidecars,
+and optional icon sidecars are cached below
+`~/.phi/cache/registries/phi-packages/generations/<index-sha256>/`.
+`current.json` selects a complete verified generation atomically. The source has
+the stable identity `phi-packages`; physical generation paths are never saved as
+user-added directory sources.
+
+Catalog browsing downloads metadata, not all archives. Installation and updates
+fetch only their dependency plan, verify each archive, then use the existing staging
+and installation rules. A verified cache remains available offline; network or
+signature failures never fall back to local `resources/` domain content. The engine
+runtime, palettes, system agents, and `create-wrapper` authoring skill remain supplied
+by Phi. Installed, project, and user-authored content continues to load normally.
+
 ## 5. Install
 
 1. **Plan** — resolve `dependsOn` against installed packages and the registry; refuse
@@ -145,13 +163,15 @@ keeps older registry entries valid and uses the type fallback. See
    SHA-256, every listed file exists, and the manifest equals the index entry's `id`,
    `type`, and `version`. Then the type's own validator runs (skill contract; plugin
    contract via the plugin loader).
-5. **Commit** — atomically rename into `~/.phi/packages/<type>/<id>/<version>/` and
-   write `.source.json` there:
+5. **Commit** — skill, plugin and MCP packages atomically rename into
+   `~/.phi/packages/<type>/<id>/<version>/` and write `.source.json` there:
    `{ "registry": "<registry id or path>", "id", "type", "version", "sha256", "installedAt", "installedBy": "user" | "dependency", "trust": "builtin" | "official" | "imported" }`
    (`trust` added in 1.2.0; a missing `trust` reads as `builtin` for the bundled
    registry and `imported` otherwise).
    Plugins then go through the plugin loader's install or upgrade (plugin contract
-   § 4). One active version per `type`/`id`.
+   § 4). Wrapper files merge into `~/.phi/wrappers/tree/`;
+   `~/.phi/wrappers/tree.json` records exact per-package ownership and provenance.
+   One active version per `type`/`id`.
 6. **Environments** are not built at install (built on first use, or from the
    environment panel), except as the plugin contract's upgrade rule requires.
 
@@ -163,7 +183,8 @@ are no longer needed. A staging directory older than one day is removed on start
 
 ## 6. Registries, updates, and offline import (1.2.0)
 
-- **Known registries** are the bundled registry plus the ones the user added, kept in
+- **Known registries** are the fixed official Phi Packages source first, followed by
+  the local directory sources the user added. Only those user sources are kept in
   `~/.phi/state/registries.json`:
   `{ "version": 1, "registries": [{ "id": "<16 hex of sha256(path)>", "kind": "directory", "path": "<absolute>", "addedAt": "<ISO 8601>" }] }`.
   They survive restarts; removing one never uninstalls what was installed from it.
@@ -172,7 +193,8 @@ are no longer needed. A staging directory older than one day is removed on start
   (`builtin` = `official` > `imported`) lists a higher version of the same `type`/`id`
   that this app may install (`minAppVersion`, core tools). The registry recorded in
   `.source.json` is preferred when several offer one. Packages the app keeps up to date
-  itself (bundled plugins and wrappers) are not listed. Updating is the § 5 upgrade.
+  itself are not listed. Previously bundled domain plugins and wrappers may receive
+  signed official updates. Updating is the § 5 upgrade.
 - **Offline import** installs a single package archive (§ 3) chosen by the user: the
   archive's `phi-package.yaml` and `files.json` stand in for the index entry (its
   SHA-256 and size are those of the file), the install runs § 5 with tier `imported`,
@@ -192,3 +214,5 @@ decision record and a deprecation window.
   `.source.json`, known registries, prompted updates, offline import (§ 6). Additive.
 - **1.3.0** (2026-10-08): optional content icons and signed registry sidecar metadata
   (§ 4.2), with packaged file-list verification. Additive.
+
+- **1.4.0** (2026-10-08): signed official remote catalog, connector metadata sidecars, default source precedence, verified offline cache, and explicit managed install paths.
