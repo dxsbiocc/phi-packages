@@ -1,3 +1,21 @@
+# BioMCP connector validation
+
+Added the standalone `mcp:biomcp@1.0.0` adapter on 2026-10-08 without changes to Phi application source or the user's Phi configuration.
+
+- Phi's canonical package validator accepted the manifest with zero errors and warnings.
+- All 23 offline launcher tests passed, including pinned download checks, safe extraction, concurrent startup, offline reuse, executable repair and stdout discipline.
+- The official macOS ARM64 BioMCP 0.9.1 wheel passed its pinned size and SHA-256 checks.
+- The native program, adapter launcher and installed managed stdio entry completed actual MCP initialization and advertised seven tools.
+- The existing Phi installer installed the package and generated an enabled managed stdio entry in an isolated temporary agent directory. The Python execution environment in this check used fixture metadata and an existing Python executable; no micromamba build was performed.
+- Existing distribution boundary tests remained green (11 tests).
+- The distribution ZIP contains one local registry and the connector archive; the package itself contains no native binaries or copied core environment files.
+
+## Verification limits
+
+macOS ARM64 is the runtime-tested platform. Intel macOS and Linux x86-64 downloads are pinned but their native programs were not executed here. No upstream biomedical queries or credentialed API calls were made. The local registry is unsigned/imported; automatic remote registry support is unchanged.
+
+## Earlier content verification
+
 # Content boundary correction validation
 
 Corrected the public source repository on 2026-10-08:

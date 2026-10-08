@@ -9,7 +9,7 @@ Phi's independent public content repository, containing source files for install
 | Content | Count |
 | --- | ---: |
 | Standalone skills | 14 |
-| MCP connector definitions | 18 |
+| MCP connector definitions | 19 |
 | Composite Phi plugins | 1 |
 | Skills within plugins | 1 |
 | Wrapper adapters | 652 |
@@ -56,6 +56,12 @@ Run the boundary checks with `node --test tests/content-boundaries.test.mjs`.
 - This repository currently has no single repository-wide open-source license.
 
 See [SOURCE.json](SOURCE.json) for the full scope and [VALIDATION.md](VALIDATION.md) for validation results.
+
+## Installable connector
+
+[BioMCP](resources/connectors/biomcp/README.md) provides a standalone
+[local registry distribution](https://github.com/dxsbiocc/phi-packages/releases/tag/biomcp-v1.0.0)
+that can be added through Phi's existing directory installation flow without application source changes.
 
 ## Content conventions
 

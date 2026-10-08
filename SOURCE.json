@@ -9,12 +9,12 @@
   ],
   "counts": {
     "standaloneSkills": 14,
-    "connectors": 18,
+    "connectors": 19,
     "plugins": 1,
     "pluginSkills": 1,
     "wrapperAdapters": 652,
-    "importedFiles": 7861,
-    "importedBytes": 85085862
+    "importedFiles": 7867,
+    "importedBytes": 85105062
   },
   "excluded": [
     {
@@ -53,7 +53,7 @@
     "importedFiles": 7885,
     "importedBytes": 85619915
   },
-  "scopeUpdatedAt": "2026-10-08T05:53:33.888025+00:00",
+  "scopeUpdatedAt": "2026-10-08T07:18:15.096527+00:00",
   "transformedPaths": [
     "resources/wrappers/modules/local/differential-expression/deseq2/environment.yml",
     "resources/wrappers/modules/local/differential-expression/deseq2/main.nf",
@@ -91,5 +91,12 @@
       "ashr": "2.2.63",
       "lme4": "2.0.6"
     }
-  }
+  },
+  "addedContent": [
+    {
+      "path": "resources/connectors/biomcp/",
+      "origin": "Authored in phi-packages after the initial Phi snapshot. Uses official pinned biomcp-cli 0.9.1 native wheels.",
+      "packageVersion": "1.0.0"
+    }
+  ]
 }

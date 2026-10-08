@@ -9,7 +9,7 @@ Phi 的独立公开内容仓库，保存可安装领域能力的源码。
 | 内容 | 数量 |
 | --- | ---: |
 | 独立 skills | 14 |
-| MCP connector 定义 | 18 |
+| MCP connector 定义 | 19 |
 | Phi 复合插件 | 1 |
 | 插件内 skills | 1 |
 | Wrapper 适配器 | 652 |
@@ -65,6 +65,12 @@ Phi 官方共享环境和应用级色板由主程序提供，本仓库不复制�
 - 本仓库目前未声明统一的开源许可证。
 
 完整边界见 [SOURCE.json](SOURCE.json)，初始快照的检查结果见 [VALIDATION.md](VALIDATION.md)。
+
+## 可安装 connector
+
+[BioMCP](resources/connectors/biomcp/README.zh-CN.md) 提供独立的
+[本地软件源分发包](https://github.com/dxsbiocc/phi-packages/releases/tag/biomcp-v1.0.0)，
+可通过 Phi 现有目录安装功能添加，无需改动项目源码。
 
 ## 内容约定
 
