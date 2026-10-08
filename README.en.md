@@ -34,9 +34,9 @@ Each installable package has its own version. A repository commit or release doe
 
 Application repository: [dxsbiocc/phi](https://github.com/dxsbiocc/phi).
 
-The initial import was a snapshot of Git-tracked working-tree files. See [SOURCE.json](SOURCE.json) for the source commit and included uncommitted content. Phi retains its original resources and continues to use its existing loading paths.
+The initial import was a snapshot of Git-tracked working-tree files. See [SOURCE.json](SOURCE.json) for the source commit and included uncommitted content. Phi's installable domain content now comes from this repository's signed online catalog by default.
 
-This repository currently provides content source files. Online downloads have not yet been connected to Phi, and a signed remote registry has not yet been generated. Phi's shared validators and package builder will generate individual `.tar.gz` packages, a registry index, and signatures before the application can use a remote registry. Core runtime code, the installer, validators, and application UI remain in the Phi repository.
+The official source uses the [catalog-v1 release](https://github.com/dxsbiocc/phi-packages/releases/tag/catalog-v1). Catalog browsing fetches the signed index, icons, and connector metadata; installation downloads the selected archives and necessary dependencies into managed paths under `~/.phi`. Offline browsing uses a verified cache. See [publishing instructions](docs/publishing.md) for the script, signing procedure, and installed paths. Core runtime code, the installer, validators, and application UI remain in the Phi repository.
 
 Phi supplies the official shared environments and application-level palettes; their core definitions are not copied here. Resources required by a plugin remain with that plugin. Contracts and designs under `docs/` are reference snapshots, with Phi remaining the authoritative source. Runtime binaries, installed environments, account credentials, and run outputs were not imported.
 

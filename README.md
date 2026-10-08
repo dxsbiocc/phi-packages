@@ -35,11 +35,13 @@ SOURCE.json              导入来源、版本、范围和排除项
 主程序仓库：[dxsbiocc/phi](https://github.com/dxsbiocc/phi)。
 
 这次导入是当前受 Git 跟踪文件的工作区快照，来源提交及纳入的未提交内容见
-[SOURCE.json](SOURCE.json)。Phi 原有资源仍保留，应用仍使用现有加载路径。
+[SOURCE.json](SOURCE.json)。Phi 中可安装的领域内容默认从本仓库的已签名在线目录获取。
 
-本仓库目前提供内容源码，尚未接通 Phi 的在线下载，也尚未生成已签名远程软件源。
-后续需要由 Phi 的统一校验器和包构建器生成独立 `.tar.gz` 包、目录索引及签名，
-再配置应用端远程软件源。核心运行时代码、安装器、校验器及应用界面留在 Phi 主仓库。
+官方软件源使用 [catalog-v1 release](https://github.com/dxsbiocc/phi-packages/releases/tag/catalog-v1)。
+浏览目录时获取索引、签名、图标和 connector 元数据；点击安装后才下载对应归档与必要依赖，
+并安装到 `~/.phi` 的受管理路径。断网时使用已验证的缓存。
+发布脚本、签名与安装位置见[发布说明](docs/publishing.md)。
+核心运行时代码、安装器、校验器及应用界面留在 Phi 主仓库。
 
 Phi 官方共享环境和应用级色板由主程序提供，本仓库不复制其核心定义。
 插件自身运行所需的资源仍随插件保存；`docs/` 中的契约和设计为参考快照，
