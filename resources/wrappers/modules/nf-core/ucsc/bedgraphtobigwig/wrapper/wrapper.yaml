@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored ucsc/bedgraphtobigwig module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/ucsc-bedgraphtobigwig
+name: UCSC bedGraphToBigWig
+summary: Convert a bedGraph track to an indexed BigWig file with UCSC bedGraphToBigWig.
+
+params:
+  bedgraph:
+    kind: input
+    type: file
+    required: true
+    description: BedGraph file to convert.
+  sizes:
+    kind: input
+    type: file
+    required: true
+    description: Chromosome sizes file (chrom \t size).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the BigWig file.
+
+outputs:
+  bigwig:
+    type: directory
+    path: '${outdir}/bedgraphtobigwig'
+    primary: true

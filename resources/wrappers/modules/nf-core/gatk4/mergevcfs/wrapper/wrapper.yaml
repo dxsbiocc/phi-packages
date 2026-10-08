@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored gatk4/mergevcfs module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Only two input VCFs are exposed — the vendored module accepts any
+# number, but this thin adapter doesn't surface a variable-length list.
+id: nf-core/modules/gatk4-mergevcfs
+name: GATK4 MergeVcfs
+summary: Merge two VCF files into one with GATK4 MergeVcfs.
+
+params:
+  vcf1:
+    kind: input
+    type: file
+    required: true
+    description: First VCF file to merge.
+  vcf2:
+    kind: input
+    type: file
+    required: true
+    description: Second VCF file to merge.
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: Sequence dictionary (.dict) matching the VCFs' reference.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the merged VCF.
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/gatk4_mergevcfs'
+    primary: true

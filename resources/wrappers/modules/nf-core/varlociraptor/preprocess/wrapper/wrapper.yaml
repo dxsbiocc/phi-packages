@@ -1,0 +1,46 @@
+# Agent-facing wrapper adapter for the vendored varlociraptor/preprocess module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: runs the vendored varlociraptor modules for the earlier steps first.
+id: nf-core/modules/varlociraptor-preprocess
+name: "Varlociraptor preprocess"
+summary: "Preprocess observations for Varlociraptor calling (estimate-alignment-properties → preprocess)."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  candidates:
+    kind: input
+    type: file
+    required: true
+    description: "Candidate variants VCF."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bcf:
+    type: directory
+    path: '${outdir}/varlociraptor_preprocess'
+    primary: true

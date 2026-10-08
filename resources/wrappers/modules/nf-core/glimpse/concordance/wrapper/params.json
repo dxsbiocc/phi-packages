@@ -1,0 +1,10 @@
+{
+  "estimate": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/vcf/NA12878.chr21_22.1X.glimpse2.vcf.gz",
+  "estimate_csi": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/vcf/NA12878.chr21_22.1X.glimpse2.vcf.gz.csi",
+  "freq": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/popgen/1000GP.chr21.sites.vcf.gz",
+  "freq_csi": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/popgen/1000GP.chr21.sites.vcf.gz.csi",
+  "truth": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/vcf/NA12878_GIAB.chr21_22.vcf.gz",
+  "truth_csi": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/vcf/NA12878_GIAB.chr21_22.vcf.gz.csi",
+  "region": "chr21",
+  "outdir": "results"
+}

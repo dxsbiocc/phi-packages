@@ -1,0 +1,10 @@
+{
+  "table": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/mus_musculus/rnaseq_expression/SRP254919.salmon.merged.deseq2.results.tsv",
+  "logfc_column": "log2FoldChange",
+  "fc_threshold": 2,
+  "fc_cardinality": ">=",
+  "stat_column": "padj",
+  "stat_threshold": "0.05",
+  "stat_cardinality": "<=",
+  "outdir": "results"
+}

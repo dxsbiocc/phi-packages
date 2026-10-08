@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored gatk4/intervallisttools module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composes the vendored gatk4/bedtointervallist module (a sibling vendored
+#
+# component, not another wrapper) to build the interval list from a BED.
+id: nf-core/modules/gatk4-intervallisttools
+name: "GATK4 IntervalListTools"
+summary: "Split a BED into scattered interval lists with GATK4 IntervalListTools (builds the interval list internally)."
+
+params:
+  bed:
+    kind: input
+    type: file
+    required: true
+    description: "BED file to convert and scatter."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  interval_list:
+    type: directory
+    path: '${outdir}/gatk4_intervallisttools'
+    primary: true

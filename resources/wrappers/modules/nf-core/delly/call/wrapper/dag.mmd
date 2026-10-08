@@ -1,0 +1,23 @@
+flowchart TB
+    subgraph " "
+    v0["bam_ch"]
+    v1["fasta_ch"]
+    v2["fai_ch"]
+    v3["suffix"]
+    v8["channel.empty"]
+    end
+    v4(["DELLY_CALL"])
+    subgraph " "
+    v5[" "]
+    v6[" "]
+    v7[" "]
+    v9[" "]
+    end
+    v0 --> v4
+    v1 --> v4
+    v2 --> v4
+    v3 --> v4
+    v4 --> v7
+    v4 --> v6
+    v4 --> v5
+    v8 --> v9

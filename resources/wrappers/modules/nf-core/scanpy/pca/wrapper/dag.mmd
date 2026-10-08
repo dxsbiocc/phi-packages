@@ -1,0 +1,21 @@
+flowchart TB
+    subgraph " "
+    v0["channel.fromPath"]
+    v2["key_added"]
+    v7["channel.empty"]
+    end
+    v3(["SCANPY_PCA"])
+    subgraph " "
+    v4[" "]
+    v5[" "]
+    v6[" "]
+    v8[" "]
+    end
+    v1(( ))
+    v0 --> v1
+    v2 --> v3
+    v1 --> v3
+    v3 --> v6
+    v3 --> v5
+    v3 --> v4
+    v7 --> v8

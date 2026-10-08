@@ -1,0 +1,65 @@
+parent	name	path	value
+	flare1	flare1	
+flare1	analytics	flare1/analytics	
+analytics	cluster	flare1/analytics/cluster	
+cluster	AgglomerativeCluster	flare1/analytics/cluster/AgglomerativeCluster	3938
+cluster	CommunityStructure	flare1/analytics/cluster/CommunityStructure	3812
+cluster	HierarchicalCluster	flare1/analytics/cluster/HierarchicalCluster	6714
+cluster	MergeEdge	flare1/analytics/cluster/MergeEdge	743
+analytics	graph	flare1/analytics/graph	
+graph	BetweennessCentrality	flare1/analytics/graph/BetweennessCentrality	3534
+graph	LinkDistance	flare1/analytics/graph/LinkDistance	5731
+graph	MaxFlowMinCut	flare1/analytics/graph/MaxFlowMinCut	7840
+analytics	optimization	flare1/analytics/optimization	
+optimization	AspectRatioBanker	flare1/analytics/optimization/AspectRatioBanker	7074
+flare1	animate	flare1/animate	
+animate	Easing	flare1/animate/Easing	17010
+animate	FunctionSequence	flare1/animate/FunctionSequence	5842
+animate	interpolate	flare1/animate/interpolate	
+interpolate	ArrayInterpolator	flare1/animate/interpolate/ArrayInterpolator	1983
+interpolate	ColorInterpolator	flare1/animate/interpolate/ColorInterpolator	2047
+interpolate	DateInterpolator	flare1/animate/interpolate/DateInterpolator	1375
+interpolate	Interpolator	flare1/animate/interpolate/Interpolator	8746
+interpolate	MatrixInterpolator	flare1/animate/interpolate/MatrixInterpolator	2202
+animate	ISchedulable	flare1/animate/ISchedulable	1041
+animate	Parallel	flare1/animate/Parallel	5176
+animate	Pause	flare1/animate/Pause	449
+animate	Scheduler	flare1/animate/Scheduler	5593
+animate	Sequence	flare1/animate/Sequence	5534
+flare1	data	flare1/data	
+data	converters	flare1/data/converters	
+converters	Converters	flare1/data/converters/Converters	721
+converters	DelimitedTextConverter	flare1/data/converters/DelimitedTextConverter	4294
+converters	GraphMLConverter	flare1/data/converters/GraphMLConverter	9800
+converters	IDataConverter	flare1/data/converters/IDataConverter	1314
+converters	JSONConverter	flare1/data/converters/JSONConverter	2220
+data	DataField	flare1/data/DataField	1759
+data	DataSchema	flare1/data/DataSchema	2165
+data	DataSet	flare1/data/DataSet	586
+data	DataSource	flare1/data/DataSource	3331
+flare1	physics	flare1/physics	
+physics	DragForce	flare1/physics/DragForce	1082
+physics	GravityForce	flare1/physics/GravityForce	1336
+physics	IForce	flare1/physics/IForce	319
+physics	NBodyForce	flare1/physics/NBodyForce	10498
+physics	Particle	flare1/physics/Particle	2822
+physics	Simulation	flare1/physics/Simulation	9983
+physics	Spring	flare1/physics/Spring	2213
+physics	SpringForce	flare1/physics/SpringForce	1681
+	flare2	flare2	
+flare2	flex	flare2/flex	
+flex	FlareVis	flare2/flex/FlareVis	4116
+flare2	display	flare2/display	
+display	DirtySprite	flare2/display/DirtySprite	8833
+display	LineSprite	flare2/display/LineSprite	1732
+flare2	scale	flare2/scale	
+scale	IScaleMap	flare2/scale/IScaleMap	2105
+scale	LinearScale	flare2/scale/LinearScale	1316
+scale	LogScale	flare2/scale/LogScale	3151
+scale	OrdinalScale	flare2/scale/OrdinalScale	3770
+scale	QuantileScale	flare2/scale/QuantileScale	2435
+scale	QuantitativeScale	flare2/scale/QuantitativeScale	4839
+scale	RootScale	flare2/scale/RootScale	1756
+scale	Scale	flare2/scale/Scale	4268
+scale	ScaleType	flare2/scale/ScaleType	1821
+scale	TimeScale	flare2/scale/TimeScale	5833

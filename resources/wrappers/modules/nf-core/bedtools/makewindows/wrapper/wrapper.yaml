@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored bedtools/makewindows module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bedtools-makewindows
+name: "bedtools makewindows"
+summary: "Split intervals into fixed-size windows with bedtools makewindows."
+
+params:
+  bed:
+    kind: input
+    type: file
+    required: true
+    description: "BED file of intervals."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bed:
+    type: directory
+    path: '${outdir}/bedtools_makewindows'
+    primary: true

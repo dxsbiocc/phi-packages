@@ -1,0 +1,41 @@
+# Agent-facing wrapper adapter for the vendored manta/convertinversion module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: calls SVs with the vendored manta tumoronly module first.
+id: nf-core/modules/manta-convertinversion
+name: "Manta convertInversion"
+summary: "Convert Manta inversion BND records to INV (Manta tumor-only → convertInversion)."
+
+params:
+  cram:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted CRAM file."
+  crai:
+    kind: input
+    type: file
+    required: true
+    description: "CRAM index (.crai)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/manta_convertinversion'
+    primary: true

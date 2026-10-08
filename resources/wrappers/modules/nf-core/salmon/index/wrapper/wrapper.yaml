@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored salmon/index module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/salmon-index
+name: salmon index
+summary: Build a salmon index from a transcriptome FASTA.
+
+params:
+  transcript_fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: Transcript sequences to index.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the salmon index.
+
+outputs:
+  index:
+    type: directory
+    path: "${outdir}/salmon_index"
+    primary: true

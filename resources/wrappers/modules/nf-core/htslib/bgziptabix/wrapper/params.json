@@ -1,0 +1,7 @@
+{
+  "input": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/illumina/vcf/test.vcf",
+  "action": "compress",
+  "make_index": true,
+  "out_ext": "vcf",
+  "outdir": "results"
+}

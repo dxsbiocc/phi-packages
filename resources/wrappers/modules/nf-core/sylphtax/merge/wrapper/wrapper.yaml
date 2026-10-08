@@ -1,0 +1,46 @@
+# Agent-facing wrapper adapter for the vendored sylphtax/merge module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: profiles reads with the vendored sylph profile and sylphtax taxprof modules first.
+id: nf-core/modules/sylphtax-merge
+name: "sylph-tax merge"
+summary: "Merge sylph-tax profiles (sylph profile → sylph-tax taxprof → sylph-tax merge)."
+
+params:
+  reads1:
+    kind: input
+    type: file
+    required: true
+    description: "Forward reads FASTQ (.fastq.gz)."
+  reads2:
+    kind: input
+    type: file
+    required: true
+    description: "Reverse reads FASTQ (.fastq.gz)."
+  database:
+    kind: input
+    type: file
+    required: true
+    description: "Genome FASTA (or .syldb) to profile against."
+  taxonomy:
+    kind: input
+    type: file
+    required: true
+    description: "sylph-tax taxonomy table (.tsv.gz)."
+  data_type:
+    kind: option
+    type: string
+    required: false
+    description: "Column to merge (e.g. relative_abundance)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  tsv:
+    type: directory
+    path: '${outdir}/sylphtax_merge'
+    primary: true

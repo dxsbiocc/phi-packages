@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored custom/bed12codonpositions module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/custom-bed12codonpositions
+name: "Custom bed12codonpositions"
+summary: "Split BED12 transcripts into codon-position intervals."
+
+params:
+  bed12:
+    kind: input
+    type: file
+    required: true
+    description: "BED12 file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bed:
+    type: directory
+    path: '${outdir}/custom_bed12codonpositions'
+    primary: true

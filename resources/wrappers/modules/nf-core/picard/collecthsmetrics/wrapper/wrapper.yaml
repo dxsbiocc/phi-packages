@@ -1,0 +1,54 @@
+# Agent-facing wrapper adapter for the vendored picard/collecthsmetrics module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/picard-collecthsmetrics
+name: "picard CollectHsMetrics"
+summary: "Collect hybrid-selection (target capture) metrics for a BAM with Picard CollectHsMetrics."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  baits:
+    kind: input
+    type: file
+    required: true
+    description: "Bait interval list."
+  targets:
+    kind: input
+    type: file
+    required: true
+    description: "Target interval list."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  metrics:
+    type: directory
+    path: '${outdir}/picard_collecthsmetrics'
+    primary: true

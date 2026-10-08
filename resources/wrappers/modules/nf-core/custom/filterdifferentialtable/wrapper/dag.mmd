@@ -1,0 +1,23 @@
+flowchart TB
+    subgraph " "
+    v0["in_ch"]
+    v1["fc_ch"]
+    v2["stat_ch"]
+    v8["channel.empty"]
+    end
+    v3(["CUSTOM_FILTERDIFFERENTIALTABLE"])
+    subgraph " "
+    v4[" "]
+    v5[" "]
+    v6[" "]
+    v7[" "]
+    v9[" "]
+    end
+    v0 --> v3
+    v1 --> v3
+    v2 --> v3
+    v3 --> v7
+    v3 --> v6
+    v3 --> v5
+    v3 --> v4
+    v8 --> v9

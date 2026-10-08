@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored cnvpytor/callcnvs module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/cnvpytor-callcnvs
+name: "CNVpytor call"
+summary: "Call CNVs with CNVpytor."
+
+params:
+  pytor:
+    kind: input
+    type: file
+    required: true
+    description: "CNVpytor .pytor file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  pytor:
+    type: directory
+    path: '${outdir}/cnvpytor_callcnvs'
+    primary: true

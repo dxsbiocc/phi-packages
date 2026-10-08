@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored ucsc/bedtobigbed module
+# at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/ucsc-bedtobigbed
+name: UCSC bedToBigBed
+summary: Convert a BED file to indexed bigBed format with UCSC bedToBigBed.
+
+params:
+  bed:
+    kind: input
+    type: file
+    required: true
+    description: BED file to convert.
+  sizes:
+    kind: input
+    type: file
+    required: true
+    description: "Chromosome sizes file (2-column: name, length)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the bigBed file.
+
+outputs:
+  bigbed:
+    type: directory
+    path: '${outdir}/ucsc_bedtobigbed'
+    primary: true

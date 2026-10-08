@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored FastQC module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3 — this is
+# NOT the full package manifest shape at resources/wrappers/fastqc/wrapper.yaml,
+# which this migration is meant to eventually replace (see that design doc's
+# section 8, "Implementation Implications").
+id: nf-core/modules/fastqc
+name: FastQC
+summary: Run FastQC quality checks on FASTQ files.
+
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: FASTQ files to analyze (glob matching paired- or single-end reads).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for FastQC reports.
+
+outputs:
+  reports:
+    type: directory
+    path: '${outdir}/fastqc'
+    primary: true

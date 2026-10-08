@@ -1,0 +1,49 @@
+# Agent-facing wrapper adapter for the vendored tximeta/tximport module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# tximport needs a transcript-to-gene map; this wrapper builds it with
+# custom/tx2gene from the same GTF/quants so callers only supply those
+# (composes vendored modules directly, per section 6 of the design doc).
+id: nf-core/modules/tximeta-tximport
+name: tximeta tximport
+summary: Import and summarise per-sample transcript quantifications (kallisto/salmon/rsem) to gene- and transcript-level count/TPM matrices with tximport.
+
+params:
+  gtf:
+    kind: input
+    type: gtf
+    required: true
+    description: GTF annotation used to build the transcript-to-gene map.
+  quants:
+    kind: input
+    type: path_glob
+    required: true
+    description: Glob matching each sample's quantifier output directory (kallisto/salmon/rsem per-sample results).
+  quant_type:
+    kind: option
+    type: string
+    required: false
+    enum: [kallisto, salmon, rsem]
+    description: Which quantifier produced the quants directories.
+  id:
+    kind: option
+    type: string
+    required: false
+    description: GTF attribute used as the gene id column in the transcript-to-gene map.
+  extra:
+    kind: option
+    type: string
+    required: false
+    description: Comma-separated extra GTF attributes (e.g. gene_name) appended to the transcript-to-gene map.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the gene/transcript count and TPM matrices.
+
+outputs:
+  matrices:
+    type: directory
+    path: '${outdir}/tximport'
+    primary: true

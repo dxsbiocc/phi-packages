@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored fgbio/filterconsensusreads module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/fgbio-filterconsensusreads
+name: "fgbio FilterConsensusReads"
+summary: "Filter consensus reads by depth and base-error rate with fgbio FilterConsensusReads."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Duplex-consensus BAM file."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/fgbio_filterconsensusreads'
+    primary: true

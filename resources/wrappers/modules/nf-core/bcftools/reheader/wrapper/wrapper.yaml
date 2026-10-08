@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored bcftools/reheader module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bcftools-reheader
+name: "bcftools reheader"
+summary: "Rewrite a VCF header (contigs from a FASTA index) with bcftools reheader."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped VCF file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai) providing contig lines."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/bcftools_reheader'
+    primary: true

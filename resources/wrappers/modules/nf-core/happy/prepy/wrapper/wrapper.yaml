@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored happy/prepy module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/happy-prepy
+name: "hap.py pre.py"
+summary: "Preprocess a VCF for benchmarking with pre.py."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped VCF file."
+  bed:
+    kind: input
+    type: file
+    required: true
+    description: "Regions BED."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  preprocessed_vcf:
+    type: directory
+    path: '${outdir}/happy_prepy'
+    primary: true

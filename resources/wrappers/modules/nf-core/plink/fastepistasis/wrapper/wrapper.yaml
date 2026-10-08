@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored plink/fastepistasis module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/plink-fastepistasis
+name: "PLINK fast-epistasis"
+summary: "Test pairwise SNP-SNP epistasis with PLINK's fast-epistasis method."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "VCF file (bgzipped)."
+  phe:
+    kind: input
+    type: file
+    required: true
+    description: "Phenotype file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  fepi:
+    type: directory
+    path: '${outdir}/plink_fastepistasis'
+    primary: true

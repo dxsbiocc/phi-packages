@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored minimac4/compressref module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/minimac4-compressref
+name: "Minimac4 compress-reference"
+summary: "Compress a reference panel to MSAV with Minimac4."
+
+params:
+  ref:
+    kind: input
+    type: file
+    required: true
+    description: "Reference panel VCF (bgzipped)."
+  ref_csi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.csi) for the reference panel."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  msav:
+    type: directory
+    path: '${outdir}/minimac4_compressref'
+    primary: true

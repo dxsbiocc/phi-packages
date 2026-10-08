@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored fgbio/fastqtobam module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/fgbio-fastqtobam
+name: "fgbio FastqToBam"
+summary: "Convert paired FASTQ (with UMIs) to an unmapped BAM with fgbio FastqToBam."
+
+params:
+  reads1:
+    kind: input
+    type: file
+    required: true
+    description: "Forward reads FASTQ (.fastq.gz)."
+  reads2:
+    kind: input
+    type: file
+    required: true
+    description: "Reverse reads FASTQ (.fastq.gz)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/fgbio_fastqtobam'
+    primary: true

@@ -1,0 +1,46 @@
+# Agent-facing wrapper adapter for the vendored gatk4/createreadcountpanelofnormals module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: includes the vendored gatk4 preprocessintervals and collectreadcounts modules as prerequisite steps.
+id: nf-core/modules/gatk4-createreadcountpanelofnormals
+name: "GATK4 CreateReadCountPanelOfNormals"
+summary: "Build a copy-number read-count panel of normals (PreprocessIntervals → CollectReadCounts → CreateReadCountPanelOfNormals)."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  pon:
+    type: directory
+    path: '${outdir}/gatk4_createreadcountpanelofnormals'
+    primary: true

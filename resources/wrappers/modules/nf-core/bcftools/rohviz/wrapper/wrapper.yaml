@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored bcftools/rohviz module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: runs the vendored bcftools roh module first to produce the ROH calls.
+id: nf-core/modules/bcftools-rohviz
+name: "bcftools rohviz"
+summary: "Visualise runs of homozygosity (bcftools roh → roh-viz)."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped VCF file."
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the VCF."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  html:
+    type: directory
+    path: '${outdir}/bcftools_rohviz'
+    primary: true

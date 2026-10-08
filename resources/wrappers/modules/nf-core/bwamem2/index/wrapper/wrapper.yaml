@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored bwamem2/index module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bwamem2-index
+name: "BWA-MEM2 index"
+summary: "Build a BWA-MEM2 index from a reference FASTA."
+
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  index:
+    type: directory
+    path: '${outdir}/bwamem2_index'
+    primary: true

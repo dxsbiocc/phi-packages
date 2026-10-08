@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored dupradar module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# feature_type defaults to CDS in nextflow.config because the sarscov2 test
+# GTF has no exon rows (same trade-off as subread/featurecounts).
+id: nf-core/modules/dupradar
+name: dupRadar
+summary: Assess PCR duplication bias relative to gene expression with the dupRadar Bioconductor package.
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: Coordinate-sorted, duplicate-marked BAM file.
+  gtf:
+    kind: input
+    type: gtf
+    required: true
+    description: Gene annotation GTF.
+  single_end:
+    kind: option
+    type: boolean
+    required: false
+    description: Whether the reads are single-end.
+  strandedness:
+    kind: option
+    type: string
+    required: false
+    enum: [unstranded, forward, reverse]
+    description: Library strandedness.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the dupRadar plots and tables.
+
+outputs:
+  report:
+    type: directory
+    path: '${outdir}/dupradar'
+    primary: true

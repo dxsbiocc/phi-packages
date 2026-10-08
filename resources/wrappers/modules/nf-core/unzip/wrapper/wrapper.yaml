@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored unzip module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Despite the name, 7za (the underlying tool) extracts zip, tar, tar.gz
+# and several other archive formats, not only .zip.
+id: nf-core/modules/unzip
+name: unzip
+summary: Extract a zip/tar/tar.gz archive with 7za.
+
+params:
+  archive:
+    kind: input
+    type: file
+    required: true
+    description: Archive file to extract (zip, tar, tar.gz, ...).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the extracted files.
+
+outputs:
+  unzipped_archive:
+    type: directory
+    path: '${outdir}/unzip'
+    primary: true

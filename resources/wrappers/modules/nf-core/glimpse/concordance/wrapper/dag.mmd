@@ -1,0 +1,29 @@
+flowchart TB
+    subgraph " "
+    v0["in_ch"]
+    v1["min_prob"]
+    v2["min_dp"]
+    v3["bins"]
+    v11["channel.empty"]
+    end
+    v4(["GLIMPSE_CONCORDANCE"])
+    subgraph " "
+    v5[" "]
+    v6[" "]
+    v7[" "]
+    v8[" "]
+    v9[" "]
+    v10[" "]
+    v12[" "]
+    end
+    v0 --> v4
+    v1 --> v4
+    v2 --> v4
+    v3 --> v4
+    v4 --> v10
+    v4 --> v9
+    v4 --> v8
+    v4 --> v7
+    v4 --> v6
+    v4 --> v5
+    v11 --> v12

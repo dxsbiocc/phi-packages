@@ -1,0 +1,286 @@
+# Top-level plot-family index for omics-visualization.
+# Agents: read this file first, pick one family, then open that family's catalog.
+# Do not recommend a template from memory; confirm against preview.png.
+# Use the user's visualization purpose and the data distribution snapshot before
+# matching chart nouns. If one template clearly fits, proceed and record why.
+# If several viable templates would change the scientific reading, list up to
+# four with inline preview images, fit rationale, failure mode, and wait for a
+# choice.
+#
+# preview_background: transparent
+# Every catalog preview.png is a transparent PNG. Dark UIs make the empty
+# alpha look black. That black is not part of the figure. Never describe or
+# "fix" a black background.
+
+preview_background: "transparent"
+palettes: "references/palettes.yaml"
+
+groups:
+  scatter:
+    title: "Scatter and point-based plots"
+    aliases:
+      - "散点图"
+      - "点图"
+      - "降维图"
+      - "气泡图"
+      - "火山图"
+      - "火山图放大"
+      - "哑铃图"
+      - "棒棒糖图"
+      - "环形棒棒糖图"
+      - "免疫棒棒糖"
+      - "SVG散点"
+      - "图标散点"
+      - "泰森多边形"
+      - "Voronoi"
+      - "环形UMAP"
+      - "UMAP circos"
+      - "UMAP环图"
+      - "三元图"
+      - "三元相图"
+      - "ternary"
+      - "ggpairs"
+      - "pairs plot"
+      - "相关散点矩阵"
+    use_when: >
+      Encode observations as positions in a two-dimensional coordinate
+      system, optionally using color, size, shape, labels, Voronoi tiles,
+      a supplied embedding in a circos composition ring, a
+      three-component ternary simplex, or a pairs grid of several
+      numeric variables. A protein mutation lollipop
+      (residue axis plus domain bar) is ideogram-lollipop.
+    catalog: "references/catalog/scatter.yaml"
+
+  heatmap:
+    title: "Heatmaps and matrix displays"
+    aliases:
+      - "热图"
+      - "矩阵图"
+      - "聚类图"
+      - "相关热图"
+      - "多通路富集热图"
+      - "通路分组富集热图"
+      - "通路对比富集热图"
+      - "表达热图"
+      - "免疫相关热图"
+      - "关联点阵"
+      - "相关气泡热图"
+      - "对角线分割热图"
+      - "三角分割热图"
+      - "分组相关热图"
+      - "旋转三角相关热图"
+      - "饱和突变热图"
+      - "突变能量热图"
+      - "分块聚类热图"
+      - "NMF相关热图"
+      - "环状热图"
+      - "circos热图"
+      - "oncoprint"
+      - "OncoPrint"
+      - "突变瀑布图"
+      - "基因组变异热图"
+    use_when: >
+      Display values across two categorical or ordered dimensions using color,
+      optionally with clustering, cutree block gaps, shapes, significance
+      marks, association dots, size-and-star bubbles, per-cell
+      diagonal-split triangles, enrichment zoom
+      panels aligned to row splits, a saturation mutation energy
+      matrix with a mean-ΔΔG overlay, a gene × sample oncoprint of
+      layered alteration glyphs, or a group-split circular heatmap
+      with a q-value track.
+    catalog: "references/catalog/heatmap.yaml"
+
+  bar:
+    title: "Bar-based comparisons"
+    aliases:
+      - "柱状图"
+      - "条形图"
+      - "堆叠图"
+      - "富集柱状图"
+      - "富集点图"
+      - "GO点图"
+      - "瀑布图"
+      - "图标柱状图"
+      - "SVG柱状图"
+      - "UpSet"
+      - "集合交集图"
+      - "韦恩图"
+      - "Venn"
+      - "ggvenn"
+      - "花瓣图"
+      - "flower plot"
+      - "泳道图"
+      - "游泳图"
+      - "swimmer"
+    use_when: >
+      Compare magnitudes, proportions, compositions, ranked changes,
+      or set-combination counts (UpSet), overlapping Venn circles
+      of 2–4 sets, or patient-level treatment
+      lanes on a time axis (swimmer plot).
+    catalog: "references/catalog/bar.yaml"
+
+  boxplot:
+    title: "Distribution and summary plots"
+    aliases:
+      - "箱线图"
+      - "小提琴图"
+      - "雨云图"
+      - "分布图"
+    use_when: >
+      Compare value distributions, summaries, or paired measurements across
+      groups, including polar and raincloud variants.
+    catalog: "references/catalog/boxplot.yaml"
+
+  line:
+    title: "Lines, areas, and time series"
+    aliases:
+      - "折线图"
+      - "面积图"
+      - "时间序列"
+      - "生存曲线"
+      - "脊线图"
+      - "山脊图"
+      - "joyplot"
+      - "RidgePlot"
+    use_when: >
+      Show ordered change over time, rank, or another sequential axis,
+      including stacked areas, survival curves, and stacked 1D
+      density ridges.
+    catalog: "references/catalog/line.yaml"
+
+  pie:
+    title: "Part-to-whole circular charts"
+    aliases:
+      - "饼图"
+      - "环形图"
+      - "圆角环形图"
+      - "南丁格尔图"
+      - "玫瑰图"
+      - "圆角扇形图"
+      - "条形甜甜圈"
+      - "环状比例图"
+    use_when: >
+      Show composition of a whole as slices or polar sectors, including
+      a circos doughnut whose outer track is radial bars.
+    catalog: "references/catalog/pie.yaml"
+
+  radar:
+    title: "Radar and spider charts"
+    aliases:
+      - "雷达图"
+      - "蜘蛛图"
+      - "多轴评分图"
+    use_when: >
+      Compare one or more series across a small set of named numeric axes.
+    catalog: "references/catalog/radar.yaml"
+
+  graph:
+    title: "Node-link networks"
+    aliases:
+      - "网络图"
+      - "关系图"
+      - "力导向图"
+      - "应力布局"
+      - "弧线图"
+      - "蜂巢图"
+      - "焦点图"
+      - "织物图"
+      - "BioFabric"
+      - "邻接矩阵"
+      - "矩阵点图"
+      - "弦图"
+      - "circos chord"
+      - "Chord diagram"
+      - "双环网络图"
+      - "同心圆网络"
+    use_when: >
+      Draw nodes and directed or weighted edges as a network, not as
+      hierarchical containment, including a Circos chord whose sector
+      width encodes total flow.
+    catalog: "references/catalog/graph.yaml"
+
+  sankey:
+    title: "Sankey flow diagrams"
+    aliases:
+      - "桑基图"
+      - "流量图"
+      - "流向图"
+      - "平行集合图"
+      - "alluvial"
+    use_when: >
+      Show conserved flows between nodes, where edge thickness encodes amount,
+      including parallel-sets of several categorical axes plus a count.
+    catalog: "references/catalog/sankey.yaml"
+
+  sunburst:
+    title: "Sunburst hierarchy rings"
+    aliases:
+      - "旭日图"
+      - "多层环图"
+      - "层级饼图"
+    use_when: >
+      Show a hierarchy as concentric rings whose angles encode descendant size.
+    catalog: "references/catalog/sunburst.yaml"
+
+  tree:
+    title: "Trees and dendrograms"
+    aliases:
+      - "树图"
+      - "树状图"
+      - "聚类树"
+      - "dendrogram"
+      - "hclust"
+      - "层级树"
+      - "矩形树图"
+      - "treemap"
+      - "圆堆积图"
+      - "circle pack"
+      - "冰柱图"
+      - "icicle"
+      - "通路环图"
+      - "层次富集图"
+      - "富集环图"
+    use_when: >
+      Show parent-child hierarchy as a node-link tree, a clustering
+      dendrogram from a numeric matrix, nested rectangles, packed
+      circles, icicle bands, or a circular classification tree with a
+      circumferential quantitative track. Do not use this family for
+      sunburst rings whose angle encodes descendant size, or for
+      conserved flows.
+    catalog: "references/catalog/tree.yaml"
+
+  ideogram:
+    title: "Chromosome ideograms and gene models"
+    aliases:
+      - "基因结构"
+      - "核型图"
+      - "染色体"
+      - "ideogram"
+      - "cytoband"
+      - "外显子图"
+      - "感兴趣基因"
+      - "基因定位"
+      - "覆盖度"
+      - "coverage"
+      - "突变棒棒糖"
+      - "蛋白棒棒糖"
+      - "g3viz"
+      - "MutationMapper"
+      - "蒲公英图"
+      - "dandelion"
+      - "Circos"
+      - "基因组环图"
+      - "共线性"
+      - "synteny"
+      - "基因组热图"
+      - "嵌套缩放"
+      - "circos nested"
+    use_when: >
+      Draw chromosomes or transcripts as ideogram tracks: G-banding,
+      labelled gene loci, a continuous window statistic, exon /
+      CDS / UTR structure, stacked coverage on one genomic window,
+      mutations on a protein domain axis, dense sites collapsed
+      into dandelion clusters, a multi-track genomic Circos,
+      two-genome synteny ribbons, a genomic Circos heatmap with
+      connectors, or a nested overview-plus-zoom Circos.
+    catalog: "references/catalog/ideogram.yaml"

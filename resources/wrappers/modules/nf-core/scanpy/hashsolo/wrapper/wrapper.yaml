@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored scanpy/hashsolo module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/scanpy-hashsolo
+name: Scanpy HashSolo
+summary: Demultiplex cell-hashing (HTO) data into sample-of-origin assignments with HashSolo (via Scanpy).
+
+params:
+  anndata:
+    kind: input
+    type: file
+    required: true
+    description: AnnData object (.h5ad) whose obs columns hold per-HTO counts.
+  cell_hashing_columns:
+    kind: option
+    type: string
+    required: false
+    description: Comma-separated obs column names holding each hashtag's counts.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the sample assignment CSV, fitted AnnData, and HashSolo parameters.
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/scanpy_hashsolo'
+    primary: true

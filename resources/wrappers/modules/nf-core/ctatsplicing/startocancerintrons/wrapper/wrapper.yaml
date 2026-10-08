@@ -1,0 +1,81 @@
+# Agent-facing wrapper adapter for the vendored ctatsplicing/startocancerintrons module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: builds the STAR-Fusion CTAT library and the CTAT-Splicing cancer-introns library, then aligns reads with STAR, using the vendored starfusion build, ctatsplicing prepgenomelib, star align and samtools index modules first.
+id: nf-core/modules/ctatsplicing-startocancerintrons
+name: "CTAT-Splicing STAR-to-cancer-introns"
+summary: "Identify cancer-associated splice junctions from a chimeric STAR alignment (builds the CTAT-Splicing library first)."
+
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Minigenome FASTA fixture."
+  gtf:
+    kind: input
+    type: file
+    required: true
+    description: "Minigenome GTF fixture."
+  fusion_lib:
+    kind: input
+    type: file
+    required: true
+    description: "CTAT human fusion library (mini, .dat.gz)."
+  pfam:
+    kind: input
+    type: file
+    required: true
+    description: "Pfam-A HMM database (.hmm.gz)."
+  dfam_hmm:
+    kind: input
+    type: file
+    required: true
+    description: "Dfam HMM profile."
+  dfam_h3f:
+    kind: input
+    type: file
+    required: true
+    description: "Dfam HMM index (.h3f)."
+  dfam_h3i:
+    kind: input
+    type: file
+    required: true
+    description: "Dfam HMM index (.h3i)."
+  dfam_h3m:
+    kind: input
+    type: file
+    required: true
+    description: "Dfam HMM index (.h3m)."
+  dfam_h3p:
+    kind: input
+    type: file
+    required: true
+    description: "Dfam HMM index (.h3p)."
+  cancer_introns:
+    kind: input
+    type: file
+    required: true
+    description: "Cancer-introns supplement table (bgzipped)."
+  reads1:
+    kind: input
+    type: file
+    required: true
+    description: "Forward RNA-seq reads FASTQ (.fastq.gz)."
+  reads2:
+    kind: input
+    type: file
+    required: true
+    description: "Reverse RNA-seq reads FASTQ (.fastq.gz)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  cancer_introns:
+    type: directory
+    path: '${outdir}/ctatsplicing_startocancerintrons'
+    primary: true

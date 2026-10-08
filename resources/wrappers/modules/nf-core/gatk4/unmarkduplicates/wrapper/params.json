@@ -1,0 +1,4 @@
+{
+  "bam": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/bam/test.paired_end.markduplicates.sorted.bam",
+  "outdir": "results"
+}

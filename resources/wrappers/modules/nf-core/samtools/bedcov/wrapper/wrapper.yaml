@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored samtools/bedcov module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/samtools-bedcov
+name: samtools bedcov
+summary: Compute read depth over BED regions from a BAM with samtools bedcov.
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: Coordinate-sorted BAM file.
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: BAM index (.bai) for the input BAM.
+  bed:
+    kind: input
+    type: file
+    required: true
+    description: BED file of regions to compute coverage over.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the coverage table.
+
+outputs:
+  coverage:
+    type: directory
+    path: '${outdir}/samtools_bedcov'
+    primary: true

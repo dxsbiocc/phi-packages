@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored umitools/group module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/umitools-group
+name: umi_tools group
+summary: Group reads by UMI (with a grouped BAM and group-info TSV) with umi_tools group.
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: Coordinate-sorted BAM file with UMIs in the read name (from umi_tools extract).
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: BAM index (.bai) for the input BAM.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the grouped BAM and group-info TSV.
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/umitools_group'
+    primary: true

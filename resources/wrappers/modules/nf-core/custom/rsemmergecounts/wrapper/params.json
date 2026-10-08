@@ -1,0 +1,5 @@
+{
+  "genes_results": "tests/data/*/*.genes.results",
+  "isoforms_results": "tests/data/*/*.isoforms.results",
+  "outdir": "results"
+}

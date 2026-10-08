@@ -1,0 +1,49 @@
+# Agent-facing wrapper adapter for the vendored cnvkit/batch module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/cnvkit-batch
+name: "CNVkit batch"
+summary: "Run the CNVkit batch pipeline (hybrid-capture mode) on a tumour/normal BAM pair."
+
+params:
+  tumor:
+    kind: input
+    type: file
+    required: true
+    description: "Tumour BAM."
+  tumor_bai:
+    kind: input
+    type: file
+    required: true
+    description: "Tumour BAM index (.bai)."
+  normal:
+    kind: input
+    type: file
+    required: true
+    description: "Normal BAM."
+  normal_bai:
+    kind: input
+    type: file
+    required: true
+    description: "Normal BAM index (.bai)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  baits:
+    kind: input
+    type: file
+    required: true
+    description: "Capture targets (baits) BED."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  cns:
+    type: directory
+    path: '${outdir}/cnvkit_batch'
+    primary: true

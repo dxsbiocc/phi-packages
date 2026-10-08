@@ -1,0 +1,38 @@
+# Agent-facing wrapper adapter for the vendored bam_rseqc subworkflow at
+# ../main.nf (runs a chosen set of RSeQC modules against one BAM). Follows
+# the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# samtools/index is composed directly (not another wrapper, per section 6)
+# so callers only supply the BAM.
+id: nf-core/subworkflows/bam-rseqc
+name: BAM RSeQC bundle
+summary: Run a chosen set of RSeQC QC modules (bam_stat, inner_distance, infer_experiment, junction_annotation, junction_saturation, read_distribution, read_duplication, tin) against one BAM.
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: Coordinate-sorted BAM file.
+  bed:
+    kind: input
+    type: file
+    required: true
+    description: BED12 file of reference gene models.
+  rseqc_modules:
+    kind: option
+    type: string
+    required: false
+    description: Comma-separated RSeQC modules to run (bam_stat, inner_distance, infer_experiment, junction_annotation, junction_saturation, read_distribution, read_duplication, tin).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for every enabled RSeQC module's report.
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/bam_rseqc'
+    primary: true

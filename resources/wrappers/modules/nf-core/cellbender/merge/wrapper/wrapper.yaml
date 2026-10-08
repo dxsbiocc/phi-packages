@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored cellbender/merge module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/cellbender-merge
+name: CellBender merge
+summary: Merge CellBender's denoised counts back into a filtered/unfiltered AnnData pair as an additional layer.
+
+params:
+  filtered:
+    kind: input
+    type: file
+    required: true
+    description: Filtered (cells-only) AnnData object (.h5ad).
+  unfiltered:
+    kind: input
+    type: file
+    required: true
+    description: Raw (unfiltered) AnnData object (.h5ad) matching the same sample.
+  cellbender_h5:
+    kind: input
+    type: file
+    required: true
+    description: CellBender's denoised output (.h5), e.g. from cellbender/removebackground.
+  output_layer_name:
+    kind: option
+    type: string
+    required: false
+    description: Name for the new AnnData layer holding CellBender's corrected counts; defaults to "cellbender".
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the merged AnnData object.
+
+outputs:
+  h5ad:
+    type: directory
+    path: '${outdir}/cellbender_merge'
+    primary: true

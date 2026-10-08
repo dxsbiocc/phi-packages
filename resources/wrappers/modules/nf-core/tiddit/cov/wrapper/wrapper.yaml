@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored tiddit/cov module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/tiddit-cov
+name: "TIDDIT cov"
+summary: "Compute coverage with TIDDIT."
+
+params:
+  cram:
+    kind: input
+    type: file
+    required: true
+    description: "CRAM/BAM file."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  cov:
+    type: directory
+    path: '${outdir}/tiddit_cov'
+    primary: true

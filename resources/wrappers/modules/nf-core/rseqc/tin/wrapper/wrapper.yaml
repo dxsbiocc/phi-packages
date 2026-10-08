@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored rseqc/tin module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# RSeQC needs a BAM index next to the BAM; this wrapper runs samtools/index
+# first so callers only supply the BAM (composes vendored modules directly,
+# per section 6 of the design doc).
+id: nf-core/modules/rseqc-tin
+name: RSeQC TIN
+summary: Calculate transcript integrity number (TIN) from RNA-seq reads with RSeQC tin.py.
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: Coordinate-sorted BAM file.
+  bed:
+    kind: input
+    type: file
+    required: true
+    description: BED12 file of reference gene models.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the RSeQC TIN report.
+
+outputs:
+  report:
+    type: directory
+    path: '${outdir}/rseqc_tin'
+    primary: true

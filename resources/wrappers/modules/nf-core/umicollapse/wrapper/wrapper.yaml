@@ -1,0 +1,40 @@
+# Agent-facing wrapper adapter for the vendored umicollapse module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/umicollapse
+name: UMICollapse
+summary: Deduplicate UMI-tagged reads (BAM or FASTQ) with UMICollapse.
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: Coordinate-sorted BAM with UMIs in the read name.
+  bai:
+    kind: input
+    type: bai
+    required: true
+    description: Index for the input BAM.
+  single_end:
+    kind: option
+    type: boolean
+    required: false
+    description: Whether the reads are single-end.
+  mode:
+    kind: option
+    type: string
+    required: false
+    enum: [bam, fastq]
+    description: Input/output mode.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the deduplicated BAM and log.
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/umicollapse'
+    primary: true

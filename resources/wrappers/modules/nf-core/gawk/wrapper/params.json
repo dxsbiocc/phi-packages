@@ -1,0 +1,4 @@
+{
+  "input": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/genome.fasta.fai",
+  "outdir": "results"
+}

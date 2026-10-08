@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored picard/positionbaseddownsamplesam module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/picard-positionbaseddownsamplesam
+name: "picard PositionBasedDownsampleSam"
+summary: "Downsample a BAM by spatial position on the flowcell with Picard PositionBasedDownsampleSam."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  fraction:
+    kind: option
+    type: string
+    required: false
+    description: "Fraction of reads to keep (0-1)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/picard_positionbaseddownsamplesam'
+    primary: true

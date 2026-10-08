@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored seqkit/fx2tab module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/seqkit-fx2tab
+name: seqkit fx2tab
+summary: Convert a FASTA/FASTQ file to tabular format with seqkit fx2tab.
+
+params:
+  fastx:
+    kind: input
+    type: file
+    required: true
+    description: FASTA/FASTQ file (plain or gzipped) to convert.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the tabular file.
+
+outputs:
+  text:
+    type: directory
+    path: '${outdir}/seqkit_fx2tab'
+    primary: true

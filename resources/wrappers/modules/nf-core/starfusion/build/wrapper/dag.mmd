@@ -1,0 +1,24 @@
+flowchart TB
+    subgraph " "
+    v0[" "]
+    v1[" "]
+    v2["fusion_annot_lib"]
+    v3["dfam_species"]
+    v4["pfam_url"]
+    v5["dfam_urls"]
+    v6["annot_filter_url"]
+    end
+    v7(["STARFUSION_BUILD"])
+    subgraph " "
+    v8[" "]
+    v9[" "]
+    end
+    v0 --> v7
+    v1 --> v7
+    v2 --> v7
+    v3 --> v7
+    v4 --> v7
+    v5 --> v7
+    v6 --> v7
+    v7 --> v9
+    v7 --> v8

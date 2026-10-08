@@ -1,0 +1,29 @@
+flowchart TB
+    subgraph " "
+    v0["in_ch"]
+    v1["fasta_ch"]
+    v2["fai_ch"]
+    v3[" "]
+    v4[" "]
+    v5[" "]
+    v11["channel.empty"]
+    end
+    v6(["HAPPY_SOMPY"])
+    subgraph " "
+    v7[" "]
+    v8[" "]
+    v9[" "]
+    v10[" "]
+    v12[" "]
+    end
+    v0 --> v6
+    v1 --> v6
+    v2 --> v6
+    v3 --> v6
+    v4 --> v6
+    v5 --> v6
+    v6 --> v10
+    v6 --> v9
+    v6 --> v8
+    v6 --> v7
+    v11 --> v12

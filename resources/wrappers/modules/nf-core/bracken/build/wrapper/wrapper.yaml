@@ -1,0 +1,46 @@
+# Agent-facing wrapper adapter for the vendored bracken/build module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: builds a small Kraken2 database with the vendored gunzip, kraken2 add and kraken2 build modules first.
+id: nf-core/modules/bracken-build
+name: "Bracken build"
+summary: "Build Bracken k-mer distributions (gunzip → kraken2 add → kraken2 build → bracken-build)."
+
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Genome FASTA to add to the library."
+  proteome:
+    kind: input
+    type: file
+    required: true
+    description: "Protein FASTA to add to the library."
+  names:
+    kind: input
+    type: file
+    required: true
+    description: "Taxonomy names.dmp."
+  nodes:
+    kind: input
+    type: file
+    required: true
+    description: "Taxonomy nodes.dmp."
+  accession2taxid:
+    kind: input
+    type: file
+    required: true
+    description: "Accession-to-taxid map (.gz)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  db:
+    type: directory
+    path: '${outdir}/bracken_build'
+    primary: true

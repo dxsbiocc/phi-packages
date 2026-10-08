@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored samtools/samples module
+# at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/samtools-samples
+name: samtools samples
+summary: List the samples and read groups in a BAM with samtools samples.
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: Coordinate-sorted BAM file.
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: BAM index (.bai) for the input BAM.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the samples table.
+
+outputs:
+  tsv:
+    type: directory
+    path: '${outdir}/samtools_samples'
+    primary: true

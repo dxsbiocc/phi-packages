@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored seqkit/split2 module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/seqkit-split2
+name: "seqkit split2"
+summary: "Split sequences into several files with seqkit split2."
+
+params:
+  reads:
+    kind: input
+    type: file
+    required: true
+    description: "FASTQ file (.fastq.gz)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  reads:
+    type: directory
+    path: '${outdir}/seqkit_split2'
+    primary: true

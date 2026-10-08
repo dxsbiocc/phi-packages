@@ -1,0 +1,10 @@
+{
+  "reads_1": "tests/data/test_rnaseq_1.fastq.gz",
+  "reads_2": "tests/data/test_rnaseq_2.fastq.gz",
+  "fasta": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/genome.fasta",
+  "transcript_fasta": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/transcriptome.fasta",
+  "gtf": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/genome.gtf",
+  "outdir": "results",
+  "strandedness": "auto",
+  "min_trimmed_reads": 10
+}

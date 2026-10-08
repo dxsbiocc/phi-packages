@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored cellbender/removebackground
+# module at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# epochs defaults to 5 (via ext.args in nextflow.config) instead of
+# CellBender's real-run default (150) — matches the module's own test
+# config; enough to prove the wrapper runs end-to-end without a
+# multi-hour training run.
+id: nf-core/modules/cellbender-removebackground
+name: CellBender remove background
+summary: Remove ambient RNA / technical noise from a raw single-cell count matrix with CellBender's denoising VAE.
+
+params:
+  anndata:
+    kind: input
+    type: file
+    required: true
+    description: Raw (unfiltered) AnnData object (.h5ad) with all droplets, including empty ones.
+  epochs:
+    kind: option
+    type: integer
+    required: false
+    description: Training epochs; low values (the default here) trade accuracy for a fast smoke run.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the denoised counts, QC report, and checkpoint.
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/cellbender_removebackground'
+    primary: true

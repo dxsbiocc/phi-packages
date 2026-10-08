@@ -1,0 +1,13 @@
+schemaVersion: 1
+id: open-targets
+type: mcp
+version: 1.0.0
+title: Open Targets Platform
+summary: 检索靶点、疾病、药物及其关联数据
+connector:
+  transport: http
+  publisher: Open Targets
+  category: 健康与生命科学
+  homepage: https://github.com/opentargets/platform-mcp
+  url: https://mcp.platform.opentargets.org/mcp
+  auth: none

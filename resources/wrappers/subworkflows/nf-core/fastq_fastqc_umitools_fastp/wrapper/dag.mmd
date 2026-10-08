@@ -1,0 +1,93 @@
+flowchart TB
+    subgraph " "
+    v0["channel.fromFilePairs"]
+    v2["channel.empty"]
+    v4["channel.empty"]
+    v6["channel.empty"]
+    v8["channel.empty"]
+    v10["channel.empty"]
+    v12["channel.empty"]
+    v14["channel.empty"]
+    v16["channel.empty"]
+    v18["channel.empty"]
+    v20["channel.empty"]
+    v22["channel.empty"]
+    v24["channel.empty"]
+    v31["channel.empty"]
+    v37["discard_trimmed_pass"]
+    v38["save_trimmed_fail"]
+    v39["save_merged"]
+    end
+    subgraph " "
+    v3["fastqc_raw_html"]
+    v5["fastqc_raw_zip"]
+    v7["umi_log"]
+    v9["trim_json"]
+    v11["trim_html"]
+    v13["trim_log"]
+    v15["trim_reads_fail"]
+    v17["trim_reads_merged"]
+    v19["fastqc_trim_html"]
+    v21["fastqc_trim_zip"]
+    v23["trim_read_count"]
+    v25["adapter_seq"]
+    v28[" "]
+    v29["fastqc_raw_zip"]
+    v30["fastqc_raw_html"]
+    v32["umi_reads"]
+    v41[" "]
+    v42["trim_reads_merged"]
+    v43["trim_reads_fail"]
+    v44["trim_log"]
+    v45["trim_html"]
+    v51["trim_read_count"]
+    v53["adapter_seq"]
+    v55[" "]
+    v56["fastqc_trim_zip"]
+    v57["fastqc_trim_html"]
+    end
+    subgraph "FASTQ_FASTQC_UMITOOLS_FASTP [FASTQ_FASTQC_UMITOOLS_FASTP]"
+    v27(["FASTQC_RAW"])
+    v40(["FASTP"])
+    v54(["FASTQC_TRIM"])
+    v26(( ))
+    v46(( ))
+    v52(( ))
+    end
+    v1(( ))
+    v0 --> v1
+    v2 --> v3
+    v4 --> v5
+    v6 --> v7
+    v8 --> v9
+    v10 --> v11
+    v12 --> v13
+    v14 --> v15
+    v16 --> v17
+    v18 --> v19
+    v20 --> v21
+    v22 --> v23
+    v24 --> v25
+    v26 --> v27
+    v27 --> v30
+    v27 --> v29
+    v27 --> v28
+    v31 --> v32
+    v37 --> v40
+    v38 --> v40
+    v39 --> v40
+    v26 --> v40
+    v40 --> v45
+    v40 --> v44
+    v40 --> v43
+    v40 --> v42
+    v40 --> v41
+    v40 --> v46
+    v40 --> v52
+    v46 --> v51
+    v52 --> v53
+    v46 --> v54
+    v54 --> v57
+    v54 --> v56
+    v54 --> v55
+    v1 --> v26

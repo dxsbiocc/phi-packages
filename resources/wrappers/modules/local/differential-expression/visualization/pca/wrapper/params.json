@@ -1,0 +1,11 @@
+{
+  "matrix": "tests/data/ko_vs_wt.vst.tsv",
+  "samplesheet": "tests/data/metadata.tsv",
+  "gene_id_col": "gene_id",
+  "sample_id_col": "sample",
+  "color_by": "genotype",
+  "shape_by": "treatment",
+  "ntop": "500",
+  "prefix": "ko_vs_wt",
+  "outdir": "results"
+}

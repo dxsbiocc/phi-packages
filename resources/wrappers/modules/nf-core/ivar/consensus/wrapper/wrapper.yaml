@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored ivar/consensus module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/ivar-consensus
+name: "iVar consensus"
+summary: "Build a consensus sequence from a BAM with iVar."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "BAM file."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  fasta:
+    type: directory
+    path: '${outdir}/ivar_consensus'
+    primary: true

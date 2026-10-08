@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored freyja/variants module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/freyja-variants
+name: "Freyja variants"
+summary: "Call variants and depths from a BAM for lineage deconvolution with Freyja variants."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  variants:
+    type: directory
+    path: '${outdir}/freyja_variants'
+    primary: true

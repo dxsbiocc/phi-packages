@@ -1,0 +1,49 @@
+# Agent-facing wrapper adapter for the vendored bracken/bracken module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composes untar + kraken2/kraken2 directly so callers only supply reads and
+# a combined Kraken2/Bracken db tar.gz, matching how the module's own test
+# suite chains them (per section 6 of the design doc).
+id: nf-core/modules/bracken-bracken
+name: Bracken
+summary: Re-estimate taxonomic abundance from a Kraken2 report at a chosen rank with Bracken.
+
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Glob matching one sample's FASTQ file(s) — a pair for paired-end, or one file for single-end.
+  db:
+    kind: input
+    type: file
+    required: true
+    description: Combined Kraken2/Bracken database as a tar.gz archive (must include Bracken's kmer distribution files).
+  read_len:
+    kind: option
+    type: integer
+    required: false
+    description: Read length Bracken should use (its -r flag; must match a length Bracken's db was built for).
+  level:
+    kind: option
+    type: string
+    required: false
+    enum: [D, P, C, O, F, G, S]
+    description: Taxonomic rank to re-estimate abundance at (Bracken -l).
+  threshold:
+    kind: option
+    type: integer
+    required: false
+    description: Minimum reads required for a taxon to be kept (Bracken -t).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the Bracken abundance report.
+
+outputs:
+  report:
+    type: directory
+    path: '${outdir}/bracken'
+    primary: true

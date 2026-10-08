@@ -1,0 +1,6 @@
+{
+  "fastx": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/genome/proteome.fasta.gz",
+  "pattern": "A",
+  "replacement": "N",
+  "outdir": "results"
+}

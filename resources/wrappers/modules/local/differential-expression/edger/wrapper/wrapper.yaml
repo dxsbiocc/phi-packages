@@ -1,0 +1,85 @@
+# Agent-facing wrapper adapter for the EDGER_DIFFERENTIAL process at
+# ../main.nf -- a new local tool (no nf-core module to vendor; nf-core's
+# own count-based RNA-seq DE coverage is limma-voom, see ../limma/), using
+# edgeR's modern quasi-likelihood F-test (glmQLFit/glmQLFTest) with TMM
+# normalization, per bioSkills's differential-expression/edger-basics
+# skill. Grouped here alongside deseq2/, limma/, and timeseries/ as this
+# project's own differential-expression family. Container reused verbatim
+# from ../limma/main.nf -- that image already bundles bioconductor-edger.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: local/modules/differential-expression-edger
+name: edgeR differential expression
+summary: Test one contrast for differential expression with edgeR's quasi-likelihood F-test, from a count matrix and a sample sheet.
+
+params:
+  counts:
+    kind: input
+    type: file
+    required: true
+    description: Raw gene-level count matrix (TSV/CSV), genes as rows, samples as columns.
+  samplesheet:
+    kind: input
+    type: file
+    required: true
+    description: Sample metadata sheet (TSV/CSV) with one row per sample.
+  sample_id_col:
+    kind: option
+    type: string
+    required: false
+    description: Samplesheet column holding each sample's identifier, matching the count matrix's sample column names.
+  gene_id_col:
+    kind: option
+    type: string
+    required: false
+    description: Count matrix column holding gene identifiers.
+  contrast_variable:
+    kind: option
+    type: string
+    required: true
+    description: Samplesheet column defining the two groups to compare.
+  reference_level:
+    kind: option
+    type: string
+    required: true
+    description: Value of contrast_variable to use as the reference group.
+  target_level:
+    kind: option
+    type: string
+    required: true
+    description: Value of contrast_variable to use as the target group.
+  formula:
+    kind: option
+    type: string
+    required: false
+    description: Advanced — full R design formula (e.g. '~ 0 + batch + condition'), overriding the simple contrast_variable/reference_level/target_level model. Requires comparison.
+  comparison:
+    kind: option
+    type: string
+    required: false
+    description: Advanced — required alongside formula. Either a design-matrix column name or a limma-style makeContrasts expression to test.
+  prefix:
+    kind: option
+    type: string
+    required: false
+    description: Output file prefix and run identifier.
+  outdir:
+    kind: output
+    type: directory
+    required: true
+    description: Directory results are published under.
+
+outputs:
+  results:
+    type: file
+    path: '${outdir}/edger_differential/${prefix}.edger.results.tsv'
+    primary: true
+  normalised_counts:
+    type: file
+    path: '${outdir}/edger_differential/${prefix}.normalised_counts.tsv'
+  bcv_plot:
+    type: file
+    path: '${outdir}/edger_differential/${prefix}.edger.bcv.pdf'
+  model:
+    type: file
+    path: '${outdir}/edger_differential/${prefix}.edger.model.txt'

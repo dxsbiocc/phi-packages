@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored zip module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Only a single input file is exposed — the vendored module accepts a list
+# of files but this thin adapter doesn't surface multi-file zipping.
+id: nf-core/modules/zip
+name: zip
+summary: Compress a file into a .zip archive with 7-Zip.
+
+params:
+  file:
+    kind: input
+    type: file
+    required: true
+    description: File to add to the zip archive.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the zip archive.
+
+outputs:
+  zipped_archive:
+    type: directory
+    path: '${outdir}/zip'
+    primary: true

@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored umitools/prepareforrsem module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/umitools-prepareforrsem
+name: UMI-tools prepare-for-rsem
+summary: Re-pair and re-order a BAM's reads so RSEM can consume it, with umi_tools prepare-for-rsem.
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: Name-collated BAM to prepare for RSEM (e.g. a STAR --outSAMtype BAM Unsorted alignment).
+  bai:
+    kind: input
+    type: bai
+    required: true
+    description: Index for the input BAM.
+  single_end:
+    kind: option
+    type: boolean
+    required: false
+    description: Whether the reads are single-end.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the RSEM-ready BAM and log.
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/umitools_prepareforrsem'
+    primary: true

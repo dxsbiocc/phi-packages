@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored bcftools/stats module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Only the plain-VCF-in case is exposed — the module's optional
+# regions/targets/samples/exons/fasta inputs aren't surfaced.
+id: nf-core/modules/bcftools-stats
+name: bcftools stats
+summary: Compute summary statistics (counts, ts/tv ratio, quality distributions) for a VCF with bcftools stats.
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: VCF/BCF file to summarise.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the stats report.
+
+outputs:
+  stats:
+    type: directory
+    path: '${outdir}/bcftools_stats'
+    primary: true

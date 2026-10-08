@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored bcftools/pluginimputeinfo module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: runs the vendored plugintag2tag module first (+impute-info needs GP tags).
+id: nf-core/modules/bcftools-pluginimputeinfo
+name: "bcftools pluginimputeinfo"
+summary: "Add the IMPUTE2-style INFO score with the bcftools +impute-info plugin (tag2tag → impute-info)."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped VCF file."
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the VCF."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/bcftools_pluginimputeinfo'
+    primary: true

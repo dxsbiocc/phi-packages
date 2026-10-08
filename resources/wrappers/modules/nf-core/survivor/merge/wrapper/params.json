@@ -1,0 +1,7 @@
+{
+  "vcf1": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/gvcf/test2.genome.vcf",
+  "vcf2": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/gvcf/test.genome.vcf",
+  "max_distance": "0.2",
+  "min_callers": 1,
+  "outdir": "results"
+}

@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored bcftools/isec module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bcftools-isec
+name: bcftools isec
+summary: Compute the intersection/complement of two VCF files with bcftools isec.
+
+params:
+  vcf1:
+    kind: input
+    type: file
+    required: true
+    description: First bgzipped VCF file.
+  vcf2:
+    kind: input
+    type: file
+    required: true
+    description: Second bgzipped VCF file.
+  vcf1_tbi:
+    kind: input
+    type: file
+    required: true
+    description: Index (.tbi) for the first VCF.
+  vcf2_tbi:
+    kind: input
+    type: file
+    required: true
+    description: Index (.tbi) for the second VCF.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the intersection results.
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/bcftools_isec'
+    primary: true

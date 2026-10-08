@@ -1,0 +1,56 @@
+# Agent-facing wrapper adapter for the vendored rtgtools/vcfeval module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: unpacks the RTG SDF archive with the vendored untar module first.
+id: nf-core/modules/rtgtools-vcfeval
+name: "RTG Tools vcfeval"
+summary: "Evaluate small-variant calls against a truth set with rtg vcfeval (untar SDF → vcfeval)."
+
+params:
+  sdf:
+    kind: input
+    type: file
+    required: true
+    description: "RTG SDF reference archive (.tar.gz)."
+  query:
+    kind: input
+    type: file
+    required: true
+    description: "Query VCF (bgzipped)."
+  query_tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the query VCF."
+  truth:
+    kind: input
+    type: file
+    required: true
+    description: "Truth VCF (bgzipped)."
+  truth_tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the truth VCF."
+  truth_bed:
+    kind: input
+    type: file
+    required: true
+    description: "Truth confident regions BED."
+  regions_bed:
+    kind: input
+    type: file
+    required: true
+    description: "Evaluation regions BED."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  summary:
+    type: directory
+    path: '${outdir}/rtgtools_vcfeval'
+    primary: true

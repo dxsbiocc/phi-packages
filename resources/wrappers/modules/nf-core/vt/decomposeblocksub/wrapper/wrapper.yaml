@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored vt/decomposeblocksub module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/vt-decomposeblocksub
+name: "vt decompose_blocksub"
+summary: "Decompose block substitutions with vt decompose_blocksub."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped VCF file."
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the VCF."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/vt_decomposeblocksub'
+    primary: true

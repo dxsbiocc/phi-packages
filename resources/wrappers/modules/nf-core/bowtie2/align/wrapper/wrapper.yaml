@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored bowtie2/align module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Uses a pre-built `index` as-is, or composes bowtie2/build to build one from
+# `fasta` first. The default params.json builds one because there's no
+# pre-built index in test-datasets to point it at.
+id: nf-core/modules/bowtie2-align
+name: bowtie2 align
+summary: Align paired-end FASTQ reads with bowtie2, against a pre-built index or one built from a genome FASTA.
+
+params:
+  reads_1:
+    kind: input
+    type: fastq
+    required: true
+    description: FASTQ file for read 1.
+  reads_2:
+    kind: input
+    type: fastq
+    required: true
+    description: FASTQ file for read 2.
+  index:
+    kind: input
+    type: directory
+    required: false
+    description: Pre-built bowtie2 index directory (holding one set of *.bt2 / *.bt2l files). Preferred for large genomes; when set, `fasta` is not needed and no index is built.
+  fasta:
+    kind: input
+    type: fasta
+    required: false
+    description: Reference genome FASTA to build a bowtie2 index from. Required only when `index` is not given.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the alignment BAM and log.
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/bowtie2_align'
+    primary: true

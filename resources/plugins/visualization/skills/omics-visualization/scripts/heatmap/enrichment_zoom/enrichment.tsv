@@ -1,0 +1,25 @@
+database	Change	Description	p.adjust
+GO	Down	small molecule catabolic process	1.58483133375956e-22
+GO	Down	organic acid catabolic process	4.55133266627371e-22
+GO	Down	complement activation	4.59777923841102e-19
+GO	Down	immunoglobulin mediated immune response	1.06307573691549e-18
+GO	Up	nuclear chromosome segregation	1.76859985030078e-12
+GO	Up	chromosome segregation	3.04243845723263e-12
+GO	Up	sister chromatid segregation	3.36350069999868e-11
+GO	Up	mitotic nuclear division	3.36350069999868e-11
+KEGG	Down	Glycolysis / Gluconeogenesis	5.64381326227419e-06
+KEGG	Down	Pyruvate metabolism	1.13950095672805e-05
+KEGG	Down	Carbon metabolism	0.000256715945605435
+KEGG	Down	Biosynthesis of amino acids	9.40020982031605e-05
+KEGG	Up	DNA replication	0.000592987458520057
+KEGG	Up	Protein processing in endoplasmic reticulum	0.00121640168126223
+KEGG	Up	ECM-receptor interaction	0.00365184489440187
+KEGG	Up	Pyrimidine metabolism	0.0160544815636978
+WikiPathway	Down	Metapathway biotransformation Phase I and II	3.15120611556913e-13
+WikiPathway	Down	Fatty acid omega-oxidation	3.96118535082793e-11
+WikiPathway	Down	Nuclear receptors meta-pathway	1.43700183600196e-10
+WikiPathway	Down	Oxidation by cytochrome P450	4.40636703830381e-10
+WikiPathway	Up	Retinoblastoma gene in cancer	4.46563869603785e-10
+WikiPathway	Up	Cell cycle	1.04856166230171e-06
+WikiPathway	Up	DNA replication	1.24817018956644e-05
+WikiPathway	Up	Gastric cancer network 1	7.04752348845391e-05

@@ -1,0 +1,54 @@
+# Agent-facing wrapper adapter for the vendored custom/filterdifferentialtable module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/custom-filterdifferentialtable
+name: "Custom filterdifferentialtable"
+summary: "Filter a differential-expression table by fold-change and significance thresholds."
+
+params:
+  table:
+    kind: input
+    type: file
+    required: true
+    description: "Differential expression results (TSV)."
+  logfc_column:
+    kind: option
+    type: string
+    required: false
+    description: "Fold-change column name."
+  fc_threshold:
+    kind: option
+    type: integer
+    required: false
+    description: "Fold-change threshold."
+  fc_cardinality:
+    kind: option
+    type: string
+    required: false
+    description: "Fold-change comparison operator."
+  stat_column:
+    kind: option
+    type: string
+    required: false
+    description: "Significance column name."
+  stat_threshold:
+    kind: option
+    type: string
+    required: false
+    description: "Significance threshold."
+  stat_cardinality:
+    kind: option
+    type: string
+    required: false
+    description: "Significance comparison operator."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  filtered:
+    type: directory
+    path: '${outdir}/custom_filterdifferentialtable'
+    primary: true

@@ -1,0 +1,16 @@
+flowchart TB
+    subgraph " "
+    v0["in_ch"]
+    v1["fasta_ch"]
+    end
+    v2(["PARAGRAPH_VCF2PARAGRAPH"])
+    subgraph " "
+    v3[" "]
+    v4[" "]
+    v5[" "]
+    end
+    v0 --> v2
+    v1 --> v2
+    v2 --> v5
+    v2 --> v4
+    v2 --> v3

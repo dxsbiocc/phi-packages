@@ -1,0 +1,248 @@
+flowchart TB
+    subgraph " "
+    v0["channel.fromPath"]
+    v10["ch_gtf"]
+    v17["ch_biotypes_header"]
+    v22["ch_fasta_fai"]
+    v23["index_format"]
+    v43["channel.empty"]
+    v47["channel.empty"]
+    v49["channel.empty"]
+    v51["channel.empty"]
+    v53["channel.empty"]
+    v55["channel.empty"]
+    v57["channel.empty"]
+    v59["bed"]
+    v64["channel.empty"]
+    v68["channel.empty"]
+    v70["channel.empty"]
+    v72["channel.empty"]
+    v74["channel.empty"]
+    v76["channel.empty"]
+    v78["channel.empty"]
+    v80["channel.empty"]
+    v82["channel.empty"]
+    v88["channel.empty"]
+    v90["channel.empty"]
+    v92["channel.empty"]
+    v98["channel.empty"]
+    v102["channel.empty"]
+    v104["channel.empty"]
+    v106["channel.empty"]
+    v108["channel.empty"]
+    v110["channel.empty"]
+    v116["channel.empty"]
+    v121["channel.empty"]
+    end
+    v2(["SAMTOOLS_INDEX"])
+    subgraph " "
+    v3[" "]
+    v8[" "]
+    v9["preseq_log"]
+    v15[" "]
+    v16["featurecounts_summary"]
+    v19[" "]
+    v20["biotype_rrna"]
+    v25[" "]
+    v26[" "]
+    v27[" "]
+    v28[" "]
+    v30[" "]
+    v33[" "]
+    v34[" "]
+    v35["dupradar_intercept_slope"]
+    v36["dupradar_dupmatrix"]
+    v37["dupradar_hist"]
+    v38["dupradar_boxplot"]
+    v39["dupradar_scatter2d"]
+    v44["bamstat_txt"]
+    v46[" "]
+    v48["innerdistance_all"]
+    v50["innerdistance_distance"]
+    v52["innerdistance_freq"]
+    v54["innerdistance_mean"]
+    v56["innerdistance_pdf"]
+    v58["innerdistance_rscript"]
+    v61[" "]
+    v63["innerdistance_all"]
+    v65["inferexperiment_txt"]
+    v67[" "]
+    v69["junctionannotation_all"]
+    v71["junctionannotation_bed"]
+    v73["junctionannotation_interact_bed"]
+    v75["junctionannotation_xls"]
+    v77["junctionannotation_pdf"]
+    v79["junctionannotation_events_pdf"]
+    v81["junctionannotation_rscript"]
+    v83["junctionannotation_log"]
+    v85[" "]
+    v87["junctionannotation_all"]
+    v89["junctionsaturation_all"]
+    v91["junctionsaturation_pdf"]
+    v93["junctionsaturation_rscript"]
+    v95[" "]
+    v97["junctionsaturation_all"]
+    v99["readdistribution_txt"]
+    v101[" "]
+    v103["readduplication_all"]
+    v105["readduplication_seq_xls"]
+    v107["readduplication_pos_xls"]
+    v109["readduplication_pdf"]
+    v111["readduplication_rscript"]
+    v113[" "]
+    v115["readduplication_all"]
+    v117["tin_txt"]
+    v119[" "]
+    v120[" "]
+    v134["multiqc_files"]
+    v147["per_sample_mqc_bundle"]
+    end
+    subgraph "BAM_QC_RNASEQ [BAM_QC_RNASEQ]"
+    v7(["PRESEQ_LCEXTRAP"])
+    v14(["SUBREAD_FEATURECOUNTS"])
+    v18(["CUSTOM_MULTIQCCUSTOMBIOTYPE"])
+    v24(["SAMTOOLS_SORT_QUALIMAP"])
+    v29(["QUALIMAP_RNASEQ"])
+    v32(["DUPRADAR"])
+    subgraph "BAM_QC_RNASEQ:BAM_RSEQC [BAM_RSEQC]"
+    v45(["RSEQC_BAMSTAT"])
+    v60(["RSEQC_INNERDISTANCE"])
+    v66(["RSEQC_INFEREXPERIMENT"])
+    v84(["RSEQC_JUNCTIONANNOTATION"])
+    v94(["RSEQC_JUNCTIONSATURATION"])
+    v100(["RSEQC_READDISTRIBUTION"])
+    v112(["RSEQC_READDUPLICATION"])
+    v118(["RSEQC_TIN"])
+    v42(( ))
+    v62(( ))
+    v86(( ))
+    v96(( ))
+    v114(( ))
+    end
+    v5(( ))
+    v40(( ))
+    v122(( ))
+    v135(( ))
+    end
+    v1(( ))
+    v0 --> v1
+    v1 --> v2
+    v2 --> v3
+    v2 --> v1
+    v5 --> v7
+    v7 --> v9
+    v7 --> v8
+    v7 --> v122
+    v7 --> v135
+    v10 --> v29
+    v10 --> v32
+    v10 --> v5
+    v5 --> v14
+    v14 --> v18
+    v14 --> v16
+    v14 --> v15
+    v17 --> v18
+    v18 --> v20
+    v18 --> v19
+    v18 --> v122
+    v18 --> v135
+    v22 --> v24
+    v23 --> v24
+    v5 --> v24
+    v24 --> v29
+    v24 --> v28
+    v24 --> v27
+    v24 --> v26
+    v24 --> v25
+    v29 --> v30
+    v29 --> v122
+    v29 --> v135
+    v5 --> v32
+    v32 --> v39
+    v32 --> v38
+    v32 --> v37
+    v32 --> v36
+    v32 --> v35
+    v32 --> v34
+    v32 --> v33
+    v32 --> v122
+    v32 --> v135
+    v43 --> v44
+    v42 --> v45
+    v45 --> v46
+    v45 --> v122
+    v45 --> v135
+    v47 --> v48
+    v49 --> v50
+    v51 --> v52
+    v53 --> v54
+    v55 --> v56
+    v57 --> v58
+    v59 --> v60
+    v59 --> v66
+    v59 --> v84
+    v59 --> v94
+    v59 --> v100
+    v59 --> v118
+    v42 --> v60
+    v60 --> v61
+    v60 --> v62
+    v60 --> v122
+    v60 --> v135
+    v62 --> v63
+    v64 --> v65
+    v42 --> v66
+    v66 --> v67
+    v66 --> v122
+    v66 --> v135
+    v68 --> v69
+    v70 --> v71
+    v72 --> v73
+    v74 --> v75
+    v76 --> v77
+    v78 --> v79
+    v80 --> v81
+    v82 --> v83
+    v42 --> v84
+    v84 --> v85
+    v84 --> v86
+    v84 --> v122
+    v84 --> v135
+    v86 --> v87
+    v88 --> v89
+    v90 --> v91
+    v92 --> v93
+    v42 --> v94
+    v94 --> v95
+    v94 --> v96
+    v94 --> v122
+    v94 --> v135
+    v96 --> v97
+    v98 --> v99
+    v42 --> v100
+    v100 --> v101
+    v100 --> v122
+    v100 --> v135
+    v102 --> v103
+    v104 --> v105
+    v106 --> v107
+    v108 --> v109
+    v110 --> v111
+    v42 --> v112
+    v112 --> v113
+    v112 --> v114
+    v112 --> v122
+    v112 --> v135
+    v114 --> v115
+    v116 --> v117
+    v42 --> v118
+    v118 --> v120
+    v118 --> v119
+    v118 --> v122
+    v118 --> v135
+    v121 --> v122
+    v122 --> v134
+    v135 --> v147
+    v1 --> v5
+    v1 --> v40
+    v40 --> v42

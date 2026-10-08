@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored arriba/visualisation module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/arriba-visualisation
+name: "Arriba visualisation"
+summary: "Draw a PDF diagram of detected fusions with Arriba's draw_fusions.R."
+
+params:
+  fusions:
+    kind: input
+    type: file
+    required: true
+    description: "Arriba fusions TSV."
+  gtf:
+    kind: input
+    type: file
+    required: true
+    description: "Reference GTF annotation."
+  protein_domains:
+    kind: input
+    type: file
+    required: true
+    description: "Arriba protein-domains GFF3."
+  cytobands:
+    kind: input
+    type: file
+    required: true
+    description: "Arriba cytobands TSV."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  pdf:
+    type: directory
+    path: '${outdir}/arriba_visualisation'
+    primary: true

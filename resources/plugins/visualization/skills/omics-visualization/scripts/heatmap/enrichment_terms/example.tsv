@@ -1,0 +1,41 @@
+Description	group	p.adjust	direction
+Endocytosis	Early	1.8e-08	up
+Endocytosis	Late	4.2e-03	up
+Endocytosis	Relapse	NA	
+Endocytosis	Primary	2.1e-05	up
+Ubiquitin mediated proteolysis	Early	7.1e-09	up
+Ubiquitin mediated proteolysis	Late	NA	
+Ubiquitin mediated proteolysis	Relapse	3.6e-04	up
+Ubiquitin mediated proteolysis	Primary	8.8e-06	up
+Nucleocytoplasmic transport	Early	6.2e-06	up
+Nucleocytoplasmic transport	Late	1.1e-02	up
+Nucleocytoplasmic transport	Relapse	NA	
+Nucleocytoplasmic transport	Primary	4.5e-04	up
+TGF-beta signaling pathway	Early	1.0e-04	up
+TGF-beta signaling pathway	Late	NA	
+TGF-beta signaling pathway	Relapse	2.4e-03	down
+TGF-beta signaling pathway	Primary	6.7e-03	up
+Adherens junction	Early	2.0e-04	up
+Adherens junction	Late	5.5e-03	up
+Adherens junction	Relapse	NA	
+Adherens junction	Primary	NA	
+Oxidative phosphorylation	Early	1.5e-12	down
+Oxidative phosphorylation	Late	3.3e-08	down
+Oxidative phosphorylation	Relapse	4.7e-04	down
+Oxidative phosphorylation	Primary	9.1e-10	down
+Thermogenesis	Early	4.7e-10	down
+Thermogenesis	Late	2.2e-05	down
+Thermogenesis	Relapse	NA	
+Thermogenesis	Primary	1.8e-07	down
+Cardiac muscle contraction	Early	2.7e-06	down
+Cardiac muscle contraction	Late	NA	
+Cardiac muscle contraction	Relapse	8.4e-03	down
+Cardiac muscle contraction	Primary	1.2e-04	down
+Biosynthesis of amino acids	Early	7.2e-03	down
+Biosynthesis of amino acids	Late	NA	
+Biosynthesis of amino acids	Relapse	NA	
+Biosynthesis of amino acids	Primary	4.1e-02	down
+Cholesterol metabolism	Early	2.6e-03	down
+Cholesterol metabolism	Late	1.9e-02	down
+Cholesterol metabolism	Relapse	NA	
+Cholesterol metabolism	Primary	NA	

@@ -1,0 +1,102 @@
+# Agent-facing wrapper adapter for the vendored fastq_qc_trim_filter_setstrandedness
+# subworkflow at ../main.nf: merge/lint FASTQ, run FastQC, trim adapters with
+# fastp or Trim Galore, and (when strandedness is `auto`) sub-sample the reads
+# and infer library strandedness with Salmon. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# The subworkflow has ~30 inputs; this wrapper exposes only the ones that
+# change what a user gets, and fixes the rest. Deliberately NOT exposed (kept
+# off, with no test data here to verify them): BBSplit contaminant removal,
+# rRNA removal (SortMeRNA/RiboDetector/Bowtie2) and UMI handling. Handles ONE
+# sample per run (id `sample_id`); reads are never merged across libraries.
+#
+# The inferred strandedness only exists in the reads' meta map, so this
+# wrapper also writes it to strandedness.tsv.
+id: nf-core/subworkflows/fastq-qc-trim-filter-setstrandedness
+name: FASTQ QC, trim and strandedness
+summary: Lint, QC (FastQC) and adapter-trim RNA-seq FASTQ with fastp or Trim Galore, and infer library strandedness with Salmon.
+
+params:
+  reads_1:
+    kind: input
+    type: fastq
+    required: true
+    description: FASTQ file for read 1 (the only reads file for single-end data).
+  reads_2:
+    kind: input
+    type: fastq
+    required: false
+    description: FASTQ file for read 2. Omit for single-end reads.
+  fasta:
+    kind: input
+    type: fasta
+    required: false
+    description: Reference genome FASTA. Required only when strandedness is auto.
+  transcript_fasta:
+    kind: input
+    type: fasta
+    required: false
+    description: Transcriptome FASTA used to build the Salmon index. Required only when strandedness is auto.
+  gtf:
+    kind: input
+    type: gtf
+    required: false
+    description: Gene annotation GTF. Required only when strandedness is auto.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for trimmed reads, QC reports, lint logs and strandedness.tsv.
+  strandedness:
+    kind: option
+    type: string
+    required: false
+    enum:
+      - auto
+      - forward
+      - reverse
+      - unstranded
+    description: Library strandedness. auto infers it with Salmon (needs fasta, transcript_fasta and gtf); otherwise it is recorded as given. Defaults to auto.
+  trimmer:
+    kind: option
+    type: string
+    required: false
+    enum:
+      - fastp
+      - trimgalore
+    description: Adapter trimmer. Defaults to fastp.
+  skip_trimming:
+    kind: option
+    type: boolean
+    required: false
+    description: Skip adapter trimming (raw reads pass through). Defaults to false.
+  skip_fastqc:
+    kind: option
+    type: boolean
+    required: false
+    description: Skip FastQC. Defaults to false.
+  skip_linting:
+    kind: option
+    type: boolean
+    required: false
+    description: Skip fq lint validation of the FASTQ files. Defaults to false.
+  min_trimmed_reads:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: A sample with fewer reads than this after trimming is dropped from the downstream steps. Defaults to 10000.
+  sample_id:
+    kind: option
+    type: string
+    required: false
+    description: Sample name used in output file names. Defaults to sample.
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/fastq_qc_trim_filter_setstrandedness'
+    primary: true
+  strandedness:
+    type: file
+    path: '${outdir}/fastq_qc_trim_filter_setstrandedness/strandedness.tsv'

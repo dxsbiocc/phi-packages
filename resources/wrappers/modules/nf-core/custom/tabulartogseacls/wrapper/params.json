@@ -1,0 +1,5 @@
+{
+  "samples": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/mus_musculus/rnaseq_expression/SRP254919.samplesheet.sample_metadata.tsv",
+  "variable": "treatment",
+  "outdir": "results"
+}

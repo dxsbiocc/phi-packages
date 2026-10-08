@@ -1,0 +1,93 @@
+# Agent-facing wrapper adapter for the vendored limma/differential module at
+# ../main.nf. Sourced from nf-core/modules (`limma/differential`, used by
+# nf-core/differentialabundance) and grouped here under this project's own
+# differential-expression family folder rather than modules/nf-core/, since
+# that grouping — and the params surface below — is this project's own
+# curation, not an nf-core-shipped bundle. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# With use_voom: true (the default), this runs limma-voom on RNA-seq counts
+# — an edgeR::DGEList + voom() pipeline, the modern alternative to a plain
+# edgeR QL F-test for count data. With use_voom: false, it runs classic
+# limma directly on continuous intensities (microarray/proteomics) instead.
+#
+# The vendored module also accepts a full R `formula` + `comparison` string
+# for multi-factor/interaction/blocked designs, exposed below as an advanced
+# override, same as the deseq2 wrapper in this family.
+id: local/modules/differential-expression-limma
+name: limma differential expression
+summary: Test one contrast for differential expression with limma-voom (RNA-seq counts) or classic limma (intensities), from a matrix and a sample sheet.
+
+params:
+  counts:
+    kind: input
+    type: file
+    required: true
+    description: Raw gene-level count matrix (TSV/CSV) when use_voom is true, or a continuous intensity matrix (e.g. microarray) when use_voom is false. Genes/probes as rows, samples as columns.
+  samplesheet:
+    kind: input
+    type: file
+    required: true
+    description: Sample metadata sheet (TSV/CSV) with one row per sample.
+  sample_id_col:
+    kind: option
+    type: string
+    required: false
+    description: Samplesheet column holding each sample's identifier — must match the matrix's sample column names.
+  gene_id_col:
+    kind: option
+    type: string
+    required: false
+    description: Matrix column holding gene/probe identifiers.
+  use_voom:
+    kind: option
+    type: boolean
+    required: false
+    description: true runs limma-voom for RNA-seq count data (the family default); false runs classic limma directly on continuous intensities (microarray/proteomics).
+  contrast_variable:
+    kind: option
+    type: string
+    required: true
+    description: Samplesheet column defining the two groups to compare (e.g. 'condition').
+  reference_level:
+    kind: option
+    type: string
+    required: true
+    description: Value of contrast_variable to use as the reference (denominator) group.
+  target_level:
+    kind: option
+    type: string
+    required: true
+    description: Value of contrast_variable to use as the target (numerator) group.
+  formula:
+    kind: option
+    type: string
+    required: false
+    description: Advanced — full R design formula (e.g. '~ batch + condition' or '~ 0 + group'), overriding the simple contrast_variable/reference_level/target_level model. Requires comparison.
+  comparison:
+    kind: option
+    type: string
+    required: false
+    description: Advanced — required alongside formula. A limma-style contrast expression to test (e.g. 'groupKO - groupWT').
+  prefix:
+    kind: option
+    type: string
+    required: false
+    description: Output file prefix and run identifier.
+  outdir:
+    kind: output
+    type: directory
+    required: true
+    description: Directory results are published under.
+
+outputs:
+  results:
+    type: file
+    path: '${outdir}/limma_differential/${prefix}.limma.results.tsv'
+    primary: true
+  model:
+    type: file
+    path: '${outdir}/limma_differential/${prefix}.limma.model.txt'
+  md_plot:
+    type: file
+    path: '${outdir}/limma_differential/${prefix}.limma.mean_difference.png'

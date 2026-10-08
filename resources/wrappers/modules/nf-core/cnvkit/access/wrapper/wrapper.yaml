@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored cnvkit/access module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/cnvkit-access
+name: "CNVkit access"
+summary: "Compute sequence-accessible regions with CNVkit access."
+
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  exclude:
+    kind: input
+    type: file
+    required: true
+    description: "BED of regions to exclude."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bed:
+    type: directory
+    path: '${outdir}/cnvkit_access'
+    primary: true

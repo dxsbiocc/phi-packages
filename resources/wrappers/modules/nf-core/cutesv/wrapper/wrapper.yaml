@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored cutesv module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/cutesv
+name: "cuteSV"
+summary: "Call structural variants from long reads with cuteSV."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/cutesv'
+    primary: true

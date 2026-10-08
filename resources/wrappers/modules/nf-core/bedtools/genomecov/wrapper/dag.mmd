@@ -1,0 +1,23 @@
+flowchart TB
+    subgraph " "
+    v0["channel.fromPath"]
+    v2["sizes"]
+    v3["extension"]
+    v4["sort"]
+    v8["channel.empty"]
+    end
+    v5(["BEDTOOLS_GENOMECOV"])
+    subgraph " "
+    v6[" "]
+    v7[" "]
+    v9[" "]
+    end
+    v1(( ))
+    v0 --> v1
+    v2 --> v5
+    v3 --> v5
+    v4 --> v5
+    v1 --> v5
+    v5 --> v7
+    v5 --> v6
+    v8 --> v9

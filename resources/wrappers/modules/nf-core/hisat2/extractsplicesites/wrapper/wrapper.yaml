@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored hisat2/extractsplicesites
+# module at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/hisat2-extractsplicesites
+name: hisat2 extractsplicesites
+summary: Extract splice sites from a GTF annotation for HISAT2 index building.
+
+params:
+  gtf:
+    kind: input
+    type: gtf
+    required: true
+    description: Gene annotation GTF to extract splice sites from.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the splice sites file.
+
+outputs:
+  splicesites:
+    type: directory
+    path: '${outdir}/hisat2_extractsplicesites'
+    primary: true

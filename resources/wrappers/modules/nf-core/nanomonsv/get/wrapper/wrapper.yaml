@@ -1,0 +1,51 @@
+# Agent-facing wrapper adapter for the vendored nanomonsv/get module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: extracts candidate SV-supporting reads for both samples with the vendored nanomonsv parse module first.
+id: nf-core/modules/nanomonsv-get
+name: "nanomonsv get"
+summary: "Call structural variants from a tumour/control pair of long-read BAMs (parse -> get)."
+
+params:
+  tumor_bam:
+    kind: input
+    type: file
+    required: true
+    description: "Tumour BAM."
+  tumor_bai:
+    kind: input
+    type: file
+    required: true
+    description: "Tumour BAM index (.bai)."
+  control_bam:
+    kind: input
+    type: file
+    required: true
+    description: "Control BAM."
+  control_bai:
+    kind: input
+    type: file
+    required: true
+    description: "Control BAM index (.bai)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  result_vcf:
+    type: directory
+    path: '${outdir}/nanomonsv_get'
+    primary: true

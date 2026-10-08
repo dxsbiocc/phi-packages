@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored plink2/vcf2bgen module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/plink2-vcf2bgen
+name: "plink2 vcf2bgen"
+summary: "Convert a VCF with dosage data directly to Oxford BGEN v1.2 format."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Input VCF with a dosage FORMAT field (e.g. DS)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bgen_file:
+    type: directory
+    path: '${outdir}/plink2_vcf2bgen'
+    primary: true

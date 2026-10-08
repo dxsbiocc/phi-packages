@@ -1,0 +1,51 @@
+# Agent-facing wrapper adapter for the vendored summarizedexperiment module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composes custom/tx2gene + tximeta/tximport directly so callers only supply
+# quants + a GTF, matching the module's own "single_matrix" test (per
+# section 6 of the design doc). rowdata/coldata annotation (the "unify"
+# multi-matrix use case) is not exposed — it needs a curated samplesheet the
+# agent can't fabricate; only the single gene-count-matrix path is wired up.
+id: nf-core/modules/summarizedexperiment
+name: SummarizedExperiment (single matrix)
+summary: Package a gene-level count matrix (from tximport) into a Bioconductor SummarizedExperiment .rds object.
+
+params:
+  gtf:
+    kind: input
+    type: gtf
+    required: true
+    description: GTF annotation used to build the transcript-to-gene map.
+  quants:
+    kind: input
+    type: path_glob
+    required: true
+    description: Glob matching each sample's quantifier output directory (kallisto/salmon/rsem per-sample results).
+  quant_type:
+    kind: option
+    type: string
+    required: false
+    enum: [kallisto, salmon, rsem]
+    description: Which quantifier produced the quants directories.
+  id:
+    kind: option
+    type: string
+    required: false
+    description: GTF attribute used as the gene id column in the transcript-to-gene map.
+  extra:
+    kind: option
+    type: string
+    required: false
+    description: Comma-separated extra GTF attributes (e.g. gene_name) appended to the transcript-to-gene map.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the SummarizedExperiment .rds object.
+
+outputs:
+  rds:
+    type: directory
+    path: '${outdir}/summarizedexperiment'
+    primary: true

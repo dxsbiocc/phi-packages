@@ -1,0 +1,88 @@
+{
+  "schema_version": "omics-visualization.layout-audit.v1",
+  "layout_id": "equal-2x2",
+  "status": "PASS",
+  "tolerance_pt": 1.5,
+  "output_width_in": 8,
+  "output_height_in": 6.4,
+  "panels": [
+    {
+      "panel": 1,
+      "left": 44.6151,
+      "right": 277.87561,
+      "bottom": 258.23285,
+      "top": 427.59417,
+      "width": 233.26051,
+      "height": 169.36132
+    },
+    {
+      "panel": 2,
+      "left": 332.77685,
+      "right": 566.03736,
+      "bottom": 258.23285,
+      "top": 427.59417,
+      "width": 233.26051,
+      "height": 169.36132
+    },
+    {
+      "panel": 3,
+      "left": 44.6151,
+      "right": 277.87561,
+      "bottom": 35.37751,
+      "top": 204.73883,
+      "width": 233.26051,
+      "height": 169.36132
+    },
+    {
+      "panel": 4,
+      "left": 332.77685,
+      "right": 566.03736,
+      "bottom": 35.37751,
+      "top": 204.73883,
+      "width": 233.26051,
+      "height": 169.36132
+    }
+  ],
+  "checks": [
+    {
+      "name": "peer panel widths",
+      "delta_pt": 2.84217e-14,
+      "passed": true
+    },
+    {
+      "name": "peer panel heights",
+      "delta_pt": 5.68434e-14,
+      "passed": true
+    },
+    {
+      "name": "left column alignment",
+      "delta_pt": 0,
+      "passed": true
+    },
+    {
+      "name": "right column alignment",
+      "delta_pt": 0,
+      "passed": true
+    },
+    {
+      "name": "top row alignment",
+      "delta_pt": 0,
+      "passed": true
+    },
+    {
+      "name": "bottom row alignment",
+      "delta_pt": 0,
+      "passed": true
+    },
+    {
+      "name": "horizontal gutter consistency",
+      "delta_pt": 0,
+      "passed": true
+    },
+    {
+      "name": "vertical gutter consistency",
+      "delta_pt": 0,
+      "passed": true
+    }
+  ]
+}

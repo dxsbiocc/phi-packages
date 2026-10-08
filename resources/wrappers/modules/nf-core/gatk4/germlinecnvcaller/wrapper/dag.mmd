@@ -1,0 +1,56 @@
+flowchart TB
+    subgraph " "
+    v0["channel.of"]
+    v1["bed_ch"]
+    v3["dict_ch"]
+    v4["fasta_ch"]
+    v5["fai_ch"]
+    v13[" "]
+    v14["contig_ploidy_table"]
+    end
+    v6(["GATK4_COLLECTREADCOUNTS"])
+    subgraph " "
+    v7[" "]
+    v8[" "]
+    v16[" "]
+    v17[" "]
+    v21[" "]
+    v26[" "]
+    v27[" "]
+    v28[" "]
+    v29[" "]
+    end
+    v15(["GATK4_DETERMINEGERMLINECONTIGPLOIDY"])
+    v20(["GATK4_BEDTOINTERVALLIST"])
+    v25(["GATK4_GERMLINECNVCALLER"])
+    v2(( ))
+    v9(( ))
+    v18(( ))
+    v19(( ))
+    v0 --> v2
+    v1 --> v2
+    v1 --> v9
+    v1 --> v18
+    v3 --> v6
+    v3 --> v19
+    v4 --> v6
+    v5 --> v6
+    v2 --> v6
+    v6 --> v8
+    v6 --> v7
+    v6 --> v9
+    v13 --> v15
+    v14 --> v15
+    v9 --> v15
+    v15 --> v17
+    v15 --> v16
+    v15 --> v9
+    v18 --> v20
+    v19 --> v20
+    v20 --> v21
+    v20 --> v9
+    v9 --> v25
+    v25 --> v29
+    v25 --> v28
+    v25 --> v27
+    v25 --> v26

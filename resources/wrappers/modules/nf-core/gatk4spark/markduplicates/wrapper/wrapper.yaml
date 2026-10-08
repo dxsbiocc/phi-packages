@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored gatk4spark/markduplicates module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4spark-markduplicates
+name: "GATK4 Spark MarkDuplicates"
+summary: "Mark duplicate reads with GATK4 Spark MarkDuplicates."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "BAM file."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  output:
+    type: directory
+    path: '${outdir}/gatk4spark_markduplicates'
+    primary: true

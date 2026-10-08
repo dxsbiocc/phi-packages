@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored bedtools/subtract module
+# at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bedtools-subtract
+name: bedtools subtract
+summary: Remove B intervals from A intervals with bedtools subtract.
+
+params:
+  a:
+    kind: input
+    type: file
+    required: true
+    description: First (A) interval file to subtract from.
+  b:
+    kind: input
+    type: file
+    required: true
+    description: Second (B) interval file to subtract.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subtracted intervals.
+
+outputs:
+  bed:
+    type: directory
+    path: '${outdir}/bedtools_subtract'
+    primary: true

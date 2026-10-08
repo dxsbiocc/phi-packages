@@ -1,0 +1,46 @@
+# Agent-facing wrapper adapter for the vendored kraken2/build module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: prepares the library with the vendored gunzip and kraken2 add modules first.
+id: nf-core/modules/kraken2-build
+name: "Kraken2 build"
+summary: "Build a Kraken2 database (gunzip → kraken2 add → kraken2 build)."
+
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Genome FASTA to add to the library."
+  proteome:
+    kind: input
+    type: file
+    required: true
+    description: "Protein FASTA to add to the library."
+  names:
+    kind: input
+    type: file
+    required: true
+    description: "Taxonomy names.dmp."
+  nodes:
+    kind: input
+    type: file
+    required: true
+    description: "Taxonomy nodes.dmp."
+  accession2taxid:
+    kind: input
+    type: file
+    required: true
+    description: "Accession-to-taxid map (.gz)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  db:
+    type: directory
+    path: '${outdir}/kraken2_build'
+    primary: true

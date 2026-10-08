@@ -1,0 +1,193 @@
+Feature	CNV	Group	Type	rho	p
+MHC-II	Chrom. Gain	WGD-low	Antigen presentation	0.324	0.000307
+MHC-II	Chrom. Loss	WGD-low	Antigen presentation	0.063	0.9
+MHC-II	Arm Gain	WGD-low	Antigen presentation	0.063	0.19
+MHC-II	Arm Loss	WGD-low	Antigen presentation	0.182	0.0287
+MHC-II	Segment Gain	WGD-low	Antigen presentation	0.088	0.23
+MHC-II	Segment Loss	WGD-low	Antigen presentation	0.211	0.0137
+MHC-I	Chrom. Gain	WGD-low	Antigen presentation	-0.094	0.232
+MHC-I	Chrom. Loss	WGD-low	Antigen presentation	0.133	0.148
+MHC-I	Arm Gain	WGD-low	Antigen presentation	0.041	0.865
+MHC-I	Arm Loss	WGD-low	Antigen presentation	0.282	0.00117
+MHC-I	Segment Gain	WGD-low	Antigen presentation	0.183	0.0111
+MHC-I	Segment Loss	WGD-low	Antigen presentation	0.171	0.0116
+Interferon MHC II (2)	Chrom. Gain	WGD-low	Interferon MHC	-0.033	0.433
+Interferon MHC II (2)	Chrom. Loss	WGD-low	Interferon MHC	0.169	0.0673
+Interferon MHC II (2)	Arm Gain	WGD-low	Interferon MHC	0	0.9
+Interferon MHC II (2)	Arm Loss	WGD-low	Interferon MHC	0.138	0.11
+Interferon MHC II (2)	Segment Gain	WGD-low	Interferon MHC	0.142	0.153
+Interferon MHC II (2)	Segment Loss	WGD-low	Interferon MHC	0.174	0.0333
+Interferon MHC II (1)	Chrom. Gain	WGD-low	Interferon MHC	0.001	0.9
+Interferon MHC II (1)	Chrom. Loss	WGD-low	Interferon MHC	0.289	0.00205
+Interferon MHC II (1)	Arm Gain	WGD-low	Interferon MHC	-0.017	0.9
+Interferon MHC II (1)	Arm Loss	WGD-low	Interferon MHC	0.169	0.0093
+Interferon MHC II (1)	Segment Gain	WGD-low	Interferon MHC	0.188	0.0112
+Interferon MHC II (1)	Segment Loss	WGD-low	Interferon MHC	0.123	0.148
+Complement	Chrom. Gain	WGD-low	Hallmark inflammatory	-0.066	0.529
+Complement	Chrom. Loss	WGD-low	Hallmark inflammatory	0.271	0.00214
+Complement	Arm Gain	WGD-low	Hallmark inflammatory	0.17	0.045
+Complement	Arm Loss	WGD-low	Hallmark inflammatory	0.214	0.00533
+Complement	Segment Gain	WGD-low	Hallmark inflammatory	0.201	0.018
+Complement	Segment Loss	WGD-low	Hallmark inflammatory	0.075	0.812
+Apoptosis	Chrom. Gain	WGD-low	Hallmark inflammatory	-0.064	0.9
+Apoptosis	Chrom. Loss	WGD-low	Hallmark inflammatory	0.255	0.000935
+Apoptosis	Arm Gain	WGD-low	Hallmark inflammatory	-0.083	0.599
+Apoptosis	Arm Loss	WGD-low	Hallmark inflammatory	0.375	5.2e-05
+Apoptosis	Segment Gain	WGD-low	Hallmark inflammatory	0.134	0.0588
+Apoptosis	Segment Loss	WGD-low	Hallmark inflammatory	0.133	0.179
+TNFa via NFKB	Chrom. Gain	WGD-low	Hallmark inflammatory	0.14	0.122
+TNFa via NFKB	Chrom. Loss	WGD-low	Hallmark inflammatory	0.327	0.000476
+TNFa via NFKB	Arm Gain	WGD-low	Hallmark inflammatory	0.033	0.288
+TNFa via NFKB	Arm Loss	WGD-low	Hallmark inflammatory	0.257	0.00243
+TNFa via NFKB	Segment Gain	WGD-low	Hallmark inflammatory	0.102	0.136
+TNFa via NFKB	Segment Loss	WGD-low	Hallmark inflammatory	0.128	0.0396
+Inflam. Resp.	Chrom. Gain	WGD-low	Hallmark inflammatory	0.036	0.9
+Inflam. Resp.	Chrom. Loss	WGD-low	Hallmark inflammatory	0.003	0.553
+Inflam. Resp.	Arm Gain	WGD-low	Hallmark inflammatory	0.088	0.528
+Inflam. Resp.	Arm Loss	WGD-low	Hallmark inflammatory	0.228	0.00326
+Inflam. Resp.	Segment Gain	WGD-low	Hallmark inflammatory	-0.061	0.551
+Inflam. Resp.	Segment Loss	WGD-low	Hallmark inflammatory	0.133	0.0645
+Protein Secretion	Chrom. Gain	WGD-low	Hallmark inflammatory	0.068	0.268
+Protein Secretion	Chrom. Loss	WGD-low	Hallmark inflammatory	0.323	0.000649
+Protein Secretion	Arm Gain	WGD-low	Hallmark inflammatory	0.196	0.0125
+Protein Secretion	Arm Loss	WGD-low	Hallmark inflammatory	-0.018	0.9
+Protein Secretion	Segment Gain	WGD-low	Hallmark inflammatory	-0.024	0.9
+Protein Secretion	Segment Loss	WGD-low	Hallmark inflammatory	-0.044	0.869
+IFNa	Chrom. Gain	WGD-low	Hallmark inflammatory	0.313	0.000562
+IFNa	Chrom. Loss	WGD-low	Hallmark inflammatory	0.192	0.0195
+IFNa	Arm Gain	WGD-low	Hallmark inflammatory	-0.034	0.9
+IFNa	Arm Loss	WGD-low	Hallmark inflammatory	0.208	0.00327
+IFNa	Segment Gain	WGD-low	Hallmark inflammatory	-0.054	0.214
+IFNa	Segment Loss	WGD-low	Hallmark inflammatory	0.24	0.00611
+IFNg (H)	Chrom. Gain	WGD-low	Hallmark inflammatory	0.093	0.305
+IFNg (H)	Chrom. Loss	WGD-low	Hallmark inflammatory	0.26	0.00114
+IFNg (H)	Arm Gain	WGD-low	Hallmark inflammatory	0.016	0.9
+IFNg (H)	Arm Loss	WGD-low	Hallmark inflammatory	0.19	0.00879
+IFNg (H)	Segment Gain	WGD-low	Hallmark inflammatory	-0.147	0.019
+IFNg (H)	Segment Loss	WGD-low	Hallmark inflammatory	0.366	9.08e-05
+STING1	Chrom. Gain	WGD-low	CIN / ISG	0.196	0.00996
+STING1	Chrom. Loss	WGD-low	CIN / ISG	0.121	0.247
+STING1	Arm Gain	WGD-low	CIN / ISG	-0.287	0.00189
+STING1	Arm Loss	WGD-low	CIN / ISG	-0.058	0.619
+STING1	Segment Gain	WGD-low	CIN / ISG	-0.289	0.00159
+STING1	Segment Loss	WGD-low	CIN / ISG	-0.027	0.453
+CIN	Chrom. Gain	WGD-low	CIN / ISG	0.144	0.0575
+CIN	Chrom. Loss	WGD-low	CIN / ISG	-0.068	0.344
+CIN	Arm Gain	WGD-low	CIN / ISG	-0.177	0.0175
+CIN	Arm Loss	WGD-low	CIN / ISG	0.059	0.9
+CIN	Segment Gain	WGD-low	CIN / ISG	-0.237	0.00975
+CIN	Segment Loss	WGD-low	CIN / ISG	0.124	0.148
+Inflam.	Chrom. Gain	WGD-low	CIN / ISG	-0.091	0.122
+Inflam.	Chrom. Loss	WGD-low	CIN / ISG	0.017	0.9
+Inflam.	Arm Gain	WGD-low	CIN / ISG	-0.178	0.0596
+Inflam.	Arm Loss	WGD-low	CIN / ISG	0.069	0.274
+Inflam.	Segment Gain	WGD-low	CIN / ISG	-0.197	0.0345
+Inflam.	Segment Loss	WGD-low	CIN / ISG	0.078	0.36
+IFNg (B)	Chrom. Gain	WGD-low	CIN / ISG	0.098	0.396
+IFNg (B)	Chrom. Loss	WGD-low	CIN / ISG	-0.055	0.9
+IFNg (B)	Arm Gain	WGD-low	CIN / ISG	0.032	0.9
+IFNg (B)	Arm Loss	WGD-low	CIN / ISG	0.115	0.241
+IFNg (B)	Segment Gain	WGD-low	CIN / ISG	-0.137	0.0717
+IFNg (B)	Segment Loss	WGD-low	CIN / ISG	0.152	0.0529
+ISG	Chrom. Gain	WGD-low	CIN / ISG	-0.074	0.482
+ISG	Chrom. Loss	WGD-low	CIN / ISG	0.136	0.0447
+ISG	Arm Gain	WGD-low	CIN / ISG	-0.059	0.32
+ISG	Arm Loss	WGD-low	CIN / ISG	0.135	0.125
+ISG	Segment Gain	WGD-low	CIN / ISG	0.161	0.048
+ISG	Segment Loss	WGD-low	CIN / ISG	-0.019	0.401
+MHC-II	Chrom. Gain	WGD-high	Antigen presentation	0.334	2e-04
+MHC-II	Chrom. Loss	WGD-high	Antigen presentation	0.55	1e-06
+MHC-II	Arm Gain	WGD-high	Antigen presentation	-0.126	0.0853
+MHC-II	Arm Loss	WGD-high	Antigen presentation	0.388	6.38e-05
+MHC-II	Segment Gain	WGD-high	Antigen presentation	0.091	0.287
+MHC-II	Segment Loss	WGD-high	Antigen presentation	0.417	2.6e-05
+MHC-I	Chrom. Gain	WGD-high	Antigen presentation	0.015	0.9
+MHC-I	Chrom. Loss	WGD-high	Antigen presentation	0.55	1e-06
+MHC-I	Arm Gain	WGD-high	Antigen presentation	0.172	0.0752
+MHC-I	Arm Loss	WGD-high	Antigen presentation	0.321	0.000671
+MHC-I	Segment Gain	WGD-high	Antigen presentation	0.061	0.9
+MHC-I	Segment Loss	WGD-high	Antigen presentation	0.489	1e-06
+Interferon MHC II (2)	Chrom. Gain	WGD-high	Interferon MHC	0.147	0.0896
+Interferon MHC II (2)	Chrom. Loss	WGD-high	Interferon MHC	0.373	0.000103
+Interferon MHC II (2)	Arm Gain	WGD-high	Interferon MHC	-0.021	0.9
+Interferon MHC II (2)	Arm Loss	WGD-high	Interferon MHC	0.223	0.0122
+Interferon MHC II (2)	Segment Gain	WGD-high	Interferon MHC	0.051	0.317
+Interferon MHC II (2)	Segment Loss	WGD-high	Interferon MHC	0.348	0.000243
+Interferon MHC II (1)	Chrom. Gain	WGD-high	Interferon MHC	0.182	0.0137
+Interferon MHC II (1)	Chrom. Loss	WGD-high	Interferon MHC	0.55	1e-06
+Interferon MHC II (1)	Arm Gain	WGD-high	Interferon MHC	0.147	0.0311
+Interferon MHC II (1)	Arm Loss	WGD-high	Interferon MHC	0.388	2.61e-05
+Interferon MHC II (1)	Segment Gain	WGD-high	Interferon MHC	0.139	0.0441
+Interferon MHC II (1)	Segment Loss	WGD-high	Interferon MHC	0.258	0.00484
+Complement	Chrom. Gain	WGD-high	Hallmark inflammatory	0.112	0.0903
+Complement	Chrom. Loss	WGD-high	Hallmark inflammatory	0.181	0.00961
+Complement	Arm Gain	WGD-high	Hallmark inflammatory	0.154	0.0676
+Complement	Arm Loss	WGD-high	Hallmark inflammatory	0.371	4.73e-05
+Complement	Segment Gain	WGD-high	Hallmark inflammatory	0.175	0.042
+Complement	Segment Loss	WGD-high	Hallmark inflammatory	0.55	1e-06
+Apoptosis	Chrom. Gain	WGD-high	Hallmark inflammatory	0.121	0.104
+Apoptosis	Chrom. Loss	WGD-high	Hallmark inflammatory	0.462	2.62e-06
+Apoptosis	Arm Gain	WGD-high	Hallmark inflammatory	0.094	0.197
+Apoptosis	Arm Loss	WGD-high	Hallmark inflammatory	0.198	0.0295
+Apoptosis	Segment Gain	WGD-high	Hallmark inflammatory	0.012	0.9
+Apoptosis	Segment Loss	WGD-high	Hallmark inflammatory	0.55	1e-06
+TNFa via NFKB	Chrom. Gain	WGD-high	Hallmark inflammatory	0.04	0.9
+TNFa via NFKB	Chrom. Loss	WGD-high	Hallmark inflammatory	0.448	1e-06
+TNFa via NFKB	Arm Gain	WGD-high	Hallmark inflammatory	0.186	0.0309
+TNFa via NFKB	Arm Loss	WGD-high	Hallmark inflammatory	0.287	0.00131
+TNFa via NFKB	Segment Gain	WGD-high	Hallmark inflammatory	0.089	0.63
+TNFa via NFKB	Segment Loss	WGD-high	Hallmark inflammatory	0.466	1.53e-06
+Inflam. Resp.	Chrom. Gain	WGD-high	Hallmark inflammatory	-0.091	0.53
+Inflam. Resp.	Chrom. Loss	WGD-high	Hallmark inflammatory	0.367	4.66e-05
+Inflam. Resp.	Arm Gain	WGD-high	Hallmark inflammatory	-0.041	0.9
+Inflam. Resp.	Arm Loss	WGD-high	Hallmark inflammatory	0.462	3.63e-06
+Inflam. Resp.	Segment Gain	WGD-high	Hallmark inflammatory	0.132	0.099
+Inflam. Resp.	Segment Loss	WGD-high	Hallmark inflammatory	0.307	0.000895
+Protein Secretion	Chrom. Gain	WGD-high	Hallmark inflammatory	0.087	0.276
+Protein Secretion	Chrom. Loss	WGD-high	Hallmark inflammatory	0.143	0.0298
+Protein Secretion	Arm Gain	WGD-high	Hallmark inflammatory	0.103	0.135
+Protein Secretion	Arm Loss	WGD-high	Hallmark inflammatory	0.221	0.00485
+Protein Secretion	Segment Gain	WGD-high	Hallmark inflammatory	0.088	0.536
+Protein Secretion	Segment Loss	WGD-high	Hallmark inflammatory	0.387	4.71e-05
+IFNa	Chrom. Gain	WGD-high	Hallmark inflammatory	-0.142	0.164
+IFNa	Chrom. Loss	WGD-high	Hallmark inflammatory	0.518	1e-06
+IFNa	Arm Gain	WGD-high	Hallmark inflammatory	0.16	0.0987
+IFNa	Arm Loss	WGD-high	Hallmark inflammatory	0.305	0.000895
+IFNa	Segment Gain	WGD-high	Hallmark inflammatory	-0.18	0.0518
+IFNa	Segment Loss	WGD-high	Hallmark inflammatory	0.265	0.0026
+IFNg (H)	Chrom. Gain	WGD-high	Hallmark inflammatory	0.169	0.0807
+IFNg (H)	Chrom. Loss	WGD-high	Hallmark inflammatory	0.413	1.43e-05
+IFNg (H)	Arm Gain	WGD-high	Hallmark inflammatory	0.082	0.113
+IFNg (H)	Arm Loss	WGD-high	Hallmark inflammatory	0.411	3.01e-05
+IFNg (H)	Segment Gain	WGD-high	Hallmark inflammatory	-0.231	0.0109
+IFNg (H)	Segment Loss	WGD-high	Hallmark inflammatory	0.457	2.33e-06
+STING1	Chrom. Gain	WGD-high	CIN / ISG	-0.007	0.9
+STING1	Chrom. Loss	WGD-high	CIN / ISG	0.029	0.9
+STING1	Arm Gain	WGD-high	CIN / ISG	-0.009	0.9
+STING1	Arm Loss	WGD-high	CIN / ISG	-0.046	0.9
+STING1	Segment Gain	WGD-high	CIN / ISG	-0.072	0.264
+STING1	Segment Loss	WGD-high	CIN / ISG	0.101	0.374
+CIN	Chrom. Gain	WGD-high	CIN / ISG	-0.029	0.715
+CIN	Chrom. Loss	WGD-high	CIN / ISG	0.138	0.0798
+CIN	Arm Gain	WGD-high	CIN / ISG	-0.305	0.00128
+CIN	Arm Loss	WGD-high	CIN / ISG	-0.141	0.142
+CIN	Segment Gain	WGD-high	CIN / ISG	0.011	0.9
+CIN	Segment Loss	WGD-high	CIN / ISG	-0.168	0.0507
+Inflam.	Chrom. Gain	WGD-high	CIN / ISG	-0.116	0.0413
+Inflam.	Chrom. Loss	WGD-high	CIN / ISG	0.234	0.00313
+Inflam.	Arm Gain	WGD-high	CIN / ISG	-0.235	0.00449
+Inflam.	Arm Loss	WGD-high	CIN / ISG	0.192	0.02
+Inflam.	Segment Gain	WGD-high	CIN / ISG	-0.285	0.000613
+Inflam.	Segment Loss	WGD-high	CIN / ISG	-0.033	0.9
+IFNg (B)	Chrom. Gain	WGD-high	CIN / ISG	-0.181	0.0307
+IFNg (B)	Chrom. Loss	WGD-high	CIN / ISG	0.111	0.13
+IFNg (B)	Arm Gain	WGD-high	CIN / ISG	-0.11	0.331
+IFNg (B)	Arm Loss	WGD-high	CIN / ISG	0.197	0.0249
+IFNg (B)	Segment Gain	WGD-high	CIN / ISG	-0.056	0.9
+IFNg (B)	Segment Loss	WGD-high	CIN / ISG	-0.182	0.0406
+ISG	Chrom. Gain	WGD-high	CIN / ISG	-0.075	0.313
+ISG	Chrom. Loss	WGD-high	CIN / ISG	0.054	0.9
+ISG	Arm Gain	WGD-high	CIN / ISG	-0.105	0.352
+ISG	Arm Loss	WGD-high	CIN / ISG	0.049	0.751
+ISG	Segment Gain	WGD-high	CIN / ISG	-0.099	0.108
+ISG	Segment Loss	WGD-high	CIN / ISG	0.195	0.023

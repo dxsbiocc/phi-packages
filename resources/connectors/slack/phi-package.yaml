@@ -1,0 +1,13 @@
+schemaVersion: 1
+id: slack
+type: mcp
+version: 1.0.0
+title: Slack
+summary: 搜索消息、频道和会话
+connector:
+  transport: http
+  publisher: Slack
+  category: 沟通协作
+  homepage: https://claude.com/marketplace/connectors/slack
+  url: https://mcp.slack.com/mcp
+  auth: oauth

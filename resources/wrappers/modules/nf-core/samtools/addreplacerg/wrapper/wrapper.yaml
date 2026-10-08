@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored samtools/addreplacerg
+# module at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/samtools-addreplacerg
+name: samtools addreplacerg
+summary: Add or replace the read-group header/tags on a BAM with samtools addreplacerg.
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: BAM file to update.
+  read_group:
+    kind: option
+    type: string
+    required: false
+    description: "Full @RG header line to add (passed to samtools addreplacerg -r)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the updated BAM.
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/samtools_addreplacerg'
+    primary: true

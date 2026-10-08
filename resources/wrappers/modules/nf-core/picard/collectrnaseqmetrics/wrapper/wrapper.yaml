@@ -1,0 +1,38 @@
+# Agent-facing wrapper adapter for the vendored picard/collectrnaseqmetrics module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composes the vendored ucsc/gtftogenepred module (a sibling vendored
+#
+# component, not another wrapper) to build the refFlat file from the GTF.
+id: nf-core/modules/picard-collectrnaseqmetrics
+name: "picard CollectRnaSeqMetrics"
+summary: "Collect RNA-seq alignment metrics for a BAM against a GTF annotation with Picard CollectRnaSeqMetrics."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted RNA-seq BAM file."
+  gtf:
+    kind: input
+    type: file
+    required: true
+    description: "GTF annotation file."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  metrics:
+    type: directory
+    path: '${outdir}/picard_collectrnaseqmetrics'
+    primary: true

@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored bedtools/closest module
+# at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bedtools-closest
+name: bedtools closest
+summary: Find the closest interval in B for each interval in A with bedtools closest.
+
+params:
+  a:
+    kind: input
+    type: file
+    required: true
+    description: First (A) interval file.
+  b:
+    kind: input
+    type: file
+    required: true
+    description: Second (B) interval file to search for the closest match in.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the closest-interval results.
+
+outputs:
+  output:
+    type: directory
+    path: '${outdir}/bedtools_closest'
+    primary: true

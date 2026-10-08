@@ -1,0 +1,27 @@
+cell_type	Group
+Macrophages	Myeloid
+Ciliated cells	Epithelium
+Club cells	Epithelium
+Smooth muscle	Mesenchyme
+Mast cells	Myeloid
+Venous ECs	Endothelium
+NK cells	Lymphoid
+Fibroblasts	Mesenchyme
+Basal cells	Epithelium
+Lymphatic ECs	Endothelium
+T cells	Lymphoid
+Myofibroblasts	Mesenchyme
+AT2	Epithelium
+Arterial ECs	Endothelium
+AT1	Epithelium
+Monocytes	Myeloid
+Dendritic cells	Myeloid
+Neutrophils	Myeloid
+SCGB3A2+ cells	Epithelium
+Plasma cells	Lymphoid
+B cells	Lymphoid
+Ionocytes	Epithelium
+Pericytes	Mesenchyme
+Mesothelial cells	Mesenchyme
+Goblet cells	Epithelium
+Capillary ECs	Endothelium

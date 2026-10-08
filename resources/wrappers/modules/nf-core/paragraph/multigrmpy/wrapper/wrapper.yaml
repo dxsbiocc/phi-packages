@@ -1,0 +1,49 @@
+# Agent-facing wrapper adapter for the vendored paragraph/multigrmpy module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/paragraph-multigrmpy
+name: "Paragraph multigrmpy"
+summary: "Genotype graphs against reads with Paragraph multigrmpy."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped VCF file."
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the VCF."
+  cram:
+    kind: input
+    type: file
+    required: true
+    description: "Sorted CRAM."
+  crai:
+    kind: input
+    type: file
+    required: true
+    description: "CRAM index (.crai)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/paragraph_multigrmpy'
+    primary: true

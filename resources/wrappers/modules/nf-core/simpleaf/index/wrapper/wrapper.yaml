@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored simpleaf/index module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Only the genome-fasta-+-gtf input path is exposed; the module's
+# transcript-fasta/probe-csv/feature-csv alternatives are mutually exclusive
+# with it and with each other, and not worth the extra param surface here.
+id: nf-core/modules/simpleaf-index
+name: simpleaf index
+summary: Build a piscem/alevin-fry index for single-cell RNA-seq quantification from a genome FASTA + GTF.
+
+params:
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: Genome FASTA.
+  gtf:
+    kind: input
+    type: gtf
+    required: true
+    description: Gene annotation GTF.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the piscem index and transcript-to-gene reference.
+
+outputs:
+  index:
+    type: directory
+    path: '${outdir}/simpleaf_index'
+    primary: true

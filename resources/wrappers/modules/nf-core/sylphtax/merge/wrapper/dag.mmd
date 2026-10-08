@@ -1,0 +1,26 @@
+flowchart TB
+    subgraph " "
+    v0["reads_ch"]
+    v1["database"]
+    v4["taxonomy"]
+    v7["data_type"]
+    end
+    v2(["SYLPH_PROFILE"])
+    subgraph " "
+    v3[" "]
+    v6[" "]
+    v9[" "]
+    v10[" "]
+    end
+    v5(["SYLPHTAX_TAXPROF"])
+    v8(["SYLPHTAX_MERGE"])
+    v0 --> v2
+    v1 --> v2
+    v2 --> v5
+    v2 --> v3
+    v4 --> v5
+    v5 --> v8
+    v5 --> v6
+    v7 --> v8
+    v8 --> v10
+    v8 --> v9

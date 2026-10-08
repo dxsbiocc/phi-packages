@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored deeptools/computematrix
+# module at ../main.nf. Also composes the vendored deeptools/bamcoverage
+# module (a sibling vendored component, not another wrapper) so the
+# agent can compute a signal matrix from a raw BAM in one step. Follows
+# the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/deeptools-computematrix
+name: deeptools computeMatrix
+summary: Compute a signal matrix over BED regions from a BAM (builds the bigWig coverage internally).
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: Coordinate-sorted BAM file.
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: BAM index (.bai) for the input BAM.
+  bed:
+    kind: input
+    type: file
+    required: true
+    description: BED file of regions to score.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the signal matrix.
+
+outputs:
+  matrix:
+    type: directory
+    path: '${outdir}/deeptools_computematrix'
+    primary: true

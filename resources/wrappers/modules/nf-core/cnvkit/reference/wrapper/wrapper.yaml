@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored cnvkit/reference module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/cnvkit-reference
+name: "CNVkit reference"
+summary: "Build a CNVkit reference from targets and antitargets."
+
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  targets:
+    kind: input
+    type: file
+    required: true
+    description: "Targets BED."
+  antitargets:
+    kind: input
+    type: file
+    required: true
+    description: "Antitargets BED."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  cnn:
+    type: directory
+    path: '${outdir}/cnvkit_reference'
+    primary: true

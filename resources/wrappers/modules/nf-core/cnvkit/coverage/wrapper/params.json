@@ -1,0 +1,5 @@
+{
+  "bam": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/bam/test.paired_end.sorted.bam",
+  "intervals": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/genome.bins_10kb_annotated.bed",
+  "outdir": "results"
+}

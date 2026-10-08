@@ -1,0 +1,305 @@
+family: "ideogram"
+preview_background: "transparent"  # PNG alpha is empty; dark UIs look black. Do not treat as a black canvas.
+
+templates:
+  - id: "ideogram-gene"
+    title: "Transcript gene-structure tracks"
+    aliases:
+      - "基因结构"
+      - "转录本结构"
+      - "外显子图"
+      - "gene model"
+    source: "scripts/ideogram/gene/plot.R"
+    examples:
+      - "scripts/ideogram/gene/example.tsv"
+    preview: "scripts/ideogram/gene/preview.png"
+    use_when: >
+      Draw one or more transcripts as rounded tracks of supplied
+      exon / CDS / UTR intervals. Horizontal layout is config$flip.
+    avoid_when: >
+      Do not use chromosome G-banding (ideogram-karyotype), gene loci
+      on chromosomes (ideogram-loci), a continuous density fill
+      (ideogram-density), stacked locus coverage (ideogram-coverage),
+      or a protein mutation lollipop (ideogram-lollipop), or dense
+      clustered dandelions (ideogram-dandelion), a multi-track
+      genomic Circos (ideogram-circos), or two-genome synteny
+      ribbons (ideogram-synteny). Do not add
+      an id per gene, GTF type filter, or corner radius.
+    input_shape: "one row per feature; transcript, type, start, and end"
+    language: "r"
+    status: "stable"
+
+  - id: "ideogram-karyotype"
+    title: "Chromosome G-banding ideogram"
+    aliases:
+      - "核型图"
+      - "染色体带型"
+      - "ideogram"
+      - "cytoband"
+    source: "scripts/ideogram/karyotype/plot.R"
+    examples:
+      - "scripts/ideogram/karyotype/example.tsv"
+    preview: "scripts/ideogram/karyotype/preview.png"
+    use_when: >
+      Show chromosomes with supplied G-band stains and p/q arms.
+      coord_flip and which chromosomes to keep are CONFIG. hg19 vs
+      mm10 is the input table, not a new id.
+    avoid_when: >
+      Do not use transcript exon models (ideogram-gene), a heatmap
+      fill along the chromosome (ideogram-density), or a supplied
+      gene-loci table (ideogram-loci), a multi-track genomic
+      Circos (ideogram-circos), or two-genome synteny
+      (ideogram-synteny).
+    input_shape: "one row per cytoband; Chrom, Start, End, Stain, Arm"
+    language: "r"
+    status: "stable"
+
+  - id: "ideogram-loci"
+    title: "Gene loci on chromosome ideograms"
+    aliases:
+      - "感兴趣基因"
+      - "基因定位"
+      - "m6A调控因子"
+      - "loci on ideogram"
+    source: "scripts/ideogram/loci/plot.R"
+    examples:
+      - "scripts/ideogram/loci/example.tsv"
+    preview: "scripts/ideogram/loci/preview.png"
+    use_when: >
+      Mark a supplied table of gene loci on chromosomes, coloured by
+      category, with name labels. Catalog preview is circular circlize.
+      Vertical ggplot is config$layout, not a second id.
+    avoid_when: >
+      Do not use transcript exon / CDS / UTR tracks (ideogram-gene) or
+      G-banding with no loci (ideogram-karyotype). A multi-track
+      Circos with rearrangement links is ideogram-circos. Do not add
+      an id per gene set or per genome build.
+    input_shape: "one row per locus (chr, start, end, gene, category) plus a cytoband sidecar"
+    language: "r"
+    status: "stable"
+
+  - id: "ideogram-density"
+    title: "Ideogram with continuous density fill"
+    aliases:
+      - "染色体密度图"
+      - "ideogram heatmap"
+      - "基因密度核型"
+    source: "scripts/ideogram/density/plot.R"
+    examples:
+      - "scripts/ideogram/density/example.tsv"
+    preview: "scripts/ideogram/density/preview.png"
+    use_when: >
+      Fill chromosome tracks with a supplied window statistic (gene
+      density, FST, Pi). A second density layer uses another
+      geom_ideogram, not a second template.
+    avoid_when: >
+      Do not use G-banding (ideogram-karyotype), transcript structure
+      (ideogram-gene), or a genomic-locus coverage browser
+      (ideogram-coverage). Do not treat stacked put_togather
+      chromosomes plus a side line as a new id. Dense site clusters
+      with dandelion stems are ideogram-dandelion.
+    input_shape: "one row per window; Chrom, Start, End, and Value"
+    language: "r"
+    status: "stable"
+
+  - id: "ideogram-coverage"
+    title: "Genomic locus coverage browser"
+    aliases:
+      - "基因组覆盖度"
+      - "locus browser"
+      - "coverage track"
+      - "ATAC coverage"
+      - "HiChIP loops"
+    source: "scripts/ideogram/coverage/plot.R"
+    examples:
+      - "scripts/ideogram/coverage/example.tsv"
+    preview: "scripts/ideogram/coverage/preview.png"
+    use_when: >
+      Stack supplied coverage tracks on one genomic window, with
+      optional chromatin-loop arcs and gene intervals. Extra tracks,
+      a highlight window, and loops on/off stay in CONFIG / sidecars.
+    avoid_when: >
+      Do not use whole-chromosome density fill (ideogram-density)
+      or transcript exon / CDS / UTR models (ideogram-gene). Do not
+      use a protein mutation lollipop (ideogram-lollipop) or dense
+      dandelions (ideogram-dandelion). Do not
+      use line-* for genome-coordinate signal. Do not add an id per
+      assay (ATAC / HiChIP) or for highlight on/off. Do not call
+      peaks, loops, MACS, or Hi-C in the script.
+    input_shape: "one row per coverage bin (chrom, start, end, score, track, group) plus optional loops.tsv and genes.tsv sidecars"
+    language: "r"
+    status: "stable"
+
+  - id: "ideogram-lollipop"
+    title: "Protein mutation lollipop"
+    aliases:
+      - "突变棒棒糖"
+      - "蛋白棒棒糖"
+      - "lollipop"
+      - "MutationMapper"
+      - "g3viz"
+    source: "scripts/ideogram/lollipop/plot.R"
+    examples:
+      - "scripts/ideogram/lollipop/example.tsv"
+    preview: "scripts/ideogram/lollipop/preview.png"
+    use_when: >
+      Draw mutations on a protein amino-acid axis: stem height is a
+      supplied count, heads are pie or solid circles by mutation
+      class, and domains sit on a sidecar bar. Pie vs circle, hotspot
+      labels, and legend stay in CONFIG.
+    avoid_when: >
+      Do not use transcript exon / CDS / UTR tracks (ideogram-gene),
+      a genomic-locus coverage browser (ideogram-coverage), a signed
+      or ranked score lollipop (scatter-lollipop-*), site × amino-
+      acid ΔΔG tiles (heatmap-mutation-energy), or a gene × sample
+      oncoprint (heatmap-oncoprint). Do not parse MAF,
+      fetch cBioPortal, look up Pfam, or map Variant_Classification in
+      the script. Do not add an id per G3viz theme or chart.type.
+      Dense clustered sites (dandelion) are ideogram-dandelion.
+    input_shape: "one row per mutation or site × class (aa, class, optional count and label) plus optional domains.tsv sidecar"
+    language: "r"
+    status: "stable"
+
+  - id: "ideogram-dandelion"
+    title: "Dense-site dandelion plot"
+    aliases:
+      - "蒲公英图"
+      - "dandelion"
+      - "dandelionPlot"
+      - "密位点棒棒糖"
+    source: "scripts/ideogram/dandelion/plot.R"
+    examples:
+      - "scripts/ideogram/dandelion/example.tsv"
+    preview: "scripts/ideogram/dandelion/preview.png"
+    use_when: >
+      Collapse dense sites (methylation, SNPs) into clustered
+      dandelions: stem height is cluster size or mean score, heads
+      are fan / pie / circle / pin, with a feature bar. type, maxgaps,
+      and height method stay in CONFIG.
+    avoid_when: >
+      Do not use a one-stem-per-site protein lollipop
+      (ideogram-lollipop), whole-chromosome window fill
+      (ideogram-density), or a locus coverage browser
+      (ideogram-coverage). Do not add an id per head type or maxgaps.
+      Do not fetch TxDb, UCSC, or VCF, or compute methylation in the
+      script.
+    input_shape: "one row per site (pos, score) plus optional features.tsv sidecar"
+    language: "r"
+    status: "stable"
+
+  - id: "ideogram-circos"
+    title: "Multi-track genomic Circos"
+    aliases:
+      - "Circos"
+      - "基因组环图"
+      - "环状基因组"
+      - "CNV circos"
+      - "重排环图"
+    source: "scripts/ideogram/circos/plot.R"
+    examples:
+      - "scripts/ideogram/circos/example.tsv"
+      - "scripts/ideogram/circos/cytoband.tsv"
+      - "scripts/ideogram/circos/links.tsv"
+    preview: "scripts/ideogram/circos/preview.png"
+    use_when: >
+      Draw one genome as circular sectors with an ideogram, concentric
+      quantitative tracks (histogram / scatter / line), and optional
+      rearrangement links. Extra tracks are extra `track` levels.
+      Links on/off is CONFIG. A microbial or mitochondrial circle is
+      the cytoband table, not a new id.
+    avoid_when: >
+      Do not use labelled gene loci without tracks (ideogram-loci),
+      linear window fill (ideogram-density), two-genome homology
+      ribbons (ideogram-synteny), a group-split circular heatmap
+      (heatmap-circos-split), a genomic Circos heatmap with
+      connector lines (ideogram-circos-heatmap), or a nested
+      overview-plus-zoom Circos (ideogram-nested). Do not add an id per track type or for links
+      on/off. Do not call CNV, SV, or density in the script.
+    input_shape: "one row per genomic window (chr, start, end, value, track, type) plus cytoband.tsv and optional links.tsv sidecars"
+    language: "r"
+    status: "stable"
+
+  - id: "ideogram-synteny"
+    title: "Two-genome synteny Circos"
+    aliases:
+      - "共线性"
+      - "synteny"
+      - "比较基因组环图"
+      - "同源色带"
+    source: "scripts/ideogram/synteny/plot.R"
+    examples:
+      - "scripts/ideogram/synteny/example.tsv"
+      - "scripts/ideogram/synteny/karyotype.tsv"
+    preview: "scripts/ideogram/synteny/preview.png"
+    use_when: >
+      Compare two assemblies as adjacent sector runs, with homology
+      blocks as ribbons. Extra chromosomes are extra karyotype rows.
+      A third genome is another genome level in the sidecar.
+    avoid_when: >
+      Do not use one genome with quantitative tracks and SV links
+      (ideogram-circos), a weighted category chord (graph-chord),
+      or equal-spacing circular nodes (graph-circular). Do not run
+      BLAST, minimap, or MCScanX in the script. Do not add an id
+      per species pair.
+    input_shape: "one row per aligned block (chr1, start1, end1, chr2, start2, end2, group) plus karyotype.tsv (genome, chr, start, end). chr names must be unique across genomes (Q1/T1, not chr1 twice)."
+    language: "r"
+    status: "stable"
+
+  - id: "ideogram-circos-heatmap"
+    title: "Genomic Circos heatmap with connectors"
+    aliases:
+      - "基因组热图"
+      - "circos heatmap"
+      - "genomicHeatmap"
+      - "环状基因组热图"
+    source: "scripts/ideogram/circos_heatmap/plot.R"
+    examples:
+      - "scripts/ideogram/circos_heatmap/example.tsv"
+      - "scripts/ideogram/circos_heatmap/cytoband.tsv"
+    preview: "scripts/ideogram/circos_heatmap/preview.png"
+    use_when: >
+      Draw genomic intervals as a circular heatmap whose tiles are
+      supplied numeric columns, with connector lines from each
+      locus to its tile stack. Extra columns are extra layers.
+      side = "inside" vs "outside" is CONFIG.
+    avoid_when: >
+      Do not use a Group-split gene matrix (heatmap-circos-split),
+      histogram / scatter tracks without tiles (ideogram-circos),
+      or labelled loci without a heatmap (ideogram-loci). Do not
+      add an id per side or per mark. Do not call peaks, z-score,
+      or fetch a genome in the script.
+    input_shape: "one row per interval (chr, start, end, plus numeric layer columns) plus cytoband.tsv"
+    language: "r"
+    status: "stable"
+
+  - id: "ideogram-nested"
+    title: "Nested Circos overview and zoom"
+    aliases:
+      - "嵌套缩放"
+      - "circos nested"
+      - "nested circos"
+      - "DMR缩放环图"
+    source: "scripts/ideogram/nested/plot.R"
+    examples:
+      - "scripts/ideogram/nested/example.tsv"
+      - "scripts/ideogram/nested/cytoband.tsv"
+      - "scripts/ideogram/nested/windows.tsv"
+      - "scripts/ideogram/nested/points.tsv"
+    preview: "scripts/ideogram/nested/preview.png"
+    use_when: >
+      Show an outer genome and an inner zoom of supplied windows,
+      joined by correspondence connectors, with supplied scores as
+      inner points. Extra windows are extra correspondence rows.
+      Inner assay (DMR / methDiff / other) is the points table,
+      not a new id.
+    avoid_when: >
+      Do not use a single Circos without a nested ring
+      (ideogram-circos), a genomic heatmap with connectors
+      (ideogram-circos-heatmap), or a rectangular locus browser
+      (ideogram-coverage). Do not call DMR, windows, or fetch a
+      genome in the script. Do not add an id per T-WGBS panel.
+    input_shape: "one row per zoom window (chr, start, end, name, zstart, zend) plus cytoband.tsv, windows.tsv, and points.tsv sidecars"
+    language: "r"
+    status: "stable"
+
+

@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored deeptools/multibamsummary
+# module at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Only two input BAM files are exposed — the vendored module accepts any
+# number, but this thin adapter doesn't surface a variable-length list.
+id: nf-core/modules/deeptools-multibamsummary
+name: deeptools multiBamSummary
+summary: Summarize read coverage across genome bins for multiple BAM files with deepTools multiBamSummary.
+
+params:
+  bam1:
+    kind: input
+    type: file
+    required: true
+    description: First BAM file.
+  bai1:
+    kind: input
+    type: file
+    required: true
+    description: BAM index (.bai) for the first BAM.
+  bam2:
+    kind: input
+    type: file
+    required: true
+    description: Second BAM file.
+  bai2:
+    kind: input
+    type: file
+    required: true
+    description: BAM index (.bai) for the second BAM.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the summary matrix.
+
+outputs:
+  matrix:
+    type: directory
+    path: '${outdir}/deeptools_multibamsummary'
+    primary: true

@@ -1,0 +1,7 @@
+{
+  "bam": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/illumina/bam/test.single_end.bam",
+  "gtf": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/genome/genome.gtf",
+  "single_end": true,
+  "strandedness": "forward",
+  "outdir": "results"
+}

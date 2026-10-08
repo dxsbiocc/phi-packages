@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored ivar/variants module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/ivar-variants
+name: "iVar variants"
+summary: "Call variants from a BAM with iVar."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  tsv:
+    type: directory
+    path: '${outdir}/ivar_variants'
+    primary: true

@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored octopusv/plotcircos module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/octopusv-plotcircos
+name: "OctopusV plot-circos"
+summary: "Draw a circos plot of SVs from an SVCF with OctopusV plot-circos."
+
+params:
+  svcf:
+    kind: input
+    type: file
+    required: true
+    description: "SVCF file (OctopusV's SV call format)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  circos:
+    type: directory
+    path: '${outdir}/octopusv_plotcircos'
+    primary: true

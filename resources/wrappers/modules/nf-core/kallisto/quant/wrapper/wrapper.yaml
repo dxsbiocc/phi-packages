@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored kallisto/quant module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Uses a pre-built `index` as-is, or composes kallisto/index to build one from
+# `fasta` first. The default params.json builds one because there's no
+# pre-built index in test-datasets to point it at.
+id: nf-core/modules/kallisto-quant
+name: kallisto quant
+summary: Quantify transcript abundances from paired-end reads with kallisto, against a pre-built or freshly built index.
+
+params:
+  reads_1:
+    kind: input
+    type: fastq
+    required: true
+    description: FASTQ file for read 1.
+  reads_2:
+    kind: input
+    type: fastq
+    required: true
+    description: FASTQ file for read 2.
+  index:
+    kind: input
+    type: file
+    required: false
+    description: Pre-built kallisto index file (.idx). When set, `fasta` is not needed and no index is built.
+  fasta:
+    kind: input
+    type: fasta
+    required: false
+    description: Transcript sequences to build a kallisto index from. Required only when `index` is not given.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the quantification results.
+
+outputs:
+  results:
+    type: directory
+    path: "${outdir}/kallisto_quant"
+    primary: true

@@ -1,0 +1,23 @@
+flowchart TB
+    subgraph " "
+    v0["bam_ch"]
+    v1["fasta_ch"]
+    v2["fai_ch"]
+    v3["dict_ch"]
+    v4["intervals_ch"]
+    v8["channel.empty"]
+    end
+    v5(["GATK4_ASEREADCOUNTER"])
+    subgraph " "
+    v6[" "]
+    v7[" "]
+    v9[" "]
+    end
+    v0 --> v5
+    v1 --> v5
+    v2 --> v5
+    v3 --> v5
+    v4 --> v5
+    v5 --> v7
+    v5 --> v6
+    v8 --> v9

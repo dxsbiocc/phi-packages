@@ -1,0 +1,25 @@
+flowchart TB
+    subgraph " "
+    v0["vcf_ch"]
+    v1["target_gt"]
+    v2["new_gt"]
+    v3["regions"]
+    v4["targets"]
+    v9["channel.empty"]
+    end
+    v5(["BCFTOOLS_PLUGINSETGT"])
+    subgraph " "
+    v6[" "]
+    v7[" "]
+    v8[" "]
+    v10[" "]
+    end
+    v0 --> v5
+    v1 --> v5
+    v2 --> v5
+    v3 --> v5
+    v4 --> v5
+    v5 --> v8
+    v5 --> v7
+    v5 --> v6
+    v9 --> v10

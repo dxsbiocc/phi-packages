@@ -1,0 +1,7 @@
+{
+  "vcf": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/vcf/test.genome_21.somatic_sv.vcf.gz",
+  "tbi": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/vcf/test.genome_21.somatic_sv.vcf.gz.tbi",
+  "database": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/chr21/germlineresources/dbNSFP4.1a.21.txt.gz",
+  "database_tbi": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/chr21/germlineresources/dbNSFP4.1a.21.txt.gz.tbi",
+  "outdir": "results"
+}

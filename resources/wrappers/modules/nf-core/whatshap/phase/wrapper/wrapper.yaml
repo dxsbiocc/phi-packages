@@ -1,0 +1,46 @@
+# Agent-facing wrapper adapter for the vendored whatshap/phase module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: indexes the reference FASTA with the vendored samtools faidx module first.
+id: nf-core/modules/whatshap-phase
+name: "WhatsHap phase"
+summary: "Phase a VCF using read-based information from an aligned BAM with WhatsHap phase."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Genotype VCF (bgzipped)."
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.csi/.tbi) for the VCF."
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/whatshap_phase'
+    primary: true

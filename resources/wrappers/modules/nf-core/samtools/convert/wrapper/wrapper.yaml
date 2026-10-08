@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored samtools/convert module
+# at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/samtools-convert
+name: samtools convert
+summary: Convert a BAM to CRAM (or CRAM to BAM) with samtools view.
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: BAM (or CRAM) file to convert.
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: Index for the input alignment.
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: Reference FASTA file.
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: FASTA index (.fai) for the reference.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the converted alignment.
+
+outputs:
+  cram:
+    type: directory
+    path: '${outdir}/samtools_convert'
+    primary: true

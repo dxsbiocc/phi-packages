@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored bowtie2/build module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bowtie2-build
+name: bowtie2 build
+summary: Build a bowtie2 index for a reference genome.
+
+params:
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: Reference genome FASTA to index.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the bowtie2 index.
+
+outputs:
+  index:
+    type: directory
+    path: '${outdir}/bowtie2_build'
+    primary: true

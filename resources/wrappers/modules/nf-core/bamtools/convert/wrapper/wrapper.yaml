@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored bamtools/convert module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bamtools-convert
+name: "bamtools convert"
+summary: "Convert a BAM to BED/FASTA/FASTQ/JSON with bamtools convert."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "BAM file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  data:
+    type: directory
+    path: '${outdir}/bamtools_convert'
+    primary: true

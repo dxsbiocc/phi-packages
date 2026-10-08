@@ -1,0 +1,41 @@
+# Agent-facing wrapper adapter for the vendored tiddit/sv module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: builds the BWA index with the vendored bwa index module first.
+id: nf-core/modules/tiddit-sv
+name: "TIDDIT sv"
+summary: "Call structural variants with TIDDIT (builds the BWA index first)."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/tiddit_sv'
+    primary: true

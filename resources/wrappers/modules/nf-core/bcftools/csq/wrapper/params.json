@@ -1,0 +1,6 @@
+{
+  "vcf": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/vcf/NA12878_GIAB.chr21_22.vcf.gz",
+  "fasta": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/chr22/sequence/chr22_23800000-23980000.fa",
+  "gff3": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/genome.gff3",
+  "outdir": "results"
+}

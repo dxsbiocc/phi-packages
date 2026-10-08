@@ -1,0 +1,5 @@
+{
+  "bigwig1": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/bigwig/test_S2.RPKM.bw",
+  "bigwig2": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/bigwig/test_S3.RPKM.bw",
+  "outdir": "results"
+}

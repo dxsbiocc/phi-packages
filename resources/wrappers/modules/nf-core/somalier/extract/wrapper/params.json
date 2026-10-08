@@ -1,0 +1,8 @@
+{
+  "bam": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/bam/test.paired_end.markduplicates.sorted.bam",
+  "bai": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/bam/test.paired_end.markduplicates.sorted.bam.bai",
+  "sites": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/delete_me/somalier/sites_chr21.hg38.vcf.gz",
+  "fasta": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/chr21/sequence/genome.fasta",
+  "fai": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/chr21/sequence/genome.fasta.fai",
+  "outdir": "results"
+}

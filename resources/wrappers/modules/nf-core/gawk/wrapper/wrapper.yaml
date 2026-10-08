@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored gawk module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gawk
+name: "gawk"
+summary: "Run an AWK program (inline or from a script file) over one or more input files with gawk."
+
+params:
+  input:
+    kind: input
+    type: file
+    required: true
+    description: "Input file (e.g. .fai) to process."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  output:
+    type: directory
+    path: '${outdir}/gawk'
+    primary: true

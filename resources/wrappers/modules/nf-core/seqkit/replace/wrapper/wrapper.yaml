@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored seqkit/replace module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# seqkit replace's -p/-r pattern/replacement go through ext.args (see
+# nextflow.config), since they are the tool's actual job, not a fixed
+# default — this wrapper exposes them as plain options.
+id: nf-core/modules/seqkit-replace
+name: SeqKit replace
+summary: Find and replace text in FASTA/FASTQ sequence names or sequences with seqkit replace.
+
+params:
+  fastx:
+    kind: input
+    type: file
+    required: true
+    description: FASTA or FASTQ file (optionally gzipped) to transform.
+  pattern:
+    kind: option
+    type: string
+    required: false
+    description: Pattern to search for (seqkit replace -p; regex, or plain text with -s).
+  replacement:
+    kind: option
+    type: string
+    required: false
+    description: Replacement text (seqkit replace -r).
+  out_ext:
+    kind: option
+    type: string
+    required: false
+    description: Output file extension override (e.g. fasta.gz); defaults to matching the input's format/compression.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the transformed FASTA/FASTQ.
+
+outputs:
+  fastx:
+    type: directory
+    path: '${outdir}/seqkit_replace'
+    primary: true

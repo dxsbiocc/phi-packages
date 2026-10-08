@@ -1,0 +1,5 @@
+{
+  "pytor": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/pytor/test.pytor",
+  "bin_sizes": "10000 100000",
+  "outdir": "results"
+}

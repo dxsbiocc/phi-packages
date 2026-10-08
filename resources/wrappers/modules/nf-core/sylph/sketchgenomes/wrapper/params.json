@@ -1,0 +1,5 @@
+{
+  "fasta1": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/genome/genome.fasta",
+  "fasta2": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/prokaryotes/metagenome/fasta/haemophilus_influenzae.fna.gz",
+  "outdir": "results"
+}

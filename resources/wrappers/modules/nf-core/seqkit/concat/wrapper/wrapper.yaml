@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored seqkit/concat module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/seqkit-concat
+name: "seqkit concat"
+summary: "Concatenate sequences with the same ID from several FASTA/FASTQ files with seqkit concat."
+
+params:
+  fasta1:
+    kind: input
+    type: file
+    required: true
+    description: "First FASTA file."
+  fasta2:
+    kind: input
+    type: file
+    required: true
+    description: "Second FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  fastx:
+    type: directory
+    path: '${outdir}/seqkit_concat'
+    primary: true

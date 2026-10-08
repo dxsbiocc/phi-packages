@@ -1,0 +1,28 @@
+# Agent-facing wrapper adapter for the vendored multiqc module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# ../main.nf also accepts a custom config, logo, and name-replacement/sample
+# files (see the module's `input:` block); this wrapper always passes none
+# of those, matching plain `multiqc .` behaviour.
+id: nf-core/modules/multiqc
+name: MultiQC
+summary: Aggregate QC tool outputs into a single MultiQC report.
+
+params:
+  logs:
+    kind: input
+    type: path_glob
+    required: true
+    description: QC tool output files to aggregate (e.g. FastQC/fastp reports).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the MultiQC report.
+
+outputs:
+  report:
+    type: directory
+    path: '${outdir}/multiqc'
+    primary: true

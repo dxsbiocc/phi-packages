@@ -1,0 +1,23 @@
+flowchart TB
+    subgraph " "
+    v0["channel.fromPath"]
+    v2["channel.fromPath"]
+    end
+    subgraph "BEDGRAPH_BEDCLIP_BEDGRAPHTOBIGWIG [BEDGRAPH_BEDCLIP_BEDGRAPHTOBIGWIG]"
+    v3(["UCSC_BEDCLIP"])
+    v5(["UCSC_BEDGRAPHTOBIGWIG"])
+    end
+    subgraph " "
+    v4[" "]
+    v6[" "]
+    v7["bigwig"]
+    end
+    v1(( ))
+    v0 --> v1
+    v2 --> v3
+    v2 --> v5
+    v1 --> v3
+    v3 --> v5
+    v3 --> v4
+    v5 --> v7
+    v5 --> v6

@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored gatk4/splitintervals module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4-splitintervals
+name: "GATK4 SplitIntervals"
+summary: "Split an interval BED/list into scatter chunks with GATK4 SplitIntervals."
+
+params:
+  intervals:
+    kind: input
+    type: file
+    required: true
+    description: "Intervals (BED or interval list) to split."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  split_intervals:
+    type: directory
+    path: '${outdir}/gatk4_splitintervals'
+    primary: true

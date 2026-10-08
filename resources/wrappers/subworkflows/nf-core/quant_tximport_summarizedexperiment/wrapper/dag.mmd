@@ -1,0 +1,68 @@
+flowchart TB
+    subgraph " "
+    v0["channel.fromPath"]
+    v2["channel.of"]
+    v6["quant_type"]
+    v7["id"]
+    v8["extra"]
+    v13["quant_type"]
+    v17["channel.empty"]
+    v19["channel.empty"]
+    v26["samplesheet"]
+    end
+    subgraph "QUANT_TXIMPORT_SUMMARIZEDEXPERIMENT [QUANT_TXIMPORT_SUMMARIZEDEXPERIMENT]"
+    v9(["CUSTOM_TX2GENE"])
+    v14(["TXIMETA_TXIMPORT"])
+    v27(["SE_GENE_UNIFIED"])
+    v34(["SE_TRANSCRIPT_UNIFIED"])
+    v3(( ))
+    v5(( ))
+    v11(( ))
+    v21(( ))
+    v31(( ))
+    end
+    subgraph " "
+    v10[" "]
+    v15[" "]
+    v16["tx2gene_augmented"]
+    v18["ch_merged_gene_rds"]
+    v20["ch_merged_transcript_rds"]
+    v28[" "]
+    v29[" "]
+    v30["merged_gene_rds"]
+    v35[" "]
+    v36[" "]
+    v37["merged_transcript_rds"]
+    end
+    v1(( ))
+    v0 --> v1
+    v2 --> v5
+    v6 --> v9
+    v7 --> v9
+    v8 --> v9
+    v3 --> v9
+    v5 --> v9
+    v9 --> v14
+    v9 --> v10
+    v9 --> v27
+    v9 --> v34
+    v13 --> v14
+    v11 --> v14
+    v14 --> v16
+    v14 --> v15
+    v14 --> v21
+    v14 --> v31
+    v17 --> v18
+    v19 --> v20
+    v26 --> v27
+    v26 --> v34
+    v21 --> v27
+    v27 --> v30
+    v27 --> v29
+    v27 --> v28
+    v31 --> v34
+    v34 --> v37
+    v34 --> v36
+    v34 --> v35
+    v1 --> v3
+    v1 --> v11

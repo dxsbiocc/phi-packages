@@ -1,0 +1,4 @@
+{
+  "vcf": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/vcf/chr21/simulated_sv.vcf.gz",
+  "outdir": "results"
+}

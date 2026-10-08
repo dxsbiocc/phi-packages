@@ -1,0 +1,41 @@
+flowchart TB
+    subgraph " "
+    v0[" "]
+    v3["channel.of"]
+    v5["get_sizes"]
+    v11["channel.of"]
+    v14["bam_ch"]
+    end
+    v1(["GUNZIP"])
+    subgraph " "
+    v2[" "]
+    v7[" "]
+    v8[" "]
+    v9[" "]
+    v10[" "]
+    v16[" "]
+    v17[" "]
+    v18[" "]
+    end
+    v6(["SAMTOOLS_FAIDX"])
+    v15(["TRGT_GENOTYPE"])
+    v4(( ))
+    v12(( ))
+    v0 --> v1
+    v1 --> v2
+    v1 --> v15
+    v1 --> v4
+    v3 --> v4
+    v5 --> v6
+    v4 --> v6
+    v6 --> v10
+    v6 --> v9
+    v6 --> v15
+    v6 --> v8
+    v6 --> v7
+    v11 --> v12
+    v14 --> v15
+    v12 --> v15
+    v15 --> v18
+    v15 --> v17
+    v15 --> v16

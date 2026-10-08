@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored custom/tabulartogseacls module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/custom-tabulartogseacls
+name: "Custom tabulartogseacls"
+summary: "Convert a sample sheet to a GSEA .cls phenotype file."
+
+params:
+  samples:
+    kind: input
+    type: file
+    required: true
+    description: "Sample metadata sheet (TSV)."
+  variable:
+    kind: option
+    type: string
+    required: false
+    description: "Sample-sheet column to derive classes from."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  cls:
+    type: directory
+    path: '${outdir}/custom_tabulartogseacls'
+    primary: true

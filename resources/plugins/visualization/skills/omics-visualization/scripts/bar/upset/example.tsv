@@ -1,0 +1,19 @@
+sets	observed	expected	significance
+LS,NAc,BNST	210	90	Up
+NAc,BNST	180	70	Up
+LS,NAc	150	95	Up
+BNST,LH	140	60	Up
+mPFC,BA	95	40	Up
+LS,NAc,BNST,LH	88	30	Up
+LS,NAc,BNST,LH,mPFC	55	20	Up
+LS,NAc,BNST,LH,mPFC,BA	40	12	Up
+NAc,CeA	72	110	Down
+LH,mPFC	65	100	Down
+BA,CeA	58	90	Down
+LS,BNST,LH	48	45	not significant
+NAc,LH	42	40	not significant
+mPFC,CeA	38	36	not significant
+LS,mPFC	35	38	not significant
+BNST,BA	32	30	not significant
+LH,BA,CeA	28	25	not significant
+NAc,BNST,mPFC	22	20	not significant

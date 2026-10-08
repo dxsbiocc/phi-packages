@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored happy/sompy module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/happy-sompy
+name: "hap.py som.py"
+summary: "Compare somatic VCF calls against a truth set with hap.py's som.py."
+
+params:
+  query:
+    kind: input
+    type: file
+    required: true
+    description: "Query somatic VCF (bgzipped)."
+  truth:
+    kind: input
+    type: file
+    required: true
+    description: "Truth VCF (bgzipped)."
+  regions_bed:
+    kind: input
+    type: file
+    required: true
+    description: "Confident regions BED."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  stats:
+    type: directory
+    path: '${outdir}/happy_sompy'
+    primary: true

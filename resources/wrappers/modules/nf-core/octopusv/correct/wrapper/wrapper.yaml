@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored octopusv/correct module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/octopusv-correct
+name: "OctopusV correct"
+summary: "Correct SV call coordinates and convert to SVCF with OctopusV correct."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "SV VCF (bgzipped)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  svcf:
+    type: directory
+    path: '${outdir}/octopusv_correct'
+    primary: true

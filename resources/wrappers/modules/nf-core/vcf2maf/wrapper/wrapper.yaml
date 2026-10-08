@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored vcf2maf module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/vcf2maf
+name: "vcf2maf"
+summary: "Convert a VCF to MAF format with vcf2maf."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "VCF file (uncompressed)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  maf:
+    type: directory
+    path: '${outdir}/vcf2maf'
+    primary: true

@@ -1,0 +1,25 @@
+# Agent-facing wrapper adapter for the vendored
+# picard/addorreplacereadgroups module at ../main.nf. Follows the
+# minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/picard-addorreplacereadgroups
+name: picard AddOrReplaceReadGroups
+summary: Add or replace the read-group header on a BAM with Picard AddOrReplaceReadGroups.
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: BAM file to update.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the updated BAM.
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/picard_addorreplacereadgroups'
+    primary: true

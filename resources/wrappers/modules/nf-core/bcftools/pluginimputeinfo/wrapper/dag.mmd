@@ -1,0 +1,28 @@
+flowchart TB
+    subgraph " "
+    v0["vcf_ch"]
+    v1["regions"]
+    v2["targets"]
+    v6["regions"]
+    v7["targets"]
+    end
+    v3(["BCFTOOLS_PLUGINTAG2TAG"])
+    subgraph " "
+    v4[" "]
+    v9[" "]
+    v10[" "]
+    v11[" "]
+    end
+    v8(["BCFTOOLS_PLUGINIMPUTEINFO"])
+    v5(( ))
+    v0 --> v3
+    v1 --> v3
+    v2 --> v3
+    v3 --> v4
+    v3 --> v5
+    v6 --> v8
+    v7 --> v8
+    v5 --> v8
+    v8 --> v11
+    v8 --> v10
+    v8 --> v9

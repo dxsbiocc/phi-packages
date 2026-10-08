@@ -1,0 +1,46 @@
+# Agent-facing wrapper adapter for the vendored snpsift/annmem module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: builds the annotation database with the vendored snpsift annmemcreate module first.
+id: nf-core/modules/snpsift-annmem
+name: "SnpSift annmem"
+summary: "Annotate a VCF with an in-memory database (annmem create → annmem annotate)."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped VCF to annotate."
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the VCF."
+  db_vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Database VCF (bgzipped)."
+  db_tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the database VCF."
+  fields:
+    kind: option
+    type: string
+    required: false
+    description: "Comma-separated INFO fields to keep."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/snpsift_annmem'
+    primary: true

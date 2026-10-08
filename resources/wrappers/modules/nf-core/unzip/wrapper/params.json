@@ -1,0 +1,4 @@
+{
+  "archive": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/generic/tar/hello.tar.gz",
+  "outdir": "results"
+}

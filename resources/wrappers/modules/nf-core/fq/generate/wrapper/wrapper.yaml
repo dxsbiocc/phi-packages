@@ -1,0 +1,19 @@
+# Agent-facing wrapper adapter for the vendored fq/generate module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/fq-generate
+name: fq generate
+summary: Generate a synthetic paired-end FASTQ dataset with fq generate (useful for tests/fixtures).
+
+params:
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the generated FASTQ files.
+
+outputs:
+  fastq:
+    type: directory
+    path: '${outdir}/fq_generate'
+    primary: true

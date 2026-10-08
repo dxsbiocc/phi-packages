@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored gatk4/createsequencedictionary module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4-createsequencedictionary
+name: "GATK4 CreateSequenceDictionary"
+summary: "Build a .dict sequence dictionary for a FASTA with GATK4 CreateSequenceDictionary."
+
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  dict:
+    type: directory
+    path: '${outdir}/gatk4_createsequencedictionary'
+    primary: true

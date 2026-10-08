@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored plink2/score module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: converts the VCF to a PLINK2 pgen/pvar/psam fileset with the vendored
+#
+# plink2/vcf module first, then scores it against the supplied scoring file.
+id: nf-core/modules/plink2-score
+name: "plink2 score"
+summary: "Compute PLINK2 polygenic scores from a VCF and a scoring file."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Input VCF used to build the PLINK2 pgen/pvar/psam fileset."
+  scorefile:
+    kind: input
+    type: file
+    required: true
+    description: "PLINK2 scoring file (variant/allele/weight columns)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  score:
+    type: directory
+    path: '${outdir}/plink2_score'
+    primary: true

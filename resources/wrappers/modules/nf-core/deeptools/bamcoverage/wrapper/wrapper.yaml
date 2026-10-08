@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored deeptools/bamcoverage
+# module at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Only the plain-BAM path is exposed — CRAM input and blacklist filtering
+# (separate optional inputs the module supports) aren't surfaced here.
+id: nf-core/modules/deeptools-bamcoverage
+name: deeptools bamCoverage
+summary: Convert a BAM alignment to a bigWig coverage track with deepTools bamCoverage.
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: Coordinate-sorted BAM file.
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: BAM index (.bai) for the input BAM.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the bigWig coverage track.
+
+outputs:
+  bigwig:
+    type: directory
+    path: '${outdir}/deeptools_bamcoverage'
+    primary: true

@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored custom/rsemmergecounts module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/custom-rsemmergecounts
+name: Custom RSEM merge counts
+summary: Merge per-sample RSEM calculateexpression gene/isoform results into combined count and TPM matrices.
+
+params:
+  genes_results:
+    kind: input
+    type: path_glob
+    required: true
+    description: Glob matching every sample's RSEM *.genes.results file.
+  isoforms_results:
+    kind: input
+    type: path_glob
+    required: true
+    description: Glob matching every sample's RSEM *.isoforms.results file.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the merged count/TPM matrices.
+
+outputs:
+  matrices:
+    type: directory
+    path: '${outdir}/rsemmergecounts'
+    primary: true

@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored picard/setnmmdanduqtags module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/picard-setnmmdanduqtags
+name: "picard SetNmMdAndUqTags"
+summary: "Set the NM, MD and UQ tags on a BAM with Picard SetNmMdAndUqTags."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/picard_setnmmdanduqtags'
+    primary: true

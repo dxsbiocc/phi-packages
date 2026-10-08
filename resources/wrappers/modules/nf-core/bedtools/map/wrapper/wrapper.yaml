@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored bedtools/map module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bedtools-map
+name: bedtools map
+summary: Apply a summary operation over B intervals overlapping each A interval with bedtools map.
+
+params:
+  a:
+    kind: input
+    type: file
+    required: true
+    description: First (A) interval file (one output row per interval).
+  b:
+    kind: input
+    type: file
+    required: true
+    description: Second (B) interval file to summarize over.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the mapped intervals.
+
+outputs:
+  mapped:
+    type: directory
+    path: '${outdir}/bedtools_map'
+    primary: true

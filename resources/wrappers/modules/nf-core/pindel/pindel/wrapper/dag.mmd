@@ -1,0 +1,39 @@
+flowchart TB
+    subgraph " "
+    v0["bam_ch"]
+    v1["fasta_ch"]
+    v2["fai_ch"]
+    v3["bed_ch"]
+    v16["channel.empty"]
+    end
+    v4(["PINDEL_PINDEL"])
+    subgraph " "
+    v5[" "]
+    v6[" "]
+    v7[" "]
+    v8[" "]
+    v9[" "]
+    v10[" "]
+    v11[" "]
+    v12[" "]
+    v13[" "]
+    v14[" "]
+    v15[" "]
+    v17[" "]
+    end
+    v0 --> v4
+    v1 --> v4
+    v2 --> v4
+    v3 --> v4
+    v4 --> v15
+    v4 --> v14
+    v4 --> v13
+    v4 --> v12
+    v4 --> v11
+    v4 --> v10
+    v4 --> v9
+    v4 --> v8
+    v4 --> v7
+    v4 --> v6
+    v4 --> v5
+    v16 --> v17

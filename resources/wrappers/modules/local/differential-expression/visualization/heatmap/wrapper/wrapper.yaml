@@ -1,0 +1,66 @@
+# Agent-facing wrapper adapter for the DE_HEATMAP process at ../main.nf --
+# a new local tool (no nf-core module to vendor), grouped under this
+# project's differential-expression family as a generic downstream-
+# visualization step. Takes an expression matrix (e.g. the vst_counts
+# output of ../../deseq2/) plus a sample sheet, selects the top-variable
+# genes, and renders a row-z-scored clustered heatmap -- see SKILL.md's own
+# "row-scaling trap" note (row z-scoring shows pattern; raw values mostly
+# show overall expression level, which usually isn't the intended claim).
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: local/modules/differential-expression-visualization-heatmap
+name: DE top-gene heatmap
+summary: Clustered, row-z-scored heatmap of the top-variable genes from an expression matrix, with a sample-sheet column as column annotation.
+
+params:
+  matrix:
+    kind: input
+    type: file
+    required: true
+    description: Expression matrix (TSV/CSV, e.g. variance-stabilized counts), genes as rows, samples as columns.
+  samplesheet:
+    kind: input
+    type: file
+    required: true
+    description: Sample metadata sheet (TSV/CSV) with one row per sample.
+  gene_id_col:
+    kind: option
+    type: string
+    required: false
+    description: Matrix column holding gene identifiers.
+  sample_id_col:
+    kind: option
+    type: string
+    required: false
+    description: Samplesheet column holding each sample's identifier -- must match the matrix's sample column names.
+  annotate_by:
+    kind: option
+    type: string
+    required: true
+    description: Samplesheet column shown as a column annotation strip above the heatmap (e.g. 'condition').
+  top_n:
+    kind: option
+    type: string
+    required: false
+    description: Number of top-variance genes to plot.
+  scale_rows:
+    kind: option
+    type: boolean
+    required: false
+    description: true (default) z-scores each gene across samples before plotting, to show pattern rather than absolute expression level.
+  prefix:
+    kind: option
+    type: string
+    required: false
+    description: Output file prefix.
+  outdir:
+    kind: output
+    type: directory
+    required: true
+    description: Directory results are published under.
+
+outputs:
+  pdf:
+    type: file
+    path: '${outdir}/heatmap/${prefix}.heatmap.pdf'
+    primary: true

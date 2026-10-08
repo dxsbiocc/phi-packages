@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored ucsc/bedclip module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/ucsc-bedclip
+name: UCSC bedClip
+summary: Clip bedGraph intervals to chromosome boundaries with UCSC bedClip.
+
+params:
+  bedgraph:
+    kind: input
+    type: file
+    required: true
+    description: BedGraph file to clip.
+  sizes:
+    kind: input
+    type: file
+    required: true
+    description: Chromosome sizes file (chrom \t size).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the clipped bedGraph.
+
+outputs:
+  bedgraph:
+    type: directory
+    path: '${outdir}/bedclip'
+    primary: true

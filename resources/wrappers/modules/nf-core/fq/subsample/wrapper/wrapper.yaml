@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored fq/subsample module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# fq subsample errors out without --probability or --record-count, so
+# probability is exposed as a required option rather than hard-coded.
+id: nf-core/modules/fq-subsample
+name: fq subsample
+summary: Randomly subsample FASTQ reads by keep-probability with fq subsample.
+
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Glob matching one sample's FASTQ file(s) — a pair for paired-end, or one file for single-end.
+  probability:
+    kind: option
+    type: number
+    required: false
+    minimum: 0
+    maximum: 1
+    description: Probability a read is kept (0-1).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subsampled FASTQ.
+
+outputs:
+  reads:
+    type: directory
+    path: '${outdir}/fq_subsample'
+    primary: true

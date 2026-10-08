@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored sylph/profile module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/sylph-profile
+name: Sylph profile
+summary: Taxonomically profile FASTQ reads against reference genomes/sketches with Sylph.
+
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Glob matching one sample's FASTQ file(s) — a pair for paired-end, or one file for single-end.
+  database:
+    kind: input
+    type: file
+    required: true
+    description: Sylph database — one or more reference genome FASTAs, or a pre-built .syldb sketch.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the Sylph abundance profile TSV.
+
+outputs:
+  profile:
+    type: directory
+    path: '${outdir}/sylph_profile'
+    primary: true

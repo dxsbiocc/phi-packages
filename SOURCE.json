@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "sourceRepository": "https://github.com/dxsbiocc/phi",
+  "sourceCommit": "926f6cfe383621f43be10167d6c0b164287a0fc7",
+  "snapshotKind": "tracked-working-tree",
+  "importedAt": "2026-10-08T04:42:31.038738+00:00",
+  "includedUncommittedPaths": [
+    "resources/connectors/cbioportal/phi-package.yaml"
+  ],
+  "counts": {
+    "standaloneSkills": 14,
+    "connectors": 18,
+    "plugins": 1,
+    "pluginSkills": 1,
+    "wrapperAdapters": 652,
+    "importedFiles": 7885,
+    "importedBytes": 85619915
+  },
+  "excluded": [
+    {
+      "path": "resources/plugins/office/",
+      "reason": "Existing Office skill licenses explicitly prohibit copying and third-party distribution; the entire composite plugin is omitted."
+    },
+    {
+      "path": "resources/skills/create-wrapper/",
+      "reason": "Core wrapper-authoring skill retained with the Phi engine, per the content distribution design."
+    }
+  ],
+  "notes": [
+    "Existing tracked file contents were copied without edits. The Phi app and its runtime code were not imported.",
+    "Environment definitions, palette sources, contracts, and distribution documents are reference snapshots; Phi remains their authority until a separate integration change."
+  ]
+}

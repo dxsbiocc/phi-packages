@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored plink2/filter module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/plink2-filter
+name: "plink2 filter"
+summary: "Filter a PLINK2 pgen/pvar/psam fileset on genotype/allele-frequency thresholds."
+
+params:
+  pgen:
+    kind: input
+    type: file
+    required: true
+    description: "PLINK2 genotype file (.pgen)."
+  pvar:
+    kind: input
+    type: file
+    required: true
+    description: "PLINK2 variant file (.pvar)."
+  psam:
+    kind: input
+    type: file
+    required: true
+    description: "PLINK2 sample file (.psam)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  pgen:
+    type: directory
+    path: '${outdir}/plink2_filter'
+    primary: true

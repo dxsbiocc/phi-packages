@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored star/genomegenerate module
+# at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/star-genomegenerate
+name: STAR genomeGenerate
+summary: Build a STAR genome index for a reference genome and annotation.
+
+params:
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: Reference genome FASTA to index.
+  gtf:
+    kind: input
+    type: gtf
+    required: true
+    description: Gene annotation GTF used to build splice junction information into the index.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the STAR index.
+
+outputs:
+  index:
+    type: directory
+    path: '${outdir}/star_genomegenerate'
+    primary: true

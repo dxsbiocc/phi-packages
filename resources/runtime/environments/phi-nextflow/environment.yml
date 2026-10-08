@@ -1,0 +1,35 @@
+name: phi-nextflow
+description: Wrapper 执行器使用的 Nextflow、Java 运行时，以及 nf-core / nf-test 开发工具。
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  # The executor spawns `nextflow`. The floor is the highest manifest.nextflowVersion
+  # among the bundled wrappers (workflows/rna-seq: '!>=25.04.3'); the executor's own
+  # minimum (MIN_NEXTFLOW_VERSION, 25.04.0) is lower.
+  - nextflow>=25.04.3
+  # Nextflow is a JVM program. nextflow declares openjdk (>=17,<26 for 26.04.x),
+  # coreutils, and curl itself; they are listed so the environment states them.
+  - openjdk
+  - coreutils
+  - curl
+
+  # Authoring and testing wrapper modules (nextflow skill; wrapper tests/main.nf.test).
+  - nf-core
+  - nf-test
+host:
+  # Container runtimes stay on the host (foundation §9 decision 4). The executor puts the
+  # one the run's profile needs on PATH; a runtime installed after the build is probed
+  # again at launch.
+  - name: docker
+    description: Container runtime for -profile docker.
+    candidates:
+      - /usr/local/bin/docker
+      - /opt/homebrew/bin/docker
+      - /Applications/Docker.app/Contents/Resources/bin/docker
+  - name: singularity
+    description: Container runtime for -profile singularity.
+    platforms: [linux-x64]
+  - name: apptainer
+    description: Container runtime for -profile singularity (Apptainer name).
+    platforms: [linux-x64]

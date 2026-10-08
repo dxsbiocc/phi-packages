@@ -1,0 +1,5 @@
+{
+  "sequence": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/genome/genome.fasta",
+  "pattern": "MT192765.1",
+  "outdir": "results"
+}

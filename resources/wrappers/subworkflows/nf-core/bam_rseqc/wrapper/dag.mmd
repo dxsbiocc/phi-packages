@@ -1,0 +1,160 @@
+flowchart TB
+    subgraph " "
+    v0["channel.fromPath"]
+    v7["channel.empty"]
+    v12["channel.empty"]
+    v14["channel.empty"]
+    v16["channel.empty"]
+    v18["channel.empty"]
+    v20["channel.empty"]
+    v22["channel.empty"]
+    v24["bed"]
+    v29["channel.empty"]
+    v34["channel.empty"]
+    v36["channel.empty"]
+    v38["channel.empty"]
+    v40["channel.empty"]
+    v42["channel.empty"]
+    v44["channel.empty"]
+    v46["channel.empty"]
+    v48["channel.empty"]
+    v54["channel.empty"]
+    v56["channel.empty"]
+    v58["channel.empty"]
+    v64["channel.empty"]
+    v69["channel.empty"]
+    v71["channel.empty"]
+    v73["channel.empty"]
+    v75["channel.empty"]
+    v77["channel.empty"]
+    v83["channel.empty"]
+    end
+    v2(["SAMTOOLS_INDEX"])
+    subgraph " "
+    v3[" "]
+    v8["bamstat_txt"]
+    v10[" "]
+    v11["bamstat_txt"]
+    v13["innerdistance_all"]
+    v15["innerdistance_distance"]
+    v17["innerdistance_freq"]
+    v19["innerdistance_mean"]
+    v21["innerdistance_pdf"]
+    v23["innerdistance_rscript"]
+    v26[" "]
+    v28["innerdistance_all"]
+    v30["inferexperiment_txt"]
+    v32[" "]
+    v33["inferexperiment_txt"]
+    v35["junctionannotation_all"]
+    v37["junctionannotation_bed"]
+    v39["junctionannotation_interact_bed"]
+    v41["junctionannotation_xls"]
+    v43["junctionannotation_pdf"]
+    v45["junctionannotation_events_pdf"]
+    v47["junctionannotation_rscript"]
+    v49["junctionannotation_log"]
+    v51[" "]
+    v53["junctionannotation_all"]
+    v55["junctionsaturation_all"]
+    v57["junctionsaturation_pdf"]
+    v59["junctionsaturation_rscript"]
+    v61[" "]
+    v63["junctionsaturation_all"]
+    v65["readdistribution_txt"]
+    v67[" "]
+    v68["readdistribution_txt"]
+    v70["readduplication_all"]
+    v72["readduplication_seq_xls"]
+    v74["readduplication_pos_xls"]
+    v76["readduplication_pdf"]
+    v78["readduplication_rscript"]
+    v80[" "]
+    v82["readduplication_all"]
+    v84["tin_txt"]
+    v86[" "]
+    v87[" "]
+    v88["tin_txt"]
+    end
+    subgraph "BAM_RSEQC [BAM_RSEQC]"
+    v9(["RSEQC_BAMSTAT"])
+    v25(["RSEQC_INNERDISTANCE"])
+    v31(["RSEQC_INFEREXPERIMENT"])
+    v50(["RSEQC_JUNCTIONANNOTATION"])
+    v60(["RSEQC_JUNCTIONSATURATION"])
+    v66(["RSEQC_READDISTRIBUTION"])
+    v79(["RSEQC_READDUPLICATION"])
+    v85(["RSEQC_TIN"])
+    v6(( ))
+    v27(( ))
+    v52(( ))
+    v62(( ))
+    v81(( ))
+    end
+    v1(( ))
+    v0 --> v1
+    v1 --> v2
+    v2 --> v3
+    v2 --> v1
+    v7 --> v8
+    v6 --> v9
+    v9 --> v11
+    v9 --> v10
+    v12 --> v13
+    v14 --> v15
+    v16 --> v17
+    v18 --> v19
+    v20 --> v21
+    v22 --> v23
+    v24 --> v25
+    v24 --> v31
+    v24 --> v50
+    v24 --> v60
+    v24 --> v66
+    v24 --> v85
+    v6 --> v25
+    v25 --> v26
+    v25 --> v27
+    v27 --> v28
+    v29 --> v30
+    v6 --> v31
+    v31 --> v33
+    v31 --> v32
+    v34 --> v35
+    v36 --> v37
+    v38 --> v39
+    v40 --> v41
+    v42 --> v43
+    v44 --> v45
+    v46 --> v47
+    v48 --> v49
+    v6 --> v50
+    v50 --> v51
+    v50 --> v52
+    v52 --> v53
+    v54 --> v55
+    v56 --> v57
+    v58 --> v59
+    v6 --> v60
+    v60 --> v61
+    v60 --> v62
+    v62 --> v63
+    v64 --> v65
+    v6 --> v66
+    v66 --> v68
+    v66 --> v67
+    v69 --> v70
+    v71 --> v72
+    v73 --> v74
+    v75 --> v76
+    v77 --> v78
+    v6 --> v79
+    v79 --> v80
+    v79 --> v81
+    v81 --> v82
+    v83 --> v84
+    v6 --> v85
+    v85 --> v88
+    v85 --> v87
+    v85 --> v86
+    v1 --> v6

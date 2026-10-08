@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored seqkit/rmdup module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/seqkit-rmdup
+name: seqkit rmdup
+summary: Remove duplicate FASTA/FASTQ records (by sequence) with seqkit rmdup.
+
+params:
+  fastx:
+    kind: input
+    type: file
+    required: true
+    description: FASTA/FASTQ file (plain or gzipped) to deduplicate.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the deduplicated sequences.
+
+outputs:
+  fastx:
+    type: directory
+    path: '${outdir}/seqkit_rmdup'
+    primary: true

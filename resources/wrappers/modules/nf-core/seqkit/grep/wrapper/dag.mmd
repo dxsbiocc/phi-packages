@@ -1,0 +1,21 @@
+flowchart TB
+    subgraph " "
+    v0["channel.fromPath"]
+    v2["pattern_ch"]
+    v3["out_ext"]
+    v7["channel.empty"]
+    end
+    v4(["SEQKIT_GREP"])
+    subgraph " "
+    v5[" "]
+    v6[" "]
+    v8[" "]
+    end
+    v1(( ))
+    v0 --> v1
+    v2 --> v4
+    v3 --> v4
+    v1 --> v4
+    v4 --> v6
+    v4 --> v5
+    v7 --> v8

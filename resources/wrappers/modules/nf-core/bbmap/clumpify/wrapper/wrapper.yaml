@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored bbmap/clumpify module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Only single-end reads are exposed — the vendored module also supports
+# paired-end, but this thin adapter doesn't surface a second reads file.
+id: nf-core/modules/bbmap-clumpify
+name: BBMap clumpify
+summary: Deduplicate and compress FASTQ reads by clustering similar reads with BBMap clumpify.
+
+params:
+  reads:
+    kind: input
+    type: file
+    required: true
+    description: Single-end FASTQ file (plain or gzipped) to clump.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the clumped reads and log.
+
+outputs:
+  reads:
+    type: directory
+    path: '${outdir}/bbmap_clumpify'
+    primary: true

@@ -1,0 +1,170 @@
+family: "line"
+preview_background: "transparent"  # PNG alpha is empty; dark UIs look black. Do not treat as a black canvas.
+
+templates:
+  - id: "line-basic"
+    title: "Basic line chart"
+    aliases:
+      - "折线图"
+      - "趋势图"
+    source: "scripts/line/basic/plot.R"
+    examples:
+      - "scripts/line/basic/example.tsv"
+    preview: "scripts/line/basic/preview.png"
+    use_when: >
+      Connect ordered observations of one or more series as lines.
+    avoid_when: >
+      Do not use stacked areas, dual-axis hydrographs, bump ranks,
+      survival curves, or stacked density ridges (line-ridge).
+    input_shape: "one row per x-by-series; ordered x and numeric y"
+    language: "r"
+    status: "stable"
+
+  - id: "line-group"
+    title: "Grouped line chart"
+    aliases:
+      - "分组折线图"
+    source: "scripts/line/group/plot.R"
+    examples:
+      - "scripts/line/group/example.tsv"
+    preview: "scripts/line/group/preview.png"
+    use_when: >
+      Overlay several series on a shared ordered axis.
+    avoid_when: >
+      Do not use when series should stack (line-stack) or occupy
+      independent panels (line-independent).
+    input_shape: "one row per x-by-group; ordered x, group, and numeric y"
+    language: "r"
+    status: "stable"
+
+  - id: "line-stack"
+    title: "Stacked area chart"
+    aliases:
+      - "堆叠面积图"
+    source: "scripts/line/stack/plot.R"
+    examples:
+      - "scripts/line/stack/example.tsv"
+    preview: "scripts/line/stack/preview.png"
+    use_when: >
+      Stack grouped values along an ordered axis as areas.
+    avoid_when: >
+      Do not use overlaid lines when stacking would misrepresent totals.
+    input_shape: "one row per category-by-group; ordered category, group, and value"
+    language: "r"
+    status: "stable"
+
+  - id: "line-bump"
+    title: "Bump chart"
+    aliases:
+      - "排名变化图"
+      - "bump chart"
+    source: "scripts/line/bump/plot.R"
+    examples:
+      - "scripts/line/bump/example.tsv"
+    preview: "scripts/line/bump/preview.png"
+    use_when: >
+      Track rank order of items across sequential stages.
+    avoid_when: >
+      Do not use for raw magnitudes instead of ranks.
+    input_shape: "one row per item-by-stage with a rank or score"
+    language: "r"
+    status: "stable"
+
+  - id: "line-highlight"
+    title: "Line with peak highlight"
+    aliases:
+      - "峰值高亮折线"
+    source: "scripts/line/highlight/plot.R"
+    examples:
+      - "scripts/line/highlight/example.tsv"
+    preview: "scripts/line/highlight/preview.png"
+    use_when: >
+      Smooth a series and highlight the window around its peak.
+    avoid_when: >
+      Do not use when no peak window should be emphasized.
+    input_shape: "one row per ordered time or category with a numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "line-double"
+    title: "Dual-axis hydrograph"
+    aliases:
+      - "双轴折线"
+      - "流量降雨图"
+    source: "scripts/line/double/plot.R"
+    examples:
+      - "scripts/line/double/example.tsv"
+    preview: "scripts/line/double/preview.png"
+    use_when: >
+      Draw two series on one panel with opposite visual directions
+      (flow from the bottom, rainfall hanging from the top).
+    avoid_when: >
+      Do not use independent stacked panels (line-independent) or a
+      shared-scale overlay (line-group).
+    input_shape: "one row per time point with two numeric series"
+    language: "r"
+    status: "stable"
+
+  - id: "line-independent"
+    title: "Two-panel independent time series"
+    aliases:
+      - "双面板时间序列"
+      - "独立坐标折线"
+    source: "scripts/line/independent/plot.R"
+    examples:
+      - "scripts/line/independent/example.tsv"
+    preview: "scripts/line/independent/preview.png"
+    use_when: >
+      Show two series as stacked panels that share time but not y-scale,
+      with the lower series reversed toward the shared midline.
+    avoid_when: >
+      Do not use a dual-axis single panel (line-double).
+    input_shape: "one row per time point with two numeric series"
+    language: "r"
+    status: "stable"
+
+  - id: "line-survival"
+    title: "Survival / Kaplan-Meier curve"
+    aliases:
+      - "生存曲线"
+      - "Kaplan-Meier"
+    source: "scripts/line/survival/plot.R"
+    examples:
+      - "scripts/line/survival/example.tsv"
+    preview: "scripts/line/survival/preview.png"
+    use_when: >
+      Plot survival probability over time, optionally by group.
+    avoid_when: >
+      Do not use a generic line chart for censored survival data, or
+      patient-level treatment lanes (bar-swimmer).
+    input_shape: "survival fit table or time, survival, and optional group columns"
+    language: "r"
+    status: "stable"
+
+  - id: "line-ridge"
+    title: "Ridgeline / joyplot"
+    aliases:
+      - "脊线图"
+      - "山脊图"
+      - "joyplot"
+      - "RidgePlot"
+      - "ggridges"
+    source: "scripts/line/ridge/plot.R"
+    examples:
+      - "scripts/line/ridge/example.tsv"
+    preview: "scripts/line/ridge/preview.png"
+    use_when: >
+      Stack 1D kernel densities as ridgelines along a categorical y
+      (cluster, sample, condition), optionally faceted by feature.
+      A vertical tick is a display quantile of the supplied values.
+      Left group bars and marker facets stay in CONFIG.
+    avoid_when: >
+      Do not use a mirrored violin (boxplot-violin) or a raincloud
+      (half-violin plus points). Do not use 2D scatter density
+      (scatter-contour, scatter-hex). Genome-coordinate coverage is
+      ideogram-coverage, not a ridgeline. Do not cluster cells or
+      pool an All-cells row in the script; that group is supplied.
+      Facet count and group bars are not a second id.
+    input_shape: "one row per observation; numeric value, ridgeline group, optional facet and row-group"
+    language: "r"
+    status: "stable"

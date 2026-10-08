@@ -1,0 +1,46 @@
+# Agent-facing wrapper adapter for the vendored gatk4/denoisereadcounts module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: builds a one-sample panel of normals first, then denoises the same counts against it.
+id: nf-core/modules/gatk4-denoisereadcounts
+name: "GATK4 DenoiseReadCounts"
+summary: "Denoise read counts against a panel of normals (PreprocessIntervals → CollectReadCounts → CreateReadCountPanelOfNormals → DenoiseReadCounts)."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  denoised:
+    type: directory
+    path: '${outdir}/gatk4_denoisereadcounts'
+    primary: true

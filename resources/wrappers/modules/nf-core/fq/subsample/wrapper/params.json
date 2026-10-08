@@ -1,0 +1,5 @@
+{
+  "reads": "tests/data/test_{1,2}.fastq.gz",
+  "probability": 0.5,
+  "outdir": "results"
+}

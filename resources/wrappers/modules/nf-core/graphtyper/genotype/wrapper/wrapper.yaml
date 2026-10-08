@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored graphtyper/genotype module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/graphtyper-genotype
+name: "Graphtyper genotype"
+summary: "Genotype SNPs/indels with Graphtyper."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  regions:
+    kind: input
+    type: file
+    required: true
+    description: "Regions file (one region per line)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/graphtyper_genotype'
+    primary: true

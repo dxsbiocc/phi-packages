@@ -1,0 +1,4672 @@
+{
+  "schema_version": 1,
+  "purpose": "Lightweight routing metadata for preview and first-pass template selection. This complements the family catalogs; it does not replace manual catalog review for publication or low-confidence choices.",
+  "entity_language": "Contracts use generic focal_entity, target_entity, feature, item, category, association, and significance roles. They must not restrict routing to genes; gene symbols are only one possible omics entity label.",
+  "modes": {
+    "preview": "Use these contracts to recommend a likely template quickly, then inspect only the selected catalog entry and script before rendering.",
+    "publication": "Use these contracts as a shortlist, then confirm against plots.yaml, the family catalog, previews, palette guidance, and final-size visual QA.",
+    "template_dev": "Use these contracts to identify metadata gaps before editing the reusable template library."
+  },
+  "templates": [
+    {
+      "id": "scatter-one2many",
+      "family": "scatter",
+      "title": "One-to-many correlation scatter",
+      "source": "scripts/scatter/one2many/plot.R",
+      "preview": "scripts/scatter/one2many/preview.png",
+      "preferred_shapes": [
+        "long_association",
+        "one_to_many_association"
+      ],
+      "roles": {
+        "required": [
+          "target_entity",
+          "signed_association"
+        ],
+        "optional": [
+          "focal_entity",
+          "category",
+          "significance"
+        ]
+      },
+      "intent_keywords": [
+        "one-to-many",
+        "one2many",
+        "hub",
+        "focal",
+        "center",
+        "centre",
+        "central",
+        "one central",
+        "一对多",
+        "中心",
+        "中心关联图",
+        "中心相关",
+        "感兴趣对象"
+      ],
+      "use_when": "Show signed associations from one focal entity to many related entities with a central reference and readable item labels.",
+      "avoid_when": "Do not use for all-by-all matrices, pairwise sample scatter, or network inference. The links are display connectors, not physical or causal edges."
+    },
+    {
+      "id": "heatmap-corr-bubble",
+      "family": "heatmap",
+      "title": "Correlation bubble grid with stars",
+      "source": "scripts/heatmap/corr_bubble/plot.R",
+      "preview": "scripts/heatmap/corr_bubble/preview.png",
+      "preferred_shapes": [
+        "association_grid",
+        "long_association"
+      ],
+      "roles": {
+        "required": [
+          "x_category",
+          "y_category",
+          "signed_association"
+        ],
+        "optional": [
+          "significance",
+          "category",
+          "magnitude"
+        ]
+      },
+      "intent_keywords": [
+        "heatmap-corr-bubble",
+        "bubble heatmap",
+        "bubble grid",
+        "correlation bubble",
+        "star",
+        "stars",
+        "heatmap",
+        "气泡热图",
+        "相关气泡热图",
+        "显著性气泡热图",
+        "点阵"
+      ],
+      "use_when": "Draw a rectangular category-by-category grid where colour is a supplied signed coefficient and size or stars encode supplied significance.",
+      "avoid_when": "Do not use when the coefficient must be computed from raw sample rows, when cell shape rather than size encodes significance, or when a focal hub story is the main message."
+    },
+    {
+      "id": "scatter-volcano",
+      "family": "scatter",
+      "title": "Differential-expression volcano plot",
+      "source": "scripts/scatter/volcano/plot.R",
+      "preview": "scripts/scatter/volcano/preview.png",
+      "preferred_shapes": [
+        "feature_level_testing"
+      ],
+      "roles": {
+        "required": [
+          "target_entity",
+          "effect_size",
+          "significance"
+        ],
+        "optional": [
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "volcano",
+        "differential",
+        "de",
+        "logfc",
+        "fold change",
+        "adjusted p",
+        "火山图",
+        "差异表达"
+      ],
+      "use_when": "Provide an overview of effect size and adjusted significance across many tested features.",
+      "avoid_when": "Do not use as the sole evidence for biological importance or when adjusted significance is unavailable."
+    },
+    {
+      "id": "scatter-correlation",
+      "family": "scatter",
+      "title": "Correlation scatter with fit",
+      "source": "scripts/scatter/correlation/plot.R",
+      "preview": "scripts/scatter/correlation/preview.png",
+      "preferred_shapes": [
+        "two_numeric_observation"
+      ],
+      "roles": {
+        "required": [
+          "numeric_x",
+          "numeric_y"
+        ],
+        "optional": [
+          "category",
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "correlation scatter",
+        "two variables",
+        "fit line",
+        "regression",
+        "相关散点",
+        "回归散点"
+      ],
+      "use_when": "Show the association of two numeric variables across observation rows with a fitted line.",
+      "avoid_when": "Do not use for coefficient-only result tables or one focal entity correlated with many targets."
+    },
+    {
+      "id": "bar-enrichment-dot",
+      "family": "bar",
+      "title": "Enrichment dotplot",
+      "source": "scripts/bar/enrichment_dot/plot.R",
+      "preview": "scripts/bar/enrichment_dot/preview.png",
+      "preferred_shapes": [
+        "enrichment_terms"
+      ],
+      "roles": {
+        "required": [
+          "target_entity",
+          "ratio",
+          "significance",
+          "count"
+        ],
+        "optional": [
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "enrichment",
+        "dotplot",
+        "go",
+        "kegg",
+        "pathway",
+        "gene ratio",
+        "富集",
+        "富集点图",
+        "通路",
+        "GO点图"
+      ],
+      "use_when": "Rank enrichment terms using ratio, count, and adjusted significance already supplied by upstream analysis.",
+      "avoid_when": "Do not run enrichment in the plotting step or use when term-by-group signed heatmap structure is required."
+    },
+    {
+      "id": "boxplot-basic",
+      "family": "boxplot",
+      "title": "Basic boxplot",
+      "source": "scripts/boxplot/basic/plot.R",
+      "preview": "scripts/boxplot/basic/preview.png",
+      "preferred_shapes": [
+        "category_distribution"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "boxplot",
+        "box plot",
+        "distribution",
+        "箱线图",
+        "盒须图",
+        "分布"
+      ],
+      "use_when": "Summarize a numeric distribution across categories.",
+      "avoid_when": "Do not use when pairing, rainclouds, violins, or raw-point emphasis is essential."
+    },
+    {
+      "id": "heatmap-basic",
+      "family": "heatmap",
+      "title": "Basic heatmap",
+      "source": "scripts/heatmap/basic/plot.R",
+      "preview": "scripts/heatmap/basic/preview.png",
+      "preferred_shapes": [
+        "numeric_matrix",
+        "wide_numeric_table"
+      ],
+      "roles": {
+        "required": [
+          "numeric_matrix"
+        ],
+        "optional": [
+          "target_entity",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "heatmap",
+        "matrix",
+        "expression heatmap",
+        "热图",
+        "矩阵",
+        "表达热图"
+      ],
+      "use_when": "Show a supplied numeric matrix or wide feature-by-sample table as a heatmap.",
+      "avoid_when": "Do not use for long association tables where points, bubbles, or signs encode significance."
+    },
+    {
+      "id": "line-survival",
+      "family": "line",
+      "title": "Survival curve",
+      "source": "scripts/line/survival/plot.R",
+      "preview": "scripts/line/survival/preview.png",
+      "preferred_shapes": [
+        "survival_table"
+      ],
+      "roles": {
+        "required": [
+          "time",
+          "status",
+          "category"
+        ],
+        "optional": [
+          "significance"
+        ]
+      },
+      "intent_keywords": [
+        "survival",
+        "kaplan",
+        "km",
+        "time-to-event",
+        "生存",
+        "预后",
+        "KM曲线"
+      ],
+      "use_when": "Plot a supplied time-to-event table split by a group.",
+      "avoid_when": "Do not use when only survival summary statistics are available without individual time/status rows."
+    },
+    {
+      "id": "graph-focus",
+      "family": "graph",
+      "title": "Focus network",
+      "source": "scripts/graph/focus/plot.R",
+      "preview": "scripts/graph/focus/preview.png",
+      "preferred_shapes": [
+        "network_edges"
+      ],
+      "roles": {
+        "required": [
+          "source_entity",
+          "target_entity"
+        ],
+        "optional": [
+          "weight",
+          "category",
+          "focal_entity"
+        ]
+      },
+      "intent_keywords": [
+        "network",
+        "graph",
+        "edge",
+        "interaction",
+        "module",
+        "网络",
+        "互作",
+        "关系网络"
+      ],
+      "use_when": "Show a supplied set of relationships around a focal node or module.",
+      "avoid_when": "Do not use for correlation result tables unless the user explicitly wants a network interpretation."
+    },
+    {
+      "id": "graph-stress",
+      "family": "graph",
+      "title": "Stress-layout network",
+      "source": "scripts/graph/stress/plot.R",
+      "preview": "scripts/graph/stress/preview.png",
+      "preferred_shapes": [
+        "network_edges"
+      ],
+      "roles": {
+        "required": [
+          "source_entity",
+          "target_entity"
+        ],
+        "optional": [
+          "weight",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "graph-stress",
+        "stress layout",
+        "network layout",
+        "edge table",
+        "节点布局",
+        "应力布局",
+        "网络布局",
+        "边表"
+      ],
+      "use_when": "Compute and draw a stress layout from a supplied edge table when node positions are not already supplied.",
+      "avoid_when": "Do not use for pre-positioned cartesian coordinates or for a non-network association result unless a network reading is intended."
+    },
+    {
+      "id": "bar-basic",
+      "family": "bar",
+      "title": "Basic bar chart",
+      "source": "scripts/bar/basic/plot.R",
+      "preview": "scripts/bar/basic/preview.png",
+      "preferred_shapes": [
+        "category_magnitude"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "bar",
+        "bar chart",
+        "column chart",
+        "ranked",
+        "magnitude",
+        "柱状图",
+        "条形图",
+        "排行",
+        "大小比较"
+      ],
+      "use_when": "Compare a single numeric value across discrete categories.",
+      "avoid_when": "Do not use for grouped, stacked, percent, enrichment, or patient swimmer structures."
+    },
+    {
+      "id": "line-basic",
+      "family": "line",
+      "title": "Basic line chart",
+      "source": "scripts/line/basic/plot.R",
+      "preview": "scripts/line/basic/preview.png",
+      "preferred_shapes": [
+        "time_series"
+      ],
+      "roles": {
+        "required": [
+          "time",
+          "numeric_y"
+        ],
+        "optional": [
+          "category",
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "line",
+        "trend",
+        "time series",
+        "trajectory",
+        "ordered",
+        "折线图",
+        "趋势图",
+        "时间序列",
+        "轨迹"
+      ],
+      "use_when": "Connect ordered observations of one or more series as lines.",
+      "avoid_when": "Do not use for survival curves, stacked areas, bump ranks, or independent-panel series."
+    },
+    {
+      "id": "pie-basic",
+      "family": "pie",
+      "title": "Basic pie chart",
+      "source": "scripts/pie/basic/plot.R",
+      "preview": "scripts/pie/basic/preview.png",
+      "preferred_shapes": [
+        "part_to_whole"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "pie",
+        "part-to-whole",
+        "composition",
+        "proportion",
+        "饼图",
+        "构成比",
+        "占比"
+      ],
+      "use_when": "Show part-to-whole composition as a full pie for mutually exclusive parts.",
+      "avoid_when": "Do not use when precise comparison, many slices, nested composition, or a doughnut ring is required."
+    },
+    {
+      "id": "pie-doughnut",
+      "family": "pie",
+      "title": "Doughnut chart",
+      "source": "scripts/pie/doughnut/plot.R",
+      "preview": "scripts/pie/doughnut/preview.png",
+      "preferred_shapes": [
+        "part_to_whole"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "doughnut",
+        "donut",
+        "ring",
+        "part-to-whole",
+        "composition",
+        "环形图",
+        "甜甜圈图",
+        "环状比例图"
+      ],
+      "use_when": "Show part-to-whole composition as a ring with a hollow center.",
+      "avoid_when": "Do not use when a solid pie, nested two-ring composition, or radial bar geometry is intended."
+    },
+    {
+      "id": "sankey-basic",
+      "family": "sankey",
+      "title": "Two-level Sankey diagram",
+      "source": "scripts/sankey/basic/plot.R",
+      "preview": "scripts/sankey/basic/preview.png",
+      "preferred_shapes": [
+        "flow_table"
+      ],
+      "roles": {
+        "required": [
+          "source_entity",
+          "target_entity",
+          "flow_value"
+        ],
+        "optional": [
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "sankey",
+        "flow",
+        "source target",
+        "alluvial",
+        "桑基图",
+        "流向图",
+        "流量",
+        "来源去向"
+      ],
+      "use_when": "Show weighted flows from one source column to one target column.",
+      "avoid_when": "Do not use for containment hierarchies, all-by-all association grids, or unweighted networks where flow conservation is not the claim."
+    },
+    {
+      "id": "tree-basic",
+      "family": "tree",
+      "title": "Vertical tree / dendrogram",
+      "source": "scripts/tree/basic/plot.R",
+      "preview": "scripts/tree/basic/preview.png",
+      "preferred_shapes": [
+        "hierarchy_edges"
+      ],
+      "roles": {
+        "required": [
+          "parent_entity",
+          "target_entity"
+        ],
+        "optional": [
+          "numeric_y",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "tree",
+        "hierarchy",
+        "parent",
+        "path",
+        "dendrogram",
+        "树图",
+        "树状图",
+        "层级",
+        "父子关系"
+      ],
+      "use_when": "Draw a supplied rooted hierarchy from parent/path edges.",
+      "avoid_when": "Do not use for clustering from numeric matrices, conserved flows, or sunburst angle-based hierarchy."
+    },
+    {
+      "id": "radar-basic",
+      "family": "radar",
+      "title": "Basic radar chart",
+      "source": "scripts/radar/basic/plot.R",
+      "preview": "scripts/radar/basic/preview.png",
+      "preferred_shapes": [
+        "radar_wide_table"
+      ],
+      "roles": {
+        "required": [
+          "axis_entity",
+          "numeric_matrix"
+        ],
+        "optional": [
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "radar",
+        "spider",
+        "named axes",
+        "multi-axis",
+        "雷达图",
+        "蜘蛛图",
+        "多指标"
+      ],
+      "use_when": "Overlay a small number of series on the same set of named numeric axes.",
+      "avoid_when": "Do not use for many series or when exact magnitude comparison matters more than profile shape."
+    },
+    {
+      "id": "bar-flower",
+      "family": "bar",
+      "title": "Multi-set flower / petal diagram",
+      "source": "scripts/bar/flower/plot.R",
+      "preview": "scripts/bar/flower/preview.png",
+      "preferred_shapes": [
+        "set_membership_summary",
+        "multi_set_overlap"
+      ],
+      "roles": {
+        "required": [
+          "category"
+        ],
+        "optional": []
+      },
+      "intent_keywords": [
+        "flower",
+        "petal",
+        "花瓣",
+        "花型韦恩",
+        "core unique",
+        "multi-set flower"
+      ],
+      "use_when": "Show five or more supplied sets as petals around a shared core count, with supplied total and unique counts per set.",
+      "avoid_when": "Do not use for 2-4 classic Venn circles, UpSet combination matrices, element membership enumeration, or enrichment testing in the plotting step.",
+      "risks": [
+        "Do not use for 2-4 classic Venn circles (bar-venn) or UpSet matrices (bar-upset)."
+      ]
+    },
+    {
+      "id": "heatmap-corr-grouped",
+      "family": "heatmap",
+      "title": "Grouped lower-triangle correlation heatmap",
+      "source": "scripts/heatmap/corr_grouped/plot.R",
+      "preview": "scripts/heatmap/corr_grouped/preview.png",
+      "preferred_shapes": [
+        "long_association",
+        "grouped_correlation",
+        "annotation_sidecars"
+      ],
+      "roles": {
+        "required": [
+          "x_category",
+          "y_category",
+          "signed_association",
+          "category"
+        ],
+        "optional": [
+          "significance"
+        ]
+      },
+      "intent_keywords": [
+        "grouped correlation",
+        "分组相关",
+        "block correlation",
+        "group brace"
+      ],
+      "use_when": "Show a supplied pairwise correlation table ordered into named variable groups, with block gaps, stars from supplied p cuts, and group braces.",
+      "avoid_when": "Do not use for ungrouped square significance matrices, two-set X-vs-Y sample-row correlations, rotated triangles, or computing Spearman inside the plot script.",
+      "risks": [
+        "Requires a var-to-group map plus supplied rho/p; do not compute Spearman here."
+      ]
+    },
+    {
+      "id": "heatmap-corr-rotate",
+      "family": "heatmap",
+      "title": "Rotated triangular correlation heatmap",
+      "source": "scripts/heatmap/corr_rotate/plot.R",
+      "preview": "scripts/heatmap/corr_rotate/preview.png",
+      "preferred_shapes": [
+        "long_association",
+        "triangular_correlation",
+        "annotation_sidecars"
+      ],
+      "roles": {
+        "required": [
+          "x_category",
+          "y_category",
+          "signed_association"
+        ],
+        "optional": [
+          "category",
+          "significance"
+        ]
+      },
+      "intent_keywords": [
+        "rotated triangle",
+        "45 degree",
+        "旋转三角",
+        "三角相关热图"
+      ],
+      "use_when": "Show a supplied lower-triangle correlation as an upright 45-degree rotated triangle with optional group gaps, left-hypotenuse annotation tracks, and non-significant plus cells.",
+      "avoid_when": "Do not use for flat star-cell lower triangles, square upper/lower glyph split matrices, grouped-brace matrices, or computing Spearman inside the plot script.",
+      "risks": [
+        "Prefer heatmap-shape for flat star triangles; supply rho rather than computing it."
+      ]
+    },
+    {
+      "id": "bar-group",
+      "family": "bar",
+      "title": "Grouped bar chart",
+      "source": "scripts/bar/group/plot.R",
+      "preview": "scripts/bar/group/preview.png",
+      "preferred_shapes": [
+        "grouped_category_value",
+        "category_magnitude"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "secondary_category"
+        ]
+      },
+      "intent_keywords": [
+        "grouped bar",
+        "bar-group",
+        "side by side",
+        "clustered bar",
+        "分组柱状图",
+        "簇状柱状图"
+      ],
+      "use_when": "Compare several groups side by side within each category using supplied values.",
+      "avoid_when": "Do not use when values should stack to a total, normalize to 100%, or represent enrichment-specific encodings."
+    },
+    {
+      "id": "bar-stack",
+      "family": "bar",
+      "title": "Stacked bar chart",
+      "source": "scripts/bar/stack/plot.R",
+      "preview": "scripts/bar/stack/preview.png",
+      "preferred_shapes": [
+        "stacked_composition",
+        "grouped_category_value"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "component",
+          "secondary_category"
+        ]
+      },
+      "intent_keywords": [
+        "stacked bar",
+        "bar-stack",
+        "composition within category",
+        "component",
+        "堆叠柱状图",
+        "堆积柱状图"
+      ],
+      "use_when": "Show supplied component magnitudes stacked within each category.",
+      "avoid_when": "Do not use for side-by-side comparisons or 100% normalized composition unless the request names stacking."
+    },
+    {
+      "id": "bar-percent",
+      "family": "bar",
+      "title": "Percent stacked bar chart",
+      "source": "scripts/bar/percent/plot.R",
+      "preview": "scripts/bar/percent/preview.png",
+      "preferred_shapes": [
+        "stacked_composition",
+        "part_to_whole"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "component",
+          "secondary_category"
+        ]
+      },
+      "intent_keywords": [
+        "percent stacked",
+        "100%",
+        "proportion bar",
+        "composition across categories",
+        "百分比堆叠柱状图",
+        "构成比柱状图"
+      ],
+      "use_when": "Compare supplied part-to-whole composition across categories on a 100% scale.",
+      "avoid_when": "Do not use when absolute counts are the main evidence or when raw values should not be normalized visually."
+    },
+    {
+      "id": "bar-errorbar",
+      "family": "bar",
+      "title": "Bar chart with error bars",
+      "source": "scripts/bar/errorbar/plot.R",
+      "preview": "scripts/bar/errorbar/preview.png",
+      "preferred_shapes": [
+        "category_uncertainty",
+        "category_magnitude"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y",
+          "uncertainty"
+        ],
+        "optional": [
+          "secondary_category"
+        ]
+      },
+      "intent_keywords": [
+        "error bar",
+        "bar-errorbar",
+        "uncertainty",
+        "standard error",
+        "confidence interval",
+        "误差线柱状图"
+      ],
+      "use_when": "Show a supplied summary value with an explicit uncertainty column.",
+      "avoid_when": "Do not invent uncertainty; use only when error, SE, SD, CI, ymin, or ymax is supplied."
+    },
+    {
+      "id": "bar-waterfall",
+      "family": "bar",
+      "title": "Waterfall chart",
+      "source": "scripts/bar/waterfall/plot.R",
+      "preview": "scripts/bar/waterfall/preview.png",
+      "preferred_shapes": [
+        "ranked_value",
+        "category_magnitude"
+      ],
+      "roles": {
+        "required": [
+          "target_entity",
+          "numeric_y"
+        ],
+        "optional": [
+          "rank",
+          "direction",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "waterfall",
+        "bar-waterfall",
+        "sequential change",
+        "accumulate",
+        "瀑布图",
+        "增减柱状图"
+      ],
+      "use_when": "Show ordered supplied increments or signed changes accumulating from a start to an end.",
+      "avoid_when": "Do not use for independent category comparisons or gene-by-sample alteration grids."
+    },
+    {
+      "id": "bar-waffle",
+      "family": "bar",
+      "title": "Waffle chart",
+      "source": "scripts/bar/waffle/plot.R",
+      "preview": "scripts/bar/waffle/preview.png",
+      "preferred_shapes": [
+        "part_to_whole",
+        "category_magnitude"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "secondary_category"
+        ]
+      },
+      "intent_keywords": [
+        "waffle",
+        "unit square",
+        "grid composition",
+        "part-to-whole",
+        "华夫图",
+        "格子构成图"
+      ],
+      "use_when": "Show supplied part-to-whole composition as unit-square tiles.",
+      "avoid_when": "Do not use when a bar, pie, stacked bar, or exact value comparison is clearer."
+    },
+    {
+      "id": "bar-upset",
+      "family": "bar",
+      "title": "UpSet combination matrix",
+      "source": "scripts/bar/upset/plot.R",
+      "preview": "scripts/bar/upset/preview.png",
+      "preferred_shapes": [
+        "multi_set_overlap",
+        "set_membership_summary"
+      ],
+      "roles": {
+        "required": [
+          "target_entity",
+          "count"
+        ],
+        "optional": [
+          "secondary_category",
+          "significance"
+        ]
+      },
+      "intent_keywords": [
+        "upset",
+        "bar-upset",
+        "intersection matrix",
+        "set combination",
+        "集合交集图",
+        "UpSet图"
+      ],
+      "use_when": "Show supplied set-combination counts as an UpSet matrix.",
+      "avoid_when": "Do not enumerate combinations from raw samples in the plotting step; use Venn for 2-4 overlapping circles."
+    },
+    {
+      "id": "bar-venn",
+      "family": "bar",
+      "title": "Overlapping Venn circles",
+      "source": "scripts/bar/venn/plot.R",
+      "preview": "scripts/bar/venn/preview.png",
+      "preferred_shapes": [
+        "set_membership_table",
+        "long_table"
+      ],
+      "roles": {
+        "required": [
+          "target_entity",
+          "category"
+        ],
+        "optional": []
+      },
+      "intent_keywords": [
+        "venn",
+        "bar-venn",
+        "overlap circles",
+        "2-4 sets",
+        "韦恩图",
+        "Venn"
+      ],
+      "use_when": "Show overlap of 2-4 supplied sets from an item-by-set membership table.",
+      "avoid_when": "Do not use for five or more sets, UpSet combination matrices, or enrichment testing."
+    },
+    {
+      "id": "boxplot-group",
+      "family": "boxplot",
+      "title": "Grouped boxplot",
+      "source": "scripts/boxplot/group/plot.R",
+      "preview": "scripts/boxplot/group/preview.png",
+      "preferred_shapes": [
+        "grouped_distribution",
+        "category_distribution"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "secondary_category"
+        ]
+      },
+      "intent_keywords": [
+        "grouped boxplot",
+        "boxplot-group",
+        "boxplot",
+        "box plot",
+        "grouped distribution",
+        "split boxplot",
+        "two grouping factors",
+        "箱线图",
+        "分组箱线图"
+      ],
+      "use_when": "Compare numeric distributions across categories and a second grouping factor.",
+      "avoid_when": "Do not use for a single grouping factor or paired-unit connectors."
+    },
+    {
+      "id": "boxplot-violin",
+      "family": "boxplot",
+      "title": "Violin plot",
+      "source": "scripts/boxplot/violin/plot.R",
+      "preview": "scripts/boxplot/violin/preview.png",
+      "preferred_shapes": [
+        "category_distribution"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "secondary_category"
+        ]
+      },
+      "intent_keywords": [
+        "violin",
+        "density distribution",
+        "full distribution shape",
+        "小提琴图"
+      ],
+      "use_when": "Show the full supplied distribution shape per category.",
+      "avoid_when": "Do not use when quartiles only, raw points, rainclouds, or ridgelines are the requested evidence."
+    },
+    {
+      "id": "boxplot-point",
+      "family": "boxplot",
+      "title": "Boxplot with points",
+      "source": "scripts/boxplot/point/plot.R",
+      "preview": "scripts/boxplot/point/preview.png",
+      "preferred_shapes": [
+        "category_distribution"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "secondary_category"
+        ]
+      },
+      "intent_keywords": [
+        "boxplot with points",
+        "boxplot-point",
+        "raw points",
+        "box plus points",
+        "箱线加点图"
+      ],
+      "use_when": "Combine a box summary with the underlying supplied observations.",
+      "avoid_when": "Do not use when a beeswarm, jitter, or raincloud is the requested raw-point geometry."
+    },
+    {
+      "id": "boxplot-paired",
+      "family": "boxplot",
+      "title": "Paired boxplot",
+      "source": "scripts/boxplot/paired/plot.R",
+      "preview": "scripts/boxplot/paired/preview.png",
+      "preferred_shapes": [
+        "paired_distribution",
+        "category_distribution"
+      ],
+      "roles": {
+        "required": [
+          "pair_id",
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "secondary_category"
+        ]
+      },
+      "intent_keywords": [
+        "paired boxplot",
+        "boxplot-paired",
+        "paired",
+        "before after",
+        "配对箱线图",
+        "前后箱线"
+      ],
+      "use_when": "Compare paired observations across conditions using a supplied pair identifier.",
+      "avoid_when": "Do not use for unpaired groups or when the pair identifier is absent."
+    },
+    {
+      "id": "boxplot-raincloud",
+      "family": "boxplot",
+      "title": "Raincloud plot",
+      "source": "scripts/boxplot/raincloud/plot.R",
+      "preview": "scripts/boxplot/raincloud/preview.png",
+      "preferred_shapes": [
+        "category_distribution"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "secondary_category"
+        ]
+      },
+      "intent_keywords": [
+        "raincloud",
+        "half violin",
+        "box and points",
+        "雨云图",
+        "half-violin"
+      ],
+      "use_when": "Show a half-violin, box, and raw points for supplied category distributions.",
+      "avoid_when": "Do not use when a simple boxplot, violin, or ridgeline is the requested geometry."
+    },
+    {
+      "id": "line-group",
+      "family": "line",
+      "title": "Grouped line chart",
+      "source": "scripts/line/group/plot.R",
+      "preview": "scripts/line/group/preview.png",
+      "preferred_shapes": [
+        "grouped_time_series",
+        "time_series"
+      ],
+      "roles": {
+        "required": [
+          "time",
+          "numeric_y"
+        ],
+        "optional": [
+          "category",
+          "secondary_category"
+        ]
+      },
+      "intent_keywords": [
+        "grouped line",
+        "line-group",
+        "multiple series",
+        "overlay series",
+        "分组折线图"
+      ],
+      "use_when": "Overlay several supplied series on a shared ordered axis.",
+      "avoid_when": "Do not use when values should stack or occupy independent panels."
+    },
+    {
+      "id": "line-stack",
+      "family": "line",
+      "title": "Stacked area chart",
+      "source": "scripts/line/stack/plot.R",
+      "preview": "scripts/line/stack/preview.png",
+      "preferred_shapes": [
+        "grouped_time_series",
+        "stacked_composition"
+      ],
+      "roles": {
+        "required": [
+          "time",
+          "numeric_y"
+        ],
+        "optional": [
+          "category",
+          "component",
+          "secondary_category"
+        ]
+      },
+      "intent_keywords": [
+        "stacked area",
+        "line-stack",
+        "stacked line",
+        "area composition",
+        "堆叠面积图"
+      ],
+      "use_when": "Stack grouped supplied values along an ordered axis as areas.",
+      "avoid_when": "Do not use if stacking would imply a misleading total or if independent y-scales are needed."
+    },
+    {
+      "id": "line-double",
+      "family": "line",
+      "title": "Dual-axis hydrograph",
+      "source": "scripts/line/double/plot.R",
+      "preview": "scripts/line/double/preview.png",
+      "preferred_shapes": [
+        "wide_two_series",
+        "time_series"
+      ],
+      "roles": {
+        "required": [
+          "time",
+          "numeric_y"
+        ],
+        "optional": [
+          "numeric_x"
+        ]
+      },
+      "intent_keywords": [
+        "dual axis",
+        "line-double",
+        "two series",
+        "hydrograph",
+        "双轴折线",
+        "流量降雨图"
+      ],
+      "use_when": "Draw two supplied time series on one panel with opposite visual directions.",
+      "avoid_when": "Do not use when a shared-scale overlay or two independent panels is more honest."
+    },
+    {
+      "id": "line-independent",
+      "family": "line",
+      "title": "Two-panel independent time series",
+      "source": "scripts/line/independent/plot.R",
+      "preview": "scripts/line/independent/preview.png",
+      "preferred_shapes": [
+        "wide_two_series",
+        "time_series"
+      ],
+      "roles": {
+        "required": [
+          "time",
+          "numeric_y"
+        ],
+        "optional": [
+          "numeric_x"
+        ]
+      },
+      "intent_keywords": [
+        "independent panels",
+        "line-independent",
+        "two-panel time series",
+        "separate y scale",
+        "双面板时间序列",
+        "独立坐标折线"
+      ],
+      "use_when": "Show two supplied time series as stacked panels sharing time but not y-scale.",
+      "avoid_when": "Do not use when a single-panel dual-axis or shared-scale overlay is requested."
+    },
+    {
+      "id": "line-ridge",
+      "family": "line",
+      "title": "Ridgeline / joyplot",
+      "source": "scripts/line/ridge/plot.R",
+      "preview": "scripts/line/ridge/preview.png",
+      "preferred_shapes": [
+        "category_distribution"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "secondary_category",
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "ridgeline",
+        "ridge",
+        "joyplot",
+        "ggridges",
+        "脊线图",
+        "山脊图"
+      ],
+      "use_when": "Stack supplied one-dimensional distributions as ridgelines by group, optionally faceted by feature.",
+      "avoid_when": "Do not use for mirrored violins, rainclouds, two-dimensional density, or genome-coordinate coverage."
+    },
+    {
+      "id": "scatter-basic",
+      "family": "scatter",
+      "title": "Basic scatter plot",
+      "source": "scripts/scatter/basic/plot.R",
+      "preview": "scripts/scatter/basic/preview.png",
+      "preferred_shapes": [
+        "two_numeric_observation"
+      ],
+      "roles": {
+        "required": [
+          "numeric_x",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "scatter",
+        "scatter-basic",
+        "xy scatter",
+        "two numeric",
+        "散点图",
+        "基础散点"
+      ],
+      "use_when": "Plot two supplied numeric variables against each other without grouping or extra encodings.",
+      "avoid_when": "Do not use when grouping, point size, density, fit lines, or SVG glyphs are needed."
+    },
+    {
+      "id": "scatter-group",
+      "family": "scatter",
+      "title": "Grouped scatter plot",
+      "source": "scripts/scatter/group/plot.R",
+      "preview": "scripts/scatter/group/preview.png",
+      "preferred_shapes": [
+        "two_numeric_observation"
+      ],
+      "roles": {
+        "required": [
+          "numeric_x",
+          "numeric_y",
+          "category"
+        ],
+        "optional": [
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "grouped scatter",
+        "scatter-group",
+        "colored by group",
+        "cluster scatter",
+        "分组散点图",
+        "分类散点"
+      ],
+      "use_when": "Color supplied x-y points by a categorical group.",
+      "avoid_when": "Do not use for ungrouped scatter, SVG glyph marks, Voronoi tiles, ternary position, or UMAP-circos composition."
+    },
+    {
+      "id": "scatter-bubble",
+      "family": "scatter",
+      "title": "Bubble scatter plot",
+      "source": "scripts/scatter/bubble/plot.R",
+      "preview": "scripts/scatter/bubble/preview.png",
+      "preferred_shapes": [
+        "two_numeric_observation"
+      ],
+      "roles": {
+        "required": [
+          "numeric_x",
+          "numeric_y",
+          "magnitude"
+        ],
+        "optional": [
+          "category",
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "bubble scatter",
+        "scatter-bubble",
+        "point size",
+        "third numeric",
+        "气泡图",
+        "bubble chart"
+      ],
+      "use_when": "Encode a third supplied numeric variable as point size on an x-y scatter.",
+      "avoid_when": "Do not use when size is not comparable across points or overplotting calls for hex/contour density."
+    },
+    {
+      "id": "scatter-matrix",
+      "family": "scatter",
+      "title": "Category-by-category bubble grid",
+      "source": "scripts/scatter/matrix/plot.R",
+      "preview": "scripts/scatter/matrix/preview.png",
+      "preferred_shapes": [
+        "category_grid"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity",
+          "secondary_category",
+          "magnitude"
+        ]
+      },
+      "intent_keywords": [
+        "scatter matrix",
+        "category bubble grid",
+        "bubble grid",
+        "category-by-category",
+        "散点矩阵",
+        "类别气泡网格"
+      ],
+      "use_when": "Draw bubbles on two categorical axes where size or colour encodes a supplied numeric value.",
+      "avoid_when": "Do not use for numeric pairs plots, a single x-y scatter, or coefficient-only correlation matrices."
+    },
+    {
+      "id": "scatter-pairs",
+      "family": "scatter",
+      "title": "Pairs plot with correlation tiles",
+      "source": "scripts/scatter/pairs/plot.R",
+      "preview": "scripts/scatter/pairs/preview.png",
+      "preferred_shapes": [
+        "wide_many_variables",
+        "wide_numeric_table"
+      ],
+      "roles": {
+        "required": [
+          "numeric_matrix"
+        ],
+        "optional": [
+          "target_entity",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "pairs plot",
+        "scatter-pairs",
+        "ggpairs",
+        "scatterplot matrix",
+        "相关散点矩阵",
+        "散点相关矩阵"
+      ],
+      "use_when": "Compare several supplied numeric variables with pairwise scatter and correlation tiles.",
+      "avoid_when": "Do not use for one pair, a category bubble grid, or coefficient-only square matrices; large variable sets belong on a heatmap."
+    },
+    {
+      "id": "scatter-jitter",
+      "family": "scatter",
+      "title": "Jitter plot by category",
+      "source": "scripts/scatter/jitter/plot.R",
+      "preview": "scripts/scatter/jitter/preview.png",
+      "preferred_shapes": [
+        "category_distribution"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "jitter",
+        "scatter-jitter",
+        "raw values by category",
+        "抖动图"
+      ],
+      "use_when": "Show supplied raw values within categories by jittering overlapping points.",
+      "avoid_when": "Do not use when beeswarm, boxplot, violin, or grouped jitter better represents the distribution."
+    },
+    {
+      "id": "scatter-beeswarm",
+      "family": "scatter",
+      "title": "Beeswarm plot",
+      "source": "scripts/scatter/beeswarm/plot.R",
+      "preview": "scripts/scatter/beeswarm/preview.png",
+      "preferred_shapes": [
+        "category_distribution"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "beeswarm",
+        "scatter-beeswarm",
+        "swarm",
+        "蜂群图"
+      ],
+      "use_when": "Show every supplied observation in a category as a compact non-random swarm.",
+      "avoid_when": "Do not use when jitter, boxplot, violin, or a grouped swarm is requested."
+    },
+    {
+      "id": "scatter-cleveland",
+      "family": "scatter",
+      "title": "Cleveland dot plot",
+      "source": "scripts/scatter/cleveland/plot.R",
+      "preview": "scripts/scatter/cleveland/preview.png",
+      "preferred_shapes": [
+        "category_magnitude",
+        "ranked_value"
+      ],
+      "roles": {
+        "required": [
+          "target_entity",
+          "numeric_y"
+        ],
+        "optional": [
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "cleveland",
+        "scatter-cleveland",
+        "dot plot",
+        "stem from zero",
+        "Cleveland点图",
+        "棒状点图"
+      ],
+      "use_when": "Rank categories by one supplied numeric value with a stem from zero to each point.",
+      "avoid_when": "Do not use for before/after dumbbells, signed delta lollipops, mutation lollipops, or full distributions."
+    },
+    {
+      "id": "scatter-rank",
+      "family": "scatter",
+      "title": "Ranked lollipop / score plot",
+      "source": "scripts/scatter/rank/plot.R",
+      "preview": "scripts/scatter/rank/preview.png",
+      "preferred_shapes": [
+        "ranked_value",
+        "category_magnitude"
+      ],
+      "roles": {
+        "required": [
+          "target_entity"
+        ],
+        "optional": [
+          "rank",
+          "numeric_y",
+          "effect_size",
+          "signed_association",
+          "magnitude",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "ranked score",
+        "scatter-rank",
+        "ranked lollipop",
+        "score plot",
+        "排序棒棒糖图"
+      ],
+      "use_when": "Rank many supplied items by a score and mark each with a lollipop stem.",
+      "avoid_when": "Do not use for polar/radial lollipops, signed p-sized delta lollipops, or protein mutation lollipops."
+    },
+    {
+      "id": "scatter-lollipop-delta",
+      "family": "scatter",
+      "title": "Signed lollipop with p-value size",
+      "source": "scripts/scatter/lollipop_delta/plot.R",
+      "preview": "scripts/scatter/lollipop_delta/preview.png",
+      "preferred_shapes": [
+        "long_association",
+        "ranked_value"
+      ],
+      "roles": {
+        "required": [
+          "target_entity",
+          "signed_association",
+          "significance"
+        ],
+        "optional": [
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "delta lollipop",
+        "scatter-lollipop-delta",
+        "signed lollipop",
+        "p-value size",
+        "免疫棒棒糖",
+        "差值棒棒糖"
+      ],
+      "use_when": "Show supplied signed deltas as lollipops through zero, with p-value or supplied significance encoded by size/stroke.",
+      "avoid_when": "Do not run tests or signature scoring in the plot script; do not use for protein mutation lollipops or before/after dumbbells."
+    },
+    {
+      "id": "heatmap-corr-dot",
+      "family": "heatmap",
+      "title": "Association-dot heatmap",
+      "source": "scripts/heatmap/corr_dot/plot.R",
+      "preview": "scripts/heatmap/corr_dot/preview.png",
+      "preferred_shapes": [
+        "association_grid",
+        "long_association"
+      ],
+      "roles": {
+        "required": [
+          "x_category",
+          "y_category",
+          "signed_association",
+          "significance"
+        ],
+        "optional": [
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "heatmap-corr-dot",
+        "association dot",
+        "shape cutoff",
+        "immune correlation grid",
+        "关联点阵",
+        "免疫相关热图"
+      ],
+      "use_when": "Draw a two-category grid where colour is a supplied signed coefficient and shape marks a supplied p-value cutoff.",
+      "avoid_when": "Do not compute rho from samples, use size-plus-stars, split cells into triangles, or represent a focal hub story."
+    },
+    {
+      "id": "heatmap-corr-triangle",
+      "family": "heatmap",
+      "title": "Diagonal-split correlation heatmap",
+      "source": "scripts/heatmap/corr_triangle/plot.R",
+      "preview": "scripts/heatmap/corr_triangle/preview.png",
+      "preferred_shapes": [
+        "association_grid",
+        "long_association"
+      ],
+      "roles": {
+        "required": [
+          "x_category",
+          "y_category",
+          "signed_association",
+          "significance"
+        ],
+        "optional": [
+          "magnitude",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "heatmap-corr-triangle",
+        "diagonal split",
+        "split triangle",
+        "two fills",
+        "对角线分割热图",
+        "双三角热图"
+      ],
+      "use_when": "Split each supplied association-grid cell into two triangles for coefficient and p-value or another supplied continuous measure.",
+      "avoid_when": "Do not compute correlations, impute missing pairs, or use when a single glyph with shape/size is intended."
+    },
+    {
+      "id": "heatmap-signif",
+      "family": "heatmap",
+      "title": "Correlation heatmap with significance marks",
+      "source": "scripts/heatmap/signif/plot.R",
+      "preview": "scripts/heatmap/signif/preview.png",
+      "preferred_shapes": [
+        "wide_many_variables",
+        "numeric_matrix"
+      ],
+      "roles": {
+        "required": [
+          "numeric_matrix"
+        ],
+        "optional": [
+          "target_entity",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "correlation matrix",
+        "heatmap-signif",
+        "significance marks",
+        "square correlation",
+        "显著性相关热图",
+        "相关矩阵热图"
+      ],
+      "use_when": "Show a square correlation matrix with supplied sample-row numeric variables and significance marks.",
+      "avoid_when": "Do not use for precomputed long rho/p association grids or two-set X-vs-Y correlations."
+    },
+    {
+      "id": "heatmap-cluster-basic",
+      "family": "heatmap",
+      "title": "Clustered heatmap",
+      "source": "scripts/heatmap/cluster_basic/plot.R",
+      "preview": "scripts/heatmap/cluster_basic/preview.png",
+      "preferred_shapes": [
+        "dendrogram_matrix",
+        "wide_numeric_table"
+      ],
+      "roles": {
+        "required": [
+          "numeric_matrix"
+        ],
+        "optional": [
+          "target_entity",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "clustered heatmap",
+        "heatmap-cluster-basic",
+        "hierarchical clustering heatmap",
+        "聚类热图",
+        "层次聚类热图"
+      ],
+      "use_when": "Cluster a supplied feature-by-sample numeric matrix with optional row or column annotations.",
+      "avoid_when": "Do not use for unclustered matrices, precomputed correlation grids, or cutree block score heatmaps."
+    },
+    {
+      "id": "heatmap-cluster-block",
+      "family": "heatmap",
+      "title": "Clustered heatmap with cutree blocks",
+      "source": "scripts/heatmap/cluster_block/plot.R",
+      "preview": "scripts/heatmap/cluster_block/preview.png",
+      "preferred_shapes": [
+        "dendrogram_matrix",
+        "numeric_matrix"
+      ],
+      "roles": {
+        "required": [
+          "numeric_matrix"
+        ],
+        "optional": [
+          "target_entity",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "cutree",
+        "heatmap-cluster-block",
+        "block heatmap",
+        "cluster blocks",
+        "分块聚类热图",
+        "NMF相关热图"
+      ],
+      "use_when": "Cluster a supplied rectangular score matrix and show row/column cutree blocks.",
+      "avoid_when": "Do not compute correlations or z-score in the plot script; use basic clustered heatmap for expression matrices."
+    },
+    {
+      "id": "heatmap-enrichment-terms",
+      "family": "heatmap",
+      "title": "Term-by-group enrichment heatmap",
+      "source": "scripts/heatmap/enrichment_terms/plot.R",
+      "preview": "scripts/heatmap/enrichment_terms/preview.png",
+      "preferred_shapes": [
+        "enrichment_term_grid",
+        "association_grid"
+      ],
+      "roles": {
+        "required": [
+          "target_entity",
+          "category",
+          "significance",
+          "direction"
+        ],
+        "optional": [
+          "signed_association"
+        ]
+      },
+      "intent_keywords": [
+        "term enrichment heatmap",
+        "heatmap-enrichment-terms",
+        "term-by-group",
+        "enrichment comparison",
+        "通路分组富集热图",
+        "通路对比富集热图"
+      ],
+      "use_when": "Compare supplied enrichment terms across groups using supplied adjusted p/q values and direction.",
+      "avoid_when": "Do not run enrichment, convert species, cluster terms, or use for a ranked one-contrast enrichment list."
+    },
+    {
+      "id": "sankey-level",
+      "family": "sankey",
+      "title": "Multi-level Sankey diagram",
+      "source": "scripts/sankey/level/plot.R",
+      "preview": "scripts/sankey/level/preview.png",
+      "preferred_shapes": [
+        "flow_table"
+      ],
+      "roles": {
+        "required": [
+          "source_entity",
+          "target_entity",
+          "flow_value"
+        ],
+        "optional": [
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "multi-level sankey",
+        "sankey-level",
+        "several levels",
+        "multi-stage flow",
+        "多层桑基图",
+        "多级流向图"
+      ],
+      "use_when": "Show conserved flows across several inferred node levels from a supplied edge list.",
+      "avoid_when": "Do not use for a simple two-column flow, parallel sets, containment hierarchy, or sunburst."
+    },
+    {
+      "id": "sankey-parallel-sets",
+      "family": "sankey",
+      "title": "Parallel-sets diagram",
+      "source": "scripts/sankey/parallel_sets/plot.R",
+      "preview": "scripts/sankey/parallel_sets/preview.png",
+      "preferred_shapes": [
+        "parallel_sets_table"
+      ],
+      "roles": {
+        "required": [
+          "count"
+        ],
+        "optional": [
+          "category",
+          "secondary_category",
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "parallel sets",
+        "sankey-parallel-sets",
+        "alluvial",
+        "categorical axes",
+        "平行集合图",
+        "平行集"
+      ],
+      "use_when": "Show supplied counts flowing across several categorical axes.",
+      "avoid_when": "Do not tabulate raw samples in the script or use for a source-target edge list."
+    },
+    {
+      "id": "tree-dendrogram",
+      "family": "tree",
+      "title": "Clustering dendrogram",
+      "source": "scripts/tree/dendrogram/plot.R",
+      "preview": "scripts/tree/dendrogram/preview.png",
+      "preferred_shapes": [
+        "dendrogram_matrix",
+        "wide_numeric_table"
+      ],
+      "roles": {
+        "required": [
+          "numeric_matrix"
+        ],
+        "optional": [
+          "target_entity",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "dendrogram",
+        "tree-dendrogram",
+        "hclust",
+        "sample clustering",
+        "聚类树",
+        "样本聚类树"
+      ],
+      "use_when": "Cluster supplied leaves from a numeric feature matrix and draw the dendrogram.",
+      "avoid_when": "Do not use for named parent/path hierarchies, heatmaps with dendrograms, treemaps, sunbursts, or phylogenetic claims without phylogenetic input."
+    },
+    {
+      "id": "tree-treemap",
+      "family": "tree",
+      "title": "Hierarchical treemap",
+      "source": "scripts/tree/treemap/plot.R",
+      "preview": "scripts/tree/treemap/preview.png",
+      "preferred_shapes": [
+        "hierarchy_area"
+      ],
+      "roles": {
+        "required": [
+          "parent_entity",
+          "target_entity",
+          "numeric_y"
+        ],
+        "optional": [
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "treemap",
+        "tree-treemap",
+        "nested rectangles",
+        "hierarchical area",
+        "矩形树图",
+        "树状矩形图"
+      ],
+      "use_when": "Show a supplied hierarchy as nested rectangles whose area encodes a supplied leaf size.",
+      "avoid_when": "Do not use for node-link trees, circle packing, sunbursts, or statistical relationship claims from adjacency."
+    },
+    {
+      "id": "tree-circlepack",
+      "family": "tree",
+      "title": "Circle packing",
+      "source": "scripts/tree/circlepack/plot.R",
+      "preview": "scripts/tree/circlepack/preview.png",
+      "preferred_shapes": [
+        "hierarchy_area"
+      ],
+      "roles": {
+        "required": [
+          "parent_entity",
+          "target_entity",
+          "numeric_y"
+        ],
+        "optional": [
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "circle pack",
+        "tree-circlepack",
+        "circle packing",
+        "nested circles",
+        "圆堆积图"
+      ],
+      "use_when": "Show a supplied hierarchy as nested circles whose area encodes a supplied leaf size.",
+      "avoid_when": "Do not use for treemaps, sunbursts, icicle partitions, node-link trees, or adjacency-based statistical claims."
+    },
+    {
+      "id": "tree-partition",
+      "family": "tree",
+      "title": "Icicle / rectangular partition",
+      "source": "scripts/tree/partition/plot.R",
+      "preview": "scripts/tree/partition/preview.png",
+      "preferred_shapes": [
+        "hierarchy_area"
+      ],
+      "roles": {
+        "required": [
+          "parent_entity",
+          "target_entity",
+          "numeric_y"
+        ],
+        "optional": [
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "icicle",
+        "partition",
+        "tree-partition",
+        "rectangular partition",
+        "冰柱图",
+        "矩形分区图"
+      ],
+      "use_when": "Show a supplied hierarchy as stacked rectangular bands where width encodes supplied leaf size.",
+      "avoid_when": "Do not use for circular sunbursts, treemaps, circle packs, node-link trees, or classification trees with outer tracks."
+    },
+    {
+      "id": "sunburst-basic",
+      "family": "sunburst",
+      "title": "Basic sunburst chart",
+      "source": "scripts/sunburst/basic/plot.R",
+      "preview": "scripts/sunburst/basic/preview.png",
+      "preferred_shapes": [
+        "hierarchy_area"
+      ],
+      "roles": {
+        "required": [
+          "parent_entity",
+          "target_entity",
+          "numeric_y"
+        ],
+        "optional": [
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "sunburst",
+        "sunburst-basic",
+        "concentric hierarchy",
+        "radial hierarchy",
+        "旭日图",
+        "多层环图"
+      ],
+      "use_when": "Show a supplied hierarchy as concentric rings where angle encodes descendant size.",
+      "avoid_when": "Do not use for node-link trees, Sankey flows, or outer-track classification trees."
+    },
+    {
+      "id": "radar-group",
+      "family": "radar",
+      "title": "Faceted radar charts",
+      "source": "scripts/radar/group/plot.R",
+      "preview": "scripts/radar/group/preview.png",
+      "preferred_shapes": [
+        "radar_wide_table"
+      ],
+      "roles": {
+        "required": [
+          "axis_entity",
+          "numeric_matrix"
+        ],
+        "optional": [
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "faceted radar",
+        "radar-group",
+        "multiple radar",
+        "many series radar",
+        "分面雷达图",
+        "多雷达图"
+      ],
+      "use_when": "Draw one radar per supplied series so overlapping polygons do not obscure the comparison.",
+      "avoid_when": "Do not use when two or a few series should share one radar or when exact magnitude comparison is primary."
+    },
+    {
+      "id": "bar-break",
+      "family": "bar",
+      "title": "Bar chart with axis break",
+      "source": "scripts/bar/break/plot.R",
+      "preview": "scripts/bar/break/preview.png",
+      "preferred_shapes": [
+        "category_magnitude"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "axis break",
+        "broken axis",
+        "bar-break",
+        "outlier bar",
+        "dwarf",
+        "断轴",
+        "断轴柱状图"
+      ],
+      "use_when": "Compare category magnitudes when a supplied value range contains one or a few much larger values and the user explicitly wants an axis break.",
+      "avoid_when": "Do not use an axis break for ordinary category comparisons or to exaggerate small differences."
+    },
+    {
+      "id": "bar-butterfly",
+      "family": "bar",
+      "title": "Butterfly / diverging bar chart",
+      "source": "scripts/bar/butterfly/plot.R",
+      "preview": "scripts/bar/butterfly/preview.png",
+      "preferred_shapes": [
+        "grouped_category_value",
+        "category_two_series"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "secondary_category",
+          "count"
+        ]
+      },
+      "intent_keywords": [
+        "butterfly",
+        "diverging bar",
+        "mirrored bars",
+        "two opposing series",
+        "蝴蝶图",
+        "对称条形图"
+      ],
+      "use_when": "Mirror two supplied series around a shared category axis for left-versus-right comparison.",
+      "avoid_when": "Do not use for one-sided rankings, stacked composition, or a signed single-series bar chart."
+    },
+    {
+      "id": "bar-opposite",
+      "family": "bar",
+      "title": "Opposite-direction bar chart",
+      "source": "scripts/bar/opposite/plot.R",
+      "preview": "scripts/bar/opposite/preview.png",
+      "preferred_shapes": [
+        "category_magnitude",
+        "ranked_value"
+      ],
+      "roles": {
+        "required": [
+          "target_entity",
+          "direction"
+        ],
+        "optional": [
+          "numeric_y",
+          "signed_association",
+          "significance",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "opposite",
+        "bidirectional",
+        "gain loss",
+        "positive negative",
+        "bar-opposite",
+        "双向柱状图",
+        "正负柱状图"
+      ],
+      "use_when": "Show supplied values extending in opposite directions from a baseline when a direction column such as gain/loss or up/down is present.",
+      "avoid_when": "Do not use for enrichment ratio tables, one-to-many associations, or two matched series that should mirror as a butterfly chart."
+    },
+    {
+      "id": "bar-radial",
+      "family": "bar",
+      "title": "Radial bar chart",
+      "source": "scripts/bar/radial/plot.R",
+      "preview": "scripts/bar/radial/preview.png",
+      "preferred_shapes": [
+        "category_magnitude"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "radial bar",
+        "bar-radial",
+        "circular bar",
+        "径向柱状图"
+      ],
+      "use_when": "Map one supplied magnitude per category to radial bar length around a circle.",
+      "avoid_when": "Do not use for grouped radial bars, stacked polar bars, or circos doughnut-bar compositions."
+    },
+    {
+      "id": "bar-radial-groups",
+      "family": "bar",
+      "title": "Grouped radial bar chart",
+      "source": "scripts/bar/radial_groups/plot.R",
+      "preview": "scripts/bar/radial_groups/preview.png",
+      "preferred_shapes": [
+        "grouped_category_value"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "secondary_category",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity",
+          "count"
+        ]
+      },
+      "intent_keywords": [
+        "grouped radial bar",
+        "bar-radial-groups",
+        "radial groups",
+        "分组径向柱状图"
+      ],
+      "use_when": "Compare several supplied groups as radial bars across the same category axis.",
+      "avoid_when": "Do not use for a single radial series or for a composition ring with inner bars."
+    },
+    {
+      "id": "bar-polar-horizontal",
+      "family": "bar",
+      "title": "Polar horizontal bars",
+      "source": "scripts/bar/polar_horizontal/plot.R",
+      "preview": "scripts/bar/polar_horizontal/preview.png",
+      "preferred_shapes": [
+        "category_magnitude"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "polar horizontal",
+        "bar-polar-horizontal",
+        "极坐标水平柱"
+      ],
+      "use_when": "Draw category magnitudes as a horizontal-bar mapping in polar coordinates when that geometry is requested.",
+      "avoid_when": "Do not use for ordinary bars, polar vertical bars, stacked rings, or sector bars without explicit polar-horizontal intent."
+    },
+    {
+      "id": "bar-polar-vertical",
+      "family": "bar",
+      "title": "Polar vertical bars",
+      "source": "scripts/bar/polar_vertical/plot.R",
+      "preview": "scripts/bar/polar_vertical/preview.png",
+      "preferred_shapes": [
+        "category_magnitude"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "polar vertical",
+        "bar-polar-vertical",
+        "极坐标竖直柱"
+      ],
+      "use_when": "Draw category magnitudes as a vertical-bar mapping in polar coordinates when requested.",
+      "avoid_when": "Do not use for ordinary bars, polar horizontal bars, stacked rings, or sector bars without explicit polar-vertical intent."
+    },
+    {
+      "id": "bar-polar-stack",
+      "family": "bar",
+      "title": "Polar stacked bars",
+      "source": "scripts/bar/polar_stack/plot.R",
+      "preview": "scripts/bar/polar_stack/preview.png",
+      "preferred_shapes": [
+        "stacked_composition",
+        "nested_composition"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "component",
+          "numeric_y"
+        ],
+        "optional": [
+          "secondary_category",
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "polar stacked",
+        "bar-polar-stack",
+        "polar stack",
+        "极坐标堆叠柱"
+      ],
+      "use_when": "Stack supplied components within each category as filled polar bars.",
+      "avoid_when": "Do not use when the hollow ring variant or a rectangular stacked bar is intended."
+    },
+    {
+      "id": "bar-polar-stack-ring",
+      "family": "bar",
+      "title": "Polar stacked ring bars",
+      "source": "scripts/bar/polar_stack_ring/plot.R",
+      "preview": "scripts/bar/polar_stack_ring/preview.png",
+      "preferred_shapes": [
+        "stacked_composition",
+        "nested_composition"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "component",
+          "numeric_y"
+        ],
+        "optional": [
+          "secondary_category",
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "polar stacked ring",
+        "bar-polar-stack-ring",
+        "hollow polar stack",
+        "极坐标堆叠环"
+      ],
+      "use_when": "Stack supplied components as a hollow polar ring by category.",
+      "avoid_when": "Do not use when a filled polar stack or ordinary percent stacked bar is clearer."
+    },
+    {
+      "id": "bar-polar-sector",
+      "family": "bar",
+      "title": "Polar sector bars",
+      "source": "scripts/bar/polar_sector/plot.R",
+      "preview": "scripts/bar/polar_sector/preview.png",
+      "preferred_shapes": [
+        "category_magnitude"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity",
+          "secondary_category"
+        ]
+      },
+      "intent_keywords": [
+        "polar sector",
+        "bar-polar-sector",
+        "sector bar",
+        "Nightingale-like bar",
+        "扇区柱状图"
+      ],
+      "use_when": "Encode supplied category values as polar sectors when a sector-bar geometry is requested.",
+      "avoid_when": "Do not use for a pie or Nightingale rose where slice angle or radius has a different meaning."
+    },
+    {
+      "id": "bar-enrichment-points",
+      "family": "bar",
+      "title": "Enrichment bars with gene-ratio points",
+      "source": "scripts/bar/enrichment_points/plot.R",
+      "preview": "scripts/bar/enrichment_points/preview.png",
+      "preferred_shapes": [
+        "enrichment_terms"
+      ],
+      "roles": {
+        "required": [
+          "target_entity",
+          "ratio",
+          "significance"
+        ],
+        "optional": [
+          "category",
+          "count"
+        ]
+      },
+      "intent_keywords": [
+        "enrichment bars with points",
+        "bar-enrichment-points",
+        "gene-ratio points",
+        "GO enrichment bars",
+        "富集柱状加点图",
+        "GO富集图"
+      ],
+      "use_when": "Rank supplied enrichment terms as bars with gene-ratio points, often faceted by ontology.",
+      "avoid_when": "Do not use for classic dotplots, gene-count-only bars, term-by-group heatmaps, or enrichment computed inside the plotting step."
+    },
+    {
+      "id": "bar-enrichment-genes",
+      "family": "bar",
+      "title": "Enrichment bars by gene count",
+      "source": "scripts/bar/enrichment_genes/plot.R",
+      "preview": "scripts/bar/enrichment_genes/preview.png",
+      "preferred_shapes": [
+        "enrichment_ranked_terms"
+      ],
+      "roles": {
+        "required": [
+          "target_entity",
+          "significance"
+        ],
+        "optional": [
+          "count",
+          "direction",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "enrichment gene count",
+        "bar-enrichment-genes",
+        "gene count enrichment",
+        "基因数富集柱状图"
+      ],
+      "use_when": "Rank supplied enrichment terms by gene count or a supplied gene-list-derived count.",
+      "avoid_when": "Do not use when gene ratio is the requested x encoding or when a classification tree with an outer track is needed."
+    },
+    {
+      "id": "bar-enrichment-groups",
+      "family": "bar",
+      "title": "Grouped enrichment bars",
+      "source": "scripts/bar/enrichment_groups/plot.R",
+      "preview": "scripts/bar/enrichment_groups/preview.png",
+      "preferred_shapes": [
+        "enrichment_grouped_terms"
+      ],
+      "roles": {
+        "required": [
+          "target_entity",
+          "category",
+          "significance"
+        ],
+        "optional": [
+          "count",
+          "direction",
+          "secondary_category"
+        ]
+      },
+      "intent_keywords": [
+        "grouped enrichment bars",
+        "bar-enrichment-groups",
+        "term groups enrichment",
+        "分组富集柱状图"
+      ],
+      "use_when": "Compare supplied enrichment statistics for the same or comparable terms across groups or ontologies.",
+      "avoid_when": "Do not use for a single-contrast enrichment list or for enrichment bars aligned to a DE heatmap."
+    },
+    {
+      "id": "bar-enrichment-expand",
+      "family": "bar",
+      "title": "Enrichment bars with expanded category headers",
+      "source": "scripts/bar/enrichment_expand/plot.R",
+      "preview": "scripts/bar/enrichment_expand/preview.png",
+      "preferred_shapes": [
+        "enrichment_grouped_terms"
+      ],
+      "roles": {
+        "required": [
+          "target_entity",
+          "category",
+          "significance"
+        ],
+        "optional": [
+          "count"
+        ]
+      },
+      "intent_keywords": [
+        "expanded enrichment",
+        "bar-enrichment-expand",
+        "category headers",
+        "分层富集柱状图"
+      ],
+      "use_when": "Group supplied enrichment terms under category headers on the y-axis.",
+      "avoid_when": "Do not use when ontology facets, a tree enrichment ring, or a term-by-group heatmap better encodes the grouping."
+    },
+    {
+      "id": "bar-svg-icon",
+      "family": "bar",
+      "title": "Horizontal bars with SVG category marks",
+      "source": "scripts/bar/svg_icon/plot.R",
+      "preview": "scripts/bar/svg_icon/preview.png",
+      "preferred_shapes": [
+        "svg_marked_observation",
+        "category_magnitude"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "svg_marker",
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "svg icon bar",
+        "bar-svg-icon",
+        "icon bars",
+        "glyph bar",
+        "图标柱状图",
+        "SVG柱状图"
+      ],
+      "use_when": "Compare supplied category magnitudes while replacing category text with provided SVG or icon marks.",
+      "avoid_when": "Do not use for ordinary text-labelled bars, unit-square waffles, or x-y SVG scatters."
+    },
+    {
+      "id": "bar-swimmer",
+      "family": "bar",
+      "title": "Swimmer plot of patient treatment lanes",
+      "source": "scripts/bar/swimmer/plot.R",
+      "preview": "scripts/bar/swimmer/preview.png",
+      "preferred_shapes": [
+        "interval_timeline"
+      ],
+      "roles": {
+        "required": [
+          "pair_id",
+          "interval_start",
+          "interval_end"
+        ],
+        "optional": [
+          "category",
+          "secondary_category",
+          "status",
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "swimmer",
+        "swimmer plot",
+        "treatment lane",
+        "patient timeline",
+        "泳道图",
+        "游泳图"
+      ],
+      "use_when": "Show supplied interval records as one lane per unit on a time axis, with optional treatment, response, or stop annotations.",
+      "avoid_when": "Do not use for magnitude bars, two-point dumbbells, or population survival curves."
+    },
+    {
+      "id": "boxplot-round",
+      "family": "boxplot",
+      "title": "Rounded boxplot",
+      "source": "scripts/boxplot/round/plot.R",
+      "preview": "scripts/boxplot/round/preview.png",
+      "preferred_shapes": [
+        "category_distribution"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "rounded boxplot",
+        "boxplot-round",
+        "round boxplot",
+        "圆角箱线图"
+      ],
+      "use_when": "Summarize supplied numeric distributions by category with rounded box geometry when requested.",
+      "avoid_when": "Do not use when a standard rectangular boxplot or distribution-rich geometry is intended."
+    },
+    {
+      "id": "boxplot-bezier-point",
+      "family": "boxplot",
+      "title": "Boxplot with Bezier pair links",
+      "source": "scripts/boxplot/bezier_point/plot.R",
+      "preview": "scripts/boxplot/bezier_point/preview.png",
+      "preferred_shapes": [
+        "paired_distribution"
+      ],
+      "roles": {
+        "required": [
+          "pair_id",
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "bezier paired boxplot",
+        "boxplot-bezier-point",
+        "curved pair links",
+        "贝塞尔连线箱线图"
+      ],
+      "use_when": "Overlay paired observations on boxes and connect each supplied pair_id with Bezier curves within each facet; do not infer pairs from row order.",
+      "avoid_when": "Do not use when straight pair connectors or an x-y Bezier scatter is intended."
+    },
+    {
+      "id": "boxplot-differential-expression",
+      "family": "boxplot",
+      "title": "Differential-expression boxplot",
+      "source": "scripts/boxplot/differential_expression/plot.R",
+      "preview": "scripts/boxplot/differential_expression/preview.png",
+      "preferred_shapes": [
+        "feature_distribution",
+        "category_distribution"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity",
+          "significance"
+        ]
+      },
+      "intent_keywords": [
+        "differential expression boxplot",
+        "feature expression boxplot",
+        "gene boxplot",
+        "boxplot-differential-expression",
+        "差异表达箱线图",
+        "基因箱线图"
+      ],
+      "use_when": "Compare supplied expression or abundance values for selected features across sample groups.",
+      "avoid_when": "Do not use a volcano as a substitute or facet many features when a single feature panel is requested."
+    },
+    {
+      "id": "boxplot-differential-two",
+      "family": "boxplot",
+      "title": "Two-panel differential boxplot",
+      "source": "scripts/boxplot/differential_two/plot.R",
+      "preview": "scripts/boxplot/differential_two/preview.png",
+      "preferred_shapes": [
+        "feature_distribution",
+        "grouped_distribution"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity",
+          "secondary_category",
+          "significance"
+        ]
+      },
+      "intent_keywords": [
+        "two-panel differential boxplot",
+        "boxplot-differential-two",
+        "two feature boxplot",
+        "双面板差异箱线"
+      ],
+      "use_when": "Show two supplied features or contrasts as paired differential box panels.",
+      "avoid_when": "Do not use for one feature or for many-feature facet grids."
+    },
+    {
+      "id": "boxplot-differential-facet",
+      "family": "boxplot",
+      "title": "Faceted differential boxplot",
+      "source": "scripts/boxplot/differential_facet/plot.R",
+      "preview": "scripts/boxplot/differential_facet/preview.png",
+      "preferred_shapes": [
+        "feature_distribution",
+        "grouped_distribution"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity",
+          "secondary_category",
+          "significance"
+        ]
+      },
+      "intent_keywords": [
+        "faceted differential boxplot",
+        "boxplot-differential-facet",
+        "many feature boxplot",
+        "分面差异箱线"
+      ],
+      "use_when": "Facet supplied expression distributions across many selected features.",
+      "avoid_when": "Do not use for one or two features when simpler differential boxplots are clearer."
+    },
+    {
+      "id": "boxplot-differential-bg",
+      "family": "boxplot",
+      "title": "Banded two-level differential boxplot",
+      "source": "scripts/boxplot/differential_bg/plot.R",
+      "preview": "scripts/boxplot/differential_bg/preview.png",
+      "preferred_shapes": [
+        "grouped_distribution"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "secondary_category",
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "background bands boxplot",
+        "boxplot-differential-bg",
+        "banded boxplot",
+        "背景色带箱线图",
+        "pancancer boxplot",
+        "泛癌箱线图"
+      ],
+      "use_when": "Compare two groups within many x-axis categories with alternating background bands and per-category significance labels.",
+      "avoid_when": "Do not use a plain two-factor boxplot without bands, a single-category DE panel, or faceted many-feature panels."
+    },
+    {
+      "id": "boxplot-raincloud-vertical",
+      "family": "boxplot",
+      "title": "Vertical raincloud plot",
+      "source": "scripts/boxplot/raincloud_vertical/plot.R",
+      "preview": "scripts/boxplot/raincloud_vertical/preview.png",
+      "preferred_shapes": [
+        "category_distribution"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "vertical raincloud",
+        "boxplot-raincloud-vertical",
+        "竖直雨云图"
+      ],
+      "use_when": "Combine half-violin, box, and raw observations in a vertical raincloud layout.",
+      "avoid_when": "Do not use when the horizontal raincloud or a simpler box-plus-points plot is intended."
+    },
+    {
+      "id": "boxplot-raincloud-differential",
+      "family": "boxplot",
+      "title": "Differential raincloud plot",
+      "source": "scripts/boxplot/raincloud_differential/plot.R",
+      "preview": "scripts/boxplot/raincloud_differential/preview.png",
+      "preferred_shapes": [
+        "feature_distribution",
+        "category_distribution"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity",
+          "secondary_category",
+          "significance"
+        ]
+      },
+      "intent_keywords": [
+        "differential raincloud",
+        "boxplot-raincloud-differential",
+        "contrast raincloud",
+        "差异雨云图"
+      ],
+      "use_when": "Use a raincloud layout for supplied differential-expression or contrast groups.",
+      "avoid_when": "Do not use for a generic raincloud when contrast annotations are not needed."
+    },
+    {
+      "id": "boxplot-polar",
+      "family": "boxplot",
+      "title": "Polar boxplot",
+      "source": "scripts/boxplot/polar/plot.R",
+      "preview": "scripts/boxplot/polar/preview.png",
+      "preferred_shapes": [
+        "category_distribution"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "polar boxplot",
+        "boxplot-polar",
+        "circular boxplot",
+        "极坐标箱线图"
+      ],
+      "use_when": "Place supplied category-wise box summaries around a circle.",
+      "avoid_when": "Do not use when a rectangular boxplot or radial heatmap-plus-violin fan is intended."
+    },
+    {
+      "id": "boxplot-polar-heatmap",
+      "family": "boxplot",
+      "title": "Polar heatmap with outer violins",
+      "source": "scripts/boxplot/polar_heatmap/plot.R",
+      "preview": "scripts/boxplot/polar_heatmap/preview.png",
+      "preferred_shapes": [
+        "grouped_distribution"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "secondary_category",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "polar heatmap violin",
+        "boxplot-polar-heatmap",
+        "radial fan distribution",
+        "径向热图小提琴",
+        "扇形分布图"
+      ],
+      "use_when": "Draw a radial fan with an inner heatmap of group means and outer violins from supplied raw values.",
+      "avoid_when": "Do not use for plain polar boxplots or rectangular heatmaps."
+    },
+    {
+      "id": "line-bump",
+      "family": "line",
+      "title": "Bump chart",
+      "source": "scripts/line/bump/plot.R",
+      "preview": "scripts/line/bump/preview.png",
+      "preferred_shapes": [
+        "rank_time_series",
+        "wide_two_series",
+        "wide_numeric_table"
+      ],
+      "roles": {
+        "required": [
+          "time"
+        ],
+        "optional": [
+          "target_entity",
+          "rank",
+          "numeric_y",
+          "numeric_matrix",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "bump chart",
+        "rank over time",
+        "ranking changes",
+        "line-bump",
+        "排名变化图"
+      ],
+      "use_when": "Track supplied item ranks or ordered scores across sequential stages.",
+      "avoid_when": "Do not use for raw magnitude trends where rank order is not the message."
+    },
+    {
+      "id": "line-highlight",
+      "family": "line",
+      "title": "Line with peak highlight",
+      "source": "scripts/line/highlight/plot.R",
+      "preview": "scripts/line/highlight/preview.png",
+      "preferred_shapes": [
+        "time_series"
+      ],
+      "roles": {
+        "required": [
+          "time",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "peak highlight",
+        "highlight window",
+        "line-highlight",
+        "峰值高亮折线"
+      ],
+      "use_when": "Show an ordered supplied series and emphasize the window around its peak.",
+      "avoid_when": "Do not use when no peak or interval should be emphasized."
+    },
+    {
+      "id": "pie-doughnut-round",
+      "family": "pie",
+      "title": "Rounded doughnut chart",
+      "source": "scripts/pie/doughnut_round/plot.R",
+      "preview": "scripts/pie/doughnut_round/preview.png",
+      "preferred_shapes": [
+        "part_to_whole"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "rounded doughnut",
+        "pie-doughnut-round",
+        "pie-borderRadius",
+        "圆角环形图",
+        "圆角甜甜圈"
+      ],
+      "use_when": "Show supplied part-to-whole composition as a doughnut with rounded slice corners and gaps.",
+      "avoid_when": "Do not use when ordinary doughnut slices, nested rings, or a Nightingale rose are intended."
+    },
+    {
+      "id": "pie-doughnut-bar",
+      "family": "pie",
+      "title": "Doughnut with outer radial bars",
+      "source": "scripts/pie/doughnut_bar/plot.R",
+      "preview": "scripts/pie/doughnut_bar/preview.png",
+      "preferred_shapes": [
+        "stacked_composition",
+        "nested_composition"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "component",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "doughnut with outer bars",
+        "pie-doughnut-bar",
+        "circos doughnut bar",
+        "条形甜甜圈",
+        "环状比例图"
+      ],
+      "use_when": "Show supplied group-by-part composition as a circos doughnut with corresponding inner radial bars.",
+      "avoid_when": "Do not use for plain doughnuts, nested pies, Nightingale roses, or grouped radial bars without the composition ring."
+    },
+    {
+      "id": "pie-half",
+      "family": "pie",
+      "title": "Half-pie chart",
+      "source": "scripts/pie/half/plot.R",
+      "preview": "scripts/pie/half/preview.png",
+      "preferred_shapes": [
+        "part_to_whole"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "half pie",
+        "semicircle pie",
+        "pie-half",
+        "半饼图"
+      ],
+      "use_when": "Show supplied mutually exclusive parts as a 180-degree composition.",
+      "avoid_when": "Do not use when a full pie, doughnut, or precise bar comparison is clearer."
+    },
+    {
+      "id": "pie-nest",
+      "family": "pie",
+      "title": "Nested two-ring pie",
+      "source": "scripts/pie/nest/plot.R",
+      "preview": "scripts/pie/nest/preview.png",
+      "preferred_shapes": [
+        "nested_composition",
+        "part_to_whole"
+      ],
+      "roles": {
+        "required": [
+          "target_entity",
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "component"
+        ]
+      },
+      "intent_keywords": [
+        "nested pie",
+        "two-ring pie",
+        "pie-nest",
+        "嵌套饼图",
+        "双环饼图"
+      ],
+      "use_when": "Draw supplied inner and outer ring slices when the rings are separately tagged series.",
+      "avoid_when": "Do not use when inner totals should be summed from outer items; use pie-combine for that structure."
+    },
+    {
+      "id": "pie-combine",
+      "family": "pie",
+      "title": "Combined nested pie",
+      "source": "scripts/pie/combine/plot.R",
+      "preview": "scripts/pie/combine/preview.png",
+      "preferred_shapes": [
+        "nested_composition",
+        "part_to_whole"
+      ],
+      "roles": {
+        "required": [
+          "target_entity",
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "component"
+        ]
+      },
+      "intent_keywords": [
+        "combined nested pie",
+        "pie-combine",
+        "inner outer totals",
+        "组合嵌套饼图",
+        "内外环汇总饼图"
+      ],
+      "use_when": "Show supplied items in an outer ring and their parent category totals in an inner ring.",
+      "avoid_when": "Do not use when the two rings are independent supplied series."
+    },
+    {
+      "id": "pie-nightingale",
+      "family": "pie",
+      "title": "Nightingale rose chart",
+      "source": "scripts/pie/nightingale/plot.R",
+      "preview": "scripts/pie/nightingale/preview.png",
+      "preferred_shapes": [
+        "category_magnitude",
+        "part_to_whole"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "numeric_y"
+        ],
+        "optional": [
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "nightingale",
+        "rose chart",
+        "polar rose",
+        "pie-nightingale",
+        "南丁格尔玫瑰图",
+        "极坐标玫瑰图"
+      ],
+      "use_when": "Encode supplied category values as equal-angle polar rose sectors, with radius carrying magnitude.",
+      "avoid_when": "Do not use for ordinary pies, rounded doughnuts, or polar sector bars without rose-chart intent."
+    },
+    {
+      "id": "scatter-ternary",
+      "family": "scatter",
+      "title": "Ternary composition scatter",
+      "source": "scripts/scatter/ternary/plot.R",
+      "preview": "scripts/scatter/ternary/preview.png",
+      "preferred_shapes": [
+        "ternary_components"
+      ],
+      "roles": {
+        "required": [
+          "ternary_components"
+        ],
+        "optional": [
+          "category",
+          "numeric_matrix",
+          "magnitude",
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "ternary",
+        "ternary plot",
+        "simplex",
+        "three components",
+        "scatter-ternary",
+        "三元图",
+        "三元相图"
+      ],
+      "use_when": "Place each supplied observation in a three-component simplex using non-negative component scores.",
+      "avoid_when": "Do not compute component scores or use for ordinary Cartesian scatter or a single composition pie."
+    },
+    {
+      "id": "scatter-umap-circos",
+      "family": "scatter",
+      "title": "UMAP in a circos composition ring",
+      "source": "scripts/scatter/umap_circos/plot.R",
+      "preview": "scripts/scatter/umap_circos/preview.png",
+      "preferred_shapes": [
+        "embedding_with_tracks"
+      ],
+      "roles": {
+        "required": [
+          "numeric_x",
+          "numeric_y",
+          "category"
+        ],
+        "optional": [
+          "secondary_category",
+          "count",
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "umap circos",
+        "circos UMAP",
+        "scatter-umap-circos",
+        "UMAP环图",
+        "环形UMAP"
+      ],
+      "use_when": "Show a supplied two-dimensional embedding inside a circos composition ring with supplied categorical tracks.",
+      "avoid_when": "Do not run UMAP or clustering in the plotting step, and do not use when a plain grouped scatter is enough."
+    },
+    {
+      "id": "scatter-voronoi",
+      "family": "scatter",
+      "title": "Voronoi scatter",
+      "source": "scripts/scatter/voronoi/plot.R",
+      "preview": "scripts/scatter/voronoi/preview.png",
+      "preferred_shapes": [
+        "two_numeric_observation"
+      ],
+      "roles": {
+        "required": [
+          "numeric_x",
+          "numeric_y",
+          "category"
+        ],
+        "optional": [
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "voronoi",
+        "scatter-voronoi",
+        "nearest-site tiles",
+        "泰森多边形"
+      ],
+      "use_when": "Fill the plane around supplied x-y points as nearest-site tiles coloured by group.",
+      "avoid_when": "Do not use for plain point scatter, convex hull contours, hex bins, or inferred embeddings."
+    },
+    {
+      "id": "scatter-hex",
+      "family": "scatter",
+      "title": "Hexbin density scatter",
+      "source": "scripts/scatter/hex/plot.R",
+      "preview": "scripts/scatter/hex/preview.png",
+      "preferred_shapes": [
+        "two_numeric_observation"
+      ],
+      "roles": {
+        "required": [
+          "numeric_x",
+          "numeric_y"
+        ],
+        "optional": [
+          "category",
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "hexbin",
+        "hex density",
+        "scatter-hex",
+        "六边形密度图"
+      ],
+      "use_when": "Summarize a dense supplied x-y point cloud as hexagonal bins to reduce overplotting.",
+      "avoid_when": "Do not use for small n where individual points should remain visible or when contours are requested."
+    },
+    {
+      "id": "scatter-contour",
+      "family": "scatter",
+      "title": "Scatter with density contours",
+      "source": "scripts/scatter/contour/plot.R",
+      "preview": "scripts/scatter/contour/preview.png",
+      "preferred_shapes": [
+        "two_numeric_observation"
+      ],
+      "roles": {
+        "required": [
+          "numeric_x",
+          "numeric_y"
+        ],
+        "optional": [
+          "category",
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "contour scatter",
+        "density contours",
+        "scatter-contour",
+        "密度等高散点"
+      ],
+      "use_when": "Overlay density contours on supplied x-y observations to show concentration.",
+      "avoid_when": "Do not use when simple points, hex bins, or Voronoi regions better answer the question."
+    },
+    {
+      "id": "scatter-marginal",
+      "family": "scatter",
+      "title": "Scatter with marginal boxplots",
+      "source": "scripts/scatter/marginal/plot.R",
+      "preview": "scripts/scatter/marginal/preview.png",
+      "preferred_shapes": [
+        "two_numeric_observation"
+      ],
+      "roles": {
+        "required": [
+          "numeric_x",
+          "numeric_y"
+        ],
+        "optional": [
+          "category",
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "marginal scatter",
+        "scatter-marginal",
+        "marginal boxplots",
+        "边缘箱线散点图"
+      ],
+      "use_when": "Combine supplied x-y observations with marginal group distributions and an association summary.",
+      "avoid_when": "Do not use when only the scatter or only the category distributions are needed."
+    },
+    {
+      "id": "scatter-jitter-group",
+      "family": "scatter",
+      "title": "Grouped jitter plot",
+      "source": "scripts/scatter/jitter_group/plot.R",
+      "preview": "scripts/scatter/jitter_group/preview.png",
+      "preferred_shapes": [
+        "grouped_distribution",
+        "category_distribution"
+      ],
+      "roles": {
+        "required": [
+          "category"
+        ],
+        "optional": [
+          "secondary_category",
+          "numeric_y",
+          "effect_size",
+          "target_entity",
+          "significance"
+        ]
+      },
+      "intent_keywords": [
+        "grouped jitter",
+        "scatter-jitter-group",
+        "split jitter",
+        "分组抖动图"
+      ],
+      "use_when": "Show supplied raw values within categories and colour or split them by a second grouping factor.",
+      "avoid_when": "Do not use for a single grouping factor or when beeswarm positioning is required."
+    },
+    {
+      "id": "scatter-beeswarm-group",
+      "family": "scatter",
+      "title": "Grouped beeswarm plot",
+      "source": "scripts/scatter/beeswarm_group/plot.R",
+      "preview": "scripts/scatter/beeswarm_group/preview.png",
+      "preferred_shapes": [
+        "grouped_distribution",
+        "category_distribution"
+      ],
+      "roles": {
+        "required": [
+          "category"
+        ],
+        "optional": [
+          "secondary_category",
+          "numeric_y",
+          "effect_size",
+          "target_entity",
+          "significance"
+        ]
+      },
+      "intent_keywords": [
+        "grouped beeswarm",
+        "scatter-beeswarm-group",
+        "split beeswarm",
+        "分组蜂群图"
+      ],
+      "use_when": "Show each supplied observation within categories using swarm positioning and a second group split.",
+      "avoid_when": "Do not use for a single grouping factor or when random jitter is requested."
+    },
+    {
+      "id": "scatter-lollipop-polar",
+      "family": "scatter",
+      "title": "Polar lollipop plot",
+      "source": "scripts/scatter/lollipop_polar/plot.R",
+      "preview": "scripts/scatter/lollipop_polar/preview.png",
+      "preferred_shapes": [
+        "ranked_value",
+        "category_magnitude"
+      ],
+      "roles": {
+        "required": [
+          "target_entity"
+        ],
+        "optional": [
+          "numeric_y",
+          "magnitude",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "polar lollipop",
+        "scatter-lollipop-polar",
+        "极坐标棒棒糖图"
+      ],
+      "use_when": "Place supplied ranked scores around a circle as polar lollipop stems.",
+      "avoid_when": "Do not use for linear ranked lists, radial spoke lollipops, grouped circular lollipops, or mutation lollipops."
+    },
+    {
+      "id": "scatter-lollipop-radial",
+      "family": "scatter",
+      "title": "Radial lollipop plot",
+      "source": "scripts/scatter/lollipop_radial/plot.R",
+      "preview": "scripts/scatter/lollipop_radial/preview.png",
+      "preferred_shapes": [
+        "ranked_value",
+        "category_magnitude"
+      ],
+      "roles": {
+        "required": [
+          "target_entity"
+        ],
+        "optional": [
+          "numeric_y",
+          "magnitude",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "radial lollipop",
+        "scatter-lollipop-radial",
+        "径向棒棒糖图"
+      ],
+      "use_when": "Draw supplied scores as radial spokes from a common origin.",
+      "avoid_when": "Do not use for polar lollipops on a ring, grouped circular lollipops, or linear ranked lists."
+    },
+    {
+      "id": "scatter-lollipop-circular",
+      "family": "scatter",
+      "title": "Circular lollipop with error bars",
+      "source": "scripts/scatter/lollipop_circular/plot.R",
+      "preview": "scripts/scatter/lollipop_circular/preview.png",
+      "preferred_shapes": [
+        "category_uncertainty",
+        "grouped_distribution"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "secondary_category",
+          "numeric_y",
+          "uncertainty"
+        ],
+        "optional": [
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "circular lollipop",
+        "scatter-lollipop-circular",
+        "radial error bars",
+        "环形棒棒糖图",
+        "环状棒棒糖"
+      ],
+      "use_when": "Draw supplied subgroup means and uncertainty as grouped circular lollipops with sector labels.",
+      "avoid_when": "Do not compute standard errors in the script or use plain polar/radial lollipop variants."
+    },
+    {
+      "id": "scatter-single",
+      "family": "scatter",
+      "title": "Single-axis bubble strip",
+      "source": "scripts/scatter/single/plot.R",
+      "preview": "scripts/scatter/single/preview.png",
+      "preferred_shapes": [
+        "single_axis_series",
+        "category_grid"
+      ],
+      "roles": {
+        "required": [
+          "category"
+        ],
+        "optional": [
+          "secondary_category",
+          "numeric_y",
+          "count",
+          "magnitude"
+        ]
+      },
+      "intent_keywords": [
+        "single-axis bubble",
+        "scatter-single",
+        "one-axis scatter",
+        "单轴散点",
+        "小时气泡图"
+      ],
+      "use_when": "Place sized supplied points along one categorical axis with one row per series.",
+      "avoid_when": "Do not use for two-numeric scatter or a standard bubble chart."
+    },
+    {
+      "id": "scatter-dumbbell",
+      "family": "scatter",
+      "title": "Dumbbell plot",
+      "source": "scripts/scatter/dumbbell/plot.R",
+      "preview": "scripts/scatter/dumbbell/preview.png",
+      "preferred_shapes": [
+        "category_two_series",
+        "grouped_category_value"
+      ],
+      "roles": {
+        "required": [
+          "category"
+        ],
+        "optional": [
+          "secondary_category",
+          "numeric_y",
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "dumbbell",
+        "two-point comparison",
+        "scatter-dumbbell",
+        "哑铃图",
+        "两点连线图"
+      ],
+      "use_when": "Compare two supplied numeric values per category as connected points.",
+      "avoid_when": "Do not use when more than two groups, a shaded region, or a rectangular connector is the requested emphasis."
+    },
+    {
+      "id": "scatter-dumbbell-groups",
+      "family": "scatter",
+      "title": "Multi-group dumbbell plot",
+      "source": "scripts/scatter/dumbbell_groups/plot.R",
+      "preview": "scripts/scatter/dumbbell_groups/preview.png",
+      "preferred_shapes": [
+        "grouped_category_value"
+      ],
+      "roles": {
+        "required": [
+          "category",
+          "secondary_category"
+        ],
+        "optional": [
+          "numeric_y",
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "multi-group dumbbell",
+        "scatter-dumbbell-groups",
+        "多组哑铃图"
+      ],
+      "use_when": "Connect more than two supplied group values per category as a grouped dumbbell.",
+      "avoid_when": "Do not use for strict two-point dumbbells."
+    },
+    {
+      "id": "scatter-dumbbell-horizontal",
+      "family": "scatter",
+      "title": "Horizontal dumbbell plot",
+      "source": "scripts/scatter/dumbbell_horizontal/plot.R",
+      "preview": "scripts/scatter/dumbbell_horizontal/preview.png",
+      "preferred_shapes": [
+        "grouped_category_value",
+        "category_two_series"
+      ],
+      "roles": {
+        "required": [
+          "category"
+        ],
+        "optional": [
+          "secondary_category",
+          "numeric_y",
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "horizontal dumbbell",
+        "scatter-dumbbell-horizontal",
+        "水平哑铃图"
+      ],
+      "use_when": "Draw supplied two-group category comparisons as horizontal dumbbells.",
+      "avoid_when": "Do not use when a vertical or region-shaded dumbbell is requested."
+    },
+    {
+      "id": "scatter-dumbbell-rect",
+      "family": "scatter",
+      "title": "Rectangular dumbbell plot",
+      "source": "scripts/scatter/dumbbell_rect/plot.R",
+      "preview": "scripts/scatter/dumbbell_rect/preview.png",
+      "preferred_shapes": [
+        "grouped_category_value",
+        "category_two_series"
+      ],
+      "roles": {
+        "required": [
+          "category"
+        ],
+        "optional": [
+          "secondary_category",
+          "numeric_y",
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "rectangular dumbbell",
+        "scatter-dumbbell-rect",
+        "thick connector dumbbell",
+        "矩形连接哑铃图"
+      ],
+      "use_when": "Connect two supplied group values with a thick rectangular bar rather than a thin line.",
+      "avoid_when": "Do not use for ordinary thin-line dumbbells or mean-SD region overlays."
+    },
+    {
+      "id": "scatter-dumbbell-region",
+      "family": "scatter",
+      "title": "Dumbbell with mean-SD region",
+      "source": "scripts/scatter/dumbbell_region/plot.R",
+      "preview": "scripts/scatter/dumbbell_region/preview.png",
+      "preferred_shapes": [
+        "grouped_category_value",
+        "category_two_series"
+      ],
+      "roles": {
+        "required": [
+          "category"
+        ],
+        "optional": [
+          "secondary_category",
+          "numeric_y",
+          "target_entity",
+          "uncertainty"
+        ]
+      },
+      "intent_keywords": [
+        "dumbbell region",
+        "scatter-dumbbell-region",
+        "mean sd region",
+        "区间哑铃图",
+        "均值标准差哑铃"
+      ],
+      "use_when": "Show supplied two-group category comparisons with a shaded mean-plus-spread region behind the points.",
+      "avoid_when": "Do not use when only a two-dot connector is needed."
+    },
+    {
+      "id": "scatter-paired",
+      "family": "scatter",
+      "title": "Paired before-after scatter",
+      "source": "scripts/scatter/paired/plot.R",
+      "preview": "scripts/scatter/paired/preview.png",
+      "preferred_shapes": [
+        "paired_distribution",
+        "category_two_series"
+      ],
+      "roles": {
+        "required": [
+          "pair_id"
+        ],
+        "optional": [
+          "category",
+          "numeric_y",
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "paired scatter",
+        "before after scatter",
+        "scatter-paired",
+        "配对散点图",
+        "前后对比点图"
+      ],
+      "use_when": "Link two supplied measurements of the same unit as paired points.",
+      "avoid_when": "Do not use for unpaired group dots or paired boxplots."
+    },
+    {
+      "id": "scatter-diagonal",
+      "family": "scatter",
+      "title": "Diagonal comparison scatter",
+      "source": "scripts/scatter/diagonal/plot.R",
+      "preview": "scripts/scatter/diagonal/preview.png",
+      "preferred_shapes": [
+        "two_numeric_observation",
+        "category_two_series"
+      ],
+      "roles": {
+        "required": [
+          "numeric_x",
+          "numeric_y"
+        ],
+        "optional": [
+          "category",
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "diagonal scatter",
+        "identity line",
+        "scatter-diagonal",
+        "y equals x",
+        "对角线比较散点"
+      ],
+      "use_when": "Compare two supplied matched numeric measurements against the y = x reference line.",
+      "avoid_when": "Do not use for correlation fits without an identity reference."
+    },
+    {
+      "id": "scatter-bezier",
+      "family": "scatter",
+      "title": "Bezier-linked scatter",
+      "source": "scripts/scatter/bezier/plot.R",
+      "preview": "scripts/scatter/bezier/preview.png",
+      "preferred_shapes": [
+        "paired_distribution"
+      ],
+      "roles": {
+        "required": [
+          "target_entity"
+        ],
+        "optional": [
+          "pair_id",
+          "category",
+          "numeric_x",
+          "numeric_y"
+        ]
+      },
+      "intent_keywords": [
+        "bezier scatter",
+        "scatter-bezier",
+        "curved links",
+        "贝塞尔连线散点"
+      ],
+      "use_when": "Connect related supplied scatter points with curved Bezier paths.",
+      "avoid_when": "Do not use for ordinary x-y point clouds, one-to-many hub layouts, ternary compositions, or paired boxplots with Bezier links."
+    },
+    {
+      "id": "scatter-svg",
+      "family": "scatter",
+      "title": "Scatter with SVG glyphs",
+      "source": "scripts/scatter/svg/plot.R",
+      "preview": "scripts/scatter/svg/preview.png",
+      "preferred_shapes": [
+        "svg_marked_observation",
+        "two_numeric_observation"
+      ],
+      "roles": {
+        "required": [
+          "numeric_x",
+          "numeric_y"
+        ],
+        "optional": [
+          "svg_marker",
+          "category",
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "svg scatter",
+        "scatter-svg",
+        "icon scatter",
+        "glyph scatter",
+        "SVG散点",
+        "图标散点"
+      ],
+      "use_when": "Draw supplied x-y observations with SVG or icon glyphs instead of ordinary point marks.",
+      "avoid_when": "Do not use for ordinary grouped scatter, bubble-size encodings, or icon-labelled bars."
+    },
+    {
+      "id": "scatter-maplot",
+      "family": "scatter",
+      "title": "MA plot",
+      "source": "scripts/scatter/maplot/plot.R",
+      "preview": "scripts/scatter/maplot/preview.png",
+      "preferred_shapes": [
+        "mean_difference_table"
+      ],
+      "roles": {
+        "required": [
+          "target_entity",
+          "effect_size",
+          "average_abundance"
+        ],
+        "optional": [
+          "category",
+          "significance"
+        ]
+      },
+      "intent_keywords": [
+        "MA plot",
+        "scatter-maplot",
+        "mean difference",
+        "average abundance",
+        "baseMean",
+        "MA图",
+        "均值-差异散点"
+      ],
+      "use_when": "Show supplied log fold-change against average abundance to inspect mean-dependent bias.",
+      "avoid_when": "Do not use when the requested view is significance versus fold-change as a volcano plot."
+    },
+    {
+      "id": "scatter-quadrant",
+      "family": "scatter",
+      "title": "Quadrant scatter plot",
+      "source": "scripts/scatter/quadrant/plot.R",
+      "preview": "scripts/scatter/quadrant/preview.png",
+      "preferred_shapes": [
+        "two_numeric_observation",
+        "category_two_series"
+      ],
+      "roles": {
+        "required": [
+          "numeric_x",
+          "numeric_y"
+        ],
+        "optional": [
+          "category",
+          "target_entity"
+        ]
+      },
+      "intent_keywords": [
+        "quadrant",
+        "quadrant plot",
+        "threshold lines",
+        "scatter-quadrant",
+        "四象限图"
+      ],
+      "use_when": "Split supplied x-y scores into labelled quadrants using explicit threshold lines.",
+      "avoid_when": "Do not use for plain unthresholded scatter or volcano-style significance cutoffs."
+    },
+    {
+      "id": "scatter-volcano-inset",
+      "family": "scatter",
+      "title": "Volcano plot with zoom inset",
+      "source": "scripts/scatter/volcano_inset/plot.R",
+      "preview": "scripts/scatter/volcano_inset/preview.png",
+      "preferred_shapes": [
+        "feature_level_testing"
+      ],
+      "roles": {
+        "required": [
+          "target_entity",
+          "effect_size",
+          "significance"
+        ],
+        "optional": [
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "volcano inset",
+        "volcano zoom",
+        "scatter-volcano-inset",
+        "magnified volcano",
+        "火山图放大"
+      ],
+      "use_when": "Show supplied feature-level effect and p-value results as a volcano overview with one magnified labelled inset.",
+      "avoid_when": "Do not use for overview-only volcanoes or MA plots, and do not run differential testing in the script."
+    },
+    {
+      "id": "tree-group",
+      "family": "tree",
+      "title": "Grouped forest of trees",
+      "source": "scripts/tree/group/plot.R",
+      "preview": "scripts/tree/group/preview.png",
+      "preferred_shapes": [
+        "multi_root_hierarchy",
+        "hierarchy_edges"
+      ],
+      "roles": {
+        "required": [
+          "parent_entity",
+          "target_entity"
+        ],
+        "optional": [
+          "numeric_y",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "grouped trees",
+        "forest of trees",
+        "tree-group",
+        "多树图",
+        "分组树"
+      ],
+      "use_when": "Draw several supplied root trees in one figure from parent rows that define multiple roots.",
+      "avoid_when": "Do not use for a single-root hierarchy, clustering dendrogram, sunburst, or Sankey flow."
+    },
+    {
+      "id": "tree-enrichment-ring",
+      "family": "tree",
+      "title": "Classification tree with outer enrichment track",
+      "source": "scripts/tree/enrichment_ring/plot.R",
+      "preview": "scripts/tree/enrichment_ring/preview.png",
+      "preferred_shapes": [
+        "classification_enrichment_tree"
+      ],
+      "roles": {
+        "required": [
+          "source_entity",
+          "target_entity",
+          "count",
+          "significance"
+        ],
+        "optional": [
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "enrichment ring",
+        "classification tree enrichment",
+        "tree-enrichment-ring",
+        "pathway ring",
+        "通路环图",
+        "层次富集图",
+        "富集环图"
+      ],
+      "use_when": "Show a supplied class-to-term tree with count and significance on an outer circular track.",
+      "avoid_when": "Do not use for ranked Cartesian enrichment bars, term-by-group heatmaps, sunbursts, or clustering dendrograms."
+    },
+    {
+      "id": "sunburst-advanced",
+      "family": "sunburst",
+      "title": "Layered sunburst with outside labels",
+      "source": "scripts/sunburst/advanced/plot.R",
+      "preview": "scripts/sunburst/advanced/preview.png",
+      "preferred_shapes": [
+        "colored_hierarchy_area",
+        "hierarchy_area"
+      ],
+      "roles": {
+        "required": [
+          "parent_entity",
+          "target_entity",
+          "numeric_y"
+        ],
+        "optional": [
+          "node_color",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "advanced sunburst",
+        "layered sunburst",
+        "sunburst-advanced",
+        "outside labels",
+        "分层旭日图",
+        "风味轮旭日图"
+      ],
+      "use_when": "Draw a supplied hierarchy as a layered sunburst with outside labels and optional per-node colours.",
+      "avoid_when": "Do not use when a basic sunburst, node-link tree, or enrichment ring carries the intended structure."
+    },
+    {
+      "id": "graph-basic",
+      "family": "graph",
+      "title": "Basic node-link graph",
+      "source": "scripts/graph/basic/plot.R",
+      "preview": "scripts/graph/basic/preview.png",
+      "preferred_shapes": [
+        "network_edges",
+        "node_link_sidecars"
+      ],
+      "roles": {
+        "required": [
+          "source_entity",
+          "target_entity"
+        ],
+        "optional": [
+          "flow_value",
+          "numeric_x",
+          "numeric_y",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "basic node-link graph",
+        "graph-basic",
+        "node-link",
+        "manual layout",
+        "网络图",
+        "关系图"
+      ],
+      "use_when": "Draw a supplied network as a basic node-link layout, especially when node positions or a simple readable layout are already part of the data package.",
+      "avoid_when": "Do not use for hierarchical parent-child tables, Sankey-style conserved flows, or genomic Circos links. Use layout-specific graph templates when force, arc, hive, matrix, chord, or cartesian layout is requested."
+    },
+    {
+      "id": "graph-force",
+      "family": "graph",
+      "title": "Force-directed graph",
+      "source": "scripts/graph/force/plot.R",
+      "preview": "scripts/graph/force/preview.png",
+      "preferred_shapes": [
+        "network_edges",
+        "node_link_sidecars"
+      ],
+      "roles": {
+        "required": [
+          "source_entity",
+          "target_entity"
+        ],
+        "optional": [
+          "flow_value",
+          "numeric_x",
+          "numeric_y",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "force-directed graph",
+        "graph-force",
+        "force layout",
+        "力导向图",
+        "network layout"
+      ],
+      "use_when": "Draw a network with a force-layout visual idiom from supplied node and edge tables; keep supplied node coordinates when they are provided.",
+      "avoid_when": "Do not choose this when the requested claim is signed edge readability, adjacency ordering, class-axis connectivity, or genomic linkage; use the corresponding graph or ideogram template instead."
+    },
+    {
+      "id": "graph-circular",
+      "family": "graph",
+      "title": "Circular network layout",
+      "source": "scripts/graph/circular/plot.R",
+      "preview": "scripts/graph/circular/preview.png",
+      "preferred_shapes": [
+        "network_edges",
+        "node_link_sidecars"
+      ],
+      "roles": {
+        "required": [
+          "source_entity",
+          "target_entity"
+        ],
+        "optional": [
+          "flow_value",
+          "category",
+          "signed_association"
+        ]
+      },
+      "intent_keywords": [
+        "circular network",
+        "graph-circular",
+        "circular layout",
+        "环形网络图",
+        "circle graph"
+      ],
+      "use_when": "Place supplied network nodes around a circle and draw equal-spacing links or chords between nodes.",
+      "avoid_when": "Do not use when sector width must encode flow totals, when links are genomic intervals, when a dual-ring hub-vs-category layout is requested, or when a linear arc, hive, fabric, or matrix view is requested."
+    },
+    {
+      "id": "graph-circular-concentric",
+      "family": "graph",
+      "title": "Concentric dual-ring network",
+      "source": "scripts/graph/circular_concentric/plot.R",
+      "preview": "scripts/graph/circular_concentric/preview.png",
+      "preferred_shapes": [
+        "network_edges",
+        "node_link_sidecars"
+      ],
+      "roles": {
+        "required": [
+          "source_entity",
+          "target_entity",
+          "category",
+          "weight",
+          "axis_entity",
+          "magnitude"
+        ],
+        "optional": [
+          "focal_entity"
+        ]
+      },
+      "intent_keywords": [
+        "concentric network",
+        "graph-circular-concentric",
+        "dual-ring network",
+        "双环网络图",
+        "同心圆网络",
+        "driver peripheral",
+        "hub spoke circular"
+      ],
+      "use_when": "Place hub nodes on an inner ring and category-grouped nodes on an outer ring; colour edges by the outer class when an outer endpoint exists, and encode supplied integer weight as line width.",
+      "avoid_when": "Do not use for equal-spacing single-ring layouts, Circos chords whose sector width is total flow, hive axis membership claims, or genomic ideogram links. Do not infer ring membership or edge weights in the script. Ring must be supplied as inner|outer."
+    },
+    {
+      "id": "graph-chord",
+      "family": "graph",
+      "title": "Weighted Circos chord",
+      "source": "scripts/graph/chord/plot.R",
+      "preview": "scripts/graph/chord/preview.png",
+      "preferred_shapes": [
+        "flow_table"
+      ],
+      "roles": {
+        "required": [
+          "source_entity",
+          "target_entity",
+          "flow_value"
+        ],
+        "optional": [
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "weighted chord",
+        "graph-chord",
+        "circos chord",
+        "Chord diagram",
+        "弦图",
+        "细胞通讯弦图"
+      ],
+      "use_when": "Show supplied from-to non-negative flows as circular ribbons whose sector widths summarize total flow touching each entity.",
+      "avoid_when": "Do not use for signed correlation edges, genomic rearrangement ribbons, two-genome synteny, or Sankey flows where stage order is the main reading task."
+    },
+    {
+      "id": "graph-arc",
+      "family": "graph",
+      "title": "Linear arc diagram",
+      "source": "scripts/graph/arc/plot.R",
+      "preview": "scripts/graph/arc/preview.png",
+      "preferred_shapes": [
+        "signed_network_edges",
+        "network_edges"
+      ],
+      "roles": {
+        "required": [
+          "source_entity",
+          "target_entity",
+          "signed_association"
+        ],
+        "optional": [
+          "category",
+          "weight"
+        ]
+      },
+      "intent_keywords": [
+        "linear arc diagram",
+        "graph-arc",
+        "arc diagram",
+        "弧线图",
+        "线性弧图"
+      ],
+      "use_when": "Place nodes along one axis and draw signed links as arcs when edge sign and link span are the visual message.",
+      "avoid_when": "Do not use for circular chord flow, force-layout exploration, hierarchy, Sankey flow, or genomic links on chromosome ideograms."
+    },
+    {
+      "id": "graph-hive",
+      "family": "graph",
+      "title": "Hive plot",
+      "source": "scripts/graph/hive/plot.R",
+      "preview": "scripts/graph/hive/preview.png",
+      "preferred_shapes": [
+        "signed_network_edges",
+        "network_edges",
+        "node_link_sidecars"
+      ],
+      "roles": {
+        "required": [
+          "source_entity",
+          "target_entity",
+          "signed_association"
+        ],
+        "optional": [
+          "axis_entity",
+          "category",
+          "weight"
+        ]
+      },
+      "intent_keywords": [
+        "hive plot",
+        "graph-hive",
+        "axis network",
+        "蜂巢图",
+        "radial axes"
+      ],
+      "use_when": "Compare signed connectivity among supplied node classes by placing each class on a radial axis.",
+      "avoid_when": "Do not compute axis membership from the network. Do not use for generic force layouts, chord flows, or linear arc diagrams unless that axis-based reading is requested."
+    },
+    {
+      "id": "graph-fabric",
+      "family": "graph",
+      "title": "BioFabric network",
+      "source": "scripts/graph/fabric/plot.R",
+      "preview": "scripts/graph/fabric/preview.png",
+      "preferred_shapes": [
+        "signed_network_edges",
+        "network_edges",
+        "node_link_sidecars"
+      ],
+      "roles": {
+        "required": [
+          "source_entity",
+          "target_entity",
+          "signed_association"
+        ],
+        "optional": [
+          "category",
+          "weight"
+        ]
+      },
+      "intent_keywords": [
+        "BioFabric",
+        "graph-fabric",
+        "fabric plot",
+        "织物图",
+        "dense network"
+      ],
+      "use_when": "Show a dense signed network as ordered node ranges and edge spans so individual links remain readable.",
+      "avoid_when": "Do not use when a spatial force layout, class-axis hive view, or matrix adjacency view is the requested visual grammar."
+    },
+    {
+      "id": "graph-matrix",
+      "family": "graph",
+      "title": "Adjacency matrix",
+      "source": "scripts/graph/matrix/plot.R",
+      "preview": "scripts/graph/matrix/preview.png",
+      "preferred_shapes": [
+        "signed_network_edges",
+        "network_edges",
+        "node_link_sidecars"
+      ],
+      "roles": {
+        "required": [
+          "source_entity",
+          "target_entity",
+          "signed_association"
+        ],
+        "optional": [
+          "category",
+          "weight"
+        ]
+      },
+      "intent_keywords": [
+        "adjacency matrix",
+        "graph-matrix",
+        "matrix network",
+        "邻接矩阵",
+        "矩阵点图"
+      ],
+      "use_when": "Encode signed network edges in a point matrix when module order, hubs, and dense pairwise adjacency are more important than spatial layout.",
+      "avoid_when": "Do not use for ordinary numeric heatmaps, unsigned flow chords, or network layouts where node position is the key reading task."
+    },
+    {
+      "id": "graph-cartesian",
+      "family": "graph",
+      "title": "Cartesian network layout",
+      "source": "scripts/graph/cartesian/plot.R",
+      "preview": "scripts/graph/cartesian/preview.png",
+      "preferred_shapes": [
+        "network_edges",
+        "node_link_sidecars"
+      ],
+      "roles": {
+        "required": [
+          "source_entity",
+          "target_entity"
+        ],
+        "optional": [
+          "numeric_x",
+          "numeric_y",
+          "flow_value",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "cartesian network",
+        "graph-cartesian",
+        "cartesian layout",
+        "笛卡尔网络图",
+        "grid network"
+      ],
+      "use_when": "Draw network links on explicit Cartesian node coordinates when x/y positions carry meaning and must be preserved.",
+      "avoid_when": "Do not use when coordinates should be inferred from edges, or when a circular, hive, fabric, matrix, or genomic ideogram layout is requested."
+    },
+    {
+      "id": "heatmap-circos-split",
+      "family": "heatmap",
+      "title": "Group-split circular heatmap",
+      "source": "scripts/heatmap/circos_split/plot.R",
+      "preview": "scripts/heatmap/circos_split/preview.png",
+      "preferred_shapes": [
+        "group_split_matrix",
+        "wide_numeric_table"
+      ],
+      "roles": {
+        "required": [
+          "target_entity",
+          "category",
+          "significance"
+        ],
+        "optional": [
+          "numeric_matrix"
+        ]
+      },
+      "intent_keywords": [
+        "group-split circular heatmap",
+        "heatmap-circos-split",
+        "circos split heatmap",
+        "环形分组热图",
+        "q-value track"
+      ],
+      "use_when": "Show entities split by a supplied group on a circular heatmap, with significance or q-value carried as a track and multiple numeric columns as heatmap layers.",
+      "avoid_when": "Do not use for genomic Circos tracks, ordinary clustered heatmaps, or ranked enrichment lists. The entity groups and q-values must be supplied."
+    },
+    {
+      "id": "heatmap-enrichment-zoom",
+      "family": "heatmap",
+      "title": "DE heatmap with aligned enrichment zooms",
+      "source": "scripts/heatmap/enrichment_zoom/plot.R",
+      "preview": "scripts/heatmap/enrichment_zoom/preview.png",
+      "preferred_shapes": [
+        "numeric_matrix",
+        "dendrogram_matrix",
+        "enrichment_zoom_sidecars"
+      ],
+      "roles": {
+        "required": [
+          "numeric_matrix"
+        ],
+        "optional": [
+          "target_entity",
+          "category",
+          "direction",
+          "significance"
+        ]
+      },
+      "intent_keywords": [
+        "DE heatmap enrichment zoom",
+        "heatmap-enrichment-zoom",
+        "anno_zoom",
+        "表达热图和多通路富集",
+        "DE热图富集"
+      ],
+      "use_when": "Combine a supplied expression matrix with supplied row, column, and enrichment sidecars so enrichment bars align to row slices.",
+      "avoid_when": "Do not use for standalone enrichment dotplots or bar charts, and do not infer enrichment terms inside the router or MCP layer."
+    },
+    {
+      "id": "heatmap-mantel",
+      "family": "heatmap",
+      "title": "Mantel-style correlation heatmap",
+      "source": "scripts/heatmap/mantel/plot.R",
+      "preview": "scripts/heatmap/mantel/preview.png",
+      "preferred_shapes": [
+        "two_set_sample_matrix",
+        "wide_many_variables",
+        "numeric_matrix"
+      ],
+      "roles": {
+        "required": [
+          "two_set_sample_matrix"
+        ],
+        "optional": [
+          "numeric_matrix",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "Mantel heatmap",
+        "heatmap-mantel",
+        "mantel-style",
+        "Mantel相关",
+        "two-set heatmap"
+      ],
+      "use_when": "Show relationships between two supplied variable sets from a sample-by-variable matrix using the Mantel-style heatmap grammar.",
+      "avoid_when": "Do not use for precomputed long x-y-rho tables, single-set correlation triangles, or ordinary expression clustering."
+    },
+    {
+      "id": "heatmap-mantel-size",
+      "family": "heatmap",
+      "title": "Mantel heatmap with sized links",
+      "source": "scripts/heatmap/mantel_size/plot.R",
+      "preview": "scripts/heatmap/mantel_size/preview.png",
+      "preferred_shapes": [
+        "two_set_sample_matrix",
+        "wide_many_variables",
+        "numeric_matrix"
+      ],
+      "roles": {
+        "required": [
+          "two_set_sample_matrix"
+        ],
+        "optional": [
+          "numeric_matrix",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "Mantel sized links",
+        "heatmap-mantel-size",
+        "mantel size",
+        "Mantel连线大小",
+        "sized mantel"
+      ],
+      "use_when": "Use when the Mantel-style display should emphasize link size in addition to the heatmap background.",
+      "avoid_when": "Do not use when the user asked for a plain Mantel heatmap, supplied association-dot grid, or single-set correlation triangle."
+    },
+    {
+      "id": "heatmap-mutation-energy",
+      "family": "heatmap",
+      "title": "Saturation mutation energy heatmap",
+      "source": "scripts/heatmap/mutation_energy/plot.R",
+      "preview": "scripts/heatmap/mutation_energy/preview.png",
+      "preferred_shapes": [
+        "mutation_energy_matrix",
+        "numeric_matrix"
+      ],
+      "roles": {
+        "required": [
+          "mutation_energy_matrix",
+          "mutation_site",
+          "numeric_matrix"
+        ],
+        "optional": [
+          "effect_size"
+        ]
+      },
+      "intent_keywords": [
+        "mutation energy heatmap",
+        "heatmap-mutation-energy",
+        "saturation mutation",
+        "ddG heatmap",
+        "突变能量热图"
+      ],
+      "use_when": "Show a residue or site by mutant-amino-acid numeric matrix, typically for supplied saturation mutation scores or energy changes.",
+      "avoid_when": "Do not use for gene-by-sample alteration events, protein lollipop counts, or ordinary expression heatmaps."
+    },
+    {
+      "id": "heatmap-oncoprint",
+      "family": "heatmap",
+      "title": "Gene × sample oncoprint",
+      "source": "scripts/heatmap/oncoprint/plot.R",
+      "preview": "scripts/heatmap/oncoprint/preview.png",
+      "preferred_shapes": [
+        "oncoprint_events"
+      ],
+      "roles": {
+        "required": [
+          "target_entity",
+          "pair_id",
+          "alteration_type"
+        ],
+        "optional": [
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "oncoprint",
+        "heatmap-oncoprint",
+        "gene sample alteration",
+        "alteration glyphs",
+        "瀑布突变图"
+      ],
+      "use_when": "Show supplied gene-by-sample alteration events as glyphs, with multiple alteration types represented by multiple rows or delimited event values.",
+      "avoid_when": "Do not parse MAF, query cBioPortal, or compute alteration calls in MCP. Do not use for numeric expression heatmaps or mutation-energy matrices."
+    },
+    {
+      "id": "heatmap-shape",
+      "family": "heatmap",
+      "title": "Star-cell correlation triangle",
+      "source": "scripts/heatmap/shape/plot.R",
+      "preview": "scripts/heatmap/shape/preview.png",
+      "preferred_shapes": [
+        "two_set_sample_matrix",
+        "numeric_matrix",
+        "wide_many_variables"
+      ],
+      "roles": {
+        "required": [
+          "numeric_matrix"
+        ],
+        "optional": [
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "star-cell correlation triangle",
+        "heatmap-shape",
+        "shape overlay heatmap",
+        "星形相关热图",
+        "triangle stars"
+      ],
+      "use_when": "Use a sample-by-variable numeric matrix when the requested display is a correlation triangle with star or shape overlays.",
+      "avoid_when": "Do not use for precomputed long association grids, two-set X-vs-Y heatmaps, or group-split circular heatmaps."
+    },
+    {
+      "id": "heatmap-two",
+      "family": "heatmap",
+      "title": "Two-set correlation heatmap",
+      "source": "scripts/heatmap/two/plot.R",
+      "preview": "scripts/heatmap/two/preview.png",
+      "preferred_shapes": [
+        "two_set_sample_matrix",
+        "wide_many_variables",
+        "numeric_matrix"
+      ],
+      "roles": {
+        "required": [
+          "two_set_sample_matrix"
+        ],
+        "optional": [
+          "numeric_matrix",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "two-set correlation heatmap",
+        "heatmap-two",
+        "X vs Y heatmap",
+        "两组相关热图",
+        "two variable sets"
+      ],
+      "use_when": "Show correlations between two supplied variable sets from one sample-by-variable matrix.",
+      "avoid_when": "Do not use for a precomputed long association table, a single-set triangle, a Mantel-style link display, or an expression heatmap without a two-set comparison intent."
+    },
+    {
+      "id": "heatmap-two-shape",
+      "family": "heatmap",
+      "title": "Two-set heatmap with shape overlay",
+      "source": "scripts/heatmap/two_shape/plot.R",
+      "preview": "scripts/heatmap/two_shape/preview.png",
+      "preferred_shapes": [
+        "two_set_sample_matrix",
+        "wide_many_variables",
+        "numeric_matrix"
+      ],
+      "roles": {
+        "required": [
+          "two_set_sample_matrix"
+        ],
+        "optional": [
+          "numeric_matrix",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "two-set shape heatmap",
+        "heatmap-two-shape",
+        "two set shape overlay",
+        "两组形状热图",
+        "shape overlay"
+      ],
+      "use_when": "Show a two-variable-set heatmap where a supplied group or display rule is represented with shape overlays.",
+      "avoid_when": "Do not use for plain two-set heatmaps, supplied x-y-rho association grids, or single-set star-cell triangles."
+    },
+    {
+      "id": "ideogram-gene",
+      "family": "ideogram",
+      "title": "Transcript gene-structure tracks",
+      "source": "scripts/ideogram/gene/plot.R",
+      "preview": "scripts/ideogram/gene/preview.png",
+      "preferred_shapes": [
+        "transcript_feature_table"
+      ],
+      "roles": {
+        "required": [
+          "transcript_id",
+          "feature_type",
+          "genomic_start",
+          "genomic_end"
+        ],
+        "optional": [
+          "target_entity",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "gene model",
+        "ideogram-gene",
+        "transcript structure",
+        "基因结构",
+        "外显子图"
+      ],
+      "use_when": "Draw supplied transcript, exon, CDS, or UTR intervals on transcript structure tracks.",
+      "avoid_when": "Do not use for chromosome-level loci, G-banding, coverage tracks, protein lollipops, or genomic Circos plots."
+    },
+    {
+      "id": "ideogram-karyotype",
+      "family": "ideogram",
+      "title": "Chromosome G-banding ideogram",
+      "source": "scripts/ideogram/karyotype/plot.R",
+      "preview": "scripts/ideogram/karyotype/preview.png",
+      "preferred_shapes": [
+        "cytoband_table",
+        "genomic_interval_table"
+      ],
+      "roles": {
+        "required": [
+          "chromosome",
+          "genomic_start",
+          "genomic_end",
+          "cytoband"
+        ],
+        "optional": [
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "karyotype",
+        "ideogram-karyotype",
+        "cytoband",
+        "核型图",
+        "染色体带型"
+      ],
+      "use_when": "Show supplied cytoband or chromosome-arm intervals as a karyotype ideogram.",
+      "avoid_when": "Do not use for gene loci labels, continuous density windows, coverage tracks, or transcript exon models."
+    },
+    {
+      "id": "ideogram-loci",
+      "family": "ideogram",
+      "title": "Gene loci on chromosome ideograms",
+      "source": "scripts/ideogram/loci/plot.R",
+      "preview": "scripts/ideogram/loci/preview.png",
+      "preferred_shapes": [
+        "genomic_locus_table",
+        "genomic_interval_table",
+        "genomic_annotation_sidecars"
+      ],
+      "roles": {
+        "required": [
+          "chromosome",
+          "genomic_start",
+          "genomic_end",
+          "target_entity"
+        ],
+        "optional": [
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "loci on ideogram",
+        "ideogram-loci",
+        "gene loci",
+        "基因定位",
+        "感兴趣基因"
+      ],
+      "use_when": "Label supplied genomic loci on chromosome ideograms, optionally colored by category.",
+      "avoid_when": "Do not use for transcript structure, unlabelled density windows, coverage browser tracks, or multi-track genomic Circos."
+    },
+    {
+      "id": "ideogram-density",
+      "family": "ideogram",
+      "title": "Ideogram with continuous density fill",
+      "source": "scripts/ideogram/density/plot.R",
+      "preview": "scripts/ideogram/density/preview.png",
+      "preferred_shapes": [
+        "genomic_density_windows",
+        "genomic_interval_table"
+      ],
+      "roles": {
+        "required": [
+          "chromosome",
+          "genomic_start",
+          "genomic_end"
+        ],
+        "optional": [
+          "numeric_y",
+          "magnitude"
+        ]
+      },
+      "intent_keywords": [
+        "ideogram density",
+        "ideogram-density",
+        "chromosome density",
+        "染色体密度图",
+        "ideogram heatmap"
+      ],
+      "use_when": "Fill chromosome intervals with a supplied continuous window statistic such as density or population-genetic score.",
+      "avoid_when": "Do not use for locus labels, coverage tracks, G-banding, transcript models, or dense site dandelion stems."
+    },
+    {
+      "id": "ideogram-coverage",
+      "family": "ideogram",
+      "title": "Genomic locus coverage browser",
+      "source": "scripts/ideogram/coverage/plot.R",
+      "preview": "scripts/ideogram/coverage/preview.png",
+      "preferred_shapes": [
+        "genomic_coverage_tracks",
+        "genomic_track_table",
+        "genomic_annotation_sidecars"
+      ],
+      "roles": {
+        "required": [
+          "chromosome",
+          "genomic_start",
+          "genomic_end",
+          "track"
+        ],
+        "optional": [
+          "numeric_y",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "coverage track",
+        "ideogram-coverage",
+        "locus browser",
+        "基因组覆盖度",
+        "ATAC coverage",
+        "HiChIP loops"
+      ],
+      "use_when": "Stack supplied genomic signal tracks over a locus, with optional loop and gene sidecars.",
+      "avoid_when": "Do not run peak calling, loop calling, or fetch annotations. Do not use for whole-chromosome density or protein-domain mutation displays."
+    },
+    {
+      "id": "ideogram-lollipop",
+      "family": "ideogram",
+      "title": "Protein mutation lollipop",
+      "source": "scripts/ideogram/lollipop/plot.R",
+      "preview": "scripts/ideogram/lollipop/preview.png",
+      "preferred_shapes": [
+        "protein_lollipop_table",
+        "protein_domain_sidecar"
+      ],
+      "roles": {
+        "required": [
+          "residue_position",
+          "mutation_class"
+        ],
+        "optional": [
+          "count",
+          "target_entity",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "protein lollipop",
+        "ideogram-lollipop",
+        "mutation lollipop",
+        "突变棒棒糖",
+        "MutationMapper"
+      ],
+      "use_when": "Draw supplied protein residue positions and mutation classes on a protein axis, optionally using counts and domain sidecars.",
+      "avoid_when": "Do not parse MAF, fetch protein domains, use for genomic loci, or use for mutation-energy matrices."
+    },
+    {
+      "id": "ideogram-dandelion",
+      "family": "ideogram",
+      "title": "Dense-site dandelion plot",
+      "source": "scripts/ideogram/dandelion/plot.R",
+      "preview": "scripts/ideogram/dandelion/preview.png",
+      "preferred_shapes": [
+        "site_score_table",
+        "genomic_annotation_sidecars"
+      ],
+      "roles": {
+        "required": [
+          "site_position"
+        ],
+        "optional": [
+          "numeric_y",
+          "magnitude",
+          "signed_association",
+          "feature_type"
+        ]
+      },
+      "intent_keywords": [
+        "dandelion plot",
+        "ideogram-dandelion",
+        "dense site",
+        "蒲公英图",
+        "密位点棒棒糖"
+      ],
+      "use_when": "Collapse dense supplied genomic or sequence sites into clustered dandelion stems with an optional feature sidecar.",
+      "avoid_when": "Do not use for one-stem-per-site protein lollipops, whole-chromosome density windows, or locus coverage browsers."
+    },
+    {
+      "id": "ideogram-circos",
+      "family": "ideogram",
+      "title": "Multi-track genomic Circos",
+      "source": "scripts/ideogram/circos/plot.R",
+      "preview": "scripts/ideogram/circos/preview.png",
+      "preferred_shapes": [
+        "genomic_track_table",
+        "genomic_interval_table",
+        "genomic_annotation_sidecars"
+      ],
+      "roles": {
+        "required": [
+          "chromosome",
+          "genomic_start",
+          "genomic_end",
+          "track"
+        ],
+        "optional": [
+          "numeric_y",
+          "component",
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "genomic Circos",
+        "ideogram-circos",
+        "multi-track circos",
+        "基因组环图",
+        "CNV circos",
+        "重排环图"
+      ],
+      "use_when": "Draw one genome as circular sectors with supplied quantitative tracks and optional supplied rearrangement links.",
+      "avoid_when": "Do not use for weighted category chord diagrams, two-genome synteny ribbons, plain locus labels, or group-split non-genomic circular heatmaps."
+    },
+    {
+      "id": "ideogram-circos-heatmap",
+      "family": "ideogram",
+      "title": "Genomic Circos heatmap with connectors",
+      "source": "scripts/ideogram/circos_heatmap/plot.R",
+      "preview": "scripts/ideogram/circos_heatmap/preview.png",
+      "preferred_shapes": [
+        "genomic_heatmap_table",
+        "genomic_interval_table",
+        "genomic_annotation_sidecars"
+      ],
+      "roles": {
+        "required": [
+          "chromosome",
+          "genomic_start",
+          "genomic_end",
+          "genomic_heatmap_table"
+        ],
+        "optional": [
+          "target_entity",
+          "track"
+        ]
+      },
+      "intent_keywords": [
+        "genomic circos heatmap",
+        "ideogram-circos-heatmap",
+        "circos heatmap connectors",
+        "基因组热图",
+        "环状基因组热图"
+      ],
+      "use_when": "Draw genomic intervals as circular heatmap tiles from supplied numeric layer columns, with connector lines to the loci.",
+      "avoid_when": "Do not use for non-genomic group-split heatmaps, ordinary Circos tracks without heatmap tiles, or labelled loci without numeric layers."
+    },
+    {
+      "id": "ideogram-nested",
+      "family": "ideogram",
+      "title": "Nested Circos overview and zoom",
+      "source": "scripts/ideogram/nested/plot.R",
+      "preview": "scripts/ideogram/nested/preview.png",
+      "preferred_shapes": [
+        "nested_genomic_windows",
+        "genomic_interval_table",
+        "genomic_annotation_sidecars"
+      ],
+      "roles": {
+        "required": [
+          "chromosome",
+          "genomic_start",
+          "genomic_end",
+          "zoom_start",
+          "zoom_end"
+        ],
+        "optional": [
+          "target_entity",
+          "numeric_y"
+        ]
+      },
+      "intent_keywords": [
+        "nested circos",
+        "ideogram-nested",
+        "overview and zoom",
+        "嵌套缩放",
+        "DMR缩放环图"
+      ],
+      "use_when": "Show outer genomic windows and inner zoom coordinates with supplied sidecars for windows and scored points.",
+      "avoid_when": "Do not use for a single-layer Circos plot, genomic heatmap connectors, coverage browser tracks, or computed DMR discovery."
+    },
+    {
+      "id": "ideogram-synteny",
+      "family": "ideogram",
+      "title": "Two-genome synteny Circos",
+      "source": "scripts/ideogram/synteny/plot.R",
+      "preview": "scripts/ideogram/synteny/preview.png",
+      "preferred_shapes": [
+        "synteny_blocks",
+        "synteny_sidecars"
+      ],
+      "roles": {
+        "required": [
+          "synteny_blocks"
+        ],
+        "optional": [
+          "category"
+        ]
+      },
+      "intent_keywords": [
+        "synteny",
+        "ideogram-synteny",
+        "two-genome synteny",
+        "共线性",
+        "比较基因组环图",
+        "同源色带"
+      ],
+      "use_when": "Compare two supplied assemblies with aligned interval blocks drawn as ribbons between genome sectors.",
+      "avoid_when": "Do not run alignment, BLAST, minimap, or MCScanX. Do not use for one-genome genomic Circos tracks or category chord diagrams."
+    }
+  ]
+}

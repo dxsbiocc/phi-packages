@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored picard/bedtointervallist module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/picard-bedtointervallist
+name: "picard BedToIntervalList"
+summary: "Convert a BED file to a Picard interval list with Picard BedToIntervalList."
+
+params:
+  bed:
+    kind: input
+    type: file
+    required: true
+    description: "BED file to convert."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict) for the reference."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  intervallist:
+    type: directory
+    path: '${outdir}/picard_bedtointervallist'
+    primary: true

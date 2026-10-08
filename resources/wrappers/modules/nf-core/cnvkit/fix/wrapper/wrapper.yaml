@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored cnvkit/fix module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/cnvkit-fix
+name: "CNVkit fix"
+summary: "Correct coverage biases with CNVkit fix."
+
+params:
+  target:
+    kind: input
+    type: file
+    required: true
+    description: "Target coverage (.cnn)."
+  antitarget:
+    kind: input
+    type: file
+    required: true
+    description: "Antitarget coverage (.cnn)."
+  reference:
+    kind: input
+    type: file
+    required: true
+    description: "Reference (.cnn)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  copy_number_ratio:
+    type: directory
+    path: '${outdir}/cnvkit_fix'
+    primary: true

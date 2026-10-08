@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored sylph/sketchgenomes module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/sylph-sketchgenomes
+name: "Sylph sketch (genomes)"
+summary: "Sketch genome FASTA files into a Sylph database (.syldb) with sylph sketch."
+
+params:
+  fasta1:
+    kind: input
+    type: file
+    required: true
+    description: "First genome FASTA."
+  fasta2:
+    kind: input
+    type: file
+    required: true
+    description: "Second genome FASTA."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  syldb:
+    type: directory
+    path: '${outdir}/sylph_sketchgenomes'
+    primary: true

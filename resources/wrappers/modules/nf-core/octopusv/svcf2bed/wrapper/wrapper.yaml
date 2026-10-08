@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored octopusv/svcf2bed module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/octopusv-svcf2bed
+name: "OctopusV svcf2bed"
+summary: "Convert an SVCF to BED with OctopusV svcf2bed."
+
+params:
+  svcf:
+    kind: input
+    type: file
+    required: true
+    description: "SVCF file (OctopusV's SV call format)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bed:
+    type: directory
+    path: '${outdir}/octopusv_svcf2bed'
+    primary: true

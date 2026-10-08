@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored ucsc/wigtobigwig module
+# at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/ucsc-wigtobigwig
+name: UCSC wigToBigWig
+summary: Convert a wiggle file to indexed bigWig format with UCSC wigToBigWig.
+
+params:
+  wig:
+    kind: input
+    type: file
+    required: true
+    description: Wiggle file (plain or gzipped) to convert.
+  sizes:
+    kind: input
+    type: file
+    required: true
+    description: "Chromosome sizes file (2-column: name, length)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the bigWig file.
+
+outputs:
+  bw:
+    type: directory
+    path: '${outdir}/ucsc_wigtobigwig'
+    primary: true

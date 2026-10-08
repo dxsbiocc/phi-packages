@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored cnvkit/coverage module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/cnvkit-coverage
+name: "CNVkit coverage"
+summary: "Compute read depth over intervals with CNVkit coverage."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  intervals:
+    kind: input
+    type: file
+    required: true
+    description: "Intervals BED."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  coverage:
+    type: directory
+    path: '${outdir}/cnvkit_coverage'
+    primary: true

@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://phi.local/contracts/plugin.schema.json",
+  "title": "Phi plugin manifest (phi-package.yaml, type: plugin)",
+  "description": "Plugin contract 1.1.0 (docs/contracts/plugin.md). Path existence, cross-component rules, uniqueness, and reserved prefixes are enforced in code.",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "id",
+    "type",
+    "version",
+    "title",
+    "summary",
+    "toolPrefix",
+    "components"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{1,63}$"
+    },
+    "type": {
+      "const": "plugin"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(-[0-9A-Za-z.-]+)?$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300
+    },
+    "toolPrefix": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]{1,11}$"
+    },
+    "components": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "agents": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^agents/[A-Z][A-Za-z0-9]*\\.md$"
+          },
+          "uniqueItems": true
+        },
+        "skills": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^skills/[a-z0-9][a-z0-9-]{0,63}$"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "environments": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[a-z][a-z0-9-]{0,62}$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "required": ["spec"],
+        "additionalProperties": false,
+        "properties": {
+          "spec": {
+            "type": "string",
+            "pattern": "^environments/[a-z][a-z0-9-]{0,62}/environment\\.yml$"
+          }
+        }
+      }
+    },
+    "minAppVersion": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(-[0-9A-Za-z.-]+)?$"
+    },
+    "requires": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "coreTools": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "dependsOn": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "version"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{1,63}$"
+          },
+          "type": {
+            "enum": ["skill", "plugin"]
+          },
+          "version": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "files": {
+      "const": "files.json"
+    }
+  }
+}

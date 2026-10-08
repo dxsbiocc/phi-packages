@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored gatk4/samtofastq module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4-samtofastq
+name: "GATK4 SamToFastq"
+summary: "Convert a BAM to FASTQ with GATK4 SamToFastq."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "BAM file to convert."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  fastq:
+    type: directory
+    path: '${outdir}/gatk4_samtofastq'
+    primary: true

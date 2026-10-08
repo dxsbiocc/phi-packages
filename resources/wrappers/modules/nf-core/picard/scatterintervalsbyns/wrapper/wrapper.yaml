@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored picard/scatterintervalsbyns module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/picard-scatterintervalsbyns
+name: "picard ScatterIntervalsByNs"
+summary: "Split a reference into intervals at runs of N with Picard ScatterIntervalsByNs."
+
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  intervals:
+    type: directory
+    path: '${outdir}/picard_scatterintervalsbyns'
+    primary: true

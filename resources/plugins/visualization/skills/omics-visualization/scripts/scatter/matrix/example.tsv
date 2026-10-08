@@ -1,0 +1,49 @@
+cell	gene	count
+Basophil	TP53	1414.1315
+Basophil	KRAS	1554.8585
+Basophil	EGFR	3168.8824
+Basophil	TGFB1	3691.3954
+Basophil	AKT	1858.2494
+Basophil	ESR1	2012.1118
+Dendritic cell	TP53	149.4799
+Dendritic cell	KRAS	93.2637
+Dendritic cell	EGFR	128.904
+Dendritic cell	TGFB1	780.0757
+Dendritic cell	AKT	45.6146
+Dendritic cell	ESR1	996.7729
+Eosinophil	TP53	552.5078
+Eosinophil	KRAS	1128.9176
+Eosinophil	EGFR	2918.9881
+Eosinophil	TGFB1	779.429
+Eosinophil	AKT	22.019
+Eosinophil	ESR1	822.3908
+Macrophage	TP53	674.3434
+Macrophage	KRAS	5831.6704
+Macrophage	EGFR	1268.1764
+Macrophage	TGFB1	18.6282
+Macrophage	AKT	118.9043
+Macrophage	ESR1	1919.1789
+Mast cell	TP53	387.4405
+Mast cell	KRAS	1896.4098
+Mast cell	EGFR	2149.5114
+Mast cell	TGFB1	1047.3114
+Mast cell	AKT	969.7234
+Mast cell	ESR1	871.8972
+Monocyte	TP53	3204.5951
+Monocyte	KRAS	48.8138
+Monocyte	EGFR	418.8801
+Monocyte	TGFB1	2.5161
+Monocyte	AKT	2258.1869
+Monocyte	ESR1	1335.2385
+Neutrophil	TP53	3360.0793
+Neutrophil	KRAS	1681.9864
+Neutrophil	EGFR	411.4123
+Neutrophil	TGFB1	68.2049
+Neutrophil	AKT	3898.9925
+Neutrophil	ESR1	1137.2854
+NK	TP53	710.7293
+NK	KRAS	438.754
+NK	EGFR	988.6802
+NK	TGFB1	937.0286
+NK	AKT	1214.6364
+NK	ESR1	1503.9718

@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored deeptools/alignmentsieve
+# module at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/deeptools-alignmentsieve
+name: deeptools alignmentSieve
+summary: Filter and/or shift a BAM alignment with deepTools alignmentSieve.
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: Coordinate-sorted BAM file.
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: BAM index (.bai) for the input BAM.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the filtered BAM and log.
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/deeptools_alignmentsieve'
+    primary: true

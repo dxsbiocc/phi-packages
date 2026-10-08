@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored octopusv/svcf2vcf module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/octopusv-svcf2vcf
+name: "OctopusV svcf2vcf"
+summary: "Convert an SVCF back to standard VCF with OctopusV svcf2vcf."
+
+params:
+  svcf:
+    kind: input
+    type: file
+    required: true
+    description: "SVCF file (OctopusV's SV call format)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/octopusv_svcf2vcf'
+    primary: true

@@ -1,0 +1,49 @@
+flowchart TB
+    subgraph " "
+    v0["fasta_ch"]
+    v1["get_sizes"]
+    v7[" "]
+    v9["in_ch"]
+    v12[" "]
+    v16[" "]
+    v18["fasta_only_ch"]
+    v19["include_tsv_output"]
+    end
+    v2(["SAMTOOLS_FAIDX"])
+    subgraph " "
+    v3[" "]
+    v4[" "]
+    v5[" "]
+    v6[" "]
+    v11[" "]
+    v21[" "]
+    v22[" "]
+    v23[" "]
+    end
+    v10(["WHATSHAP_PHASE"])
+    v20(["WHATSHAP_HAPLOTAG"])
+    v8(( ))
+    v13(( ))
+    v17(( ))
+    v0 --> v2
+    v1 --> v2
+    v2 --> v6
+    v2 --> v5
+    v2 --> v4
+    v2 --> v3
+    v2 --> v8
+    v2 --> v17
+    v7 --> v8
+    v9 --> v10
+    v8 --> v10
+    v10 --> v11
+    v10 --> v13
+    v12 --> v13
+    v16 --> v17
+    v18 --> v20
+    v19 --> v20
+    v13 --> v20
+    v17 --> v20
+    v20 --> v23
+    v20 --> v22
+    v20 --> v21

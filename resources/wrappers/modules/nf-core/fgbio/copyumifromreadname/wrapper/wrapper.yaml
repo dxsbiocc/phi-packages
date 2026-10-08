@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored fgbio/copyumifromreadname module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/fgbio-copyumifromreadname
+name: "fgbio CopyUmiFromReadName"
+summary: "Copy the UMI from the read name into the RX tag with fgbio CopyUmiFromReadName."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM with UMI in the read name."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/fgbio_copyumifromreadname'
+    primary: true

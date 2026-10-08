@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored bbmap/bbduk module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Only single-end reads are exposed — the vendored module also supports
+# paired-end, but this thin adapter doesn't surface a second reads file.
+id: nf-core/modules/bbmap-bbduk
+name: BBMap bbduk
+summary: Adapter/quality trim and filter FASTQ reads with BBMap bbduk.
+
+params:
+  reads:
+    kind: input
+    type: file
+    required: true
+    description: Single-end FASTQ file (plain or gzipped) to trim.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the trimmed reads and log.
+
+outputs:
+  reads:
+    type: directory
+    path: '${outdir}/bbmap_bbduk'
+    primary: true

@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored gatk4/learnreadorientationmodel module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4-learnreadorientationmodel
+name: "GATK4 LearnReadOrientationModel"
+summary: "Learn the read-orientation artifact model from Mutect2 F1R2 counts with GATK4 LearnReadOrientationModel."
+
+params:
+  f1r2:
+    kind: input
+    type: file
+    required: true
+    description: "Mutect2 F1R2 counts archive (.tar.gz)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  artifactprior:
+    type: directory
+    path: '${outdir}/gatk4_learnreadorientationmodel'
+    primary: true

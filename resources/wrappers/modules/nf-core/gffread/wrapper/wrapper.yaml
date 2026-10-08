@@ -1,0 +1,28 @@
+# Agent-facing wrapper adapter for the vendored gffread module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# ../main.nf picks its output format from task.ext.args (see the module's
+# `extension` logic); this wrapper's nextflow.config sets `ext.args = '-T'`
+# so the default run converts GFF3 -> GTF, the most common downstream need.
+id: nf-core/modules/gffread
+name: gffread
+summary: Convert a GFF3 annotation to GTF with gffread.
+
+params:
+  gff:
+    kind: input
+    type: file
+    required: true
+    description: GFF3 (or GTF) annotation file to convert.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the converted annotation.
+
+outputs:
+  annotation:
+    type: directory
+    path: '${outdir}/gffread'
+    primary: true

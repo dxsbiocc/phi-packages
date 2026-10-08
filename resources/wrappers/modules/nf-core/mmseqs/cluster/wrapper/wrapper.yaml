@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored mmseqs/cluster module at
+# ../main.nf. Also composes the vendored mmseqs/createdb module (a
+# sibling vendored component, not another wrapper) so the agent can
+# cluster a raw FASTA in one step. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/mmseqs-cluster
+name: mmseqs cluster
+summary: Cluster sequences by similarity with MMseqs2 cluster (builds the database internally).
+
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: FASTA file to cluster.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the cluster database.
+
+outputs:
+  db_cluster:
+    type: directory
+    path: '${outdir}/mmseqs_cluster'
+    primary: true

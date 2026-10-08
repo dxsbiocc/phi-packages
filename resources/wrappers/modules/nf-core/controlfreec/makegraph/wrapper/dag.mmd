@@ -1,0 +1,62 @@
+flowchart TB
+    subgraph " "
+    v0[" "]
+    v4["in_ch"]
+    v5["fasta"]
+    v6["fai"]
+    v7["snp_position"]
+    v8["known_snps"]
+    v9["known_snps_tbi"]
+    v10["mappability"]
+    v11["target_bed"]
+    v12["gccontent_profile"]
+    v23[" "]
+    end
+    v1(["UNTAR"])
+    subgraph " "
+    v2[" "]
+    v14[" "]
+    v15[" "]
+    v16[" "]
+    v17[" "]
+    v18[" "]
+    v19[" "]
+    v20[" "]
+    v21[" "]
+    v26[" "]
+    v27[" "]
+    v28[" "]
+    v29[" "]
+    end
+    v13(["CONTROLFREEC_FREEC"])
+    v25(["CONTROLFREEC_MAKEGRAPH"])
+    v3(( ))
+    v22(( ))
+    v0 --> v1
+    v1 --> v2
+    v1 --> v3
+    v4 --> v13
+    v5 --> v13
+    v6 --> v13
+    v7 --> v13
+    v8 --> v13
+    v9 --> v13
+    v10 --> v13
+    v11 --> v13
+    v12 --> v13
+    v3 --> v13
+    v13 --> v21
+    v13 --> v20
+    v13 --> v19
+    v13 --> v18
+    v13 --> v17
+    v13 --> v16
+    v13 --> v15
+    v13 --> v14
+    v13 --> v22
+    v23 --> v22
+    v22 --> v25
+    v25 --> v29
+    v25 --> v28
+    v25 --> v27
+    v25 --> v26

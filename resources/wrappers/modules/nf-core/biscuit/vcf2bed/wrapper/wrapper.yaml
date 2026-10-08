@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored biscuit/vcf2bed module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/biscuit-vcf2bed
+name: "BISCUIT vcf2bed"
+summary: "Convert a BISCUIT methylation VCF to BED with BISCUIT vcf2bed."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "BISCUIT methylation VCF (bgzipped)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bed:
+    type: directory
+    path: '${outdir}/biscuit_vcf2bed'
+    primary: true

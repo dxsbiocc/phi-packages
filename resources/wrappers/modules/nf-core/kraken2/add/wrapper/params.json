@@ -1,0 +1,8 @@
+{
+  "fasta": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/genome/genome.fasta",
+  "proteome": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/genome/proteome.fasta",
+  "names": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/metagenome/prot_names.dmp",
+  "nodes": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/metagenome/prot_nodes.dmp",
+  "accession2taxid": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/metagenome/prot.accession2taxid.gz",
+  "outdir": "results"
+}

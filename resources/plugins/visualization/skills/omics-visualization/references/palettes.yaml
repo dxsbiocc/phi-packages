@@ -1,0 +1,394 @@
+# Phi's shared palette index for main-agent recommendations and omics figures.
+# Hex values come from OmicsAgent frontend ColorPicker and the
+# loading.io curated collection (https://loading.io/color/feature/):
+#   frontend/src/components/common/colors.json
+#   plus Brand / Artwork / Qualitative / Concept / Diverging / Gradient /
+#   Quantitative / Aggregation palettes merged from ldpalettepicker.
+# Agents: copy hex from `recommended` or look up any other name in colors.json.
+# Do not invent hex codes. Do not use Artwork or Concept unless the user
+# asks for a decorative theme.
+
+source: "colors.json"
+origin: "OmicsAgent ColorPicker + loading.io/color/feature"
+
+# Default pick by encoding. Override only when the user names a palette
+# or asks to match an existing OmicsAgent / paper figure.
+defaults:
+  categorical: "Qualitative.Safe"
+  categorical_product: "Brand.Algolia"
+  heatmap: "Quantitative.BluGrn"
+  diverging: "Diverging.RdBu"
+  sequential_warm: "Gradient.YlOrRd"
+
+recommended:
+  - id: "Qualitative.Safe"
+    title: "Paul Tol colorblind-safe categorical"
+    aliases:
+      - "色盲安全"
+      - "Tol"
+      - "无障碍配色"
+    kind: "categorical"
+    use_when: >
+      Color discrete groups, conditions, clusters, or series when
+      accessibility matters or no product palette is requested.
+    colors:
+      - "#88ccee"
+      - "#cc6677"
+      - "#ddcc77"
+      - "#117733"
+      - "#332288"
+      - "#aa4499"
+      - "#44aa99"
+      - "#999933"
+      - "#882255"
+      - "#661100"
+      - "#6699cc"
+      - "#888888"
+
+  - id: "Qualitative.Bold"
+    title: "CARTO / loading.io bold categorical"
+    aliases:
+      - "Bold"
+      - "高对比分类"
+    kind: "categorical"
+    use_when: >
+      Many distinct groups on a treemap, circle pack, or icicle when
+      Safe is too muted. Eleven hues from loading.io Qualitative.
+    colors:
+      - "#7f3c8d"
+      - "#11a579"
+      - "#3969ac"
+      - "#f2b701"
+      - "#e73f74"
+      - "#80ba5a"
+      - "#e68310"
+      - "#008695"
+      - "#cf1c90"
+      - "#f97b72"
+      - "#4b4b8f"
+
+  - id: "Brand.Algolia"
+    title: "OmicsAgent ECharts categorical default"
+    aliases:
+      - "Algolia"
+      - "产品默认配色"
+    kind: "categorical"
+    use_when: >
+      Match OmicsAgent bar, scatter, graph, radar, and boxplot defaults.
+    colors:
+      - "#1cc7d0"
+      - "#2dde98"
+      - "#ffc168"
+      - "#ff6c5f"
+      - "#ff4f81"
+      - "#b84592"
+      - "#8e43e7"
+      - "#3369e7"
+      - "#00aeff"
+      - "#003666"
+
+  - id: "Brand.Asana"
+    title: "Five-color scientific categorical"
+    aliases:
+      - "Asana"
+      - "五色分类"
+    kind: "categorical"
+    use_when: >
+      Color up to five ontology or pathway blocks (GO/KEGG-style facets).
+      Already used by enrichment_points and enrichment_expand templates.
+    colors:
+      - "#3be8b0"
+      - "#1aafd0"
+      - "#6a67ce"
+      - "#ffb900"
+      - "#fc636b"
+
+  - id: "Brand.PlotDB"
+    title: "Four-color enrichment categorical"
+    aliases:
+      - "PlotDB"
+      - "四色分类"
+    kind: "categorical"
+    use_when: >
+      Color four enrichment groups (BP/CC/MF/KEGG). Already used by
+      enrichment_groups.
+    colors:
+      - "#ed6ca4"
+      - "#fbb05b"
+      - "#acd372"
+      - "#7bc4e2"
+
+  - id: "Brand.Emma"
+    title: "Positive / negative two-tone plus neutrals"
+    aliases:
+      - "Emma"
+      - "正负配色"
+    kind: "categorical"
+    use_when: >
+      Contrast two signed groups (up vs down, positive vs negative).
+      Teal `#79ceb8` and red `#e95f5c` are already used by enrichment_genes.
+    colors:
+      - "#314855"
+      - "#5cc3e8"
+      - "#ffdb00"
+      - "#79ceb8"
+      - "#e95f5c"
+
+  - id: "Qualitative.Dark2"
+    title: "ColorBrewer Dark2"
+    aliases:
+      - "Dark2"
+    kind: "categorical"
+    use_when: >
+      Standard R-style qualitative groups when the user asks for ColorBrewer.
+    colors:
+      - "#1b9e77"
+      - "#d95f02"
+      - "#7570b3"
+      - "#e7298a"
+      - "#66a61e"
+      - "#e6ab02"
+      - "#a6761d"
+
+  - id: "Qualitative.Paired"
+    title: "ColorBrewer Paired"
+    aliases:
+      - "Paired"
+      - "成对配色"
+    kind: "categorical"
+    use_when: >
+      Adjacent light/dark pairs for related groups (treated vs control).
+    colors:
+      - "#a6cee3"
+      - "#1f78b4"
+      - "#b2df8a"
+      - "#33a02c"
+      - "#fb9a99"
+      - "#e31a1c"
+      - "#fdbf6f"
+      - "#ff7f00"
+      - "#cab2d6"
+
+  - id: "Qualitative.Prism"
+    title: "Scientific prism categorical"
+    aliases:
+      - "Prism"
+    kind: "categorical"
+    use_when: >
+      Many distinct groups on a white or transparent canvas.
+    colors:
+      - "#5f4690"
+      - "#1d6996"
+      - "#38a6a5"
+      - "#0f8554"
+      - "#73af48"
+      - "#edad08"
+      - "#e17c05"
+      - "#cc503e"
+      - "#94346e"
+      - "#6f4070"
+      - "#994e95"
+
+  - id: "Quantitative.BluGrn"
+    title: "OmicsAgent heatmap sequential"
+    aliases:
+      - "BluGrn"
+      - "青绿热图"
+    kind: "sequential"
+    use_when: >
+      Continuous intensity, counts, or expression. OmicsAgent ECharts
+      heatmap default. Already used by heatmap/basic.
+    colors:
+      - "#c4e6c3"
+      - "#96d2a4"
+      - "#6dbc90"
+      - "#4da284"
+      - "#36877a"
+      - "#266b6e"
+      - "#1d4f60"
+
+  - id: "Gradient.YlOrRd"
+    title: "Yellow–orange–red sequential"
+    aliases:
+      - "YlOrRd"
+      - "黄橙红"
+    kind: "sequential"
+    use_when: >
+      Expression or significance heatmaps when a warm ramp is requested.
+    colors:
+      - "#ffffcc"
+      - "#ffeda0"
+      - "#fed976"
+      - "#feb24c"
+      - "#fd8d3c"
+      - "#fc4e2a"
+      - "#e31a1c"
+      - "#b10026"
+
+  - id: "Gradient.YlGnBu"
+    title: "Yellow–green–blue sequential"
+    aliases:
+      - "YlGnBu"
+    kind: "sequential"
+    use_when: >
+      Correlation or enrichment heatmaps that should stay cool at the high end.
+    colors:
+      - "#ffffd9"
+      - "#edf8b1"
+      - "#c7e9b4"
+      - "#7fcdbb"
+      - "#41b6c4"
+      - "#1d91c0"
+      - "#225ea8"
+      - "#253494"
+      - "#081d58"
+
+  - id: "Gradient.Blues"
+    title: "Single-hue blue sequential"
+    aliases:
+      - "Blues"
+    kind: "sequential"
+    use_when: >
+      One-sided magnitude (counts, coverage) without implying a midpoint.
+    colors:
+      - "#f7fbff"
+      - "#deebf7"
+      - "#c6dbef"
+      - "#9ecae1"
+      - "#6baed6"
+      - "#4292c6"
+      - "#2171b5"
+      - "#08519c"
+      - "#08306b"
+
+  - id: "Quantitative.Sunset"
+    title: "Sunset continuous"
+    aliases:
+      - "Sunset"
+    kind: "sequential"
+    use_when: >
+      Bubble size/color or density when a multi-hue sequential ramp is wanted.
+    colors:
+      - "#f3e79b"
+      - "#fac484"
+      - "#f8a07e"
+      - "#eb7f86"
+      - "#ce6693"
+      - "#a059a0"
+      - "#5c53a5"
+
+  - id: "Diverging.RdBu"
+    title: "Red–blue diverging"
+    aliases:
+      - "RdBu"
+      - "红蓝发散"
+    kind: "diverging"
+    use_when: >
+      Signed values centered at zero: log2FC, NES, correlation, z-score.
+    colors:
+      - "#b2182b"
+      - "#d6604d"
+      - "#f4a582"
+      - "#fddbc7"
+      - "#f7f7f7"
+      - "#d1e5f0"
+      - "#92c5de"
+      - "#4393c3"
+      - "#2166ac"
+
+  - id: "Diverging.RdYlBu"
+    title: "Red–yellow–blue diverging"
+    aliases:
+      - "RdYlBu"
+    kind: "diverging"
+    use_when: >
+      Signed metrics when a lighter midpoint helps read the zero class.
+    colors:
+      - "#d73027"
+      - "#f46d43"
+      - "#fdae61"
+      - "#fee090"
+      - "#ffffbf"
+      - "#e0f3f8"
+      - "#abd9e9"
+      - "#74add1"
+      - "#4575b4"
+
+  - id: "Diverging.RdYlGn"
+    title: "Red–yellow–green diverging"
+    aliases:
+      - "RdYlGn"
+      - "绿黄红"
+    kind: "diverging"
+    use_when: >
+      Signed mutation or stability scores when green should read as
+      favorable and red as unfavorable. Reverse the vector so low
+      values sit on green.
+    colors:
+      - "#d73027"
+      - "#f46d43"
+      - "#fdae61"
+      - "#fee08b"
+      - "#ffffbf"
+      - "#d9ef8b"
+      - "#a6d96a"
+      - "#66bd63"
+      - "#1a9850"
+
+  - id: "Diverging.Spectral"
+    title: "Spectral diverging"
+    aliases:
+      - "Spectral"
+    kind: "diverging"
+    use_when: >
+      Many-stop signed ramps. Avoid as the sole encoding when color-vision
+      safety is required.
+    colors:
+      - "#d53e4f"
+      - "#f46d43"
+      - "#fdae61"
+      - "#fee08b"
+      - "#ffffbf"
+      - "#e6f598"
+      - "#abdda4"
+      - "#66c2a5"
+      - "#3288bd"
+
+  - id: "Diverging.Temps"
+    title: "Teal–gold–rose diverging"
+    aliases:
+      - "Temps"
+      - "青金玫"
+    kind: "diverging"
+    use_when: >
+      Signed ΔΔG or temperature-like scores when ColorBrewer RdBu / RdYlBu
+      looks too muted. Teal is stabilizing, rose is destabilizing.
+    colors:
+      - "#009392"
+      - "#39b185"
+      - "#9ccb86"
+      - "#e9e29c"
+      - "#eeb479"
+      - "#e88471"
+      - "#cf597e"
+
+  - id: "Diverging.Tropic"
+    title: "Teal–magenta diverging"
+    aliases:
+      - "Tropic"
+      - "青绿玫红"
+    kind: "diverging"
+    use_when: >
+      Signed correlation when teal should read as negative and magenta
+      as positive. Matches mako+acton-style cell-type × factor heatmaps.
+    colors:
+      - "#009b9e"
+      - "#42b7b9"
+      - "#a7d3d4"
+      - "#f1f1f1"
+      - "#e4c1d9"
+      - "#d691c1"
+      - "#c75dab"
+
+# Apply in PLOT as scale_*_manual(values = ...) or scale_*_gradientn(colours = ...).
+# Keep plot.background blank. Palette fills data, not the canvas.

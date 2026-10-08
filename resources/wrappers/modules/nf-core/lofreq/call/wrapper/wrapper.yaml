@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored lofreq/call module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/lofreq-call
+name: "LoFreq call"
+summary: "Call low-frequency variants with LoFreq."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "BAM file."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/lofreq_call'
+    primary: true

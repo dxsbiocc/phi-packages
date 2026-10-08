@@ -1,0 +1,25 @@
+flowchart TB
+    subgraph " "
+    v0["in_ch"]
+    v1["algorithm"]
+    v2["n_clusters"]
+    v3["dbscan_eps"]
+    v4["dbscan_min_samples"]
+    v9["channel.empty"]
+    end
+    v5(["CUSTOM_PCACLUSTERING"])
+    subgraph " "
+    v6[" "]
+    v7[" "]
+    v8[" "]
+    v10[" "]
+    end
+    v0 --> v5
+    v1 --> v5
+    v2 --> v5
+    v3 --> v5
+    v4 --> v5
+    v5 --> v8
+    v5 --> v7
+    v5 --> v6
+    v9 --> v10

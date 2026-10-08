@@ -1,0 +1,19 @@
+flowchart TB
+    subgraph " "
+    v0["bam_ch"]
+    v1["fasta_ch"]
+    v2["dict_ch"]
+    v6["channel.empty"]
+    end
+    v3(["GATK4_MERGEBAMALIGNMENT"])
+    subgraph " "
+    v4[" "]
+    v5[" "]
+    v7[" "]
+    end
+    v0 --> v3
+    v1 --> v3
+    v2 --> v3
+    v3 --> v5
+    v3 --> v4
+    v6 --> v7

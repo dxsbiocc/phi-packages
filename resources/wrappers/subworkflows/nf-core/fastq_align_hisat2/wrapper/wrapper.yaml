@@ -1,0 +1,52 @@
+# Agent-facing wrapper adapter for the vendored fastq_align_hisat2 subworkflow
+# at ../main.nf (HISAT2_ALIGN -> BAM_SORT_STATS_SAMTOOLS: sorted BAM, index,
+# stats, flagstat, idxstats). Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# The subworkflow takes a HISAT2 index and splice-sites file. Splice sites
+# always come from `gtf` (hisat2/extractsplicesites); the index is a pre-built
+# `index` when given, otherwise built from `fasta` + `gtf` (hisat2/build, the
+# same setup chain nf-core's own subworkflow test uses). Those modules are
+# included directly, not through their own wrappers. The reference FASTA/FAI
+# the samtools steps can take is passed empty (only CRAM needs it).
+id: nf-core/subworkflows/fastq-align-hisat2
+name: HISAT2 align + samtools stats
+summary: Align RNA-seq reads with HISAT2 (pre-built or freshly built index), then sort/index the BAM and compute samtools stats.
+
+params:
+  reads_1:
+    kind: input
+    type: fastq
+    required: true
+    description: FASTQ file for read 1 (the only reads file for single-end data).
+  reads_2:
+    kind: input
+    type: fastq
+    required: false
+    description: FASTQ file for read 2. Omit for single-end reads.
+  index:
+    kind: input
+    type: directory
+    required: false
+    description: Pre-built HISAT2 index directory (holding one set of *.ht2 files). Preferred for large genomes; when set, no index is built.
+  fasta:
+    kind: input
+    type: fasta
+    required: false
+    description: Reference genome FASTA to build a splice-aware HISAT2 index from. Required only when `index` is not given.
+  gtf:
+    kind: input
+    type: gtf
+    required: true
+    description: Gene annotation GTF — splice sites for alignment, and for the index when one is built.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the sorted BAM, its index, the stats reports, and the HISAT2 summary log.
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/fastq_align_hisat2'
+    primary: true

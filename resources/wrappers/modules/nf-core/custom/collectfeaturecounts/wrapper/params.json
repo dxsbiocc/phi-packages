@@ -1,0 +1,5 @@
+{
+  "counts1": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/generic/tsv/sample1.subread.featureCounts.tsv",
+  "counts2": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/generic/tsv/sample2.subread.featureCounts.tsv",
+  "outdir": "results"
+}

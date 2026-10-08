@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored seqkit/tab2fx module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/seqkit-tab2fx
+name: "seqkit tab2fx"
+summary: "Convert tabular text (zstd-compressed) back to FASTA/FASTQ with seqkit tab2fx."
+
+params:
+  text:
+    kind: input
+    type: file
+    required: true
+    description: "Tab-delimited sequence table (.txt.zst)."
+  out_ext:
+    kind: option
+    type: string
+    required: false
+    description: "Output extension (e.g. fa.zst)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  fastx:
+    type: directory
+    path: '${outdir}/seqkit_tab2fx'
+    primary: true

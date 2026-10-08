@@ -1,0 +1,22 @@
+flowchart TB
+    subgraph " "
+    v0["channel.fromFilePairs"]
+    v2["channel.fromPath"]
+    v5["channel.fromPath"]
+    end
+    v3(["SYLPH_PROFILE"])
+    subgraph " "
+    v4[" "]
+    v7[" "]
+    v8[" "]
+    end
+    v6(["SYLPHTAX_TAXPROF"])
+    v1(( ))
+    v0 --> v1
+    v2 --> v3
+    v1 --> v3
+    v3 --> v6
+    v3 --> v4
+    v5 --> v6
+    v6 --> v8
+    v6 --> v7

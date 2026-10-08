@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored samtools/fasta module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/samtools-fasta
+name: samtools fasta
+summary: Convert a BAM file to FASTA with samtools fasta.
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: BAM file to convert.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the FASTA file(s).
+
+outputs:
+  fasta:
+    type: directory
+    path: '${outdir}/samtools_fasta'
+    primary: true

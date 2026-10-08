@@ -1,0 +1,36 @@
+# Agent-facing wrapper adapter for the vendored gridss/generateponbedpe module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: builds the BWA index and calls SVs with the vendored bwa index and gridss modules first.
+id: nf-core/modules/gridss-generateponbedpe
+name: "GRIDSS generate PON"
+summary: "Generate a GRIDSS panel-of-normals BEDPE (index → GRIDSS → generatePonBedpe)."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bedpe:
+    type: directory
+    path: '${outdir}/gridss_generateponbedpe'
+    primary: true

@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored blast/makeblastdb module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/blast-makeblastdb
+name: blast makeblastdb
+summary: Build a BLAST database from a FASTA file.
+
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: FASTA file (plain or gzipped) to build the BLAST database from.
+  dbtype:
+    kind: option
+    type: string
+    required: false
+    description: Database molecule type, "nucl" or "prot".
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the BLAST database.
+
+outputs:
+  db:
+    type: directory
+    path: '${outdir}/blast_makeblastdb'
+    primary: true

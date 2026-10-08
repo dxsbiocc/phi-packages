@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored blast/blastp module at
+# ../main.nf. Also composes the vendored blast/makeblastdb module (a
+# sibling vendored component, not another wrapper) so the agent can
+# BLAST a protein query against a raw subject FASTA in one step. Follows
+# the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/blast-blastp
+name: blast blastp
+summary: BLAST a protein query against a subject protein FASTA (builds the database internally).
+
+params:
+  query:
+    kind: input
+    type: file
+    required: true
+    description: Query protein FASTA file.
+  subject:
+    kind: input
+    type: file
+    required: true
+    description: Subject/reference protein FASTA file the BLAST database is built from.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the BLAST hits.
+
+outputs:
+  tsv:
+    type: directory
+    path: '${outdir}/blast_blastp'
+    primary: true

@@ -1,0 +1,42 @@
+flowchart TB
+    subgraph " "
+    v0["part1_in"]
+    v6["part2_in"]
+    end
+    v1(["PLINK2_FILTER_PART1"])
+    subgraph " "
+    v2[" "]
+    v3[" "]
+    v4[" "]
+    v5[" "]
+    v8[" "]
+    v9[" "]
+    v10[" "]
+    v11[" "]
+    v19[" "]
+    v20[" "]
+    v21[" "]
+    v22[" "]
+    end
+    v7(["PLINK2_FILTER_PART2"])
+    v18(["PLINK2_PMERGE"])
+    v12(( ))
+    v15(( ))
+    v0 --> v1
+    v1 --> v5
+    v1 --> v4
+    v1 --> v3
+    v1 --> v2
+    v1 --> v12
+    v6 --> v7
+    v7 --> v11
+    v7 --> v10
+    v7 --> v9
+    v7 --> v8
+    v7 --> v15
+    v12 --> v18
+    v15 --> v18
+    v18 --> v22
+    v18 --> v21
+    v18 --> v20
+    v18 --> v19

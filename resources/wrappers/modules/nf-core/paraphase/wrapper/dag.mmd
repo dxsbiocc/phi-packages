@@ -1,0 +1,42 @@
+flowchart TB
+    subgraph " "
+    v0[" "]
+    v1["action"]
+    v2["make_index"]
+    v3["out_ext"]
+    v8["in_ch"]
+    v9[" "]
+    end
+    v4(["HTSLIB_BGZIPTABIX"])
+    subgraph " "
+    v5[" "]
+    v6[" "]
+    v7[" "]
+    v11[" "]
+    v12[" "]
+    v13[" "]
+    v14[" "]
+    v15[" "]
+    v16[" "]
+    v17[" "]
+    v18[" "]
+    end
+    v10(["PARAPHASE"])
+    v0 --> v4
+    v1 --> v4
+    v2 --> v4
+    v3 --> v4
+    v4 --> v10
+    v4 --> v7
+    v4 --> v6
+    v4 --> v5
+    v8 --> v10
+    v9 --> v10
+    v10 --> v18
+    v10 --> v17
+    v10 --> v16
+    v10 --> v15
+    v10 --> v14
+    v10 --> v13
+    v10 --> v12
+    v10 --> v11

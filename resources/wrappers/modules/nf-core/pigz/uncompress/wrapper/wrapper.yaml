@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored pigz/uncompress module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/pigz-uncompress
+name: pigz uncompress
+summary: Decompress a gzip (.gz) file with pigz (parallel gzip).
+
+params:
+  input:
+    kind: input
+    type: file
+    required: true
+    description: Gzip-compressed file to decompress.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the decompressed file.
+
+outputs:
+  file:
+    type: directory
+    path: '${outdir}/pigz_uncompress'
+    primary: true

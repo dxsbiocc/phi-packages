@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored cnvkit/target module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/cnvkit-target
+name: "CNVkit target"
+summary: "Prepare target bins from baits with CNVkit target."
+
+params:
+  baits:
+    kind: input
+    type: file
+    required: true
+    description: "Baits BED."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bed:
+    type: directory
+    path: '${outdir}/cnvkit_target'
+    primary: true

@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored bwameme/index module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bwameme-index
+name: "BWA-MEME index"
+summary: "Build a BWA-MEME index from a reference FASTA."
+
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  index:
+    type: directory
+    path: '${outdir}/bwameme_index'
+    primary: true

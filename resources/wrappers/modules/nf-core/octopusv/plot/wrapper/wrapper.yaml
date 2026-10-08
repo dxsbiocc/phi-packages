@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored octopusv/plot module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: computes SV statistics with the vendored octopusv stat module first.
+id: nf-core/modules/octopusv-plot
+name: "OctopusV plot"
+summary: "Plot SV size, type and chromosome distributions from stat output (stat -> plot)."
+
+params:
+  svcf:
+    kind: input
+    type: file
+    required: true
+    description: "SVCF file (OctopusV's SV call format)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  sv_sizes_png:
+    type: directory
+    path: '${outdir}/octopusv_plot'
+    primary: true

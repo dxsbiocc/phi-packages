@@ -1,0 +1,81 @@
+# Agent-facing wrapper adapter for the vendored fusioninspector module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: builds the STAR-Fusion CTAT genome library (with the minigenome test fixture) using the vendored starfusion build module first.
+id: nf-core/modules/fusioninspector
+name: "FusionInspector"
+summary: "Validate and characterise candidate fusions from RNA-seq reads with FusionInspector (builds the CTAT library first)."
+
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Minigenome FASTA fixture."
+  gtf:
+    kind: input
+    type: file
+    required: true
+    description: "Minigenome GTF fixture."
+  fusion_lib:
+    kind: input
+    type: file
+    required: true
+    description: "CTAT human fusion library (mini, .dat.gz)."
+  pfam:
+    kind: input
+    type: file
+    required: true
+    description: "Pfam-A HMM database (.hmm.gz)."
+  dfam_hmm:
+    kind: input
+    type: file
+    required: true
+    description: "Dfam HMM profile."
+  dfam_h3f:
+    kind: input
+    type: file
+    required: true
+    description: "Dfam HMM index (.h3f)."
+  dfam_h3i:
+    kind: input
+    type: file
+    required: true
+    description: "Dfam HMM index (.h3i)."
+  dfam_h3m:
+    kind: input
+    type: file
+    required: true
+    description: "Dfam HMM index (.h3m)."
+  dfam_h3p:
+    kind: input
+    type: file
+    required: true
+    description: "Dfam HMM index (.h3p)."
+  reads1:
+    kind: input
+    type: file
+    required: true
+    description: "Forward RNA-seq reads FASTQ (.fastq.gz)."
+  reads2:
+    kind: input
+    type: file
+    required: true
+    description: "Reverse RNA-seq reads FASTQ (.fastq.gz)."
+  fusion_targets:
+    kind: input
+    type: file
+    required: true
+    description: "Candidate fusion targets list."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  tsv:
+    type: directory
+    path: '${outdir}/fusioninspector'
+    primary: true

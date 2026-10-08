@@ -1,0 +1,37 @@
+flowchart TB
+    subgraph " "
+    v0["empty_ch"]
+    v1["input_ch"]
+    v2["fasta_ch"]
+    v3["fai_ch"]
+    v4["dict_ch"]
+    v5["germline_resource"]
+    v6["germline_resource_tbi"]
+    v7["panel_of_normals"]
+    v8["panel_of_normals_tbi"]
+    v15["channel.empty"]
+    end
+    v9(["GATK4_MUTECT2"])
+    subgraph " "
+    v10[" "]
+    v11[" "]
+    v12[" "]
+    v13[" "]
+    v14[" "]
+    v16[" "]
+    end
+    v0 --> v9
+    v1 --> v9
+    v2 --> v9
+    v3 --> v9
+    v4 --> v9
+    v5 --> v9
+    v6 --> v9
+    v7 --> v9
+    v8 --> v9
+    v9 --> v14
+    v9 --> v13
+    v9 --> v12
+    v9 --> v11
+    v9 --> v10
+    v15 --> v16

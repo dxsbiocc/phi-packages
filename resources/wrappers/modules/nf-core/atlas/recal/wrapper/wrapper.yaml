@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored atlas/recal module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/atlas-recal
+name: "Atlas recal"
+summary: "Compute base-quality recalibration patterns with Atlas recal."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  recal_patterns:
+    type: directory
+    path: '${outdir}/atlas_recal'
+    primary: true

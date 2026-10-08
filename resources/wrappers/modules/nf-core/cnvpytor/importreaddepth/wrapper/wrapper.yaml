@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored cnvpytor/importreaddepth module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/cnvpytor-importreaddepth
+name: "CNVpytor import read depth"
+summary: "Import read depth from a BAM into a CNVpytor .pytor file."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  pytor:
+    type: directory
+    path: '${outdir}/cnvpytor_importreaddepth'
+    primary: true

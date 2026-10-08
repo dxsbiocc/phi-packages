@@ -1,0 +1,11 @@
+{
+  "results": "tests/data/ko_vs_wt.deseq2.results.tsv",
+  "gene_id_col": "gene_id",
+  "log2fc_col": "log2FoldChange",
+  "pvalue_col": "padj",
+  "alpha": "0.05",
+  "lfc_threshold": "1",
+  "label_top_n": "10",
+  "prefix": "ko_vs_wt",
+  "outdir": "results"
+}

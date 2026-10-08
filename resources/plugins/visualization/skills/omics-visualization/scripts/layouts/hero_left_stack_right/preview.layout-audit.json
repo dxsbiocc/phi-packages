@@ -1,0 +1,69 @@
+{
+  "schema_version": "omics-visualization.layout-audit.v1",
+  "layout_id": "hero-left-stack-right",
+  "status": "PASS",
+  "tolerance_pt": 1.5,
+  "output_width_in": 8.2,
+  "output_height_in": 5.4,
+  "panels": [
+    {
+      "panel": 1,
+      "left": 44.6151,
+      "right": 358.10671,
+      "bottom": 31.2471,
+      "top": 355.59417,
+      "width": 313.49161,
+      "height": 324.34707
+    },
+    {
+      "panel": 2,
+      "left": 423.69155,
+      "right": 580.43736,
+      "bottom": 220.16765,
+      "top": 355.59417,
+      "width": 156.74581,
+      "height": 135.42652
+    },
+    {
+      "panel": 3,
+      "left": 423.69155,
+      "right": 580.43736,
+      "bottom": 31.2471,
+      "top": 166.67362,
+      "width": 156.74581,
+      "height": 135.42652
+    }
+  ],
+  "checks": [
+    {
+      "name": "supporting panel widths",
+      "delta_pt": 0,
+      "passed": true
+    },
+    {
+      "name": "supporting panel heights",
+      "delta_pt": 2.84217e-14,
+      "passed": true
+    },
+    {
+      "name": "supporting left edges",
+      "delta_pt": 0,
+      "passed": true
+    },
+    {
+      "name": "supporting right edges",
+      "delta_pt": 0,
+      "passed": true
+    },
+    {
+      "name": "hero and upper panel top",
+      "delta_pt": 0,
+      "passed": true
+    },
+    {
+      "name": "hero and lower panel bottom",
+      "delta_pt": 0,
+      "passed": true
+    }
+  ]
+}

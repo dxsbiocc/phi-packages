@@ -1,0 +1,5 @@
+{
+  "vcf": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/vcf/syntheticvcf_short.vcf.gz",
+  "scorefile": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/vcf/syntheticvcf_short.score",
+  "outdir": "results"
+}

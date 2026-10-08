@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored picard/splitsambynumberofreads module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/picard-splitsambynumberofreads
+name: "picard SplitSamByNumberOfReads"
+summary: "Split a BAM into files of at most N reads each with Picard SplitSamByNumberOfReads."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "BAM file to split."
+  reads_per_file:
+    kind: option
+    type: integer
+    required: false
+    description: "Maximum number of reads per output file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/picard_splitsambynumberofreads'
+    primary: true

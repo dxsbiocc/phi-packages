@@ -1,0 +1,5 @@
+{
+  "bedgraph": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/illumina/bedgraph/test.bedgraph",
+  "sizes": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/genome/genome.sizes",
+  "outdir": "results"
+}

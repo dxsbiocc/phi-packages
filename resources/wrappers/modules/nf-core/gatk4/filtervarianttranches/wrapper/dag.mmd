@@ -1,0 +1,27 @@
+flowchart TB
+    subgraph " "
+    v0["vcf_ch"]
+    v1["res_ch"]
+    v2["resi_ch"]
+    v3["fasta_ch"]
+    v4["fai_ch"]
+    v5["dict_ch"]
+    v10["channel.empty"]
+    end
+    v6(["GATK4_FILTERVARIANTTRANCHES"])
+    subgraph " "
+    v7[" "]
+    v8[" "]
+    v9[" "]
+    v11[" "]
+    end
+    v0 --> v6
+    v1 --> v6
+    v2 --> v6
+    v3 --> v6
+    v4 --> v6
+    v5 --> v6
+    v6 --> v9
+    v6 --> v8
+    v6 --> v7
+    v10 --> v11

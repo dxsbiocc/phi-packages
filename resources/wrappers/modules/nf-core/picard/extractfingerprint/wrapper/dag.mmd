@@ -1,0 +1,25 @@
+flowchart TB
+    subgraph " "
+    v0["bam_ch"]
+    v1["haplotype_map"]
+    v2["fasta"]
+    v3["fasta_fai"]
+    v4["sequence_dictionary"]
+    v9["channel.empty"]
+    end
+    v5(["PICARD_EXTRACTFINGERPRINT"])
+    subgraph " "
+    v6[" "]
+    v7[" "]
+    v8[" "]
+    v10[" "]
+    end
+    v0 --> v5
+    v1 --> v5
+    v2 --> v5
+    v3 --> v5
+    v4 --> v5
+    v5 --> v8
+    v5 --> v7
+    v5 --> v6
+    v9 --> v10

@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored deeptools/bamcompare
+# module at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/deeptools-bamcompare
+name: deeptools bamCompare
+summary: Compute a ratio/difference track between two BAM files with deepTools bamCompare.
+
+params:
+  bam1:
+    kind: input
+    type: file
+    required: true
+    description: First (treatment) BAM file.
+  bai1:
+    kind: input
+    type: file
+    required: true
+    description: BAM index (.bai) for the first BAM.
+  bam2:
+    kind: input
+    type: file
+    required: true
+    description: Second (control) BAM file.
+  bai2:
+    kind: input
+    type: file
+    required: true
+    description: BAM index (.bai) for the second BAM.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the comparison track.
+
+outputs:
+  bigwig:
+    type: directory
+    path: '${outdir}/deeptools_bamcompare'
+    primary: true

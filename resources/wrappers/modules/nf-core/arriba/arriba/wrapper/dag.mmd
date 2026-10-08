@@ -1,0 +1,77 @@
+flowchart TB
+    subgraph " "
+    v0["gtf_ch"]
+    v1["fasta_ch"]
+    v6["reads_ch"]
+    v7["star_ignore_sjdbgtf"]
+    v27["blacklist"]
+    v28["known_fusions"]
+    v29["cytobands"]
+    v30["protein_domains"]
+    end
+    v2(["STAR_GENOMEGENERATE"])
+    subgraph " "
+    v3[" "]
+    v4[" "]
+    v5[" "]
+    v9[" "]
+    v10[" "]
+    v11[" "]
+    v12[" "]
+    v13[" "]
+    v14[" "]
+    v15[" "]
+    v16[" "]
+    v17[" "]
+    v18[" "]
+    v19[" "]
+    v20[" "]
+    v21[" "]
+    v22[" "]
+    v23[" "]
+    v24[" "]
+    v25[" "]
+    v26[" "]
+    v32[" "]
+    v33[" "]
+    v34[" "]
+    end
+    v8(["STAR_ALIGN"])
+    v31(["ARRIBA_ARRIBA"])
+    v0 --> v2
+    v0 --> v8
+    v0 --> v31
+    v1 --> v2
+    v1 --> v31
+    v2 --> v8
+    v2 --> v5
+    v2 --> v4
+    v2 --> v3
+    v6 --> v8
+    v7 --> v8
+    v8 --> v26
+    v8 --> v25
+    v8 --> v24
+    v8 --> v23
+    v8 --> v22
+    v8 --> v21
+    v8 --> v31
+    v8 --> v20
+    v8 --> v19
+    v8 --> v18
+    v8 --> v17
+    v8 --> v16
+    v8 --> v15
+    v8 --> v14
+    v8 --> v13
+    v8 --> v12
+    v8 --> v11
+    v8 --> v10
+    v8 --> v9
+    v27 --> v31
+    v28 --> v31
+    v29 --> v31
+    v30 --> v31
+    v31 --> v34
+    v31 --> v33
+    v31 --> v32

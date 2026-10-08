@@ -1,0 +1,100 @@
+# Agent-facing wrapper adapter for the vendored quantify_pseudo_alignment
+# subworkflow at ../main.nf (Salmon or Kallisto quantification, then
+# tx2gene + tximport + SummarizedExperiment). Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# The subworkflow *takes* a pre-built index: `index` when given, otherwise one
+# built first from `transcript_fasta` with salmon/index or kallisto/index
+# (whichever `pseudo_aligner` selects — the other is never called), the same
+# setup chain nf-core's own subworkflow test uses. Those modules are included
+# directly, not through their own wrappers. Handles ONE sample per run (id
+# `sample_id`).
+#
+# `samplesheet` is optional: it only supplies column metadata for the
+# SummarizedExperiment objects, whose `sample` column must match `sample_id`.
+id: nf-core/subworkflows/quantify-pseudo-alignment
+name: Pseudo-alignment quantification (Salmon/Kallisto + tximport)
+summary: Quantify RNA-seq reads with Salmon or Kallisto, then summarise to gene and transcript level with tximport.
+
+params:
+  reads_1:
+    kind: input
+    type: fastq
+    required: true
+    description: FASTQ file for read 1 (the only reads file for single-end data).
+  reads_2:
+    kind: input
+    type: fastq
+    required: false
+    description: FASTQ file for read 2. Omit for single-end reads (Kallisto then needs kallisto_fraglen and kallisto_fraglen_sd).
+  index:
+    kind: input
+    type: path
+    required: false
+    description: Pre-built index matching pseudo_aligner — a salmon index directory or a kallisto .idx file. When set, no index is built.
+  transcript_fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: Transcriptome FASTA the reads are quantified against (and the index is built from when `index` is not given).
+  gtf:
+    kind: input
+    type: gtf
+    required: true
+    description: Gene annotation GTF used to map transcripts to genes.
+  samplesheet:
+    kind: input
+    type: csv
+    required: false
+    description: Optional samplesheet CSV used as column metadata for the SummarizedExperiment output; its sample column must equal sample_id.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for per-sample quantification, gene/transcript tables, tx2gene mapping, and SummarizedExperiment RDS files.
+  pseudo_aligner:
+    kind: option
+    type: string
+    required: false
+    enum:
+      - salmon
+      - kallisto
+    description: Quantifier to use. Defaults to salmon.
+  sample_id:
+    kind: option
+    type: string
+    required: false
+    description: Sample name used for the quantification output and matched against the samplesheet. Defaults to sample.
+  gtf_id_attribute:
+    kind: option
+    type: string
+    required: false
+    description: GTF attribute holding the gene ID. Defaults to gene_id.
+  gtf_extra_attribute:
+    kind: option
+    type: string
+    required: false
+    description: GTF attribute holding an alternative gene name. Defaults to gene_name.
+  lib_type:
+    kind: option
+    type: string
+    required: false
+    description: Salmon library type override (A = auto-detect). Ignored by Kallisto. Defaults to A.
+  kallisto_fraglen:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Estimated fragment length; required by Kallisto for single-end reads only.
+  kallisto_fraglen_sd:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Estimated fragment length standard deviation; required by Kallisto for single-end reads only.
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/quantify_pseudo_alignment'
+    primary: true

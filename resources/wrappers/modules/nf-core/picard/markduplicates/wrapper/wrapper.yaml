@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored picard/markduplicates module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# No reference FASTA: Picard MarkDuplicates only needs one for CRAM input, so
+# this wrapper handles BAM input and passes an empty reference.
+id: nf-core/modules/picard-markduplicates
+name: Picard MarkDuplicates
+summary: Flag (not remove) duplicate reads in a BAM with Picard MarkDuplicates.
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: Coordinate-sorted BAM file to mark duplicates in.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the marked BAM and duplication metrics.
+
+outputs:
+  marked:
+    type: directory
+    path: '${outdir}/picard_markduplicates'
+    primary: true

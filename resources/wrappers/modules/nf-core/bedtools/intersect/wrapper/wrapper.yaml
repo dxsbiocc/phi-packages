@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored bedtools/intersect module
+# at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bedtools-intersect
+name: bedtools intersect
+summary: Find overlapping intervals between two BED files with bedtools intersect.
+
+params:
+  a:
+    kind: input
+    type: file
+    required: true
+    description: First (A) interval file.
+  b:
+    kind: input
+    type: file
+    required: true
+    description: Second (B) interval file to intersect against A.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the intersected intervals.
+
+outputs:
+  intersect:
+    type: directory
+    path: '${outdir}/bedtools_intersect'
+    primary: true

@@ -1,0 +1,36 @@
+# Shared R environment for every wrapper under
+# resources/wrappers/modules/local/differential-expression/ (deseq2, edger,
+# limma, timeseries, qc, visualization/{volcano,pca,heatmap}) -- one image
+# instead of the 3 separate nf-core Wave images those wrappers used
+# individually, so a fresh machine pulls once, not three times.
+#
+# Versions started from what each wrapper already had pinned (newest of
+# each conflicting package), but Bioconductor packages are released in
+# cohorts tied to one R minor version -- bioconductor-deseq2=1.46.0 (a
+# Bioc-3.20/R-4.4 package) and bioconductor-limma=3.58.1 (a Bioc-3.18/R-4.3
+# package) cannot both install against the same r-base, and hand-picking
+# "newest per package" produced exactly that broken combination (see the
+# first build attempt's mamba solver error). Left as minimum-version
+# constraints instead of exact pins here so mamba's solver picks one
+# mutually-installable, internally-consistent set -- re-run
+# `docker build` and read the resulting `versions.yml` from each wrapper's
+# real output (every wrapper already writes one) for the exact versions it
+# actually resolved to.
+#
+# Packages present in one or more wrappers' own environment.yml but never
+# actually `library()`-called by any templates/*.R in this family (dropped
+# here as dead weight): r-optparse, r-rcolorbrewer, bioconductor-tximport,
+# bioconductor-complexheatmap.
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - conda-forge::r-base
+  - conda-forge::r-ggplot2
+  - conda-forge::r-pheatmap
+  - conda-forge::r-ashr   # deseq2's lfcShrink(type='ashr')
+  - bioconda::bioconductor-deseq2
+  - bioconda::bioconductor-edger
+  - bioconda::bioconductor-limma
+  - bioconda::bioconductor-variancepartition
+  - bioconda::bioconductor-biocparallel

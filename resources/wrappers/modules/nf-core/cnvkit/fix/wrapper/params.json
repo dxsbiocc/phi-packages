@@ -1,0 +1,6 @@
+{
+  "target": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/cnvkit/test.targetcoverage.cnn",
+  "antitarget": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/cnvkit/test.antitargetcoverage.cnn",
+  "reference": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/cnvkit/test_reference.cnn",
+  "outdir": "results"
+}

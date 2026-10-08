@@ -1,0 +1,24 @@
+flowchart TB
+    subgraph " "
+    v0["db_ch"]
+    v3["fasta_ch"]
+    v4["fai_ch"]
+    v5["dict_ch"]
+    end
+    v1(["UNTAR"])
+    subgraph " "
+    v2[" "]
+    v7[" "]
+    v8[" "]
+    v9[" "]
+    end
+    v6(["GATK4_CREATESOMATICPANELOFNORMALS"])
+    v0 --> v1
+    v1 --> v6
+    v1 --> v2
+    v3 --> v6
+    v4 --> v6
+    v5 --> v6
+    v6 --> v9
+    v6 --> v8
+    v6 --> v7

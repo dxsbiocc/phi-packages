@@ -1,0 +1,4 @@
+{
+  "bed12": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/genome/bed/test.bed12",
+  "outdir": "results"
+}

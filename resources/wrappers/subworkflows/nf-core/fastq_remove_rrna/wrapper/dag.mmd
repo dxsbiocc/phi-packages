@@ -1,0 +1,62 @@
+flowchart TB
+    subgraph " "
+    v0["channel.of"]
+    v1["channel.of"]
+    v2["channel.empty"]
+    v3["channel.empty"]
+    v5["channel.empty"]
+    v7["channel.empty"]
+    v9["channel.empty"]
+    v11["channel.empty"]
+    v13["channel.empty"]
+    v15["channel.empty"]
+    v19[" "]
+    v20[" "]
+    end
+    subgraph " "
+    v4["ch_sortmerna_log"]
+    v6["ribodetector_log"]
+    v8["seqkit_stats"]
+    v10["bowtie2_log"]
+    v12["bowtie2_index"]
+    v14["seqkit_prefixed"]
+    v16["seqkit_converted"]
+    v22[" "]
+    v23[" "]
+    v24[" "]
+    v27[" "]
+    v28[" "]
+    v29["reads"]
+    v31["multiqc_files"]
+    end
+    subgraph "FASTQ_REMOVE_RRNA [FASTQ_REMOVE_RRNA]"
+    v21(["SORTMERNA_INDEX"])
+    v26(["SORTMERNA"])
+    v17(( ))
+    v25(( ))
+    v30(( ))
+    end
+    v0 --> v26
+    v1 --> v17
+    v2 --> v30
+    v3 --> v4
+    v5 --> v6
+    v7 --> v8
+    v9 --> v10
+    v11 --> v12
+    v13 --> v14
+    v15 --> v16
+    v19 --> v21
+    v20 --> v21
+    v17 --> v21
+    v21 --> v24
+    v21 --> v23
+    v21 --> v22
+    v21 --> v25
+    v17 --> v26
+    v25 --> v26
+    v26 --> v29
+    v26 --> v28
+    v26 --> v27
+    v26 --> v30
+    v30 --> v31

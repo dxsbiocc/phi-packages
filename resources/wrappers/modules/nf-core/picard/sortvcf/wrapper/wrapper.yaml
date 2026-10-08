@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored picard/sortvcf module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/picard-sortvcf
+name: "picard SortVcf"
+summary: "Sort a VCF to match a reference sequence dictionary with Picard SortVcf."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "VCF file to sort."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/picard_sortvcf'
+    primary: true

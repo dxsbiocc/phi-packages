@@ -1,0 +1,10 @@
+{
+  "reads": "tests/data/test_{1,2}.fastq.gz",
+  "skip_fastqc": false,
+  "with_umi": true,
+  "skip_umi_extract": false,
+  "skip_trimming": false,
+  "umi_discard_read": 0,
+  "min_trimmed_reads": 1,
+  "outdir": "results"
+}

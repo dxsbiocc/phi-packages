@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored ribodetector module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/ribodetector
+name: RiboDetector
+summary: Remove rRNA reads from RNA-seq FASTQ with the deep-learning-based RiboDetector.
+
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Glob matching one sample's FASTQ file(s) — a pair for paired-end, or one file for single-end.
+  length:
+    kind: option
+    type: integer
+    required: false
+    description: Read length RiboDetector should assume (its -l flag).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the non-rRNA FASTQ and log.
+
+outputs:
+  reads:
+    type: directory
+    path: '${outdir}/ribodetector'
+    primary: true

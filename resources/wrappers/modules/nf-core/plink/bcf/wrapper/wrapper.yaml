@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored plink/bcf module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/plink-bcf
+name: "PLINK make-bed (from BCF)"
+summary: "Convert a BCF to PLINK binary format (.bed/.bim/.fam) with PLINK."
+
+params:
+  bcf:
+    kind: input
+    type: file
+    required: true
+    description: "BCF file (compressed)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bed:
+    type: directory
+    path: '${outdir}/plink_bcf'
+    primary: true

@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://phi.local/skills/omics-visualization/viz-render.json",
+  "title": "viz render result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "ok",
+    "output",
+    "bytes",
+    "qa",
+    "artifacts"
+  ],
+  "properties": {
+    "ok": {
+      "const": true
+    },
+    "output": {
+      "type": "string",
+      "minLength": 1
+    },
+    "bytes": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "format": {
+      "type": "string",
+      "minLength": 1
+    },
+    "width": {
+      "type": "number"
+    },
+    "height": {
+      "type": "number"
+    },
+    "qa": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ok",
+        "failed"
+      ],
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "failed": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "messages": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 400
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+flowchart TB
+    subgraph " "
+    v0["channel.fromFilePairs"]
+    v2["fastas_ch"]
+    v3["index_ch"]
+    v9["channel.empty"]
+    end
+    v4(["SORTMERNA"])
+    subgraph " "
+    v5[" "]
+    v6[" "]
+    v7[" "]
+    v8[" "]
+    v10[" "]
+    end
+    v1(( ))
+    v0 --> v1
+    v2 --> v4
+    v3 --> v4
+    v1 --> v4
+    v4 --> v8
+    v4 --> v7
+    v4 --> v6
+    v4 --> v5
+    v9 --> v10

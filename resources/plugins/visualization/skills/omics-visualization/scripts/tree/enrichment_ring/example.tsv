@@ -1,0 +1,24 @@
+from	to	Count	pvalue
+Lipid metabolism	Fatty acid degradation	22	3.1e-06
+Lipid metabolism	Sphingolipid metabolism	14	0.0024
+Lipid metabolism	Glycerophospholipid metabolism	11	0.018
+Transcription	RNA polymerase	9	0.0071
+Transcription	Spliceosome	19	4.8e-05
+Translation	Ribosome	31	2.2e-08
+Translation	Aminoacyl-tRNA biosynthesis	12	0.0019
+Translation	RNA transport	16	0.00041
+Replication and repair	DNA replication	15	0.00028
+Replication and repair	Homologous recombination	10	0.0066
+Energy metabolism	Oxidative phosphorylation	28	1.1e-07
+Energy metabolism	Citrate cycle (TCA cycle)	13	0.0033
+Signal transduction	MAPK signaling pathway	24	8.4e-06
+Signal transduction	PI3K-Akt signaling pathway	21	2.7e-05
+Signal transduction	Hippo signaling pathway	12	0.0092
+Cell growth and death	Apoptosis	18	0.00019
+Cell growth and death	Cell cycle	20	6.5e-05
+Cell growth and death	p53 signaling pathway	14	0.0014
+Immune system	T cell receptor signaling pathway	17	0.00033
+Immune system	Chemokine signaling pathway	15	0.0011
+Immune system	Antigen processing and presentation	11	0.0088
+Endocrine system	Insulin signaling pathway	16	0.00072
+Endocrine system	Thyroid hormone signaling pathway	10	0.012

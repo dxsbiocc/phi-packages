@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored seqkit/stats module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/seqkit-stats
+name: seqkit stats
+summary: Summarise FASTQ/FASTA files (read count, length, N50, quality) with seqkit stats.
+
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: FASTQ/FASTA files to summarise (glob matching paired- or single-end reads).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the statistics table.
+
+outputs:
+  stats:
+    type: directory
+    path: '${outdir}/seqkit_stats'
+    primary: true

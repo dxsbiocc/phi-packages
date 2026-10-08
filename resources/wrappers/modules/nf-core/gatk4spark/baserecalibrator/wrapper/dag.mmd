@@ -1,0 +1,25 @@
+flowchart TB
+    subgraph " "
+    v0["channel.of"]
+    v1["channel.of"]
+    v2["channel.of"]
+    v3["channel.of"]
+    v4["channel.of"]
+    v5["channel.of"]
+    v9["channel.empty"]
+    end
+    v6(["GATK4SPARK_BASERECALIBRATOR"])
+    subgraph " "
+    v7[" "]
+    v8[" "]
+    v10[" "]
+    end
+    v0 --> v6
+    v1 --> v6
+    v2 --> v6
+    v3 --> v6
+    v4 --> v6
+    v5 --> v6
+    v6 --> v8
+    v6 --> v7
+    v9 --> v10

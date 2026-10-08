@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored bcftools/index module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bcftools-index
+name: bcftools index
+summary: Build a CSI index for a bgzipped VCF/BCF with bcftools index.
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: Bgzipped VCF/BCF file to index.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the index.
+
+outputs:
+  index:
+    type: directory
+    path: '${outdir}/bcftools_index'
+    primary: true

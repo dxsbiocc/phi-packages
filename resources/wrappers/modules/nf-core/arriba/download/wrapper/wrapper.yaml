@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored arriba/download module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/arriba-download
+name: "Arriba download"
+summary: "Download Arriba's blacklist, known-fusions, cytoband and protein-domain reference files for a genome build."
+
+params:
+  genome:
+    kind: option
+    type: string
+    required: false
+    description: "Genome build name (e.g. GRCh38)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  blacklist:
+    type: directory
+    path: '${outdir}/arriba_download'
+    primary: true

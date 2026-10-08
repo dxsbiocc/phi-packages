@@ -1,0 +1,9 @@
+{
+  "reads_1": "tests/data/test_rnaseq_1.fastq.gz",
+  "reads_2": "tests/data/test_rnaseq_2.fastq.gz",
+  "fasta": "tests/data/genome.fasta",
+  "gtf": "tests/data/genome.gtf",
+  "star_ignore_sjdbgtf": false,
+  "skip_markduplicates": false,
+  "outdir": "results"
+}

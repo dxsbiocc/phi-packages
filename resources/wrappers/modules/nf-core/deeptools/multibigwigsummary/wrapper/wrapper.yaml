@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored
+# deeptools/multibigwigsummary module at ../main.nf. Follows the minimal
+# contract in docs/design/phi-wrapper-agent-composition-design.md
+# section 3.
+#
+# Only two input bigWig files are exposed — the vendored module accepts
+# any number, but this thin adapter doesn't surface a variable-length list.
+id: nf-core/modules/deeptools-multibigwigsummary
+name: deeptools multiBigwigSummary
+summary: Summarize signal across genome bins for multiple bigWig files with deepTools multiBigwigSummary.
+
+params:
+  bigwig1:
+    kind: input
+    type: file
+    required: true
+    description: First bigWig file.
+  bigwig2:
+    kind: input
+    type: file
+    required: true
+    description: Second bigWig file.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the summary matrix.
+
+outputs:
+  matrix:
+    type: directory
+    path: '${outdir}/deeptools_multibigwigsummary'
+    primary: true

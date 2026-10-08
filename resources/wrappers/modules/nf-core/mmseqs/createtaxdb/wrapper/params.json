@@ -1,0 +1,6 @@
+{
+  "db_archive": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/genome/db/mmseqs.tar.gz",
+  "taxdump": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/prokaryotes/metagenome/taxonomy/taxdump/taxdump.tar.gz",
+  "tax_mapping": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/prokaryotes/metagenome/taxonomy/misc/nucl2tax.map",
+  "outdir": "results"
+}

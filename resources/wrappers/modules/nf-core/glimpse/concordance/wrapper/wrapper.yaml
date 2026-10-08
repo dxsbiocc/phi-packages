@@ -1,0 +1,54 @@
+# Agent-facing wrapper adapter for the vendored glimpse/concordance module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/glimpse-concordance
+name: "GLIMPSE concordance"
+summary: "Compute genotype concordance against a truth set with GLIMPSE2 concordance."
+
+params:
+  estimate:
+    kind: input
+    type: file
+    required: true
+    description: "Imputed VCF (bgzipped)."
+  estimate_csi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.csi) for the imputed VCF."
+  freq:
+    kind: input
+    type: file
+    required: true
+    description: "Allele-frequency sites VCF (bgzipped)."
+  freq_csi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.csi) for the frequency VCF."
+  truth:
+    kind: input
+    type: file
+    required: true
+    description: "Truth VCF (bgzipped)."
+  truth_csi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.csi) for the truth VCF."
+  region:
+    kind: option
+    type: string
+    required: false
+    description: "Region to evaluate."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  errors_spl:
+    type: directory
+    path: '${outdir}/glimpse_concordance'
+    primary: true

@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored deeptools/plotprofile
+# module at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/deeptools-plotprofile
+name: deeptools plotProfile
+summary: Plot a signal profile line plot from a deepTools computeMatrix output.
+
+params:
+  matrix:
+    kind: input
+    type: file
+    required: true
+    description: Matrix file (.mat.gz) produced by deeptools computeMatrix.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the profile plot.
+
+outputs:
+  pdf:
+    type: directory
+    path: '${outdir}/deeptools_plotprofile'
+    primary: true

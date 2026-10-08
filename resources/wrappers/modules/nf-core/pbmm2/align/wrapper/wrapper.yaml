@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored pbmm2/align module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/pbmm2-align
+name: "pbmm2 align"
+summary: "Align PacBio reads with pbmm2."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Unaligned PacBio BAM."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/pbmm2_align'
+    primary: true

@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored mmseqs/createdb module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/mmseqs-createdb
+name: mmseqs createdb
+summary: Build an MMseqs2 sequence database from a FASTA file.
+
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: FASTA file (plain or gzipped) to build the MMseqs2 database from.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the MMseqs2 database.
+
+outputs:
+  db:
+    type: directory
+    path: '${outdir}/mmseqs_createdb'
+    primary: true

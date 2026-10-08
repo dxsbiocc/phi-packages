@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored samtools/sormadup module
+# at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/samtools-sormadup
+name: samtools sort + markdup
+summary: Sort a BAM and mark duplicates in one pass with samtools sort --write-index piped to markdup.
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: BAM file to sort and mark duplicates in.
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: Reference FASTA file.
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: FASTA index (.fai) for the reference.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the sorted, duplicate-marked BAM.
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/samtools_sormadup'
+    primary: true

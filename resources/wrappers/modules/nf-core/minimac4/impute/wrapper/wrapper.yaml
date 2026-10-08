@@ -1,0 +1,56 @@
+# Agent-facing wrapper adapter for the vendored minimac4/impute module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: compresses the reference panel with the vendored minimac4 compressref module first.
+id: nf-core/modules/minimac4-impute
+name: "Minimac4 impute"
+summary: "Impute genotypes with Minimac4 (compress reference → impute)."
+
+params:
+  target:
+    kind: input
+    type: file
+    required: true
+    description: "Target VCF (bgzipped)."
+  target_csi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.csi) for the target VCF."
+  ref:
+    kind: input
+    type: file
+    required: true
+    description: "Reference panel VCF (bgzipped)."
+  ref_csi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.csi) for the reference panel."
+  sites:
+    kind: input
+    type: file
+    required: true
+    description: "Reference sites VCF (bgzipped)."
+  sites_csi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.csi) for the sites VCF."
+  map:
+    kind: input
+    type: file
+    required: true
+    description: "Genetic map."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/minimac4_impute'
+    primary: true

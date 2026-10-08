@@ -1,0 +1,229 @@
+flowchart TB
+    subgraph " "
+    v0["channel.of"]
+    v1["channel.empty"]
+    v3["channel.empty"]
+    v5["channel.empty"]
+    v6["channel.empty"]
+    v8["channel.empty"]
+    v10["channel.empty"]
+    v12["channel.empty"]
+    v14["channel.empty"]
+    v16["channel.empty"]
+    v18["channel.empty"]
+    v20["channel.empty"]
+    v22["channel.empty"]
+    v24["channel.empty"]
+    v26["channel.empty"]
+    v28["channel.empty"]
+    v30["channel.empty"]
+    v32["channel.empty"]
+    v34["channel.empty"]
+    v36["channel.empty"]
+    v37["channel.empty"]
+    v38["channel.empty"]
+    v39["channel.empty"]
+    v40["channel.empty"]
+    v41["channel.empty"]
+    v43["channel.empty"]
+    v45["channel.empty"]
+    v47["channel.empty"]
+    v49["channel.empty"]
+    v59["channel.empty"]
+    v61["channel.empty"]
+    v63["channel.empty"]
+    v64["channel.empty"]
+    v66["channel.empty"]
+    v68["channel.empty"]
+    v70["channel.empty"]
+    v72["channel.empty"]
+    v74["channel.empty"]
+    v76["channel.empty"]
+    v78["channel.empty"]
+    v80["channel.empty"]
+    v86["channel.empty"]
+    v92["discard_trimmed_pass"]
+    v93["save_trimmed_fail"]
+    v94["save_merged"]
+    v125["ch_fasta"]
+    v129["ch_transcript_fasta"]
+    v134["ch_gtf"]
+    v135["alignment_mode"]
+    v136["lib_type"]
+    end
+    subgraph " "
+    v2["ch_filtered_reads"]
+    v4["ch_trim_read_count"]
+    v7["ch_lint_log_raw"]
+    v9["ch_lint_log_trimmed"]
+    v11["lint_log_bbsplit"]
+    v13["lint_log_ribo"]
+    v15["ch_fastqc_raw_html"]
+    v17["ch_fastqc_raw_zip"]
+    v19["ch_fastqc_trim_html"]
+    v21["ch_fastqc_trim_zip"]
+    v23["ch_trim_html"]
+    v25["trim_zip"]
+    v27["ch_trim_log"]
+    v29["ch_trim_json"]
+    v31["trim_unpaired"]
+    v33["ch_umi_log"]
+    v35["ch_umi_reads"]
+    v42["bowtie2_index"]
+    v44["seqkit_prefixed"]
+    v46["seqkit_converted"]
+    v48["fastqc_filtered_html"]
+    v52[" "]
+    v55[" "]
+    v60["fastqc_raw_html"]
+    v62["fastqc_raw_zip"]
+    v65["trim_json"]
+    v67["trim_html"]
+    v69["trim_log"]
+    v71["trim_reads_fail"]
+    v73["trim_reads_merged"]
+    v75["fastqc_trim_html"]
+    v77["fastqc_trim_zip"]
+    v79["trim_read_count"]
+    v81["adapter_seq"]
+    v84[" "]
+    v85["fastqc_raw_html"]
+    v87["umi_reads"]
+    v96[" "]
+    v97["trim_reads_merged"]
+    v98["trim_reads_fail"]
+    v99["trim_html"]
+    v106["adapter_seq"]
+    v108[" "]
+    v109["fastqc_trim_html"]
+    v121[" "]
+    v131[" "]
+    v133[" "]
+    v138[" "]
+    v139["json_info"]
+    v140["results"]
+    v155["per_sample_mqc_bundle"]
+    v157["multiqc_files"]
+    v160[" "]
+    end
+    subgraph "FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS [FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS]"
+    v51(["CAT_FASTQ"])
+    v54(["FQ_LINT"])
+    subgraph "FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS:FASTQ_FASTQC_UMITOOLS_FASTP [FASTQ_FASTQC_UMITOOLS_FASTP]"
+    v83(["FASTQC_RAW"])
+    v95(["FASTP"])
+    v107(["FASTQC_TRIM"])
+    v82(( ))
+    v100(( ))
+    v105(( ))
+    end
+    v120(["FQ_LINT_AFTER_TRIMMING"])
+    subgraph "FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS:FASTQ_SUBSAMPLE_FQ_SALMON [FASTQ_SUBSAMPLE_FQ_SALMON]"
+    v130(["SALMON_INDEX"])
+    v132(["FQ_SUBSAMPLE"])
+    v137(["SALMON_QUANT"])
+    end
+    v50(( ))
+    v110(( ))
+    v122(( ))
+    v144(( ))
+    end
+    v158(( ))
+    v0 --> v50
+    v1 --> v2
+    v3 --> v4
+    v5 --> v110
+    v6 --> v7
+    v8 --> v9
+    v10 --> v11
+    v12 --> v13
+    v14 --> v15
+    v16 --> v17
+    v18 --> v19
+    v20 --> v21
+    v22 --> v23
+    v24 --> v25
+    v26 --> v27
+    v28 --> v29
+    v30 --> v31
+    v32 --> v33
+    v34 --> v35
+    v36 --> v144
+    v37 --> v144
+    v38 --> v144
+    v39 --> v144
+    v40 --> v144
+    v41 --> v42
+    v43 --> v44
+    v45 --> v46
+    v47 --> v48
+    v49 --> v144
+    v50 --> v51
+    v51 --> v52
+    v51 --> v50
+    v50 --> v54
+    v54 --> v55
+    v54 --> v50
+    v59 --> v60
+    v61 --> v62
+    v63 --> v110
+    v63 --> v144
+    v64 --> v65
+    v66 --> v67
+    v68 --> v69
+    v70 --> v71
+    v72 --> v73
+    v74 --> v75
+    v76 --> v77
+    v78 --> v79
+    v80 --> v81
+    v82 --> v83
+    v83 --> v85
+    v83 --> v84
+    v83 --> v110
+    v83 --> v144
+    v86 --> v87
+    v92 --> v95
+    v93 --> v95
+    v94 --> v95
+    v82 --> v95
+    v95 --> v99
+    v95 --> v98
+    v95 --> v97
+    v95 --> v96
+    v95 --> v100
+    v95 --> v105
+    v95 --> v110
+    v95 --> v144
+    v105 --> v106
+    v100 --> v107
+    v107 --> v109
+    v107 --> v108
+    v107 --> v110
+    v107 --> v144
+    v100 --> v120
+    v120 --> v121
+    v120 --> v122
+    v125 --> v122
+    v129 --> v130
+    v129 --> v137
+    v122 --> v130
+    v130 --> v137
+    v130 --> v131
+    v122 --> v132
+    v132 --> v137
+    v132 --> v133
+    v134 --> v137
+    v135 --> v137
+    v136 --> v137
+    v137 --> v140
+    v137 --> v139
+    v137 --> v138
+    v137 --> v122
+    v144 --> v155
+    v110 --> v157
+    v158 --> v160
+    v50 --> v82
+    v100 --> v110
+    v100 --> v122
+    v122 --> v158

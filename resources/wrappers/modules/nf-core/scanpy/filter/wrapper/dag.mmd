@@ -1,0 +1,29 @@
+flowchart TB
+    subgraph " "
+    v0["channel.fromPath"]
+    v2["min_genes"]
+    v3["min_cells"]
+    v4["min_counts_gene"]
+    v5["min_counts_cell"]
+    v6["max_mito_percentage"]
+    v7["symbol_col"]
+    v11["channel.empty"]
+    end
+    v8(["SCANPY_FILTER"])
+    subgraph " "
+    v9[" "]
+    v10[" "]
+    v12[" "]
+    end
+    v1(( ))
+    v0 --> v1
+    v2 --> v8
+    v3 --> v8
+    v4 --> v8
+    v5 --> v8
+    v6 --> v8
+    v7 --> v8
+    v1 --> v8
+    v8 --> v10
+    v8 --> v9
+    v11 --> v12

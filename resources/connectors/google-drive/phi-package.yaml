@@ -1,0 +1,13 @@
+schemaVersion: 1
+id: google-drive
+type: mcp
+version: 1.0.0
+title: Google Drive
+summary: 搜索、读取和上传云端文件
+connector:
+  transport: http
+  publisher: Google
+  category: 生产力
+  homepage: https://claude.com/marketplace/connectors/google-drive
+  url: https://drivemcp.googleapis.com/mcp/v1
+  auth: oauth

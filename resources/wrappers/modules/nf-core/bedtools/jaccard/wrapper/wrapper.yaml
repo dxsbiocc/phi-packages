@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored bedtools/jaccard module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bedtools-jaccard
+name: "bedtools jaccard"
+summary: "Compute the Jaccard similarity of two interval files with bedtools jaccard."
+
+params:
+  a:
+    kind: input
+    type: file
+    required: true
+    description: "First interval file (VCF/BED)."
+  b:
+    kind: input
+    type: file
+    required: true
+    description: "Second interval file (VCF/BED)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  tsv:
+    type: directory
+    path: '${outdir}/bedtools_jaccard'
+    primary: true

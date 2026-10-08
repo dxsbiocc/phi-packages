@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored fgbio/callmolecularconsensusreads module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: sorts the BAM into template-coordinate order with the vendored fgbio sortbam module first.
+id: nf-core/modules/fgbio-callmolecularconsensusreads
+name: "fgbio CallMolecularConsensusReads"
+summary: "Call single-strand consensus reads from UMI-grouped reads (SortBam -> CallMolecularConsensusReads)."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "BAM file to sort and call consensus from."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/fgbio_callmolecularconsensusreads'
+    primary: true

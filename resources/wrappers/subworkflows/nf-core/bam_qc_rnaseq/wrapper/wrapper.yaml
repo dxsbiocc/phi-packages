@@ -1,0 +1,74 @@
+# Agent-facing wrapper adapter for the vendored bam_qc_rnaseq subworkflow at
+# ../main.nf (preseq + featureCounts biotype QC + Qualimap + dupRadar +
+# RSeQC bundle, all against one BAM). Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# samtools/index is composed directly (not another wrapper, per section 6)
+# so callers only supply the BAM.
+id: nf-core/subworkflows/bam-qc-rnaseq
+name: BAM RNA-seq QC bundle
+summary: Run the full RNA-seq post-alignment QC bundle (preseq, featureCounts biotype QC, Qualimap, dupRadar, RSeQC) against one BAM in one pass.
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: Coordinate-sorted BAM file.
+  gtf:
+    kind: input
+    type: gtf
+    required: true
+    description: Gene annotation GTF.
+  bed:
+    kind: input
+    type: file
+    required: true
+    description: BED12 file of reference gene models, for the RSeQC tools.
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: Reference genome FASTA, for Qualimap's name-sort step.
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: FASTA index (.fai) for the reference genome.
+  biotypes_header:
+    kind: input
+    type: file
+    required: true
+    description: MultiQC custom-content header file describing the biotype bar-graph section.
+  single_end:
+    kind: option
+    type: boolean
+    required: false
+    description: Whether the reads are single-end.
+  strandedness:
+    kind: option
+    type: string
+    required: false
+    enum: [unstranded, forward, reverse]
+    description: Library strandedness.
+  biotype:
+    kind: option
+    type: string
+    required: false
+    description: GTF attribute holding the feature biotype (e.g. gene_biotype, gene_type), used for the featureCounts biotype QC step.
+  tools:
+    kind: option
+    type: string
+    required: false
+    description: Comma-separated QC tools to run (preseq, biotype_qc, qualimap, dupradar, and rseqc_<module> for each RSeQC module).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for every enabled tool's report.
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/bam_qc_rnaseq'
+    primary: true

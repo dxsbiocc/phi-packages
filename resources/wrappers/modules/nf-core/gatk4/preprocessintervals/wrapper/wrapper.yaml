@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored gatk4/preprocessintervals module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4-preprocessintervals
+name: "GATK4 PreprocessIntervals"
+summary: "Pad and bin intervals for copy-number analysis with GATK4 PreprocessIntervals."
+
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  exclude:
+    kind: input
+    type: file
+    required: true
+    description: "BED of intervals to exclude."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  interval_list:
+    type: directory
+    path: '${outdir}/gatk4_preprocessintervals'
+    primary: true

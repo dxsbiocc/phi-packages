@@ -1,0 +1,27 @@
+flowchart TB
+    subgraph " "
+    v0["vcf_ch"]
+    v1["sites_per_chunk"]
+    v2["scatter"]
+    v3["scatter_file"]
+    v4["regions"]
+    v5["targets"]
+    v10["channel.empty"]
+    end
+    v6(["BCFTOOLS_PLUGINSCATTER"])
+    subgraph " "
+    v7[" "]
+    v8[" "]
+    v9[" "]
+    v11[" "]
+    end
+    v0 --> v6
+    v1 --> v6
+    v2 --> v6
+    v3 --> v6
+    v4 --> v6
+    v5 --> v6
+    v6 --> v9
+    v6 --> v8
+    v6 --> v7
+    v10 --> v11

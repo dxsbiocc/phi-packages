@@ -1,0 +1,35 @@
+# Agent-facing wrapper adapter for the vendored stringtie/merge module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composes stringtie/stringtie + stringtie/merge internally — merge exists
+# to combine multiple samples' assembled GTFs into one, so a runnable
+# default needs at least one real assembled GTF to merge; see
+# ../wrapper/main.nf's own comment for why a single-sample merge is still a
+# real (if minimal) invocation.
+id: nf-core/modules/stringtie-merge
+name: stringtie merge
+summary: Merge assembled transcript GTFs into one non-redundant set with StringTie.
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: Coordinate-sorted BAM to assemble (with stringtie) before merging.
+  gtf:
+    kind: input
+    type: gtf
+    required: true
+    description: Reference annotation GTF for guided assembly and merging.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the merged GTF.
+
+outputs:
+  merged:
+    type: directory
+    path: "${outdir}/stringtie_merge"
+    primary: true

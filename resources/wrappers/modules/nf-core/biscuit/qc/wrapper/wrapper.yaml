@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored biscuit/qc module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: builds the BISCUIT bisulfite index with the vendored biscuit index module first.
+id: nf-core/modules/biscuit-qc
+name: "BISCUIT QC"
+summary: "Compute bisulfite-conversion QC metrics with BISCUIT QC (builds the index first)."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Bisulfite-aligned BAM."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  reports:
+    type: directory
+    path: '${outdir}/biscuit_qc'
+    primary: true

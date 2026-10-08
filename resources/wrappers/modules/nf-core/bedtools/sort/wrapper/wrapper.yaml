@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored bedtools/sort module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bedtools-sort
+name: bedtools sort
+summary: Sort a BED/GFF/VCF interval file by genomic coordinate with bedtools sort.
+
+params:
+  intervals:
+    kind: input
+    type: file
+    required: true
+    description: Interval file to sort.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the sorted intervals.
+
+outputs:
+  sorted:
+    type: directory
+    path: '${outdir}/bedtools_sort'
+    primary: true

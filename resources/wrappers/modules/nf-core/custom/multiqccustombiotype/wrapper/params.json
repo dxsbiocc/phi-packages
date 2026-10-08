@@ -1,0 +1,5 @@
+{
+  "count": "tests/data/test.featureCounts.txt",
+  "header": "tests/data/biotypes_header.txt",
+  "outdir": "results"
+}

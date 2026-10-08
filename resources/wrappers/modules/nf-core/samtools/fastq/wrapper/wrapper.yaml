@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored samtools/fastq module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/samtools-fastq
+name: samtools fastq
+summary: Convert a SAM/BAM/CRAM file to FASTQ.
+
+params:
+  input:
+    kind: input
+    type: bam
+    required: true
+    description: SAM/BAM/CRAM file to convert.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the FASTQ files.
+
+outputs:
+  fastq:
+    type: directory
+    path: '${outdir}/samtools_fastq'
+    primary: true

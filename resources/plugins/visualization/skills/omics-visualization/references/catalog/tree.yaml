@@ -1,0 +1,169 @@
+family: "tree"
+preview_background: "transparent"  # PNG alpha is empty; dark UIs look black. Do not treat as a black canvas.
+
+templates:
+  - id: "tree-basic"
+    title: "Vertical tree / dendrogram"
+    aliases:
+      - "树图"
+      - "纵向树"
+      - "树状图"
+    source: "scripts/tree/basic/plot.R"
+    examples:
+      - "scripts/tree/basic/example.tsv"
+    preview: "scripts/tree/basic/preview.png"
+    use_when: >
+      Draw a single rooted hierarchy top-down from supplied parent/path
+      edges, with internal labels above nodes and rotated labels on leaves.
+    avoid_when: >
+      Do not use a clustering tree from a numeric matrix
+      (tree-dendrogram), a classification tree with an outer enrichment
+      track (tree-enrichment-ring), a forest of several roots
+      (tree-group), a sunburst, or a Sankey of flows.
+    input_shape: "hierarchical table with parent, name, path, and optional value"
+    language: "r"
+    status: "stable"
+
+  - id: "tree-dendrogram"
+    title: "Clustering dendrogram"
+    aliases:
+      - "聚类树"
+      - "树状图"
+      - "hclust"
+      - "dendrogram"
+      - "样本聚类树"
+    source: "scripts/tree/dendrogram/plot.R"
+    examples:
+      - "scripts/tree/dendrogram/example.tsv"
+    preview: "scripts/tree/dendrogram/preview.png"
+    use_when: >
+      Cluster samples or other leaves from a numeric feature matrix with
+      dist + hclust, and draw the tree. Branch height is clustering
+      height. Leaf colour is a supplied group, not cutree. Set
+      circular = TRUE in CONFIG for the polar variant; do not add a
+      second template.
+    avoid_when: >
+      Do not use a named parent/path hierarchy (tree-basic), a
+      classification tree with an outer enrichment track
+      (tree-enrichment-ring), a heatmap that already shows both
+      dendrograms, a treemap, or a sunburst. Do not treat the tree as a
+      phylogenetic reconstruction unless the input is a phylogenetic
+      distance.
+    input_shape: "one row per leaf; id, optional group, and numeric feature columns"
+    language: "r"
+    status: "stable"
+
+  - id: "tree-group"
+    title: "Grouped forest of trees"
+    aliases:
+      - "多树图"
+      - "分组树"
+    source: "scripts/tree/group/plot.R"
+    examples:
+      - "scripts/tree/group/example.tsv"
+    preview: "scripts/tree/group/preview.png"
+    use_when: >
+      Draw several root trees from empty-parent rows in one figure.
+    avoid_when: >
+      Do not use a single-root vertical tree (tree-basic).
+    input_shape: "hierarchical table with empty parent rows as roots"
+    language: "r"
+    status: "stable"
+
+  - id: "tree-treemap"
+    title: "Hierarchical treemap"
+    aliases:
+      - "矩形树图"
+      - "treemap"
+      - "树状矩形图"
+    source: "scripts/tree/treemap/plot.R"
+    examples:
+      - "scripts/tree/treemap/example.tsv"
+    preview: "scripts/tree/treemap/preview.png"
+    use_when: >
+      Show a hierarchy as nested rectangles whose area encodes a supplied
+      leaf size, for example gene counts under GO or pathway groups.
+      Each leaf gets a distinct catalog color from colors.json.
+    avoid_when: >
+      Do not use a sunburst, circle pack, icicle/partition, or node-link
+      tree when the claim is nested area composition. Do not treat
+      rectangle adjacency as a statistical relationship.
+    input_shape: "hierarchical table with parent, name, path, and leaf value"
+    language: "r"
+    status: "stable"
+
+  - id: "tree-circlepack"
+    title: "Circle packing"
+    aliases:
+      - "圆堆积图"
+      - "circle pack"
+      - "circle packing"
+    source: "scripts/tree/circlepack/plot.R"
+    examples:
+      - "scripts/tree/circlepack/example.tsv"
+    preview: "scripts/tree/circlepack/preview.png"
+    use_when: >
+      Show a hierarchy as nested circles whose area encodes a supplied
+      leaf size. Parent circles contain their children. Each leaf gets
+      a distinct catalog color from colors.json.
+    avoid_when: >
+      Do not use a treemap, sunburst, icicle/partition, or node-link
+      tree when the claim is nested circular containment. Do not treat
+      circle adjacency as a statistical relationship.
+    input_shape: "hierarchical table with parent, name, path, and leaf value"
+    language: "r"
+    status: "stable"
+
+  - id: "tree-partition"
+    title: "Icicle / rectangular partition"
+    aliases:
+      - "冰柱图"
+      - "icicle"
+      - "partition"
+      - "矩形分区图"
+    source: "scripts/tree/partition/plot.R"
+    examples:
+      - "scripts/tree/partition/example.tsv"
+    preview: "scripts/tree/partition/preview.png"
+    use_when: >
+      Show a hierarchy as stacked rectangular bands (an icicle), where
+      width encodes a supplied leaf size and vertical position is depth.
+      Each leaf gets a distinct catalog color from colors.json.
+    avoid_when: >
+      Do not use a sunburst (circular partition), treemap, circle pack,
+      or node-link tree when the claim is depth as horizontal bands.
+      Do not treat band adjacency as a statistical relationship.
+      Do not use a classification tree with an outer enrichment track
+      (tree-enrichment-ring).
+    input_shape: "hierarchical table with parent, name, path, and leaf value"
+    language: "r"
+    status: "stable"
+
+  - id: "tree-enrichment-ring"
+    title: "Classification tree with outer enrichment track"
+    aliases:
+      - "通路环图"
+      - "层次富集图"
+      - "富集环图"
+      - "KEGG环形富集"
+    source: "scripts/tree/enrichment_ring/plot.R"
+    examples:
+      - "scripts/tree/enrichment_ring/example.tsv"
+    preview: "scripts/tree/enrichment_ring/preview.png"
+    use_when: >
+      Show a supplied classification tree (for example KEGG subclass to
+      pathway) as a circular node-link interior, with Count and
+      significance on a circumferential bar or point track. Colour is
+      the supplied class. Set outer = "point" in CONFIG for dots;
+      do not add a second template.
+    avoid_when: >
+      Do not use a ranked Cartesian enrichment bar or dotplot
+      (bar-enrichment-*), a term-by-group signed-p heatmap
+      (heatmap-enrichment-terms), a DE heatmap with enrichment zoom
+      panels (heatmap-enrichment-zoom),
+      a sunburst (angle encoding size), a circular clustering
+      dendrogram (tree-dendrogram), or a radial bar with no interior
+      tree. Do not treat circular order as a statistical ranking.
+    input_shape: "one row per term; class (from), term (to), Count, and pvalue"
+    language: "r"
+    status: "stable"

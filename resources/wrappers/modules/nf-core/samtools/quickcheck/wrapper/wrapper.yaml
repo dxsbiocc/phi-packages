@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored samtools/quickcheck
+# module at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/samtools-quickcheck
+name: samtools quickcheck
+summary: Sanity-check that a BAM/CRAM/SAM file looks complete with samtools quickcheck.
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: BAM/CRAM/SAM file to check.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory (the checked file is passed through unchanged).
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/samtools_quickcheck'
+    primary: true

@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored hiphase module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/hiphase
+name: "HiPhase"
+summary: "Jointly phase small and structural variants using PacBio long reads with HiPhase."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Genotype VCF (bgzipped)."
+  csi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.csi) for the VCF."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcfs:
+    type: directory
+    path: '${outdir}/hiphase'
+    primary: true

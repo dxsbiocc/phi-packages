@@ -1,0 +1,36 @@
+day	value	category
+Mon	100	Direct
+Mon	320	Mail Ad
+Mon	220	Affiliate Ad
+Mon	150	Video Ad
+Mon	820	Search Engine
+Tue	302	Direct
+Tue	132	Mail Ad
+Tue	182	Affiliate Ad
+Tue	212	Video Ad
+Tue	832	Search Engine
+Wed	301	Direct
+Wed	101	Mail Ad
+Wed	191	Affiliate Ad
+Wed	201	Video Ad
+Wed	901	Search Engine
+Thu	334	Direct
+Thu	134	Mail Ad
+Thu	234	Affiliate Ad
+Thu	154	Video Ad
+Thu	934	Search Engine
+Fri	390	Direct
+Fri	90	Mail Ad
+Fri	290	Affiliate Ad
+Fri	190	Video Ad
+Fri	1290	Search Engine
+Sat	330	Direct
+Sat	230	Mail Ad
+Sat	330	Affiliate Ad
+Sat	330	Video Ad
+Sat	1330	Search Engine
+Sun	320	Direct
+Sun	210	Mail Ad
+Sun	310	Affiliate Ad
+Sun	410	Video Ad
+Sun	1320	Search Engine

@@ -1,0 +1,24 @@
+flowchart TB
+    subgraph " "
+    v0["channel.fromPath"]
+    v2["action"]
+    v3["make_index"]
+    v4["out_ext"]
+    end
+    v5(["HTSLIB_BGZIPTABIX"])
+    subgraph " "
+    v6[" "]
+    v7[" "]
+    v8[" "]
+    v9[" "]
+    end
+    v1(( ))
+    v0 --> v1
+    v2 --> v5
+    v3 --> v5
+    v4 --> v5
+    v1 --> v5
+    v5 --> v9
+    v5 --> v8
+    v5 --> v7
+    v5 --> v6

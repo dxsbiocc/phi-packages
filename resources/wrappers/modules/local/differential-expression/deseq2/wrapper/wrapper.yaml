@@ -1,0 +1,116 @@
+# Agent-facing wrapper adapter for the vendored deseq2/differential module at
+# ../main.nf. Sourced from nf-core/modules (`deseq2/differential`, used by
+# nf-core/differentialabundance) and grouped here under this project's own
+# differential-expression family folder — alongside qc/, limma/, and
+# timeseries/ — rather than modules/nf-core/, since that family grouping —
+# and the params surface below — is this project's own curation, not an
+# nf-core-shipped bundle. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# The vendored module also accepts an R `formula` + a `comparison` string
+# (a resultsNames() coefficient or a limma-style contrast expression) for
+# multi-factor/interaction designs, and optional control-genes /
+# transcript-lengths inputs for spike-in or length-offset normalization.
+# `formula`/`comparison` are exposed below as an advanced override; the
+# control-genes/transcript-lengths inputs are not exposed — there is no test
+# data here to verify those paths (../wrapper/main.nf always skips them).
+id: local/modules/differential-expression-deseq2
+name: DESeq2 differential expression
+summary: Test one contrast for differential expression with DESeq2, from a count matrix and a sample sheet.
+
+params:
+  counts:
+    kind: input
+    type: file
+    required: true
+    description: Raw gene-level count matrix (TSV/CSV), genes as rows, samples as columns.
+  samplesheet:
+    kind: input
+    type: file
+    required: true
+    description: Sample metadata sheet (TSV/CSV) with one row per sample.
+  sample_id_col:
+    kind: option
+    type: string
+    required: false
+    description: Samplesheet column holding each sample's identifier — must match the count matrix's sample column names.
+  gene_id_col:
+    kind: option
+    type: string
+    required: false
+    description: Count matrix column holding gene identifiers.
+  contrast_variable:
+    kind: option
+    type: string
+    required: true
+    description: Samplesheet column defining the two groups to compare (e.g. 'condition').
+  reference_level:
+    kind: option
+    type: string
+    required: true
+    description: Value of contrast_variable to use as the reference (denominator) group.
+  target_level:
+    kind: option
+    type: string
+    required: true
+    description: Value of contrast_variable to use as the target (numerator) group.
+  formula:
+    kind: option
+    type: string
+    required: false
+    description: Advanced — full R design formula (e.g. '~ batch + condition' or '~ 0 + group'), overriding the simple contrast_variable/reference_level/target_level model. Requires comparison.
+  comparison:
+    kind: option
+    type: string
+    required: false
+    description: Advanced — required alongside formula. Either a resultsNames() coefficient (e.g. 'condition_treated_vs_control') or a limma-style contrast expression (e.g. 'groupKO - groupWT').
+  padj_threshold:
+    kind: option
+    type: number
+    required: false
+    description: Adjusted p-value cutoff for calling a gene differentially expressed (padj < this). Default 0.05; also used as DESeq2's independent-filtering alpha.
+  log2fc_threshold:
+    kind: option
+    type: number
+    required: false
+    description: Minimum absolute log2 fold change for a differentially expressed gene (|log2FoldChange| >= this). Default 1, i.e. a 2-fold change either way.
+  prefix:
+    kind: option
+    type: string
+    required: false
+    description: Output file prefix and run identifier.
+  outdir:
+    kind: output
+    type: directory
+    required: true
+    description: Directory results are published under.
+
+outputs:
+  results:
+    type: file
+    path: '${outdir}/deseq2_differential/${prefix}.deseq2.results.tsv'
+    primary: true
+  normalised_counts:
+    type: file
+    path: '${outdir}/deseq2_differential/${prefix}.normalised_counts.tsv'
+  vst_counts:
+    type: file
+    path: '${outdir}/deseq2_differential/${prefix}.vst.tsv'
+  size_factors:
+    type: file
+    path: '${outdir}/deseq2_differential/${prefix}.deseq2.sizefactors.tsv'
+  model:
+    type: file
+    path: '${outdir}/deseq2_differential/${prefix}.deseq2.model.txt'
+  de_genes:
+    type: file
+    path: '${outdir}/deseq2_differential/${prefix}.deseq2.de_genes_filtered.tsv'
+  de_genes_up:
+    type: file
+    path: '${outdir}/deseq2_differential/${prefix}.deseq2.de_genes_filtered_up.tsv'
+  de_genes_down:
+    type: file
+    path: '${outdir}/deseq2_differential/${prefix}.deseq2.de_genes_filtered_down.tsv'
+  dispersion_plot_pdf:
+    type: file
+    path: '${outdir}/deseq2_differential/${prefix}.deseq2.dispersion.pdf'

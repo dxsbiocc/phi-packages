@@ -1,0 +1,37 @@
+flowchart TB
+    subgraph " "
+    v0["channel.fromPath"]
+    v3["ch_chrgtf"]
+    v5["mode"]
+    end
+    subgraph "BAM_STRINGTIE_MERGE [BAM_STRINGTIE_MERGE]"
+    v6(["STRINGTIE_STRINGTIE"])
+    v14(["STRINGTIE_MERGE"])
+    v2(( ))
+    v4(( ))
+    v11(( ))
+    end
+    subgraph " "
+    v7[" "]
+    v8[" "]
+    v9[" "]
+    v10[" "]
+    v15[" "]
+    v16["stringtie_gtf"]
+    end
+    v1(( ))
+    v0 --> v1
+    v3 --> v14
+    v3 --> v4
+    v5 --> v6
+    v2 --> v6
+    v4 --> v6
+    v6 --> v10
+    v6 --> v9
+    v6 --> v8
+    v6 --> v7
+    v6 --> v11
+    v11 --> v14
+    v14 --> v16
+    v14 --> v15
+    v1 --> v2

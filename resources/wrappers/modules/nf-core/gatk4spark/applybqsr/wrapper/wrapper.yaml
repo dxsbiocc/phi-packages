@@ -1,0 +1,49 @@
+# Agent-facing wrapper adapter for the vendored gatk4spark/applybqsr module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4spark-applybqsr
+name: "GATK4 Spark ApplyBQSR"
+summary: "Apply a base-quality recalibration table with GATK4 Spark ApplyBQSR."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  table:
+    kind: input
+    type: file
+    required: true
+    description: "BQSR recalibration table."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/gatk4spark_applybqsr'
+    primary: true

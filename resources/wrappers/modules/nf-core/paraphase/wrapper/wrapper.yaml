@@ -1,0 +1,41 @@
+# Agent-facing wrapper adapter for the vendored paraphase module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: decompresses the reference FASTA with the vendored htslib bgziptabix module first.
+id: nf-core/modules/paraphase
+name: "Paraphase"
+summary: "Genotype highly homologous paralog genes from PacBio HiFi reads with Paraphase (compresses the reference first)."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA (bgzipped or plain)."
+  gene:
+    kind: option
+    type: string
+    required: false
+    description: "Gene to genotype (e.g. PRODH)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/paraphase'
+    primary: true

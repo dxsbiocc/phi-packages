@@ -1,0 +1,17 @@
+parent	name	path	value
+	GO:BP	GO:BP	
+GO:BP	cell cycle	GO:BP/cell cycle	
+cell cycle	G1/S transition	GO:BP/cell cycle/G1/S transition	24
+cell cycle	G2/M checkpoint	GO:BP/cell cycle/G2/M checkpoint	18
+cell cycle	mitosis	GO:BP/cell cycle/mitosis	11
+GO:BP	apoptosis	GO:BP/apoptosis	
+apoptosis	intrinsic pathway	GO:BP/apoptosis/intrinsic pathway	31
+apoptosis	extrinsic pathway	GO:BP/apoptosis/extrinsic pathway	14
+apoptosis	DNA-damage apoptosis	GO:BP/apoptosis/DNA-damage apoptosis	22
+GO:BP	DNA repair	GO:BP/DNA repair	
+DNA repair	excision repair	GO:BP/DNA repair/excision repair	9
+DNA repair	homologous recombination	GO:BP/DNA repair/homologous recombination	16
+DNA repair	end joining	GO:BP/DNA repair/end joining	7
+GO:BP	signaling	GO:BP/signaling	
+signaling	p53 signaling	GO:BP/signaling/p53 signaling	19
+signaling	senescence	GO:BP/signaling/senescence	12

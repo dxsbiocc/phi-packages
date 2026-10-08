@@ -1,0 +1,19 @@
+flowchart TB
+    subgraph " "
+    v0["channel.fromPath"]
+    v6["channel.empty"]
+    end
+    v2(["SUBREAD_FEATURECOUNTS"])
+    subgraph " "
+    v3[" "]
+    v4[" "]
+    v5[" "]
+    v7[" "]
+    end
+    v1(( ))
+    v0 --> v1
+    v1 --> v2
+    v2 --> v5
+    v2 --> v4
+    v2 --> v3
+    v6 --> v7

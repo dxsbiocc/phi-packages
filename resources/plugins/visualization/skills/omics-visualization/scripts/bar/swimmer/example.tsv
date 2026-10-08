@@ -1,0 +1,67 @@
+patient	treatment	start	end	response	response_time	stop	line	loh	cdk	endocrine	platinum
+P01	CDK4/6i+ET	0	13.3	SD	6	Disease Progression	>2	Non_evaluable	Ribociclib	AI	Yes
+P01	Other	13.3	14.8		NA		>2	Non_evaluable	Ribociclib	AI	Yes
+P01	PARPi	14.8	40.5	PR	25.1	Ongoing	>2	Non_evaluable	Ribociclib	AI	Yes
+P02	CDK4/6i+ET	0	15.4	SD	6.9	Disease Progression	>2	No_LOH	Palbociclib	AI	No
+P02	Other	15.4	19		NA		>2	No_LOH	Palbociclib	AI	No
+P02	PARPi	19	44	PR	29	Ongoing	>2	No_LOH	Palbociclib	AI	No
+P03	CDK4/6i+ET	0	6.4	PR	2.9	Disease Progression	>2	No_LOH	Palbociclib	SERD	No
+P03	Other	6.4	7.7		NA		>2	No_LOH	Palbociclib	SERD	No
+P03	PARPi	7.7	32.1	PR	17.5	Ongoing	>2	No_LOH	Palbociclib	SERD	No
+P04	CDK4/6i+ET	0	13.5	SD	6.1	Toxicity	1	AI_LOH_ALT	Abemaciclib	AI	Yes
+P04	Other	13.5	17.7		NA		1	AI_LOH_ALT	Abemaciclib	AI	Yes
+P04	PARPi	17.7	41.7	SD	27.3	Disease Progression	1	AI_LOH_ALT	Abemaciclib	AI	Yes
+P05	CDK4/6i+ET	0	10.3	SD	4.6	Disease Progression	1	No_LOH	Palbociclib	AI	No
+P05	Other	10.3	12.9		NA		1	No_LOH	Palbociclib	AI	No
+P05	PARPi	12.9	35.3	PR	21.9	Disease Progression	1	No_LOH	Palbociclib	AI	No
+P06	CDK4/6i+ET	0	13.3	PD	6	Disease Progression	1	No_LOH	Palbociclib	SERD	No
+P06	Other	13.3	17.9		NA		1	No_LOH	Palbociclib	SERD	No
+P06	PARPi	17.9	38.7	PR	26.2	Toxicity	1	No_LOH	Palbociclib	SERD	No
+P07	CDK4/6i+ET	0	12.4	PD	5.6	Disease Progression	>2	Non_evaluable	Ribociclib	AI	Yes
+P07	Other	12.4	16.6		NA		>2	Non_evaluable	Ribociclib	AI	Yes
+P07	PARPi	16.6	35.3	SD	24.1	Disease Progression	>2	Non_evaluable	Ribociclib	AI	Yes
+P08	CDK4/6i+ET	0	11.8	SD	5.3	Disease Progression	1	AI_LOH_ALT	Ribociclib	AI	No
+P08	Other	11.8	15.5		NA		1	AI_LOH_ALT	Ribociclib	AI	No
+P08	PARPi	15.5	33.5	PR	22.7	Disease Progression	1	AI_LOH_ALT	Ribociclib	AI	No
+P09	CDK4/6i+ET	0	15.6	PD	7	Toxicity	1	No_LOH	Ribociclib	AI	No
+P09	Other	15.6	19.2		NA		1	No_LOH	Ribociclib	AI	No
+P09	PARPi	19.2	36.3	PR	26	Disease Progression	1	No_LOH	Ribociclib	AI	No
+P10	CDK4/6i+ET	0	9.4	SD	4.2	Disease Progression	1	No_LOH	Ribociclib	AI	Yes
+P10	Other	9.4	13.9		NA		1	No_LOH	Ribociclib	AI	Yes
+P10	PARPi	13.9	30.7	SD	20.6	Disease Progression	1	No_LOH	Ribociclib	AI	Yes
+P11	CDK4/6i+ET	0	12.9	SD	5.8	Disease Progression	>2	AI_LOH_ALT	Palbociclib	AI	No
+P11	Other	12.9	14.3		NA		>2	AI_LOH_ALT	Palbociclib	AI	No
+P11	PARPi	14.3	30.8	SD	20.9	Toxicity	>2	AI_LOH_ALT	Palbociclib	AI	No
+P12	CDK4/6i+ET	0	14.2	PR	6.4	Disease Progression	2	AI_LOH_ALT	Palbociclib	AI	No
+P12	Other	14.2	18.9		NA		2	AI_LOH_ALT	Palbociclib	AI	No
+P12	PARPi	18.9	33.4	SD	24.7	Disease Progression	2	AI_LOH_ALT	Palbociclib	AI	No
+P13	CDK4/6i+ET	0	14.6	PR	6.6	Disease Progression	>2	AI_LOH_ALT	Ribociclib	SERD	No
+P13	Other	14.6	16.5		NA		>2	AI_LOH_ALT	Ribociclib	SERD	No
+P13	PARPi	16.5	30.4	SD	22.1	Disease Progression	>2	AI_LOH_ALT	Ribociclib	SERD	No
+P14	CDK4/6i+ET	0	5	SD	2.2	Disease Progression	>2	No_LOH	Palbociclib	SERD	No
+P14	Other	5	8.7		NA		>2	No_LOH	Palbociclib	SERD	No
+P14	PARPi	8.7	17.3	PD	12.1	Disease Progression	>2	No_LOH	Palbociclib	SERD	No
+P15	CDK4/6i+ET	0	5.3	SD	2.4	Disease Progression	1	Non_evaluable	Palbociclib	AI	No
+P15	Other	5.3	7.1		NA		1	Non_evaluable	Palbociclib	AI	No
+P15	PARPi	7.1	15	PR	10.3	Toxicity	1	Non_evaluable	Palbociclib	AI	No
+P16	CDK4/6i+ET	0	11.5	PD	5.2	Disease Progression	>2	No_LOH	Palbociclib	SERD	No
+P16	Other	11.5	12.6		NA		>2	No_LOH	Palbociclib	SERD	No
+P16	PARPi	12.6	18.9	PR	15.1	Disease Progression	>2	No_LOH	Palbociclib	SERD	No
+P17	CDK4/6i+ET	0	7	PR	3.1	Disease Progression	2	AI_LOH_ALT	Palbociclib	SERD	No
+P17	Other	7	7.9		NA		2	AI_LOH_ALT	Palbociclib	SERD	No
+P17	PARPi	7.9	13.9	PD	10.3	Disease Progression	2	AI_LOH_ALT	Palbociclib	SERD	No
+P18	CDK4/6i+ET	0	9.5	SD	4.3	Disease Progression	>2	No_LOH	Ribociclib	SERD	Yes
+P18	Other	9.5	14.4		NA		>2	No_LOH	Ribociclib	SERD	Yes
+P18	PARPi	14.4	20.4	PR	16.8	Disease Progression	>2	No_LOH	Ribociclib	SERD	Yes
+P19	CDK4/6i+ET	0	11.5	SD	5.2	Disease Progression	1	AI_LOH_ALT	Ribociclib	AI	No
+P19	Other	11.5	13.8		NA		1	AI_LOH_ALT	Ribociclib	AI	No
+P19	PARPi	13.8	18.1	CR	15.5	Disease Progression	1	AI_LOH_ALT	Ribociclib	AI	No
+P20	CDK4/6i+ET	0	16	SD	7.2	Disease Progression	1	AI_LOH_ALT	Abemaciclib	AI	Yes
+P20	Other	16	20.9		NA		1	AI_LOH_ALT	Abemaciclib	AI	Yes
+P20	PARPi	20.9	24.1	PR	22.2	Disease Progression	1	AI_LOH_ALT	Abemaciclib	AI	Yes
+P21	CDK4/6i+ET	0	9.6	SD	4.3	Disease Progression	1	No_LOH	Abemaciclib	AI	No
+P21	Other	9.6	12.6		NA		1	No_LOH	Abemaciclib	AI	No
+P21	PARPi	12.6	15.3	PD	13.7	Disease Progression	1	No_LOH	Abemaciclib	AI	No
+P22	CDK4/6i+ET	0	3.1	SD	1.4	Disease Progression	2	Non_evaluable	Abemaciclib	AI	Yes
+P22	Other	3.1	4.5		NA		2	Non_evaluable	Abemaciclib	AI	Yes
+P22	PARPi	4.5	6.6	SD	5.3	Disease Progression	2	Non_evaluable	Abemaciclib	AI	Yes

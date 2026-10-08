@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored sylph/sketch module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Only single-end reads are exposed — the vendored module also supports
+# paired-end, but this thin adapter doesn't surface a second reads file.
+id: nf-core/modules/sylph-sketch
+name: sylph sketch
+summary: Build sylph k-mer sketches from reads and a reference genome.
+
+params:
+  reads:
+    kind: input
+    type: file
+    required: true
+    description: Single-end FASTQ file (plain or gzipped).
+  reference:
+    kind: input
+    type: file
+    required: true
+    description: Reference genome FASTA to sketch against.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the sketches.
+
+outputs:
+  sketch_fastq_genome:
+    type: directory
+    path: '${outdir}/sylph_sketch'
+    primary: true

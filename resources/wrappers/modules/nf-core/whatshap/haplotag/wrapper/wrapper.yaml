@@ -1,0 +1,46 @@
+# Agent-facing wrapper adapter for the vendored whatshap/haplotag module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: phases the VCF with the vendored whatshap phase module (and indexes the reference with samtools faidx) first.
+id: nf-core/modules/whatshap-haplotag
+name: "WhatsHap haplotag"
+summary: "Tag reads in a BAM with their phased haplotype (WhatsHap phase -> haplotag)."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Genotype VCF (bgzipped)."
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.csi/.tbi) for the VCF."
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/whatshap_haplotag'
+    primary: true

@@ -1,0 +1,27 @@
+flowchart TB
+    subgraph " "
+    v0["scaffold_in"]
+    v6[" "]
+    v11["output_suffix"]
+    end
+    v1(["SHAPEIT5_PHASECOMMON"])
+    subgraph " "
+    v2[" "]
+    v4[" "]
+    v13[" "]
+    v14[" "]
+    end
+    v3(["BCFTOOLS_INDEX"])
+    v12(["SHAPEIT5_PHASERARE"])
+    v5(( ))
+    v0 --> v1
+    v1 --> v3
+    v1 --> v2
+    v1 --> v5
+    v3 --> v4
+    v3 --> v5
+    v6 --> v5
+    v11 --> v12
+    v5 --> v12
+    v12 --> v14
+    v12 --> v13

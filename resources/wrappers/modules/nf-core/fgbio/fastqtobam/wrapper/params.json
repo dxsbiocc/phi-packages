@@ -1,0 +1,5 @@
+{
+  "reads1": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/fastq/test.umi_1.fastq.gz",
+  "reads2": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/fastq/test.umi_2.fastq.gz",
+  "outdir": "results"
+}

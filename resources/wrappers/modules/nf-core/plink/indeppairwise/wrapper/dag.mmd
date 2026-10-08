@@ -1,0 +1,26 @@
+flowchart TB
+    subgraph " "
+    v0["vcf_ch"]
+    v5["window_size"]
+    v6["variant_count"]
+    v7["r2_threshold"]
+    end
+    v1(["PLINK_VCF"])
+    subgraph " "
+    v2[" "]
+    v9[" "]
+    v10[" "]
+    v11[" "]
+    end
+    v8(["PLINK_INDEPPAIRWISE"])
+    v3(( ))
+    v0 --> v1
+    v1 --> v2
+    v1 --> v3
+    v5 --> v8
+    v6 --> v8
+    v7 --> v8
+    v3 --> v8
+    v8 --> v11
+    v8 --> v10
+    v8 --> v9

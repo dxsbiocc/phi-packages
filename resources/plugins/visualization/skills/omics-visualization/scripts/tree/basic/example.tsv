@@ -1,0 +1,140 @@
+parent	name	path	value
+	flare	flare	
+flare	analytics	flare/analytics	
+analytics	cluster	flare/analytics/cluster	
+cluster	AgglomerativeCluster	flare/analytics/cluster/AgglomerativeCluster	3938
+cluster	CommunityStructure	flare/analytics/cluster/CommunityStructure	3812
+cluster	HierarchicalCluster	flare/analytics/cluster/HierarchicalCluster	6714
+cluster	MergeEdge	flare/analytics/cluster/MergeEdge	743
+analytics	graph	flare/analytics/graph	
+graph	BetweennessCentrality	flare/analytics/graph/BetweennessCentrality	3534
+graph	LinkDistance	flare/analytics/graph/LinkDistance	5731
+graph	MaxFlowMinCut	flare/analytics/graph/MaxFlowMinCut	7840
+graph	ShortestPaths	flare/analytics/graph/ShortestPaths	5914
+graph	SpanningTree	flare/analytics/graph/SpanningTree	3416
+analytics	optimization	flare/analytics/optimization	
+optimization	AspectRatioBanker	flare/analytics/optimization/AspectRatioBanker	7074
+flare	data	flare/data	
+data	converters	flare/data/converters	
+converters	Converters	flare/data/converters/Converters	721
+converters	DelimitedTextConverter	flare/data/converters/DelimitedTextConverter	4294
+converters	GraphMLConverter	flare/data/converters/GraphMLConverter	9800
+converters	IDataConverter	flare/data/converters/IDataConverter	1314
+converters	JSONConverter	flare/data/converters/JSONConverter	2220
+data	DataField	flare/data/DataField	1759
+data	DataSchema	flare/data/DataSchema	2165
+data	DataSet	flare/data/DataSet	586
+data	DataSource	flare/data/DataSource	3331
+data	DataTable	flare/data/DataTable	772
+data	DataUtil	flare/data/DataUtil	3322
+flare	display	flare/display	
+display	DirtySprite	flare/display/DirtySprite	8833
+display	LineSprite	flare/display/LineSprite	1732
+display	RectSprite	flare/display/RectSprite	3623
+display	TextSprite	flare/display/TextSprite	10066
+flare	flex	flare/flex	
+flex	FlareVis	flare/flex/FlareVis	4116
+flare	physics	flare/physics	
+physics	DragForce	flare/physics/DragForce	1082
+physics	GravityForce	flare/physics/GravityForce	1336
+physics	IForce	flare/physics/IForce	319
+physics	NBodyForce	flare/physics/NBodyForce	10498
+physics	Particle	flare/physics/Particle	2822
+physics	Simulation	flare/physics/Simulation	9983
+physics	Spring	flare/physics/Spring	2213
+physics	SpringForce	flare/physics/SpringForce	1681
+flare	scale	flare/scale	
+scale	IScaleMap	flare/scale/IScaleMap	2105
+scale	LinearScale	flare/scale/LinearScale	1316
+scale	LogScale	flare/scale/LogScale	3151
+scale	OrdinalScale	flare/scale/OrdinalScale	3770
+scale	QuantileScale	flare/scale/QuantileScale	2435
+scale	QuantitativeScale	flare/scale/QuantitativeScale	4839
+scale	RootScale	flare/scale/RootScale	1756
+scale	Scale	flare/scale/Scale	4268
+scale	ScaleType	flare/scale/ScaleType	1821
+scale	TimeScale	flare/scale/TimeScale	5833
+flare	vis	flare/vis	
+vis	axis	flare/vis/axis	
+axis	Axes	flare/vis/axis/Axes	1302
+axis	Axis	flare/vis/axis/Axis	24593
+axis	AxisGridLine	flare/vis/axis/AxisGridLine	652
+axis	AxisLabel	flare/vis/axis/AxisLabel	636
+axis	CartesianAxes	flare/vis/axis/CartesianAxes	6703
+vis	controls	flare/vis/controls	
+controls	AnchorControl	flare/vis/controls/AnchorControl	2138
+controls	ClickControl	flare/vis/controls/ClickControl	3824
+controls	Control	flare/vis/controls/Control	1353
+controls	ControlList	flare/vis/controls/ControlList	4665
+controls	DragControl	flare/vis/controls/DragControl	2649
+controls	ExpandControl	flare/vis/controls/ExpandControl	2832
+controls	HoverControl	flare/vis/controls/HoverControl	4896
+controls	IControl	flare/vis/controls/IControl	763
+controls	PanZoomControl	flare/vis/controls/PanZoomControl	5222
+controls	SelectionControl	flare/vis/controls/SelectionControl	7862
+controls	TooltipControl	flare/vis/controls/TooltipControl	8435
+vis	data	flare/vis/data	
+data	Data	flare/vis/data/Data	20544
+data	DataList	flare/vis/data/DataList	19788
+data	DataSprite	flare/vis/data/DataSprite	10349
+data	EdgeSprite	flare/vis/data/EdgeSprite	3301
+data	NodeSprite	flare/vis/data/NodeSprite	19382
+data	render	flare/vis/data/render	
+render	ArrowType	flare/vis/data/render/ArrowType	698
+render	EdgeRenderer	flare/vis/data/render/EdgeRenderer	5569
+render	IRenderer	flare/vis/data/render/IRenderer	353
+render	ShapeRenderer	flare/vis/data/render/ShapeRenderer	2247
+data	ScaleBinding	flare/vis/data/ScaleBinding	11275
+data	Tree	flare/vis/data/Tree	7147
+data	TreeBuilder	flare/vis/data/TreeBuilder	9930
+vis	events	flare/vis/events	
+events	DataEvent	flare/vis/events/DataEvent	2313
+events	SelectionEvent	flare/vis/events/SelectionEvent	1880
+events	TooltipEvent	flare/vis/events/TooltipEvent	1701
+events	VisualizationEvent	flare/vis/events/VisualizationEvent	1117
+vis	legend	flare/vis/legend	
+legend	Legend	flare/vis/legend/Legend	20859
+legend	LegendItem	flare/vis/legend/LegendItem	4614
+legend	LegendRange	flare/vis/legend/LegendRange	10530
+vis	operator	flare/vis/operator	
+operator	distortion	flare/vis/operator/distortion	
+distortion	BifocalDistortion	flare/vis/operator/distortion/BifocalDistortion	4461
+distortion	Distortion	flare/vis/operator/distortion/Distortion	6314
+distortion	FisheyeDistortion	flare/vis/operator/distortion/FisheyeDistortion	3444
+operator	encoder	flare/vis/operator/encoder	
+encoder	ColorEncoder	flare/vis/operator/encoder/ColorEncoder	3179
+encoder	Encoder	flare/vis/operator/encoder/Encoder	4060
+encoder	PropertyEncoder	flare/vis/operator/encoder/PropertyEncoder	4138
+encoder	ShapeEncoder	flare/vis/operator/encoder/ShapeEncoder	1690
+encoder	SizeEncoder	flare/vis/operator/encoder/SizeEncoder	1830
+operator	filter	flare/vis/operator/filter	
+filter	FisheyeTreeFilter	flare/vis/operator/filter/FisheyeTreeFilter	5219
+filter	GraphDistanceFilter	flare/vis/operator/filter/GraphDistanceFilter	3165
+filter	VisibilityFilter	flare/vis/operator/filter/VisibilityFilter	3509
+operator	IOperator	flare/vis/operator/IOperator	1286
+operator	label	flare/vis/operator/label	
+label	Labeler	flare/vis/operator/label/Labeler	9956
+label	RadialLabeler	flare/vis/operator/label/RadialLabeler	3899
+label	StackedAreaLabeler	flare/vis/operator/label/StackedAreaLabeler	3202
+operator	layout	flare/vis/operator/layout	
+layout	AxisLayout	flare/vis/operator/layout/AxisLayout	6725
+layout	BundledEdgeRouter	flare/vis/operator/layout/BundledEdgeRouter	3727
+layout	CircleLayout	flare/vis/operator/layout/CircleLayout	9317
+layout	CirclePackingLayout	flare/vis/operator/layout/CirclePackingLayout	12003
+layout	DendrogramLayout	flare/vis/operator/layout/DendrogramLayout	4853
+layout	ForceDirectedLayout	flare/vis/operator/layout/ForceDirectedLayout	8411
+layout	IcicleTreeLayout	flare/vis/operator/layout/IcicleTreeLayout	4864
+layout	IndentedTreeLayout	flare/vis/operator/layout/IndentedTreeLayout	3174
+layout	Layout	flare/vis/operator/layout/Layout	7881
+layout	NodeLinkTreeLayout	flare/vis/operator/layout/NodeLinkTreeLayout	12870
+layout	PieLayout	flare/vis/operator/layout/PieLayout	2728
+layout	RadialTreeLayout	flare/vis/operator/layout/RadialTreeLayout	12348
+layout	RandomLayout	flare/vis/operator/layout/RandomLayout	870
+layout	StackedAreaLayout	flare/vis/operator/layout/StackedAreaLayout	9121
+layout	TreeMapLayout	flare/vis/operator/layout/TreeMapLayout	9191
+operator	Operator	flare/vis/operator/Operator	2490
+operator	OperatorList	flare/vis/operator/OperatorList	5248
+operator	OperatorSequence	flare/vis/operator/OperatorSequence	4190
+operator	OperatorSwitch	flare/vis/operator/OperatorSwitch	2581
+operator	SortOperator	flare/vis/operator/SortOperator	2023
+vis	Visualization	flare/vis/Visualization	16540

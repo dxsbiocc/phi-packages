@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored bedtools/shuffle module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bedtools-shuffle
+name: "bedtools shuffle"
+summary: "Randomly place intervals across a genome with bedtools shuffle."
+
+params:
+  bed:
+    kind: input
+    type: file
+    required: true
+    description: "BED file of intervals."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai) giving chromosome sizes."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bed:
+    type: directory
+    path: '${outdir}/bedtools_shuffle'
+    primary: true

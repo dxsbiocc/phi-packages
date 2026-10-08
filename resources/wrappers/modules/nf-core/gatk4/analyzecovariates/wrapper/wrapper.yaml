@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored gatk4/analyzecovariates module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4-analyzecovariates
+name: "GATK4 AnalyzeCovariates"
+summary: "Plot and compare base-quality recalibration tables with GATK4 AnalyzeCovariates."
+
+params:
+  before:
+    kind: input
+    type: file
+    required: true
+    description: "BQSR table before recalibration."
+  after:
+    kind: input
+    type: file
+    required: true
+    description: "BQSR table after recalibration."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  plots:
+    type: directory
+    path: '${outdir}/gatk4_analyzecovariates'
+    primary: true

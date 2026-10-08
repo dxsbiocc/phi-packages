@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored samtools/cramsize module
+# at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/samtools-cramsize
+name: samtools cram-size
+summary: Report per-block size breakdown of a CRAM file with samtools cram-size.
+
+params:
+  cram:
+    kind: input
+    type: file
+    required: true
+    description: CRAM file to analyze.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the size report.
+
+outputs:
+  size:
+    type: directory
+    path: '${outdir}/samtools_cramsize'
+    primary: true

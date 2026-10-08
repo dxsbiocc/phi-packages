@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored snpeff/download module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Pairs with nf-core/modules/snpeff-snpeff, whose own cache input this
+# tool's output can be fed into to avoid a redundant download.
+id: nf-core/modules/snpeff-download
+name: snpEff download
+summary: Pre-download a snpEff annotation database.
+
+params:
+  db:
+    kind: option
+    type: string
+    required: false
+    description: snpEff database identifier to download (e.g. GRCh38.99, NC_045512.2).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the downloaded database cache.
+
+outputs:
+  cache:
+    type: directory
+    path: '${outdir}/snpeff_download'
+    primary: true

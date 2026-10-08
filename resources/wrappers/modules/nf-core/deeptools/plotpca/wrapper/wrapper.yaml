@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored deeptools/plotpca module
+# at ../main.nf. Also composes the vendored deeptools/multibamsummary
+# module (a sibling vendored component, not another wrapper) so the
+# agent can plot a PCA from raw BAMs in one step. Follows the minimal
+# contract in docs/design/phi-wrapper-agent-composition-design.md
+# section 3.
+id: nf-core/modules/deeptools-plotpca
+name: deeptools plotPCA
+summary: Plot a PCA across BAM files (builds the summary matrix internally).
+
+params:
+  bam1:
+    kind: input
+    type: file
+    required: true
+    description: First BAM file.
+  bai1:
+    kind: input
+    type: file
+    required: true
+    description: BAM index (.bai) for the first BAM.
+  bam2:
+    kind: input
+    type: file
+    required: true
+    description: Second BAM file.
+  bai2:
+    kind: input
+    type: file
+    required: true
+    description: BAM index (.bai) for the second BAM.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the PCA plot.
+
+outputs:
+  pdf:
+    type: directory
+    path: '${outdir}/deeptools_plotpca'
+    primary: true

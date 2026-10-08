@@ -1,0 +1,33 @@
+flowchart TB
+    subgraph " "
+    v0["channel.of"]
+    v2["channel.of"]
+    v3["input_vcf"]
+    v7["ref_panel"]
+    v9["ch_map"]
+    end
+    v11(["GLIMPSE_PHASE"])
+    subgraph " "
+    v12[" "]
+    v14[" "]
+    v19[" "]
+    v20[" "]
+    end
+    v13(["BCFTOOLS_INDEX"])
+    v18(["GLIMPSE_LIGATE"])
+    v1(( ))
+    v15(( ))
+    v0 --> v1
+    v2 --> v1
+    v3 --> v1
+    v7 --> v1
+    v9 --> v1
+    v1 --> v11
+    v11 --> v13
+    v11 --> v12
+    v11 --> v15
+    v13 --> v14
+    v13 --> v15
+    v15 --> v18
+    v18 --> v20
+    v18 --> v19

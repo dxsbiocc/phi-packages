@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored bcftools/pluginvcf2table module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bcftools-pluginvcf2table
+name: "bcftools pluginvcf2table"
+summary: "Convert a VCF to a tab-delimited table with the bcftools +vcf2table plugin."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped VCF file."
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the VCF."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  txt:
+    type: directory
+    path: '${outdir}/bcftools_pluginvcf2table'
+    primary: true

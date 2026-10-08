@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored gatk4/collectreadcounts module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4-collectreadcounts
+name: "GATK4 CollectReadCounts"
+summary: "Count reads per interval for copy-number analysis with GATK4 CollectReadCounts."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  intervals:
+    kind: input
+    type: file
+    required: true
+    description: "BED/interval list to count over."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  tsv:
+    type: directory
+    path: '${outdir}/gatk4_collectreadcounts'
+    primary: true

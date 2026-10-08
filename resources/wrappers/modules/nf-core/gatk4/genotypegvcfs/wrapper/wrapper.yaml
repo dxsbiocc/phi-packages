@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored gatk4/genotypegvcfs
+# module at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4-genotypegvcfs
+name: GATK4 GenotypeGVCFs
+summary: Joint-genotype a single-sample gVCF into a final VCF with GATK4 GenotypeGVCFs.
+
+params:
+  gvcf:
+    kind: input
+    type: file
+    required: true
+    description: Input gVCF file (from GATK4 HaplotypeCaller in -ERC GVCF mode).
+  gvcf_index:
+    kind: input
+    type: file
+    required: true
+    description: Index (.idx or .tbi) for the input gVCF.
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: Reference FASTA file.
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: FASTA index (.fai) for the reference.
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: Sequence dictionary (.dict) for the reference.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the genotyped VCF.
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/gatk4_genotypegvcfs'
+    primary: true

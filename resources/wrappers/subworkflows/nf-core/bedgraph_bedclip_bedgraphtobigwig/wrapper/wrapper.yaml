@@ -1,0 +1,30 @@
+# Agent-facing wrapper adapter for the vendored bedgraph_bedclip_bedgraphtobigwig
+# subworkflow at ../main.nf (UCSC bedClip -> bedGraphToBigWig). Follows the
+# minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/subworkflows/bedgraph-bedclip-bedgraphtobigwig
+name: BedGraph to BigWig (clip + convert)
+summary: Clip a bedGraph track to chromosome boundaries then convert it to an indexed BigWig file.
+
+params:
+  bedgraph:
+    kind: input
+    type: file
+    required: true
+    description: BedGraph file to clip and convert.
+  sizes:
+    kind: input
+    type: file
+    required: true
+    description: Chromosome sizes file (chrom \t size).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the clipped bedGraph and BigWig file.
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/bedgraph_bedclip_bedgraphtobigwig'
+    primary: true

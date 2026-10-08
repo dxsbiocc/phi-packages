@@ -1,0 +1,78 @@
+parent	name	path	itemStyle.color	value
+	Flora	Flora	#da0d68	
+Flora	Black Tea	Flora/Black Tea	#975e6d	1
+Flora	Floral	Flora/Floral	#e0719c	
+Floral	Chamomile	Flora/Floral/Chamomile	#f99e1c	1
+Floral	Rose	Flora/Floral/Rose	#ef5a78	1
+Floral	Jasmine	Flora/Floral/Jasmine	#f7f1bd	1
+	Fruity	Fruity	#da1d23	
+Fruity	Berry	Fruity/Berry	#dd4c51	
+Berry	Blackberry	Fruity/Berry/Blackberry	#3e0317	1
+Berry	Raspberry	Fruity/Berry/Raspberry	#e62969	1
+Berry	Blueberry	Fruity/Berry/Blueberry	#6569b0	1
+Berry	Strawberry	Fruity/Berry/Strawberry	#ef2d36	1
+Fruity	Dried Fruit	Fruity/Dried Fruit	#c94a44	
+Dried Fruit	Raisin	Fruity/Dried Fruit/Raisin	#b53b54	1
+Dried Fruit	Prune	Fruity/Dried Fruit/Prune	#a5446f	1
+Fruity	Other Fruit	Fruity/Other Fruit	#dd4c51	
+Other Fruit	Coconut	Fruity/Other Fruit/Coconut	#f2684b	1
+Other Fruit	Cherry	Fruity/Other Fruit/Cherry	#e73451	1
+Other Fruit	Pomegranate	Fruity/Other Fruit/Pomegranate	#e65656	1
+Other Fruit	Pineapple	Fruity/Other Fruit/Pineapple	#f89a1c	1
+Other Fruit	Grape	Fruity/Other Fruit/Grape	#aeb92c	1
+Other Fruit	Apple	Fruity/Other Fruit/Apple	#4eb849	1
+Other Fruit	Peach	Fruity/Other Fruit/Peach	#f68a5c	1
+Other Fruit	Pear	Fruity/Other Fruit/Pear	#baa635	1
+Fruity	Citrus Fruit	Fruity/Citrus Fruit	#f7a128	
+Citrus Fruit	Grapefruit	Fruity/Citrus Fruit/Grapefruit	#f26355	1
+Citrus Fruit	Orange	Fruity/Citrus Fruit/Orange	#e2631e	1
+Citrus Fruit	Lemon	Fruity/Citrus Fruit/Lemon	#fde404	1
+Citrus Fruit	Lime	Fruity/Citrus Fruit/Lime	#7eb138	1
+	Other	Other	#0aa3b5	
+Other	Papery/Musty	Other/Papery/Musty	#9db2b7	
+Papery/Musty	Stale	Other/Papery/Musty/Stale	#8b8c90	1
+Papery/Musty	Cardboard	Other/Papery/Musty/Cardboard	#beb276	1
+Papery/Musty	Papery	Other/Papery/Musty/Papery	#fefef4	1
+Papery/Musty	Woody	Other/Papery/Musty/Woody	#744e03	1
+Papery/Musty	Moldy/Damp	Other/Papery/Musty/Moldy/Damp	#a3a36f	1
+Papery/Musty	Musty/Dusty	Other/Papery/Musty/Musty/Dusty	#c9b583	1
+Papery/Musty	Musty/Earthy	Other/Papery/Musty/Musty/Earthy	#978847	1
+Papery/Musty	Animalic	Other/Papery/Musty/Animalic	#9d977f	1
+Papery/Musty	Meaty Brothy	Other/Papery/Musty/Meaty Brothy	#cc7b6a	1
+Papery/Musty	Phenolic	Other/Papery/Musty/Phenolic	#db646a	1
+Other	Chemical	Other/Chemical	#76c0cb	
+Chemical	Bitter	Other/Chemical/Bitter	#80a89d	1
+Chemical	Salty	Other/Chemical/Salty	#def2fd	1
+Chemical	Medicinal	Other/Chemical/Medicinal	#7a9bae	1
+Chemical	Petroleum	Other/Chemical/Petroleum	#039fb8	1
+Chemical	Skunky	Other/Chemical/Skunky	#5e777b	1
+Chemical	Rubber	Other/Chemical/Rubber	#120c0c	1
+	Roasted	Roasted	#c94930	
+Roasted	Pipe Tobacco	Roasted/Pipe Tobacco	#caa465	1
+Roasted	Tobacco	Roasted/Tobacco	#dfbd7e	1
+Roasted	Burnt	Roasted/Burnt	#be8663	
+Burnt	Acrid	Roasted/Burnt/Acrid	#b9a449	1
+Burnt	Ashy	Roasted/Burnt/Ashy	#899893	1
+Burnt	Smoky	Roasted/Burnt/Smoky	#a1743b	1
+Burnt	Brown, Roast	Roasted/Burnt/Brown, Roast	#894810	1
+Roasted	Cereal	Roasted/Cereal	#ddaf61	
+Cereal	Grain	Roasted/Cereal/Grain	#b7906f	1
+Cereal	Malt	Roasted/Cereal/Malt	#eb9d5f	1
+	Spices	Spices	#ad213e	
+Spices	Pungent	Spices/Pungent	#794752	1
+Spices	Pepper	Spices/Pepper	#cc3d41	1
+Spices	Brown Spice	Spices/Brown Spice	#b14d57	
+Brown Spice	Anise	Spices/Brown Spice/Anise	#c78936	1
+Brown Spice	Nutmeg	Spices/Brown Spice/Nutmeg	#8c292c	1
+Brown Spice	Cinnamon	Spices/Brown Spice/Cinnamon	#e5762e	1
+Brown Spice	Clove	Spices/Brown Spice/Clove	#a16c5a	1
+	Sweet	Sweet	#e65832	
+Sweet	Brown Sugar	Sweet/Brown Sugar	#d45a59	
+Brown Sugar	Molasses	Sweet/Brown Sugar/Molasses	#310d0f	1
+Brown Sugar	Maple Syrup	Sweet/Brown Sugar/Maple Syrup	#ae341f	1
+Brown Sugar	Caramelized	Sweet/Brown Sugar/Caramelized	#d78823	1
+Brown Sugar	Honey	Sweet/Brown Sugar/Honey	#da5c1f	1
+Sweet	Vanilla	Sweet/Vanilla	#f89a80	1
+Sweet	Vanillin	Sweet/Vanillin	#f37674	1
+Sweet	Overall Sweet	Sweet/Overall Sweet	#e75b68	1
+Sweet	Sweet Aromatics	Sweet/Sweet Aromatics	#d0545f	1

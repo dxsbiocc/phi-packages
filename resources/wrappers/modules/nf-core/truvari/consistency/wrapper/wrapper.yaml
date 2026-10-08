@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored truvari/consistency module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/truvari-consistency
+name: "Truvari consistency"
+summary: "Report consistency between several VCFs with Truvari consistency."
+
+params:
+  vcf1:
+    kind: input
+    type: file
+    required: true
+    description: "First VCF (bgzipped)."
+  vcf2:
+    kind: input
+    type: file
+    required: true
+    description: "Second VCF (bgzipped)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  consistency:
+    type: directory
+    path: '${outdir}/truvari_consistency'
+    primary: true

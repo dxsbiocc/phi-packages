@@ -1,0 +1,46 @@
+# Agent-facing wrapper adapter for the vendored trgt/genotype module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: decompresses and indexes the reference with the vendored gunzip and samtools faidx modules first.
+id: nf-core/modules/trgt-genotype
+name: "TRGT genotype"
+summary: "Genotype tandem repeats from long reads with TRGT (unzips the reference and indexes it first)."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  karyotype:
+    kind: option
+    type: string
+    required: false
+    description: "Sample karyotype (XX or XY)."
+  fasta_gz:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA (bgzipped)."
+  repeats:
+    kind: option
+    type: string
+    required: false
+    description: "Repeat definitions (chrom, start, end, ID/MOTIFS/STRUC)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/trgt_genotype'
+    primary: true

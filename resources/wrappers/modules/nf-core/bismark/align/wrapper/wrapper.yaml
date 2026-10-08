@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored bismark/align module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: builds the Bismark genome index with the vendored bismark genomepreparation module first.
+id: nf-core/modules/bismark-align
+name: "Bismark align"
+summary: "Align bisulfite reads with Bismark (builds the genome index first)."
+
+params:
+  reads:
+    kind: input
+    type: file
+    required: true
+    description: "Bisulfite reads FASTQ (.fastq.gz)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/bismark_align'
+    primary: true

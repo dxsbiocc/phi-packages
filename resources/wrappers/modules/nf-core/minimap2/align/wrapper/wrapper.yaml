@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored minimap2/align module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/minimap2-align
+name: "minimap2 align"
+summary: "Align reads to a reference with minimap2."
+
+params:
+  reads:
+    kind: input
+    type: file
+    required: true
+    description: "Reads FASTQ (.fastq.gz)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/minimap2_align'
+    primary: true

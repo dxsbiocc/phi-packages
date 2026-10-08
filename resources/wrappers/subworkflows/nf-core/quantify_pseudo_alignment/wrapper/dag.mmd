@@ -1,0 +1,90 @@
+flowchart TB
+    subgraph " "
+    v0["transcript_fasta"]
+    v1["genome_fasta"]
+    v4["channel.of"]
+    v5["gtf"]
+    v6["alignment_mode"]
+    v7["lib_type"]
+    v15["quant_type"]
+    v16["id"]
+    v17["extra"]
+    v22["quant_type"]
+    v26["channel.empty"]
+    v28["channel.empty"]
+    v35["samplesheet"]
+    end
+    v2(["SALMON_INDEX"])
+    subgraph " "
+    v3[" "]
+    v9[" "]
+    v10[" "]
+    v11[" "]
+    v19[" "]
+    v24[" "]
+    v25["tx2gene_augmented"]
+    v27["ch_merged_gene_rds"]
+    v29["ch_merged_transcript_rds"]
+    v37[" "]
+    v38[" "]
+    v39["merged_gene_rds_unified"]
+    v44[" "]
+    v45[" "]
+    v46["merged_transcript_rds_unified"]
+    end
+    subgraph "QUANTIFY_PSEUDO_ALIGNMENT [QUANTIFY_PSEUDO_ALIGNMENT]"
+    v8(["SALMON_QUANT"])
+    subgraph "QUANTIFY_PSEUDO_ALIGNMENT:QUANT_TXIMPORT_SUMMARIZEDEXPERIMENT [QUANT_TXIMPORT_SUMMARIZEDEXPERIMENT]"
+    v18(["CUSTOM_TX2GENE"])
+    v23(["TXIMETA_TXIMPORT"])
+    v36(["SE_GENE_UNIFIED"])
+    v43(["SE_TRANSCRIPT_UNIFIED"])
+    v12(( ))
+    v14(( ))
+    v20(( ))
+    v30(( ))
+    v40(( ))
+    end
+    end
+    v0 --> v2
+    v0 --> v8
+    v1 --> v2
+    v2 --> v8
+    v2 --> v3
+    v4 --> v8
+    v5 --> v8
+    v5 --> v14
+    v6 --> v8
+    v7 --> v8
+    v8 --> v11
+    v8 --> v10
+    v8 --> v9
+    v8 --> v12
+    v8 --> v20
+    v15 --> v18
+    v16 --> v18
+    v17 --> v18
+    v12 --> v18
+    v14 --> v18
+    v18 --> v23
+    v18 --> v19
+    v18 --> v36
+    v18 --> v43
+    v22 --> v23
+    v20 --> v23
+    v23 --> v25
+    v23 --> v24
+    v23 --> v30
+    v23 --> v40
+    v26 --> v27
+    v28 --> v29
+    v35 --> v36
+    v35 --> v43
+    v30 --> v36
+    v36 --> v39
+    v36 --> v38
+    v36 --> v37
+    v40 --> v43
+    v43 --> v46
+    v43 --> v45
+    v43 --> v44

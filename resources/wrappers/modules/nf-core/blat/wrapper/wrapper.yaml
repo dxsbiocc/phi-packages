@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored blat module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/blat
+name: blat
+summary: Align a query FASTA/FASTQ against a subject sequence with BLAT.
+
+params:
+  query:
+    kind: input
+    type: file
+    required: true
+    description: Query sequence file (FASTA, or gzipped FASTQ/FASTA).
+  subject:
+    kind: input
+    type: file
+    required: true
+    description: Subject/reference sequence file (FASTA).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the PSL alignment file.
+
+outputs:
+  psl:
+    type: directory
+    path: '${outdir}/blat'
+    primary: true

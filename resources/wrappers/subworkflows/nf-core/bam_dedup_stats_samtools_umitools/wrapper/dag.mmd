@@ -1,0 +1,55 @@
+flowchart TB
+    subgraph " "
+    v0["channel.fromPath"]
+    v2["channel.fromPath"]
+    v5["get_output_stats"]
+    v15[" "]
+    end
+    subgraph "BAM_DEDUP_STATS_SAMTOOLS_UMITOOLS [BAM_DEDUP_STATS_SAMTOOLS_UMITOOLS]"
+    v6(["UMITOOLS_DEDUP"])
+    v12(["SAMTOOLS_INDEX"])
+    subgraph "BAM_DEDUP_STATS_SAMTOOLS_UMITOOLS:BAM_STATS_SAMTOOLS [BAM_STATS_SAMTOOLS]"
+    v16(["SAMTOOLS_STATS"])
+    v19(["SAMTOOLS_FLAGSTAT"])
+    v22(["SAMTOOLS_IDXSTATS"])
+    end
+    v14(( ))
+    end
+    subgraph " "
+    v7[" "]
+    v8["tsv_umi_per_position"]
+    v9["tsv_per_umi"]
+    v10["tsv_edit_distance"]
+    v11["deduplog"]
+    v13[" "]
+    v17[" "]
+    v18["stats"]
+    v20[" "]
+    v21["flagstat"]
+    v23[" "]
+    v24["idxstats"]
+    end
+    v1(( ))
+    v0 --> v1
+    v2 --> v1
+    v5 --> v6
+    v1 --> v6
+    v6 --> v12
+    v6 --> v11
+    v6 --> v10
+    v6 --> v9
+    v6 --> v8
+    v6 --> v7
+    v6 --> v14
+    v12 --> v13
+    v12 --> v14
+    v15 --> v16
+    v14 --> v16
+    v16 --> v18
+    v16 --> v17
+    v14 --> v19
+    v19 --> v21
+    v19 --> v20
+    v14 --> v22
+    v22 --> v24
+    v22 --> v23

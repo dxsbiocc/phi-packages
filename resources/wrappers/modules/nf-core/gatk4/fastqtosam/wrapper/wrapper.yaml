@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored gatk4/fastqtosam module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4-fastqtosam
+name: "GATK4 FastqToSam"
+summary: "Convert a single-end FASTQ to an unaligned BAM with GATK4 FastqToSam."
+
+params:
+  reads:
+    kind: input
+    type: file
+    required: true
+    description: "Single-end FASTQ file (plain or gzipped)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/gatk4_fastqtosam'
+    primary: true

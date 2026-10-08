@@ -1,0 +1,28 @@
+# Agent-facing wrapper adapter for the vendored rseqc/readduplication module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# RSeQC needs a BAM index next to the BAM; this wrapper runs samtools/index
+# first so callers only supply the BAM (composes vendored modules directly,
+# per section 6 of the design doc).
+id: nf-core/modules/rseqc-readduplication
+name: RSeQC read duplication
+summary: Estimate sequence and mapping-position read duplication with RSeQC read_duplication.py.
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: Coordinate-sorted BAM file.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the RSeQC read duplication report.
+
+outputs:
+  report:
+    type: directory
+    path: '${outdir}/rseqc_readduplication'
+    primary: true

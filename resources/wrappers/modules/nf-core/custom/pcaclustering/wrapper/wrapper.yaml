@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored custom/pcaclustering module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/custom-pcaclustering
+name: "Custom pcaclustering"
+summary: "Cluster samples from a feature matrix with PCA + k-means/DBSCAN."
+
+params:
+  features:
+    kind: input
+    type: file
+    required: true
+    description: "Feature matrix (TSV)."
+  algorithm:
+    kind: option
+    type: string
+    required: false
+    description: "Clustering algorithm (kmeans or dbscan)."
+  n_clusters:
+    kind: option
+    type: integer
+    required: false
+    description: "Number of clusters (k-means)."
+  dbscan_eps:
+    kind: option
+    type: string
+    required: false
+    description: "DBSCAN epsilon."
+  dbscan_min_samples:
+    kind: option
+    type: integer
+    required: false
+    description: "DBSCAN minimum samples."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  clusters:
+    type: directory
+    path: '${outdir}/custom_pcaclustering'
+    primary: true

@@ -1,0 +1,51 @@
+# Agent-facing wrapper adapter for the vendored svtk/baftest module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: calls SVs with the vendored manta germline module and converts them with the vendored svtk vcf2bed module first.
+id: nf-core/modules/svtk-baftest
+name: "svtk baf-test"
+summary: "Test B-allele-frequency support for SVs (Manta germline -> vcf2bed -> baf-test)."
+
+params:
+  cram:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted CRAM."
+  crai:
+    kind: input
+    type: file
+    required: true
+    description: "CRAM index (.crai)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  baf:
+    kind: input
+    type: file
+    required: true
+    description: "BAF file (.baf.txt.gz)."
+  baf_tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the BAF file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  metrics:
+    type: directory
+    path: '${outdir}/svtk_baftest'
+    primary: true

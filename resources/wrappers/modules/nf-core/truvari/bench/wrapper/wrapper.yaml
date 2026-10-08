@@ -1,0 +1,49 @@
+# Agent-facing wrapper adapter for the vendored truvari/bench module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/truvari-bench
+name: "Truvari bench"
+summary: "Benchmark SV calls against a truth set with Truvari bench."
+
+params:
+  sv:
+    kind: input
+    type: file
+    required: true
+    description: "Query SV VCF (bgzipped)."
+  sv_tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the query SV VCF."
+  sv2:
+    kind: input
+    type: file
+    required: true
+    description: "Truth SV VCF (bgzipped)."
+  sv2_tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the truth SV VCF."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  summary:
+    type: directory
+    path: '${outdir}/truvari_bench'
+    primary: true

@@ -1,0 +1,33 @@
+flowchart TB
+    subgraph " "
+    v0["vcf_ch"]
+    v1["fasta_ch"]
+    v2["bed"]
+    v13["channel.empty"]
+    end
+    v3(["BCFTOOLS_CONVERT"])
+    subgraph " "
+    v4[" "]
+    v5[" "]
+    v6[" "]
+    v7[" "]
+    v8[" "]
+    v9[" "]
+    v10[" "]
+    v11[" "]
+    v12[" "]
+    v14[" "]
+    end
+    v0 --> v3
+    v1 --> v3
+    v2 --> v3
+    v3 --> v12
+    v3 --> v11
+    v3 --> v10
+    v3 --> v9
+    v3 --> v8
+    v3 --> v7
+    v3 --> v6
+    v3 --> v5
+    v3 --> v4
+    v13 --> v14

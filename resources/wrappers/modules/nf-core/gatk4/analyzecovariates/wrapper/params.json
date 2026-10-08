@@ -1,0 +1,5 @@
+{
+  "before": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/gatk/test.baserecalibrator.table",
+  "after": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/gatk/test2.baserecalibrator.table",
+  "outdir": "results"
+}

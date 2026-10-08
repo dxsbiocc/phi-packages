@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored plink/missing module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/plink-missing
+name: "PLINK missingness"
+summary: "Compute per-sample and per-variant missing-genotype rates with PLINK missing."
+
+params:
+  bed:
+    kind: input
+    type: file
+    required: true
+    description: "PLINK binary genotype file (.bed)."
+  bim:
+    kind: input
+    type: file
+    required: true
+    description: "PLINK variant file (.bim)."
+  fam:
+    kind: input
+    type: file
+    required: true
+    description: "PLINK sample file (.fam)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  imiss:
+    type: directory
+    path: '${outdir}/plink_missing'
+    primary: true

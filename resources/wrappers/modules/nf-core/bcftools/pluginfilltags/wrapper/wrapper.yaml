@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored bcftools/pluginfilltags module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bcftools-pluginfilltags
+name: "bcftools pluginfilltags"
+summary: "Fill INFO tags (AC, AN, ...) with the bcftools +fill-tags plugin."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped VCF file."
+  csi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.csi) for the VCF."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/bcftools_pluginfilltags'
+    primary: true

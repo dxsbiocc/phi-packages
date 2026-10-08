@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored gatk4/annotateintervals module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4-annotateintervals
+name: "GATK4 AnnotateIntervals"
+summary: "Annotate intervals with GC content (and optional mappability) with GATK4 AnnotateIntervals."
+
+params:
+  intervals:
+    kind: input
+    type: file
+    required: true
+    description: "BED or interval_list file of intervals."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  annotated_intervals:
+    type: directory
+    path: '${outdir}/gatk4_annotateintervals'
+    primary: true

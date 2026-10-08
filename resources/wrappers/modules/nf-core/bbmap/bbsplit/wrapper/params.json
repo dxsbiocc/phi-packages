@@ -1,0 +1,6 @@
+{
+  "primary_ref": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/genome/genome.fasta",
+  "other_refs": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/chr22/sequence/chr22_23800000-23980000.fa",
+  "other_names": "human",
+  "outdir": "results"
+}

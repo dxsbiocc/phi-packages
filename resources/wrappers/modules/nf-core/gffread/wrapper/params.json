@@ -1,0 +1,4 @@
+{
+  "gff": "tests/data/genome.gff3",
+  "outdir": "results"
+}

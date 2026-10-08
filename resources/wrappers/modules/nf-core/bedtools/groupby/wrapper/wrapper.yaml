@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored bedtools/groupby module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bedtools-groupby
+name: "bedtools groupby"
+summary: "Group BED records by column and summarise another column with bedtools groupby."
+
+params:
+  bed:
+    kind: input
+    type: file
+    required: true
+    description: "BED file of intervals."
+  summary_col:
+    kind: option
+    type: integer
+    required: false
+    description: "1-based column number to summarise."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bed:
+    type: directory
+    path: '${outdir}/bedtools_groupby'
+    primary: true

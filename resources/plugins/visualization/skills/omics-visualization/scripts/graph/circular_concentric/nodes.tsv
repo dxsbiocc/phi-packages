@@ -1,0 +1,29 @@
+id	label	ring	category	size
+MAPK3	MAPK3	inner	Predicted driver gene	7
+CHUK	CHUK	inner	Predicted driver gene	5
+IKBKG	IKBKG	inner	Predicted driver gene	6
+PIK3CD	PIK3CD	inner	Predicted driver gene	8
+NFKB1	NFKB1	inner	Predicted driver gene	9
+RELA	RELA	inner	Predicted driver gene	7
+IFNG	IFNG	inner	Predicted driver gene	6
+STAT1	STAT1	inner	Predicted driver gene	8
+TRAF6	TRAF6	inner	Predicted driver gene	5
+PLCG2	PLCG2	inner	Predicted driver gene	6
+PDCD1	PDCD1	outer	Immune checkpoint	3
+CD274	CD274	outer	Immune checkpoint	3
+CTLA4	CTLA4	outer	Immune checkpoint	3
+HLA-A	HLA-A	outer	Antigen presentation	3
+HLA-B	HLA-B	outer	Antigen presentation	3
+HLA-DRA	HLA-DRA	outer	Antigen presentation	3
+GZMB	GZMB	outer	Cytotoxic effector	3
+PRF1	PRF1	outer	Cytotoxic effector	3
+NKG7	NKG7	outer	Cytotoxic effector	3
+TLR4	TLR4	outer	Innate inflammatory	3
+MYD88	MYD88	outer	Innate inflammatory	3
+IRF3	IRF3	outer	Innate inflammatory	3
+CD3D	CD3D	outer	T-cell activation	3
+CD28	CD28	outer	T-cell activation	3
+ZAP70	ZAP70	outer	T-cell activation	3
+CXCL13	CXCL13	outer	Cytokine / chemokine	3
+CXCL10	CXCL10	outer	Cytokine / chemokine	3
+CXCL9	CXCL9	outer	Cytokine / chemokine	3

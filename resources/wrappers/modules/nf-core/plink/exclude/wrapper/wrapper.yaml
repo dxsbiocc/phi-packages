@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored plink/exclude module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: converts the VCF to PLINK binary format with the vendored plink vcf module, then derives the ambiguous-SNP list with the vendored gawk module.
+id: nf-core/modules/plink-exclude
+name: "PLINK exclude"
+summary: "Exclude a variant subset from PLINK binary genotypes (converts the VCF and derives the variant list with gawk first)."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "VCF file (bgzipped)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bed:
+    type: directory
+    path: '${outdir}/plink_exclude'
+    primary: true

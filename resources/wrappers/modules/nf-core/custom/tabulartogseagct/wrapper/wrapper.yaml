@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored custom/tabulartogseagct module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/custom-tabulartogseagct
+name: "Custom tabulartogseagct"
+summary: "Convert a normalised count matrix to a GSEA .gct file."
+
+params:
+  tabular:
+    kind: input
+    type: file
+    required: true
+    description: "Normalised count matrix (TSV)."
+  variable:
+    kind: option
+    type: string
+    required: false
+    description: "Variable column to contrast."
+  reference:
+    kind: option
+    type: string
+    required: false
+    description: "Reference level."
+  target:
+    kind: option
+    type: string
+    required: false
+    description: "Target level."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  gct:
+    type: directory
+    path: '${outdir}/custom_tabulartogseagct'
+    primary: true

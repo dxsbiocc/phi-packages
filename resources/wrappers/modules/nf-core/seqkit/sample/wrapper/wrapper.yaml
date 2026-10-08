@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored seqkit/sample module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/seqkit-sample
+name: seqkit sample
+summary: Randomly subsample a proportion of FASTA/FASTQ records with seqkit sample.
+
+params:
+  fastx:
+    kind: input
+    type: file
+    required: true
+    description: FASTA/FASTQ file (plain or gzipped) to subsample.
+  proportion:
+    kind: option
+    type: string
+    required: false
+    description: Proportion of records to keep (0-1), passed as seqkit sample --proportion.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subsampled sequences.
+
+outputs:
+  fastx:
+    type: directory
+    path: '${outdir}/seqkit_sample'
+    primary: true

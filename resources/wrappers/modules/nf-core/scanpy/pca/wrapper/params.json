@@ -1,0 +1,5 @@
+{
+  "anndata": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/scrnaseq/h5ad/combined_filtered_matrix.h5ad",
+  "key_added": "X_pca",
+  "outdir": "results"
+}

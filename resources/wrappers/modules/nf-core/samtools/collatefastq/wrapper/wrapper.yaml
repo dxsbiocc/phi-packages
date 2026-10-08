@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored samtools/collatefastq
+# module at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/samtools-collatefastq
+name: samtools collate to FASTQ
+summary: Collate a BAM by read name and export FASTQ files with samtools collate + fastq.
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: BAM file to collate and export.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the FASTQ files.
+
+outputs:
+  fastq:
+    type: directory
+    path: '${outdir}/samtools_collatefastq'
+    primary: true

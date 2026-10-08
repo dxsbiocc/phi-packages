@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored custom/orfnormalise module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/custom-orfnormalise
+name: "Custom orfnormalise"
+summary: "Normalise ORF caller output (e.g. RiboCode) to a common table and BED12."
+
+params:
+  orfs:
+    kind: input
+    type: file
+    required: true
+    description: "ORF predictions from a caller."
+  gtf:
+    kind: input
+    type: file
+    required: true
+    description: "Reference GTF annotation."
+  caller:
+    kind: option
+    type: string
+    required: false
+    description: "ORF caller name."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  tsv:
+    type: directory
+    path: '${outdir}/custom_orfnormalise'
+    primary: true

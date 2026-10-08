@@ -1,0 +1,22 @@
+flowchart TB
+    subgraph " "
+    v0["vcf_ch"]
+    v6["scorefile"]
+    end
+    v1(["PLINK2_VCF"])
+    subgraph " "
+    v2[" "]
+    v3[" "]
+    v8[" "]
+    v9[" "]
+    end
+    v7(["PLINK2_SCORE"])
+    v4(( ))
+    v0 --> v1
+    v1 --> v3
+    v1 --> v2
+    v1 --> v4
+    v6 --> v7
+    v4 --> v7
+    v7 --> v9
+    v7 --> v8

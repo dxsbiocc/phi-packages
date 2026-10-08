@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored samtools/view module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# No reference/qname/bed filters: this wrapper's default invocation passes
+# the BAM through unfiltered (a no-op format check) — see ../wrapper/main.nf
+# for why those are the module's own defaults, and its own note about the
+# required id suffix.
+id: nf-core/modules/samtools-view
+name: samtools view
+summary: Filter or convert a SAM/BAM/CRAM file.
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: SAM/BAM/CRAM file to filter or convert.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the resulting file.
+
+outputs:
+  filtered:
+    type: directory
+    path: '${outdir}/samtools_view'
+    primary: true

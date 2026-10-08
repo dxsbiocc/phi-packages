@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored scanpy/pca module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/scanpy-pca
+name: Scanpy PCA
+summary: Run principal component analysis on an AnnData single-cell object.
+
+params:
+  anndata:
+    kind: input
+    type: file
+    required: true
+    description: AnnData object (.h5ad or .zarr), typically already filtered/normalised.
+  key_added:
+    kind: option
+    type: string
+    required: false
+    description: obsm key to store the PCA embedding under.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the AnnData object (with PCA embedding) and the embedding pickle.
+
+outputs:
+  anndata:
+    type: directory
+    path: '${outdir}/scanpy_pca'
+    primary: true

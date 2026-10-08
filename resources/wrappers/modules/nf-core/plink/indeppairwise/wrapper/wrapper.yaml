@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored plink/indeppairwise module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: converts the VCF to PLINK binary format with the vendored plink vcf module first.
+id: nf-core/modules/plink-indeppairwise
+name: "PLINK indep-pairwise (LD pruning)"
+summary: "Prune variants by pairwise LD (r2) with PLINK indep-pairwise (converts the VCF first)."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "VCF file (bgzipped)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  prunein:
+    type: directory
+    path: '${outdir}/plink_indeppairwise'
+    primary: true

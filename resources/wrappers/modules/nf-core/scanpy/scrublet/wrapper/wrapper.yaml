@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored scanpy/scrublet module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/scanpy-scrublet
+name: Scanpy Scrublet
+summary: Detect doublets in a single-cell AnnData object with Scrublet (via Scanpy).
+
+params:
+  anndata:
+    kind: input
+    type: file
+    required: true
+    description: AnnData object (.h5ad).
+  batch_col:
+    kind: option
+    type: string
+    required: false
+    description: obs column identifying batches/samples for batch-aware doublet detection; empty runs without batching.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the annotated AnnData object and doublet-score predictions.
+
+outputs:
+  h5ad:
+    type: directory
+    path: '${outdir}/scanpy_scrublet'
+    primary: true

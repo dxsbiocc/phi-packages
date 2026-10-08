@@ -1,0 +1,56 @@
+# Agent-facing wrapper adapter for the vendored rtgtools/rocplot module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: runs the vendored untar and rtgtools vcfeval modules first.
+id: nf-core/modules/rtgtools-rocplot
+name: "RTG Tools rocplot"
+summary: "Plot ROC curves from vcfeval output (untar SDF → vcfeval → rocplot)."
+
+params:
+  sdf:
+    kind: input
+    type: file
+    required: true
+    description: "RTG SDF reference archive (.tar.gz)."
+  query:
+    kind: input
+    type: file
+    required: true
+    description: "Query VCF (bgzipped)."
+  query_tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the query VCF."
+  truth:
+    kind: input
+    type: file
+    required: true
+    description: "Truth VCF (bgzipped)."
+  truth_tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the truth VCF."
+  truth_bed:
+    kind: input
+    type: file
+    required: true
+    description: "Truth confident regions BED."
+  regions_bed:
+    kind: input
+    type: file
+    required: true
+    description: "Evaluation regions BED."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  png:
+    type: directory
+    path: '${outdir}/rtgtools_rocplot'
+    primary: true

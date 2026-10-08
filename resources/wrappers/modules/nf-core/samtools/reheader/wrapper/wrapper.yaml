@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored samtools/reheader module
+# at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# The header edit itself (a no-op passthrough `sed`) is fixed in this
+# adapter's nextflow.config — the module's own --command/-h options
+# aren't surfaced as separate params here.
+id: nf-core/modules/samtools-reheader
+name: samtools reheader
+summary: Rewrite a BAM's header (e.g. rename contigs) with samtools reheader.
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: BAM file whose header should be rewritten.
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: BAM index (.bai) for the input BAM.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the reheadered BAM.
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/samtools_reheader'
+    primary: true

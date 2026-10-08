@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored minimap2/index module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/minimap2-index
+name: "minimap2 index"
+summary: "Build a minimap2 index from a reference FASTA."
+
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  index:
+    type: directory
+    path: '${outdir}/minimap2_index'
+    primary: true

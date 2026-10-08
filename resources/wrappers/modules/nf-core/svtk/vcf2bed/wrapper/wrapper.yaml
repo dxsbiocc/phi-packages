@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored svtk/vcf2bed module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/svtk-vcf2bed
+name: "svtk vcf2bed"
+summary: "Convert an SV VCF to BED with svtk vcf2bed."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped SV VCF."
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the VCF."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bed:
+    type: directory
+    path: '${outdir}/svtk_vcf2bed'
+    primary: true

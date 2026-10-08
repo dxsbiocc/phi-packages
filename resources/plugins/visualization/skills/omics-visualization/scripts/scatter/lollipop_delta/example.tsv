@@ -1,0 +1,17 @@
+celltype	delta	pvalue	group
+B cells	0.142	0.0012	Cibersort
+CD8 T cells	0.088	0.018	Cibersort
+Tregs	-0.061	0.041	Cibersort
+Neutrophils	-0.119	0.0088	Cibersort
+Plasma cells	0.054	0.072	Cibersort
+NK cells	0.097	0.0031	xCell
+Macrophages M1	0.073	0.022	xCell
+Macrophages M2	-0.108	0.011	xCell
+Dendritic cells	-0.046	0.081	xCell
+Mast cells	-0.083	0.036	xCell
+Cytotoxic cells	0.121	0.0024	danaher
+Exhausted CD8	-0.067	0.048	danaher
+Tfh	0.039	0.091	danaher
+CD8 T	0.064	0.027	mcpcounter
+NK	-0.052	0.064	mcpcounter
+Monocytic lineage	-0.094	0.015	mcpcounter

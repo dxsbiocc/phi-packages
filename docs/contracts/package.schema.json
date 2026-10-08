@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://phi.local/contracts/package.schema.json",
+  "title": "Phi package manifest (phi-package.yaml)",
+  "description": "Package contract 1.2.0 (docs/contracts/package.md). Type-specific path and component validation is enforced in code.",
+  "type": "object",
+  "required": ["schemaVersion", "id", "type", "version", "title", "summary"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,63}$" },
+    "type": { "enum": ["skill", "plugin", "wrapper", "mcp"] },
+    "version": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(-[0-9A-Za-z.-]+)?$"
+    },
+    "title": { "type": "string", "minLength": 1, "maxLength": 80 },
+    "summary": { "type": "string", "minLength": 1, "maxLength": 300 },
+    "minAppVersion": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(-[0-9A-Za-z.-]+)?$"
+    },
+    "requires": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "coreTools": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "uniqueItems": true
+        }
+      }
+    },
+    "dependsOn": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "version"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,63}$" },
+          "type": { "enum": ["skill", "plugin", "wrapper", "mcp"] },
+          "version": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "files": { "const": "files.json" },
+    "toolPrefix": { "type": "string", "pattern": "^[a-z][a-z0-9]{1,11}$" },
+    "components": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "agents": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^agents/[A-Z][A-Za-z0-9]*\\.md$" },
+          "uniqueItems": true
+        },
+        "skills": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^skills/[a-z0-9][a-z0-9-]{0,63}$" },
+          "uniqueItems": true
+        }
+      }
+    },
+    "environments": {
+      "type": "object",
+      "propertyNames": { "pattern": "^[a-z][a-z0-9-]{0,62}$" },
+      "additionalProperties": {
+        "type": "object",
+        "required": ["spec"],
+        "additionalProperties": false,
+        "properties": {
+          "spec": {
+            "type": "string",
+            "pattern": "^environments/[a-z][a-z0-9-]{0,62}/environment\\.yml$"
+          }
+        }
+      }
+    },
+    "connector": {
+      "type": "object",
+      "required": ["transport", "publisher", "category"],
+      "additionalProperties": false,
+      "properties": {
+        "transport": { "enum": ["http", "stdio"] },
+        "publisher": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "category": {
+          "enum": ["生产力", "沟通协作", "设计创作", "健康与生命科学", "科研数据"]
+        },
+        "homepage": { "type": "string", "pattern": "^https://\\S+$" },
+        "url": { "type": "string", "pattern": "^https://\\S+$" },
+        "auth": { "enum": ["none", "oauth", "header"] },
+        "environment": {
+          "type": "string",
+          "pattern": "^(?:phi:[a-z][a-z0-9-]{0,62}@(0|[1-9][0-9]*)|\\./environment\\.yml)$"
+        },
+        "command": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?:[A-Za-z0-9_+.-]+|\\./(?:[A-Za-z0-9_+.-]+/)*[A-Za-z0-9_+.-]+)$"
+        },
+        "args": { "type": "array", "items": { "type": "string" } }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "transport": { "const": "http" } },
+            "required": ["transport"]
+          },
+          "then": {
+            "required": ["url", "auth"],
+            "not": {
+              "anyOf": [
+                { "required": ["environment"] },
+                { "required": ["command"] },
+                { "required": ["args"] }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "transport": { "const": "stdio" } },
+            "required": ["transport"]
+          },
+          "then": {
+            "required": ["environment", "command"],
+            "not": { "anyOf": [{ "required": ["url"] }, { "required": ["auth"] }] }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "type": { "const": "skill" } }, "required": ["type"] },
+      "then": {
+        "not": {
+          "anyOf": [
+            { "required": ["toolPrefix"] },
+            { "required": ["components"] },
+            { "required": ["environments"] },
+            { "required": ["connector"] }
+          ]
+        }
+      }
+    },
+    {
+      "if": { "properties": { "type": { "const": "plugin" } }, "required": ["type"] },
+      "then": {
+        "required": ["toolPrefix", "components"],
+        "not": { "required": ["connector"] }
+      }
+    },
+    {
+      "if": { "properties": { "type": { "const": "wrapper" } }, "required": ["type"] },
+      "then": {
+        "not": {
+          "anyOf": [
+            { "required": ["toolPrefix"] },
+            { "required": ["components"] },
+            { "required": ["environments"] },
+            { "required": ["connector"] }
+          ]
+        }
+      }
+    },
+    {
+      "if": { "properties": { "type": { "const": "mcp" } }, "required": ["type"] },
+      "then": {
+        "required": ["connector"],
+        "not": {
+          "anyOf": [
+            { "required": ["toolPrefix"] },
+            { "required": ["components"] },
+            { "required": ["environments"] }
+          ]
+        }
+      }
+    }
+  ]
+}

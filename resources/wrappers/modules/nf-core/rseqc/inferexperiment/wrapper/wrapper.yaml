@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored rseqc/inferexperiment module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# RSeQC needs a BAM index next to the BAM; this wrapper runs samtools/index
+# first so callers only supply the BAM (composes vendored modules directly,
+# per section 6 of the design doc).
+id: nf-core/modules/rseqc-inferexperiment
+name: RSeQC inferexperiment
+summary: Infer RNA-seq library strandedness from a BAM and a BED12 gene model with RSeQC.
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: Coordinate-sorted BAM file.
+  bed:
+    kind: input
+    type: file
+    required: true
+    description: Gene model in BED12 format used to infer strandedness.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the RSeQC report.
+
+outputs:
+  report:
+    type: directory
+    path: '${outdir}/rseqc_inferexperiment'
+    primary: true

@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored graphtyper/vcfconcatenate module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/graphtyper-vcfconcatenate
+name: "Graphtyper vcf_concatenate"
+summary: "Concatenate VCFs with Graphtyper vcf_concatenate."
+
+params:
+  vcf1:
+    kind: input
+    type: file
+    required: true
+    description: "First VCF (bgzipped)."
+  vcf2:
+    kind: input
+    type: file
+    required: true
+    description: "Second VCF (bgzipped)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/graphtyper_vcfconcatenate'
+    primary: true

@@ -1,0 +1,38 @@
+# Agent-facing wrapper adapter for the vendored bcftools/mpileup module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# The vendored process already pipes mpileup -> call -> view internally, so
+# this one wrapper produces a complete germline VCF from a BAM + reference
+# FASTA — a lightweight alternative to the GATK4 HaplotypeCaller path.
+id: nf-core/modules/bcftools-mpileup
+name: bcftools mpileup + call
+summary: Call germline SNPs/indels from a BAM against a reference FASTA with bcftools mpileup | call | view, plus VCF stats.
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: Coordinate-sorted BAM file.
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: Reference genome FASTA (must match the BAM's reference).
+  save_mpileup:
+    kind: option
+    type: boolean
+    required: false
+    description: Also save the raw bgzipped mpileup output.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the called VCF, its index, and bcftools stats.
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/bcftools_mpileup'
+    primary: true

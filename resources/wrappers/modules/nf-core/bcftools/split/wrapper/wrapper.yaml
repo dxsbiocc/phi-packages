@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored bcftools/split module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bcftools-split
+name: "bcftools split"
+summary: "Split a VCF by sample with bcftools split."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped gVCF/VCF file."
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the VCF."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  split_vcf:
+    type: directory
+    path: '${outdir}/bcftools_split'
+    primary: true

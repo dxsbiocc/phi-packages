@@ -1,0 +1,17 @@
+Description	GeneRatio	p.adjust	Count	ONTOLOGY
+RNA splicing	0.059	3.96e-12	44	BP
+endosomal transport	0.041	3.96e-11	31	BP
+regulation of DNA repair	0.037	1.50e-12	28	BP
+RNA localization	0.036	1.08e-13	27	BP
+stem cell population maintenance	0.033	1.02e-12	25	BP
+nuclear speck	0.056	9.69e-17	42	CC
+chromosomal region	0.046	2.31e-10	35	CC
+ribonucleoprotein granule	0.039	9.43e-13	29	CC
+histone modifying activity	0.064	1.24e-19	48	MF
+ubiquitin-like protein transferase activity	0.063	8.79e-16	47	MF
+transcription coactivator activity	0.047	6.95e-18	35	MF
+Endocytosis	0.072	1.32e-08	54	KEGG
+Ubiquitin mediated proteolysis	0.052	5.25e-09	39	KEGG
+Nucleocytoplasmic transport	0.037	4.57e-06	28	KEGG
+TGF-beta signaling pathway	0.033	1.00e-04	25	KEGG
+Adherens junction	0.029	1.00e-04	22	KEGG

@@ -1,0 +1,17 @@
+flowchart TB
+    subgraph " "
+    v0["bam_ch"]
+    v5["channel.empty"]
+    end
+    v1(["PICARD_MEANQUALITYBYCYCLE"])
+    subgraph " "
+    v2[" "]
+    v3[" "]
+    v4[" "]
+    v6[" "]
+    end
+    v0 --> v1
+    v1 --> v4
+    v1 --> v3
+    v1 --> v2
+    v5 --> v6

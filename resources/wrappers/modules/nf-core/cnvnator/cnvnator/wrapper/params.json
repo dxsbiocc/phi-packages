@@ -1,0 +1,5 @@
+{
+  "bam": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/bam/NA12878.chr21_22.bam",
+  "bai": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/bam/NA12878.chr21_22.bam.bai",
+  "outdir": "results"
+}

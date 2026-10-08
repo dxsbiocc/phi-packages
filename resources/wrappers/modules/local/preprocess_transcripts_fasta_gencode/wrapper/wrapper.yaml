@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored preprocess_transcripts_fasta_gencode
+# module at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: local/modules/preprocess-transcripts-fasta-gencode
+name: Preprocess GENCODE transcripts FASTA
+summary: Strip GENCODE-style pipe-delimited metadata from FASTA headers, keeping only the sequence ID before the first "|".
+
+params:
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: Transcripts FASTA with GENCODE-style headers (optionally gzipped).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the header-fixed FASTA.
+
+outputs:
+  fasta:
+    type: directory
+    path: '${outdir}/preprocess_transcripts_fasta_gencode'
+    primary: true

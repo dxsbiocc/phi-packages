@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored snpeff/snpeff module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# No cache param is exposed — without one, snpEff downloads the requested
+# database from its own server on first run (slower, but needs no
+# pre-staged cache directory or S3 credentials).
+id: nf-core/modules/snpeff-snpeff
+name: snpEff
+summary: Annotate a VCF's variants with predicted functional effects (gene/transcript/consequence) using snpEff.
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: VCF file to annotate.
+  db:
+    kind: option
+    type: string
+    required: false
+    description: snpEff database name (e.g. NC_045512.2 for SARS-CoV-2, GRCh38.99 for human).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the annotated VCF and snpEff's HTML/CSV/genes reports.
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/snpeff'
+    primary: true

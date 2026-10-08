@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored ucsc/liftover module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/ucsc-liftover
+name: UCSC liftOver
+summary: Convert BED coordinates between genome assemblies with UCSC liftOver.
+
+params:
+  bed:
+    kind: input
+    type: file
+    required: true
+    description: BED file with coordinates in the source assembly.
+  chain:
+    kind: input
+    type: file
+    required: true
+    description: Chain file describing the source-to-target assembly mapping.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the lifted and unlifted BED files.
+
+outputs:
+  lifted:
+    type: directory
+    path: '${outdir}/ucsc_liftover'
+    primary: true

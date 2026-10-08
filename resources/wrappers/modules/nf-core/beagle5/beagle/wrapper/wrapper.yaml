@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored beagle5/beagle module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/beagle5-beagle
+name: "Beagle"
+summary: "Phase and impute genotypes with Beagle 5."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Genotype VCF (bgzipped)."
+  csi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.csi) for the VCF."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/beagle5_beagle'
+    primary: true

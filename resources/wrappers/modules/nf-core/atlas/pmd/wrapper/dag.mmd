@@ -1,0 +1,25 @@
+flowchart TB
+    subgraph " "
+    v0["bam_ch"]
+    v1["fasta"]
+    v2["fai"]
+    v9["channel.empty"]
+    end
+    v3(["ATLAS_PMD"])
+    subgraph " "
+    v4[" "]
+    v5[" "]
+    v6[" "]
+    v7[" "]
+    v8[" "]
+    v10[" "]
+    end
+    v0 --> v3
+    v1 --> v3
+    v2 --> v3
+    v3 --> v8
+    v3 --> v7
+    v3 --> v6
+    v3 --> v5
+    v3 --> v4
+    v9 --> v10

@@ -1,0 +1,705 @@
+cancer	cell	rho	p
+ACC	B cells memory	0.476	0.005
+BLCA	B cells memory	0.566	0.009
+BRCA	B cells memory	0.59	0.013
+CESC	B cells memory	0.544	0.017
+CHOL	B cells memory	0.433	0.021
+CRC	B cells memory	0.273	0.025
+DLBC	B cells memory	0.085	0.26
+ESCA	B cells memory	-0.102	0.28
+GBM	B cells memory	-0.264	0.001
+HNSC	B cells memory	-0.378	0.005
+KICH	B cells memory	-0.431	0.009
+KIRC	B cells memory	-0.42	0.013
+KIRP	B cells memory	-0.351	0.017
+LAML	B cells memory	-0.241	0.021
+LGG	B cells memory	-0.112	0.18
+LIHC	B cells memory	0.012	0.2
+LUAD	B cells memory	0.107	0.22
+LUSC	B cells memory	0.156	0.24
+MESO	B cells memory	0.151	0.26
+OV	B cells memory	0.093	0.28
+PAAD	B cells memory	-0.007	0.3
+PCPG	B cells memory	-0.13	0.08
+PRAD	B cells memory	-0.251	0.021
+SARC	B cells memory	-0.348	0.025
+SKCM	B cells memory	-0.398	0.029
+STAD	B cells memory	-0.389	0.033
+TGCT	B cells memory	-0.317	0.001
+THCA	B cells memory	-0.188	0.2
+THYM	B cells memory	-0.018	0.22
+UCEC	B cells memory	0.169	0.24
+UCS	B cells memory	0.347	0.017
+UVM	B cells memory	0.49	0.021
+ACC	B cells naive	0.54	0.009
+BLCA	B cells naive	0.596	0.017
+BRCA	B cells naive	0.581	0.025
+CESC	B cells naive	0.498	0.033
+CHOL	B cells naive	0.361	0.005
+CRC	B cells naive	0.19	0.28
+DLBC	B cells naive	0.011	0.3
+ESCA	B cells naive	-0.15	0.08
+GBM	B cells naive	-0.269	0.001
+HNSC	B cells naive	-0.334	0.009
+KICH	B cells naive	-0.336	0.017
+KIRC	B cells naive	-0.283	0.025
+KIRP	B cells naive	-0.187	0.18
+LAML	B cells naive	-0.071	0.2
+LGG	B cells naive	0.043	0.22
+LIHC	B cells naive	0.13	0.24
+LUAD	B cells naive	0.173	0.26
+LUSC	B cells naive	0.161	0.28
+MESO	B cells naive	0.095	0.3
+OV	B cells naive	-0.015	0.08
+PAAD	B cells naive	-0.151	0.1
+PCPG	B cells naive	-0.289	0.033
+PRAD	B cells naive	-0.404	0.005
+SARC	B cells naive	-0.475	0.013
+SKCM	B cells naive	-0.485	0.021
+STAD	B cells naive	-0.428	0.029
+TGCT	B cells naive	-0.309	0.001
+THCA	B cells naive	-0.142	0.24
+THYM	B cells naive	0.05	0.26
+UCEC	B cells naive	0.241	0.025
+UCS	B cells naive	0.405	0.033
+UVM	B cells naive	0.518	0.005
+ACC	Dendritic cells activated	0.554	0.013
+BLCA	Dendritic cells activated	0.569	0.025
+BRCA	Dendritic cells activated	0.516	0.001
+CESC	Dendritic cells activated	0.406	0.013
+CHOL	Dendritic cells activated	0.256	0.025
+CRC	Dendritic cells activated	0.093	0.08
+DLBC	Dendritic cells activated	-0.059	0.1
+ESCA	Dendritic cells activated	-0.177	0.12
+GBM	Dendritic cells activated	-0.243	0.001
+HNSC	Dendritic cells activated	-0.251	0.013
+KICH	Dendritic cells activated	-0.205	0.18
+KIRC	Dendritic cells activated	-0.116	0.2
+KIRP	Dendritic cells activated	-0.006	0.22
+LAML	Dendritic cells activated	0.104	0.24
+LGG	Dendritic cells activated	0.188	0.26
+LIHC	Dendritic cells activated	0.228	0.013
+LUAD	Dendritic cells activated	0.213	0.3
+LUSC	Dendritic cells activated	0.141	0.08
+MESO	Dendritic cells activated	0.021	0.1
+OV	Dendritic cells activated	-0.129	0.12
+PAAD	Dendritic cells activated	-0.286	0.001
+PCPG	Dendritic cells activated	-0.424	0.013
+PRAD	Dendritic cells activated	-0.52	0.025
+SARC	Dendritic cells activated	-0.555	0.001
+SKCM	Dendritic cells activated	-0.522	0.013
+STAD	Dendritic cells activated	-0.422	0.025
+TGCT	Dendritic cells activated	-0.268	0.001
+THCA	Dendritic cells activated	-0.081	0.28
+THYM	Dendritic cells activated	0.115	0.3
+UCEC	Dendritic cells activated	0.29	0.001
+UCS	Dendritic cells activated	0.423	0.013
+UVM	Dendritic cells activated	0.496	0.025
+ACC	Dendritic cells resting	0.514	0.017
+BLCA	Dendritic cells resting	0.488	0.033
+BRCA	Dendritic cells resting	0.404	0.013
+CESC	Dendritic cells resting	0.277	0.029
+CHOL	Dendritic cells resting	0.132	0.1
+CRC	Dendritic cells resting	-0.007	0.12
+DLBC	Dendritic cells resting	-0.116	0.14
+ESCA	Dendritic cells resting	-0.179	0.16
+GBM	Dendritic cells resting	-0.186	0.18
+HNSC	Dendritic cells resting	-0.139	0.2
+KICH	Dendritic cells resting	-0.049	0.22
+KIRC	Dendritic cells resting	0.063	0.24
+KIRP	Dendritic cells resting	0.176	0.26
+LAML	Dendritic cells resting	0.264	0.009
+LGG	Dendritic cells resting	0.309	0.025
+LIHC	Dendritic cells resting	0.296	0.005
+LUAD	Dendritic cells resting	0.224	0.021
+LUSC	Dendritic cells resting	0.099	0.12
+MESO	Dendritic cells resting	-0.062	0.14
+OV	Dendritic cells resting	-0.237	0.033
+PAAD	Dendritic cells resting	-0.398	0.013
+PCPG	Dendritic cells resting	-0.521	0.029
+PRAD	Dendritic cells resting	-0.586	0.009
+SARC	Dendritic cells resting	-0.582	0.025
+SKCM	Dendritic cells resting	-0.509	0.005
+STAD	Dendritic cells resting	-0.376	0.021
+TGCT	Dendritic cells resting	-0.202	0.3
+THCA	Dendritic cells resting	-0.012	0.08
+THYM	Dendritic cells resting	0.167	0.1
+UCEC	Dendritic cells resting	0.31	0.013
+UCS	Dendritic cells resting	0.399	0.029
+UVM	Dendritic cells resting	0.425	0.009
+ACC	Eosinophils	0.423	0.021
+BLCA	Eosinophils	0.361	0.005
+BRCA	Eosinophils	0.255	0.025
+CESC	Eosinophils	0.127	0.12
+CHOL	Eosinophils	0.001	0.14
+CRC	Eosinophils	-0.098	0.16
+DLBC	Eosinophils	-0.153	0.18
+ESCA	Eosinophils	-0.154	0.2
+GBM	Eosinophils	-0.102	0.22
+HNSC	Eosinophils	-0.006	0.24
+KICH	Eosinophils	0.116	0.26
+KIRC	Eosinophils	0.239	0.025
+KIRP	Eosinophils	0.34	0.009
+LAML	Eosinophils	0.397	0.029
+LGG	Eosinophils	0.395	0.013
+LIHC	Eosinophils	0.33	0.033
+LUAD	Eosinophils	0.207	0.14
+LUSC	Eosinophils	0.041	0.16
+MESO	Eosinophils	-0.146	0.18
+OV	Eosinophils	-0.326	0.005
+PAAD	Eosinophils	-0.475	0.025
+PCPG	Eosinophils	-0.569	0.009
+PRAD	Eosinophils	-0.597	0.029
+SARC	Eosinophils	-0.554	0.013
+SKCM	Eosinophils	-0.448	0.033
+STAD	Eosinophils	-0.295	0.017
+TGCT	Eosinophils	-0.119	0.1
+THCA	Eosinophils	0.054	0.12
+THYM	Eosinophils	0.199	0.14
+UCEC	Eosinophils	0.295	0.025
+UCS	Eosinophils	0.333	0.009
+UVM	Eosinophils	0.31	0.029
+ACC	Macrophages M0	0.29	0.025
+BLCA	Macrophages M0	0.199	0.12
+BRCA	Macrophages M0	0.083	0.14
+CESC	Macrophages M0	-0.031	0.16
+CHOL	Macrophages M0	-0.122	0.18
+CRC	Macrophages M0	-0.171	0.2
+DLBC	Macrophages M0	-0.166	0.22
+ESCA	Macrophages M0	-0.106	0.24
+GBM	Macrophages M0	0	0.26
+HNSC	Macrophages M0	0.135	0.28
+KICH	Macrophages M0	0.274	0.013
+KIRC	Macrophages M0	0.394	0.001
+KIRP	Macrophages M0	0.47	0.025
+LAML	Macrophages M0	0.488	0.013
+LGG	Macrophages M0	0.439	0.001
+LIHC	Macrophages M0	0.327	0.025
+LUAD	Macrophages M0	0.165	0.18
+LUSC	Macrophages M0	-0.025	0.2
+MESO	Macrophages M0	-0.218	0.22
+OV	Macrophages M0	-0.386	0.013
+PAAD	Macrophages M0	-0.507	0.001
+PCPG	Macrophages M0	-0.564	0.025
+PRAD	Macrophages M0	-0.551	0.013
+SARC	Macrophages M0	-0.474	0.001
+SKCM	Macrophages M0	-0.345	0.025
+STAD	Macrophages M0	-0.189	0.12
+TGCT	Macrophages M0	-0.029	0.14
+THCA	Macrophages M0	0.11	0.16
+THYM	Macrophages M0	0.205	0.18
+UCEC	Macrophages M0	0.246	0.001
+UCS	Macrophages M0	0.229	0.025
+UVM	Macrophages M0	0.162	0.24
+ACC	Macrophages M1	0.127	0.14
+BLCA	Macrophages M1	0.018	0.16
+BRCA	Macrophages M1	-0.093	0.18
+CESC	Macrophages M1	-0.181	0.2
+CHOL	Macrophages M1	-0.227	0.033
+CRC	Macrophages M1	-0.218	0.24
+DLBC	Macrophages M1	-0.153	0.26
+ESCA	Macrophages M1	-0.038	0.28
+GBM	Macrophages M1	0.11	0.3
+HNSC	Macrophages M1	0.268	0.029
+KICH	Macrophages M1	0.41	0.021
+KIRC	Macrophages M1	0.512	0.013
+KIRP	Macrophages M1	0.555	0.005
+LAML	Macrophages M1	0.531	0.033
+LGG	Macrophages M1	0.439	0.025
+LIHC	Macrophages M1	0.29	0.017
+LUAD	Macrophages M1	0.105	0.22
+LUSC	Macrophages M1	-0.091	0.24
+MESO	Macrophages M1	-0.27	0.029
+OV	Macrophages M1	-0.409	0.021
+PAAD	Macrophages M1	-0.49	0.013
+PCPG	Macrophages M1	-0.504	0.005
+PRAD	Macrophages M1	-0.453	0.033
+SARC	Macrophages M1	-0.35	0.025
+SKCM	Macrophages M1	-0.214	0.14
+STAD	Macrophages M1	-0.07	0.16
+TGCT	Macrophages M1	0.057	0.18
+THCA	Macrophages M1	0.146	0.2
+THYM	Macrophages M1	0.184	0.22
+UCEC	Macrophages M1	0.166	0.24
+UCS	Macrophages M1	0.097	0.26
+UVM	Macrophages M1	-0.005	0.28
+ACC	Macrophages M2	-0.051	0.18
+BLCA	Macrophages M2	-0.165	0.2
+BRCA	Macrophages M2	-0.257	0.025
+CESC	Macrophages M2	-0.308	0.021
+CHOL	Macrophages M2	-0.302	0.017
+CRC	Macrophages M2	-0.237	0.013
+DLBC	Macrophages M2	-0.117	0.3
+ESCA	Macrophages M2	0.041	0.08
+GBM	Macrophages M2	0.216	0.1
+HNSC	Macrophages M2	0.38	0.033
+KICH	Macrophages M2	0.509	0.029
+KIRC	Macrophages M2	0.582	0.025
+KIRP	Macrophages M2	0.587	0.021
+LAML	Macrophages M2	0.522	0.017
+LGG	Macrophages M2	0.395	0.013
+LIHC	Macrophages M2	0.225	0.009
+LUAD	Macrophages M2	0.036	0.26
+LUSC	Macrophages M2	-0.146	0.28
+MESO	Macrophages M2	-0.294	0.033
+OV	Macrophages M2	-0.391	0.029
+PAAD	Macrophages M2	-0.424	0.025
+PCPG	Macrophages M2	-0.395	0.021
+PRAD	Macrophages M2	-0.312	0.017
+SARC	Macrophages M2	-0.195	0.16
+SKCM	Macrophages M2	-0.067	0.18
+STAD	Macrophages M2	0.049	0.2
+TGCT	Macrophages M2	0.129	0.22
+THCA	Macrophages M2	0.16	0.24
+THYM	Macrophages M2	0.136	0.26
+UCEC	Macrophages M2	0.061	0.28
+UCS	Macrophages M2	-0.05	0.3
+UVM	Macrophages M2	-0.176	0.08
+ACC	Mast cells activated	-0.226	0.001
+BLCA	Mast cells activated	-0.331	0.001
+BRCA	Mast cells activated	-0.394	0.001
+CESC	Mast cells activated	-0.4	0.001
+CHOL	Mast cells activated	-0.342	0.001
+CRC	Mast cells activated	-0.225	0.001
+DLBC	Mast cells activated	-0.063	0.1
+ESCA	Mast cells activated	0.122	0.12
+GBM	Mast cells activated	0.305	0.001
+HNSC	Mast cells activated	0.459	0.001
+KICH	Mast cells activated	0.561	0.001
+KIRC	Mast cells activated	0.597	0.001
+KIRP	Mast cells activated	0.563	0.001
+LAML	Mast cells activated	0.463	0.001
+LGG	Mast cells activated	0.315	0.001
+LIHC	Mast cells activated	0.14	0.28
+LUAD	Mast cells activated	-0.034	0.3
+LUSC	Mast cells activated	-0.183	0.08
+MESO	Mast cells activated	-0.286	0.001
+OV	Mast cells activated	-0.33	0.001
+PAAD	Mast cells activated	-0.315	0.001
+PCPG	Mast cells activated	-0.246	0.001
+PRAD	Mast cells activated	-0.142	0.18
+SARC	Mast cells activated	-0.025	0.2
+SKCM	Mast cells activated	0.081	0.22
+STAD	Mast cells activated	0.155	0.24
+TGCT	Mast cells activated	0.179	0.26
+THCA	Mast cells activated	0.148	0.28
+THYM	Mast cells activated	0.065	0.3
+UCEC	Mast cells activated	-0.057	0.08
+UCS	Mast cells activated	-0.198	0.1
+UVM	Mast cells activated	-0.334	0.001
+ACC	Mast cells resting	-0.382	0.005
+BLCA	Mast cells resting	-0.465	0.009
+BRCA	Mast cells resting	-0.49	0.013
+CESC	Mast cells resting	-0.45	0.017
+CHOL	Mast cells resting	-0.345	0.021
+CRC	Mast cells resting	-0.187	0.12
+DLBC	Mast cells resting	0.001	0.14
+ESCA	Mast cells resting	0.195	0.16
+GBM	Mast cells resting	0.367	0.001
+HNSC	Mast cells resting	0.495	0.005
+KICH	Mast cells resting	0.56	0.009
+KIRC	Mast cells resting	0.556	0.013
+KIRP	Mast cells resting	0.485	0.017
+LAML	Mast cells resting	0.362	0.021
+LGG	Mast cells resting	0.208	0.3
+LIHC	Mast cells resting	0.047	0.08
+LUAD	Mast cells resting	-0.094	0.1
+LUSC	Mast cells resting	-0.196	0.12
+MESO	Mast cells resting	-0.243	0.005
+OV	Mast cells resting	-0.233	0.009
+PAAD	Mast cells resting	-0.171	0.18
+PCPG	Mast cells resting	-0.073	0.2
+PRAD	Mast cells resting	0.04	0.22
+SARC	Mast cells resting	0.143	0.24
+SKCM	Mast cells resting	0.215	0.26
+STAD	Mast cells resting	0.238	0.033
+TGCT	Mast cells resting	0.203	0.3
+THCA	Mast cells resting	0.113	0.08
+THYM	Mast cells resting	-0.02	0.1
+UCEC	Mast cells resting	-0.177	0.12
+UCS	Mast cells resting	-0.333	0.017
+UVM	Mast cells resting	-0.462	0.021
+ACC	Monocytes	-0.503	0.009
+BLCA	Monocytes	-0.554	0.017
+BRCA	Monocytes	-0.538	0.025
+CESC	Monocytes	-0.454	0.033
+CHOL	Monocytes	-0.311	0.005
+CRC	Monocytes	-0.129	0.16
+DLBC	Monocytes	0.067	0.18
+ESCA	Monocytes	0.249	0.029
+GBM	Monocytes	0.394	0.001
+HNSC	Monocytes	0.483	0.009
+KICH	Monocytes	0.505	0.017
+KIRC	Monocytes	0.461	0.025
+KIRP	Monocytes	0.363	0.033
+LAML	Monocytes	0.23	0.005
+LGG	Monocytes	0.086	0.1
+LIHC	Monocytes	-0.044	0.12
+LUAD	Monocytes	-0.138	0.14
+LUSC	Monocytes	-0.182	0.16
+MESO	Monocytes	-0.17	0.18
+OV	Monocytes	-0.107	0.2
+PAAD	Monocytes	-0.007	0.22
+PCPG	Monocytes	0.109	0.24
+PRAD	Monocytes	0.217	0.26
+SARC	Monocytes	0.294	0.013
+SKCM	Monocytes	0.322	0.021
+STAD	Monocytes	0.29	0.029
+TGCT	Monocytes	0.199	0.1
+THCA	Monocytes	0.059	0.12
+THYM	Monocytes	-0.11	0.14
+UCEC	Monocytes	-0.285	0.025
+UCS	Monocytes	-0.439	0.033
+UVM	Monocytes	-0.548	0.005
+ACC	Neutrophils	-0.577	0.013
+BLCA	Neutrophils	-0.59	0.025
+BRCA	Neutrophils	-0.533	0.001
+CESC	Neutrophils	-0.413	0.013
+CHOL	Neutrophils	-0.247	0.025
+CRC	Neutrophils	-0.059	0.2
+DLBC	Neutrophils	0.124	0.22
+ESCA	Neutrophils	0.278	0.025
+GBM	Neutrophils	0.381	0.001
+HNSC	Neutrophils	0.422	0.013
+KICH	Neutrophils	0.4	0.025
+KIRC	Neutrophils	0.323	0.001
+KIRP	Neutrophils	0.209	0.1
+LAML	Neutrophils	0.081	0.12
+LGG	Neutrophils	-0.037	0.14
+LIHC	Neutrophils	-0.122	0.16
+LUAD	Neutrophils	-0.159	0.18
+LUSC	Neutrophils	-0.141	0.2
+MESO	Neutrophils	-0.072	0.22
+OV	Neutrophils	0.036	0.24
+PAAD	Neutrophils	0.162	0.26
+PCPG	Neutrophils	0.282	0.013
+PRAD	Neutrophils	0.373	0.025
+SARC	Neutrophils	0.413	0.001
+SKCM	Neutrophils	0.392	0.013
+STAD	Neutrophils	0.308	0.025
+TGCT	Neutrophils	0.169	0.14
+THCA	Neutrophils	-0.007	0.16
+THYM	Neutrophils	-0.195	0.18
+UCEC	Neutrophils	-0.37	0.001
+UCS	Neutrophils	-0.506	0.013
+UVM	Neutrophils	-0.583	0.025
+ACC	NK cells activated	-0.596	0.017
+BLCA	NK cells activated	-0.57	0.033
+BRCA	NK cells activated	-0.478	0.013
+CESC	NK cells activated	-0.335	0.029
+CHOL	NK cells activated	-0.162	0.22
+CRC	NK cells activated	0.013	0.24
+DLBC	NK cells activated	0.166	0.26
+ESCA	NK cells activated	0.275	0.021
+GBM	NK cells activated	0.327	0.001
+HNSC	NK cells activated	0.318	0.017
+KICH	NK cells activated	0.255	0.033
+KIRC	NK cells activated	0.155	0.12
+KIRP	NK cells activated	0.038	0.14
+LAML	NK cells activated	-0.071	0.16
+LGG	NK cells activated	-0.149	0.18
+LIHC	NK cells activated	-0.18	0.2
+LUAD	NK cells activated	-0.155	0.22
+LUSC	NK cells activated	-0.078	0.24
+MESO	NK cells activated	0.041	0.26
+OV	NK cells activated	0.182	0.28
+PAAD	NK cells activated	0.32	0.013
+PCPG	NK cells activated	0.43	0.029
+PRAD	NK cells activated	0.491	0.009
+SARC	NK cells activated	0.489	0.025
+SKCM	NK cells activated	0.421	0.005
+STAD	NK cells activated	0.292	0.021
+TGCT	NK cells activated	0.119	0.18
+THCA	NK cells activated	-0.076	0.2
+THYM	NK cells activated	-0.264	0.033
+UCEC	NK cells activated	-0.421	0.013
+UCS	NK cells activated	-0.525	0.029
+UVM	NK cells activated	-0.562	0.009
+ACC	NK cells resting	-0.559	0.021
+BLCA	NK cells resting	-0.496	0.005
+BRCA	NK cells resting	-0.379	0.025
+CESC	NK cells resting	-0.227	0.009
+CHOL	NK cells resting	-0.066	0.26
+CRC	NK cells resting	0.079	0.28
+DLBC	NK cells resting	0.186	0.3
+ESCA	NK cells resting	0.24	0.017
+GBM	NK cells resting	0.236	0.001
+HNSC	NK cells resting	0.179	0.12
+KICH	NK cells resting	0.084	0.14
+KIRC	NK cells resting	-0.028	0.16
+KIRP	NK cells resting	-0.134	0.18
+LAML	NK cells resting	-0.21	0.2
+LGG	NK cells resting	-0.239	0.013
+LIHC	NK cells resting	-0.211	0.24
+LUAD	NK cells resting	-0.127	0.26
+LUSC	NK cells resting	0.002	0.28
+MESO	NK cells resting	0.158	0.3
+OV	NK cells resting	0.315	0.005
+PAAD	NK cells resting	0.449	0.025
+PCPG	NK cells resting	0.537	0.009
+PRAD	NK cells resting	0.561	0.029
+SARC	NK cells resting	0.517	0.013
+SKCM	NK cells resting	0.407	0.033
+STAD	NK cells resting	0.246	0.017
+TGCT	NK cells resting	0.055	0.22
+THCA	NK cells resting	-0.138	0.24
+THYM	NK cells resting	-0.308	0.005
+UCEC	NK cells resting	-0.431	0.025
+UCS	NK cells resting	-0.492	0.009
+UVM	NK cells resting	-0.487	0.029
+ACC	Plasma cells	-0.469	0.025
+BLCA	Plasma cells	-0.377	0.013
+BRCA	Plasma cells	-0.247	0.001
+CESC	Plasma cells	-0.103	0.28
+CHOL	Plasma cells	0.03	0.3
+CRC	Plasma cells	0.129	0.08
+DLBC	Plasma cells	0.179	0.1
+ESCA	Plasma cells	0.173	0.12
+GBM	Plasma cells	0.116	0.14
+HNSC	Plasma cells	0.019	0.16
+KICH	Plasma cells	-0.097	0.18
+KIRC	Plasma cells	-0.207	0.2
+KIRP	Plasma cells	-0.289	0.025
+LAML	Plasma cells	-0.323	0.013
+LGG	Plasma cells	-0.298	0.001
+LIHC	Plasma cells	-0.214	0.28
+LUAD	Plasma cells	-0.079	0.3
+LUSC	Plasma cells	0.089	0.08
+MESO	Plasma cells	0.265	0.025
+OV	Plasma cells	0.423	0.013
+PAAD	Plasma cells	0.538	0.001
+PCPG	Plasma cells	0.593	0.025
+PRAD	Plasma cells	0.578	0.013
+SARC	Plasma cells	0.494	0.001
+SKCM	Plasma cells	0.353	0.025
+STAD	Plasma cells	0.176	0.24
+TGCT	Plasma cells	-0.013	0.26
+THCA	Plasma cells	-0.186	0.28
+THYM	Plasma cells	-0.32	0.013
+UCEC	Plasma cells	-0.397	0.001
+UCS	Plasma cells	-0.411	0.025
+UVM	Plasma cells	-0.365	0.013
+ACC	T cells CD4 memory activated	-0.333	0.029
+BLCA	T cells CD4 memory activated	-0.223	0.021
+BRCA	T cells CD4 memory activated	-0.095	0.3
+CESC	T cells CD4 memory activated	0.025	0.08
+CHOL	T cells CD4 memory activated	0.115	0.1
+CRC	T cells CD4 memory activated	0.158	0.12
+DLBC	T cells CD4 memory activated	0.146	0.14
+ESCA	T cells CD4 memory activated	0.082	0.16
+GBM	T cells CD4 memory activated	-0.023	0.18
+HNSC	T cells CD4 memory activated	-0.148	0.2
+KICH	T cells CD4 memory activated	-0.27	0.021
+KIRC	T cells CD4 memory activated	-0.365	0.013
+KIRP	T cells CD4 memory activated	-0.413	0.005
+LAML	T cells CD4 memory activated	-0.399	0.033
+LGG	T cells CD4 memory activated	-0.323	0.025
+LIHC	T cells CD4 memory activated	-0.189	0.08
+LUAD	T cells CD4 memory activated	-0.016	0.1
+LUSC	T cells CD4 memory activated	0.172	0.12
+MESO	T cells CD4 memory activated	0.35	0.029
+OV	T cells CD4 memory activated	0.492	0.021
+PAAD	T cells CD4 memory activated	0.577	0.013
+PCPG	T cells CD4 memory activated	0.593	0.005
+PRAD	T cells CD4 memory activated	0.539	0.033
+SARC	T cells CD4 memory activated	0.424	0.025
+SKCM	T cells CD4 memory activated	0.267	0.017
+STAD	T cells CD4 memory activated	0.092	0.28
+TGCT	T cells CD4 memory activated	-0.076	0.3
+THCA	T cells CD4 memory activated	-0.211	0.08
+THYM	T cells CD4 memory activated	-0.296	0.021
+UCEC	T cells CD4 memory activated	-0.321	0.013
+UCS	T cells CD4 memory activated	-0.288	0.005
+UVM	T cells CD4 memory activated	-0.207	0.16
+ACC	T cells CD4 memory resting	-0.166	0.3
+BLCA	T cells CD4 memory resting	-0.05	0.08
+BRCA	T cells CD4 memory resting	0.06	0.1
+CESC	T cells CD4 memory resting	0.143	0.12
+CHOL	T cells CD4 memory resting	0.18	0.14
+CRC	T cells CD4 memory resting	0.162	0.16
+DLBC	T cells CD4 memory resting	0.089	0.18
+ESCA	T cells CD4 memory resting	-0.026	0.2
+GBM	T cells CD4 memory resting	-0.165	0.22
+HNSC	T cells CD4 memory resting	-0.305	0.033
+KICH	T cells CD4 memory resting	-0.42	0.029
+KIRC	T cells CD4 memory resting	-0.488	0.025
+KIRP	T cells CD4 memory resting	-0.494	0.021
+LAML	T cells CD4 memory resting	-0.434	0.017
+LGG	T cells CD4 memory resting	-0.311	0.013
+LIHC	T cells CD4 memory resting	-0.142	0.12
+LUAD	T cells CD4 memory resting	0.051	0.14
+LUSC	T cells CD4 memory resting	0.242	0.001
+MESO	T cells CD4 memory resting	0.404	0.033
+OV	T cells CD4 memory resting	0.515	0.029
+PAAD	T cells CD4 memory resting	0.56	0.025
+PCPG	T cells CD4 memory resting	0.537	0.021
+PRAD	T cells CD4 memory resting	0.45	0.017
+SARC	T cells CD4 memory resting	0.317	0.013
+SKCM	T cells CD4 memory resting	0.16	0.3
+STAD	T cells CD4 memory resting	0.004	0.08
+TGCT	T cells CD4 memory resting	-0.125	0.1
+THCA	T cells CD4 memory resting	-0.209	0.12
+THYM	T cells CD4 memory resting	-0.237	0.029
+UCEC	T cells CD4 memory resting	-0.209	0.16
+UCS	T cells CD4 memory resting	-0.133	0.18
+UVM	T cells CD4 memory resting	-0.028	0.2
+ACC	T cells CD4 naive	0.016	0.1
+BLCA	T cells CD4 naive	0.124	0.12
+BRCA	T cells CD4 naive	0.204	0.14
+CESC	T cells CD4 naive	0.239	0.001
+CHOL	T cells CD4 naive	0.218	0.18
+CRC	T cells CD4 naive	0.141	0.2
+DLBC	T cells CD4 naive	0.016	0.22
+ESCA	T cells CD4 naive	-0.138	0.24
+GBM	T cells CD4 naive	-0.297	0.001
+HNSC	T cells CD4 naive	-0.436	0.001
+KICH	T cells CD4 naive	-0.53	0.001
+KIRC	T cells CD4 naive	-0.563	0.001
+KIRP	T cells CD4 naive	-0.527	0.001
+LAML	T cells CD4 naive	-0.424	0.001
+LGG	T cells CD4 naive	-0.268	0.001
+LIHC	T cells CD4 naive	-0.079	0.16
+LUAD	T cells CD4 naive	0.115	0.18
+LUSC	T cells CD4 naive	0.289	0.001
+MESO	T cells CD4 naive	0.418	0.001
+OV	T cells CD4 naive	0.488	0.001
+PAAD	T cells CD4 naive	0.49	0.001
+PCPG	T cells CD4 naive	0.43	0.001
+PRAD	T cells CD4 naive	0.32	0.001
+SARC	T cells CD4 naive	0.183	0.08
+SKCM	T cells CD4 naive	0.043	0.1
+STAD	T cells CD4 naive	-0.076	0.12
+TGCT	T cells CD4 naive	-0.154	0.14
+THCA	T cells CD4 naive	-0.179	0.16
+THYM	T cells CD4 naive	-0.149	0.18
+UCEC	T cells CD4 naive	-0.071	0.2
+UCS	T cells CD4 naive	0.038	0.22
+UVM	T cells CD4 naive	0.155	0.24
+ACC	T cells CD8	0.197	0.14
+BLCA	T cells CD8	0.283	0.009
+BRCA	T cells CD8	0.323	0.013
+CESC	T cells CD8	0.306	0.017
+CHOL	T cells CD8	0.228	0.021
+CRC	T cells CD8	0.098	0.24
+DLBC	T cells CD8	-0.067	0.26
+ESCA	T cells CD8	-0.244	0.033
+GBM	T cells CD8	-0.405	0.001
+HNSC	T cells CD8	-0.527	0.005
+KICH	T cells CD8	-0.59	0.009
+KIRC	T cells CD8	-0.584	0.013
+KIRP	T cells CD8	-0.508	0.017
+LAML	T cells CD8	-0.373	0.021
+LGG	T cells CD8	-0.199	0.18
+LIHC	T cells CD8	-0.01	0.2
+LUAD	T cells CD8	0.166	0.22
+LUSC	T cells CD8	0.305	0.001
+MESO	T cells CD8	0.39	0.005
+OV	T cells CD8	0.412	0.009
+PAAD	T cells CD8	0.372	0.013
+PCPG	T cells CD8	0.282	0.017
+PRAD	T cells CD8	0.162	0.1
+SARC	T cells CD8	0.037	0.12
+SKCM	T cells CD8	-0.071	0.14
+STAD	T cells CD8	-0.141	0.16
+TGCT	T cells CD8	-0.159	0.18
+THCA	T cells CD8	-0.123	0.2
+THYM	T cells CD8	-0.037	0.22
+UCEC	T cells CD8	0.08	0.24
+UCS	T cells CD8	0.209	0.26
+UVM	T cells CD8	0.323	0.021
+ACC	T cells follicular helper	0.358	0.009
+BLCA	T cells follicular helper	0.411	0.017
+BRCA	T cells follicular helper	0.406	0.025
+CESC	T cells follicular helper	0.336	0.033
+CHOL	T cells follicular helper	0.209	0.26
+CRC	T cells follicular helper	0.039	0.28
+DLBC	T cells follicular helper	-0.149	0.3
+ESCA	T cells follicular helper	-0.33	0.029
+GBM	T cells follicular helper	-0.477	0.001
+HNSC	T cells follicular helper	-0.57	0.009
+KICH	T cells follicular helper	-0.594	0.017
+KIRC	T cells follicular helper	-0.549	0.025
+KIRP	T cells follicular helper	-0.441	0.033
+LAML	T cells follicular helper	-0.288	0.005
+LGG	T cells follicular helper	-0.113	0.22
+LIHC	T cells follicular helper	0.056	0.24
+LUAD	T cells follicular helper	0.196	0.26
+LUSC	T cells follicular helper	0.288	0.001
+MESO	T cells follicular helper	0.32	0.009
+OV	T cells follicular helper	0.293	0.017
+PAAD	T cells follicular helper	0.217	0.1
+PCPG	T cells follicular helper	0.109	0.12
+PRAD	T cells follicular helper	-0.007	0.14
+SARC	T cells follicular helper	-0.107	0.16
+SKCM	T cells follicular helper	-0.17	0.18
+STAD	T cells follicular helper	-0.183	0.2
+TGCT	T cells follicular helper	-0.139	0.22
+THCA	T cells follicular helper	-0.045	0.24
+THYM	T cells follicular helper	0.085	0.26
+UCEC	T cells follicular helper	0.229	0.025
+UCS	T cells follicular helper	0.363	0.033
+UVM	T cells follicular helper	0.462	0.005
+ACC	T cells gamma delta	0.484	0.013
+BLCA	T cells gamma delta	0.498	0.025
+BRCA	T cells gamma delta	0.446	0.001
+CESC	T cells gamma delta	0.33	0.013
+CHOL	T cells gamma delta	0.165	0.3
+CRC	T cells gamma delta	-0.027	0.08
+DLBC	T cells gamma delta	-0.219	0.1
+ESCA	T cells gamma delta	-0.386	0.025
+GBM	T cells gamma delta	-0.504	0.001
+HNSC	T cells gamma delta	-0.558	0.013
+KICH	T cells gamma delta	-0.542	0.025
+KIRC	T cells gamma delta	-0.463	0.001
+KIRP	T cells gamma delta	-0.334	0.013
+LAML	T cells gamma delta	-0.179	0.24
+LGG	T cells gamma delta	-0.022	0.26
+LIHC	T cells gamma delta	0.111	0.28
+LUAD	T cells gamma delta	0.201	0.3
+LUSC	T cells gamma delta	0.236	0.001
+MESO	T cells gamma delta	0.214	0.1
+OV	T cells gamma delta	0.143	0.12
+PAAD	T cells gamma delta	0.04	0.14
+PCPG	T cells gamma delta	-0.073	0.16
+PRAD	T cells gamma delta	-0.172	0.18
+SARC	T cells gamma delta	-0.234	0.001
+SKCM	T cells gamma delta	-0.245	0.013
+STAD	T cells gamma delta	-0.198	0.24
+TGCT	T cells gamma delta	-0.097	0.26
+THCA	T cells gamma delta	0.045	0.28
+THYM	T cells gamma delta	0.206	0.3
+UCEC	T cells gamma delta	0.361	0.001
+UCS	T cells gamma delta	0.485	0.013
+UVM	T cells gamma delta	0.556	0.025
+ACC	T cells regulatory Tregs	0.563	0.017
+BLCA	T cells regulatory Tregs	0.535	0.033
+BRCA	T cells regulatory Tregs	0.44	0.013
+CESC	T cells regulatory Tregs	0.29	0.029
+CHOL	T cells regulatory Tregs	0.104	0.1
+CRC	T cells regulatory Tregs	-0.091	0.12
+DLBC	T cells regulatory Tregs	-0.269	0.005
+ESCA	T cells regulatory Tregs	-0.405	0.021
+GBM	T cells regulatory Tregs	-0.482	0.001
+HNSC	T cells regulatory Tregs	-0.492	0.017
+KICH	T cells regulatory Tregs	-0.439	0.033
+KIRC	T cells regulatory Tregs	-0.334	0.013
+KIRP	T cells regulatory Tregs	-0.199	0.26
+LAML	T cells regulatory Tregs	-0.058	0.28
+LGG	T cells regulatory Tregs	0.064	0.3
+LIHC	T cells regulatory Tregs	0.147	0.08
+LUAD	T cells regulatory Tregs	0.179	0.1
+LUSC	T cells regulatory Tregs	0.154	0.12
+MESO	T cells regulatory Tregs	0.081	0.14
+OV	T cells regulatory Tregs	-0.025	0.16
+PAAD	T cells regulatory Tregs	-0.143	0.18
+PCPG	T cells regulatory Tregs	-0.247	0.029
+PRAD	T cells regulatory Tregs	-0.316	0.009
+SARC	T cells regulatory Tregs	-0.332	0.025
+SKCM	T cells regulatory Tregs	-0.288	0.005
+STAD	T cells regulatory Tregs	-0.186	0.28
+TGCT	T cells regulatory Tregs	-0.037	0.3
+THCA	T cells regulatory Tregs	0.138	0.08
+THYM	T cells regulatory Tregs	0.312	0.033
+UCEC	T cells regulatory Tregs	0.462	0.013
+UCS	T cells regulatory Tregs	0.562	0.029
+UVM	T cells regulatory Tregs	0.598	0.009

@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored bbmap/repair module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bbmap-repair
+name: "BBMap repair"
+summary: "Re-pair disordered paired-end FASTQ files with BBMap repair."
+
+params:
+  reads1:
+    kind: input
+    type: file
+    required: true
+    description: "Forward reads FASTQ (.fastq.gz)."
+  reads2:
+    kind: input
+    type: file
+    required: true
+    description: "Reverse reads FASTQ (.fastq.gz)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  repaired:
+    type: directory
+    path: '${outdir}/bbmap_repair'
+    primary: true

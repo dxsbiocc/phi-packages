@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored deeptools/bigwigcompare
+# module at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/deeptools-bigwigcompare
+name: deeptools bigwigCompare
+summary: Compute a ratio/difference track between two bigWig files with deepTools bigwigCompare.
+
+params:
+  bigwig1:
+    kind: input
+    type: file
+    required: true
+    description: First bigWig file.
+  bigwig2:
+    kind: input
+    type: file
+    required: true
+    description: Second bigWig file.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the comparison track.
+
+outputs:
+  output:
+    type: directory
+    path: '${outdir}/deeptools_bigwigcompare'
+    primary: true

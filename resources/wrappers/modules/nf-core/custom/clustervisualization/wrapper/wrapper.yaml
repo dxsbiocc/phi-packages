@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored custom/clustervisualization module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/custom-clustervisualization
+name: "Custom clustervisualization"
+summary: "Visualise clusters with UMAP and t-SNE embeddings."
+
+params:
+  features:
+    kind: input
+    type: file
+    required: true
+    description: "Feature matrix (TSV)."
+  clusters:
+    kind: input
+    type: file
+    required: true
+    description: "Cluster assignments (CSV)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  umap_png:
+    type: directory
+    path: '${outdir}/custom_clustervisualization'
+    primary: true

@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored bbmap/filterbyname
+# module at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bbmap-filterbyname
+name: BBMap filterbyname
+summary: Include or exclude paired-end reads by name with BBMap filterbyname.
+
+params:
+  reads1:
+    kind: input
+    type: file
+    required: true
+    description: First-of-pair FASTQ file (plain or gzipped).
+  reads2:
+    kind: input
+    type: file
+    required: true
+    description: Second-of-pair FASTQ file (plain or gzipped).
+  names:
+    kind: option
+    type: string
+    required: false
+    description: Comma-separated read names to filter (empty keeps all reads, useful as a pass-through reformat).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the filtered reads and log.
+
+outputs:
+  reads:
+    type: directory
+    path: '${outdir}/bbmap_filterbyname'
+    primary: true

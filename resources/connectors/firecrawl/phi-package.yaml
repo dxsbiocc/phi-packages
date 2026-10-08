@@ -1,0 +1,13 @@
+schemaVersion: 1
+id: firecrawl
+type: mcp
+version: 1.0.0
+title: Firecrawl
+summary: 搜索、抓取和解析网页内容
+connector:
+  transport: http
+  publisher: Firecrawl
+  category: 生产力
+  homepage: https://docs.firecrawl.dev/mcp-server
+  url: https://mcp.firecrawl.dev/v2/mcp
+  auth: header

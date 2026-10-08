@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored diamond/linclust module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/diamond-linclust
+name: "DIAMOND linclust"
+summary: "Cluster protein sequences in linear time with DIAMOND linclust."
+
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Protein FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  clusters:
+    type: directory
+    path: '${outdir}/diamond_linclust'
+    primary: true

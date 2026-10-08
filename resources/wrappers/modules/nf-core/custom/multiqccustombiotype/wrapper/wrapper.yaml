@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored custom/multiqccustombiotype module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/custom-multiqccustombiotype
+name: Custom MultiQC biotype counts
+summary: Summarise featureCounts biotype (gene_biotype) counts into MultiQC-ready TSV reports.
+
+params:
+  count:
+    kind: input
+    type: file
+    required: true
+    description: featureCounts output TSV, with the group attribute (e.g. gene_biotype) as the first column.
+  header:
+    kind: input
+    type: file
+    required: true
+    description: MultiQC custom-content header file describing the biotype bar-graph section.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the MultiQC biotype count reports.
+
+outputs:
+  report:
+    type: directory
+    path: '${outdir}/multiqccustombiotype'
+    primary: true

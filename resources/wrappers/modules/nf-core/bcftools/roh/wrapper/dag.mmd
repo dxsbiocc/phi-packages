@@ -1,0 +1,25 @@
+flowchart TB
+    subgraph " "
+    v0["vcf_ch"]
+    v1[" "]
+    v2["genetic_map"]
+    v3["regions_file"]
+    v4["samples_file"]
+    v5["targets_file"]
+    v9["channel.empty"]
+    end
+    v6(["BCFTOOLS_ROH"])
+    subgraph " "
+    v7[" "]
+    v8[" "]
+    v10[" "]
+    end
+    v0 --> v6
+    v1 --> v6
+    v2 --> v6
+    v3 --> v6
+    v4 --> v6
+    v5 --> v6
+    v6 --> v8
+    v6 --> v7
+    v9 --> v10

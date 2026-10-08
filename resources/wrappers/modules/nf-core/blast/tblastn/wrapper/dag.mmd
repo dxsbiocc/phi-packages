@@ -1,0 +1,22 @@
+flowchart TB
+    subgraph " "
+    v0["subject_ch"]
+    v1["taxid_map_ch"]
+    v5["query_ch"]
+    end
+    v2(["BLAST_MAKEBLASTDB"])
+    subgraph " "
+    v3[" "]
+    v7[" "]
+    v8[" "]
+    end
+    v6(["BLAST_TBLASTN"])
+    v4(( ))
+    v0 --> v2
+    v1 --> v2
+    v2 --> v3
+    v2 --> v4
+    v5 --> v6
+    v4 --> v6
+    v6 --> v8
+    v6 --> v7

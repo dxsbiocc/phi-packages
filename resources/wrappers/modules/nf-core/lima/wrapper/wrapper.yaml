@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored lima module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/lima
+name: "lima"
+summary: "Demultiplex and remove primers from PacBio CCS reads with lima."
+
+params:
+  ccs:
+    kind: input
+    type: file
+    required: true
+    description: "PacBio CCS BAM."
+  primers:
+    kind: input
+    type: file
+    required: true
+    description: "Primers FASTA."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/lima'
+    primary: true

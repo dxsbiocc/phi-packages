@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored scramble/clusteridentifier module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/scramble-clusteridentifier
+name: "SCRAMble cluster_identifier"
+summary: "Identify soft-clip clusters (candidate MEIs) with SCRAMble cluster_identifier."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  clusters:
+    type: directory
+    path: '${outdir}/scramble_clusteridentifier'
+    primary: true

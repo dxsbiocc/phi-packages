@@ -1,0 +1,7 @@
+{
+  "bam": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/pacbio/bam/200080.GRCh38.haplotagged.chrM.downsampled.bam",
+  "bai": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/pacbio/bam/200080.GRCh38.haplotagged.chrM.downsampled.bam.bai",
+  "fasta": "https://raw.githubusercontent.com/nf-core/test-datasets/refs/heads/raredisease/reference/Homo_sapiens_assembly38_chr20_chrM.fasta",
+  "fai": "https://raw.githubusercontent.com/nf-core/test-datasets/refs/heads/raredisease/reference/Homo_sapiens_assembly38_chr20_chrM.fasta.fai",
+  "outdir": "results"
+}

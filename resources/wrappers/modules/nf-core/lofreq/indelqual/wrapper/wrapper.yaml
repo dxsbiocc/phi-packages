@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored lofreq/indelqual module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/lofreq-indelqual
+name: "LoFreq indelqual"
+summary: "Insert indel qualities into a BAM with LoFreq."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/lofreq_indelqual'
+    primary: true

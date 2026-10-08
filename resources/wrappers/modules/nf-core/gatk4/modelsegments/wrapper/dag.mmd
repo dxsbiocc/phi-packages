@@ -1,0 +1,52 @@
+flowchart TB
+    subgraph " "
+    v0["empty_ch"]
+    v1["fasta_ch"]
+    v2["fai_ch"]
+    v3["dict_ch"]
+    v7["bam_ch"]
+    end
+    v4(["GATK4_PREPROCESSINTERVALS"])
+    subgraph " "
+    v5[" "]
+    v10[" "]
+    v11[" "]
+    v14[" "]
+    v17[" "]
+    v18[" "]
+    v21[" "]
+    v22[" "]
+    end
+    v9(["GATK4_COLLECTREADCOUNTS"])
+    v13(["GATK4_CREATEREADCOUNTPANELOFNORMALS"])
+    v16(["GATK4_DENOISEREADCOUNTS"])
+    v20(["GATK4_MODELSEGMENTS"])
+    v6(( ))
+    v12(( ))
+    v15(( ))
+    v19(( ))
+    v0 --> v4
+    v1 --> v4
+    v1 --> v9
+    v2 --> v4
+    v2 --> v9
+    v3 --> v4
+    v3 --> v9
+    v4 --> v5
+    v4 --> v6
+    v7 --> v6
+    v6 --> v9
+    v9 --> v11
+    v9 --> v10
+    v9 --> v12
+    v9 --> v15
+    v12 --> v13
+    v13 --> v16
+    v13 --> v14
+    v15 --> v16
+    v16 --> v18
+    v16 --> v17
+    v16 --> v19
+    v19 --> v20
+    v20 --> v22
+    v20 --> v21

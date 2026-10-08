@@ -1,0 +1,28 @@
+# Agent-facing wrapper adapter for the vendored bam_markduplicates_picard
+# subworkflow at ../main.nf (Picard MarkDuplicates -> samtools index ->
+# samtools stats/flagstat/idxstats). Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# No reference FASTA is exposed — it is only needed for CRAM input, so an
+# empty one is passed.
+id: nf-core/subworkflows/bam-markduplicates-picard
+name: BAM mark duplicates (Picard)
+summary: Mark duplicate reads with Picard MarkDuplicates, index the result, and compute samtools stats, flagstat and idxstats.
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: Coordinate-sorted BAM file.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the duplicate-marked BAM, its index, metrics, and stats reports.
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/bam_markduplicates_picard'
+    primary: true

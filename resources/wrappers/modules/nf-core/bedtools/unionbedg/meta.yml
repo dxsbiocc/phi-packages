@@ -1,0 +1,74 @@
+name: bedtools_unionbedg
+description: Combines multiple BedGraph files into a single file
+keywords:
+  - bed
+  - unionBedGraphs
+  - bedGraph
+  - comparisons
+  - combine
+tools:
+  - bedtools:
+      description: |
+        A set of tools for genomic analysis tasks, specifically enabling genome arithmetic (merge, count, complement) on various file types.
+      documentation: https://bedtools.readthedocs.io/en/latest/content/tools/slop.html
+      licence: ["MIT"]
+      identifier: biotools:bedtools
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. [ id:'test', single_end:false ]
+    - bedgraph:
+        type: file
+        description: |
+          Input BedGraph file: four column BED format, with 4th column with numerical values: integer or real, positive or negative
+        pattern: "*.{bedGraph,bedgraph}"
+        ontologies: []
+  - - meta2:
+        type: map
+        description: |
+          Groovy Map containing meta information for the reference chromosome sizes
+          e.g. [ id:'test' ]
+    - chrom_sizes:
+        type: file
+        description: Chromosome sizes file
+        pattern: "*{.sizes,.txt}"
+        ontologies: []
+output:
+  bed:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "*.bed":
+          type: file
+          description: Combined BED file with values from all bedGraph files
+          pattern: "*.{bed}"
+          ontologies: []
+  versions_bedtools:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - bedtools:
+          type: string
+          description: The name of the tool
+      - "bedtools --version | sed -e 's/bedtools v//g'":
+          type: eval
+          description: The expression to obtain the version of the tool
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - bedtools:
+          type: string
+          description: The name of the tool
+      - "bedtools --version | sed -e 's/bedtools v//g'":
+          type: eval
+          description: The expression to obtain the version of the tool
+authors:
+  - "@ekushele"
+maintainers:
+  - "@ekushele"

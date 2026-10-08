@@ -1,0 +1,13 @@
+{
+	"n_targets": 125,
+	"n_bootstraps": 0,
+	"n_processed": 99225,
+	"n_pseudoaligned": 87284,
+	"n_unique": 87278,
+	"p_pseudoaligned": 88.0,
+	"p_unique": 88.0,
+	"kallisto_version": "0.48.0",
+	"index_version": 10,
+	"start_time": "Mon Feb  5 15:57:56 2024",
+	"call": "/usr/local/bin/kallisto quant --threads 2 --index kallisto --gtf genome_gfp.gtf --rf-stranded -o WT_REP1 WT_REP1_primary_1.fastq.gz WT_REP1_primary_2.fastq.gz"
+}

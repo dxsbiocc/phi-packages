@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored bcftools/plotvcfstats module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: runs the vendored bcftools stats module first to produce the stats file.
+id: nf-core/modules/bcftools-plotvcfstats
+name: "bcftools plotvcfstats"
+summary: "Plot bcftools stats output (BCFTOOLS_STATS → plot-vcfstats)."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped VCF file."
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the VCF."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  plot_dir:
+    type: directory
+    path: '${outdir}/bcftools_plotvcfstats'
+    primary: true

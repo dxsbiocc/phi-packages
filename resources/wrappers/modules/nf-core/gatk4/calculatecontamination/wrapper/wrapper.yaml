@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored gatk4/calculatecontamination module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4-calculatecontamination
+name: "GATK4 CalculateContamination"
+summary: "Estimate cross-sample contamination from pileup summaries with GATK4 CalculateContamination."
+
+params:
+  pileup:
+    kind: input
+    type: file
+    required: true
+    description: "Pileup summaries table (from GetPileupSummaries)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  contamination:
+    type: directory
+    path: '${outdir}/gatk4_calculatecontamination'
+    primary: true

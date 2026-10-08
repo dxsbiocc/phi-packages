@@ -1,0 +1,23 @@
+flowchart TB
+    subgraph " "
+    v0["in_ch"]
+    v1["win"]
+    v2["step"]
+    v3["r2"]
+    v8["channel.empty"]
+    end
+    v4(["PLINK2_INDEPPAIRWISE"])
+    subgraph " "
+    v5[" "]
+    v6[" "]
+    v7[" "]
+    v9[" "]
+    end
+    v0 --> v4
+    v1 --> v4
+    v2 --> v4
+    v3 --> v4
+    v4 --> v7
+    v4 --> v6
+    v4 --> v5
+    v8 --> v9

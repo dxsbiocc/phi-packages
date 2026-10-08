@@ -1,0 +1,4 @@
+{
+  "fasta": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/proteomics/database/UP000005640_9606.fasta",
+  "outdir": "results"
+}

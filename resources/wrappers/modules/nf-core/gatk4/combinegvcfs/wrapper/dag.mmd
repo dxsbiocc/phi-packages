@@ -1,0 +1,21 @@
+flowchart TB
+    subgraph " "
+    v0["gvcf_ch"]
+    v1["fasta_ch"]
+    v2["fai_ch"]
+    v3["dict_ch"]
+    v7["channel.empty"]
+    end
+    v4(["GATK4_COMBINEGVCFS"])
+    subgraph " "
+    v5[" "]
+    v6[" "]
+    v8[" "]
+    end
+    v0 --> v4
+    v1 --> v4
+    v2 --> v4
+    v3 --> v4
+    v4 --> v6
+    v4 --> v5
+    v7 --> v8

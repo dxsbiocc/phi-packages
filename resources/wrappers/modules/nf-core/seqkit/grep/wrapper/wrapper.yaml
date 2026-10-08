@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored seqkit/grep module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Only an exact/regex pattern string is exposed (via -p) — the module's
+# pattern-file input isn't surfaced by this thin adapter.
+id: nf-core/modules/seqkit-grep
+name: seqkit grep
+summary: Filter FASTA/FASTQ records by sequence ID pattern with seqkit grep.
+
+params:
+  sequence:
+    kind: input
+    type: file
+    required: true
+    description: FASTA/FASTQ file (plain or gzipped) to filter.
+  pattern:
+    kind: option
+    type: string
+    required: true
+    description: Sequence ID or pattern to match (passed as seqkit grep -p).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the filtered sequences.
+
+outputs:
+  filter:
+    type: directory
+    path: '${outdir}/seqkit_grep'
+    primary: true

@@ -1,0 +1,16 @@
+flowchart TB
+    subgraph " "
+    v0["bam_ch"]
+    v1["split"]
+    end
+    v2(["SAMTOOLS_BAM2FQ"])
+    subgraph " "
+    v3[" "]
+    v4[" "]
+    v5[" "]
+    end
+    v0 --> v2
+    v1 --> v2
+    v2 --> v5
+    v2 --> v4
+    v2 --> v3

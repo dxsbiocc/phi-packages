@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored gangstr module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gangstr
+name: "GangSTR"
+summary: "Genotype short tandem repeats from aligned reads with GangSTR."
+
+params:
+  cram:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted CRAM."
+  crai:
+    kind: input
+    type: file
+    required: true
+    description: "CRAM index (.crai)."
+  regions:
+    kind: input
+    type: file
+    required: true
+    description: "STR regions BED (chrom, start, end)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/gangstr'
+    primary: true

@@ -1,0 +1,18 @@
+flowchart TB
+    subgraph " "
+    v0["fasta_ch"]
+    v3["reads_ch"]
+    end
+    v1(["BWA_INDEX"])
+    subgraph " "
+    v2[" "]
+    v5[" "]
+    v6[" "]
+    end
+    v4(["BWA_ALN"])
+    v0 --> v1
+    v1 --> v4
+    v1 --> v2
+    v3 --> v4
+    v4 --> v6
+    v4 --> v5

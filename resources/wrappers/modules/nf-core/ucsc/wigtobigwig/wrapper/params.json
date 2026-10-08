@@ -1,0 +1,5 @@
+{
+  "wig": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/illumina/wig/test.wig.gz",
+  "sizes": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/genome/genome.sizes",
+  "outdir": "results"
+}

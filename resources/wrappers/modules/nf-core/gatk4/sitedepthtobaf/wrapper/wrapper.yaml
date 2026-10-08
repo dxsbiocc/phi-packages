@@ -1,0 +1,66 @@
+# Agent-facing wrapper adapter for the vendored gatk4/sitedepthtobaf module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: runs the vendored collectsvevidence module first to produce per-sample site depths.
+id: nf-core/modules/gatk4-sitedepthtobaf
+name: "GATK4 SiteDepthToBAF"
+summary: "Convert site depths to B-allele frequencies (CollectSVEvidence → SiteDepthtoBAF)."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  bam2:
+    kind: input
+    type: file
+    required: true
+    description: "Second coordinate-sorted BAM file."
+  bai2:
+    kind: input
+    type: file
+    required: true
+    description: "Second BAM index (.bai)."
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped VCF of common variant sites."
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the sites VCF."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  baf:
+    type: directory
+    path: '${outdir}/gatk4_sitedepthtobaf'
+    primary: true

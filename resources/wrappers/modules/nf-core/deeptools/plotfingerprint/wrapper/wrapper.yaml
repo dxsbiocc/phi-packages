@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored deeptools/plotfingerprint
+# module at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Only a single input BAM file is exposed — the vendored module accepts
+# any number, but this thin adapter doesn't surface a variable-length list.
+id: nf-core/modules/deeptools-plotfingerprint
+name: deeptools plotFingerprint
+summary: Assess signal enrichment (ChIP/ATAC QC) for a BAM with deepTools plotFingerprint.
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: Coordinate-sorted BAM file.
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: BAM index (.bai) for the input BAM.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the fingerprint plot and metrics.
+
+outputs:
+  pdf:
+    type: directory
+    path: '${outdir}/deeptools_plotfingerprint'
+    primary: true

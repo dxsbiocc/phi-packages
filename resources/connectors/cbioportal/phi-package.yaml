@@ -1,0 +1,13 @@
+schemaVersion: 1
+id: cbioportal
+type: mcp
+version: 1.0.0
+title: cBioPortal
+summary: 查询癌症基因组研究、样本、突变和临床数据
+connector:
+  transport: http
+  publisher: cBioPortal
+  category: 健康与生命科学
+  homepage: https://docs.cbioportal.org/ai-integrations/mcp/
+  url: https://mcp.cbioportal.org/db/mcp
+  auth: oauth

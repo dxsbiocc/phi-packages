@@ -1,0 +1,54 @@
+# Agent-facing wrapper adapter for the vendored lofreq/somatic module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/lofreq-somatic
+name: "LoFreq somatic"
+summary: "Call somatic variants from a tumour/normal pair with LoFreq."
+
+params:
+  tumor:
+    kind: input
+    type: file
+    required: true
+    description: "Tumour BAM."
+  tumor_bai:
+    kind: input
+    type: file
+    required: true
+    description: "Tumour BAM index (.bai)."
+  normal:
+    kind: input
+    type: file
+    required: true
+    description: "Normal BAM."
+  normal_bai:
+    kind: input
+    type: file
+    required: true
+    description: "Normal BAM index (.bai)."
+  target_bed:
+    kind: input
+    type: file
+    required: true
+    description: "Target BED file."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/lofreq_somatic'
+    primary: true

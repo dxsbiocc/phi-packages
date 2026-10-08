@@ -1,0 +1,9 @@
+{
+  "bed": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/popgen/plink_simulated.bed",
+  "bim": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/popgen/plink_simulated.bim",
+  "fam": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/popgen/plink_simulated.fam",
+  "bed2": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/popgen/plink_simulated.bed",
+  "bim2": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/popgen/plink_simulated.bim",
+  "fam2": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/popgen/plink_simulated.fam",
+  "outdir": "results"
+}

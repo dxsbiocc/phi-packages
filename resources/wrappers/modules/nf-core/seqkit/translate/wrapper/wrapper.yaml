@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored seqkit/translate module
+# at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/seqkit-translate
+name: seqkit translate
+summary: Translate a nucleotide FASTA/FASTQ into protein sequence with seqkit translate.
+
+params:
+  fastx:
+    kind: input
+    type: file
+    required: true
+    description: Nucleotide FASTA/FASTQ file (plain or gzipped) to translate.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the translated sequences.
+
+outputs:
+  fastx:
+    type: directory
+    path: '${outdir}/seqkit_translate'
+    primary: true

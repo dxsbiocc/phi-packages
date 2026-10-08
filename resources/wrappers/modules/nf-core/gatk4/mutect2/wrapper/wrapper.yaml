@@ -1,0 +1,74 @@
+# Agent-facing wrapper adapter for the vendored gatk4/mutect2 module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4-mutect2
+name: "GATK4 Mutect2"
+summary: "Call somatic variants from a tumour/normal BAM pair with GATK4 Mutect2."
+
+params:
+  tumour_bam:
+    kind: input
+    type: file
+    required: true
+    description: "Tumour BAM file."
+  tumour_bai:
+    kind: input
+    type: file
+    required: true
+    description: "Tumour BAM index (.bai)."
+  normal_bam:
+    kind: input
+    type: file
+    required: true
+    description: "Matched normal BAM file."
+  normal_bai:
+    kind: input
+    type: file
+    required: true
+    description: "Matched normal BAM index (.bai)."
+  germline:
+    kind: input
+    type: file
+    required: true
+    description: "Germline resource VCF (e.g. gnomAD)."
+  germline_tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the germline resource."
+  pon:
+    kind: input
+    type: file
+    required: true
+    description: "Panel-of-normals VCF."
+  pon_tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the panel of normals."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/gatk4_mutect2'
+    primary: true

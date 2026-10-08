@@ -1,0 +1,8 @@
+{
+  "bam": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/illumina/bam/test.paired_end.umi.sorted.bam",
+  "bai": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/illumina/bam/test.paired_end.umi.sorted.bam.bai",
+  "single_end": false,
+  "get_dedup_stats": false,
+  "primary_only": false,
+  "outdir": "results"
+}

@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored cnvpytor/partition module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/cnvpytor-partition
+name: "CNVpytor partition"
+summary: "Partition read-depth signals with CNVpytor."
+
+params:
+  pytor:
+    kind: input
+    type: file
+    required: true
+    description: "CNVpytor .pytor file."
+  bin_sizes:
+    kind: option
+    type: string
+    required: false
+    description: "Space-separated bin sizes."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  pytor:
+    type: directory
+    path: '${outdir}/cnvpytor_partition'
+    primary: true

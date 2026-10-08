@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored pbsv/discover module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/pbsv-discover
+name: "pbsv discover"
+summary: "Find PacBio SV signatures with pbsv discover."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Aligned PacBio BAM."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  svsig:
+    type: directory
+    path: '${outdir}/pbsv_discover'
+    primary: true

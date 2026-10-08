@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored samtools/consensus module
+# at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/samtools-consensus
+name: samtools consensus
+summary: Call a consensus sequence from a BAM alignment with samtools consensus.
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: Coordinate-sorted BAM file.
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: BAM index (.bai) for the input BAM.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the consensus sequence.
+
+outputs:
+  fasta:
+    type: directory
+    path: '${outdir}/samtools_consensus'
+    primary: true

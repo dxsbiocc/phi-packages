@@ -1,0 +1,5 @@
+{
+  "abundance": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/mus_musculus/rnaseq_expression/SRP254919.salmon.merged.gene_counts.top1000cov.assay.tsv",
+  "samplesheet": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/mus_musculus/rnaseq_expression/SRP254919.samplesheet.sample_metadata.tsv",
+  "outdir": "results"
+}

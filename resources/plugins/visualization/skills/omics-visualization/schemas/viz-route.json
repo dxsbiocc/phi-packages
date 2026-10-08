@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://phi.local/skills/omics-visualization/viz-route.json",
+  "title": "viz route result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "input",
+    "candidates"
+  ],
+  "properties": {
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rows",
+        "columns",
+        "roles"
+      ],
+      "properties": {
+        "rows": {
+          "type": "number",
+          "minimum": 0
+        },
+        "columns": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "type"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "type": {
+                "enum": [
+                  "number",
+                  "text"
+                ]
+              }
+            }
+          }
+        },
+        "roles": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "sidecars": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "sidecar_alignment": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "candidates": {
+      "type": "array",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "template_id",
+          "confidence",
+          "score",
+          "title",
+          "why",
+          "risks",
+          "use_when",
+          "avoid_when",
+          "required_roles",
+          "role_mapping",
+          "preview",
+          "preview_markdown"
+        ],
+        "properties": {
+          "template_id": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "score": {
+            "type": "number"
+          },
+          "title": {
+            "type": "string"
+          },
+          "why": {
+            "type": "array",
+            "maxItems": 3,
+            "items": {
+              "type": "string"
+            }
+          },
+          "risks": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "use_when": {
+            "type": "string"
+          },
+          "avoid_when": {
+            "type": "string"
+          },
+          "required_roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "role_mapping": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "preview": {
+            "type": "string"
+          },
+          "preview_markdown": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

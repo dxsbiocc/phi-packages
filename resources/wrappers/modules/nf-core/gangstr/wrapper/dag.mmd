@@ -1,0 +1,27 @@
+flowchart TB
+    subgraph " "
+    v0["channel.of"]
+    v3[" "]
+    v5["fasta"]
+    v6["fasta_fai"]
+    v12["channel.empty"]
+    end
+    v7(["GANGSTR"])
+    subgraph " "
+    v8[" "]
+    v9[" "]
+    v10[" "]
+    v11[" "]
+    v13[" "]
+    end
+    v1(( ))
+    v0 --> v1
+    v3 --> v1
+    v5 --> v7
+    v6 --> v7
+    v1 --> v7
+    v7 --> v11
+    v7 --> v10
+    v7 --> v9
+    v7 --> v8
+    v12 --> v13

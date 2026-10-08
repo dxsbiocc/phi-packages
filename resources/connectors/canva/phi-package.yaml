@@ -1,0 +1,13 @@
+schemaVersion: 1
+id: canva
+type: mcp
+version: 1.0.0
+title: Canva
+summary: 搜索、创建和导出设计
+connector:
+  transport: http
+  publisher: Canva
+  category: 设计创作
+  homepage: https://claude.com/marketplace/connectors/canva
+  url: https://mcp.canva.com/mcp
+  auth: oauth

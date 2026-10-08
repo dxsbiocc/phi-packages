@@ -1,0 +1,45 @@
+# Agent-facing wrapper adapter for the vendored custom/tx2gene module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/custom-tx2gene
+name: Custom tx2gene
+summary: Build a transcript-to-gene mapping TSV from a GTF, keyed to a quantifier's transcript ids (kallisto/salmon/rsem).
+
+params:
+  gtf:
+    kind: input
+    type: gtf
+    required: true
+    description: GTF annotation to derive the transcript-to-gene mapping from.
+  quants:
+    kind: input
+    type: path_glob
+    required: true
+    description: Glob matching each sample's quantifier output directory (e.g. kallisto/salmon/rsem per-sample results).
+  quant_type:
+    kind: option
+    type: string
+    required: false
+    enum: [kallisto, salmon, rsem]
+    description: Which quantifier produced the quants directories, so tx2gene reads the right transcript id.
+  id:
+    kind: option
+    type: string
+    required: false
+    description: GTF attribute used as the gene id column.
+  extra:
+    kind: option
+    type: string
+    required: false
+    description: Comma-separated extra GTF attributes (e.g. gene_name) appended as additional columns.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the tx2gene TSV.
+
+outputs:
+  tx2gene:
+    type: directory
+    path: '${outdir}/tx2gene'
+    primary: true

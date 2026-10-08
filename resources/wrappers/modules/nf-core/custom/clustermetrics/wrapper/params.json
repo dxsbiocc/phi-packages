@@ -1,0 +1,5 @@
+{
+  "features": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/popgen/clustering/test_features.tsv",
+  "clusters": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/popgen/clustering/test_clusters.csv",
+  "outdir": "results"
+}

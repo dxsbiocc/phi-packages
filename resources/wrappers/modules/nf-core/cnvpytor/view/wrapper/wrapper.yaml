@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored cnvpytor/view module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/cnvpytor-view
+name: "CNVpytor view"
+summary: "Export CNVpytor calls as VCF/TSV with CNVpytor view."
+
+params:
+  pytor:
+    kind: input
+    type: file
+    required: true
+    description: "CNVpytor .pytor file."
+  bin_sizes:
+    kind: option
+    type: string
+    required: false
+    description: "Space-separated bin sizes."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/cnvpytor_view'
+    primary: true

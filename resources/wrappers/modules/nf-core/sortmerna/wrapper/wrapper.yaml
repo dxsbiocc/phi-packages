@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored sortmerna module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# No pre-built index is exposed — SortMeRNA builds one fresh from rrna_fasta
+# each run (index=[[:], []], matching the "no pre-built index" branch of the
+# module's own test suite). A persisted-index workflow is a rarer use case
+# and not worth the extra param surface here.
+id: nf-core/modules/sortmerna
+name: SortMeRNA
+summary: Filter rRNA reads out of FASTQ against one or more rRNA reference FASTAs with SortMeRNA.
+
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Glob matching one sample's FASTQ file(s) — a pair for paired-end, or one file for single-end.
+  rrna_fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: rRNA reference FASTA to filter reads against.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the rRNA-filtered (non_rRNA) FASTQ and log.
+
+outputs:
+  reads:
+    type: directory
+    path: '${outdir}/sortmerna'
+    primary: true

@@ -1,0 +1,49 @@
+# Agent-facing wrapper adapter for the vendored manta/somatic module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/manta-somatic
+name: "Manta somatic"
+summary: "Call somatic structural variants from a tumour/normal pair with Manta."
+
+params:
+  normal:
+    kind: input
+    type: file
+    required: true
+    description: "Normal CRAM."
+  normal_idx:
+    kind: input
+    type: file
+    required: true
+    description: "Normal CRAM index (.crai)."
+  tumor:
+    kind: input
+    type: file
+    required: true
+    description: "Tumour CRAM."
+  tumor_idx:
+    kind: input
+    type: file
+    required: true
+    description: "Tumour CRAM index (.crai)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  somatic_sv_vcf:
+    type: directory
+    path: '${outdir}/manta_somatic'
+    primary: true

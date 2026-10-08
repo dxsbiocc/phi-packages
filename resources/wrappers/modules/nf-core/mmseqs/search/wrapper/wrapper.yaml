@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored mmseqs/search module at
+# ../main.nf. Also composes the vendored mmseqs/createdb module (a
+# sibling vendored component, not another wrapper), called twice, so
+# the agent can search a raw query FASTA against a raw target FASTA in
+# one step. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Returns the raw MMseqs2 result database (a directory of binary index
+# files) — pair with a downstream MMseqs2 tool (e.g. createtsv) to get
+# a human-readable table. Use mmseqs-easysearch instead for a one-step
+# TSV result.
+id: nf-core/modules/mmseqs-search
+name: mmseqs search
+summary: Search a query FASTA against a target FASTA, producing a raw MMseqs2 result database (builds both databases internally).
+
+params:
+  query:
+    kind: input
+    type: file
+    required: true
+    description: Query FASTA file.
+  target:
+    kind: input
+    type: file
+    required: true
+    description: Target/reference FASTA file.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the raw MMseqs2 result database.
+
+outputs:
+  db_search:
+    type: directory
+    path: '${outdir}/mmseqs_search'
+    primary: true

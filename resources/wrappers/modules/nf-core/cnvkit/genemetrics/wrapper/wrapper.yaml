@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored cnvkit/genemetrics module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/cnvkit-genemetrics
+name: "CNVkit genemetrics"
+summary: "Summarise per-gene copy-number metrics with CNVkit genemetrics."
+
+params:
+  cnr:
+    kind: input
+    type: file
+    required: true
+    description: "Copy-number ratios (.cnr)."
+  cns:
+    kind: input
+    type: file
+    required: true
+    description: "Segments (.cns)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  tsv:
+    type: directory
+    path: '${outdir}/cnvkit_genemetrics'
+    primary: true

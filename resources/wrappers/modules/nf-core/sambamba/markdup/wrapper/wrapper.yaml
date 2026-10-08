@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored sambamba/markdup module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/sambamba-markdup
+name: "sambamba markdup"
+summary: "Mark duplicate reads with sambamba markdup."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "BAM file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/sambamba_markdup'
+    primary: true

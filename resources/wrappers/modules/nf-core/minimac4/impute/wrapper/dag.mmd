@@ -1,0 +1,20 @@
+flowchart TB
+    subgraph " "
+    v0[" "]
+    v3["target_ch"]
+    end
+    v1(["MINIMAC4_COMPRESSREF"])
+    subgraph " "
+    v2[" "]
+    v7[" "]
+    v8[" "]
+    end
+    v6(["MINIMAC4_IMPUTE"])
+    v4(( ))
+    v0 --> v1
+    v1 --> v2
+    v1 --> v4
+    v3 --> v4
+    v4 --> v6
+    v6 --> v8
+    v6 --> v7

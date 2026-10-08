@@ -1,0 +1,30 @@
+# Agent-facing wrapper adapter for the vendored picard/sortsam module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/picard-sortsam
+name: picard SortSam
+summary: Sort a BAM/SAM file by coordinate or query name with Picard.
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: BAM/SAM file to sort.
+  sort_order:
+    kind: option
+    type: string
+    required: false
+    enum: [coordinate, queryname, unsorted, duplicate]
+    description: Sort order to apply.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the sorted BAM.
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/picard_sortsam'
+    primary: true

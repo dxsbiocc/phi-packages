@@ -1,0 +1,35 @@
+# Agent-facing wrapper adapter for the vendored diamond/blastp module at
+# ../main.nf. Also composes the vendored diamond/makedb module (a sibling
+# vendored component, not another wrapper) so the agent can DIAMOND-BLAST
+# a query against a raw subject protein FASTA in one step. Follows the
+# minimal contract in docs/design/phi-wrapper-agent-composition-design.md
+# section 3.
+#
+# Output format is fixed to tabular BLAST (outfmt 6, the DIAMOND default)
+# — the other output formats the module supports aren't surfaced here.
+id: nf-core/modules/diamond-blastp
+name: diamond blastp
+summary: DIAMOND-BLAST a protein query against a subject FASTA (builds the database internally).
+
+params:
+  query:
+    kind: input
+    type: file
+    required: true
+    description: Query protein FASTA file.
+  subject:
+    kind: input
+    type: file
+    required: true
+    description: Subject/reference protein FASTA file the DIAMOND database is built from.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the BLAST hits.
+
+outputs:
+  txt:
+    type: directory
+    path: '${outdir}/diamond_blastp'
+    primary: true

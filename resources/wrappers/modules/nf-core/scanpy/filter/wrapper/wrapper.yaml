@@ -1,0 +1,54 @@
+# Agent-facing wrapper adapter for the vendored scanpy/filter module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/scanpy-filter
+name: Scanpy filter
+summary: Filter an AnnData single-cell object by minimum genes/cells/counts and maximum mitochondrial percentage.
+
+params:
+  anndata:
+    kind: input
+    type: file
+    required: true
+    description: AnnData object (.h5ad or .zarr).
+  min_genes:
+    kind: option
+    type: integer
+    required: false
+    description: Minimum genes detected per cell.
+  min_cells:
+    kind: option
+    type: integer
+    required: false
+    description: Minimum cells a gene must be detected in.
+  min_counts_gene:
+    kind: option
+    type: integer
+    required: false
+    description: Minimum total counts per gene.
+  min_counts_cell:
+    kind: option
+    type: integer
+    required: false
+    description: Minimum total counts per cell.
+  max_mito_percentage:
+    kind: option
+    type: integer
+    required: false
+    description: Maximum mitochondrial read percentage per cell.
+  symbol_col:
+    kind: option
+    type: string
+    required: false
+    description: AnnData var column holding gene symbols (used to identify mitochondrial genes); 'index' uses var_names.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the filtered AnnData object.
+
+outputs:
+  anndata:
+    type: directory
+    path: '${outdir}/scanpy_filter'
+    primary: true

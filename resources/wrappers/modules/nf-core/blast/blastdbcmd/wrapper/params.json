@@ -1,0 +1,5 @@
+{
+  "fasta": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/genome/proteome.fasta",
+  "entry": "ENSSASP00005000002.1",
+  "outdir": "results"
+}

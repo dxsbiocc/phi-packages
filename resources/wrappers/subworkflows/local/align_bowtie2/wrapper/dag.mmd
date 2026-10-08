@@ -1,0 +1,92 @@
+flowchart TB
+    subgraph " "
+    v0["channel.fromPath"]
+    v5["channel.of"]
+    v7[" "]
+    v8["save_unaligned"]
+    v9["sort_bam"]
+    v21["ch_fasta_fai"]
+    v22["index_format"]
+    end
+    v2(["BOWTIE2_BUILD"])
+    subgraph " "
+    v3[" "]
+    v11[" "]
+    v12[" "]
+    v13[" "]
+    v14[" "]
+    v15[" "]
+    v16[" "]
+    v17[" "]
+    v18[" "]
+    v20["percent_mapped"]
+    v24[" "]
+    v25[" "]
+    v26[" "]
+    v27[" "]
+    v29[" "]
+    v32[" "]
+    v33["stats"]
+    v35[" "]
+    v36["flagstat"]
+    v38[" "]
+    v39["idxstats"]
+    end
+    subgraph "ALIGN_BOWTIE2 [ALIGN_BOWTIE2]"
+    v10(["BOWTIE2_ALIGN"])
+    subgraph "ALIGN_BOWTIE2:BAM_SORT_STATS_SAMTOOLS [BAM_SORT_STATS_SAMTOOLS]"
+    v23(["SAMTOOLS_SORT"])
+    v28(["SAMTOOLS_INDEX"])
+    subgraph "ALIGN_BOWTIE2:BAM_SORT_STATS_SAMTOOLS:BAM_STATS_SAMTOOLS [BAM_STATS_SAMTOOLS]"
+    v31(["SAMTOOLS_STATS"])
+    v34(["SAMTOOLS_FLAGSTAT"])
+    v37(["SAMTOOLS_IDXSTATS"])
+    end
+    v30(( ))
+    end
+    v6(( ))
+    v19(( ))
+    end
+    v1(( ))
+    v4(( ))
+    v0 --> v1
+    v1 --> v2
+    v2 --> v3
+    v2 --> v4
+    v5 --> v10
+    v7 --> v10
+    v8 --> v10
+    v9 --> v10
+    v6 --> v10
+    v10 --> v18
+    v10 --> v23
+    v10 --> v17
+    v10 --> v16
+    v10 --> v15
+    v10 --> v14
+    v10 --> v13
+    v10 --> v12
+    v10 --> v11
+    v10 --> v19
+    v19 --> v20
+    v21 --> v23
+    v21 --> v31
+    v22 --> v23
+    v23 --> v28
+    v23 --> v27
+    v23 --> v26
+    v23 --> v25
+    v23 --> v24
+    v23 --> v30
+    v28 --> v29
+    v28 --> v30
+    v30 --> v31
+    v31 --> v33
+    v31 --> v32
+    v30 --> v34
+    v34 --> v36
+    v34 --> v35
+    v30 --> v37
+    v37 --> v39
+    v37 --> v38
+    v4 --> v6

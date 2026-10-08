@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored svtk/standardize module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/svtk-standardize
+name: "svtk standardize"
+summary: "Standardize a caller's SV VCF with svtk standardize."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped SV VCF from a caller (e.g. Manta)."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/svtk_standardize'
+    primary: true

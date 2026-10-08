@@ -1,0 +1,6 @@
+{
+  "fasta": "tests/data/genome.fasta",
+  "gtf": "tests/data/genome.gtf",
+  "reads": "tests/data/test_rnaseq_{1,2}.fastq.gz",
+  "outdir": "results"
+}

@@ -1,0 +1,22 @@
+flowchart TB
+    subgraph " "
+    v0["query_ch"]
+    v3["target_ch"]
+    end
+    v1(["MMSEQS_CREATEDB_QUERY"])
+    subgraph " "
+    v2[" "]
+    v5[" "]
+    v7[" "]
+    v8[" "]
+    end
+    v4(["MMSEQS_CREATEDB_TARGET"])
+    v6(["MMSEQS_SEARCH"])
+    v0 --> v1
+    v1 --> v6
+    v1 --> v2
+    v3 --> v4
+    v4 --> v6
+    v4 --> v5
+    v6 --> v8
+    v6 --> v7

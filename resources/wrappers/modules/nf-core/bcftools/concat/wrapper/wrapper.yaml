@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored bcftools/concat module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Only two input VCFs are exposed — the vendored module accepts any
+# number, but this thin adapter doesn't surface a variable-length list.
+id: nf-core/modules/bcftools-concat
+name: bcftools concat
+summary: Concatenate two non-overlapping VCF files (e.g. split by region) with bcftools concat.
+
+params:
+  vcf1:
+    kind: input
+    type: file
+    required: true
+    description: First bgzipped VCF file.
+  vcf2:
+    kind: input
+    type: file
+    required: true
+    description: Second bgzipped VCF file.
+  vcf1_csi:
+    kind: input
+    type: file
+    required: true
+    description: Index (.csi/.tbi) for the first VCF.
+  vcf2_csi:
+    kind: input
+    type: file
+    required: true
+    description: Index (.csi/.tbi) for the second VCF.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the concatenated VCF.
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/bcftools_concat'
+    primary: true

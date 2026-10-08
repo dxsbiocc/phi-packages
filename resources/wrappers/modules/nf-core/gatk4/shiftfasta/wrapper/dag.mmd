@@ -1,0 +1,29 @@
+flowchart TB
+    subgraph " "
+    v0["fasta_ch"]
+    v1["fai_ch"]
+    v2["dict_ch"]
+    v11["channel.empty"]
+    end
+    v3(["GATK4_SHIFTFASTA"])
+    subgraph " "
+    v4[" "]
+    v5[" "]
+    v6[" "]
+    v7[" "]
+    v8[" "]
+    v9[" "]
+    v10[" "]
+    v12[" "]
+    end
+    v0 --> v3
+    v1 --> v3
+    v2 --> v3
+    v3 --> v10
+    v3 --> v9
+    v3 --> v8
+    v3 --> v7
+    v3 --> v6
+    v3 --> v5
+    v3 --> v4
+    v11 --> v12

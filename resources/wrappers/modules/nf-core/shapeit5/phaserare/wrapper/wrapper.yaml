@@ -1,0 +1,36 @@
+# Agent-facing wrapper adapter for the vendored shapeit5/phaserare module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: phases common variants with the vendored shapeit5 phasecommon module and indexes the scaffold with bcftools index first.
+id: nf-core/modules/shapeit5-phaserare
+name: "SHAPEIT5 phase_rare"
+summary: "Phase rare variants against a common-variant scaffold with SHAPEIT5 phase_rare (phase_common -> index -> phase_rare)."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Genotype VCF (bgzipped)."
+  csi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.csi) for the VCF."
+  region:
+    kind: option
+    type: string
+    required: false
+    description: "Region to phase."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  phased_variant:
+    type: directory
+    path: '${outdir}/shapeit5_phaserare'
+    primary: true

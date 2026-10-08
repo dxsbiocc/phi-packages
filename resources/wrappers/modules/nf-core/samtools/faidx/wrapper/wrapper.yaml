@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored samtools/faidx module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/samtools-faidx
+name: samtools faidx
+summary: Index a FASTA file, and optionally generate a file of chromosome sizes.
+
+params:
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: Reference genome FASTA to index.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the FASTA index.
+
+outputs:
+  index:
+    type: directory
+    path: '${outdir}/samtools_faidx'
+    primary: true

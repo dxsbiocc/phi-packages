@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored cnvkit/call module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/cnvkit-call
+name: "CNVkit call"
+summary: "Call copy-number states from segments with CNVkit call."
+
+params:
+  cns:
+    kind: input
+    type: file
+    required: true
+    description: "Segments (.cns)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  cns:
+    type: directory
+    path: '${outdir}/cnvkit_call'
+    primary: true

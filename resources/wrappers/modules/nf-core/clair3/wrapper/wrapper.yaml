@@ -1,0 +1,46 @@
+# Agent-facing wrapper adapter for the vendored clair3 module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: unpacks the Clair3 model archive with the vendored untar module first.
+id: nf-core/modules/clair3
+name: "Clair3"
+summary: "Call small variants from long reads with Clair3."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  model:
+    kind: input
+    type: file
+    required: true
+    description: "Clair3 model archive (.tar.gz)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/clair3'
+    primary: true

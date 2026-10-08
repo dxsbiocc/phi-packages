@@ -1,0 +1,44 @@
+flowchart TB
+    subgraph " "
+    v0["channel.of"]
+    v2["cram_ch"]
+    v3["fasta_ch"]
+    v4["fai_ch"]
+    v15["channel.of"]
+    v17["baf_files"]
+    end
+    v5(["MANTA_GERMLINE"])
+    subgraph " "
+    v6[" "]
+    v7[" "]
+    v8[" "]
+    v9[" "]
+    v10[" "]
+    v14[" "]
+    v21[" "]
+    v22[" "]
+    end
+    v13(["SVTK_VCF2BED"])
+    v20(["SVTK_BAFTEST"])
+    v1(( ))
+    v11(( ))
+    v16(( ))
+    v0 --> v1
+    v2 --> v5
+    v3 --> v5
+    v4 --> v5
+    v1 --> v5
+    v5 --> v10
+    v5 --> v9
+    v5 --> v8
+    v5 --> v7
+    v5 --> v6
+    v5 --> v11
+    v11 --> v13
+    v13 --> v14
+    v13 --> v16
+    v15 --> v16
+    v17 --> v16
+    v16 --> v20
+    v20 --> v22
+    v20 --> v21

@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored bbmap/bbnorm module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bbmap-bbnorm
+name: "BBNorm"
+summary: "Normalise read depth (k-mer coverage) with BBNorm."
+
+params:
+  reads:
+    kind: input
+    type: file
+    required: true
+    description: "FASTQ file (.fastq.gz)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  fastq:
+    type: directory
+    path: '${outdir}/bbmap_bbnorm'
+    primary: true

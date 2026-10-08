@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored hmmcopy/gccounter module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/hmmcopy-gccounter
+name: "HMMcopy gcCounter"
+summary: "Compute GC content in fixed windows with HMMcopy gcCounter."
+
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  wig:
+    type: directory
+    path: '${outdir}/hmmcopy_gccounter'
+    primary: true

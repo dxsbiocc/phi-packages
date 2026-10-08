@@ -1,0 +1,59 @@
+flowchart TB
+    subgraph " "
+    v0["empty2"]
+    v1["bam_ch"]
+    v2["step"]
+    v6["empty3"]
+    v7["step"]
+    v11["step"]
+    v15["step"]
+    v19["step"]
+    end
+    v3(["CNVNATOR_RD"])
+    subgraph " "
+    v4[" "]
+    v5[" "]
+    v9[" "]
+    v10[" "]
+    v13[" "]
+    v14[" "]
+    v17[" "]
+    v18[" "]
+    v21[" "]
+    v22[" "]
+    v23[" "]
+    end
+    v8(["CNVNATOR_HIST"])
+    v12(["CNVNATOR_STAT"])
+    v16(["CNVNATOR_PARTITION"])
+    v20(["CNVNATOR_CNVNATOR"])
+    v0 --> v3
+    v0 --> v8
+    v0 --> v12
+    v0 --> v16
+    v0 --> v20
+    v1 --> v3
+    v2 --> v3
+    v3 --> v8
+    v3 --> v5
+    v3 --> v4
+    v6 --> v8
+    v6 --> v12
+    v6 --> v16
+    v6 --> v20
+    v7 --> v8
+    v8 --> v12
+    v8 --> v10
+    v8 --> v9
+    v11 --> v12
+    v12 --> v16
+    v12 --> v14
+    v12 --> v13
+    v15 --> v16
+    v16 --> v20
+    v16 --> v18
+    v16 --> v17
+    v19 --> v20
+    v20 --> v23
+    v20 --> v22
+    v20 --> v21

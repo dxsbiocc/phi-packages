@@ -1,0 +1,64 @@
+# Agent-facing wrapper adapter for the vendored quantify_rsem subworkflow at
+# ../main.nf (RSEM calculateexpression -> merge counts across samples ->
+# tximport -> SummarizedExperiment). Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# rsem/preparereference is composed directly (not a wrapper, per section 6)
+# so callers supply a genome FASTA/GTF instead of a pre-built RSEM index —
+# no pre-built index exists in nf-core's test-datasets to point at.
+id: nf-core/subworkflows/quantify-rsem
+name: Quantify (RSEM)
+summary: Build an RSEM index, quantify paired-end reads against it, and summarise counts/TPM with tximport and SummarizedExperiment.
+
+params:
+  reads_1:
+    kind: input
+    type: fastq
+    required: true
+    description: Read 1 FASTQ.
+  reads_2:
+    kind: input
+    type: fastq
+    required: true
+    description: Read 2 FASTQ.
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: Genome FASTA to build the RSEM index from.
+  gtf:
+    kind: input
+    type: gtf
+    required: true
+    description: Gene annotation GTF, used both for the RSEM index and the transcript-to-gene map.
+  samplesheet:
+    kind: input
+    type: file
+    required: true
+    description: Sample metadata sheet (csv) with one row per sample, used to annotate the SummarizedExperiment.
+  id:
+    kind: option
+    type: string
+    required: false
+    description: GTF attribute used as the gene id column in the transcript-to-gene map.
+  extra:
+    kind: option
+    type: string
+    required: false
+    description: Comma-separated extra GTF attributes (e.g. gene_name) appended to the transcript-to-gene map.
+  skip_merge:
+    kind: option
+    type: boolean
+    required: false
+    description: Skip cross-sample merging and SummarizedExperiment building; run tximport per-sample only.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the RSEM quantification, merged counts/TPM, and SummarizedExperiment .rds objects.
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/quantify_rsem'
+    primary: true

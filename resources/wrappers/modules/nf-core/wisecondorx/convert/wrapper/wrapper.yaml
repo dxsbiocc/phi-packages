@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored wisecondorx/convert module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/wisecondorx-convert
+name: "WisecondorX convert"
+summary: "Convert a BAM to a WisecondorX .npz bin-count file."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  npz:
+    type: directory
+    path: '${outdir}/wisecondorx_convert'
+    primary: true

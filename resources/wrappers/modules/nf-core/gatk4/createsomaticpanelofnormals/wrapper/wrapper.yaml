@@ -1,0 +1,41 @@
+# Agent-facing wrapper adapter for the vendored gatk4/createsomaticpanelofnormals module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: unpacks the GenomicsDB archive with the vendored untar module.
+id: nf-core/modules/gatk4-createsomaticpanelofnormals
+name: "GATK4 CreateSomaticPanelOfNormals"
+summary: "Create a somatic panel of normals from a GenomicsDB workspace with GATK4 CreateSomaticPanelOfNormals."
+
+params:
+  genomicsdb:
+    kind: input
+    type: file
+    required: true
+    description: "GenomicsDB workspace archive (.tar.gz)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/gatk4_createsomaticpanelofnormals'
+    primary: true

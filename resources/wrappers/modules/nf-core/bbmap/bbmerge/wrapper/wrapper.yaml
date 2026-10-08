@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored bbmap/bbmerge module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bbmap-bbmerge
+name: BBMap bbmerge
+summary: Merge overlapping paired-end reads into single reads with BBMap bbmerge.
+
+params:
+  reads1:
+    kind: input
+    type: file
+    required: true
+    description: First-of-pair FASTQ file (plain or gzipped).
+  reads2:
+    kind: input
+    type: file
+    required: true
+    description: Second-of-pair FASTQ file (plain or gzipped).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the merged/unmerged reads and insert-size histogram.
+
+outputs:
+  merged:
+    type: directory
+    path: '${outdir}/bbmap_bbmerge'
+    primary: true

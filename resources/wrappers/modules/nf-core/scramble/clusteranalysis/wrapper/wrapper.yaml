@@ -1,0 +1,36 @@
+# Agent-facing wrapper adapter for the vendored scramble/clusteranalysis module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: identifies soft-clip clusters with the vendored scramble clusteridentifier module first.
+id: nf-core/modules/scramble-clusteranalysis
+name: "SCRAMble cluster_analysis"
+summary: "Classify soft-clip clusters into mobile-element insertions (cluster_identifier -> cluster_analysis)."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/scramble_clusteranalysis'
+    primary: true

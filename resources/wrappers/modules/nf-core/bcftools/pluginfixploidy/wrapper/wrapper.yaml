@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored bcftools/pluginfixploidy module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bcftools-pluginfixploidy
+name: "bcftools pluginfixploidy"
+summary: "Fix genotype ploidy with the bcftools +fixploidy plugin."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped VCF file."
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the VCF."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/bcftools_pluginfixploidy'
+    primary: true

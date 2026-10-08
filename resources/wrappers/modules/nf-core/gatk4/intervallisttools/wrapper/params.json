@@ -1,0 +1,5 @@
+{
+  "bed": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/genome/bed/test.bed",
+  "dict": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/genome/genome.dict",
+  "outdir": "results"
+}

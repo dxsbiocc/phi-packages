@@ -1,0 +1,5 @@
+{
+  "anndata": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/scrnaseq/h5ad/SRR28679759_filtered_matrix.h5ad",
+  "barcodes": "tests/data/barcodes.txt",
+  "outdir": "results"
+}

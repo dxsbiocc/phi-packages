@@ -1,0 +1,8 @@
+{
+  "bed12": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/riboseq_expression/orf_catalogue/cohort.catalogue.bed12",
+  "catalogue": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/riboseq_expression/orf_catalogue/cohort.catalogue.tsv",
+  "orf_to_gene": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/riboseq_expression/orf_catalogue/cohort.orf_to_gene.tsv",
+  "aa_fasta": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/riboseq_expression/orf_catalogue/cohort.catalogue.aa.fasta",
+  "cluster": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/riboseq_expression/orf_catalogue/cohort_cluster.tsv",
+  "outdir": "results"
+}

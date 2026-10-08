@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored bedtools/split module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bedtools-split
+name: "bedtools split"
+summary: "Split a BED file into several files with bedtools split."
+
+params:
+  bed:
+    kind: input
+    type: file
+    required: true
+    description: "BED file to split."
+  count:
+    kind: option
+    type: integer
+    required: false
+    description: "Number of output files."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  beds:
+    type: directory
+    path: '${outdir}/bedtools_split'
+    primary: true

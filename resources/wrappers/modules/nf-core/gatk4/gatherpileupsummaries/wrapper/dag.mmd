@@ -1,0 +1,17 @@
+flowchart TB
+    subgraph " "
+    v0["pileup_ch"]
+    v1["dict_ch"]
+    v5["channel.empty"]
+    end
+    v2(["GATK4_GATHERPILEUPSUMMARIES"])
+    subgraph " "
+    v3[" "]
+    v4[" "]
+    v6[" "]
+    end
+    v0 --> v2
+    v1 --> v2
+    v2 --> v4
+    v2 --> v3
+    v5 --> v6

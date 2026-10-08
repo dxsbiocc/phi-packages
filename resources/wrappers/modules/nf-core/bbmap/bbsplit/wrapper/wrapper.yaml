@@ -1,0 +1,38 @@
+# Agent-facing wrapper adapter for the vendored bbmap/bbsplit module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Only the index-build mode is exposed (only_build_index=true, no reads) —
+# see wrapper/main.nf's comment. Splitting reads against a pre-built index
+# is a separate BBSplit use case this wrapper does not cover.
+id: nf-core/modules/bbmap-bbsplit
+name: BBSplit (build index)
+summary: Build a BBSplit index that separates a primary reference genome from one or more contaminant/other reference genomes.
+
+params:
+  primary_ref:
+    kind: input
+    type: fasta
+    required: true
+    description: Primary reference genome FASTA reads should be assigned to.
+  other_refs:
+    kind: input
+    type: path_glob
+    required: true
+    description: Glob matching one or more other/contaminant reference FASTA files.
+  other_names:
+    kind: option
+    type: string
+    required: false
+    description: Comma-separated names for each file matched by other_refs, in the same order (e.g. "human,mouse").
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the BBSplit index.
+
+outputs:
+  index:
+    type: directory
+    path: '${outdir}/bbsplit'
+    primary: true

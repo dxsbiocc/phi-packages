@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored stringtie/stringtie module
+# at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/stringtie-stringtie
+name: stringtie
+summary: Assemble and quantify transcripts from a coordinate-sorted BAM with StringTie.
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: Coordinate-sorted BAM of spliced alignments to assemble.
+  gtf:
+    kind: input
+    type: gtf
+    required: true
+    description: Reference annotation GTF for guided assembly.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the assembled transcripts and abundance table.
+
+outputs:
+  transcripts:
+    type: directory
+    path: "${outdir}/stringtie_stringtie"
+    primary: true

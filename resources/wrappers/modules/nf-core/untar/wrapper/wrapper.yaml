@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored untar module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/untar
+name: untar
+summary: Extract a .tar / .tar.gz archive into a directory.
+
+params:
+  archive:
+    kind: input
+    type: file
+    required: true
+    description: Tar archive to extract (.tar, .tar.gz, .tgz).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the extracted contents.
+
+outputs:
+  extracted:
+    type: directory
+    path: '${outdir}/untar'
+    primary: true

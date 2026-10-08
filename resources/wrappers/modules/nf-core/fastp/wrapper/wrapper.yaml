@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored fastp module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# The module also accepts an adapter FASTA and discard/save-fail/save-merged
+# toggles (see ../main.nf's `input:` block); this wrapper always passes no
+# adapter file and leaves all three toggles off, matching fastp's own
+# defaults (auto-detect adapters, write only the trimmed-pass reads).
+id: nf-core/modules/fastp
+name: fastp
+summary: Trim adapters and filter FASTQ reads with fastp.
+
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: FASTQ files to trim (glob matching paired- or single-end reads).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for trimmed reads and fastp's JSON/HTML/log reports.
+
+outputs:
+  reads:
+    type: directory
+    path: '${outdir}/fastp'
+    primary: true
+  reports:
+    type: directory
+    path: '${outdir}/fastp'

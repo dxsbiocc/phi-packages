@@ -1,0 +1,4 @@
+{
+  "archive": "tests/data/test_1.fastq.gz",
+  "outdir": "results"
+}

@@ -1,0 +1,55 @@
+# Agent-facing wrapper adapter for the vendored star/starsolo module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# star/genomegenerate is composed directly (not a wrapper, per section 6) so
+# callers supply a genome FASTA/GTF instead of a pre-built STAR index.
+# Barcode whitelist is left unset (auto-detect), matching the module's own
+# test; a real 10x run would supply the matching chemistry whitelist.
+id: nf-core/modules/star-starsolo
+name: STARsolo
+summary: Align and count single-cell RNA-seq reads (cell barcodes + UMIs) against a genome with STARsolo.
+
+params:
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: Genome FASTA to build the STAR index from.
+  gtf:
+    kind: input
+    type: gtf
+    required: true
+    description: Gene annotation GTF for the STAR index and gene counting.
+  cb_read:
+    kind: input
+    type: fastq
+    required: true
+    description: Cell barcode + UMI read (typically R1 for 10x Chromium data).
+  cdna_read:
+    kind: input
+    type: fastq
+    required: true
+    description: cDNA read (typically R2 for 10x Chromium data).
+  umi_len:
+    kind: option
+    type: integer
+    required: false
+    description: UMI length in bases (CB_UMI_Simple solo type).
+  solo_type:
+    kind: option
+    type: string
+    required: false
+    enum: [CB_UMI_Simple, CB_UMI_Complex]
+    description: STARsolo barcode/UMI layout type.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the per-cell count matrix and logs.
+
+outputs:
+  counts:
+    type: directory
+    path: '${outdir}/star_starsolo'
+    primary: true

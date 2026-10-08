@@ -1,0 +1,13 @@
+schemaVersion: 1
+id: biorxiv
+type: mcp
+version: 1.0.0
+title: bioRxiv
+summary: 检索 bioRxiv 和 medRxiv 预印本
+connector:
+  transport: http
+  publisher: Anthropic
+  category: 健康与生命科学
+  homepage: https://claude.com/marketplace/connectors/biorxiv
+  url: https://hcls.mcp.claude.com/biorxiv/mcp
+  auth: none

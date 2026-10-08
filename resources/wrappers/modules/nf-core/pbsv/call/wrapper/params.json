@@ -1,0 +1,5 @@
+{
+  "svsig": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/pacbio/svsig/NA03697B2_new.pbmm2.repeats.svsig.gz",
+  "fasta": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/genome3.fasta",
+  "outdir": "results"
+}

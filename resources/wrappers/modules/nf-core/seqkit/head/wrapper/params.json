@@ -1,0 +1,6 @@
+{
+  "reads1": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/illumina/fastq/test2_1.fastq.gz",
+  "reads2": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/illumina/fastq/test2_2.fastq.gz",
+  "seq_count": 100,
+  "outdir": "results"
+}

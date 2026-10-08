@@ -1,0 +1,4 @@
+{
+  "matrix": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/illumina/deeptools/test.computeMatrix.mat.gz",
+  "outdir": "results"
+}

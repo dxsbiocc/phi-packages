@@ -1,0 +1,19 @@
+flowchart TB
+    subgraph " "
+    v0["in_ch"]
+    v1["alleles"]
+    v2["invariant_sites"]
+    v6["channel.empty"]
+    end
+    v3(["ATLAS_RECAL"])
+    subgraph " "
+    v4[" "]
+    v5[" "]
+    v7[" "]
+    end
+    v0 --> v3
+    v1 --> v3
+    v2 --> v3
+    v3 --> v5
+    v3 --> v4
+    v6 --> v7

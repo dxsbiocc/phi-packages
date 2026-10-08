@@ -1,0 +1,59 @@
+# Agent-facing wrapper adapter for the vendored strelka/somatic module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/strelka-somatic
+name: "Strelka somatic"
+summary: "Call somatic small variants from a tumour/normal pair with Strelka2."
+
+params:
+  normal:
+    kind: input
+    type: file
+    required: true
+    description: "Normal CRAM."
+  normal_idx:
+    kind: input
+    type: file
+    required: true
+    description: "Normal CRAM index (.crai)."
+  tumor:
+    kind: input
+    type: file
+    required: true
+    description: "Tumour CRAM."
+  tumor_idx:
+    kind: input
+    type: file
+    required: true
+    description: "Tumour CRAM index (.crai)."
+  target_bed:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped target BED."
+  target_bed_idx:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the target BED."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf_snvs:
+    type: directory
+    path: '${outdir}/strelka_somatic'
+    primary: true

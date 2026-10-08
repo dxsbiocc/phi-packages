@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored gatk4/filterintervals module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4-filterintervals
+name: "GATK4 FilterIntervals"
+summary: "Filter intervals by GC content, mappability and read counts with GATK4 FilterIntervals."
+
+params:
+  intervals:
+    kind: input
+    type: file
+    required: true
+    description: "Preprocessed interval_list."
+  counts:
+    kind: input
+    type: file
+    required: true
+    description: "Read-counts TSV (from CollectReadCounts)."
+  annotated:
+    kind: input
+    type: file
+    required: true
+    description: "Annotated-intervals TSV (from AnnotateIntervals)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  interval_list:
+    type: directory
+    path: '${outdir}/gatk4_filterintervals'
+    primary: true

@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored custom/collectfeaturecounts module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/custom-collectfeaturecounts
+name: "Custom collectfeaturecounts"
+summary: "Merge several featureCounts tables into one count matrix."
+
+params:
+  counts1:
+    kind: input
+    type: file
+    required: true
+    description: "First featureCounts table (TSV)."
+  counts2:
+    kind: input
+    type: file
+    required: true
+    description: "Second featureCounts table (TSV)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  counts:
+    type: directory
+    path: '${outdir}/custom_collectfeaturecounts'
+    primary: true

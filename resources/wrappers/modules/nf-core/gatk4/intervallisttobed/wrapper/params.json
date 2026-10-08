@@ -1,0 +1,4 @@
+{
+  "intervals": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/chr21/sequence/genome.interval_list",
+  "outdir": "results"
+}

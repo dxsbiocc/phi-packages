@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored plink2/pmerge module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: splits the shared plink_simulated pgen/pvar/psam fixture into two
+#
+# disjoint variant ranges with the vendored plink2/filter module (included twice,
+#
+# aliased as PART1/PART2), then merges them back together. PMERGE needs two genuinely
+#
+# disjoint filesets that share samples, mirroring the module's own nf-test fixture.
+id: nf-core/modules/plink2-pmerge
+name: "plink2 pmerge"
+summary: "Merge two disjoint-variant PLINK2 pgen/pvar/psam filesets that share the same samples."
+
+params:
+  pgen:
+    kind: input
+    type: file
+    required: true
+    description: "PLINK2 genotype file (.pgen)."
+  pvar:
+    kind: input
+    type: file
+    required: true
+    description: "PLINK2 variant file (.pvar)."
+  psam:
+    kind: input
+    type: file
+    required: true
+    description: "PLINK2 sample file (.psam)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  pgen:
+    type: directory
+    path: '${outdir}/plink2_pmerge'
+    primary: true

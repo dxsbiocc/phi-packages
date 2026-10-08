@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored snpsift/annotate module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/snpsift-annotate
+name: "SnpSift annotate"
+summary: "Annotate a VCF from another VCF database with SnpSift annotate."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped VCF file."
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the VCF."
+  database:
+    kind: input
+    type: file
+    required: true
+    description: "Annotation database VCF (bgzipped)."
+  database_tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the database."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/snpsift_annotate'
+    primary: true

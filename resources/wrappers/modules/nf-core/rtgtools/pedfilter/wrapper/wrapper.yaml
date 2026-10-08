@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored rtgtools/pedfilter module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/rtgtools-pedfilter
+name: "RTG Tools pedfilter"
+summary: "Filter and convert PED pedigree files with rtg pedfilter."
+
+params:
+  ped:
+    kind: input
+    type: file
+    required: true
+    description: "PED pedigree file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  output:
+    type: directory
+    path: '${outdir}/rtgtools_pedfilter'
+    primary: true

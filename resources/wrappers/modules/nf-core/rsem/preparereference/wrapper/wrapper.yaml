@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored rsem/preparereference
+# module at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/rsem-preparereference
+name: rsem preparereference
+summary: Build an RSEM reference index for a genome and annotation.
+
+params:
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: Reference genome FASTA to index.
+  gtf:
+    kind: input
+    type: gtf
+    required: true
+    description: Gene annotation GTF used to build the transcript model.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the RSEM reference.
+
+outputs:
+  index:
+    type: directory
+    path: "${outdir}/rsem_preparereference"
+    primary: true

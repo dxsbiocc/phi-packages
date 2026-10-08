@@ -1,0 +1,18 @@
+flowchart TB
+    subgraph " "
+    v0["fasta_ch"]
+    end
+    v1(["MMSEQS_CREATEDB"])
+    subgraph " "
+    v2[" "]
+    v5[" "]
+    v6[" "]
+    end
+    v4(["MMSEQS_CLUSTER"])
+    v3(( ))
+    v0 --> v1
+    v1 --> v2
+    v1 --> v3
+    v3 --> v4
+    v4 --> v6
+    v4 --> v5

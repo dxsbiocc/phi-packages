@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored bismark/coverage2cytosine module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: builds the Bismark genome index with the vendored bismark genomepreparation module first.
+id: nf-core/modules/bismark-coverage2cytosine
+name: "Bismark coverage2cytosine"
+summary: "Generate genome-wide cytosine reports from coverage files (index → methylation extractor → coverage2cytosine)."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Bismark-aligned paired-end BAM."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  coverage:
+    type: directory
+    path: '${outdir}/bismark_coverage2cytosine'
+    primary: true

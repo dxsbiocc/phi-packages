@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored gatk4/reblockgvcf module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4-reblockgvcf
+name: "GATK4 ReblockGVCF"
+summary: "Compress a gVCF by merging homozygous-reference blocks with GATK4 ReblockGVCF."
+
+params:
+  gvcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped gVCF file."
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the gVCF."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/gatk4_reblockgvcf'
+    primary: true

@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored custom/resolvetaxonomy module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/custom-resolvetaxonomy
+name: "Custom resolvetaxonomy"
+summary: "Extract embedded taxonomy from FASTA headers into a taxonomy table."
+
+params:
+  sequences:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA with taxonomy embedded in headers."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  taxonomy:
+    type: directory
+    path: '${outdir}/custom_resolvetaxonomy'
+    primary: true

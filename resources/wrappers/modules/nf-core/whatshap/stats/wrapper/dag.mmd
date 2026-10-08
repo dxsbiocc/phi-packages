@@ -1,0 +1,27 @@
+flowchart TB
+    subgraph " "
+    v0["vcf_ch"]
+    v1["include_tsv_output"]
+    v2["include_gtf_output"]
+    v3["inlude_block_output"]
+    v10["channel.empty"]
+    end
+    v4(["WHATSHAP_STATS"])
+    subgraph " "
+    v5[" "]
+    v6[" "]
+    v7[" "]
+    v8[" "]
+    v9[" "]
+    v11[" "]
+    end
+    v0 --> v4
+    v1 --> v4
+    v2 --> v4
+    v3 --> v4
+    v4 --> v9
+    v4 --> v8
+    v4 --> v7
+    v4 --> v6
+    v4 --> v5
+    v10 --> v11

@@ -1,0 +1,5 @@
+{
+  "normal": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/mpileup/test.mpileup.gz",
+  "tumour": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/mpileup/test2.mpileup.gz",
+  "outdir": "results"
+}

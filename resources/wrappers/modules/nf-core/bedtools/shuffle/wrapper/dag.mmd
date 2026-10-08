@@ -1,0 +1,21 @@
+flowchart TB
+    subgraph " "
+    v0["bed_ch"]
+    v1["fai_ch"]
+    v2["exclude_file"]
+    v3["include_file"]
+    v7["channel.empty"]
+    end
+    v4(["BEDTOOLS_SHUFFLE"])
+    subgraph " "
+    v5[" "]
+    v6[" "]
+    v8[" "]
+    end
+    v0 --> v4
+    v1 --> v4
+    v2 --> v4
+    v3 --> v4
+    v4 --> v6
+    v4 --> v5
+    v7 --> v8

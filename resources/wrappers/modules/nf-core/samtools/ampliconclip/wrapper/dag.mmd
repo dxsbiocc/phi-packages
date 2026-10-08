@@ -1,0 +1,25 @@
+flowchart TB
+    subgraph " "
+    v0["bam_ch"]
+    v1["bed_ch"]
+    v2["save_cliprejects"]
+    v3["save_clipstats"]
+    v9["channel.empty"]
+    end
+    v4(["SAMTOOLS_AMPLICONCLIP"])
+    subgraph " "
+    v5[" "]
+    v6[" "]
+    v7[" "]
+    v8[" "]
+    v10[" "]
+    end
+    v0 --> v4
+    v1 --> v4
+    v2 --> v4
+    v3 --> v4
+    v4 --> v8
+    v4 --> v7
+    v4 --> v6
+    v4 --> v5
+    v9 --> v10

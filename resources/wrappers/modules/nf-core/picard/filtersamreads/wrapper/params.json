@@ -1,0 +1,5 @@
+{
+  "bam": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/illumina/bam/test.single_end.sorted.bam",
+  "filter": "includeAligned",
+  "outdir": "results"
+}

@@ -1,0 +1,95 @@
+name: "deeptools_plotcorrelation"
+description: Visualises sample correlations using a compressed matrix generated
+  by mutlibamsummary or multibigwigsummary as input.
+keywords:
+  - corrrelation
+  - matrix
+  - heatmap
+  - scatterplot
+tools:
+  - deeptools:
+      description: A set of user-friendly tools for normalization and
+        visualization of deep-sequencing data
+      documentation: https://deeptools.readthedocs.io/en/develop/index.html
+      tool_dev_url: https://github.com/deeptools/deepTools
+      doi: "10.1093/nar/gku365"
+      licence:
+        - "GPL v3"
+      identifier: biotools:deeptools
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. [ id:'test', single_end:false ]
+    - matrix:
+        type: file
+        description: |
+          compressed matrix file produced by
+          mutlibamsummary or multibigwigsummary
+        pattern: "*.{npz}"
+        ontologies: []
+  - method:
+      type: string
+      description: |
+        Correlation coefficient to use for heatmap or scatterplot generation
+      pattern: "{spearman,pearson}"
+  - plot_type:
+      type: string
+      description: |
+        Type of output plot to display sample correlation
+      pattern: "{heatmap,scatterplot}"
+output:
+  pdf:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "*.pdf":
+          type: file
+          description: |
+            Output figure containing resulting plot
+          pattern: "*.{plotCorrelation.pdf}"
+          ontologies: []
+  matrix:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "*.tab":
+          type: file
+          description: |
+            Tab-separated file containing a matrix of pairwise correlations
+          pattern: "*.{plotCorrelation.mat.tab}"
+          ontologies: []
+  versions_deeptools:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - deeptools:
+          type: string
+          description: The name of the tool
+      - plotCorrelation --version | sed "s/plotCorrelation //g":
+          type: eval
+          description: The expression to obtain the version of the tool
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - deeptools:
+          type: string
+          description: The name of the tool
+      - plotCorrelation --version | sed "s/plotCorrelation //g":
+          type: eval
+          description: The expression to obtain the version of the tool
+authors:
+  - "@tamara-hodgetts"
+  - "@chris-cheshire"
+  - "@joseespinosa"
+maintainers:
+  - "@tamara-hodgetts"
+  - "@chris-cheshire"
+  - "@joseespinosa"

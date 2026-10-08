@@ -1,0 +1,23 @@
+flowchart TB
+    subgraph " "
+    v0["in_ch"]
+    v1["bin_sizes"]
+    v2["output_format"]
+    v8["channel.empty"]
+    end
+    v3(["CNVPYTOR_VIEW"])
+    subgraph " "
+    v4[" "]
+    v5[" "]
+    v6[" "]
+    v7[" "]
+    v9[" "]
+    end
+    v0 --> v3
+    v1 --> v3
+    v2 --> v3
+    v3 --> v7
+    v3 --> v6
+    v3 --> v5
+    v3 --> v4
+    v8 --> v9

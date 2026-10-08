@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored picard/createsequencedictionary
+# module at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/picard-createsequencedictionary
+name: picard CreateSequenceDictionary
+summary: Build a .dict sequence dictionary for a FASTA reference with Picard.
+
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: Reference FASTA file.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the sequence dictionary.
+
+outputs:
+  reference_dict:
+    type: directory
+    path: '${outdir}/picard_createsequencedictionary'
+    primary: true

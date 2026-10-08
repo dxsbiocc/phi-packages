@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored whatshap/stats module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/whatshap-stats
+name: "WhatsHap stats"
+summary: "Summarise phased VCF statistics with WhatsHap."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Phased VCF (bgzipped)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  tsv:
+    type: directory
+    path: '${outdir}/whatshap_stats'
+    primary: true

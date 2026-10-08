@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored vcflib/vcfbreakmulti module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/vcflib-vcfbreakmulti
+name: "vcflib vcfbreakmulti"
+summary: "Break multiallelic VCF records into biallelic ones with vcflib."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped VCF file."
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the VCF."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/vcflib_vcfbreakmulti'
+    primary: true

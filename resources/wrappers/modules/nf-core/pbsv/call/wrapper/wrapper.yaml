@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored pbsv/call module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/pbsv-call
+name: "pbsv call"
+summary: "Call PacBio SVs from signatures with pbsv call."
+
+params:
+  svsig:
+    kind: input
+    type: file
+    required: true
+    description: "pbsv signature file (.svsig.gz)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/pbsv_call'
+    primary: true

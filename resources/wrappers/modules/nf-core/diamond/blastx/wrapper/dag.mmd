@@ -1,0 +1,40 @@
+flowchart TB
+    subgraph " "
+    v0["empty_ch"]
+    v1["subject_ch"]
+    v5["query_ch"]
+    v6["out_ext"]
+    v7["blast_columns"]
+    end
+    v2(["DIAMOND_MAKEDB"])
+    subgraph " "
+    v3[" "]
+    v9[" "]
+    v10[" "]
+    v11[" "]
+    v12[" "]
+    v13[" "]
+    v14[" "]
+    v15[" "]
+    v16[" "]
+    v17[" "]
+    end
+    v8(["DIAMOND_BLASTX"])
+    v4(( ))
+    v0 --> v2
+    v1 --> v2
+    v2 --> v3
+    v2 --> v4
+    v5 --> v8
+    v6 --> v8
+    v7 --> v8
+    v4 --> v8
+    v8 --> v17
+    v8 --> v16
+    v8 --> v15
+    v8 --> v14
+    v8 --> v13
+    v8 --> v12
+    v8 --> v11
+    v8 --> v10
+    v8 --> v9

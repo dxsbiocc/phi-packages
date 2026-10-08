@@ -1,0 +1,46 @@
+# Agent-facing wrapper adapter for the vendored bam_dedup_stats_samtools_umitools
+# subworkflow at ../main.nf (optional primary-only filter -> UMI-tools dedup
+# -> samtools index -> samtools stats/flagstat/idxstats). Follows the
+# minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/subworkflows/bam-dedup-stats-samtools-umitools
+name: BAM UMI dedup + stats (UMI-tools)
+summary: Deduplicate a UMI-tagged BAM with UMI-tools dedup, index the result, and compute samtools stats, flagstat and idxstats.
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: Coordinate-sorted BAM with UMIs in the read name.
+  bai:
+    kind: input
+    type: bai
+    required: true
+    description: Index for the input BAM.
+  single_end:
+    kind: option
+    type: boolean
+    required: false
+    description: Whether the reads are single-end.
+  get_dedup_stats:
+    kind: option
+    type: boolean
+    required: false
+    description: Also write per-UMI/per-position/edit-distance deduplication stats TSVs.
+  primary_only:
+    kind: option
+    type: boolean
+    required: false
+    description: Filter to primary alignments before deduplication.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the deduplicated BAM, its index, and the stats reports.
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/bam_dedup_stats_samtools_umitools'
+    primary: true

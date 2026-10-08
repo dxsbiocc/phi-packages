@@ -1,0 +1,47 @@
+# Agent-facing wrapper adapter for the vendored gatk4/haplotypecaller module
+# at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# No known-sites dbSNP or intervals exposed — a plain whole-BAM germline
+# call, matching the module's own simplest test.
+id: nf-core/modules/gatk4-haplotypecaller
+name: GATK4 HaplotypeCaller
+summary: Call germline SNPs and indels from a BAM against a reference with GATK4 HaplotypeCaller.
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: Coordinate-sorted BAM file.
+  bai:
+    kind: input
+    type: bai
+    required: true
+    description: Index for the input BAM.
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: Reference genome FASTA.
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: FASTA index (.fai) for the reference.
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: Sequence dictionary (.dict) for the reference.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the called VCF and its index.
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/gatk4_haplotypecaller'
+    primary: true

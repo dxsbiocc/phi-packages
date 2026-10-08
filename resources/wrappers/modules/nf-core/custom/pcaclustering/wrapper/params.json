@@ -1,0 +1,8 @@
+{
+  "features": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/popgen/clustering/test_features.tsv",
+  "algorithm": "kmeans",
+  "n_clusters": 3,
+  "dbscan_eps": "0.5",
+  "dbscan_min_samples": 5,
+  "outdir": "results"
+}

@@ -1,0 +1,29 @@
+flowchart TB
+    subgraph " "
+    v0["reads_ch"]
+    v1["ref_ch"]
+    v2["bam_format"]
+    v3["bam_index_extension"]
+    v4["cigar_paf_format"]
+    v5["cigar_bam"]
+    v11["channel.empty"]
+    end
+    v6(["MINIMAP2_ALIGN"])
+    subgraph " "
+    v7[" "]
+    v8[" "]
+    v9[" "]
+    v10[" "]
+    v12[" "]
+    end
+    v0 --> v6
+    v1 --> v6
+    v2 --> v6
+    v3 --> v6
+    v4 --> v6
+    v5 --> v6
+    v6 --> v10
+    v6 --> v9
+    v6 --> v8
+    v6 --> v7
+    v11 --> v12

@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored rseqc/innerdistance module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# RSeQC needs a BAM index next to the BAM; this wrapper runs samtools/index
+# first so callers only supply the BAM (composes vendored modules directly,
+# per section 6 of the design doc). Only paired-end data is exercised — the
+# module short-circuits to a placeholder message for single-end input.
+id: nf-core/modules/rseqc-innerdistance
+name: RSeQC inner distance
+summary: Estimate paired-end fragment inner distance with RSeQC inner_distance.py.
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: Coordinate-sorted paired-end BAM file.
+  bed:
+    kind: input
+    type: file
+    required: true
+    description: BED12 file of reference gene models.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the RSeQC inner distance report.
+
+outputs:
+  report:
+    type: directory
+    path: '${outdir}/rseqc_innerdistance'
+    primary: true

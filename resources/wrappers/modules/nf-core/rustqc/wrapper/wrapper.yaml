@@ -1,0 +1,40 @@
+# Agent-facing wrapper adapter for the vendored rustqc module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# RustQC needs a BAM index next to the BAM; this wrapper runs samtools/index
+# first so callers only supply the BAM (composes vendored modules directly,
+# per section 6 of the design doc). --skip-dup-check --stranded forward
+# defaults mirror the module's own test config, since forward strandedness
+# and duplicate marking can't be inferred from the BAM alone.
+id: nf-core/modules/rustqc
+name: RustQC
+summary: Run a bundle of RNA-seq QC tools (dupRadar, featureCounts, preseq, samtools, RSeQC, Qualimap) against a BAM in one pass.
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: Coordinate-sorted BAM file.
+  gtf:
+    kind: input
+    type: gtf
+    required: true
+    description: Gene annotation GTF.
+  single_end:
+    kind: option
+    type: boolean
+    required: false
+    description: Whether the reads are single-end.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the combined QC report bundle.
+
+outputs:
+  report:
+    type: directory
+    path: '${outdir}/rustqc'
+    primary: true

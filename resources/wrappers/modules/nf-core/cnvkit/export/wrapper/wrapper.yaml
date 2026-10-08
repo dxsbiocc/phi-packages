@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored cnvkit/export module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/cnvkit-export
+name: "CNVkit export"
+summary: "Export CNVkit results to BED or other formats with CNVkit export."
+
+params:
+  cnr:
+    kind: input
+    type: file
+    required: true
+    description: "Copy-number ratios (.cnr)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  output:
+    type: directory
+    path: '${outdir}/cnvkit_export'
+    primary: true

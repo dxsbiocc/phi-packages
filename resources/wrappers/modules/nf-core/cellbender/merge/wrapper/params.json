@@ -1,0 +1,7 @@
+{
+  "filtered": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/scrnaseq/h5ad/SRR28679759_filtered_matrix.h5ad",
+  "unfiltered": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/scrnaseq/h5ad/SRR28679759_raw_matrix.h5ad",
+  "cellbender_h5": "https://raw.githubusercontent.com/nf-core/test-datasets/scdownstream/intermediates/SRR28679759_cellbender.h5",
+  "output_layer_name": "",
+  "outdir": "results"
+}

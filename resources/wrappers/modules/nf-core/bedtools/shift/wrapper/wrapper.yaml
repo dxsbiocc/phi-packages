@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored bedtools/shift module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bedtools-shift
+name: "bedtools shift"
+summary: "Shift BED intervals by a fixed number of bases with bedtools shift."
+
+params:
+  bed:
+    kind: input
+    type: file
+    required: true
+    description: "BED file of intervals."
+  sizes:
+    kind: input
+    type: file
+    required: true
+    description: "Chromosome sizes file (2-column: name, length)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bed:
+    type: directory
+    path: '${outdir}/bedtools_shift'
+    primary: true

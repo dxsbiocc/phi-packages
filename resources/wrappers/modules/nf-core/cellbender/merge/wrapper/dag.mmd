@@ -1,0 +1,17 @@
+flowchart TB
+    subgraph " "
+    v0["merge_ch"]
+    v1["output_layer_name"]
+    v5["channel.empty"]
+    end
+    v2(["CELLBENDER_MERGE"])
+    subgraph " "
+    v3[" "]
+    v4[" "]
+    v6[" "]
+    end
+    v0 --> v2
+    v1 --> v2
+    v2 --> v4
+    v2 --> v3
+    v5 --> v6

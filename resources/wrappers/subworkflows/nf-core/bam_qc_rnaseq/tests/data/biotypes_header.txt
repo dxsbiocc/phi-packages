@@ -1,0 +1,5 @@
+# id: 'biotype_counts'
+# section_name: 'Biotype Counts'
+# description: 'shows reads overlapping genomic features of different biotypes'
+# plot_type: 'bargraph'
+# anchor: 'featurecounts_biotype'

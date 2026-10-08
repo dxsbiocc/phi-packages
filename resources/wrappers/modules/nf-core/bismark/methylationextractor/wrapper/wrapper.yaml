@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored bismark/methylationextractor module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: builds the Bismark genome index with the vendored bismark genomepreparation module first.
+id: nf-core/modules/bismark-methylationextractor
+name: "Bismark methylation extractor"
+summary: "Extract methylation calls from a Bismark BAM (builds the genome index first)."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Bismark-aligned paired-end BAM."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  coverage:
+    type: directory
+    path: '${outdir}/bismark_methylationextractor'
+    primary: true

@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored samtools/ampliconclip
+# module at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/samtools-ampliconclip
+name: samtools ampliconclip
+summary: Clip reads to remove amplicon primer sequences with samtools ampliconclip.
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: BAM file to clip.
+  bed:
+    kind: input
+    type: file
+    required: true
+    description: BED file of primer/amplicon coordinates.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the clipped BAM.
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/samtools_ampliconclip'
+    primary: true

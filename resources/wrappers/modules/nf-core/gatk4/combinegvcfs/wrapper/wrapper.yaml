@@ -1,0 +1,47 @@
+# Agent-facing wrapper adapter for the vendored gatk4/combinegvcfs
+# module at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Only a single input gVCF is exposed — the vendored module accepts any
+# number, but this thin adapter doesn't surface a variable-length list.
+id: nf-core/modules/gatk4-combinegvcfs
+name: GATK4 CombineGVCFs
+summary: Combine one or more gVCF files into a single gVCF with GATK4 CombineGVCFs.
+
+params:
+  gvcf:
+    kind: input
+    type: file
+    required: true
+    description: Input gVCF file (from GATK4 HaplotypeCaller in -ERC GVCF mode).
+  gvcf_index:
+    kind: input
+    type: file
+    required: true
+    description: Index (.idx or .tbi) for the input gVCF.
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: Reference FASTA file.
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: FASTA index (.fai) for the reference.
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: Sequence dictionary (.dict) for the reference.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the combined gVCF.
+
+outputs:
+  combined_gvcf:
+    type: directory
+    path: '${outdir}/gatk4_combinegvcfs'
+    primary: true

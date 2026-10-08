@@ -1,0 +1,5 @@
+{
+  "vcf": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/popgen/plink_simulated.vcf.gz",
+  "phe": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/popgen/plink_simulated.phe",
+  "outdir": "results"
+}

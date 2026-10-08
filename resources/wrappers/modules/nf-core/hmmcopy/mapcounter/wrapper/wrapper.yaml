@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored hmmcopy/mapcounter module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: generates the mappability track with the vendored hmmcopy generatemap module first.
+id: nf-core/modules/hmmcopy-mapcounter
+name: "HMMcopy mapCounter"
+summary: "Compute average mappability in windows with HMMcopy mapCounter (generateMap → mapCounter)."
+
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  wig:
+    type: directory
+    path: '${outdir}/hmmcopy_mapcounter'
+    primary: true

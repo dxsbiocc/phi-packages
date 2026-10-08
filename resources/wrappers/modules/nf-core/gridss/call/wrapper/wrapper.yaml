@@ -1,0 +1,46 @@
+# Agent-facing wrapper adapter for the vendored gridss/call module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: builds the BWA index and runs the vendored gridss preprocess and assemble modules first.
+id: nf-core/modules/gridss-call
+name: "GRIDSS call"
+summary: "Call structural variants with GRIDSS (index → preprocess → assemble → call)."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  config:
+    kind: input
+    type: file
+    required: true
+    description: "GRIDSS properties file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/gridss_call'
+    primary: true

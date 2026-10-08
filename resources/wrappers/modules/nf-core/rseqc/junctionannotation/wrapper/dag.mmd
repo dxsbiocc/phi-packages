@@ -1,0 +1,33 @@
+flowchart TB
+    subgraph " "
+    v0["channel.fromPath"]
+    v5["channel.fromPath"]
+    end
+    v2(["SAMTOOLS_INDEX"])
+    subgraph " "
+    v3[" "]
+    v7[" "]
+    v8[" "]
+    v9[" "]
+    v10[" "]
+    v11[" "]
+    v12[" "]
+    v13[" "]
+    v14[" "]
+    end
+    v6(["RSEQC_JUNCTIONANNOTATION"])
+    v1(( ))
+    v0 --> v1
+    v1 --> v2
+    v2 --> v3
+    v2 --> v1
+    v5 --> v6
+    v1 --> v6
+    v6 --> v14
+    v6 --> v13
+    v6 --> v12
+    v6 --> v11
+    v6 --> v10
+    v6 --> v9
+    v6 --> v8
+    v6 --> v7

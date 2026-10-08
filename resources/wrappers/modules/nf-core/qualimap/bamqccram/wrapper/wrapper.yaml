@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored qualimap/bamqccram
+# module at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/qualimap-bamqccram
+name: Qualimap bamqc (CRAM)
+summary: Run Qualimap bamqc QC on a CRAM alignment.
+
+params:
+  cram:
+    kind: input
+    type: file
+    required: true
+    description: CRAM file to run QC on.
+  crai:
+    kind: input
+    type: file
+    required: true
+    description: CRAM index (.crai) for the input CRAM.
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: Reference FASTA file the CRAM was aligned/compressed against.
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: FASTA index (.fai) for the reference.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the Qualimap report.
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/qualimap_bamqccram'
+    primary: true

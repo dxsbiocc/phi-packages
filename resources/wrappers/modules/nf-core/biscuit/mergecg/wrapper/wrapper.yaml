@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored biscuit/mergecg module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: builds the BISCUIT bisulfite index with the vendored biscuit index module first.
+id: nf-core/modules/biscuit-mergecg
+name: "BISCUIT mergecg"
+summary: "Merge CpG methylation calls on both strands with BISCUIT mergecg (builds the index first)."
+
+params:
+  bed:
+    kind: input
+    type: file
+    required: true
+    description: "CpG coverage BED (.bed.gz)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bed:
+    type: directory
+    path: '${outdir}/biscuit_mergecg'
+    primary: true

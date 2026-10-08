@@ -1,0 +1,49 @@
+# Multi-panel layout catalog. Read this only for multi-panel figure work.
+
+layouts:
+  - id: "equal-2x2"
+    title: "Equal 2 x 2 grid"
+    aliases:
+      - "四宫格"
+      - "2x2"
+      - "四张等大图"
+    source: "scripts/layouts/equal_2x2/compose.R"
+    preview: "scripts/layouts/equal_2x2/preview.png"
+    panel_count: 4
+    use_when: >
+      Four panels have similar inferential importance and comparable visual
+      density, so readers should compare them as peers.
+    avoid_when: >
+      Do not use when one panel contains the decisive evidence or needs much
+      more width than the others.
+
+  - id: "hero-left-stack-right"
+    title: "Primary panel left, two supporting panels right"
+    aliases:
+      - "左大右二"
+      - "主图加两个辅图"
+      - "一大两小"
+    source: "scripts/layouts/hero_left_stack_right/compose.R"
+    preview: "scripts/layouts/hero_left_stack_right/preview.png"
+    panel_count: 3
+    use_when: >
+      One primary panel establishes the claim while two smaller panels provide
+      a control, decomposition, validation, or boundary.
+    avoid_when: >
+      Do not use when all panels require equal visual comparison.
+
+  - id: "wide-top-two-bottom"
+    title: "Wide overview above two detailed panels"
+    aliases:
+      - "上大下二"
+      - "总览加双细节"
+      - "顶部通栏"
+    source: "scripts/layouts/wide_top_two_bottom/compose.R"
+    preview: "scripts/layouts/wide_top_two_bottom/preview.png"
+    panel_count: 3
+    use_when: >
+      A wide overview establishes context and two lower panels provide
+      complementary quantitative details.
+    avoid_when: >
+      Do not use when the upper panel is not a true overview or when the lower
+      panels need different heights.

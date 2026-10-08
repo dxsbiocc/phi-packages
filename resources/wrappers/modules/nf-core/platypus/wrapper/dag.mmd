@@ -1,0 +1,25 @@
+flowchart TB
+    subgraph " "
+    v0["bam_ch"]
+    v1["fasta_ch"]
+    v2["fai_ch"]
+    v3["skipregions_file"]
+    v9["channel.empty"]
+    end
+    v4(["PLATYPUS"])
+    subgraph " "
+    v5[" "]
+    v6[" "]
+    v7[" "]
+    v8[" "]
+    v10[" "]
+    end
+    v0 --> v4
+    v1 --> v4
+    v2 --> v4
+    v3 --> v4
+    v4 --> v8
+    v4 --> v7
+    v4 --> v6
+    v4 --> v5
+    v9 --> v10

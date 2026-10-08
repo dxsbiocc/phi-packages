@@ -1,0 +1,49 @@
+# Agent-facing wrapper adapter for the vendored plink/bmerge module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/plink-bmerge
+name: "PLINK merge"
+summary: "Merge two PLINK binary genotype sets with PLINK bmerge."
+
+params:
+  bed:
+    kind: input
+    type: file
+    required: true
+    description: "First PLINK .bed file."
+  bim:
+    kind: input
+    type: file
+    required: true
+    description: "First PLINK .bim file."
+  fam:
+    kind: input
+    type: file
+    required: true
+    description: "First PLINK .fam file."
+  bed2:
+    kind: input
+    type: file
+    required: true
+    description: "Second PLINK .bed file."
+  bim2:
+    kind: input
+    type: file
+    required: true
+    description: "Second PLINK .bim file."
+  fam2:
+    kind: input
+    type: file
+    required: true
+    description: "Second PLINK .fam file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bed:
+    type: directory
+    path: '${outdir}/plink_bmerge'
+    primary: true

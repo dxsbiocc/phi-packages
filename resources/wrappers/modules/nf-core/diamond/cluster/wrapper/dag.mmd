@@ -1,0 +1,20 @@
+flowchart TB
+    subgraph " "
+    v0["empty_ch"]
+    v1["fasta_ch"]
+    end
+    v2(["DIAMOND_MAKEDB"])
+    subgraph " "
+    v3[" "]
+    v6[" "]
+    v7[" "]
+    end
+    v5(["DIAMOND_CLUSTER"])
+    v4(( ))
+    v0 --> v2
+    v1 --> v2
+    v2 --> v3
+    v2 --> v4
+    v4 --> v5
+    v5 --> v7
+    v5 --> v6

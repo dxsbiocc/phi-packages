@@ -1,0 +1,5 @@
+{
+  "ref": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/popgen/1000GP.chr22.vcf.gz",
+  "ref_csi": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/popgen/1000GP.chr22.vcf.gz.csi",
+  "outdir": "results"
+}

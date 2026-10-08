@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored gatk4/shiftfasta module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4-shiftfasta
+name: "GATK4 ShiftFasta"
+summary: "Shift a circular contig's sequence by an offset (for mitochondrial calling) with GATK4 ShiftFasta."
+
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  shift_fa:
+    type: directory
+    path: '${outdir}/gatk4_shiftfasta'
+    primary: true

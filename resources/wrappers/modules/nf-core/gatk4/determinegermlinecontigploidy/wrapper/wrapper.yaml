@@ -1,0 +1,66 @@
+# Agent-facing wrapper adapter for the vendored gatk4/determinegermlinecontigploidy module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: counts reads for two samples with the vendored collectreadcounts module first.
+id: nf-core/modules/gatk4-determinegermlinecontigploidy
+name: "GATK4 DetermineGermlineContigPloidy"
+summary: "Determine contig ploidy for a cohort from read counts with GATK4 DetermineGermlineContigPloidy."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  bam2:
+    kind: input
+    type: file
+    required: true
+    description: "Second coordinate-sorted BAM file."
+  bai2:
+    kind: input
+    type: file
+    required: true
+    description: "Second BAM index (.bai)."
+  intervals:
+    kind: input
+    type: file
+    required: true
+    description: "BED of intervals to count reads over."
+  ploidy_priors:
+    kind: input
+    type: file
+    required: true
+    description: "Contig ploidy priors table (TSV)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  calls:
+    type: directory
+    path: '${outdir}/gatk4_determinegermlinecontigploidy'
+    primary: true

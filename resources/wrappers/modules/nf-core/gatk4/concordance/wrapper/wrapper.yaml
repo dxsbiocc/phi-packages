@@ -1,0 +1,59 @@
+# Agent-facing wrapper adapter for the vendored gatk4/concordance module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4-concordance
+name: "GATK4 Concordance"
+summary: "Compare a VCF against a truth VCF (TP/FP/FN) with GATK4 Concordance."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Evaluated VCF (bgzipped)."
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the evaluated VCF."
+  truth:
+    kind: input
+    type: file
+    required: true
+    description: "Truth VCF (bgzipped)."
+  truth_tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the truth VCF."
+  intervals:
+    kind: input
+    type: file
+    required: true
+    description: "BED of intervals to evaluate."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  summary:
+    type: directory
+    path: '${outdir}/gatk4_concordance'
+    primary: true

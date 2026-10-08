@@ -1,0 +1,7 @@
+interface:
+  display_name: "Omics Visualization"
+  short_description: "Render and arrange omics figures from curated templates"
+  icon_small: "./assets/omics-visualization-icon.png"
+  icon_large: "./assets/omics-visualization-icon.png"
+  brand_color: "#6F8F72"
+  default_prompt: "Use $omics-visualization to create or refine a reproducible omics figure that serves the data: state the display purpose, inspect the distribution, recommend catalog templates from the purpose and data contract, show previews only for material alternatives, keep Nature-style restraint, render a project-local copy, and inspect the final artifact at publication size."

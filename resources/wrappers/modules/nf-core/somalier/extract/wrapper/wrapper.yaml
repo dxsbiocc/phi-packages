@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored somalier/extract module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/somalier-extract
+name: "somalier extract"
+summary: "Extract fingerprint sites from a BAM with somalier extract."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  sites:
+    kind: input
+    type: file
+    required: true
+    description: "Somalier sites VCF (bgzipped)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  extract:
+    type: directory
+    path: '${outdir}/somalier_extract'
+    primary: true

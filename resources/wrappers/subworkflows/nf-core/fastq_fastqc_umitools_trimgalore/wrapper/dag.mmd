@@ -1,0 +1,67 @@
+flowchart TB
+    subgraph " "
+    v0["channel.fromFilePairs"]
+    v2["channel.empty"]
+    v4["channel.empty"]
+    v10["channel.empty"]
+    v12["channel.empty"]
+    v17["channel.empty"]
+    v19["channel.empty"]
+    v21["channel.empty"]
+    v23["channel.empty"]
+    v25["channel.empty"]
+    end
+    subgraph " "
+    v3["ch_fastqc_html"]
+    v5["ch_fastqc_zip"]
+    v7[" "]
+    v8["fastqc_zip"]
+    v9["fastqc_html"]
+    v11["ch_umi_log"]
+    v13["ch_umi_reads"]
+    v15[" "]
+    v16["umi_log"]
+    v18["ch_trim_unpaired"]
+    v20["ch_trim_html"]
+    v22["ch_trim_zip"]
+    v24["ch_trim_log"]
+    v26["ch_trim_read_count"]
+    v28[" "]
+    v29["trim_zip"]
+    v30["trim_html"]
+    v31["trim_unpaired"]
+    v36["reads"]
+    v38["trim_read_count"]
+    end
+    subgraph "FASTQ_FASTQC_UMITOOLS_TRIMGALORE [FASTQ_FASTQC_UMITOOLS_TRIMGALORE]"
+    v6(["FASTQC"])
+    v14(["UMITOOLS_EXTRACT"])
+    v27(["TRIMGALORE"])
+    v32(( ))
+    end
+    v1(( ))
+    v0 --> v1
+    v2 --> v3
+    v4 --> v5
+    v1 --> v6
+    v6 --> v9
+    v6 --> v8
+    v6 --> v7
+    v10 --> v11
+    v12 --> v13
+    v1 --> v14
+    v14 --> v27
+    v14 --> v16
+    v14 --> v15
+    v17 --> v18
+    v19 --> v20
+    v21 --> v22
+    v23 --> v24
+    v25 --> v26
+    v27 --> v31
+    v27 --> v30
+    v27 --> v29
+    v27 --> v28
+    v27 --> v32
+    v32 --> v36
+    v32 --> v38

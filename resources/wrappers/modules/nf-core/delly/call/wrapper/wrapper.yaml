@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored delly/call module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/delly-call
+name: "DELLY call"
+summary: "Call structural variants from a BAM with DELLY."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  suffix:
+    kind: option
+    type: string
+    required: false
+    description: "Output suffix."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bcf:
+    type: directory
+    path: '${outdir}/delly_call'
+    primary: true

@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored samtools/merge module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Only two input BAM files are exposed — the vendored module accepts any
+# number, but this thin adapter doesn't surface a variable-length list.
+id: nf-core/modules/samtools-merge
+name: samtools merge
+summary: Merge two coordinate-sorted BAM files into one with samtools merge.
+
+params:
+  bam1:
+    kind: input
+    type: file
+    required: true
+    description: First coordinate-sorted BAM file to merge.
+  bam2:
+    kind: input
+    type: file
+    required: true
+    description: Second coordinate-sorted BAM file to merge.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the merged BAM.
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/samtools_merge'
+    primary: true

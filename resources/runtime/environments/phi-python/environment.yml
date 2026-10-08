@@ -1,0 +1,82 @@
+name: phi-python
+description: 官方 Python 技能和 Notebook 内核共用的 Python 3.12 基础环境。
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  # Interpreter and the default notebook kernel (step 5.3).
+  - python=3.12
+  - ipykernel
+
+  # Shared command-line tooling retained for runtime compatibility.
+  - coreutils
+
+  # pptx. defusedxml, lxml, pillow, and git support the OOXML utilities.
+  - defusedxml
+  - git
+  - lxml
+  - nodejs
+  - pillow
+  - python-pptx
+  - pptxgenjs
+
+  # xlsx. defusedxml, lxml, and git are listed under pptx.
+  - openpyxl
+  - python-calamine
+  - xlsxwriter
+
+  # docx. lxml is listed under pptx.
+  - python-docx
+
+  # pdf.
+  - pdfplumber
+  - poppler
+  - pypdf
+  - reportlab
+
+  # markitdown
+  - markitdown
+  - openai
+  - python-dotenv
+  - requests
+  - tesseract
+
+  # matplotlib. numpy, scipy, and pandas are also used by scikit-learn, scanpy, and scvelo.
+  - matplotlib
+  - numpy
+  - pandas
+  - scipy
+
+  # scikit-learn
+  - scikit-learn
+
+  # scanpy. harmonypy and bbknn are bioconda-only.
+  - bbknn
+  - harmonypy
+  - leidenalg
+  - python-igraph
+  - scanpy
+
+  # scvelo
+  - scvelo
+
+  # rdkit
+  - rdkit
+
+  # anndata (also a scanpy dependency)
+  - anndata
+
+  # seaborn (also a scanpy dependency)
+  - seaborn
+
+  # networkx (also a scanpy dependency)
+  - networkx
+
+  # shap
+  - shap
+
+  # pysam (bioconda only)
+  - pysam
+
+  # scikit-survival (import name: sksurv)
+  - scikit-survival

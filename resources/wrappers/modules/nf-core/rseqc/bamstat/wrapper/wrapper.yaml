@@ -1,0 +1,28 @@
+# Agent-facing wrapper adapter for the vendored rseqc/bamstat module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# RSeQC needs a BAM index next to the BAM; this wrapper runs samtools/index
+# first so callers only supply the BAM (composes vendored modules directly,
+# per section 6 of the design doc).
+id: nf-core/modules/rseqc-bamstat
+name: RSeQC bamstat
+summary: Summarise basic BAM alignment statistics with RSeQC bam_stat.py.
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: Coordinate-sorted BAM file.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the RSeQC report.
+
+outputs:
+  report:
+    type: directory
+    path: '${outdir}/rseqc_bamstat'
+    primary: true

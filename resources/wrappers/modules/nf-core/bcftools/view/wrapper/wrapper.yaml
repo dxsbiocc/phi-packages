@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored bcftools/view module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Only plain view (no region/target/sample filtering) is exposed — those
+# are separate optional file inputs the module supports but this thin
+# adapter doesn't surface.
+id: nf-core/modules/bcftools-view
+name: bcftools view
+summary: View/convert/filter a VCF or BCF file with bcftools view.
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: VCF/BCF file to view.
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: Index (.tbi/.csi) for the input VCF.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the resulting VCF.
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/bcftools_view'
+    primary: true

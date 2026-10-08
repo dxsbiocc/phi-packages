@@ -1,0 +1,30 @@
+# Agent-facing wrapper adapter for the vendored plink2/extract module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: converts the VCF to a PLINK2 pgen/pvar/psam fileset with the vendored
+#
+# plink2/vcf module first, then derives a variant-id list to extract by chunking the
+#
+# resulting .pvar file and keeping the last chunk (mirrors the module's own nf-test).
+id: nf-core/modules/plink2-extract
+name: "plink2 extract"
+summary: "Extract a variant subset from a VCF-derived PLINK2 pgen/pvar/psam fileset."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Input VCF used to build the PLINK2 pgen/pvar/psam fileset."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  extract_pgen:
+    type: directory
+    path: '${outdir}/plink2_extract'
+    primary: true

@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored sylph/query module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/sylph-query
+name: "Sylph query"
+summary: "Query reads against a genome database with sylph query."
+
+params:
+  reads1:
+    kind: input
+    type: file
+    required: true
+    description: "Forward reads FASTQ (.fastq.gz)."
+  reads2:
+    kind: input
+    type: file
+    required: true
+    description: "Reverse reads FASTQ (.fastq.gz)."
+  database:
+    kind: input
+    type: file
+    required: true
+    description: "Genome FASTA (or .syldb) to query against."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  query_out:
+    type: directory
+    path: '${outdir}/sylph_query'
+    primary: true

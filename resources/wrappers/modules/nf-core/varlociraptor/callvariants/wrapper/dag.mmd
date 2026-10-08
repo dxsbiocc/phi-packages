@@ -1,0 +1,26 @@
+flowchart TB
+    subgraph " "
+    v0["est_in"]
+    v3["channel.of"]
+    end
+    v1(["VARLOCIRAPTOR_ESTIMATEALIGNMENTPROPERTIES"])
+    subgraph " "
+    v2[" "]
+    v8[" "]
+    v11[" "]
+    v12[" "]
+    end
+    v7(["VARLOCIRAPTOR_PREPROCESS"])
+    v10(["VARLOCIRAPTOR_CALLVARIANTS"])
+    v4(( ))
+    v9(( ))
+    v0 --> v1
+    v1 --> v2
+    v1 --> v4
+    v3 --> v4
+    v4 --> v7
+    v7 --> v8
+    v7 --> v9
+    v9 --> v10
+    v10 --> v12
+    v10 --> v11

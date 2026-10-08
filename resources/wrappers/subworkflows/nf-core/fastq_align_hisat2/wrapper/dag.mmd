@@ -1,0 +1,86 @@
+flowchart TB
+    subgraph " "
+    v0["channel.fromPath"]
+    v5["channel.fromPath"]
+    v10["hisat2_memory_input"]
+    v13["channel.of"]
+    v14["save_unaligned"]
+    v20["ch_fasta_fai"]
+    v21["index_format"]
+    end
+    v2(["HISAT2_EXTRACTSPLICESITES"])
+    subgraph " "
+    v3[" "]
+    v4[" "]
+    v12[" "]
+    v16[" "]
+    v17[" "]
+    v18["fastq"]
+    v19["summary"]
+    v23[" "]
+    v24[" "]
+    v25[" "]
+    v26[" "]
+    v28[" "]
+    v31[" "]
+    v32["stats"]
+    v34[" "]
+    v35["flagstat"]
+    v37[" "]
+    v38["idxstats"]
+    end
+    v11(["HISAT2_BUILD"])
+    subgraph "FASTQ_ALIGN_HISAT2 [FASTQ_ALIGN_HISAT2]"
+    v15(["HISAT2_ALIGN"])
+    subgraph "FASTQ_ALIGN_HISAT2:BAM_SORT_STATS_SAMTOOLS [BAM_SORT_STATS_SAMTOOLS]"
+    v22(["SAMTOOLS_SORT"])
+    v27(["SAMTOOLS_INDEX"])
+    subgraph "FASTQ_ALIGN_HISAT2:BAM_SORT_STATS_SAMTOOLS:BAM_STATS_SAMTOOLS [BAM_STATS_SAMTOOLS]"
+    v30(["SAMTOOLS_STATS"])
+    v33(["SAMTOOLS_FLAGSTAT"])
+    v36(["SAMTOOLS_IDXSTATS"])
+    end
+    v29(( ))
+    end
+    end
+    v1(( ))
+    v6(( ))
+    v0 --> v1
+    v0 --> v6
+    v1 --> v2
+    v2 --> v4
+    v2 --> v3
+    v2 --> v15
+    v2 --> v6
+    v5 --> v6
+    v10 --> v11
+    v6 --> v11
+    v11 --> v15
+    v11 --> v12
+    v13 --> v15
+    v14 --> v15
+    v15 --> v22
+    v15 --> v19
+    v15 --> v18
+    v15 --> v17
+    v15 --> v16
+    v20 --> v22
+    v20 --> v30
+    v21 --> v22
+    v22 --> v27
+    v22 --> v26
+    v22 --> v25
+    v22 --> v24
+    v22 --> v23
+    v22 --> v29
+    v27 --> v28
+    v27 --> v29
+    v29 --> v30
+    v30 --> v32
+    v30 --> v31
+    v29 --> v33
+    v33 --> v35
+    v33 --> v34
+    v29 --> v36
+    v36 --> v38
+    v36 --> v37

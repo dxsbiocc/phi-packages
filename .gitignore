@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.DS_Store
+.env
+.env.*
+*.key.pem
+__pycache__/
+*.pyc
+.nextflow/
+.nextflow.log*
+work/
+results/

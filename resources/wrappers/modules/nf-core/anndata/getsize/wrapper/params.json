@@ -1,0 +1,5 @@
+{
+  "anndata": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/scrnaseq/h5ad/pbmc1k.h5ad",
+  "size_type": "cells",
+  "outdir": "results"
+}

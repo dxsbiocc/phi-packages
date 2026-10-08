@@ -1,0 +1,32 @@
+flowchart TB
+    subgraph " "
+    v0["bam_ch"]
+    v1["fasta_ch"]
+    v2["targets_ch"]
+    v3["ref_ch"]
+    v4["panel_of_normals"]
+    end
+    v5(["CNVKIT_BATCH"])
+    subgraph " "
+    v6[" "]
+    v7[" "]
+    v8[" "]
+    v9[" "]
+    v10[" "]
+    v11[" "]
+    v12[" "]
+    v13[" "]
+    end
+    v0 --> v5
+    v1 --> v5
+    v2 --> v5
+    v3 --> v5
+    v4 --> v5
+    v5 --> v13
+    v5 --> v12
+    v5 --> v11
+    v5 --> v10
+    v5 --> v9
+    v5 --> v8
+    v5 --> v7
+    v5 --> v6

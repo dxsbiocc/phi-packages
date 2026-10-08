@@ -1,0 +1,107 @@
+flowchart TB
+    subgraph " "
+    v0["gtf"]
+    v1[" "]
+    v6["channel.of"]
+    v7["star_ignore_sjdbgtf"]
+    v28["ch_fasta_fai"]
+    v29["index_format"]
+    end
+    v2(["STAR_GENOMEGENERATE"])
+    subgraph " "
+    v3[" "]
+    v4[" "]
+    v5[" "]
+    v9[" "]
+    v10[" "]
+    v11[" "]
+    v12[" "]
+    v13[" "]
+    v14[" "]
+    v15["tab"]
+    v16["fastq"]
+    v17[" "]
+    v18["bam_transcript"]
+    v19[" "]
+    v20["bam_sorted"]
+    v21[" "]
+    v22[" "]
+    v23[" "]
+    v24["log_progress"]
+    v25["log_out"]
+    v27["percent_mapped"]
+    v31[" "]
+    v32[" "]
+    v33[" "]
+    v34[" "]
+    v36[" "]
+    v39[" "]
+    v40["stats"]
+    v42[" "]
+    v43["flagstat"]
+    v45[" "]
+    v46["idxstats"]
+    end
+    subgraph "ALIGN_STAR [ALIGN_STAR]"
+    v8(["STAR_ALIGN"])
+    subgraph "ALIGN_STAR:BAM_SORT_STATS_SAMTOOLS [BAM_SORT_STATS_SAMTOOLS]"
+    v30(["SAMTOOLS_SORT"])
+    v35(["SAMTOOLS_INDEX"])
+    subgraph "ALIGN_STAR:BAM_SORT_STATS_SAMTOOLS:BAM_STATS_SAMTOOLS [BAM_STATS_SAMTOOLS]"
+    v38(["SAMTOOLS_STATS"])
+    v41(["SAMTOOLS_FLAGSTAT"])
+    v44(["SAMTOOLS_IDXSTATS"])
+    end
+    v37(( ))
+    end
+    v26(( ))
+    end
+    v0 --> v2
+    v0 --> v8
+    v1 --> v2
+    v2 --> v8
+    v2 --> v5
+    v2 --> v4
+    v2 --> v3
+    v6 --> v8
+    v7 --> v8
+    v8 --> v25
+    v8 --> v24
+    v8 --> v23
+    v8 --> v22
+    v8 --> v21
+    v8 --> v30
+    v8 --> v20
+    v8 --> v19
+    v8 --> v18
+    v8 --> v17
+    v8 --> v16
+    v8 --> v15
+    v8 --> v14
+    v8 --> v13
+    v8 --> v12
+    v8 --> v11
+    v8 --> v10
+    v8 --> v9
+    v8 --> v26
+    v26 --> v27
+    v28 --> v30
+    v28 --> v38
+    v29 --> v30
+    v30 --> v35
+    v30 --> v34
+    v30 --> v33
+    v30 --> v32
+    v30 --> v31
+    v30 --> v37
+    v35 --> v36
+    v35 --> v37
+    v37 --> v38
+    v38 --> v40
+    v38 --> v39
+    v37 --> v41
+    v41 --> v43
+    v41 --> v42
+    v37 --> v44
+    v44 --> v46
+    v44 --> v45

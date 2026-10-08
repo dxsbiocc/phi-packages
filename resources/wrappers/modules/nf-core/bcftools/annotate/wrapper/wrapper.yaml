@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored bcftools/annotate module
+# at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# The annotation-column list, header-lines and rename-chrs inputs the
+# module supports aren't surfaced; the adapter applies fixed args (see
+# its nextflow.config) that drop ID/DP annotations.
+id: nf-core/modules/bcftools-annotate
+name: bcftools annotate
+summary: Add or remove VCF annotations using a second annotation VCF with bcftools annotate.
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: Bgzipped VCF file to annotate.
+  vcf_tbi:
+    kind: input
+    type: file
+    required: true
+    description: Index (.tbi) for the input VCF.
+  annotations:
+    kind: input
+    type: file
+    required: true
+    description: Bgzipped VCF/BED file providing annotations.
+  annotations_tbi:
+    kind: input
+    type: file
+    required: true
+    description: Index (.tbi) for the annotations file.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the annotated VCF.
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/bcftools_annotate'
+    primary: true

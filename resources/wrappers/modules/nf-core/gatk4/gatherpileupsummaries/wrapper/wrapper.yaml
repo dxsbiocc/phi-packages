@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored gatk4/gatherpileupsummaries module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4-gatherpileupsummaries
+name: "GATK4 GatherPileupSummaries"
+summary: "Merge scattered pileup summary tables with GATK4 GatherPileupSummaries."
+
+params:
+  pileup:
+    kind: input
+    type: file
+    required: true
+    description: "Pileup summaries table."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  table:
+    type: directory
+    path: '${outdir}/gatk4_gatherpileupsummaries'
+    primary: true

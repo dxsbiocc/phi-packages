@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored plink/vcf module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/plink-vcf
+name: "PLINK make-bed (from VCF)"
+summary: "Convert a VCF to PLINK binary format (.bed/.bim/.fam) with PLINK."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "VCF file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bed:
+    type: directory
+    path: '${outdir}/plink_vcf'
+    primary: true

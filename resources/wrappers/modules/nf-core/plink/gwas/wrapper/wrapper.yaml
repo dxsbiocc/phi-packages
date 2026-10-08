@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored plink/gwas module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/plink-gwas
+name: "PLINK GWAS (logistic/linear association)"
+summary: "Run a genome-wide association test with PLINK."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "VCF file (bgzipped)."
+  phe:
+    kind: input
+    type: file
+    required: true
+    description: "Phenotype file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  assoc:
+    type: directory
+    path: '${outdir}/plink_gwas'
+    primary: true

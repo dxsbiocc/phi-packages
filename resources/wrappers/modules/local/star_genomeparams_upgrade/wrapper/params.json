@@ -1,0 +1,5 @@
+{
+  "fasta": "tests/data/genome.fasta",
+  "gtf": "tests/data/genome.gtf",
+  "outdir": "results"
+}

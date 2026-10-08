@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored vcfanno module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/vcfanno
+name: "vcfanno"
+summary: "Annotate a VCF with INFO fields from other VCF/BED resources using vcfanno."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped VCF file."
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the VCF."
+  toml:
+    kind: input
+    type: file
+    required: true
+    description: "vcfanno TOML configuration."
+  resource:
+    kind: input
+    type: file
+    required: true
+    description: "Annotation resource VCF (bgzipped)."
+  resource_tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the resource VCF."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/vcfanno'
+    primary: true

@@ -1,0 +1,36 @@
+# Agent-facing wrapper adapter for the vendored bwameme/mem module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: builds the index with the vendored bwameme index module first.
+id: nf-core/modules/bwameme-mem
+name: "BWA-MEME align"
+summary: "Align reads to a reference with BWA-MEME (builds the index first)."
+
+params:
+  reads1:
+    kind: input
+    type: file
+    required: true
+    description: "Forward reads FASTQ (.fastq.gz)."
+  reads2:
+    kind: input
+    type: file
+    required: true
+    description: "Reverse reads FASTQ (.fastq.gz)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  output:
+    type: directory
+    path: '${outdir}/bwameme_mem'
+    primary: true

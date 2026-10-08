@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored somalier/relate module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/somalier-relate
+name: "somalier relate"
+summary: "Estimate relatedness between samples with somalier relate."
+
+params:
+  normal:
+    kind: input
+    type: file
+    required: true
+    description: "Normal .somalier file."
+  tumour:
+    kind: input
+    type: file
+    required: true
+    description: "Tumour .somalier file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  html:
+    type: directory
+    path: '${outdir}/somalier_relate'
+    primary: true

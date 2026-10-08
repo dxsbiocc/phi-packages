@@ -1,0 +1,25 @@
+flowchart TB
+    subgraph " "
+    v0["fasta_ch"]
+    v3["reads_ch"]
+    v4["sort_bam"]
+    end
+    v1(["BWAMEM3_INDEX"])
+    subgraph " "
+    v2[" "]
+    v6[" "]
+    v7[" "]
+    v8[" "]
+    v9[" "]
+    end
+    v5(["BWAMEM3_MEM"])
+    v0 --> v1
+    v0 --> v5
+    v1 --> v5
+    v1 --> v2
+    v3 --> v5
+    v4 --> v5
+    v5 --> v9
+    v5 --> v8
+    v5 --> v7
+    v5 --> v6

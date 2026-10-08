@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored ea-utils/gtf2bed module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/eautils-gtf2bed
+name: ea-utils gtf2bed
+summary: Convert a GTF annotation to BED12 with ea-utils' gtf2bed.pl.
+
+params:
+  gtf:
+    kind: input
+    type: gtf
+    required: true
+    description: GTF annotation to convert.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the BED12 file.
+
+outputs:
+  bed:
+    type: directory
+    path: '${outdir}/gtf2bed'
+    primary: true

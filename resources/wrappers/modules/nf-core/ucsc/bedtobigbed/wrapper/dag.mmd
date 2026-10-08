@@ -1,0 +1,19 @@
+flowchart TB
+    subgraph " "
+    v0["bed_ch"]
+    v1["sizes_ch"]
+    v2["autosql_ch"]
+    v6["channel.empty"]
+    end
+    v3(["UCSC_BEDTOBIGBED"])
+    subgraph " "
+    v4[" "]
+    v5[" "]
+    v7[" "]
+    end
+    v0 --> v3
+    v1 --> v3
+    v2 --> v3
+    v3 --> v5
+    v3 --> v4
+    v6 --> v7

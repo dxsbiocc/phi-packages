@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored bismark/genomepreparation module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bismark-genomepreparation
+name: "Bismark genome preparation"
+summary: "Build a Bismark bisulfite genome index."
+
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  index:
+    type: directory
+    path: '${outdir}/bismark_genomepreparation'
+    primary: true

@@ -1,0 +1,84 @@
+# Agent-facing wrapper adapter for the vendored gatk4/variantrecalibrator module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4-variantrecalibrator
+name: "GATK4 VariantRecalibrator"
+summary: "Build a VQSR recalibration model from training resources with GATK4 VariantRecalibrator."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped VCF file."
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the VCF."
+  hapmap:
+    kind: input
+    type: file
+    required: true
+    description: "HapMap resource VCF."
+  hapmap_tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index for HapMap."
+  omni:
+    kind: input
+    type: file
+    required: true
+    description: "1000G Omni resource VCF."
+  omni_tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index for Omni."
+  g1000:
+    kind: input
+    type: file
+    required: true
+    description: "1000G phase1 SNPs resource VCF."
+  g1000_tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index for 1000G."
+  dbsnp:
+    kind: input
+    type: file
+    required: true
+    description: "dbSNP resource VCF."
+  dbsnp_tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index for dbSNP."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  recal:
+    type: directory
+    path: '${outdir}/gatk4_variantrecalibrator'
+    primary: true

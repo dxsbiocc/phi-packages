@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored umitools/extract module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# bc_pattern is hard-required by umi_tools extract (it errors with no
+# pattern), so it is exposed as an option rather than hard-coded — see
+# tests/nextflow.config's own default of "NNNN".
+id: nf-core/modules/umitools-extract
+name: UMI-tools extract
+summary: Extract UMI barcodes from FASTQ reads into read names with umi_tools extract.
+
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Glob matching one sample's FASTQ file(s) — a pair for paired-end, or one file for single-end.
+  bc_pattern:
+    kind: option
+    type: string
+    required: false
+    description: UMI barcode pattern (umi_tools --bc-pattern syntax, e.g. NNNN for a 4bp UMI at the read start).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the UMI-extracted FASTQ and log.
+
+outputs:
+  reads:
+    type: directory
+    path: '${outdir}/umitools_extract'
+    primary: true

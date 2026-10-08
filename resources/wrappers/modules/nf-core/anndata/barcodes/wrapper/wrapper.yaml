@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored anndata/barcodes module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/anndata-barcodes
+name: AnnData subset by barcodes
+summary: Subset an AnnData object to a given list of cell barcodes.
+
+params:
+  anndata:
+    kind: input
+    type: file
+    required: true
+    description: AnnData object (.h5ad).
+  barcodes:
+    kind: input
+    type: file
+    required: true
+    description: Newline-delimited list of cell barcodes to keep.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the barcode-subset AnnData object.
+
+outputs:
+  h5ad:
+    type: directory
+    path: '${outdir}/anndata_barcodes'
+    primary: true

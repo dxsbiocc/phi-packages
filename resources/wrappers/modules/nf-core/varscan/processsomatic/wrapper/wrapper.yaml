@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored varscan/processsomatic module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: calls variants with the vendored varscan somatic module first.
+id: nf-core/modules/varscan-processsomatic
+name: "VarScan processSomatic"
+summary: "Split VarScan somatic calls into somatic/germline/LOH sets (VarScan somatic → processSomatic)."
+
+params:
+  normal:
+    kind: input
+    type: file
+    required: true
+    description: "Normal mpileup (.gz)."
+  tumour:
+    kind: input
+    type: file
+    required: true
+    description: "Tumour mpileup (.gz)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  somatic_vcf:
+    type: directory
+    path: '${outdir}/varscan_processsomatic'
+    primary: true

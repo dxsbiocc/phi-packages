@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored preseq/lcextrap module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/preseq-lcextrap
+name: Preseq lc_extrap
+summary: Estimate the yield of unique molecules for deeper sequencing with Preseq lc_extrap.
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: Coordinate-sorted BAM (or mapped-read .mr) file.
+  single_end:
+    kind: option
+    type: boolean
+    required: false
+    description: Whether the reads are single-end (paired-end passes -pe).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the lc_extrap curve and log.
+
+outputs:
+  report:
+    type: directory
+    path: '${outdir}/preseq_lcextrap'
+    primary: true

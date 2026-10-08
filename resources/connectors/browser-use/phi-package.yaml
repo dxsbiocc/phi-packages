@@ -1,0 +1,13 @@
+schemaVersion: 1
+id: browser-use
+type: mcp
+version: 1.0.0
+title: Browser Use
+summary: 运行云端浏览器任务并查看执行结果
+connector:
+  transport: http
+  publisher: Browser Use
+  category: 生产力
+  homepage: https://docs.browser-use.com/cloud/guides/mcp-server
+  url: https://api.browser-use.com/v3/mcp
+  auth: header

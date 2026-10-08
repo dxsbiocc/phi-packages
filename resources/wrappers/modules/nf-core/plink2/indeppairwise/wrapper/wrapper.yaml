@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored plink2/indeppairwise module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/plink2-indeppairwise
+name: "plink2 indeppairwise"
+summary: "LD-based pruning: emit lists of variants to keep/prune by pairwise r^2."
+
+params:
+  pgen:
+    kind: input
+    type: file
+    required: true
+    description: "PLINK2 genotype file (.pgen)."
+  pvar:
+    kind: input
+    type: file
+    required: true
+    description: "PLINK2 variant file (.pvar)."
+  psam:
+    kind: input
+    type: file
+    required: true
+    description: "PLINK2 sample file (.psam)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  prune_in:
+    type: directory
+    path: '${outdir}/plink2_indeppairwise'
+    primary: true

@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored bedtools/maskfasta module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bedtools-maskfasta
+name: "bedtools maskfasta"
+summary: "Mask FASTA regions given by BED intervals with bedtools maskfasta."
+
+params:
+  bed:
+    kind: input
+    type: file
+    required: true
+    description: "BED file of intervals."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  fasta:
+    type: directory
+    path: '${outdir}/bedtools_maskfasta'
+    primary: true

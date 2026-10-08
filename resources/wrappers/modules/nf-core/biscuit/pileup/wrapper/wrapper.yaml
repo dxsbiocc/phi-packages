@@ -1,0 +1,46 @@
+# Agent-facing wrapper adapter for the vendored biscuit/pileup module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: builds the BISCUIT bisulfite index with the vendored biscuit index module first.
+id: nf-core/modules/biscuit-pileup
+name: "BISCUIT pileup"
+summary: "Call methylation and genotypes from BAMs with BISCUIT pileup (builds the index first)."
+
+params:
+  bam1:
+    kind: input
+    type: file
+    required: true
+    description: "First BAM file."
+  bai1:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.bai) for the first BAM."
+  bam2:
+    kind: input
+    type: file
+    required: true
+    description: "Second BAM file."
+  bai2:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.bai) for the second BAM."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/biscuit_pileup'
+    primary: true

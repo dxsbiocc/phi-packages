@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored seqkit/seq module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/seqkit-seq
+name: seqkit seq
+summary: Transform/filter FASTA/FASTQ sequences (e.g. by length or case) with seqkit seq.
+
+params:
+  fastx:
+    kind: input
+    type: file
+    required: true
+    description: FASTA/FASTQ file (plain or gzipped) to transform.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the transformed sequences.
+
+outputs:
+  fastx:
+    type: directory
+    path: '${outdir}/seqkit_seq'
+    primary: true

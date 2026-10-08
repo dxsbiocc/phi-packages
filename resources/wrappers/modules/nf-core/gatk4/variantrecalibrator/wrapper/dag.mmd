@@ -1,0 +1,33 @@
+flowchart TB
+    subgraph " "
+    v0["vcf_ch"]
+    v1["res_ch"]
+    v2["tbi_ch"]
+    v3["labels"]
+    v4["fasta_ch"]
+    v5["fai_ch"]
+    v6["dict_ch"]
+    v13["channel.empty"]
+    end
+    v7(["GATK4_VARIANTRECALIBRATOR"])
+    subgraph " "
+    v8[" "]
+    v9[" "]
+    v10[" "]
+    v11[" "]
+    v12[" "]
+    v14[" "]
+    end
+    v0 --> v7
+    v1 --> v7
+    v2 --> v7
+    v3 --> v7
+    v4 --> v7
+    v5 --> v7
+    v6 --> v7
+    v7 --> v12
+    v7 --> v11
+    v7 --> v10
+    v7 --> v9
+    v7 --> v8
+    v13 --> v14

@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored happy/ftxpy module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/happy-ftxpy
+name: "hap.py ftx.py"
+summary: "Extract a feature table from a somatic VCF with hap.py's ftx.py."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Somatic VCF (bgzipped)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  features:
+    type: directory
+    path: '${outdir}/happy_ftxpy'
+    primary: true

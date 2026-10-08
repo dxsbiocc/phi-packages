@@ -1,0 +1,69 @@
+{
+  "schema_version": "omics-visualization.layout-audit.v1",
+  "layout_id": "wide-top-two-bottom",
+  "status": "PASS",
+  "tolerance_pt": 1.5,
+  "output_width_in": 8.2,
+  "output_height_in": 6,
+  "panels": [
+    {
+      "panel": 1,
+      "left": 44.6151,
+      "right": 580.43736,
+      "bottom": 227.30712,
+      "top": 398.79417,
+      "width": 535.82226,
+      "height": 171.48705
+    },
+    {
+      "panel": 2,
+      "left": 44.6151,
+      "right": 285.38361,
+      "bottom": 31.2471,
+      "top": 180.36628,
+      "width": 240.76851,
+      "height": 149.11918
+    },
+    {
+      "panel": 3,
+      "left": 339.66885,
+      "right": 580.43736,
+      "bottom": 31.2471,
+      "top": 180.36628,
+      "width": 240.76851,
+      "height": 149.11918
+    }
+  ],
+  "checks": [
+    {
+      "name": "detail panel widths",
+      "delta_pt": 5.68434e-14,
+      "passed": true
+    },
+    {
+      "name": "detail panel heights",
+      "delta_pt": 0,
+      "passed": true
+    },
+    {
+      "name": "detail panel tops",
+      "delta_pt": 0,
+      "passed": true
+    },
+    {
+      "name": "detail panel bottoms",
+      "delta_pt": 0,
+      "passed": true
+    },
+    {
+      "name": "overview and lower-left edge",
+      "delta_pt": 0,
+      "passed": true
+    },
+    {
+      "name": "overview and lower-right edge",
+      "delta_pt": 0,
+      "passed": true
+    }
+  ]
+}

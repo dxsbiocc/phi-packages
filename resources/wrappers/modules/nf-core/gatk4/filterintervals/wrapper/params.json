@@ -1,0 +1,6 @@
+{
+  "intervals": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/genome.preprocessed_intervals.interval_list",
+  "counts": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/genome.preprocessed_intervals.counts.tsv",
+  "annotated": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/genome.annotated_intervals.tsv",
+  "outdir": "results"
+}

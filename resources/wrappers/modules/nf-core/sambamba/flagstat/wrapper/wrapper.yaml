@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored sambamba/flagstat module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/sambamba-flagstat
+name: "sambamba flagstat"
+summary: "Summarise read flags with sambamba flagstat."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "BAM file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  stats:
+    type: directory
+    path: '${outdir}/sambamba_flagstat'
+    primary: true

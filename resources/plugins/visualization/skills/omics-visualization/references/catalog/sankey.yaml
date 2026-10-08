@@ -1,0 +1,67 @@
+family: "sankey"
+preview_background: "transparent"  # PNG alpha is empty; dark UIs look black. Do not treat as a black canvas.
+
+templates:
+  - id: "sankey-basic"
+    title: "Two-level Sankey diagram"
+    aliases:
+      - "桑基图"
+      - "两层流向图"
+    source: "scripts/sankey/basic/plot.R"
+    examples:
+      - "scripts/sankey/basic/example.tsv"
+    preview: "scripts/sankey/basic/preview.png"
+    use_when: >
+      Show weighted flows from one source column to one target column.
+    avoid_when: >
+      Do not use for three or more hierarchy levels inferred from an
+      edge list (use sankey-level), a parallel-sets table of several
+      categorical columns plus a count (use sankey-parallel-sets),
+      or a sunburst/tree of containment.
+    input_shape: "one row per directed edge; source, target, and value"
+    language: "r"
+    status: "stable"
+
+  - id: "sankey-level"
+    title: "Multi-level Sankey diagram"
+    aliases:
+      - "多层桑基图"
+      - "多级流向图"
+    source: "scripts/sankey/level/plot.R"
+    examples:
+      - "scripts/sankey/level/example.tsv"
+    preview: "scripts/sankey/level/preview.png"
+    use_when: >
+      Show conserved flows across several inferred node levels in an
+      edge list.
+    avoid_when: >
+      Do not use a two-column source-target Sankey (sankey-basic), a
+      parallel-sets table of several categorical columns plus a count
+      (sankey-parallel-sets), or a sunburst when the claim is
+      containment rather than flow.
+    input_shape: "one row per directed edge; source, target, and value"
+    language: "r"
+    status: "stable"
+
+  - id: "sankey-parallel-sets"
+    title: "Parallel-sets diagram"
+    aliases:
+      - "平行集合图"
+      - "alluvial"
+      - "平行集"
+    source: "scripts/sankey/parallel_sets/plot.R"
+    examples:
+      - "scripts/sankey/parallel_sets/example.tsv"
+    preview: "scripts/sankey/parallel_sets/preview.png"
+    use_when: >
+      Show conserved counts flowing across several named categorical
+      axes (parallel sets / alluvial). Each row is one combination of
+      axis values plus a supplied count.
+    avoid_when: >
+      Do not use an edge list Sankey (sankey-basic or sankey-level),
+      a sunburst of containment, or a two-column source-target flow.
+      Axis order and which column colours the ribbons stay in CONFIG.
+      Do not tabulate raw samples in the script.
+    input_shape: "one row per category combination; two or more axis columns plus a count"
+    language: "r"
+    status: "stable"

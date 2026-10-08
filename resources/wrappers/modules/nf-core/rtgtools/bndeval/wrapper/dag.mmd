@@ -1,0 +1,40 @@
+flowchart TB
+    subgraph " "
+    v0["truth_in"]
+    v4["query"]
+    v6["regions"]
+    end
+    v1(["RTGTOOLS_SVDECOMPOSE"])
+    subgraph " "
+    v2[" "]
+    v9[" "]
+    v10[" "]
+    v11[" "]
+    v12[" "]
+    v13[" "]
+    v14[" "]
+    v15[" "]
+    v16[" "]
+    v17[" "]
+    v18[" "]
+    v19[" "]
+    end
+    v8(["RTGTOOLS_BNDEVAL"])
+    v3(( ))
+    v0 --> v1
+    v1 --> v2
+    v1 --> v3
+    v4 --> v3
+    v6 --> v3
+    v3 --> v8
+    v8 --> v19
+    v8 --> v18
+    v8 --> v17
+    v8 --> v16
+    v8 --> v15
+    v8 --> v14
+    v8 --> v13
+    v8 --> v12
+    v8 --> v11
+    v8 --> v10
+    v8 --> v9

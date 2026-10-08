@@ -1,0 +1,13 @@
+schemaVersion: 1
+id: serpapi
+type: mcp
+version: 1.0.0
+title: SerpApi
+summary: 检索多个搜索引擎的实时结构化结果
+connector:
+  transport: http
+  publisher: SerpApi
+  category: 生产力
+  homepage: https://serpapi.com/integrations/mcp
+  url: https://mcp.serpapi.com/mcp
+  auth: header

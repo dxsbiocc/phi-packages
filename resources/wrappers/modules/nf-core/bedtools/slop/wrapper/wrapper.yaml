@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored bedtools/slop module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bedtools-slop
+name: bedtools slop
+summary: Extend each BED interval by a fixed number of bases with bedtools slop.
+
+params:
+  bed:
+    kind: input
+    type: file
+    required: true
+    description: BED file whose intervals should be extended.
+  sizes:
+    kind: input
+    type: file
+    required: true
+    description: "Chromosome sizes file (2-column: name, length) to clamp extension at contig ends."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the extended intervals.
+
+outputs:
+  bed:
+    type: directory
+    path: '${outdir}/bedtools_slop'
+    primary: true

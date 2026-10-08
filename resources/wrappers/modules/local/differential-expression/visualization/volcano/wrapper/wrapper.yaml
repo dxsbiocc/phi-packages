@@ -1,0 +1,69 @@
+# Agent-facing wrapper adapter for the DE_VOLCANO process at ../main.nf --
+# a new local tool (no nf-core module to vendor), grouped under this
+# project's differential-expression family as a generic downstream-
+# visualization step. Takes any DE results table with a gene id, a log2
+# fold-change column, and a p-value/q-value column -- the column names
+# default to DESeq2's own results() naming (log2FoldChange, padj); a
+# limma or dream results table needs log2fc_col/pvalue_col overridden to
+# match its own column names (e.g. logFC / adj.P.Val for limma).
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: local/modules/differential-expression-visualization-volcano
+name: DE volcano plot
+summary: Volcano plot (log2 fold-change vs -log10 q-value) from a differential-expression results table, with the strongest genes per direction labeled.
+
+params:
+  results:
+    kind: input
+    type: file
+    required: true
+    description: DE results table (TSV/CSV) with a gene id column, a log2 fold-change column, and a p-value/q-value column.
+  gene_id_col:
+    kind: option
+    type: string
+    required: false
+    description: Column holding gene identifiers, used for point labels.
+  log2fc_col:
+    kind: option
+    type: string
+    required: false
+    description: Column holding the log2 fold-change (x-axis).
+  pvalue_col:
+    kind: option
+    type: string
+    required: false
+    description: Column holding the p-value or adjusted p-value to plot as -log10 (y-axis) and threshold on.
+  alpha:
+    kind: option
+    type: string
+    required: false
+    description: Significance cutoff applied to pvalue_col (e.g. '0.05').
+  lfc_threshold:
+    kind: option
+    type: string
+    required: false
+    description: Minimum |log2 fold-change| for a gene to count as Up/Down (e.g. '1' for 2-fold).
+  label_top_n:
+    kind: option
+    type: string
+    required: false
+    description: Number of genes to label per direction (Up/Down), ranked by p-value.
+  prefix:
+    kind: option
+    type: string
+    required: false
+    description: Output file prefix.
+  outdir:
+    kind: output
+    type: directory
+    required: true
+    description: Directory results are published under.
+
+outputs:
+  pdf:
+    type: file
+    path: '${outdir}/volcano/${prefix}.volcano.pdf'
+    primary: true
+  labels:
+    type: file
+    path: '${outdir}/volcano/${prefix}.volcano.labels.tsv'

@@ -1,0 +1,541 @@
+family: "bar"
+preview_background: "transparent"  # PNG alpha is empty; dark UIs look black. Do not treat as a black canvas.
+
+templates:
+  - id: "bar-basic"
+    title: "Basic bar chart"
+    aliases:
+      - "柱状图"
+      - "条形图"
+    source: "scripts/bar/basic/plot.R"
+    examples:
+      - "scripts/bar/basic/example.tsv"
+    preview: "scripts/bar/basic/preview.png"
+    use_when: >
+      Compare a single numeric value across discrete categories.
+    avoid_when: >
+      Do not use for grouped, stacked, percent, or enrichment bars, a
+      patient swimmer plot (bar-swimmer), or when a category SVG
+      replaces y-axis text (bar-svg-icon).
+    input_shape: "one row per category; category plus numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-group"
+    title: "Grouped bar chart"
+    aliases:
+      - "分组柱状图"
+      - "簇状柱状图"
+    source: "scripts/bar/group/plot.R"
+    examples:
+      - "scripts/bar/group/example.tsv"
+    preview: "scripts/bar/group/preview.png"
+    use_when: >
+      Compare several groups side by side within each category.
+    avoid_when: >
+      Do not use when bars should stack to a total (use bar-stack) or
+      show parts of 100% (use bar-percent).
+    input_shape: "one row per category-by-group; category, group, and value"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-stack"
+    title: "Stacked bar chart"
+    aliases:
+      - "堆叠柱状图"
+    source: "scripts/bar/stack/plot.R"
+    examples:
+      - "scripts/bar/stack/example.tsv"
+    preview: "scripts/bar/stack/preview.png"
+    use_when: >
+      Show composition within each category as stacked magnitudes.
+    avoid_when: >
+      Do not use for side-by-side groups or a 100% composition (use bar-percent).
+    input_shape: "one row per category-by-component; category, component, and value"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-percent"
+    title: "Percent stacked bar chart"
+    aliases:
+      - "百分比堆叠柱状图"
+      - "构成比柱状图"
+    source: "scripts/bar/percent/plot.R"
+    examples:
+      - "scripts/bar/percent/example.tsv"
+    preview: "scripts/bar/percent/preview.png"
+    use_when: >
+      Compare part-to-whole composition across categories on a 100% scale.
+    avoid_when: >
+      Do not use when absolute counts matter more than proportions.
+    input_shape: "one row per category-by-component; category, component, and value"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-errorbar"
+    title: "Bar chart with error bars"
+    aliases:
+      - "误差线柱状图"
+    source: "scripts/bar/errorbar/plot.R"
+    examples:
+      - "scripts/bar/errorbar/example.tsv"
+    preview: "scripts/bar/errorbar/preview.png"
+    use_when: >
+      Show a summarized mean (or similar) with an explicit uncertainty bar.
+    avoid_when: >
+      Do not invent error bars; skip this template if no uncertainty column exists.
+    input_shape: "one row per category with value and error (or ymin/ymax)"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-break"
+    title: "Bar chart with axis break"
+    aliases:
+      - "断轴柱状图"
+    source: "scripts/bar/break/plot.R"
+    examples:
+      - "scripts/bar/break/example.tsv"
+    preview: "scripts/bar/break/preview.png"
+    use_when: >
+      Compare categories when one or a few values dwarf the rest and an
+      axis break is needed.
+    avoid_when: >
+      Do not use a break merely to exaggerate small differences.
+    input_shape: "one row per category; category plus numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-waterfall"
+    title: "Waterfall chart"
+    aliases:
+      - "瀑布图"
+      - "增减柱状图"
+    source: "scripts/bar/waterfall/plot.R"
+    examples:
+      - "scripts/bar/waterfall/example.tsv"
+    preview: "scripts/bar/waterfall/preview.png"
+    use_when: >
+      Show how sequential signed changes accumulate from a start to an end.
+    avoid_when: >
+      Do not use for independent category comparisons. A gene ×
+      sample alteration grid is heatmap-oncoprint, not this
+      waterfall of signed increments.
+    input_shape: "ordered rows of signed increments plus optional totals"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-butterfly"
+    title: "Butterfly / diverging bar chart"
+    aliases:
+      - "蝴蝶图"
+      - "对称条形图"
+    source: "scripts/bar/butterfly/plot.R"
+    examples:
+      - "scripts/bar/butterfly/example.tsv"
+    preview: "scripts/bar/butterfly/preview.png"
+    use_when: >
+      Mirror two series left and right of a shared category axis.
+    avoid_when: >
+      Do not use for a single-sided ranking or opposite-direction stacked bars
+      (use bar-opposite).
+    input_shape: "one row per category with two opposing numeric series"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-opposite"
+    title: "Opposite-direction bar chart"
+    aliases:
+      - "双向柱状图"
+      - "正负柱状图"
+    source: "scripts/bar/opposite/plot.R"
+    examples:
+      - "scripts/bar/opposite/example.tsv"
+    preview: "scripts/bar/opposite/preview.png"
+    use_when: >
+      Plot values that extend in opposite directions from a baseline
+      (for example gain vs loss).
+    avoid_when: >
+      Do not use a butterfly of two matched series if a signed single
+      series is enough.
+    input_shape: "one row per category with a signed value or two opposing series"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-waffle"
+    title: "Waffle chart"
+    aliases:
+      - "华夫图"
+      - "格子构成图"
+    source: "scripts/bar/waffle/plot.R"
+    examples:
+      - "scripts/bar/waffle/example.tsv"
+    preview: "scripts/bar/waffle/preview.png"
+    use_when: >
+      Show part-to-whole composition as a grid of unit squares.
+    avoid_when: >
+      Do not use when a pie, stacked bar, or percent bar is clearer, or
+      when each category is a custom SVG rather than a square tile
+      (bar-svg-icon).
+    input_shape: "one row per category; category plus numeric share"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-svg-icon"
+    title: "Horizontal bars with SVG category marks"
+    aliases:
+      - "图标柱状图"
+      - "SVG柱状图"
+      - "生肖柱"
+    source: "scripts/bar/svg_icon/plot.R"
+    examples:
+      - "scripts/bar/svg_icon/example.tsv"
+    preview: "scripts/bar/svg_icon/preview.png"
+    use_when: >
+      Compare a numeric value across categories when each category is
+      identified by a supplied SVG (for example a taxon silhouette)
+      instead of y-axis text. One SVG file per category name in svg_dir.
+    avoid_when: >
+      Do not use a basic bar with text labels (bar-basic), a waffle of
+      unit squares (bar-waffle), or an x-y scatter of SVG marks
+      (scatter-svg). Do not add an id that only swaps the SVG set.
+    input_shape: "one row per bar; category, numeric value, and SVG basename"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-radial"
+    title: "Radial bar chart"
+    aliases:
+      - "径向柱状图"
+    source: "scripts/bar/radial/plot.R"
+    examples:
+      - "scripts/bar/radial/example.tsv"
+    preview: "scripts/bar/radial/preview.png"
+    use_when: >
+      Map category magnitudes to bar length around a circle.
+    avoid_when: >
+      Do not use polar stacked, sector, or grouped radial variants when
+      a single series is enough. Do not use a circos doughnut with
+      outer bars (pie-doughnut-bar).
+    input_shape: "one row per category; category plus numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-radial-groups"
+    title: "Grouped radial bar chart"
+    aliases:
+      - "分组径向柱状图"
+    source: "scripts/bar/radial_groups/plot.R"
+    examples:
+      - "scripts/bar/radial_groups/example.tsv"
+    preview: "scripts/bar/radial_groups/preview.png"
+    use_when: >
+      Compare several groups as radial bars around the same categories.
+    avoid_when: >
+      Do not use for a single radial series (use bar-radial). Do not
+      use a circos doughnut with an inner composition ring
+      (pie-doughnut-bar).
+    input_shape: "one row per category-by-group; category, group, and value"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-polar-horizontal"
+    title: "Polar horizontal bars"
+    aliases:
+      - "极坐标水平柱"
+    source: "scripts/bar/polar_horizontal/plot.R"
+    examples:
+      - "scripts/bar/polar_horizontal/example.tsv"
+    preview: "scripts/bar/polar_horizontal/preview.png"
+    use_when: >
+      Draw category bars in polar coordinates with a horizontal-bar mapping.
+    avoid_when: >
+      Do not use polar-vertical, stacked-ring, or sector variants unless
+      that geometry is requested.
+    input_shape: "one row per category; category plus numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-polar-vertical"
+    title: "Polar vertical bars"
+    aliases:
+      - "极坐标竖直柱"
+    source: "scripts/bar/polar_vertical/plot.R"
+    examples:
+      - "scripts/bar/polar_vertical/example.tsv"
+    preview: "scripts/bar/polar_vertical/preview.png"
+    use_when: >
+      Draw category bars in polar coordinates with a vertical-bar mapping.
+    avoid_when: >
+      Do not use when stacked rings or a sector pie-bar is requested.
+    input_shape: "one row per category; category plus numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-polar-stack"
+    title: "Polar stacked bars"
+    aliases:
+      - "极坐标堆叠柱"
+    source: "scripts/bar/polar_stack/plot.R"
+    examples:
+      - "scripts/bar/polar_stack/example.tsv"
+    preview: "scripts/bar/polar_stack/preview.png"
+    use_when: >
+      Stack components within polar bars.
+    avoid_when: >
+      Do not use the ring variant (bar-polar-stack-ring) unless a hollow
+      ring stack is requested.
+    input_shape: "one row per category-by-component; category, component, and value"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-polar-stack-ring"
+    title: "Polar stacked ring bars"
+    aliases:
+      - "极坐标堆叠环"
+    source: "scripts/bar/polar_stack_ring/plot.R"
+    examples:
+      - "scripts/bar/polar_stack_ring/example.tsv"
+    preview: "scripts/bar/polar_stack_ring/preview.png"
+    use_when: >
+      Stack components as a polar ring with a hollow center.
+    avoid_when: >
+      Do not use filled polar stacks (bar-polar-stack).
+    input_shape: "one row per category-by-component; category, component, and value"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-polar-sector"
+    title: "Polar sector bars"
+    aliases:
+      - "扇区柱状图"
+    source: "scripts/bar/polar_sector/plot.R"
+    examples:
+      - "scripts/bar/polar_sector/example.tsv"
+    preview: "scripts/bar/polar_sector/preview.png"
+    use_when: >
+      Encode values as polar sectors (Nightingale-like bars with variable angle
+      or radius, as implemented in this template).
+    avoid_when: >
+      Do not use a pie/Nightingale from the pie family when a bar-sector
+      geometry is not requested.
+    input_shape: "one row per category; category plus numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-enrichment-points"
+    title: "Enrichment bars with gene-ratio points"
+    aliases:
+      - "富集柱状加点图"
+      - "GO富集图"
+    source: "scripts/bar/enrichment_points/plot.R"
+    examples:
+      - "scripts/bar/enrichment_points/example.tsv"
+    preview: "scripts/bar/enrichment_points/preview.png"
+    use_when: >
+      Rank enrichment terms as bars with gene-ratio points on a shared axis,
+      faceted by ontology.
+    avoid_when: >
+      Do not use when the claim is a classic enrichment dotplot with
+      size = Count and fill = -log10(p) (bar-enrichment-dot), when
+      gene counts, expanded category headers, or multi-group
+      enrichment are the main encodings. Do not use a classification
+      tree with an outer enrichment track (tree-enrichment-ring), or
+      enrichment bars as zoom panels on a DE heatmap
+      (heatmap-enrichment-zoom).
+    input_shape: "one row per term; description, ontology, gene ratio, q-value"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-enrichment-dot"
+    title: "Enrichment dotplot"
+    aliases:
+      - "富集点图"
+      - "GO点图"
+      - "KEGG点图"
+      - "enrichplot dotplot"
+    source: "scripts/bar/enrichment_dot/plot.R"
+    examples:
+      - "scripts/bar/enrichment_dot/example.tsv"
+    preview: "scripts/bar/enrichment_dot/preview.png"
+    use_when: >
+      Rank enrichment terms as a dotplot: x = gene ratio, y = term,
+      point size = gene count, fill = -log10(adjusted p). Facet by
+      ontology or Change is CONFIG. Extra databases are extra rows,
+      not extra ids.
+    avoid_when: >
+      Do not use when bars plus gene-ratio points share one axis
+      (bar-enrichment-points), when gene lists must sit under each
+      bar (bar-enrichment-genes), when the same terms are compared
+      across groups as bars (bar-enrichment-groups), when terms sit
+      under category headers (bar-enrichment-expand), when a
+      term-by-group signed-p heatmap is needed
+      (heatmap-enrichment-terms), or when enrichment bars align to
+      Up/Down gene splits on a DE heatmap (heatmap-enrichment-zoom).
+      Do not run enricher or GSEA in the script.
+    input_shape: "one row per term; description, gene ratio, adjusted p, count"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-enrichment-genes"
+    title: "Enrichment bars by gene count"
+    aliases:
+      - "基因数富集柱状图"
+    source: "scripts/bar/enrichment_genes/plot.R"
+    examples:
+      - "scripts/bar/enrichment_genes/example.tsv"
+    preview: "scripts/bar/enrichment_genes/preview.png"
+    use_when: >
+      Rank enrichment terms by gene count rather than ratio.
+    avoid_when: >
+      Do not use when gene ratio is the requested x encoding. Do not
+      use a classic enrichment dotplot (bar-enrichment-dot), a
+      classification tree with an outer enrichment track
+      (tree-enrichment-ring), or enrichment bars as zoom panels on a
+      DE heatmap (heatmap-enrichment-zoom).
+    input_shape: "one row per term; description, gene count, and significance"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-enrichment-groups"
+    title: "Grouped enrichment bars"
+    aliases:
+      - "分组富集柱状图"
+    source: "scripts/bar/enrichment_groups/plot.R"
+    examples:
+      - "scripts/bar/enrichment_groups/example.tsv"
+    preview: "scripts/bar/enrichment_groups/preview.png"
+    use_when: >
+      Compare enrichment of the same terms across several contrast groups.
+    avoid_when: >
+      Do not use for a single-contrast enrichment bar, or enrichment
+      bars as zoom panels on a DE heatmap (heatmap-enrichment-zoom).
+    input_shape: "one row per term-by-group; term, group, and enrichment statistic"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-enrichment-expand"
+    title: "Enrichment bars with expanded category headers"
+    aliases:
+      - "分层富集柱状图"
+    source: "scripts/bar/enrichment_expand/plot.R"
+    examples:
+      - "scripts/bar/enrichment_expand/example.tsv"
+    preview: "scripts/bar/enrichment_expand/preview.png"
+    use_when: >
+      Group enrichment terms under readable category headers on the y-axis.
+    avoid_when: >
+      Do not use when ontology is already handled by facets
+      (bar-enrichment-points), a classification tree with an outer
+      enrichment track (tree-enrichment-ring), or enrichment bars as
+      zoom panels on a DE heatmap (heatmap-enrichment-zoom).
+    input_shape: "one row per term; category, description, and enrichment statistic"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-upset"
+    title: "UpSet combination matrix"
+    aliases:
+      - "UpSet"
+      - "UpSetR"
+      - "UpSet图"
+      - "集合交集图"
+      - "组合模式图"
+    source: "scripts/bar/upset/plot.R"
+    examples:
+      - "scripts/bar/upset/example.tsv"
+    preview: "scripts/bar/upset/preview.png"
+    use_when: >
+      Show which sets co-occur in supplied combinations, with two-group
+      intersection bars (observed vs expected) on top, membership as a
+      dot matrix coloured by the number of member sets, and set size on
+      the left.
+    avoid_when: >
+      Do not draw overlapping Venn circles (use bar-venn for 2–4
+      sets) or a core-plus-petal flower (bar-flower). Do not
+      enumerate combinations from raw samples in the
+      script. expected is a supplied null, not computed here.
+      Two-set overlap as a single number is not this figure.
+      Do not add a second id for n-set colouring or dual bars.
+    input_shape: "one row per exclusive combination; member list, observed count, expected count"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-venn"
+    title: "Overlapping Venn circles"
+    aliases:
+      - "韦恩图"
+      - "Venn"
+      - "ggvenn"
+      - "venn"
+      - "基因交集韦恩"
+    source: "scripts/bar/venn/plot.R"
+    examples:
+      - "scripts/bar/venn/example.tsv"
+    preview: "scripts/bar/venn/preview.png"
+    use_when: >
+      Show overlap of 2–4 supplied sets as classic Venn circles.
+      Counts are unique items in each region. Percentage labels and
+      listing element names are CONFIG. Four circles are still this
+      id; five or more sets are bar-upset.
+    avoid_when: >
+      Do not use an UpSet combination matrix (bar-upset) when
+      overlapping circles are the claim. Do not add an id per
+      package (ggvenn vs venn) or per 2/3/4 circles. Do not draw
+      5+ set flower / petal diagrams (use bar-flower). Do not test
+      enrichment in the script.
+    input_shape: "one row per membership; item id and set name"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-flower"
+    title: "Multi-set flower / petal diagram"
+    aliases:
+      - "花瓣图"
+      - "花型韦恩"
+      - "flower plot"
+      - "petal Venn"
+      - "多组花瓣图"
+    source: "scripts/bar/flower/plot.R"
+    examples:
+      - "scripts/bar/flower/example.tsv"
+    preview: "scripts/bar/flower/preview.png"
+    use_when: >
+      Show five or more supplied sets as petals around a shared core
+      count. Each petal carries a supplied total and unique count;
+      core_n is CONFIG. Extra sets are extra rows, not a new id.
+    avoid_when: >
+      Do not draw classic overlapping circles for 2–4 sets
+      (bar-venn). Do not use an UpSet combination matrix
+      (bar-upset) when the claim is core-plus-per-set totals.
+      Do not enumerate membership or test enrichment in the script.
+      Equal-length decorative petals with mismatched percentages are
+      not this figure.
+    input_shape: "one row per set; set name, total count, unique count; core_n in CONFIG"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-swimmer"
+    title: "Swimmer plot of patient treatment lanes"
+    aliases:
+      - "泳道图"
+      - "游泳图"
+      - "swimmer plot"
+      - "swimmer’s plot"
+    source: "scripts/bar/swimmer/plot.R"
+    examples:
+      - "scripts/bar/swimmer/example.tsv"
+    preview: "scripts/bar/swimmer/preview.png"
+    use_when: >
+      Show each patient's treatment course as a horizontal time lane,
+      with supplied intervals, best-response points, stop marks or
+      ongoing arrows, and optional left-hand annotation tiles.
+      Extra treatments and extra annotation columns are CONFIG.
+    avoid_when: >
+      Do not use a magnitude bar (bar-basic), a two-point dumbbell
+      (scatter-dumbbell), or a population Kaplan-Meier curve
+      (line-survival). Do not convert calendar dates, call response,
+      or estimate survival in the script. Do not add an id per
+      metadata column or per Nature paper variant.
+    input_shape: "one row per treatment interval; patient, treatment, start, end, plus optional response, stop, and annotation columns"
+    language: "r"
+    status: "stable"

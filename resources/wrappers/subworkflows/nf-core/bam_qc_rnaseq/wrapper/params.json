@@ -1,0 +1,12 @@
+{
+  "bam": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/eukaryotes/saccharomyces_cerevisiae/illumina/bam/test.paired_end.sorted.bam",
+  "gtf": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/eukaryotes/saccharomyces_cerevisiae/genome_gfp.gtf",
+  "bed": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/eukaryotes/saccharomyces_cerevisiae/genome_gfp.bed12",
+  "fasta": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/eukaryotes/saccharomyces_cerevisiae/genome/genome.fa",
+  "fai": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/eukaryotes/saccharomyces_cerevisiae/genome/genome.fa.fai",
+  "biotypes_header": "tests/data/biotypes_header.txt",
+  "single_end": false,
+  "strandedness": "reverse",
+  "biotype": "gene_biotype",
+  "outdir": "results"
+}

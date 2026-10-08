@@ -1,0 +1,41 @@
+# Agent-facing wrapper adapter for the vendored arriba/arriba module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: builds a STAR index and aligns the reads with chimeric-detection settings using the vendored star genomegenerate and star align modules first.
+id: nf-core/modules/arriba-arriba
+name: "Arriba"
+summary: "Detect gene fusions from chimeric STAR alignments with Arriba (builds a STAR index and aligns reads first)."
+
+params:
+  reads1:
+    kind: input
+    type: file
+    required: true
+    description: "Forward RNA-seq reads FASTQ (.fastq.gz)."
+  reads2:
+    kind: input
+    type: file
+    required: true
+    description: "Reverse RNA-seq reads FASTQ (.fastq.gz)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  gtf:
+    kind: input
+    type: file
+    required: true
+    description: "Reference GTF annotation."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  fusions:
+    type: directory
+    path: '${outdir}/arriba_arriba'
+    primary: true

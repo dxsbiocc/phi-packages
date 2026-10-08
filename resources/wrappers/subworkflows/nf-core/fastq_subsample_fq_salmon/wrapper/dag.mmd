@@ -1,0 +1,40 @@
+flowchart TB
+    subgraph " "
+    v0["channel.of"]
+    v1["channel.of"]
+    v2["channel.of"]
+    v3["channel.of"]
+    v4["channel.empty"]
+    v10["alignment_mode"]
+    v11["lib_type"]
+    end
+    subgraph " "
+    v5["ch_index"]
+    v7[" "]
+    v9[" "]
+    v13[" "]
+    v14["lib_format_counts"]
+    v15["json_info"]
+    v16["results"]
+    end
+    subgraph "FASTQ_SUBSAMPLE_FQ_SALMON [FASTQ_SUBSAMPLE_FQ_SALMON]"
+    v6(["SALMON_INDEX"])
+    v8(["FQ_SUBSAMPLE"])
+    v12(["SALMON_QUANT"])
+    end
+    v0 --> v8
+    v1 --> v6
+    v2 --> v6
+    v2 --> v12
+    v3 --> v12
+    v4 --> v5
+    v6 --> v12
+    v6 --> v7
+    v8 --> v12
+    v8 --> v9
+    v10 --> v12
+    v11 --> v12
+    v12 --> v16
+    v12 --> v15
+    v12 --> v14
+    v12 --> v13

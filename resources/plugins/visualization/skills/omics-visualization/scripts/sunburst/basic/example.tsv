@@ -1,0 +1,14 @@
+parent	name	path	value
+	Grandpa	Grandpa	
+Grandpa	Uncle Leo	Grandpa/Uncle Leo	15
+Uncle Leo	Cousin Jack	Grandpa/Uncle Leo/Cousin Jack	2
+Uncle Leo	Cousin Mary	Grandpa/Uncle Leo/Cousin Mary	5
+Cousin Mary	Jackson	Grandpa/Uncle Leo/Cousin Mary/Jackson	2
+Uncle Leo	Cousin Ben	Grandpa/Uncle Leo/Cousin Ben	4
+Grandpa	Father	Grandpa/Father	10
+Father	Me	Grandpa/Father/Me	5
+Father	Brother Peter	Grandpa/Father/Brother Peter	1
+	Nancy	Nancy	
+Nancy	Uncle Nike	Nancy/Uncle Nike	
+Uncle Nike	Cousin Betty	Nancy/Uncle Nike/Cousin Betty	1
+Uncle Nike	Cousin Jenny	Nancy/Uncle Nike/Cousin Jenny	2

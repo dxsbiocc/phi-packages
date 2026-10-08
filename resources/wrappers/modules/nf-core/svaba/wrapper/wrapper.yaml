@@ -1,0 +1,51 @@
+# Agent-facing wrapper adapter for the vendored svaba module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: builds the BWA index with the vendored bwa index module first.
+id: nf-core/modules/svaba
+name: "SvABA"
+summary: "Call structural variants and indels with SvABA (builds the BWA index first)."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dbsnp:
+    kind: input
+    type: file
+    required: true
+    description: "dbSNP VCF (bgzipped)."
+  dbsnp_tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for dbSNP."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  sv:
+    type: directory
+    path: '${outdir}/svaba'
+    primary: true

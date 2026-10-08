@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored mmseqs/linclust module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: unpacks the MMseqs2 database archive with the vendored untar module first.
+id: nf-core/modules/mmseqs-linclust
+name: "MMseqs2 linclust"
+summary: "Cluster an MMseqs2 database in linear time with MMseqs2 linclust."
+
+params:
+  db_archive:
+    kind: input
+    type: file
+    required: true
+    description: "MMseqs2 database archive (.tar.gz)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  db_cluster:
+    type: directory
+    path: '${outdir}/mmseqs_linclust'
+    primary: true

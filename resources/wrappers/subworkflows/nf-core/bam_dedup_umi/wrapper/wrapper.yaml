@@ -1,0 +1,67 @@
+# Agent-facing wrapper adapter for the vendored bam_dedup_umi subworkflow at
+# ../main.nf (dedups both a genome BAM and a transcriptome BAM with
+# UMI-tools or UMICollapse, then prepares the transcriptome BAM for
+# RSEM/Salmon). Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/subworkflows/bam-dedup-umi
+name: BAM UMI dedup (genome + transcriptome)
+summary: Deduplicate UMI-tagged genome and transcriptome BAMs (UMI-tools or UMICollapse) and prepare the transcriptome BAM for RSEM/Salmon.
+
+params:
+  genome_bam:
+    kind: input
+    type: bam
+    required: true
+    description: Coordinate-sorted genome-aligned BAM with UMIs in the read name.
+  genome_bai:
+    kind: input
+    type: bai
+    required: true
+    description: Index for the genome BAM.
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: Genome reference FASTA.
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: FASTA index (.fai) for the genome reference.
+  transcriptome_bam:
+    kind: input
+    type: bam
+    required: true
+    description: Transcriptome-aligned BAM (any sort order) with UMIs in the read name.
+  transcript_fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: Transcriptome reference FASTA.
+  umi_dedup_tool:
+    kind: option
+    type: string
+    required: false
+    enum: [umitools, umicollapse]
+    description: Which tool to deduplicate with.
+  umitools_dedup_stats:
+    kind: option
+    type: boolean
+    required: false
+    description: Also write UMI-tools per-UMI/per-position/edit-distance dedup stats TSVs (umitools tool only).
+  umitools_dedup_primary_only:
+    kind: option
+    type: boolean
+    required: false
+    description: Filter to primary alignments before deduplication (umitools tool only).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the deduplicated genome/transcriptome BAMs and stats reports.
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/bam_dedup_umi'
+    primary: true

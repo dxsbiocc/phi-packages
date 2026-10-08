@@ -1,0 +1,25 @@
+# Agent-facing wrapper adapter for the vendored
+# picard/fixmateinformation module at ../main.nf. Follows the minimal
+# contract in docs/design/phi-wrapper-agent-composition-design.md
+# section 3.
+id: nf-core/modules/picard-fixmateinformation
+name: picard FixMateInformation
+summary: Fix mate-pair information for paired reads in a BAM with Picard FixMateInformation.
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: BAM file to fix mate information in.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the fixed BAM.
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/picard_fixmateinformation'
+    primary: true

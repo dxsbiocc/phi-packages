@@ -1,0 +1,33 @@
+flowchart TB
+    subgraph " "
+    v0["channel.fromFilePairs"]
+    v2["discard_trimmed_pass"]
+    v3["save_trimmed_fail"]
+    v4["save_merged"]
+    v13["channel.empty"]
+    end
+    v5(["FASTP"])
+    subgraph " "
+    v6[" "]
+    v7[" "]
+    v8[" "]
+    v9[" "]
+    v10[" "]
+    v11[" "]
+    v12[" "]
+    v14[" "]
+    end
+    v1(( ))
+    v0 --> v1
+    v2 --> v5
+    v3 --> v5
+    v4 --> v5
+    v1 --> v5
+    v5 --> v12
+    v5 --> v11
+    v5 --> v10
+    v5 --> v9
+    v5 --> v8
+    v5 --> v7
+    v5 --> v6
+    v13 --> v14

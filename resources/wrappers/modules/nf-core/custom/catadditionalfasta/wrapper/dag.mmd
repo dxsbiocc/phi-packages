@@ -1,0 +1,27 @@
+flowchart TB
+    subgraph " "
+    v0["channel.fromPath"]
+    v2["channel.fromPath"]
+    v5["channel.fromPath"]
+    v7["biotype"]
+    v12["channel.empty"]
+    end
+    v8(["CUSTOM_CATADDITIONALFASTA"])
+    subgraph " "
+    v9[" "]
+    v10[" "]
+    v11[" "]
+    v13[" "]
+    end
+    v1(( ))
+    v6(( ))
+    v0 --> v1
+    v2 --> v1
+    v5 --> v6
+    v7 --> v8
+    v1 --> v8
+    v6 --> v8
+    v8 --> v11
+    v8 --> v10
+    v8 --> v9
+    v12 --> v13

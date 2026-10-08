@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored shapeit5/phasecommon module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/shapeit5-phasecommon
+name: "SHAPEIT5 phase_common"
+summary: "Statistically phase common variants in a VCF with SHAPEIT5 phase_common."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Genotype VCF (bgzipped)."
+  csi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.csi) for the VCF."
+  region:
+    kind: option
+    type: string
+    required: false
+    description: "Region to phase."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  phased_variant:
+    type: directory
+    path: '${outdir}/shapeit5_phasecommon'
+    primary: true

@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored blast/blastn module at
+# ../main.nf. Also composes the vendored blast/makeblastdb module (a
+# sibling vendored component, not another wrapper) so the agent can BLAST
+# a query against a raw subject FASTA in one step. Follows the minimal
+# contract in docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/blast-blastn
+name: blast blastn
+summary: BLAST a nucleotide query against a subject FASTA (builds the database internally).
+
+params:
+  query:
+    kind: input
+    type: file
+    required: true
+    description: Query nucleotide FASTA file.
+  subject:
+    kind: input
+    type: file
+    required: true
+    description: Subject/reference nucleotide FASTA file the BLAST database is built from.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the BLAST hits.
+
+outputs:
+  txt:
+    type: directory
+    path: '${outdir}/blast_blastn'
+    primary: true

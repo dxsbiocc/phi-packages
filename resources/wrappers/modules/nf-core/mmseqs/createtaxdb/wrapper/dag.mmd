@@ -1,0 +1,24 @@
+flowchart TB
+    subgraph " "
+    v0[" "]
+    v3[" "]
+    v6[" "]
+    end
+    v1(["UNTAR_MMSEQS_DB"])
+    subgraph " "
+    v2[" "]
+    v5[" "]
+    v8[" "]
+    v9[" "]
+    end
+    v4(["UNTAR_TAXDUMP"])
+    v7(["MMSEQS_CREATETAXDB"])
+    v0 --> v1
+    v1 --> v7
+    v1 --> v2
+    v3 --> v4
+    v4 --> v7
+    v4 --> v5
+    v6 --> v7
+    v7 --> v9
+    v7 --> v8

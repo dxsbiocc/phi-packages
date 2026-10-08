@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored seqkit/sort module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/seqkit-sort
+name: seqkit sort
+summary: Sort FASTA/FASTQ records (by name, length, or sequence) with seqkit sort.
+
+params:
+  fastx:
+    kind: input
+    type: file
+    required: true
+    description: FASTA/FASTQ file (plain or gzipped) to sort.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the sorted sequences.
+
+outputs:
+  fastx:
+    type: directory
+    path: '${outdir}/seqkit_sort'
+    primary: true

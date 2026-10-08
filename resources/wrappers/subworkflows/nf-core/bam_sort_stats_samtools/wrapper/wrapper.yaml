@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored bam_sort_stats_samtools
+# subworkflow at ../main.nf (SAMTOOLS_SORT -> SAMTOOLS_INDEX ->
+# BAM_STATS_SAMTOOLS: stats, flagstat, idxstats). Follows the minimal
+# contract in docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# BAM input only, no reference FASTA: a reference is needed just for CRAM, so
+# this wrapper passes an empty one. The subworkflow already chains the
+# component modules, so this adapter includes only the subworkflow itself.
+id: nf-core/subworkflows/bam-sort-stats-samtools
+name: BAM sort + stats (samtools)
+summary: Coordinate-sort a BAM, index it, and compute samtools stats, flagstat and idxstats.
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: SAM/BAM file to sort (any order).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the sorted BAM, its index, and the three stats reports.
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/bam_sort_stats_samtools'
+    primary: true

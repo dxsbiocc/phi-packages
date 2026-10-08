@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored picard/crosscheckfingerprints module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/picard-crosscheckfingerprints
+name: "picard CrosscheckFingerprints"
+summary: "Check whether BAMs/read groups come from the same individual by fingerprinting with Picard CrosscheckFingerprints."
+
+params:
+  bam1:
+    kind: input
+    type: file
+    required: true
+    description: "First BAM file."
+  bai1:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.bai) for the first BAM."
+  bam2:
+    kind: input
+    type: file
+    required: true
+    description: "Second BAM file."
+  bai2:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.bai) for the second BAM."
+  haplotype_map:
+    kind: input
+    type: file
+    required: true
+    description: "Picard haplotype map of fingerprinting SNPs."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  crosscheck_metrics:
+    type: directory
+    path: '${outdir}/picard_crosscheckfingerprints'
+    primary: true

@@ -1,0 +1,29 @@
+flowchart TB
+    subgraph " "
+    v0["channel.fromPath"]
+    v2["channel.fromPath"]
+    v5["get_output_stats"]
+    v13["channel.empty"]
+    end
+    v6(["UMITOOLS_DEDUP"])
+    subgraph " "
+    v7[" "]
+    v8[" "]
+    v9[" "]
+    v10[" "]
+    v11[" "]
+    v12[" "]
+    v14[" "]
+    end
+    v1(( ))
+    v0 --> v1
+    v2 --> v1
+    v5 --> v6
+    v1 --> v6
+    v6 --> v12
+    v6 --> v11
+    v6 --> v10
+    v6 --> v9
+    v6 --> v8
+    v6 --> v7
+    v13 --> v14

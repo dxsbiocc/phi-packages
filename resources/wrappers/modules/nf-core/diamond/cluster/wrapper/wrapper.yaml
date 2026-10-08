@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored diamond/cluster module
+# at ../main.nf. Also composes the vendored diamond/makedb module (a
+# sibling vendored component, not another wrapper) so the agent can
+# cluster a raw protein FASTA in one step. Follows the minimal contract
+# in docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/diamond-cluster
+name: diamond cluster
+summary: Cluster protein sequences by similarity with DIAMOND cluster (builds the database internally).
+
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: Protein FASTA file to cluster.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the cluster membership table.
+
+outputs:
+  tsv:
+    type: directory
+    path: '${outdir}/diamond_cluster'
+    primary: true

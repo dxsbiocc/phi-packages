@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored kraken2/kraken2 module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# db is a plain tar.gz; untar is composed directly so callers don't have to
+# pre-extract it (per section 6 of the design doc).
+id: nf-core/modules/kraken2-kraken2
+name: Kraken2
+summary: Taxonomically classify FASTQ reads against a Kraken2 database.
+
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Glob matching one sample's FASTQ file(s) — a pair for paired-end, or one file for single-end.
+  db:
+    kind: input
+    type: file
+    required: true
+    description: Kraken2 database as a tar.gz archive.
+  save_output_fastqs:
+    kind: option
+    type: boolean
+    required: false
+    description: Also write classified/unclassified reads as FASTQ.
+  save_reads_assignment:
+    kind: option
+    type: boolean
+    required: false
+    description: Also write the per-read classification assignment TXT.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the Kraken2 report (and optional read outputs).
+
+outputs:
+  report:
+    type: directory
+    path: '${outdir}/kraken2'
+    primary: true

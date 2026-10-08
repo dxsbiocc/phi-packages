@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored custom/tabulartogseachip module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/custom-tabulartogseachip
+name: "Custom tabulartogseachip"
+summary: "Convert an annotation table to a GSEA .chip file."
+
+params:
+  tabular:
+    kind: input
+    type: file
+    required: true
+    description: "Tabular gene annotation (TSV)."
+  id_col:
+    kind: option
+    type: string
+    required: false
+    description: "Feature ID column name."
+  symbol_col:
+    kind: option
+    type: string
+    required: false
+    description: "Gene symbol column name."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  chip:
+    type: directory
+    path: '${outdir}/custom_tabulartogseachip'
+    primary: true

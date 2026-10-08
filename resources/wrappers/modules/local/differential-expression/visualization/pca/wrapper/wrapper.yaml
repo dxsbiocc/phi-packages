@@ -1,0 +1,68 @@
+# Agent-facing wrapper adapter for the DE_PCA process at ../main.nf -- a
+# new local tool (no nf-core module to vendor), grouped under this
+# project's differential-expression family as a generic downstream-
+# visualization step. Takes a variance-stabilized/rlog expression matrix
+# (e.g. the vst_counts output of ../../deseq2/) plus a sample sheet with
+# named metadata columns to color (and optionally shape) points by --
+# unlike ../../qc/, which infers grouping from sample-name prefixes, this
+# tool uses the sample sheet's own columns. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: local/modules/differential-expression-visualization-pca
+name: DE PCA plot
+summary: PCA scatter of samples from a variance-stabilized expression matrix, colored (and optionally shaped) by sample-sheet metadata.
+
+params:
+  matrix:
+    kind: input
+    type: file
+    required: true
+    description: Variance-stabilized or rlog-transformed expression matrix (TSV/CSV), genes as rows, samples as columns.
+  samplesheet:
+    kind: input
+    type: file
+    required: true
+    description: Sample metadata sheet (TSV/CSV) with one row per sample.
+  gene_id_col:
+    kind: option
+    type: string
+    required: false
+    description: Matrix column holding gene identifiers.
+  sample_id_col:
+    kind: option
+    type: string
+    required: false
+    description: Samplesheet column holding each sample's identifier -- must match the matrix's sample column names.
+  color_by:
+    kind: option
+    type: string
+    required: true
+    description: Samplesheet column to color points by (e.g. 'condition').
+  shape_by:
+    kind: option
+    type: string
+    required: false
+    description: Optional samplesheet column to additionally shape points by (e.g. 'batch').
+  ntop:
+    kind: option
+    type: string
+    required: false
+    description: Number of top-variance genes used to compute the PCA (DESeq2::plotPCA's own default is 500).
+  prefix:
+    kind: option
+    type: string
+    required: false
+    description: Output file prefix.
+  outdir:
+    kind: output
+    type: directory
+    required: true
+    description: Directory results are published under.
+
+outputs:
+  pdf:
+    type: file
+    path: '${outdir}/pca/${prefix}.pca.pdf'
+    primary: true
+  vals:
+    type: file
+    path: '${outdir}/pca/${prefix}.pca.vals.tsv'

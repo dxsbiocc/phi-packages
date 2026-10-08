@@ -1,0 +1,284 @@
+family: "boxplot"
+preview_background: "transparent"  # PNG alpha is empty; dark UIs look black. Do not treat as a black canvas.
+
+templates:
+  - id: "boxplot-basic"
+    title: "Basic boxplot"
+    aliases:
+      - "箱线图"
+      - "盒须图"
+    source: "scripts/boxplot/basic/plot.R"
+    examples:
+      - "scripts/boxplot/basic/example.tsv"
+    preview: "scripts/boxplot/basic/preview.png"
+    use_when: >
+      Summarize a numeric distribution across categories as boxes and whiskers.
+    avoid_when: >
+      Do not use when grouping, pairing, violins, or rainclouds are requested.
+    input_shape: "one row per observation; category plus numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "boxplot-group"
+    title: "Grouped boxplot"
+    aliases:
+      - "分组箱线图"
+    source: "scripts/boxplot/group/plot.R"
+    examples:
+      - "scripts/boxplot/group/example.tsv"
+    preview: "scripts/boxplot/group/preview.png"
+    use_when: >
+      Compare distributions across categories and a second grouping factor.
+    avoid_when: >
+      Do not use for a single grouping factor (use boxplot-basic).
+    input_shape: "one row per observation; category, group, and numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "boxplot-violin"
+    title: "Violin plot"
+    aliases:
+      - "小提琴图"
+    source: "scripts/boxplot/violin/plot.R"
+    examples:
+      - "scripts/boxplot/violin/example.tsv"
+    preview: "scripts/boxplot/violin/preview.png"
+    use_when: >
+      Show full distribution shape per category, not only quartiles.
+    avoid_when: >
+      Do not use when only a box summary is needed, when a raincloud
+      (half-violin plus points) is requested, or when stacked density
+      ridges / RidgePlot are requested (line-ridge).
+    input_shape: "one row per observation; category plus numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "boxplot-point"
+    title: "Boxplot with points"
+    aliases:
+      - "箱线加点图"
+    source: "scripts/boxplot/point/plot.R"
+    examples:
+      - "scripts/boxplot/point/example.tsv"
+    preview: "scripts/boxplot/point/preview.png"
+    use_when: >
+      Combine a box summary with the underlying observations.
+    avoid_when: >
+      Do not use a beeswarm or raincloud when a simple box-plus-points is enough.
+    input_shape: "one row per observation; category plus numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "boxplot-round"
+    title: "Rounded boxplot"
+    aliases:
+      - "圆角箱线图"
+    source: "scripts/boxplot/round/plot.R"
+    examples:
+      - "scripts/boxplot/round/example.tsv"
+    preview: "scripts/boxplot/round/preview.png"
+    use_when: >
+      Draw the same box summary with rounded box geometry.
+    avoid_when: >
+      Do not use when a standard rectangular boxplot is requested.
+    input_shape: "one row per observation; category plus numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "boxplot-paired"
+    title: "Paired boxplot"
+    aliases:
+      - "配对箱线图"
+      - "前后箱线"
+    source: "scripts/boxplot/paired/plot.R"
+    examples:
+      - "scripts/boxplot/paired/example.tsv"
+    preview: "scripts/boxplot/paired/preview.png"
+    use_when: >
+      Compare two paired conditions and optionally draw pair connectors.
+    avoid_when: >
+      Do not use for unpaired groups (use boxplot-group) or a paired scatter.
+    input_shape: "one row per unit-by-condition, with a pair identifier"
+    language: "r"
+    status: "stable"
+
+  - id: "boxplot-bezier-point"
+    title: "Boxplot with Bezier pair links"
+    aliases:
+      - "贝塞尔连线箱线图"
+    source: "scripts/boxplot/bezier_point/plot.R"
+    examples:
+      - "scripts/boxplot/bezier_point/example.tsv"
+    preview: "scripts/boxplot/bezier_point/preview.png"
+    use_when: >
+      Overlay paired observations on boxes and connect pairs with Bezier curves.
+      Pairing uses a supplied pair_id within each facet, not row order.
+    avoid_when: >
+      Do not use straight paired connectors (boxplot-paired) or a
+      Bezier scatter (scatter-bezier).
+    input_shape: "one row per unit-by-condition, with an explicit pair_id"
+    language: "r"
+    status: "stable"
+
+  - id: "boxplot-differential-expression"
+    title: "Differential-expression boxplot"
+    aliases:
+      - "差异表达箱线图"
+      - "基因箱线图"
+    source: "scripts/boxplot/differential_expression/plot.R"
+    examples:
+      - "scripts/boxplot/differential_expression/example.tsv"
+    preview: "scripts/boxplot/differential_expression/preview.png"
+    use_when: >
+      Compare expression of selected features across sample groups.
+    avoid_when: >
+      Do not use a volcano as a substitute, or a two-panel / faceted
+      differential layout when a single gene panel is requested.
+    input_shape: "long table of feature, sample group, and expression"
+    language: "r"
+    status: "stable"
+
+  - id: "boxplot-differential-two"
+    title: "Two-panel differential boxplot"
+    aliases:
+      - "双面板差异箱线"
+    source: "scripts/boxplot/differential_two/plot.R"
+    examples:
+      - "scripts/boxplot/differential_two/example.tsv"
+    preview: "scripts/boxplot/differential_two/preview.png"
+    use_when: >
+      Show two features or two contrasts as paired differential box panels.
+    avoid_when: >
+      Do not use a many-feature facet grid (boxplot-differential-facet).
+    input_shape: "long table of feature, group, and expression for two features"
+    language: "r"
+    status: "stable"
+
+  - id: "boxplot-differential-facet"
+    title: "Faceted differential boxplot"
+    aliases:
+      - "分面差异箱线"
+    source: "scripts/boxplot/differential_facet/plot.R"
+    examples:
+      - "scripts/boxplot/differential_facet/example.tsv"
+    preview: "scripts/boxplot/differential_facet/preview.png"
+    use_when: >
+      Facet expression boxplots across many features.
+    avoid_when: >
+      Do not use for one or two features (use differential-expression or
+      differential-two).
+    input_shape: "long table of feature, group, and expression"
+    language: "r"
+    status: "stable"
+
+  - id: "boxplot-differential-bg"
+    title: "Banded two-level differential boxplot"
+    aliases:
+      - "背景色带箱线图"
+      - "泛癌箱线图"
+      - "分组差异箱线"
+      - "pancancer boxplot"
+    source: "scripts/boxplot/differential_bg/plot.R"
+    examples:
+      - "scripts/boxplot/differential_bg/example.tsv"
+    preview: "scripts/boxplot/differential_bg/preview.png"
+    use_when: >
+      Compare two groups within many x-axis categories (for example
+      Normal vs Tumor across cancer types): rounded boxes, jitter,
+      alternating background bands, and per-category significance
+      labels. show_ns is CONFIG.
+    avoid_when: >
+      Do not use a plain two-factor boxplot without bands or
+      significance (boxplot-group), a single-category DE panel
+      (boxplot-differential-expression), or faceted many-feature
+      panels (boxplot-differential-facet). Do not filter matched
+      patients or run DE in the script. Alternating vs solid bands
+      is not a second id.
+    input_shape: "one row per observation; category, group, and numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "boxplot-raincloud"
+    title: "Raincloud plot"
+    aliases:
+      - "雨云图"
+      - "half-violin"
+    source: "scripts/boxplot/raincloud/plot.R"
+    examples:
+      - "scripts/boxplot/raincloud/example.tsv"
+    preview: "scripts/boxplot/raincloud/preview.png"
+    use_when: >
+      Combine a half-violin, box, and raw points in a horizontal raincloud.
+    avoid_when: >
+      Do not use the vertical or differential raincloud unless that layout
+      is requested.
+    input_shape: "one row per observation; category plus numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "boxplot-raincloud-vertical"
+    title: "Vertical raincloud plot"
+    aliases:
+      - "竖直雨云图"
+    source: "scripts/boxplot/raincloud_vertical/plot.R"
+    examples:
+      - "scripts/boxplot/raincloud_vertical/example.tsv"
+    preview: "scripts/boxplot/raincloud_vertical/preview.png"
+    use_when: >
+      Same raincloud combination in a vertical orientation.
+    avoid_when: >
+      Do not use the horizontal raincloud (boxplot-raincloud).
+    input_shape: "one row per observation; category plus numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "boxplot-raincloud-differential"
+    title: "Differential raincloud plot"
+    aliases:
+      - "差异雨云图"
+    source: "scripts/boxplot/raincloud_differential/plot.R"
+    examples:
+      - "scripts/boxplot/raincloud_differential/example.tsv"
+    preview: "scripts/boxplot/raincloud_differential/preview.png"
+    use_when: >
+      Raincloud layout for differential-expression or contrast groups.
+    avoid_when: >
+      Do not use a generic raincloud when contrast annotations are required.
+    input_shape: "one row per observation; feature or group plus numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "boxplot-polar"
+    title: "Polar boxplot"
+    aliases:
+      - "极坐标箱线图"
+    source: "scripts/boxplot/polar/plot.R"
+    examples:
+      - "scripts/boxplot/polar/example.tsv"
+    preview: "scripts/boxplot/polar/preview.png"
+    use_when: >
+      Place box summaries around a circle by category.
+    avoid_when: >
+      Do not use the inner-heatmap plus outer-violin fan
+      (boxplot-polar-heatmap).
+    input_shape: "one row per observation; angular category plus numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "boxplot-polar-heatmap"
+    title: "Polar heatmap with outer violins"
+    aliases:
+      - "径向热图小提琴"
+      - "扇形分布图"
+    source: "scripts/boxplot/polar_heatmap/plot.R"
+    examples:
+      - "scripts/boxplot/polar_heatmap/example.tsv"
+    preview: "scripts/boxplot/polar_heatmap/preview.png"
+    use_when: >
+      Draw a radial fan with an inner heatmap of group means and outer
+      violins of raw values.
+    avoid_when: >
+      Do not use a plain polar boxplot or a rectangular heatmap.
+    input_shape: "one row per observation; angular category, group, and numeric value"
+    language: "r"
+    status: "stable"

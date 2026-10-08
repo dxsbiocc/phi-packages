@@ -1,0 +1,53 @@
+# Agent-facing wrapper adapter for the vendored subread/featureCounts module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/subread-featurecounts
+name: featureCounts
+summary: Count reads per gene/feature from a BAM and a GTF annotation with Subread featureCounts.
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: BAM file to count, or a glob matching several (one per sample; the sample name is the file name up to its first dot).
+  gtf:
+    kind: input
+    type: gtf
+    required: true
+    description: Gene annotation GTF.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the count table and summary.
+  strandedness:
+    kind: option
+    type: string
+    required: false
+    enum:
+      - unstranded
+      - forward
+      - reverse
+    description: Library strandedness passed to featureCounts -s (unstranded=0, forward=1, reverse=2).
+  feature_type:
+    kind: option
+    type: string
+    required: false
+    description: GTF feature type to count (featureCounts -t). Defaults to exon; the bundled sarscov2 test GTF only has CDS rows.
+  single_end:
+    kind: option
+    type: boolean
+    required: false
+    description: Set true for single-end reads; false (default) adds -p for paired-end counting.
+  merge:
+    kind: option
+    type: boolean
+    required: false
+    description: Count all matched BAMs in one featureCounts call and also write merged.counts_matrix.tsv — gene_id plus one column per sample — ready for the DESeq2/edgeR/limma wrappers. Default false (one table per BAM).
+
+outputs:
+  counts:
+    type: directory
+    path: '${outdir}/featurecounts'
+    primary: true

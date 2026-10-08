@@ -1,0 +1,22 @@
+flowchart TB
+    subgraph " "
+    v0["channel.of"]
+    v1["channel.of"]
+    v2[" "]
+    end
+    v3(["BWA_INDEX"])
+    subgraph " "
+    v4[" "]
+    v7[" "]
+    v8[" "]
+    end
+    v6(["GRIDSS_PREPROCESS"])
+    v5(( ))
+    v0 --> v6
+    v1 --> v5
+    v2 --> v3
+    v3 --> v4
+    v3 --> v5
+    v5 --> v6
+    v6 --> v8
+    v6 --> v7

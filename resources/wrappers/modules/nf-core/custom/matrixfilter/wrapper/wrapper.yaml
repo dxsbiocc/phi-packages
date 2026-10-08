@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored custom/matrixfilter module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/custom-matrixfilter
+name: "Custom matrixfilter"
+summary: "Filter an abundance matrix by minimum abundance and sample counts."
+
+params:
+  abundance:
+    kind: input
+    type: file
+    required: true
+    description: "Abundance matrix (TSV)."
+  samplesheet:
+    kind: input
+    type: file
+    required: true
+    description: "Sample metadata sheet (TSV)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  filtered:
+    type: directory
+    path: '${outdir}/custom_matrixfilter'
+    primary: true

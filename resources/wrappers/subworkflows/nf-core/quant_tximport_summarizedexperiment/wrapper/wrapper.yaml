@@ -1,0 +1,56 @@
+# Agent-facing wrapper adapter for the vendored quant_tximport_summarizedexperiment
+# subworkflow at ../main.nf (tx2gene -> tximport -> SummarizedExperiment,
+# per-gene and per-transcript). Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/subworkflows/quant-tximport-summarizedexperiment
+name: Quant tximport + SummarizedExperiment
+summary: Summarise per-sample transcript quantifications (kallisto/salmon/rsem) to gene/transcript count matrices and SummarizedExperiment .rds objects.
+
+params:
+  quants:
+    kind: input
+    type: path_glob
+    required: true
+    description: Glob matching each sample's quantifier output directory (kallisto/salmon/rsem per-sample results).
+  gtf:
+    kind: input
+    type: gtf
+    required: true
+    description: GTF annotation used to build the transcript-to-gene map.
+  samplesheet:
+    kind: input
+    type: file
+    required: true
+    description: Sample metadata sheet (csv) with one row per sample, used to annotate the SummarizedExperiment.
+  quant_type:
+    kind: option
+    type: string
+    required: false
+    enum: [kallisto, salmon, rsem]
+    description: Which quantifier produced the quants directories.
+  id:
+    kind: option
+    type: string
+    required: false
+    description: GTF attribute used as the gene id column in the transcript-to-gene map.
+  extra:
+    kind: option
+    type: string
+    required: false
+    description: Comma-separated extra GTF attributes (e.g. gene_name) appended to the transcript-to-gene map.
+  skip_merge:
+    kind: option
+    type: boolean
+    required: false
+    description: Skip cross-sample merging and SummarizedExperiment building; run tximport per-sample only.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the count/TPM matrices and SummarizedExperiment .rds objects.
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/quant_tximport_summarizedexperiment'
+    primary: true

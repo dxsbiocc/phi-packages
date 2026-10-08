@@ -1,0 +1,13 @@
+schemaVersion: 1
+id: notion
+type: mcp
+version: 1.0.0
+title: Notion
+summary: 搜索、读取和整理工作区内容
+connector:
+  transport: http
+  publisher: Notion
+  category: 生产力
+  homepage: https://claude.com/marketplace/connectors/notion
+  url: https://mcp.notion.com/mcp
+  auth: oauth

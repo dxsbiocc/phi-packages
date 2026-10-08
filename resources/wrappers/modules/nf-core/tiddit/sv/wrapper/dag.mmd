@@ -1,0 +1,22 @@
+flowchart TB
+    subgraph " "
+    v0["fasta_ch"]
+    v3["bam_ch"]
+    v4["fasta_fai_ch"]
+    end
+    v1(["BWA_INDEX"])
+    subgraph " "
+    v2[" "]
+    v6[" "]
+    v7[" "]
+    v8[" "]
+    end
+    v5(["TIDDIT_SV"])
+    v0 --> v1
+    v1 --> v5
+    v1 --> v2
+    v3 --> v5
+    v4 --> v5
+    v5 --> v8
+    v5 --> v7
+    v5 --> v6

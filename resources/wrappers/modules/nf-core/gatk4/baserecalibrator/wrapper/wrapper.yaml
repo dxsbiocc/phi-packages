@@ -1,0 +1,54 @@
+# Agent-facing wrapper adapter for the vendored gatk4/baserecalibrator
+# module at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4-baserecalibrator
+name: GATK4 BaseRecalibrator
+summary: Build a base quality score recalibration (BQSR) table for a BAM with GATK4 BaseRecalibrator.
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: Coordinate-sorted BAM file.
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: BAM index (.bai) for the input BAM.
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: Reference FASTA file.
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: FASTA index (.fai) for the reference.
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: Sequence dictionary (.dict) for the reference.
+  known_sites:
+    kind: input
+    type: file
+    required: true
+    description: Known variant sites VCF (e.g. dbSNP) used for recalibration.
+  known_sites_tbi:
+    kind: input
+    type: file
+    required: true
+    description: Tabix index (.tbi) for the known-sites VCF.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the recalibration table.
+
+outputs:
+  table:
+    type: directory
+    path: '${outdir}/gatk4_baserecalibrator'
+    primary: true

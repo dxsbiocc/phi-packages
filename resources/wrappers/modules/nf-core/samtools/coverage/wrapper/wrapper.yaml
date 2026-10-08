@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored samtools/coverage module
+# at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/samtools-coverage
+name: samtools coverage
+summary: Summarize per-chromosome coverage statistics for a BAM with samtools coverage.
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: Coordinate-sorted BAM file.
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: BAM index (.bai) for the input BAM.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the coverage summary.
+
+outputs:
+  coverage:
+    type: directory
+    path: '${outdir}/samtools_coverage'
+    primary: true

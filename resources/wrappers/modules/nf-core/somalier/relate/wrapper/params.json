@@ -1,0 +1,5 @@
+{
+  "normal": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/delete_me/somalier/normal.somalier",
+  "tumour": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/delete_me/somalier/tumour.somalier",
+  "outdir": "results"
+}

@@ -1,0 +1,54 @@
+# Agent-facing wrapper adapter for the vendored gatk4spark/baserecalibrator module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4spark-baserecalibrator
+name: "GATK4 Spark BaseRecalibrator"
+summary: "Build a base-quality recalibration table with GATK4 Spark BaseRecalibrator."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  known_sites:
+    kind: input
+    type: file
+    required: true
+    description: "Known-sites VCF (bgzipped)."
+  known_sites_tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the known-sites VCF."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  table:
+    type: directory
+    path: '${outdir}/gatk4spark_baserecalibrator'
+    primary: true

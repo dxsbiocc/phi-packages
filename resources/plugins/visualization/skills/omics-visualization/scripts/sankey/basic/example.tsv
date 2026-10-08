@@ -1,0 +1,7 @@
+source	target	value
+a	a1	5
+a	a2	3
+b	b1	8
+a	b1	3
+b1	a1	1
+b1	c	2

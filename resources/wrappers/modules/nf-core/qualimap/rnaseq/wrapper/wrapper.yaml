@@ -1,0 +1,40 @@
+# Agent-facing wrapper adapter for the vendored qualimap/rnaseq module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/qualimap-rnaseq
+name: Qualimap rnaseq
+summary: RNA-seq QC (read distribution, coverage, junction analysis) on a BAM against a GTF with Qualimap rnaseq.
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: Coordinate-sorted BAM file.
+  gtf:
+    kind: input
+    type: gtf
+    required: true
+    description: Gene annotation GTF.
+  single_end:
+    kind: option
+    type: boolean
+    required: false
+    description: Whether the reads are single-end.
+  strandedness:
+    kind: option
+    type: string
+    required: false
+    enum: [unstranded, forward, reverse]
+    description: Library strandedness.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the Qualimap RNA-seq report.
+
+outputs:
+  report:
+    type: directory
+    path: '${outdir}/qualimap_rnaseq'
+    primary: true

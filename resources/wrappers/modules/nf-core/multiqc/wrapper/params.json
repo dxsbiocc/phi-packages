@@ -1,0 +1,4 @@
+{
+  "logs": "tests/data/test_fastqc.zip",
+  "outdir": "results"
+}

@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored samtools/bam2fq module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/samtools-bam2fq
+name: samtools bam2fq
+summary: Convert a BAM file back to FASTQ with samtools bam2fq.
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: BAM file to convert.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the FASTQ file.
+
+outputs:
+  reads:
+    type: directory
+    path: '${outdir}/samtools_bam2fq'
+    primary: true

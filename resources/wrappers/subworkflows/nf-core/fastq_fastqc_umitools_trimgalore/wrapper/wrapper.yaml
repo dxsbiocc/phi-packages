@@ -1,0 +1,56 @@
+# Agent-facing wrapper adapter for the vendored fastq_fastqc_umitools_trimgalore
+# subworkflow at ../main.nf (FastQC -> optional UMI-tools extract ->
+# TrimGalore). Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/subworkflows/fastq-fastqc-umitools-trimgalore
+name: FASTQ QC + UMI extract + TrimGalore
+summary: Run FastQC, optionally extract UMIs, then adapter/quality-trim with TrimGalore.
+
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Glob matching one sample's FASTQ file(s) — a pair for paired-end, or one file for single-end.
+  skip_fastqc:
+    kind: option
+    type: boolean
+    required: false
+    description: Skip the FastQC step.
+  with_umi:
+    kind: option
+    type: boolean
+    required: false
+    description: Whether reads carry UMIs (gates the UMI-tools extract step).
+  skip_umi_extract:
+    kind: option
+    type: boolean
+    required: false
+    description: Skip UMI extraction even when with_umi is true.
+  skip_trimming:
+    kind: option
+    type: boolean
+    required: false
+    description: Skip the TrimGalore step.
+  umi_discard_read:
+    kind: option
+    type: integer
+    required: false
+    enum: ["0", "1", "2"]
+    description: Discard read 1 or 2 after UMI extraction (0 to keep both).
+  min_trimmed_reads:
+    kind: option
+    type: integer
+    required: false
+    description: Minimum reads a sample must retain after trimming to stay in the output.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the FastQC, UMI-tools and TrimGalore reports/reads.
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/fastq_fastqc_umitools_trimgalore'
+    primary: true

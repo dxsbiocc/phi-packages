@@ -1,0 +1,49 @@
+# Agent-facing wrapper adapter for the vendored picard/extractfingerprint module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/picard-extractfingerprint
+name: "picard ExtractFingerprint"
+summary: "Extract a genotype fingerprint VCF from a BAM with Picard ExtractFingerprint."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  haplotype_map:
+    kind: input
+    type: file
+    required: true
+    description: "Picard haplotype map of fingerprinting SNPs."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/picard_extractfingerprint'
+    primary: true

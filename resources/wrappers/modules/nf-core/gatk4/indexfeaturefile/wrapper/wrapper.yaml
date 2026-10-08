@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored gatk4/indexfeaturefile
+# module at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4-indexfeaturefile
+name: GATK4 IndexFeatureFile
+summary: Build a tabix/idx index for a VCF or BED feature file with GATK4 IndexFeatureFile.
+
+params:
+  feature_file:
+    kind: input
+    type: file
+    required: true
+    description: Feature file (VCF or BED) to index.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the index.
+
+outputs:
+  index:
+    type: directory
+    path: '${outdir}/gatk4_indexfeaturefile'
+    primary: true

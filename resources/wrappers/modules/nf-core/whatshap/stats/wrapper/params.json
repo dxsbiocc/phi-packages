@@ -1,0 +1,4 @@
+{
+  "vcf": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/popgen/1000GP.chr21.vcf.gz",
+  "outdir": "results"
+}

@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored picard/collectalignmentsummarymetrics module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/picard-collectalignmentsummarymetrics
+name: "picard CollectAlignmentSummaryMetrics"
+summary: "Collect alignment summary metrics for a BAM with Picard CollectAlignmentSummaryMetrics."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "BAM file to analyze."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  metrics:
+    type: directory
+    path: '${outdir}/picard_collectalignmentsummarymetrics'
+    primary: true

@@ -1,0 +1,63 @@
+# Agent-facing wrapper adapter for the vendored simpleaf/quant module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# simpleaf/index is composed directly (not a wrapper, per section 6) so
+# callers supply a genome FASTA/GTF instead of a pre-built index. Cell
+# filtering is fixed to the "knee" method (auto-detect the cell/empty-droplet
+# threshold) — the module's other filtering strategies need extra inputs
+# (an expected cell count or an explicit permit list) this wrapper doesn't
+# expose.
+#
+# NOTE: on Apple Silicon under Docker's amd64 emulation, this module's
+# alevin-fry binary crashes with SIGILL (illegal instruction) — a Rosetta/
+# QEMU incompatibility with how that binary was compiled, not a bug in this
+# wrapper's wiring. Verify on native amd64 (or with a Rosetta-free ARM
+# build, if one is published) before relying on this wrapper on Apple
+# Silicon.
+id: nf-core/modules/simpleaf-quant
+name: simpleaf quant
+summary: Map and quantify single-cell RNA-seq reads against a simpleaf/alevin-fry index, producing a cell-by-gene count matrix.
+
+params:
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: Genome FASTA to build the simpleaf index from.
+  gtf:
+    kind: input
+    type: gtf
+    required: true
+    description: Gene annotation GTF.
+  reads_1:
+    kind: input
+    type: fastq
+    required: true
+    description: Cell barcode + UMI read (typically R1 for 10x Chromium data).
+  reads_2:
+    kind: input
+    type: fastq
+    required: true
+    description: cDNA read (typically R2 for 10x Chromium data).
+  chemistry:
+    kind: option
+    type: string
+    required: false
+    description: Single-cell chemistry (e.g. 10xv2, 10xv3).
+  resolution:
+    kind: option
+    type: string
+    required: false
+    description: UMI resolution strategy passed to alevin-fry quant (e.g. cr-like).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the cell-by-gene quantification (including an AnnData .h5ad).
+
+outputs:
+  quant:
+    type: directory
+    path: '${outdir}/simpleaf_quant'
+    primary: true

@@ -1,0 +1,84 @@
+# Agent-facing wrapper adapter for the vendored variancepartition/dream
+# module at ../main.nf. Sourced from nf-core/modules (used by
+# nf-core/differentialabundance) and grouped here under this project's own
+# differential-expression family folder rather than modules/nf-core/, since
+# that grouping — and the params surface below — is this project's own
+# curation, not an nf-core-shipped bundle. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# dream() fits a linear mixed model per gene (via variancePartition +
+# limma-voom under the hood) — the tool for repeated-measures and other
+# designs with a random-effect grouping variable, e.g. time-course samples
+# nested within subject. It still runs a plain two-group comparison fine
+# with no formula (see params below), but its real value is a formula with
+# a random-effect term, e.g. '~ time + (1 | subject)' — set that via the
+# advanced formula/comparison override, not the simple contrast fields.
+id: local/modules/differential-expression-timeseries
+name: dream repeated-measures differential expression
+summary: Test one contrast for differential expression with a linear mixed model (variancePartition::dream) — for repeated-measures, time-course, or other designs with a random-effect grouping variable.
+
+params:
+  counts:
+    kind: input
+    type: file
+    required: true
+    description: Raw gene-level count matrix (TSV/CSV), genes as rows, samples as columns.
+  samplesheet:
+    kind: input
+    type: file
+    required: true
+    description: Sample metadata sheet (TSV/CSV) with one row per sample.
+  sample_id_col:
+    kind: option
+    type: string
+    required: false
+    description: Samplesheet column holding each sample's identifier — must match the count matrix's sample column names.
+  apply_voom:
+    kind: option
+    type: boolean
+    required: false
+    description: true (default) applies voomWithDreamWeights for RNA-seq count data; false skips it for data that is already on a continuous/normalized scale.
+  contrast_variable:
+    kind: option
+    type: string
+    required: true
+    description: Samplesheet column defining the two groups to compare (e.g. 'condition').
+  reference_level:
+    kind: option
+    type: string
+    required: true
+    description: Value of contrast_variable to use as the reference (denominator) group.
+  target_level:
+    kind: option
+    type: string
+    required: true
+    description: Value of contrast_variable to use as the target (numerator) group.
+  formula:
+    kind: option
+    type: string
+    required: false
+    description: Advanced — full R mixed-model formula, e.g. '~ time + (1 | subject)' for repeated measures. Overrides the simple contrast_variable/reference_level/target_level model. Requires comparison.
+  comparison:
+    kind: option
+    type: string
+    required: false
+    description: Advanced — required alongside formula. A resultsNames()-style coefficient or contrast expression to test.
+  prefix:
+    kind: option
+    type: string
+    required: false
+    description: Output file prefix and run identifier.
+  outdir:
+    kind: output
+    type: directory
+    required: true
+    description: Directory results are published under.
+
+outputs:
+  results:
+    type: file
+    path: '${outdir}/dream/${prefix}.dream.results.tsv'
+    primary: true
+  model:
+    type: file
+    path: '${outdir}/dream/${prefix}.dream.model.txt'

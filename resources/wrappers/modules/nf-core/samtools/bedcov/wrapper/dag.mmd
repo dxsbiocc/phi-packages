@@ -1,0 +1,19 @@
+flowchart TB
+    subgraph " "
+    v0["bam_ch"]
+    v1["bed_ch"]
+    v2["fasta_ch"]
+    v6["channel.empty"]
+    end
+    v3(["SAMTOOLS_BEDCOV"])
+    subgraph " "
+    v4[" "]
+    v5[" "]
+    v7[" "]
+    end
+    v0 --> v3
+    v1 --> v3
+    v2 --> v3
+    v3 --> v5
+    v3 --> v4
+    v6 --> v7

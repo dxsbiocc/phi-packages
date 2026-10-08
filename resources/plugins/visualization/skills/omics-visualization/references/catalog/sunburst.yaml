@@ -1,0 +1,45 @@
+family: "sunburst"
+preview_background: "transparent"  # PNG alpha is empty; dark UIs look black. Do not treat as a black canvas.
+
+templates:
+  - id: "sunburst-basic"
+    title: "Basic sunburst chart"
+    aliases:
+      - "旭日图"
+      - "多层环图"
+    source: "scripts/sunburst/basic/plot.R"
+    examples:
+      - "scripts/sunburst/basic/example.tsv"
+    preview: "scripts/sunburst/basic/preview.png"
+    use_when: >
+      Show a hierarchy as concentric rings colored by root lineage, with
+      radial labels on every ring.
+    avoid_when: >
+      Do not use when per-node colors and outer-ring labels are supplied
+      (use sunburst-advanced), when a node-link tree is requested, or
+      when an interior classification tree plus outer bars or points
+      should share circular order (tree-enrichment-ring). Angle must
+      encode descendant size; Count as bar height is not a sunburst.
+    input_shape: "hierarchical table with parent, name, path, and value"
+    language: "r"
+    status: "stable"
+
+  - id: "sunburst-advanced"
+    title: "Layered sunburst with outside labels"
+    aliases:
+      - "分层旭日图"
+      - "风味轮旭日图"
+      - "sunburst-drink"
+    source: "scripts/sunburst/advanced/plot.R"
+    examples:
+      - "scripts/sunburst/advanced/example.tsv"
+    preview: "scripts/sunburst/advanced/preview.png"
+    use_when: >
+      Draw a three-level sunburst with tangential inner labels, radial
+      middle labels, outer labels outside a thin rim, and optional
+      per-node colors.
+    avoid_when: >
+      Do not use sunburst-basic when that layered labeling is required.
+    input_shape: "hierarchical table with parent, name, path, value, and optional itemStyle.color"
+    language: "r"
+    status: "stable"

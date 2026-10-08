@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored hmmcopy/generatemap module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/hmmcopy-generatemap
+name: "HMMcopy generateMap"
+summary: "Generate a mappability bigWig with HMMcopy generateMap."
+
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bigwig:
+    type: directory
+    path: '${outdir}/hmmcopy_generatemap'
+    primary: true

@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored bcftools/norm module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bcftools-norm
+name: bcftools norm
+summary: Left-align and normalise indels and split multiallelic sites in a VCF against a reference FASTA.
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: VCF file to normalise (plain or bgzipped).
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: Reference genome FASTA (plain or gzipped) matching the VCF.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the normalised VCF.
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/bcftools_norm'
+    primary: true

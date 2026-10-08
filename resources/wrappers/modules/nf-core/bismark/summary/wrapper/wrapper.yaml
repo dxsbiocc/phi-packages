@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored bismark/summary module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: runs the vendored bismark index/align/deduplicate/methylationextractor modules first.
+id: nf-core/modules/bismark-summary
+name: "Bismark summary"
+summary: "Create the Bismark project summary (index → align → deduplicate → methylation extractor → summary)."
+
+params:
+  reads:
+    kind: input
+    type: file
+    required: true
+    description: "Bisulfite reads FASTQ (.fastq.gz)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  summary:
+    type: directory
+    path: '${outdir}/bismark_summary'
+    primary: true

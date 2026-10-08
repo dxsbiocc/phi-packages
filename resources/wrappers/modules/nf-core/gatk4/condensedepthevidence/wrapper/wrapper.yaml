@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored gatk4/condensedepthevidence module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4-condensedepthevidence
+name: "GATK4 CondenseDepthEvidence"
+summary: "Condense a read-depth evidence file into larger bins with GATK4 CondenseDepthEvidence."
+
+params:
+  depth:
+    kind: input
+    type: file
+    required: true
+    description: "Depth evidence file (.rd.txt.gz)."
+  depth_idx:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the depth evidence."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  condensed_evidence:
+    type: directory
+    path: '${outdir}/gatk4_condensedepthevidence'
+    primary: true

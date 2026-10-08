@@ -1,0 +1,37 @@
+family: "radar"
+preview_background: "transparent"  # PNG alpha is empty; dark UIs look black. Do not treat as a black canvas.
+
+templates:
+  - id: "radar-basic"
+    title: "Basic radar chart"
+    aliases:
+      - "雷达图"
+      - "蜘蛛图"
+    source: "scripts/radar/basic/plot.R"
+    examples:
+      - "scripts/radar/basic/example.tsv"
+    preview: "scripts/radar/basic/preview.png"
+    use_when: >
+      Overlay a small number of series on the same set of named axes.
+    avoid_when: >
+      Do not overlay many series; use radar-group facets instead.
+    input_shape: "wide table with one row per axis and one column per series"
+    language: "r"
+    status: "stable"
+
+  - id: "radar-group"
+    title: "Faceted radar charts"
+    aliases:
+      - "分面雷达图"
+      - "多雷达图"
+    source: "scripts/radar/group/plot.R"
+    examples:
+      - "scripts/radar/group/example.tsv"
+    preview: "scripts/radar/group/preview.png"
+    use_when: >
+      Draw one radar per series in a grid so polygons do not overlap.
+    avoid_when: >
+      Do not use when two series should share one radar (use radar-basic).
+    input_shape: "wide table with one row per axis and one column per series"
+    language: "r"
+    status: "stable"

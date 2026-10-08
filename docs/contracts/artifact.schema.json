@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://phi.local/contracts/artifact.schema.json",
+  "title": "Phi artifact descriptor",
+  "description": "Artifact contract 1.0.0 (docs/contracts/artifact.md). File name checks, project containment, and kind-specific block rules are enforced in code.",
+  "type": "object",
+  "required": ["contractVersion", "kind", "file", "mediaType", "title", "provenance"],
+  "patternProperties": { "^x-": true },
+  "additionalProperties": false,
+  "properties": {
+    "contractVersion": { "const": "1.0.0" },
+    "kind": { "enum": ["figure", "table", "structure", "molecule", "network", "report"] },
+    "file": { "type": "string", "minLength": 1, "pattern": "^[^/\\\\]+$" },
+    "mediaType": { "type": "string", "pattern": "^[a-z]+/[A-Za-z0-9.+-]+$" },
+    "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "description": { "type": "string", "maxLength": 2000 },
+    "provenance": {
+      "type": "object",
+      "required": ["createdAt", "tool"],
+      "additionalProperties": false,
+      "properties": {
+        "createdAt": { "type": "string", "format": "date-time" },
+        "tool": { "type": "string", "minLength": 1 },
+        "skill": { "type": "string", "minLength": 1 },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["path"],
+            "additionalProperties": false,
+            "properties": {
+              "path": { "type": "string", "minLength": 1 },
+              "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+            }
+          }
+        },
+        "script": { "type": "string", "minLength": 1 },
+        "parameters": { "type": "object" }
+      }
+    },
+    "figure": {
+      "type": "object",
+      "required": ["format"],
+      "additionalProperties": false,
+      "properties": {
+        "widthPx": { "type": "integer", "minimum": 1 },
+        "heightPx": { "type": "integer", "minimum": 1 },
+        "format": { "enum": ["png", "pdf", "svg"] }
+      }
+    },
+    "table": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "rows": { "type": "integer", "minimum": 0 },
+        "columns": {
+          "oneOf": [
+            { "type": "integer", "minimum": 0 },
+            { "type": "array", "items": { "type": "string" } }
+          ]
+        }
+      }
+    }
+  }
+}

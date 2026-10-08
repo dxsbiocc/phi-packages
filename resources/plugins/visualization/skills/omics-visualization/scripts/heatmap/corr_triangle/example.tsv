@@ -1,0 +1,81 @@
+gene	cell	cor	p
+SIGLEC16	Plasma cells	0.155	0.003593
+SIGLEC16	T cells CD8	-0.113	0.001032
+SIGLEC16	T cells follicular helper	-0.268	0.162358
+SIGLEC16	T cells regulatory (Tregs)	-0.188	0.012745
+SIGLEC16	Macrophages M0	-0.171	0.00706
+SIGLEC16	Macrophages M1	-0.105	0.030564
+SIGLEC16	Macrophages M2	0.176	0.374796
+SIGLEC16	Dendritic cells activated	0.245	0.003016
+SIGLEC16	Mast cells activated	-0.114	0.323828
+SIGLEC16	Neutrophils	0.477	0.004485
+SIGLEC15	Plasma cells	-0.316	0.039708
+SIGLEC15	T cells CD8	0.322	0.003844
+SIGLEC15	T cells follicular helper	-0.069	0.204197
+SIGLEC15	T cells regulatory (Tregs)	-0.313	0.001858
+SIGLEC15	Macrophages M0	-0.281	0.067205
+SIGLEC15	Macrophages M1	0.374	0.000358
+SIGLEC15	Macrophages M2	0.23	0.008286
+SIGLEC15	Dendritic cells activated	0.282	0.128587
+SIGLEC15	Mast cells activated	0.127	0.07525
+SIGLEC15	Neutrophils	0.098	0.000599
+SIGLEC14	Plasma cells	0.417	0.124372
+SIGLEC14	T cells CD8	0.034	0.247828
+SIGLEC14	T cells follicular helper	-0.175	0.015165
+SIGLEC14	T cells regulatory (Tregs)	0.021	0.284263
+SIGLEC14	Macrophages M0	-0.237	0.0016
+SIGLEC14	Macrophages M1	-0.014	0.298264
+SIGLEC14	Macrophages M2	0.504	0.013278
+SIGLEC14	Dendritic cells activated	0.377	0.000166
+SIGLEC14	Mast cells activated	-0.089	0.015341
+SIGLEC14	Neutrophils	0.259	0.01924
+CD274	Plasma cells	0.175	0.038887
+CD274	T cells CD8	0.023	0.298724
+CD274	T cells follicular helper	-0.261	0.001944
+CD274	T cells regulatory (Tregs)	0.24	0.082463
+CD274	Macrophages M0	-0.069	0.358556
+CD274	Macrophages M1	0.17	0.001289
+CD274	Macrophages M2	-0.214	0.498593
+CD274	Dendritic cells activated	0.398	0.02129
+CD274	Mast cells activated	-0.217	0.001317
+CD274	Neutrophils	0.137	0.000133
+LAG3	Plasma cells	-0.278	0.000183
+LAG3	T cells CD8	-0.373	8.6e-05
+LAG3	T cells follicular helper	-0.101	0.000543
+LAG3	T cells regulatory (Tregs)	0.221	0.000162
+LAG3	Macrophages M0	-0.062	0.095989
+LAG3	Macrophages M1	0.025	0.22416
+LAG3	Macrophages M2	0.054	0.167492
+LAG3	Dendritic cells activated	0.066	0.227918
+LAG3	Mast cells activated	-0.172	0.003229
+LAG3	Neutrophils	0.183	0.00281
+TIGIT	Plasma cells	0.394	0.144108
+TIGIT	T cells CD8	0.049	0.205686
+TIGIT	T cells follicular helper	0.157	0.000216
+TIGIT	T cells regulatory (Tregs)	0.017	0.082548
+TIGIT	Macrophages M0	0.023	0.161264
+TIGIT	Macrophages M1	-0.45	0.000665
+TIGIT	Macrophages M2	-0.07	0.086251
+TIGIT	Dendritic cells activated	0.1	0.135266
+TIGIT	Mast cells activated	0.183	0.00021
+TIGIT	Neutrophils	-0.164	0.050566
+HAVCR2	Plasma cells	0.192	0.000543
+HAVCR2	T cells CD8	0.106	0.000133
+HAVCR2	T cells follicular helper	0.428	0.037341
+HAVCR2	T cells regulatory (Tregs)	-0.049	0.335992
+HAVCR2	Macrophages M0	0.319	9.9e-05
+HAVCR2	Macrophages M1	-0.118	0.001184
+HAVCR2	Macrophages M2	0.054	0.446419
+HAVCR2	Dendritic cells activated	0.153	0.004943
+HAVCR2	Mast cells activated	0.169	0.004234
+HAVCR2	Neutrophils	-0.29	0.010103
+CTLA4	Plasma cells	-0.114	0.000863
+CTLA4	T cells CD8	-0.08	9.2e-05
+CTLA4	T cells follicular helper	-0.443	0.000385
+CTLA4	T cells regulatory (Tregs)	0.204	0.111887
+CTLA4	Macrophages M0	0.377	0.002331
+CTLA4	Macrophages M1	0.077	0.090967
+CTLA4	Macrophages M2	-0.03	0.11602
+CTLA4	Dendritic cells activated	-0.142	0.054545
+CTLA4	Mast cells activated	-0.007	0.393605
+CTLA4	Neutrophils	0.391	0.002681

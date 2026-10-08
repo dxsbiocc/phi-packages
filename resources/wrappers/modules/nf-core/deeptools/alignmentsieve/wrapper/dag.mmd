@@ -1,0 +1,16 @@
+flowchart TB
+    subgraph " "
+    v0["bam_ch"]
+    end
+    v1(["DEEPTOOLS_ALIGNMENTSIEVE"])
+    subgraph " "
+    v2[" "]
+    v3[" "]
+    v4[" "]
+    v5[" "]
+    end
+    v0 --> v1
+    v1 --> v5
+    v1 --> v4
+    v1 --> v3
+    v1 --> v2

@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored picard/fastqtosam module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/picard-fastqtosam
+name: "picard FastqToSam"
+summary: "Convert paired-end FASTQ files to an unaligned BAM with Picard FastqToSam."
+
+params:
+  reads1:
+    kind: input
+    type: file
+    required: true
+    description: "First-of-pair FASTQ file."
+  reads2:
+    kind: input
+    type: file
+    required: true
+    description: "Second-of-pair FASTQ file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/picard_fastqtosam'
+    primary: true

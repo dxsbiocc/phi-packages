@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored sambamba/depth module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/sambamba-depth
+name: "sambamba depth"
+summary: "Compute base/region/window depth with sambamba depth."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  mode:
+    kind: option
+    type: string
+    required: false
+    description: "Depth mode (base, region or window)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bed:
+    type: directory
+    path: '${outdir}/sambamba_depth'
+    primary: true

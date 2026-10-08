@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored snpsift/dbnsfp module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/snpsift-dbnsfp
+name: "SnpSift dbNSFP"
+summary: "Annotate a VCF with dbNSFP predictions using SnpSift dbnsfp."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped VCF file."
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the VCF."
+  database:
+    kind: input
+    type: file
+    required: true
+    description: "dbNSFP database (bgzipped)."
+  database_tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the database."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/snpsift_dbnsfp'
+    primary: true

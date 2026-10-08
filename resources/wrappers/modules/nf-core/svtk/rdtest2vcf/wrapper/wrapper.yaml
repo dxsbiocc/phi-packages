@@ -1,0 +1,41 @@
+# Agent-facing wrapper adapter for the vendored svtk/rdtest2vcf module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: calls SVs with the vendored manta germline module and converts them with the vendored svtk vcf2bed module first.
+id: nf-core/modules/svtk-rdtest2vcf
+name: "svtk rdtest2vcf"
+summary: "Convert RdTest calls back to VCF (Manta germline -> vcf2bed -> rdtest2vcf)."
+
+params:
+  cram:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted CRAM."
+  crai:
+    kind: input
+    type: file
+    required: true
+    description: "CRAM index (.crai)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/svtk_rdtest2vcf'
+    primary: true

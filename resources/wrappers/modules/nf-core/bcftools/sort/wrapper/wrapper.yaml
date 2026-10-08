@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored bcftools/sort module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bcftools-sort
+name: bcftools sort
+summary: Sort a VCF/BCF by coordinate.
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: VCF/BCF file to sort (plain or compressed).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the sorted VCF.
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/bcftools_sort'
+    primary: true

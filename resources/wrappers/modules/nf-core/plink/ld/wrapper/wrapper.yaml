@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored plink/ld module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/plink-ld
+name: "PLINK LD (r2 matrix)"
+summary: "Compute pairwise LD between variants with PLINK LD."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "VCF file (bgzipped)."
+  snpfile:
+    kind: input
+    type: file
+    required: true
+    description: "List of SNPs to restrict to."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  ld:
+    type: directory
+    path: '${outdir}/plink_ld'
+    primary: true

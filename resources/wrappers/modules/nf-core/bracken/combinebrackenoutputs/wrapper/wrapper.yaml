@@ -1,0 +1,36 @@
+# Agent-facing wrapper adapter for the vendored bracken/combinebrackenoutputs module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: runs the vendored untar, kraken2 and bracken modules first to produce Bracken reports.
+id: nf-core/modules/bracken-combinebrackenoutputs
+name: "Bracken combine outputs"
+summary: "Combine several Bracken reports (untar db → Kraken2 → Bracken → combine_bracken_outputs)."
+
+params:
+  reads1:
+    kind: input
+    type: file
+    required: true
+    description: "Forward reads FASTQ (.fastq.gz)."
+  reads2:
+    kind: input
+    type: file
+    required: true
+    description: "Reverse reads FASTQ (.fastq.gz)."
+  db:
+    kind: input
+    type: file
+    required: true
+    description: "Kraken2/Bracken database archive (.tar.gz)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  txt:
+    type: directory
+    path: '${outdir}/bracken_combinebrackenoutputs'
+    primary: true

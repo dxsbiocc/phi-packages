@@ -1,0 +1,36 @@
+# Agent-facing wrapper adapter for the vendored bwa/sampe module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: builds the index and runs bwa aln with the vendored index and aln modules first.
+id: nf-core/modules/bwa-sampe
+name: "BWA sampe"
+summary: "Generate paired-end alignments from bwa aln output with bwa sampe (index → aln → sampe)."
+
+params:
+  reads1:
+    kind: input
+    type: file
+    required: true
+    description: "Forward reads FASTQ (.fastq.gz)."
+  reads2:
+    kind: input
+    type: file
+    required: true
+    description: "Reverse reads FASTQ (.fastq.gz)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/bwa_sampe'
+    primary: true

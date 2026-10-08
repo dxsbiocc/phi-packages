@@ -1,0 +1,135 @@
+flowchart TB
+    subgraph " "
+    v0["fasta"]
+    v1["gtf"]
+    v6["channel.of"]
+    v7["channel.of"]
+    v16["channel.empty"]
+    v18["channel.empty"]
+    v20["channel.empty"]
+    v22["channel.empty"]
+    v24["channel.empty"]
+    v26["channel.empty"]
+    v42["quant_type"]
+    v43["id"]
+    v44["extra"]
+    v49["quant_type"]
+    v53["channel.empty"]
+    v55["channel.empty"]
+    v62["samplesheet"]
+    end
+    v2(["RSEM_PREPAREREFERENCE"])
+    subgraph " "
+    v3[" "]
+    v4[" "]
+    v5[" "]
+    v9[" "]
+    v10[" "]
+    v11[" "]
+    v12[" "]
+    v13[" "]
+    v14["logs"]
+    v15["stat"]
+    v17["ch_merged_counts_gene"]
+    v19["ch_merged_tpm_gene"]
+    v21["ch_merged_counts_transcript"]
+    v23["ch_merged_tpm_transcript"]
+    v25["ch_merged_genes_long"]
+    v27["ch_merged_isoforms_long"]
+    v32[" "]
+    v33["merged_isoforms_long"]
+    v34["merged_genes_long"]
+    v35["merged_tpm_transcript"]
+    v36["merged_counts_transcript"]
+    v37["merged_tpm_gene"]
+    v38["merged_counts_gene"]
+    v46[" "]
+    v51[" "]
+    v52["tx2gene_augmented"]
+    v54["ch_merged_gene_rds"]
+    v56["ch_merged_transcript_rds"]
+    v64[" "]
+    v65[" "]
+    v66["merged_gene_rds_unified"]
+    v71[" "]
+    v72[" "]
+    v73["merged_transcript_rds_unified"]
+    end
+    subgraph "QUANTIFY_RSEM [QUANTIFY_RSEM]"
+    v8(["RSEM_CALCULATEEXPRESSION"])
+    v31(["CUSTOM_RSEMMERGECOUNTS"])
+    subgraph "QUANTIFY_RSEM:QUANT_TXIMPORT_SUMMARIZEDEXPERIMENT [QUANT_TXIMPORT_SUMMARIZEDEXPERIMENT]"
+    v45(["CUSTOM_TX2GENE"])
+    v50(["TXIMETA_TXIMPORT"])
+    v63(["SE_GENE_UNIFIED"])
+    v70(["SE_TRANSCRIPT_UNIFIED"])
+    v39(( ))
+    v41(( ))
+    v47(( ))
+    v57(( ))
+    v67(( ))
+    end
+    v28(( ))
+    v30(( ))
+    end
+    v0 --> v2
+    v1 --> v2
+    v2 --> v8
+    v2 --> v5
+    v2 --> v4
+    v2 --> v3
+    v6 --> v8
+    v7 --> v41
+    v8 --> v15
+    v8 --> v14
+    v8 --> v13
+    v8 --> v12
+    v8 --> v11
+    v8 --> v10
+    v8 --> v9
+    v8 --> v28
+    v8 --> v30
+    v8 --> v39
+    v8 --> v47
+    v16 --> v17
+    v18 --> v19
+    v20 --> v21
+    v22 --> v23
+    v24 --> v25
+    v26 --> v27
+    v28 --> v31
+    v30 --> v31
+    v31 --> v38
+    v31 --> v37
+    v31 --> v36
+    v31 --> v35
+    v31 --> v34
+    v31 --> v33
+    v31 --> v32
+    v42 --> v45
+    v43 --> v45
+    v44 --> v45
+    v39 --> v45
+    v41 --> v45
+    v45 --> v50
+    v45 --> v46
+    v45 --> v63
+    v45 --> v70
+    v49 --> v50
+    v47 --> v50
+    v50 --> v52
+    v50 --> v51
+    v50 --> v57
+    v50 --> v67
+    v53 --> v54
+    v55 --> v56
+    v62 --> v63
+    v62 --> v70
+    v57 --> v63
+    v63 --> v66
+    v63 --> v65
+    v63 --> v64
+    v67 --> v70
+    v70 --> v73
+    v70 --> v72
+    v70 --> v71

@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored rtgtools/svdecompose module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/rtgtools-svdecompose
+name: "RTG Tools svdecompose"
+summary: "Decompose composite SV VCF records with rtg svdecompose."
+
+params:
+  sv:
+    kind: input
+    type: file
+    required: true
+    description: "Query SV VCF (bgzipped)."
+  sv_tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the query SV VCF."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/rtgtools_svdecompose'
+    primary: true

@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored samtools/idxstats module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/samtools-idxstats
+name: samtools idxstats
+summary: Report alignment summary statistics for a BAM/CRAM/SAM file.
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: Coordinate-sorted, indexed BAM/CRAM/SAM file (a same-named .bai/.crai must exist alongside it).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the idxstats report.
+
+outputs:
+  idxstats:
+    type: directory
+    path: '${outdir}/samtools_idxstats'
+    primary: true

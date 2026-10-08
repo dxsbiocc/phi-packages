@@ -1,0 +1,41 @@
+flowchart TB
+    subgraph " "
+    v0["in_ch"]
+    v1["fasta_ch"]
+    v2["include_hap_stats"]
+    v3["include_debug_output"]
+    v17["channel.empty"]
+    end
+    v4(["MITORSAW_HAPLOTYPE"])
+    subgraph " "
+    v5[" "]
+    v6[" "]
+    v7[" "]
+    v8[" "]
+    v9[" "]
+    v10[" "]
+    v11[" "]
+    v12[" "]
+    v13[" "]
+    v14[" "]
+    v15[" "]
+    v16[" "]
+    v18[" "]
+    end
+    v0 --> v4
+    v1 --> v4
+    v2 --> v4
+    v3 --> v4
+    v4 --> v16
+    v4 --> v15
+    v4 --> v14
+    v4 --> v13
+    v4 --> v12
+    v4 --> v11
+    v4 --> v10
+    v4 --> v9
+    v4 --> v8
+    v4 --> v7
+    v4 --> v6
+    v4 --> v5
+    v17 --> v18

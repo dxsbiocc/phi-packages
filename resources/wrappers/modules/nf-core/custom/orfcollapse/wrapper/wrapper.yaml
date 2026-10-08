@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored custom/orfcollapse module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/custom-orfcollapse
+name: "Custom orfcollapse"
+summary: "Collapse identical small ORFs across loci in an ORF catalogue."
+
+params:
+  bed12:
+    kind: input
+    type: file
+    required: true
+    description: "ORF catalogue BED12."
+  catalogue:
+    kind: input
+    type: file
+    required: true
+    description: "ORF catalogue table (TSV)."
+  orf_to_gene:
+    kind: input
+    type: file
+    required: true
+    description: "ORF-to-gene mapping (TSV)."
+  aa_fasta:
+    kind: input
+    type: file
+    required: true
+    description: "ORF amino-acid FASTA."
+  cluster:
+    kind: input
+    type: file
+    required: true
+    description: "ORF cluster table (TSV)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  catalogue_tsv:
+    type: directory
+    path: '${outdir}/custom_orfcollapse'
+    primary: true

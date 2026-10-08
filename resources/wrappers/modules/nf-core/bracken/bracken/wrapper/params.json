@@ -1,0 +1,8 @@
+{
+  "reads": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/illumina/fastq/test_1.fastq.gz",
+  "db": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/genome/db/kraken2_bracken.tar.gz",
+  "read_len": 150,
+  "level": "S",
+  "threshold": 10,
+  "outdir": "results"
+}

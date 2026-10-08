@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored bedtools/coverage module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bedtools-coverage
+name: "bedtools coverage"
+summary: "Compute depth and breadth of coverage of BAM reads over BED intervals with bedtools coverage."
+
+params:
+  bed:
+    kind: input
+    type: file
+    required: true
+    description: "BED file of intervals."
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  coverage:
+    type: directory
+    path: '${outdir}/bedtools_coverage'
+    primary: true

@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored ucsc/bigwigaverageoverbed
+# module at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/ucsc-bigwigaverageoverbed
+name: UCSC bigWigAverageOverBed
+summary: Average bigWig signal over BED regions with UCSC bigWigAverageOverBed.
+
+params:
+  bed:
+    kind: input
+    type: file
+    required: true
+    description: BED file of regions to average over.
+  bigwig:
+    kind: input
+    type: file
+    required: true
+    description: bigWig signal file.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the per-region averages.
+
+outputs:
+  tab:
+    type: directory
+    path: '${outdir}/ucsc_bigwigaverageoverbed'
+    primary: true

@@ -1,0 +1,23 @@
+flowchart TB
+    subgraph " "
+    v0["fasta_ch"]
+    v1["use_mem2"]
+    v4["reads_ch"]
+    end
+    v2(["BWAMETH_INDEX"])
+    subgraph " "
+    v3[" "]
+    v6[" "]
+    v7[" "]
+    v8[" "]
+    end
+    v5(["BWAMETH_ALIGN"])
+    v0 --> v2
+    v0 --> v5
+    v1 --> v2
+    v2 --> v5
+    v2 --> v3
+    v4 --> v5
+    v5 --> v8
+    v5 --> v7
+    v5 --> v6

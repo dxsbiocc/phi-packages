@@ -1,0 +1,16 @@
+flowchart TB
+    subgraph " "
+    v0[" "]
+    end
+    v1(["UNTAR"])
+    subgraph " "
+    v2[" "]
+    v4[" "]
+    v5[" "]
+    end
+    v3(["MMSEQS_CREATEINDEX"])
+    v0 --> v1
+    v1 --> v3
+    v1 --> v2
+    v3 --> v5
+    v3 --> v4

@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored paragraph/vcf2paragraph module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/paragraph-vcf2paragraph
+name: "Paragraph vcf2paragraph"
+summary: "Convert a VCF to a Paragraph graph with vcf2paragraph."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped VCF file."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  graph:
+    type: directory
+    path: '${outdir}/paragraph_vcf2paragraph'
+    primary: true

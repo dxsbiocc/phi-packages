@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored custom/catadditionalfasta module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/custom-catadditionalfasta
+name: Custom cat additional FASTA
+summary: Append an additional FASTA sequence (e.g. a spike-in transgene) to a genome FASTA/GTF pair, synthesising a matching GTF entry.
+
+params:
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: Base genome FASTA.
+  gtf:
+    kind: input
+    type: gtf
+    required: true
+    description: Base genome GTF annotation.
+  add_fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: Additional FASTA sequence(s) to append.
+  biotype:
+    kind: option
+    type: string
+    required: false
+    description: gene_biotype/transcript_biotype attribute value used for the synthesised GTF entries.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the combined FASTA/GTF.
+
+outputs:
+  combined:
+    type: directory
+    path: '${outdir}/catadditionalfasta'
+    primary: true

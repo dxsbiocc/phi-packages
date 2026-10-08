@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored picard/filtersamreads
+# module at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Only the built-in filters (includeAligned, excludeAligned, ...) are
+# exposed — the ReadList-file filters aren't surfaced by this adapter.
+id: nf-core/modules/picard-filtersamreads
+name: picard FilterSamReads
+summary: Filter reads out of a BAM by a built-in criterion with Picard FilterSamReads.
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: BAM file to filter.
+  filter:
+    kind: option
+    type: string
+    required: false
+    enum: [includeAligned, excludeAligned, includePairedIntervals, excludeSingleReadEvents, includeSecondaryAlignments, excludeSecondaryAlignments]
+    description: Built-in Picard filter to apply.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the filtered BAM.
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/picard_filtersamreads'
+    primary: true

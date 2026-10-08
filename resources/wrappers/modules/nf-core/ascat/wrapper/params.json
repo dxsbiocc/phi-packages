@@ -1,0 +1,10 @@
+{
+  "normal": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/bam/test.paired_end.markduplicates.sorted.bam",
+  "normal_bai": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/bam/test.paired_end.markduplicates.sorted.bam.bai",
+  "tumor": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/bam/test2.paired_end.markduplicates.sorted.bam",
+  "tumor_bai": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/bam/test2.paired_end.markduplicates.sorted.bam.bai",
+  "alleles": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/ascat/G1000_alleles_hg38_chr21.txt",
+  "loci": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/ascat/G1000_loci_hg38_chr21.txt",
+  "gc": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/ascat/GC_G1000_hg38_21.txt",
+  "outdir": "results"
+}

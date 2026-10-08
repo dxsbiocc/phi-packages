@@ -1,0 +1,24 @@
+flowchart TB
+    subgraph " "
+    v0["input_ch"]
+    v1["blacklist_ch"]
+    v4["method"]
+    v5["plot_type"]
+    end
+    v2(["DEEPTOOLS_MULTIBAMSUMMARY"])
+    subgraph " "
+    v3[" "]
+    v7[" "]
+    v8[" "]
+    v9[" "]
+    end
+    v6(["DEEPTOOLS_PLOTCORRELATION"])
+    v0 --> v2
+    v1 --> v2
+    v2 --> v6
+    v2 --> v3
+    v4 --> v6
+    v5 --> v6
+    v6 --> v9
+    v6 --> v8
+    v6 --> v7

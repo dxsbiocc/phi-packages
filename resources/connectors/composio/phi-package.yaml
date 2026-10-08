@@ -1,0 +1,13 @@
+schemaVersion: 1
+id: composio
+type: mcp
+version: 1.0.0
+title: Composio Connect
+summary: 通过一个连接入口使用已授权的第三方应用
+connector:
+  transport: http
+  publisher: Composio
+  category: 生产力
+  homepage: https://docs.composio.dev/docs/composio-connect
+  url: https://connect.composio.dev/mcp
+  auth: oauth

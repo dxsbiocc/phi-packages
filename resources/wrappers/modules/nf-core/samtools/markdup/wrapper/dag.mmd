@@ -1,0 +1,40 @@
+flowchart TB
+    subgraph " "
+    v0["fasta_ch"]
+    v1["bam_ch"]
+    v6["index_format"]
+    end
+    v2(["SAMTOOLS_FIXMATE"])
+    subgraph " "
+    v3[" "]
+    v4[" "]
+    v5[" "]
+    v8[" "]
+    v9[" "]
+    v10[" "]
+    v11[" "]
+    v13[" "]
+    v14[" "]
+    v15[" "]
+    v16[" "]
+    end
+    v7(["SAMTOOLS_SORT"])
+    v12(["SAMTOOLS_MARKDUP"])
+    v0 --> v2
+    v0 --> v7
+    v0 --> v12
+    v1 --> v2
+    v2 --> v7
+    v2 --> v5
+    v2 --> v4
+    v2 --> v3
+    v6 --> v7
+    v7 --> v12
+    v7 --> v11
+    v7 --> v10
+    v7 --> v9
+    v7 --> v8
+    v12 --> v16
+    v12 --> v15
+    v12 --> v14
+    v12 --> v13

@@ -1,0 +1,54 @@
+# Agent-facing wrapper adapter for the vendored gatk4/filtervarianttranches module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4-filtervarianttranches
+name: "GATK4 FilterVariantTranches"
+summary: "Filter a CNN-scored VCF by tranche using GATK4 FilterVariantTranches."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped VCF with CNN scores."
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the VCF."
+  resource:
+    kind: input
+    type: file
+    required: true
+    description: "Known-sites resource VCF (e.g. dbSNP)."
+  resource_tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the resource VCF."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/gatk4_filtervarianttranches'
+    primary: true

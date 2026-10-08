@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored seqkit/pair module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/seqkit-pair
+name: "seqkit pair"
+summary: "Match up paired-end reads from two FASTQ files with seqkit pair."
+
+params:
+  reads1:
+    kind: input
+    type: file
+    required: true
+    description: "Forward reads FASTQ (.fastq.gz)."
+  reads2:
+    kind: input
+    type: file
+    required: true
+    description: "Reverse reads FASTQ (.fastq.gz)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  reads:
+    type: directory
+    path: '${outdir}/seqkit_pair'
+    primary: true

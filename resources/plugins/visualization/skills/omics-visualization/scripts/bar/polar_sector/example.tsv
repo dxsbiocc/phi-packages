@@ -1,0 +1,7 @@
+name	score	model
+MMLU Pro	91.04	OpenAI o1
+MATH-500	96.4	OpenAI o1
+AIME 2024	79.2	OpenAI o1
+MMLU Pro	84	DeepSeek-R1
+MATH-500	97.3	DeepSeek-R1
+AIME 2024	79.8	DeepSeek-R1

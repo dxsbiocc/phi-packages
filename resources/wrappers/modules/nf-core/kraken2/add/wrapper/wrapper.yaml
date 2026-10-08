@@ -1,0 +1,46 @@
+# Agent-facing wrapper adapter for the vendored kraken2/add module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: decompresses the accession2taxid map with the vendored gunzip module first.
+id: nf-core/modules/kraken2-add
+name: "Kraken2 add"
+summary: "Add sequences and taxonomy to a Kraken2 library (gunzip → kraken2 add)."
+
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Genome FASTA to add to the library."
+  proteome:
+    kind: input
+    type: file
+    required: true
+    description: "Protein FASTA to add to the library."
+  names:
+    kind: input
+    type: file
+    required: true
+    description: "Taxonomy names.dmp."
+  nodes:
+    kind: input
+    type: file
+    required: true
+    description: "Taxonomy nodes.dmp."
+  accession2taxid:
+    kind: input
+    type: file
+    required: true
+    description: "Accession-to-taxid map (.gz)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  library_added_files:
+    type: directory
+    path: '${outdir}/kraken2_add'
+    primary: true

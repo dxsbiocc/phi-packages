@@ -1,0 +1,4 @@
+{
+  "cnr": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/cnvkit/test.cnr",
+  "outdir": "results"
+}

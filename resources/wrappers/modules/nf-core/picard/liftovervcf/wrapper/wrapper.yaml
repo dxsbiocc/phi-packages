@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored picard/liftovervcf module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/picard-liftovervcf
+name: "picard LiftoverVcf"
+summary: "Lift a VCF over to another assembly with Picard LiftoverVcf."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "VCF file to lift over."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Target-assembly sequence dictionary (.dict)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Target-assembly reference FASTA."
+  chain:
+    kind: input
+    type: file
+    required: true
+    description: "Chain file for the assembly mapping."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf_lifted:
+    type: directory
+    path: '${outdir}/picard_liftovervcf'
+    primary: true

@@ -1,0 +1,4 @@
+{
+  "map_file": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/genetic_map/genome.GRCh38.chr21.glimpse.map",
+  "outdir": "results"
+}

@@ -1,0 +1,4 @@
+{
+  "vcf": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/delete_me/biscuit/test.vcf.gz",
+  "outdir": "results"
+}

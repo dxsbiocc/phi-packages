@@ -1,0 +1,4 @@
+{
+  "bam": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/illumina/bam/umi/test.paired_end.umi_unsorted.bam",
+  "outdir": "results"
+}

@@ -1,0 +1,36 @@
+# Agent-facing wrapper adapter for the vendored custom/orfmerge module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: normalises three ORF call sets with the vendored orfnormalise module first.
+id: nf-core/modules/custom-orfmerge
+name: "Custom orfmerge"
+summary: "Merge normalised ORF calls from several callers/samples into one catalogue (orfnormalise ×3 → orfmerge)."
+
+params:
+  ribotish:
+    kind: input
+    type: file
+    required: true
+    description: "Ribo-TISH predictions."
+  ribocode:
+    kind: input
+    type: file
+    required: true
+    description: "RiboCode predictions."
+  gtf:
+    kind: input
+    type: file
+    required: true
+    description: "Reference GTF annotation."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  catalogue_tsv:
+    type: directory
+    path: '${outdir}/custom_orfmerge'
+    primary: true

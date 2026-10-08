@@ -1,0 +1,741 @@
+family: "scatter"
+preview_background: "transparent"  # PNG alpha is empty; dark UIs look black. Do not treat as a black canvas.
+
+templates:
+  - id: "scatter-basic"
+    title: "Basic scatter plot"
+    aliases:
+      - "散点图"
+      - "xy scatter"
+      - "基础散点"
+    source: "scripts/scatter/basic/plot.R"
+    examples:
+      - "scripts/scatter/basic/example.tsv"
+    preview: "scripts/scatter/basic/preview.png"
+    use_when: >
+      Plot two numeric variables against each other with no grouping,
+      trend overlay, or extra encodings.
+    avoid_when: >
+      Do not use when points need grouping, size encoding, density,
+      a statistical overlay, or SVG glyphs (use scatter-group, bubble,
+      hex, correlation, or scatter-svg).
+    input_shape: "one row per observation; two numeric columns"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-group"
+    title: "Grouped scatter plot"
+    aliases:
+      - "分组散点图"
+      - "分类散点"
+    source: "scripts/scatter/group/plot.R"
+    examples:
+      - "scripts/scatter/group/example.tsv"
+    preview: "scripts/scatter/group/preview.png"
+    use_when: >
+      Color points by a categorical group in the same x-y plane.
+    avoid_when: >
+      Do not use for a single series, when marks must be a supplied SVG
+      glyph (use scatter-svg), when group structure is a linear fit
+      plus margins (use scatter-marginal), when groups should fill
+      Voronoi tiles (use scatter-voronoi), when a supplied UMAP sits
+      in a circos composition ring (use scatter-umap-circos), or when
+      position is a three-part composition (use scatter-ternary).
+    input_shape: "one row per observation; two numeric columns plus a group label"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-ternary"
+    title: "Ternary composition scatter"
+    aliases:
+      - "三元图"
+      - "三元相图"
+      - "ternary plot"
+      - "simplex scatter"
+    source: "scripts/scatter/ternary/plot.R"
+    examples:
+      - "scripts/scatter/ternary/example.tsv"
+    preview: "scripts/scatter/ternary/preview.png"
+    use_when: >
+      Place each observation in a three-component simplex: position is
+      the relative contribution of three supplied non-negative scores
+      (lineage, helper-state, compartment, treatment). Discrete or
+      continuous colour, and optional size, stay in CONFIG.
+      Discrete groups that name a vertex (or sit on one) inherit that
+      vertex colour; pairwise and interior groups use the matching mix.
+    avoid_when: >
+      Do not use Cartesian x-y scatter (scatter-group), a pie or doughnut
+      of one composition (pie-*), or ternary density / percentile bands.
+      Do not compute lineage scores, NMF, relative abundance, enrichment,
+      or absorption probabilities in the script. Closing a + b + c to 1
+      is a display transform. Colour mode and size are not a second id.
+    input_shape: "one row per observation; three non-negative numeric components; optional colour and size"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-umap-circos"
+    title: "UMAP in a circos composition ring"
+    aliases:
+      - "环形UMAP"
+      - "UMAP circos"
+      - "UMAP环图"
+      - "circos UMAP"
+    source: "scripts/scatter/umap_circos/plot.R"
+    examples:
+      - "scripts/scatter/umap_circos/example.tsv"
+    preview: "scripts/scatter/umap_circos/preview.png"
+    use_when: >
+      Show a supplied UMAP embedding in the hole of a circos whose
+      sectors are cell types, with a cell-count axis, a celltype colour
+      strip, and stacked-proportion rings for extra categorical columns.
+      Extra metadata rings and log10 vs linear polar scale are CONFIG.
+    avoid_when: >
+      Do not use a plain grouped scatter (scatter-group) or a circos
+      doughnut without an embedding (pie-doughnut-bar). Do not run
+      UMAP, PCA, or clustering in the script. Do not read a Seurat
+      object or wrap plot1cell. Do not add an id per extra track.
+      A few hundred cells with no composition rings stay on
+      scatter-group.
+    input_shape: "one row per cell; umap_1, umap_2, Celltype, plus optional categorical track columns"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-voronoi"
+    title: "Voronoi scatter"
+    aliases:
+      - "泰森多边形"
+      - "Voronoi"
+      - "地盘散点"
+    source: "scripts/scatter/voronoi/plot.R"
+    examples:
+      - "scripts/scatter/voronoi/example.tsv"
+    preview: "scripts/scatter/voronoi/preview.png"
+    use_when: >
+      Fill the plane around supplied x-y points with nearest-site
+      Voronoi tiles coloured by a supplied group. Overlay the points.
+    avoid_when: >
+      Do not use a plain grouped scatter (scatter-group), a convex-hull
+      outline (scatter-contour), or hex bins (scatter-hex). Do not run
+      PCA, UMAP, or clustering in the script. max.radius, expand, and
+      corner radius stay in CONFIG. Tile area is not density.
+    input_shape: "one row per observation; two numeric columns plus a group label"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-bubble"
+    title: "Bubble scatter plot"
+    aliases:
+      - "气泡图"
+      - "bubble chart"
+    source: "scripts/scatter/bubble/plot.R"
+    examples:
+      - "scripts/scatter/bubble/example.tsv"
+    preview: "scripts/scatter/bubble/preview.png"
+    use_when: >
+      Encode a third numeric variable as point size on an x-y scatter.
+    avoid_when: >
+      Do not use when size is not a comparable magnitude, or when
+      overplotting is the main problem (use hex or contour).
+    input_shape: "one row per observation; two position columns plus a size column"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-volcano"
+    title: "Differential-expression volcano plot"
+    aliases:
+      - "volcano plot"
+      - "火山图"
+      - "差异表达散点图"
+    source: "scripts/scatter/volcano/plot.R"
+    examples:
+      - "scripts/scatter/volcano/example.tsv"
+    preview: "scripts/scatter/volcano/preview.png"
+    use_when: >
+      Provide an overview of effect size and adjusted significance across
+      many tested features.
+    avoid_when: >
+      Do not use as the sole evidence for biological importance, when
+      adjusted p-values are unavailable, or for mean-vs-fold MA displays
+      (use scatter-maplot). Do not use when the request is a rectangular
+      zoom with a densely labelled inset (use scatter-volcano-inset).
+    input_shape: "feature-level differential-expression result table"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-volcano-inset"
+    title: "Volcano plot with zoom inset"
+    aliases:
+      - "火山图放大"
+      - "inset volcano"
+      - "volcano zoom"
+    source: "scripts/scatter/volcano_inset/plot.R"
+    examples:
+      - "scripts/scatter/volcano_inset/example.tsv"
+    preview: "scripts/scatter/volcano_inset/preview.png"
+    use_when: >
+      Show a volcano overview plus a rectangular zoom whose inset
+      densely labels points in that window. Geometry is ggmagnify
+      (from / to / plot), not a second panel id.
+    avoid_when: >
+      Do not use for an overview-only volcano (scatter-volcano) or an
+      MA plot (scatter-maplot). Do not run a differential test in the
+      script. from and to stay in CONFIG; do not replace geom_magnify
+      with annotation_custom.
+    input_shape: "one row per feature; effect, p-value, and a label column"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-maplot"
+    title: "MA plot"
+    aliases:
+      - "MA图"
+      - "Bland-Altman"
+      - "均值-差异散点"
+    source: "scripts/scatter/maplot/plot.R"
+    examples:
+      - "scripts/scatter/maplot/example.tsv"
+    preview: "scripts/scatter/maplot/preview.png"
+    use_when: >
+      Show log fold-change against average abundance to check
+      mean-dependent bias in differential results.
+    avoid_when: >
+      Do not use when the requested view is significance vs fold-change
+      (use scatter-volcano).
+    input_shape: "feature-level table with average expression and log fold-change"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-quadrant"
+    title: "Quadrant scatter plot"
+    aliases:
+      - "四象限图"
+      - "quadrant plot"
+    source: "scripts/scatter/quadrant/plot.R"
+    examples:
+      - "scripts/scatter/quadrant/example.tsv"
+    preview: "scripts/scatter/quadrant/preview.png"
+    use_when: >
+      Split a two-numeric plane into labeled quadrants with threshold lines.
+    avoid_when: >
+      Do not use for a plain unthresholded scatter or a volcano with
+      significance cutoffs already encoded as color.
+    input_shape: "one row per item; two numeric scores plus an optional label"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-correlation"
+    title: "Correlation scatter with fit"
+    aliases:
+      - "相关散点图"
+      - "回归散点"
+    source: "scripts/scatter/correlation/plot.R"
+    examples:
+      - "scripts/scatter/correlation/example.tsv"
+    preview: "scripts/scatter/correlation/preview.png"
+    use_when: >
+      Show the linear association of two numeric variables with a fitted line.
+    avoid_when: >
+      Do not use for grouped correlation-plus-margins (use scatter-marginal),
+      a pairs grid of several variables (use scatter-pairs), or a
+      coefficient-only matrix (use heatmap-signif).
+    input_shape: "one row per observation; two numeric columns"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-marginal"
+    title: "Scatter with marginal boxplots"
+    aliases:
+      - "边缘箱线散点图"
+      - "带边际的散点"
+    source: "scripts/scatter/marginal/plot.R"
+    examples:
+      - "scripts/scatter/marginal/example.tsv"
+    preview: "scripts/scatter/marginal/preview.png"
+    use_when: >
+      Combine a grouped scatter, linear fit, Pearson r, and axis-wise
+      boxplots of the same points.
+    avoid_when: >
+      Do not use when only the scatter or only the distributions are needed.
+    input_shape: "one row per observation; two numeric columns plus a group label"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-matrix"
+    title: "Category-by-category bubble grid"
+    aliases:
+      - "散点矩阵"
+      - "类别气泡网格"
+    source: "scripts/scatter/matrix/plot.R"
+    examples:
+      - "scripts/scatter/matrix/example.tsv"
+    preview: "scripts/scatter/matrix/preview.png"
+    use_when: >
+      Draw a grid of bubbles on two categorical axes (for example cell
+      × gene) where size and colour encode a supplied numeric value.
+    avoid_when: >
+      Do not use for a pairs plot of numeric variables (use scatter-pairs),
+      a single pair (use scatter-correlation), or a coefficient matrix
+      (use heatmap-signif). Values are already summarized, not raw
+      replicates.
+    input_shape: "one row per cell; two category columns plus a numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-pairs"
+    title: "Pairs plot with correlation tiles"
+    aliases:
+      - "相关散点矩阵"
+      - "pairs plot"
+      - "ggpairs"
+      - "散点相关矩阵"
+    source: "scripts/scatter/pairs/plot.R"
+    examples:
+      - "scripts/scatter/pairs/example.tsv"
+    preview: "scripts/scatter/pairs/preview.png"
+    use_when: >
+      Compare several numeric variables in one grid: lower-triangle
+      scatter plus lm line, diagonal names, upper-triangle Pearson r
+      as coloured tiles (base pairs custom panels).
+    avoid_when: >
+      Do not use for one pair (use scatter-correlation), a
+      category-by-category bubble grid (use scatter-matrix), or a
+      coefficient-only square matrix without point clouds
+      (use heatmap-signif). More than about 12 variables belongs on
+      heatmap-signif. Method and gap stay in CONFIG.
+    input_shape: "one row per observation; optional id plus numeric variable columns"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-hex"
+    title: "Hexbin density scatter"
+    aliases:
+      - "六边形密度图"
+      - "hexbin"
+    source: "scripts/scatter/hex/plot.R"
+    examples:
+      - "scripts/scatter/hex/example.tsv"
+    preview: "scripts/scatter/hex/preview.png"
+    use_when: >
+      Summarize a dense two-numeric cloud as hexagonal bins to reduce
+      overplotting.
+    avoid_when: >
+      Do not use for small n where individual points should stay visible,
+      or when contours are preferred (use scatter-contour).
+    input_shape: "one row per observation; two numeric columns"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-contour"
+    title: "Scatter with density contours"
+    aliases:
+      - "密度等高散点"
+      - "contour scatter"
+    source: "scripts/scatter/contour/plot.R"
+    examples:
+      - "scripts/scatter/contour/example.tsv"
+    preview: "scripts/scatter/contour/preview.png"
+    use_when: >
+      Overlay 2D density contours on a scatter to show concentration.
+    avoid_when: >
+      Do not use when hex bins or a simple scatter is enough, or when
+      groups should fill Voronoi tiles (scatter-voronoi).
+    input_shape: "one row per observation; two numeric columns"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-jitter"
+    title: "Jitter plot by category"
+    aliases:
+      - "抖动图"
+      - "jitter"
+    source: "scripts/scatter/jitter/plot.R"
+    examples:
+      - "scripts/scatter/jitter/example.tsv"
+    preview: "scripts/scatter/jitter/preview.png"
+    use_when: >
+      Show raw values within categories by spreading overlapping points.
+    avoid_when: >
+      Do not use when a beeswarm, boxplot, or violin better shows
+      distribution shape, or when groups need a second grouping factor
+      (use scatter-jitter-group).
+    input_shape: "one row per observation; category plus numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-jitter-group"
+    title: "Grouped jitter plot"
+    aliases:
+      - "分组抖动图"
+    source: "scripts/scatter/jitter_group/plot.R"
+    examples:
+      - "scripts/scatter/jitter_group/example.tsv"
+    preview: "scripts/scatter/jitter_group/preview.png"
+    use_when: >
+      Jitter raw values by category and color by a second grouping factor.
+    avoid_when: >
+      Do not use for a single grouping factor (use scatter-jitter).
+    input_shape: "one row per observation; category, group, and numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-beeswarm"
+    title: "Beeswarm plot"
+    aliases:
+      - "蜂群图"
+      - "beeswarm"
+    source: "scripts/scatter/beeswarm/plot.R"
+    examples:
+      - "scripts/scatter/beeswarm/example.tsv"
+    preview: "scripts/scatter/beeswarm/preview.png"
+    use_when: >
+      Show every observation in a category without random jitter, as a
+      compact swarm.
+    avoid_when: >
+      Do not use when a simple jitter or boxplot is sufficient, or when
+      a second grouping factor is required (use scatter-beeswarm-group).
+    input_shape: "one row per observation; category plus numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-beeswarm-group"
+    title: "Grouped beeswarm plot"
+    aliases:
+      - "分组蜂群图"
+    source: "scripts/scatter/beeswarm_group/plot.R"
+    examples:
+      - "scripts/scatter/beeswarm_group/example.tsv"
+    preview: "scripts/scatter/beeswarm_group/preview.png"
+    use_when: >
+      Swarm raw values by category and split or color by a second group.
+    avoid_when: >
+      Do not use for a single grouping factor (use scatter-beeswarm).
+    input_shape: "one row per observation; category, group, and numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-cleveland"
+    title: "Cleveland dot plot"
+    aliases:
+      - "Cleveland点图"
+      - "棒状点图"
+    source: "scripts/scatter/cleveland/plot.R"
+    examples:
+      - "scripts/scatter/cleveland/example.tsv"
+    preview: "scripts/scatter/cleveland/preview.png"
+    use_when: >
+      Rank categories by a single numeric value with a stem from zero
+      to each point.
+    avoid_when: >
+      Do not use for two-group before/after comparisons (use a dumbbell),
+      a signed delta lollipop whose point size is p-value
+      (scatter-lollipop-delta), a protein mutation lollipop
+      (ideogram-lollipop), or a full distribution (use boxplot or jitter).
+    input_shape: "one row per category; category label plus numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-rank"
+    title: "Ranked lollipop / score plot"
+    aliases:
+      - "排序棒棒糖图"
+      - "ranked score"
+    source: "scripts/scatter/rank/plot.R"
+    examples:
+      - "scripts/scatter/rank/example.tsv"
+    preview: "scripts/scatter/rank/preview.png"
+    use_when: >
+      Rank many items by a score and mark each with a lollipop stem.
+    avoid_when: >
+      Do not use for polar/radial lollipops, grouped circular
+      lollipops with error bars (scatter-lollipop-circular), a simple
+      Cleveland plot of a short category list, a signed immune/ssGSEA
+      delta lollipop (scatter-lollipop-delta), or a protein mutation
+      lollipop (ideogram-lollipop).
+    input_shape: "one row per item; label plus numeric score"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-lollipop-delta"
+    title: "Signed lollipop with p-value size"
+    aliases:
+      - "免疫棒棒糖"
+      - "差值棒棒糖"
+      - "ssGSEA棒棒糖"
+      - "delta lollipop"
+    source: "scripts/scatter/lollipop_delta/plot.R"
+    examples:
+      - "scripts/scatter/lollipop_delta/example.tsv"
+    preview: "scripts/scatter/lollipop_delta/preview.png"
+    use_when: >
+      Show a supplied signed delta (for example post − pre ssGSEA) as
+      a horizontal lollipop through zero, with fill by signature set,
+      point size by -log10(p), and stroke by a p-value bin. The left
+      coloured name strip is CONFIG, not a second id.
+    avoid_when: >
+      Do not use a one-sided Cleveland stem (scatter-cleveland), a
+      ranked gene score scatter (scatter-rank), a two-point
+      before/after dumbbell (scatter-dumbbell), or a protein mutation
+      lollipop (ideogram-lollipop). Do not run Wilcoxon or ssGSEA in
+      the script. Do not add an id per deconvolution method or per
+      Long/Short facet.
+    input_shape: "one row per item; label, signed delta, p-value, and set"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-lollipop-polar"
+    title: "Polar lollipop plot"
+    aliases:
+      - "极坐标棒棒糖图"
+    source: "scripts/scatter/lollipop_polar/plot.R"
+    examples:
+      - "scripts/scatter/lollipop_polar/example.tsv"
+    preview: "scripts/scatter/lollipop_polar/preview.png"
+    use_when: >
+      Place ranked scores around a circle as polar lollipops.
+    avoid_when: >
+      Do not use a linear ranked lollipop (scatter-rank), a radial
+      spoke layout (scatter-lollipop-radial), grouped circular
+      lollipops with error bars (scatter-lollipop-circular), or a
+      protein mutation lollipop (ideogram-lollipop).
+    input_shape: "one row per item; label plus numeric score"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-lollipop-radial"
+    title: "Radial lollipop plot"
+    aliases:
+      - "径向棒棒糖图"
+    source: "scripts/scatter/lollipop_radial/plot.R"
+    examples:
+      - "scripts/scatter/lollipop_radial/example.tsv"
+    preview: "scripts/scatter/lollipop_radial/preview.png"
+    use_when: >
+      Draw scores as spokes from a common origin in a radial layout.
+    avoid_when: >
+      Do not use for polar lollipops that sit on a ring, grouped
+      circular lollipops with error bars (scatter-lollipop-circular),
+      or a linear ranked list.
+    input_shape: "one row per item; label plus numeric score"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-lollipop-circular"
+    title: "Circular lollipop with error bars"
+    aliases:
+      - "环形棒棒糖图"
+      - "环状棒棒糖"
+      - "circular lollipop"
+    source: "scripts/scatter/lollipop_circular/plot.R"
+    examples:
+      - "scripts/scatter/lollipop_circular/example.tsv"
+    preview: "scripts/scatter/lollipop_circular/preview.png"
+    use_when: >
+      Draw two grouping levels around a full circle: outer sectors
+      (group) and lollipops (subgroup). Point radius is the supplied
+      mean; whiskers are the supplied se; subgroup names sit in the
+      point centres. Do not print numeric mean labels.
+    avoid_when: >
+      Do not use scatter-lollipop-polar for a plain polar stem with
+      no error bars or sector labels. Do not use scatter-lollipop-radial
+      for a fan. Do not compute se in this script.
+    input_shape: "one row per subgroup within a group; group, subgroup, mean, se"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-single"
+    title: "Single-axis bubble strip"
+    aliases:
+      - "单轴散点"
+      - "小时气泡图"
+    source: "scripts/scatter/single/plot.R"
+    examples:
+      - "scripts/scatter/single/example.tsv"
+    preview: "scripts/scatter/single/preview.png"
+    use_when: >
+      Place sized points along one shared categorical axis, one row per
+      series (for example hour-by-day).
+    avoid_when: >
+      Do not use for a two-numeric scatter or a standard bubble chart.
+    input_shape: "one row per axis-by-series cell; axis, series, and size value"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-dumbbell"
+    title: "Dumbbell plot"
+    aliases:
+      - "哑铃图"
+      - "两点连线图"
+    source: "scripts/scatter/dumbbell/plot.R"
+    examples:
+      - "scripts/scatter/dumbbell/example.tsv"
+    preview: "scripts/scatter/dumbbell/preview.png"
+    use_when: >
+      Compare two numeric values per category as connected dots.
+    avoid_when: >
+      Do not use when more than two groups, a shaded mean region, or
+      a rectangular connector is required; pick the matching dumbbell variant.
+    input_shape: "one row per category with two numeric values, or long format with two groups"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-dumbbell-groups"
+    title: "Multi-group dumbbell plot"
+    aliases:
+      - "多组哑铃图"
+    source: "scripts/scatter/dumbbell_groups/plot.R"
+    examples:
+      - "scripts/scatter/dumbbell_groups/example.tsv"
+    preview: "scripts/scatter/dumbbell_groups/preview.png"
+    use_when: >
+      Connect more than two group values per category as a dumbbell.
+    avoid_when: >
+      Do not use for a strict two-point dumbbell (use scatter-dumbbell).
+    input_shape: "one row per category-by-group; category, group, and numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-dumbbell-horizontal"
+    title: "Horizontal dumbbell plot"
+    aliases:
+      - "水平哑铃图"
+    source: "scripts/scatter/dumbbell_horizontal/plot.R"
+    examples:
+      - "scripts/scatter/dumbbell_horizontal/example.tsv"
+    preview: "scripts/scatter/dumbbell_horizontal/preview.png"
+    use_when: >
+      Draw a two-group dumbbell with categories on the y-axis.
+    avoid_when: >
+      Do not use when a vertical or region-shaded dumbbell is requested.
+    input_shape: "one row per category-by-group; category, group, and numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-dumbbell-rect"
+    title: "Rectangular dumbbell plot"
+    aliases:
+      - "矩形连接哑铃图"
+    source: "scripts/scatter/dumbbell_rect/plot.R"
+    examples:
+      - "scripts/scatter/dumbbell_rect/example.tsv"
+    preview: "scripts/scatter/dumbbell_rect/preview.png"
+    use_when: >
+      Connect two group values with a thick rectangular bar instead of a thin line.
+    avoid_when: >
+      Do not use for a thin-line dumbbell or a mean-plus-SD region overlay.
+    input_shape: "one row per category-by-group; category, group, and numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-dumbbell-region"
+    title: "Dumbbell with mean-SD region"
+    aliases:
+      - "区间哑铃图"
+      - "均值标准差哑铃"
+    source: "scripts/scatter/dumbbell_region/plot.R"
+    examples:
+      - "scripts/scatter/dumbbell_region/example.tsv"
+    preview: "scripts/scatter/dumbbell_region/preview.png"
+    use_when: >
+      Compare two groups on a shared category axis with a shaded
+      mean +/- SD band behind the points.
+    avoid_when: >
+      Do not use when only two dots and a connector are needed.
+    input_shape: "one row per category-by-group with a numeric summary value"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-paired"
+    title: "Paired before-after scatter"
+    aliases:
+      - "配对散点图"
+      - "前后对比点图"
+    source: "scripts/scatter/paired/plot.R"
+    examples:
+      - "scripts/scatter/paired/example.tsv"
+    preview: "scripts/scatter/paired/preview.png"
+    use_when: >
+      Link two measurements of the same unit (before/after or two conditions).
+    avoid_when: >
+      Do not use for unpaired two-group dots or a paired boxplot
+      (use boxplot-paired).
+    input_shape: "one row per unit with two paired numeric values, or long format with pair id"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-diagonal"
+    title: "Diagonal comparison scatter"
+    aliases:
+      - "对角线比较散点"
+      - "identity scatter"
+    source: "scripts/scatter/diagonal/plot.R"
+    examples:
+      - "scripts/scatter/diagonal/example.tsv"
+    preview: "scripts/scatter/diagonal/preview.png"
+    use_when: >
+      Compare two matched numeric measurements against the y = x line.
+    avoid_when: >
+      Do not use when there is no identity reference, or for a
+      correlation fit without a diagonal (use scatter-correlation).
+    input_shape: "one row per item; two comparable numeric columns"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-one2many"
+    title: "One-to-many correlation scatter"
+    aliases:
+      - "一对多散点"
+      - "中心关联图"
+    source: "scripts/scatter/one2many/plot.R"
+    examples:
+      - "scripts/scatter/one2many/example.tsv"
+    preview: "scripts/scatter/one2many/preview.png"
+    use_when: >
+      Show correlations from one central feature to many related items
+      with Bezier links.
+    avoid_when: >
+      Do not use for a pairwise scatter matrix (use scatter-pairs) or a
+      Mantel-style heatmap.
+    input_shape: "one row per related item; label, category, and correlation or score"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-bezier"
+    title: "Bezier-linked scatter"
+    aliases:
+      - "贝塞尔连线散点"
+    source: "scripts/scatter/bezier/plot.R"
+    examples:
+      - "scripts/scatter/bezier/example.tsv"
+    preview: "scripts/scatter/bezier/preview.png"
+    use_when: >
+      Connect related points with curved Bezier paths in a scatter layout.
+    avoid_when: >
+      Do not use for a one-to-many hub layout (use scatter-one2many) or
+      a paired boxplot with Bezier (use boxplot-bezier-point).
+    input_shape: "one row per point or link in a labeled scatter"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-svg"
+    title: "Scatter with SVG glyphs"
+    aliases:
+      - "SVG散点"
+      - "图标散点"
+      - "ggsvg"
+      - "自定义点"
+    source: "scripts/scatter/svg/plot.R"
+    examples:
+      - "scripts/scatter/svg/example.tsv"
+    preview: "scripts/scatter/svg/preview.png"
+    use_when: >
+      Plot two numeric variables with a supplied SVG as the mark instead
+      of ggplot point shapes, and colour one SVG path by a group.
+      Change the SVG file and css selector in CONFIG; that is not a
+      second template.
+    avoid_when: >
+      Do not use ordinary pch scatter (scatter-group), a bubble whose
+      size is the claim, or a horizontal bar whose category is an SVG
+      (bar-svg-icon). Do not add an id that only swaps the glyph file.
+    input_shape: "one row per observation; x, y, group, optional label; SVG file beside plot.R"
+    language: "r"
+    status: "stable"

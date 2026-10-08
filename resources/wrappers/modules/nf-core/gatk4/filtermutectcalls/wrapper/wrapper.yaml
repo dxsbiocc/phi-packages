@@ -1,0 +1,49 @@
+# Agent-facing wrapper adapter for the vendored gatk4/filtermutectcalls module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4-filtermutectcalls
+name: "GATK4 FilterMutectCalls"
+summary: "Filter Mutect2 somatic calls with GATK4 FilterMutectCalls."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Mutect2 VCF (bgzipped)."
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the VCF."
+  stats:
+    kind: input
+    type: file
+    required: true
+    description: "Mutect2 stats file."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/gatk4_filtermutectcalls'
+    primary: true

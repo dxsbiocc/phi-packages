@@ -1,0 +1,171 @@
+family: "pie"
+preview_background: "transparent"  # PNG alpha is empty; dark UIs look black. Do not treat as a black canvas.
+
+templates:
+  - id: "pie-basic"
+    title: "Basic pie chart"
+    aliases:
+      - "饼图"
+      - "pie"
+    source: "scripts/pie/basic/plot.R"
+    examples:
+      - "scripts/pie/basic/example.tsv"
+    preview: "scripts/pie/basic/preview.png"
+    use_when: >
+      Show part-to-whole composition as a full pie.
+    avoid_when: >
+      Do not use a doughnut, half-pie, nested pie, Nightingale rose,
+      or a circos doughnut with outer bars (pie-doughnut-bar)
+      unless that geometry is requested.
+    input_shape: "one row per mutually exclusive part; label plus value"
+    language: "r"
+    status: "stable"
+
+  - id: "pie-doughnut"
+    title: "Doughnut chart"
+    aliases:
+      - "环形图"
+      - "甜甜圈图"
+    source: "scripts/pie/doughnut/plot.R"
+    examples:
+      - "scripts/pie/doughnut/example.tsv"
+    preview: "scripts/pie/doughnut/preview.png"
+    use_when: >
+      Show part-to-whole composition as a ring with a hollow center.
+    avoid_when: >
+      Do not use a solid pie, a nested two-ring pie, or a circos
+      doughnut with outer bars (pie-doughnut-bar). Use
+      pie-doughnut-round when slice corners should be rounded.
+      A rounded Nightingale rose (radius encodes value) is
+      pie-nightingale, not this id.
+    input_shape: "one row per mutually exclusive part; label plus value"
+    language: "r"
+    status: "stable"
+
+  - id: "pie-doughnut-round"
+    title: "Rounded doughnut chart"
+    aliases:
+      - "圆角环形图"
+      - "圆角甜甜圈"
+      - "rounded doughnut"
+      - "pie-borderRadius"
+    source: "scripts/pie/doughnut_round/plot.R"
+    examples:
+      - "scripts/pie/doughnut_round/example.tsv"
+    preview: "scripts/pie/doughnut_round/preview.png"
+    use_when: >
+      Show part-to-whole composition as a doughnut whose slices are
+      rounded rectangles with gaps, as in ECharts pie-borderRadius.
+    avoid_when: >
+      Do not use pie-doughnut when slice corners should stay sharp.
+      Do not use a solid pie, a nested two-ring pie, or a circos
+      doughnut with outer bars (pie-doughnut-bar). A rounded rose
+      whose radius encodes value is pie-nightingale, not this id.
+    input_shape: "one row per mutually exclusive part; label plus value"
+    language: "r"
+    status: "stable"
+
+  - id: "pie-doughnut-bar"
+    title: "Doughnut with outer radial bars"
+    aliases:
+      - "条形甜甜圈"
+      - "环状比例图"
+      - "条形和甜甜圈饼图"
+      - "Nature环状图"
+    source: "scripts/pie/doughnut_bar/plot.R"
+    examples:
+      - "scripts/pie/doughnut_bar/example.tsv"
+    preview: "scripts/pie/doughnut_bar/preview.png"
+    use_when: >
+      Show within-group composition as a stacked doughnut on the outer
+      circos track and the same parts as radial bars inside, one sector
+      per group. Sector angle may be equal or weighted by item count
+      (CONFIG sector_width); that is not a second template. Item labels
+      at the bar feet stay in CONFIG.
+    avoid_when: >
+      Do not use a plain doughnut (pie-doughnut), a nested two-ring pie
+      (pie-nest / pie-combine), a Nightingale rose (pie-nightingale),
+      or grouped radial bars without an inner composition ring
+      (bar-radial-groups). A supplied UMAP in the hole with cell-type
+      sectors is scatter-umap-circos, not this id. Do not add an id
+      per sector-width or label variant.
+    input_shape: "one row per group-by-part; group, item, and value"
+    language: "r"
+    status: "stable"
+
+  - id: "pie-half"
+    title: "Half-pie chart"
+    aliases:
+      - "半饼图"
+      - "semicircle pie"
+    source: "scripts/pie/half/plot.R"
+    examples:
+      - "scripts/pie/half/example.tsv"
+    preview: "scripts/pie/half/preview.png"
+    use_when: >
+      Show composition in a 180-degree pie.
+    avoid_when: >
+      Do not use a full pie when a semicircle is not requested.
+    input_shape: "one row per mutually exclusive part; label plus value"
+    language: "r"
+    status: "stable"
+
+  - id: "pie-nest"
+    title: "Nested two-ring pie"
+    aliases:
+      - "嵌套饼图"
+      - "双环饼图"
+    source: "scripts/pie/nest/plot.R"
+    examples:
+      - "scripts/pie/nest/example.tsv"
+    preview: "scripts/pie/nest/preview.png"
+    use_when: >
+      Draw inner and outer rings from two separately tagged series.
+    avoid_when: >
+      Do not use pie-combine when inner totals should be summed from
+      outer items in this script.
+    input_shape: "one row per slice with an inner/outer ring tag and value"
+    language: "r"
+    status: "stable"
+
+  - id: "pie-combine"
+    title: "Combined nested pie"
+    aliases:
+      - "组合嵌套饼图"
+      - "内外环汇总饼图"
+    source: "scripts/pie/combine/plot.R"
+    examples:
+      - "scripts/pie/combine/example.tsv"
+    preview: "scripts/pie/combine/preview.png"
+    use_when: >
+      Inner ring shows group totals summed from items; outer ring shows items.
+    avoid_when: >
+      Do not use pie-nest when the two rings are independent series.
+    input_shape: "one row per item; item, parent category, and value"
+    language: "r"
+    status: "stable"
+
+  - id: "pie-nightingale"
+    title: "Nightingale rose chart"
+    aliases:
+      - "南丁格尔玫瑰图"
+      - "极坐标玫瑰图"
+      - "圆角扇形图"
+      - "圆角玫瑰图"
+    source: "scripts/pie/nightingale/plot.R"
+    examples:
+      - "scripts/pie/nightingale/example.tsv"
+    preview: "scripts/pie/nightingale/preview.png"
+    use_when: >
+      Encode value as radius of equal-angle polar bars, with rounded
+      caps and an optional inner hole. Corner radius, hole, and
+      value labels stay in CONFIG.
+    avoid_when: >
+      Do not use a standard pie, or bar-polar-sector unless that bar
+      geometry is requested. Do not use pie-doughnut-round (angle
+      encodes share of a whole). Do not use a circos doughnut with
+      outer bars (pie-doughnut-bar). Rounded vs sharp is not a
+      second id.
+    input_shape: "one row per category; category plus numeric value"
+    language: "r"
+    status: "stable"

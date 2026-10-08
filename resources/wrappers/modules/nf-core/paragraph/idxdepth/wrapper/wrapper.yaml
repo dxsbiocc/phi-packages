@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored paragraph/idxdepth module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/paragraph-idxdepth
+name: "Paragraph idxdepth"
+summary: "Estimate read depth and read length with Paragraph idxdepth."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  depth:
+    type: directory
+    path: '${outdir}/paragraph_idxdepth'
+    primary: true

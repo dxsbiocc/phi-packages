@@ -1,0 +1,23 @@
+flowchart TB
+    subgraph " "
+    v0["in_ch"]
+    v1["fasta_ch"]
+    v2["min_reads"]
+    v3["min_baseq"]
+    v4["max_base_error_rate"]
+    v8["channel.empty"]
+    end
+    v5(["FGBIO_FILTERCONSENSUSREADS"])
+    subgraph " "
+    v6[" "]
+    v7[" "]
+    v9[" "]
+    end
+    v0 --> v5
+    v1 --> v5
+    v2 --> v5
+    v3 --> v5
+    v4 --> v5
+    v5 --> v7
+    v5 --> v6
+    v8 --> v9

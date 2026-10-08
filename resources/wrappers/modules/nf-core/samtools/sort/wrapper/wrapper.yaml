@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored samtools/sort module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# No reference FASTA and no --write-index: plain coordinate-sort to BAM —
+# see ../wrapper/main.nf for why those are the module's own defaults.
+id: nf-core/modules/samtools-sort
+name: samtools sort
+summary: Sort a SAM/BAM/CRAM file by coordinate.
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: SAM/BAM/CRAM file to sort.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the sorted BAM.
+
+outputs:
+  sorted:
+    type: directory
+    path: '${outdir}/samtools_sort'
+    primary: true

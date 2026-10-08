@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored vcftools module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/vcftools
+name: "VCFtools"
+summary: "Compute allele frequencies and other VCF statistics with VCFtools."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "VCF file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  frq:
+    type: directory
+    path: '${outdir}/vcftools'
+    primary: true

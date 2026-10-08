@@ -1,0 +1,61 @@
+# Agent-facing wrapper adapter for the DESeq2 QC module at ../main.nf —
+# adapted from nf-core/rnaseq's pipeline-local `deseq2_qc` module (Harshil
+# Patel, Gavin Kelly; MIT license), rewritten to Nextflow's `template`
+# mechanism and simplified to match this family's other processes (see
+# ../main.nf and ../templates/deseq2_qc.R for what changed). It was never
+# in the shared nf-core/modules registry, which is why it and this whole
+# family live under modules/local/ rather than modules/nf-core/.
+#
+# Grouped here as a sibling of deseq2/, limma/, and timeseries/ rather than
+# nested under deseq2/: this is sample-relationship QC only (PCA +
+# hierarchical clustering from a counts matrix, using DESeq2's variance-
+# stabilizing transform internally) — no contrast, no hypothesis test, no
+# p-values. It is a step of the shared differential-expression workflow
+# (run before choosing/running any of the family's DE methods), not a
+# DESeq2-specific analysis the way deseq2/'s own wrapper is. Follows the
+# minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# For testing a specific contrast, use ../deseq2/wrapper/ (or limma/,
+# timeseries/) in this same family.
+#
+# Assumes a featureCounts/nf-core-rnaseq-style merged count matrix: gene
+# identifiers in column 1, sample counts starting at column 3 (column 2 is
+# typically gene_name) — the vendored script's own defaults
+# (--id_col 1 --count_col 3), not overridden here since there's no test data
+# to verify other matrix shapes.
+id: local/modules/differential-expression-qc
+name: Differential-expression sample QC
+summary: PCA and hierarchical-clustering QC plots from a count matrix, using DESeq2's variance-stabilizing transform.
+
+params:
+  counts:
+    kind: input
+    type: file
+    required: true
+    description: Merged count matrix (TSV), gene ids in column 1, sample counts starting at column 3.
+  vst:
+    kind: option
+    type: boolean
+    required: false
+    description: true uses vst() instead of the default rlog() for the variance-stabilizing transform (faster, preferred for larger sample counts).
+  outdir:
+    kind: output
+    type: directory
+    required: true
+    description: Directory results are published under.
+
+outputs:
+  pdf:
+    type: file
+    path: '${outdir}/deseq2_qc/deseq2.plots.pdf'
+    primary: true
+  pca_txt:
+    type: file
+    path: '${outdir}/deseq2_qc/deseq2.pca.vals.txt'
+  dists_txt:
+    type: file
+    path: '${outdir}/deseq2_qc/deseq2.sample.dists.txt'
+  rdata:
+    type: file
+    path: '${outdir}/deseq2_qc/deseq2.dds.RData'

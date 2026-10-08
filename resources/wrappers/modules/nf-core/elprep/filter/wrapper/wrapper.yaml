@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored elprep/filter module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/elprep-filter
+name: "elprep filter"
+summary: "Filter/preprocess a BAM and call germline variants (GVCF) with elprep filter."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  target_regions:
+    kind: input
+    type: file
+    required: true
+    description: "Target regions BED."
+  elfasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference in elprep elfasta format."
+  elsites:
+    kind: input
+    type: file
+    required: true
+    description: "Known sites in elprep elsites format."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  gvcf:
+    type: directory
+    path: '${outdir}/elprep_filter'
+    primary: true

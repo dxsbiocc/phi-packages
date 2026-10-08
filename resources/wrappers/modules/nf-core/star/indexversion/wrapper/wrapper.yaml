@@ -1,0 +1,19 @@
+# Agent-facing wrapper adapter for the vendored star/indexversion module
+# at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/star-indexversion
+name: STAR indexVersion
+summary: Report the STAR genome index format version supported by the bundled STAR binary.
+
+params:
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the version file.
+
+outputs:
+  index_version:
+    type: directory
+    path: '${outdir}/star_indexversion'
+    primary: true

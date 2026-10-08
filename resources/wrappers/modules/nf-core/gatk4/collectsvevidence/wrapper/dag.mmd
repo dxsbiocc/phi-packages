@@ -1,0 +1,31 @@
+flowchart TB
+    subgraph " "
+    v0["cram_ch"]
+    v1["fasta_ch"]
+    v2["fai_ch"]
+    v3["dict_ch"]
+    v12["channel.empty"]
+    end
+    v4(["GATK4_COLLECTSVEVIDENCE"])
+    subgraph " "
+    v5[" "]
+    v6[" "]
+    v7[" "]
+    v8[" "]
+    v9[" "]
+    v10[" "]
+    v11[" "]
+    v13[" "]
+    end
+    v0 --> v4
+    v1 --> v4
+    v2 --> v4
+    v3 --> v4
+    v4 --> v11
+    v4 --> v10
+    v4 --> v9
+    v4 --> v8
+    v4 --> v7
+    v4 --> v6
+    v4 --> v5
+    v12 --> v13

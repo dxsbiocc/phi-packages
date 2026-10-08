@@ -1,0 +1,46 @@
+# Agent-facing wrapper adapter for the vendored gatk4/printsvevidence module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: runs the vendored collectsvevidence module first to produce paired-end evidence.
+id: nf-core/modules/gatk4-printsvevidence
+name: "GATK4 PrintSVEvidence"
+summary: "Merge structural-variant evidence files (CollectSVEvidence → PrintSVEvidence)."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  printed_evidence:
+    type: directory
+    path: '${outdir}/gatk4_printsvevidence'
+    primary: true

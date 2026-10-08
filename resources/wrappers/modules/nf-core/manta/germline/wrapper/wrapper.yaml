@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored manta/germline module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/manta-germline
+name: "Manta germline"
+summary: "Call germline structural variants with Manta."
+
+params:
+  cram:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted CRAM file."
+  crai:
+    kind: input
+    type: file
+    required: true
+    description: "CRAM index (.crai)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  diploid_sv_vcf:
+    type: directory
+    path: '${outdir}/manta_germline'
+    primary: true

@@ -1,0 +1,27 @@
+flowchart TB
+    subgraph " "
+    v0["vcf_ch"]
+    v1["intervals_ch"]
+    v2["fasta_ch"]
+    v3["fai_ch"]
+    v4["dict_ch"]
+    v10["channel.empty"]
+    end
+    v5(["GATK4_CONCORDANCE"])
+    subgraph " "
+    v6[" "]
+    v7[" "]
+    v8[" "]
+    v9[" "]
+    v11[" "]
+    end
+    v0 --> v5
+    v1 --> v5
+    v2 --> v5
+    v3 --> v5
+    v4 --> v5
+    v5 --> v9
+    v5 --> v8
+    v5 --> v7
+    v5 --> v6
+    v10 --> v11

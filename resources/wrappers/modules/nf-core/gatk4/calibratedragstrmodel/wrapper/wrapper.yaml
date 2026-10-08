@@ -1,0 +1,49 @@
+# Agent-facing wrapper adapter for the vendored gatk4/calibratedragstrmodel module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4-calibratedragstrmodel
+name: "GATK4 CalibrateDragstrModel"
+summary: "Calibrate a DRAGstr model from a BAM and STR table with GATK4 CalibrateDragstrModel."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  strtable:
+    kind: input
+    type: file
+    required: true
+    description: "STR table file archive (.zip)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  dragstr_model:
+    type: directory
+    path: '${outdir}/gatk4_calibratedragstrmodel'
+    primary: true

@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored blast/updateblastdb module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/blast-updateblastdb
+name: "update_blastdb"
+summary: "Download a pre-formatted BLAST database from NCBI with update_blastdb.pl."
+
+params:
+  name:
+    kind: option
+    type: string
+    required: false
+    description: "Name of the NCBI BLAST database (e.g. mito)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  db:
+    type: directory
+    path: '${outdir}/blast_updateblastdb'
+    primary: true

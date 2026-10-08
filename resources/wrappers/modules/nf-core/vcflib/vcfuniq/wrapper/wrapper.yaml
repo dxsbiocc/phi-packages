@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored vcflib/vcfuniq module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/vcflib-vcfuniq
+name: "vcflib vcfuniq"
+summary: "Remove duplicate VCF records with vcflib vcfuniq."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped VCF file."
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the VCF."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/vcflib_vcfuniq'
+    primary: true

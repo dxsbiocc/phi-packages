@@ -1,0 +1,13 @@
+{
+  "fasta": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/minigenome.fa",
+  "gtf": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/minigenome.gtf",
+  "fusion_lib": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/CTAT_HumanFusionLib.mini.dat.gz",
+  "pfam": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/Pfam-A.hmm.gz",
+  "dfam_hmm": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/test_starfusion_dfam.hmm",
+  "dfam_h3f": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/test_starfusion_dfam.hmm.h3f",
+  "dfam_h3i": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/test_starfusion_dfam.hmm.h3i",
+  "dfam_h3m": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/test_starfusion_dfam.hmm.h3m",
+  "dfam_h3p": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/test_starfusion_dfam.hmm.h3p",
+  "cancer_introns": "https://data.broadinstitute.org/Trinity/CTAT_RESOURCE_LIB/CANCER_SPLICING_LIB_SUPPLEMENT/cancer_introns.GRCh38.Jun232020.tsv.gz",
+  "outdir": "results"
+}

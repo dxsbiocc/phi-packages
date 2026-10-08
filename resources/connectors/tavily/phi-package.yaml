@@ -1,0 +1,13 @@
+schemaVersion: 1
+id: tavily
+type: mcp
+version: 1.0.0
+title: Tavily
+summary: 联网搜索、提取网页内容并发现网站页面
+connector:
+  transport: http
+  publisher: Tavily
+  category: 生产力
+  homepage: https://github.com/tavily-ai/tavily-mcp
+  url: https://mcp.tavily.com/mcp
+  auth: header

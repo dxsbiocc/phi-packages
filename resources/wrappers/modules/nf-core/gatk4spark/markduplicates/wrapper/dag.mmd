@@ -1,0 +1,25 @@
+flowchart TB
+    subgraph " "
+    v0["in_ch"]
+    v1["fasta"]
+    v2["fasta_fai"]
+    v3["dict"]
+    v9["channel.empty"]
+    end
+    v4(["GATK4SPARK_MARKDUPLICATES"])
+    subgraph " "
+    v5[" "]
+    v6[" "]
+    v7[" "]
+    v8[" "]
+    v10[" "]
+    end
+    v0 --> v4
+    v1 --> v4
+    v2 --> v4
+    v3 --> v4
+    v4 --> v8
+    v4 --> v7
+    v4 --> v6
+    v4 --> v5
+    v9 --> v10

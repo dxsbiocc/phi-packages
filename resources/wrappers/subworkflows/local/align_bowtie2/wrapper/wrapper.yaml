@@ -1,0 +1,48 @@
+# Agent-facing wrapper adapter for the vendored align_bowtie2 subworkflow at
+# ../main.nf (Bowtie2 align -> coordinate-sort, index, samtools stats).
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# A pre-built Bowtie2 `index` is used as-is; without one, bowtie2/build is
+# composed directly (not a wrapper, per section 6) to build it from FASTA.
+id: local/subworkflows/align-bowtie2
+name: Align with Bowtie2
+summary: Align paired-end reads with Bowtie2 (pre-built or freshly built index; splice-unaware, e.g. for prokaryotic RNA-seq), then coordinate-sort/index/stats the resulting BAM.
+
+params:
+  reads_1:
+    kind: input
+    type: fastq
+    required: true
+    description: Read 1 FASTQ.
+  reads_2:
+    kind: input
+    type: fastq
+    required: true
+    description: Read 2 FASTQ.
+  index:
+    kind: input
+    type: directory
+    required: false
+    description: Pre-built Bowtie2 index directory (holding one set of *.bt2 / *.bt2l files). When set, no index is built.
+  fasta:
+    kind: input
+    type: fasta
+    required: false
+    description: Reference FASTA (genome or transcriptome) to build a Bowtie2 index from. Required only when `index` is not given.
+  save_unaligned:
+    kind: option
+    type: boolean
+    required: false
+    description: Also save reads that failed to align.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the Bowtie2 alignment log and the sorted/indexed/stats BAM.
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/align_bowtie2'
+    primary: true

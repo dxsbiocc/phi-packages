@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored rsem/calculateexpression
+# module at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composes rsem/preparereference + rsem/calculateexpression internally —
+# see ../wrapper/main.nf's own comment for why: no pre-built index in
+# test-datasets to just point this wrapper's default params.json at.
+id: nf-core/modules/rsem-calculateexpression
+name: rsem calculateexpression
+summary: Calculate gene/transcript expression from paired-end reads with RSEM.
+
+params:
+  reads_1:
+    kind: input
+    type: fastq
+    required: true
+    description: FASTQ file for read 1.
+  reads_2:
+    kind: input
+    type: fastq
+    required: true
+    description: FASTQ file for read 2.
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: Reference genome FASTA to build the RSEM reference from.
+  gtf:
+    kind: input
+    type: gtf
+    required: true
+    description: Gene annotation GTF used to build the transcript model.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the expression results.
+
+outputs:
+  results:
+    type: directory
+    path: "${outdir}/rsem_calculateexpression"
+    primary: true

@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored bcftools/roh module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bcftools-roh
+name: "bcftools roh"
+summary: "Detect runs of homozygosity with bcftools roh."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped VCF file."
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the VCF."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  roh:
+    type: directory
+    path: '${outdir}/bcftools_roh'
+    primary: true

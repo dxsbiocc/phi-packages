@@ -1,0 +1,13 @@
+schemaVersion: 1
+id: figma
+type: mcp
+version: 1.0.0
+title: Figma
+summary: 获取设计上下文和生成图表
+connector:
+  transport: http
+  publisher: Figma
+  category: 设计创作
+  homepage: https://claude.com/marketplace/connectors/figma
+  url: https://mcp.figma.com/mcp
+  auth: oauth

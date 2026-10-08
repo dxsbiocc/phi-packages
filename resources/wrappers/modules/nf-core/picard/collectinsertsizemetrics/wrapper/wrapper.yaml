@@ -1,0 +1,25 @@
+# Agent-facing wrapper adapter for the vendored
+# picard/collectinsertsizemetrics module at ../main.nf. Follows the
+# minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/picard-collectinsertsizemetrics
+name: picard CollectInsertSizeMetrics
+summary: Collect insert size distribution metrics for a paired-end BAM with Picard.
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: Coordinate-sorted paired-end BAM file.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the metrics and histogram.
+
+outputs:
+  metrics:
+    type: directory
+    path: '${outdir}/picard_collectinsertsizemetrics'
+    primary: true

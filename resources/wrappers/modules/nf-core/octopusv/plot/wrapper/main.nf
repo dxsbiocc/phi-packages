@@ -1,0 +1,17 @@
+#!/usr/bin/env nextflow
+// Thin agent-facing adapter over the vendored module at ../main.nf.
+// See docs/design/phi-wrapper-agent-composition-design.md section 1.
+nextflow.enable.dsl = 2
+
+include { OCTOPUSV_PLOT } from '../main.nf'
+include { OCTOPUSV_STAT } from '../../stat/main.nf'
+
+params.svcf       = null
+params.outdir     = null
+
+workflow {
+    in_ch = Channel.value([[id: 'sample'], file(params.svcf, checkIfExists: true)])
+    OCTOPUSV_STAT(in_ch)
+
+    OCTOPUSV_PLOT(OCTOPUSV_STAT.out.json)
+}

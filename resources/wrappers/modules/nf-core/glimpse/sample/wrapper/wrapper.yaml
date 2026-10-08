@@ -1,0 +1,46 @@
+# Agent-facing wrapper adapter for the vendored glimpse/sample module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: phases the input with the vendored glimpse phase module and indexes the result with bcftools index first.
+id: nf-core/modules/glimpse-sample
+name: "GLIMPSE sample"
+summary: "Sample haplotypes from phased posteriors (phase → bcftools index → GLIMPSE sample)."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Genotype-likelihood VCF (bgzipped)."
+  csi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.csi) for the VCF."
+  ref:
+    kind: input
+    type: file
+    required: true
+    description: "Reference panel VCF (bgzipped)."
+  ref_csi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.csi) for the reference panel."
+  map:
+    kind: input
+    type: file
+    required: true
+    description: "Genetic map."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  haplo_sampled:
+    type: directory
+    path: '${outdir}/glimpse_sample'
+    primary: true

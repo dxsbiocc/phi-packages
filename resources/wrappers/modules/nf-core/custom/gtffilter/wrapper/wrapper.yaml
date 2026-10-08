@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored custom/gtffilter module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/custom-gtffilter
+name: Custom GTF filter
+summary: Drop GTF features whose sequence is not present in a reference FASTA.
+
+params:
+  gtf:
+    kind: input
+    type: gtf
+    required: true
+    description: GTF annotation to filter.
+  fasta:
+    kind: input
+    type: fasta
+    required: false
+    description: Reference FASTA; sequences missing from it are dropped from the GTF. Omit to keep every sequence.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the filtered GTF.
+
+outputs:
+  filtered_gtf:
+    type: directory
+    path: '${outdir}/gtffilter'
+    primary: true

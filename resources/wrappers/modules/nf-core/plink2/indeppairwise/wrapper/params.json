@@ -1,0 +1,6 @@
+{
+  "pgen": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/popgen/plink_simulated.pgen",
+  "pvar": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/popgen/plink_simulated.pvar",
+  "psam": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/popgen/plink_simulated.psam",
+  "outdir": "results"
+}

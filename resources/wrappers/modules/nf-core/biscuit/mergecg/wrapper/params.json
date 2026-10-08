@@ -1,0 +1,5 @@
+{
+  "bed": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/delete_me/biscuit/test-cg.bed.gz",
+  "fasta": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/genome/genome.fasta",
+  "outdir": "results"
+}

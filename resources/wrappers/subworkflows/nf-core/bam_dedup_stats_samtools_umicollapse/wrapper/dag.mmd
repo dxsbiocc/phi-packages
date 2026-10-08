@@ -1,0 +1,51 @@
+flowchart TB
+    subgraph " "
+    v0["channel.fromPath"]
+    v2["channel.fromPath"]
+    v5["mode"]
+    v13[" "]
+    end
+    subgraph "BAM_DEDUP_STATS_SAMTOOLS_UMICOLLAPSE [BAM_DEDUP_STATS_SAMTOOLS_UMICOLLAPSE]"
+    v6(["UMICOLLAPSE"])
+    v10(["SAMTOOLS_INDEX"])
+    subgraph "BAM_DEDUP_STATS_SAMTOOLS_UMICOLLAPSE:BAM_STATS_SAMTOOLS [BAM_STATS_SAMTOOLS]"
+    v14(["SAMTOOLS_STATS"])
+    v17(["SAMTOOLS_FLAGSTAT"])
+    v20(["SAMTOOLS_IDXSTATS"])
+    end
+    v12(( ))
+    end
+    subgraph " "
+    v7[" "]
+    v8["dedup_stats"]
+    v9[" "]
+    v11[" "]
+    v15[" "]
+    v16["stats"]
+    v18[" "]
+    v19["flagstat"]
+    v21[" "]
+    v22["idxstats"]
+    end
+    v1(( ))
+    v0 --> v1
+    v2 --> v1
+    v5 --> v6
+    v1 --> v6
+    v6 --> v10
+    v6 --> v9
+    v6 --> v8
+    v6 --> v7
+    v6 --> v12
+    v10 --> v11
+    v10 --> v12
+    v13 --> v14
+    v12 --> v14
+    v14 --> v16
+    v14 --> v15
+    v12 --> v17
+    v17 --> v19
+    v17 --> v18
+    v12 --> v20
+    v20 --> v22
+    v20 --> v21

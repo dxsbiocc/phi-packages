@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored bcftools/consensus module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/bcftools-consensus
+name: "bcftools consensus"
+summary: "Create a consensus FASTA by applying VCF variants to a reference with bcftools consensus."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped VCF file."
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the VCF."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  mask:
+    kind: input
+    type: file
+    required: true
+    description: "BED file of regions to mask."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  fasta:
+    type: directory
+    path: '${outdir}/bcftools_consensus'
+    primary: true

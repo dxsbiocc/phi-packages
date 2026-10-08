@@ -1,0 +1,479 @@
+family: "heatmap"
+preview_background: "transparent"  # PNG alpha is empty; dark UIs look black. Do not treat as a black canvas.
+
+templates:
+  - id: "heatmap-basic"
+    title: "Basic heatmap"
+    aliases:
+      - "热图"
+      - "矩阵热图"
+    source: "scripts/heatmap/basic/plot.R"
+    examples:
+      - "scripts/heatmap/basic/example.tsv"
+    preview: "scripts/heatmap/basic/preview.png"
+    use_when: >
+      Color a two-way numeric matrix without clustering or extra marks.
+    avoid_when: >
+      Do not use when rows/columns should be clustered (use heatmap-cluster-basic),
+      when a supplied rectangular score matrix should be clustered with
+      cutree block gaps (heatmap-cluster-block),
+      when enrichment bars should align to Up/Down gene splits
+      (heatmap-enrichment-zoom), when a term-by-group signed-p
+      heatmap is needed (heatmap-enrichment-terms), when the matrix
+      is a correlation with significance overlays, when a rectangular
+      association-dot grid with supplied rho and p is needed
+      (heatmap-corr-dot), or when a saturation-mutation ΔΔG matrix
+      needs a mean-energy overlay (heatmap-mutation-energy), or when
+      a group-split circular heatmap with a q-value track is needed
+      (heatmap-circos-split), or when gene × sample alteration
+      glyphs are needed (heatmap-oncoprint).
+    input_shape: "feature-by-sample or category-by-category numeric matrix"
+    language: "r"
+    status: "stable"
+
+  - id: "heatmap-cluster-basic"
+    title: "Clustered heatmap"
+    aliases:
+      - "聚类热图"
+      - "层次聚类热图"
+    source: "scripts/heatmap/cluster_basic/plot.R"
+    examples:
+      - "scripts/heatmap/cluster_basic/example.tsv"
+    preview: "scripts/heatmap/cluster_basic/preview.png"
+    use_when: >
+      Cluster a feature-by-sample numeric matrix, with optional row and
+      column annotations.
+    avoid_when: >
+      Do not use for an unclustered matrix, a correlation triangle, a
+      Mantel-style two-set display, a DE heatmap whose right-hand
+      panels are enrichment bars aligned to Up/Down splits
+      (heatmap-enrichment-zoom), or a supplied rectangular score
+      matrix clustered with cutree block gaps (heatmap-cluster-block).
+      Do not use when the matrix is already a correlation and must
+      not be z-scored.
+    input_shape: "feature-id column plus numeric sample columns"
+    language: "r"
+    status: "stable"
+
+  - id: "heatmap-cluster-block"
+    title: "Clustered heatmap with cutree blocks"
+    aliases:
+      - "分块聚类热图"
+      - "cutree热图"
+      - "NMF相关热图"
+      - "细胞类型因子热图"
+    source: "scripts/heatmap/cluster_block/plot.R"
+    examples:
+      - "scripts/heatmap/cluster_block/example.tsv"
+      - "scripts/heatmap/cluster_block/rowInfo.tsv"
+    preview: "scripts/heatmap/cluster_block/preview.png"
+    use_when: >
+      Cluster a supplied rectangular numeric matrix (cell type × factor
+      Pearson r, or any two-axis score) with dendrograms cut into k row
+      and column blocks, plus an optional row-group annotation strip.
+      cutree k is CONFIG. Do not compute correlation or z-score.
+    avoid_when: >
+      Do not use a z-scored feature-by-sample expression heatmap
+      (heatmap-cluster-basic), an unclustered matrix (heatmap-basic),
+      a square correlation with significance marks (heatmap-signif),
+      a two-set correlation computed from sample rows (heatmap-two),
+      an association-dot grid (heatmap-corr-dot), or a size-and-star
+      bubble grid (heatmap-corr-bubble). Changing k or
+      turning the group strip off is not a second id.
+    input_shape: "one row-id column plus numeric score columns; optional rowInfo.tsv with Group"
+    language: "r"
+    status: "stable"
+
+  - id: "heatmap-enrichment-zoom"
+    title: "DE heatmap with aligned enrichment zooms"
+    aliases:
+      - "多通路富集热图"
+      - "表达热图和多通路富集"
+      - "DE热图富集"
+      - "anno_zoom热图"
+    source: "scripts/heatmap/enrichment_zoom/plot.R"
+    examples:
+      - "scripts/heatmap/enrichment_zoom/example.tsv"
+    preview: "scripts/heatmap/enrichment_zoom/preview.png"
+    use_when: >
+      Show a supplied DE expression matrix split by sample group and
+      gene direction, with enrichment bar panels (GO / KEGG / other)
+      aligned to the Up and Down row slices. Extra databases are extra
+      rows in enrichment.tsv, not extra template ids. Clustering is off.
+    avoid_when: >
+      Do not use a ranked Cartesian enrichment list (bar-enrichment-*),
+      a classic enrichment dotplot (bar-enrichment-dot), a
+      classification tree with a circumferential track
+      (tree-enrichment-ring), a clustered matrix without zoom panels
+      (heatmap-cluster-basic), a cutree-block score heatmap
+      (heatmap-cluster-block), or a term-by-group signed-p heatmap
+      (heatmap-enrichment-terms). Extra databases stay in
+      enrichment.tsv; zoom panels are ggplot2 bars, not a second id.
+    input_shape: "gene-id column plus numeric samples; sidecars colInfo, rowInfo, enrichment"
+    language: "r"
+    status: "stable"
+
+  - id: "heatmap-enrichment-terms"
+    title: "Term-by-group enrichment heatmap"
+    aliases:
+      - "通路分组富集热图"
+      - "通路对比富集热图"
+      - "term heatmap"
+    source: "scripts/heatmap/enrichment_terms/plot.R"
+    examples:
+      - "scripts/heatmap/enrichment_terms/example.tsv"
+    preview: "scripts/heatmap/enrichment_terms/preview.png"
+    use_when: >
+      Show whether the same enrichment terms are reported across
+      contrasts or cohorts. Fill is signed -log10(adjusted p) from a
+      supplied table; missing term-by-group cells are display marks,
+      not imputed tests. Extra groups are extra levels, not extra ids.
+    avoid_when: >
+      Do not use a ranked Cartesian enrichment list or dotplot
+      (bar-enrichment-*), a DE expression heatmap with enrichment
+      bars aligned to Up/Down gene splits (heatmap-enrichment-zoom),
+      a classification tree with an outer track (tree-enrichment-ring),
+      or a correlation / association grid (heatmap-corr-dot,
+      heatmap-corr-bubble). Do not run enricher, convert species, or
+      cluster terms in the script.
+    input_shape: "one row per term-by-group; term, group, adjusted p, direction"
+    language: "r"
+    status: "stable"
+
+  - id: "heatmap-signif"
+    title: "Correlation heatmap with significance marks"
+    aliases:
+      - "显著性相关热图"
+      - "相关矩阵热图"
+    source: "scripts/heatmap/signif/plot.R"
+    examples:
+      - "scripts/heatmap/signif/example.tsv"
+    preview: "scripts/heatmap/signif/preview.png"
+    use_when: >
+      Show a square correlation matrix with different marks on the upper
+      and lower triangles and crosses on weak correlations.
+    avoid_when: >
+      Do not use for a two-set (X vs Y) correlation computed from samples
+      (use heatmap-two), a star-cell triangle (use heatmap-shape), a
+      precomputed rectangular association of two category axes
+      (use heatmap-corr-dot), a size-and-star bubble grid
+      (heatmap-corr-bubble), a grouped lower-triangle with braces
+      (heatmap-corr-grouped), a 45° rotated triangle
+      (heatmap-corr-rotate), or a pairs grid that must show the point
+      clouds (use scatter-pairs).
+    input_shape: "one row per sample; one numeric column per variable"
+    language: "r"
+    status: "stable"
+
+  - id: "heatmap-corr-grouped"
+    title: "Grouped lower-triangle correlation heatmap"
+    aliases:
+      - "分组相关热图"
+      - "分组三角相关"
+      - "block correlation heatmap"
+    source: "scripts/heatmap/corr_grouped/plot.R"
+    examples:
+      - "scripts/heatmap/corr_grouped/example.tsv"
+      - "scripts/heatmap/corr_grouped/groups.tsv"
+    preview: "scripts/heatmap/corr_grouped/preview.png"
+    use_when: >
+      Show a supplied pairwise correlation table ordered into named
+      variable groups, with gaps between blocks, stars from supplied
+      p cuts, braces along the diagonal hypotenuse, and a slanted
+      correlation colorbar in the empty upper-right wedge. Lower /
+      upper / full is CONFIG.
+    avoid_when: >
+      Do not use an ungrouped square significance matrix
+      (heatmap-signif), a two-set X-vs-Y matrix from sample rows
+      (heatmap-two), or a 45° rotated triangle
+      (heatmap-corr-rotate). Do not compute Spearman in the script.
+      Group map vs brace styling is not a second id.
+    input_shape: "long corr table (x, y, rho, p) plus var-to-group map"
+    language: "r"
+    status: "stable"
+
+  - id: "heatmap-corr-rotate"
+    title: "Rotated triangular correlation heatmap"
+    aliases:
+      - "旋转三角相关热图"
+      - "三角相关热图"
+      - "45度相关三角"
+    source: "scripts/heatmap/corr_rotate/plot.R"
+    examples:
+      - "scripts/heatmap/corr_rotate/example.tsv"
+      - "scripts/heatmap/corr_rotate/annot.tsv"
+    preview: "scripts/heatmap/corr_rotate/preview.png"
+    use_when: >
+      Show a supplied lower-triangle correlation as an upright 45°
+      rotated triangle with optional group gaps, left-hypotenuse
+      annotation tracks, and non-significant "+" cells. Annot table
+      may be NA when tracks are unused.
+    avoid_when: >
+      Do not use a flat lower triangle with star cells
+      (heatmap-shape), a square upper/lower glyph split
+      (heatmap-signif), or braced flat groups
+      (heatmap-corr-grouped). Do not compute Spearman here.
+      Rotation angle is CONFIG, not a new id.
+    input_shape: "long corr table (x, y, rho[, p]); optional annot table (var + tracks)"
+    language: "r"
+    status: "stable"
+
+  - id: "heatmap-corr-dot"
+    title: "Association-dot heatmap"
+    aliases:
+      - "免疫相关热图"
+      - "关联点阵"
+      - "免疫浸润点阵"
+    source: "scripts/heatmap/corr_dot/plot.R"
+    examples:
+      - "scripts/heatmap/corr_dot/example.tsv"
+    preview: "scripts/heatmap/corr_dot/preview.png"
+    use_when: >
+      Draw a rectangular grid of two category axes where colour encodes a
+      supplied signed coefficient and shape encodes a supplied p-value
+      cutoff (filled square vs square with X).
+    avoid_when: >
+      Do not use when rho must be computed from sample rows (heatmap-signif
+      or heatmap-two), when cells should be clustered tiles with cutree
+      gaps (heatmap-cluster-block), when cells should be tiles rather
+      than points, when both axes are the same variable set
+      (square correlation matrix), when point size plus star marks
+      encode p or a supplied magnitude (heatmap-corr-bubble), or when
+      each cell is split into two filled triangles
+      (heatmap-corr-triangle).
+    input_shape: "one row per cell; category x, category y, numeric rho, numeric p"
+    language: "r"
+    status: "stable"
+
+  - id: "heatmap-corr-bubble"
+    title: "Correlation bubble grid with stars"
+    aliases:
+      - "相关气泡热图"
+      - "Spearman点阵"
+      - "显著性气泡热图"
+      - "相关Dotplot"
+    source: "scripts/heatmap/corr_bubble/plot.R"
+    examples:
+      - "scripts/heatmap/corr_bubble/example.tsv"
+    preview: "scripts/heatmap/corr_bubble/preview.png"
+    use_when: >
+      Draw a rectangular x-y grid of filled points where colour is a
+      supplied signed coefficient, size is -log10(p) or a supplied
+      magnitude, and stars mark supplied p-value cuts. Facet columns
+      or vline intercepts stay in CONFIG.
+    avoid_when: >
+      Do not use when significance is a shape cutoff without size
+      (heatmap-corr-dot), when rho must be computed from sample rows
+      (heatmap-signif or heatmap-two), or when cells should be tiles.
+      Do not compute Spearman in the script. Facet vs vline, or size
+      from p vs from an abundance column, is not a second id. Do not
+      use a per-cell diagonal split with two fill scales
+      (heatmap-corr-triangle).
+    input_shape: "one row per cell; category x, category y, numeric rho, numeric p; optional size and facet columns"
+    language: "r"
+    status: "stable"
+
+  - id: "heatmap-corr-triangle"
+    title: "Diagonal-split correlation heatmap"
+    aliases:
+      - "对角线分割热图"
+      - "三角分割热图"
+      - "双三角热图"
+    source: "scripts/heatmap/corr_triangle/plot.R"
+    examples:
+      - "scripts/heatmap/corr_triangle/example.tsv"
+    preview: "scripts/heatmap/corr_triangle/preview.png"
+    use_when: >
+      Split each grid cell on the diagonal so one triangle fills a
+      supplied coefficient and the other fills a supplied p-value.
+      Optional dots mark p cuts. Which triangle gets which column,
+      abs(rho), and dots stay in CONFIG.
+    avoid_when: >
+      Do not use a single glyph with colour plus shape
+      (heatmap-corr-dot) or colour, size, and stars
+      (heatmap-corr-bubble). Do not use a square-matrix upper/lower
+      split (heatmap-signif, heatmap-shape). Do not compute Spearman
+      or impute missing pairs in the script. Dots vs no dots is not
+      a second id.
+    input_shape: "one row per cell; category x, category y, numeric coefficient, numeric p"
+    language: "r"
+    status: "stable"
+
+  - id: "heatmap-shape"
+    title: "Star-cell correlation triangle"
+    aliases:
+      - "星形相关热图"
+    source: "scripts/heatmap/shape/plot.R"
+    examples:
+      - "scripts/heatmap/shape/example.tsv"
+    preview: "scripts/heatmap/shape/preview.png"
+    use_when: >
+      Draw a lower-triangle correlation heatmap using star-shaped cells.
+    avoid_when: >
+      Do not use when square tiles or two variable sets are required.
+      Prefer heatmap-corr-rotate for a 45° upright triangle, or
+      heatmap-corr-grouped for braced variable blocks.
+    input_shape: "one row per sample; one numeric column per variable"
+    language: "r"
+    status: "stable"
+
+  - id: "heatmap-two"
+    title: "Two-set correlation heatmap"
+    aliases:
+      - "两组相关热图"
+      - "X对Y相关热图"
+    source: "scripts/heatmap/two/plot.R"
+    examples:
+      - "scripts/heatmap/two/example.tsv"
+    preview: "scripts/heatmap/two/preview.png"
+    use_when: >
+      Correlate one group of variables against another, with stars and
+      crosses for significance.
+    avoid_when: >
+      Do not use for a single square correlation matrix (heatmap-signif),
+      when overlay shapes plus a second encoding are needed
+      (heatmap-two-shape), when rho and p are already a long table
+      (heatmap-corr-dot), when a size-and-star bubble grid is needed
+      (heatmap-corr-bubble), or when a supplied rectangular correlation
+      should be clustered with cutree gaps (heatmap-cluster-block).
+    input_shape: "one row per sample; columns split into two named variable sets"
+    language: "r"
+    status: "stable"
+
+  - id: "heatmap-two-shape"
+    title: "Two-set heatmap with shape overlay"
+    aliases:
+      - "双编码相关热图"
+    source: "scripts/heatmap/two_shape/plot.R"
+    examples:
+      - "scripts/heatmap/two_shape/example.tsv"
+    preview: "scripts/heatmap/two_shape/preview.png"
+    use_when: >
+      Compare two variable sets using both tile color and an overlaid shape.
+    avoid_when: >
+      Do not use for a plain two-set star heatmap (use heatmap-two).
+    input_shape: "one row per sample; columns split into two named variable sets"
+    language: "r"
+    status: "stable"
+
+  - id: "heatmap-mantel"
+    title: "Mantel-style correlation heatmap"
+    aliases:
+      - "Mantel热图"
+      - "心形相关热图"
+    source: "scripts/heatmap/mantel/plot.R"
+    examples:
+      - "scripts/heatmap/mantel/example.tsv"
+    preview: "scripts/heatmap/mantel/preview.png"
+    use_when: >
+      Link a small set of focal variables to a correlation triangle of
+      other variables with curved connectors and heart-shaped tiles.
+    avoid_when: >
+      Do not use when point size should encode Mantel r (use heatmap-mantel-size)
+      or a simple two-set heatmap is enough.
+    input_shape: "one row per sample; focal x columns plus remaining heatmap variables"
+    language: "r"
+    status: "stable"
+
+  - id: "heatmap-mantel-size"
+    title: "Mantel heatmap with sized links"
+    aliases:
+      - "Mantel大小热图"
+    source: "scripts/heatmap/mantel_size/plot.R"
+    examples:
+      - "scripts/heatmap/mantel_size/example.tsv"
+    preview: "scripts/heatmap/mantel_size/preview.png"
+    use_when: >
+      Same Mantel layout as heatmap-mantel, with connector size encoding
+      association strength.
+    avoid_when: >
+      Do not use when link width is not meaningful.
+    input_shape: "one row per sample; focal x columns plus remaining heatmap variables"
+    language: "r"
+    status: "stable"
+
+  - id: "heatmap-mutation-energy"
+    title: "Saturation mutation energy heatmap"
+    aliases:
+      - "饱和突变热图"
+      - "突变能量热图"
+      - "ΔΔG热图"
+      - "饱和突变能量"
+    source: "scripts/heatmap/mutation_energy/plot.R"
+    examples:
+      - "scripts/heatmap/mutation_energy/example.tsv"
+    preview: "scripts/heatmap/mutation_energy/preview.png"
+    use_when: >
+      Show supplied ΔΔG for every amino-acid substitution at candidate
+      sites, with a dual-y overlay of the per-site mean (points split at
+      ΔΔG = 0). One cell is one mutation; do not interpolate.
+    avoid_when: >
+      Do not use a plain expression matrix (heatmap-basic), a clustered
+      sample heatmap (heatmap-cluster-basic), a cutree-block score
+      matrix (heatmap-cluster-block), or a correlation grid.
+      Do not use a protein mutation lollipop (ideogram-lollipop)
+      or a gene × sample oncoprint (heatmap-oncoprint).
+      Do not dock or estimate energies in the script. Mean ΔΔG is the
+      mean of the supplied cells at that site, not a new calculation.
+      Interpolated rasters are not a second id.
+    input_shape: "one row per residue; site label plus one numeric ΔΔG column per mutant amino acid"
+    language: "r"
+    status: "stable"
+
+  - id: "heatmap-oncoprint"
+    title: "Gene × sample oncoprint"
+    aliases:
+      - "oncoprint"
+      - "OncoPrint"
+      - "突变瀑布图"
+      - "基因组变异热图"
+      - "cBioPortal热图"
+    source: "scripts/heatmap/oncoprint/plot.R"
+    examples:
+      - "scripts/heatmap/oncoprint/example.tsv"
+    preview: "scripts/heatmap/oncoprint/preview.png"
+    use_when: >
+      Show supplied genomic alterations as layered glyphs in a
+      gene × sample grid (cBioPortal oncoprint): CNV as a full
+      cell, mutation as a mid-cell bar, with frequency bars.
+      Glyph, bar side, pct side, and empty-row dropping are CONFIG.
+    avoid_when: >
+      Do not use a numeric expression matrix (heatmap-basic),
+      site × amino-acid ΔΔG tiles (heatmap-mutation-energy), a
+      protein-residue lollipop (ideogram-lollipop), dense-site
+      dandelions (ideogram-dandelion), or a signed-change waterfall
+      bar (bar-waterfall). Triangle vs bar glyphs are not a second
+      id. Do not parse MAF, fetch cBioPortal, or call variants in
+      the script. An expression heatmap beside the oncoprint is a
+      sidecar or a multi-panel figure.
+    input_shape: "one row per gene-sample-alteration (gene, sample, alteration); several types in one cell are several rows or MUT;AMP"
+    language: "r"
+    status: "stable"
+
+  - id: "heatmap-circos-split"
+    title: "Group-split circular heatmap"
+    aliases:
+      - "环状热图"
+      - "circos热图"
+      - "分组环形热图"
+      - "circular heatmap"
+    source: "scripts/heatmap/circos_split/plot.R"
+    examples:
+      - "scripts/heatmap/circos_split/example.tsv"
+    preview: "scripts/heatmap/circos_split/preview.png"
+    use_when: >
+      Show a supplied numeric matrix as a circular heatmap whose sectors
+      are a supplied Group, with an optional q-value diamond track and
+      an optional Euler diagram of gene-name overlap in the hole.
+      inner = "euler" vs "none" and the q-value track are CONFIG.
+    avoid_when: >
+      Do not use a rectangular unclustered matrix (heatmap-basic), a
+      clustered sample heatmap (heatmap-cluster-basic), cutree blocks
+      (heatmap-cluster-block), or DE tiles with enrichment zooms
+      (heatmap-enrichment-zoom). A genomic interval heatmap with
+      connector lines on an ideogram is ideogram-circos-heatmap.
+      Do not cluster, rescale, or test in
+      the script. Do not add an id per group count or per missing Euler.
+    input_shape: "one row per gene-in-group; Gene, Group, qval, plus numeric site columns"
+    language: "r"
+    status: "stable"

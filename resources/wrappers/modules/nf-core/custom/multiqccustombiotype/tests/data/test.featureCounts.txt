@@ -1,0 +1,6 @@
+# Program:featureCounts v2.0.1
+Geneid	Chr	Start	End	Strand	Length	test
+protein_coding	chr1	1	1000	+	1000	5000
+rRNA	chr1	2000	3000	+	1000	500
+lincRNA	chr1	4000	5000	+	1000	200
+miRNA	chr1	6000	7000	+	1000	100

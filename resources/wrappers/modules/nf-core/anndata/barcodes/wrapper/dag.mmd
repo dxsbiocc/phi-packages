@@ -1,0 +1,19 @@
+flowchart TB
+    subgraph " "
+    v0["channel.fromPath"]
+    v2["channel.fromPath"]
+    v7["channel.empty"]
+    end
+    v4(["ANNDATA_BARCODES"])
+    subgraph " "
+    v5[" "]
+    v6[" "]
+    v8[" "]
+    end
+    v1(( ))
+    v0 --> v1
+    v2 --> v1
+    v1 --> v4
+    v4 --> v6
+    v4 --> v5
+    v7 --> v8

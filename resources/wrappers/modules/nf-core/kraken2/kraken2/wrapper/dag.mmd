@@ -1,0 +1,36 @@
+flowchart TB
+    subgraph " "
+    v0["channel.fromFilePairs"]
+    v2["channel.fromPath"]
+    v7["save_output_fastqs"]
+    v8["save_reads_assignment"]
+    end
+    v4(["UNTAR"])
+    subgraph " "
+    v5[" "]
+    v10[" "]
+    v11[" "]
+    v12[" "]
+    v13[" "]
+    v14[" "]
+    v15[" "]
+    end
+    v9(["KRAKEN2_KRAKEN2"])
+    v1(( ))
+    v3(( ))
+    v6(( ))
+    v0 --> v1
+    v2 --> v3
+    v3 --> v4
+    v4 --> v5
+    v4 --> v6
+    v7 --> v9
+    v8 --> v9
+    v1 --> v9
+    v6 --> v9
+    v9 --> v15
+    v9 --> v14
+    v9 --> v13
+    v9 --> v12
+    v9 --> v11
+    v9 --> v10

@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored survivor/merge module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/survivor-merge
+name: "SURVIVOR merge"
+summary: "Merge SV VCFs across callers with SURVIVOR merge."
+
+params:
+  vcf1:
+    kind: input
+    type: file
+    required: true
+    description: "First VCF."
+  vcf2:
+    kind: input
+    type: file
+    required: true
+    description: "Second VCF."
+  max_distance:
+    kind: option
+    type: string
+    required: false
+    description: "Maximum breakpoint distance (fraction or bp)."
+  min_callers:
+    kind: option
+    type: integer
+    required: false
+    description: "Minimum supporting callers."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/survivor_merge'
+    primary: true

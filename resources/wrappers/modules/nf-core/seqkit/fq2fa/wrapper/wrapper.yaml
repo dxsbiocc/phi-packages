@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored seqkit/fq2fa module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/seqkit-fq2fa
+name: "seqkit fq2fa"
+summary: "Convert FASTQ to FASTA with seqkit fq2fa."
+
+params:
+  fastq:
+    kind: input
+    type: file
+    required: true
+    description: "FASTQ file (.fastq.gz)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  fasta:
+    type: directory
+    path: '${outdir}/seqkit_fq2fa'
+    primary: true

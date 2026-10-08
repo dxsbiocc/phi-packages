@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored hmmcopy/readcounter module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/hmmcopy-readcounter
+name: "HMMcopy readCounter"
+summary: "Count reads in fixed windows with HMMcopy readCounter."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "Coordinate-sorted BAM file."
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: "BAM index (.bai)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  wig:
+    type: directory
+    path: '${outdir}/hmmcopy_readcounter'
+    primary: true

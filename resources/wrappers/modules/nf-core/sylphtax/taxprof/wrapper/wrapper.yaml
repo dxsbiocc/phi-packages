@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored sylphtax/taxprof module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composes sylph/profile directly so callers supply raw reads instead of a
+# pre-computed Sylph profile (per section 6 of the design doc).
+id: nf-core/modules/sylphtax-taxprof
+name: Sylph-tax taxprof
+summary: Convert a Sylph taxonomic profile into a MetaPhlAn-style (.sylphmpa) report using a taxonomy map.
+
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Glob matching one sample's FASTQ file(s) — a pair for paired-end, or one file for single-end.
+  database:
+    kind: input
+    type: file
+    required: true
+    description: Sylph database — one or more reference genome FASTAs, or a pre-built .syldb sketch.
+  taxonomy:
+    kind: input
+    type: file
+    required: true
+    description: Sylph-tax taxonomy map (tsv/tsv.gz) mapping database genomes to taxonomy.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the .sylphmpa report.
+
+outputs:
+  taxprof:
+    type: directory
+    path: '${outdir}/sylphtax_taxprof'
+    primary: true

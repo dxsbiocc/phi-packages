@@ -1,0 +1,49 @@
+# Agent-facing wrapper adapter for the vendored picard/collectvariantcallingmetrics module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/picard-collectvariantcallingmetrics
+name: "picard CollectVariantCallingMetrics"
+summary: "Collect variant-calling metrics for a VCF against dbSNP with Picard CollectVariantCallingMetrics."
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: "Bgzipped VCF file."
+  tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the VCF."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  dbsnp:
+    kind: input
+    type: file
+    required: true
+    description: "dbSNP VCF."
+  dbsnp_tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for dbSNP."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  summary_metrics:
+    type: directory
+    path: '${outdir}/picard_collectvariantcallingmetrics'
+    primary: true

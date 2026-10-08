@@ -1,0 +1,36 @@
+# Agent-facing wrapper adapter for the vendored bam_stringtie_merge
+# subworkflow at ../main.nf (per-sample StringTie assembly -> StringTie
+# merge across samples). Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/subworkflows/bam-stringtie-merge
+name: BAM StringTie merge
+summary: Assemble transcripts per BAM with StringTie, then merge the resulting GTFs across samples into one consensus annotation.
+
+params:
+  bams:
+    kind: input
+    type: path_glob
+    required: true
+    description: Glob matching one coordinate-sorted BAM per sample to assemble and merge.
+  gtf:
+    kind: input
+    type: gtf
+    required: true
+    description: Reference GTF annotation guiding assembly and merge.
+  strandedness:
+    kind: option
+    type: string
+    required: false
+    enum: [unstranded, forward, reverse]
+    description: Library strandedness, applied to every sample.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the merged GTF.
+
+outputs:
+  merged_gtf:
+    type: directory
+    path: '${outdir}/bam_stringtie_merge'
+    primary: true

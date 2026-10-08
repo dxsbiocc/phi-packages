@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored medaka module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/medaka
+name: "Medaka"
+summary: "Polish an assembly with Nanopore reads using Medaka."
+
+params:
+  reads:
+    kind: input
+    type: file
+    required: true
+    description: "Nanopore reads FASTQ (.fastq.gz)."
+  assembly:
+    kind: input
+    type: file
+    required: true
+    description: "Draft assembly FASTA."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  assembly:
+    type: directory
+    path: '${outdir}/medaka'
+    primary: true

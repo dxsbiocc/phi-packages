@@ -1,0 +1,54 @@
+# Agent-facing wrapper adapter for the vendored ascat module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/ascat
+name: "ASCAT"
+summary: "Estimate allele-specific copy number from a tumour/normal BAM pair with ASCAT."
+
+params:
+  normal:
+    kind: input
+    type: file
+    required: true
+    description: "Normal BAM."
+  normal_bai:
+    kind: input
+    type: file
+    required: true
+    description: "Normal BAM index (.bai)."
+  tumor:
+    kind: input
+    type: file
+    required: true
+    description: "Tumour BAM."
+  tumor_bai:
+    kind: input
+    type: file
+    required: true
+    description: "Tumour BAM index (.bai)."
+  alleles:
+    kind: input
+    type: file
+    required: true
+    description: "G1000 SNP alleles reference."
+  loci:
+    kind: input
+    type: file
+    required: true
+    description: "G1000 SNP loci reference."
+  gc:
+    kind: input
+    type: file
+    required: true
+    description: "GC-content reference."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  cnvs:
+    type: directory
+    path: '${outdir}/ascat'
+    primary: true

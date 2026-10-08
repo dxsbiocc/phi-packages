@@ -1,0 +1,23 @@
+flowchart TB
+    subgraph " "
+    v0["vcf_ch"]
+    v1["dict_ch"]
+    v2["fasta_ch"]
+    v3["chain_ch"]
+    v8["channel.empty"]
+    end
+    v4(["PICARD_LIFTOVERVCF"])
+    subgraph " "
+    v5[" "]
+    v6[" "]
+    v7[" "]
+    v9[" "]
+    end
+    v0 --> v4
+    v1 --> v4
+    v2 --> v4
+    v3 --> v4
+    v4 --> v7
+    v4 --> v6
+    v4 --> v5
+    v8 --> v9

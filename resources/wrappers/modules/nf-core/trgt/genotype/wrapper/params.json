@@ -1,0 +1,8 @@
+{
+  "bam": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/pacbio/bam/test.sorted.bam",
+  "bai": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/pacbio/bam/test.sorted.bam.bai",
+  "karyotype": "XX",
+  "fasta_gz": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/chr22_chr22_KI270734v1_random/sequence/genome.fa.gz",
+  "repeats": "chr22\\t18890357\\t18890451\\tID=TEST;MOTIFS=AT;STRUC=(AT)n",
+  "outdir": "results"
+}

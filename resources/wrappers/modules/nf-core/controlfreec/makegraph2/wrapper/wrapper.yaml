@@ -1,0 +1,61 @@
+# Agent-facing wrapper adapter for the vendored controlfreec/makegraph2 module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: unpacks the chromosomes archive with the vendored untar module and runs the vendored controlfreec freec module first.
+id: nf-core/modules/controlfreec-makegraph2
+name: "Control-FREEC makeGraph2"
+summary: "Plot Control-FREEC ratio/BAF profiles with makeGraph2 (untar → freec → makeGraph2)."
+
+params:
+  normal:
+    kind: input
+    type: file
+    required: true
+    description: "Normal mpileup (.gz)."
+  tumor:
+    kind: input
+    type: file
+    required: true
+    description: "Tumour mpileup (.gz)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  known_snps:
+    kind: input
+    type: file
+    required: true
+    description: "Known SNPs VCF (bgzipped)."
+  known_snps_tbi:
+    kind: input
+    type: file
+    required: true
+    description: "Index (.tbi) for the known SNPs."
+  chromosomes:
+    kind: input
+    type: file
+    required: true
+    description: "Per-chromosome FASTA directory archive (.tar.gz)."
+  target_bed:
+    kind: input
+    type: file
+    required: true
+    description: "Target regions BED."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  png_ratio:
+    type: directory
+    path: '${outdir}/controlfreec_makegraph2'
+    primary: true

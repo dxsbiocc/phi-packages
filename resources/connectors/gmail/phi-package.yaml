@@ -1,0 +1,13 @@
+schemaVersion: 1
+id: gmail
+type: mcp
+version: 1.0.0
+title: Gmail
+summary: 搜索邮件、阅读会话并创建草稿
+connector:
+  transport: http
+  publisher: Google
+  category: 沟通协作
+  homepage: https://claude.com/marketplace/connectors/gmail
+  url: https://gmailmcp.googleapis.com/mcp/v1
+  auth: oauth

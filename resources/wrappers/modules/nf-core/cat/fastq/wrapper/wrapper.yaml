@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored cat/fastq module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Every matched file is concatenated into ONE merged single-end FASTQ; it does
+# not pair up mates. Merge R1 and R2 files with two separate runs.
+id: nf-core/modules/cat-fastq
+name: cat fastq
+summary: Concatenate multiple FASTQ files into a single merged.fastq.gz.
+
+params:
+  reads:
+    kind: input
+    type: path_glob
+    required: true
+    description: FASTQ files to concatenate (glob, merged in sorted order into one file).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the merged FASTQ.
+
+outputs:
+  merged:
+    type: directory
+    path: '${outdir}/cat_fastq'
+    primary: true

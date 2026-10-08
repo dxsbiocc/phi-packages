@@ -1,0 +1,278 @@
+family: "graph"
+preview_background: "transparent"  # PNG alpha is empty; dark UIs look black. Do not treat as a black canvas.
+
+templates:
+  - id: "graph-basic"
+    title: "Basic node-link graph"
+    aliases:
+      - "网络图"
+      - "关系图"
+    source: "scripts/graph/basic/plot.R"
+    examples:
+      - "scripts/graph/basic/nodes.tsv"
+      - "scripts/graph/basic/links.tsv"
+    preview: "scripts/graph/basic/preview.png"
+    use_when: >
+      Draw a directed node-link network from supplied node coordinates
+      and weighted edges.
+    avoid_when: >
+      Do not use force, circular, or cartesian layouts unless that
+      arrangement is requested. Do not use a tree or Sankey for flows
+      or strict hierarchy.
+    input_shape: "nodes table (id, x, y) plus links table (source, target, value)"
+    language: "r"
+    status: "stable"
+
+  - id: "graph-force"
+    title: "Force-directed graph"
+    aliases:
+      - "力导向图"
+      - "force layout"
+    source: "scripts/graph/force/plot.R"
+    examples:
+      - "scripts/graph/force/nodes.tsv"
+      - "scripts/graph/force/links.tsv"
+    preview: "scripts/graph/force/preview.png"
+    use_when: >
+      Draw a network from supplied node x/y. This script uses layout =
+      "manual"; it does not run a force or stress algorithm.
+    avoid_when: >
+      Do not use when coordinates must be computed from edges (use
+      graph-stress). Do not use when x/y are a meaningful cartesian
+      grid (graph-cartesian) or a basic supplied layout (graph-basic).
+    input_shape: "nodes table (id, x, y) plus links table (source, target, value)"
+    language: "r"
+    status: "stable"
+
+  - id: "graph-stress"
+    title: "Stress-layout network"
+    aliases:
+      - "应力布局"
+      - "stress layout"
+      - "算法网络图"
+    source: "scripts/graph/stress/plot.R"
+    examples:
+      - "scripts/graph/stress/example.tsv"
+    preview: "scripts/graph/stress/preview.png"
+    use_when: >
+      Compute node positions from an edge table with stress
+      majorization. Edge colour encodes sign of corr; edge width
+      encodes |corr|. Layout uses unweighted graph distance.
+    avoid_when: >
+      Do not use when x/y are already supplied (graph-force,
+      graph-basic, graph-cartesian). Do not add separate kk, fr, or
+      lgl templates. Do not use a hive, arc, fabric, or matrix when
+      the claim is an algorithm-placed hairball of a signed network.
+    input_shape: "one row per edge; from, to, and signed corr in [-1, 1]"
+    language: "r"
+    status: "stable"
+
+  - id: "graph-circular"
+    title: "Circular network layout"
+    aliases:
+      - "环形网络图"
+    source: "scripts/graph/circular/plot.R"
+    examples:
+      - "scripts/graph/circular/nodes.tsv"
+      - "scripts/graph/circular/links.tsv"
+    preview: "scripts/graph/circular/preview.png"
+    use_when: >
+      Place nodes on a circle and draw chords or edges between them.
+      Nodes take equal angular spacing; sector width does not encode
+      flow.
+    avoid_when: >
+      Do not use a dual-ring hub-vs-category layout
+      (graph-circular-concentric), a linear arc diagram (graph-arc),
+      a sunburst, or a pie for hierarchical composition. A Circos
+      chord whose sector width is total flow is graph-chord. Genomic
+      rearrangement ribbons are ideogram-circos.
+    input_shape: "nodes table plus links table (source, target, value)"
+    language: "r"
+    status: "stable"
+
+  - id: "graph-circular-concentric"
+    title: "Concentric dual-ring network"
+    aliases:
+      - "双环网络图"
+      - "同心圆网络"
+      - "concentric network"
+      - "driver-peripheral network"
+    source: "scripts/graph/circular_concentric/plot.R"
+    examples:
+      - "scripts/graph/circular_concentric/nodes.tsv"
+      - "scripts/graph/circular_concentric/links.tsv"
+    preview: "scripts/graph/circular_concentric/preview.png"
+    use_when: >
+      Place hub nodes on an inner ring and category-grouped nodes on
+      an outer ring, with edges coloured by the outer class when an
+      outer endpoint exists and width encoding a supplied integer
+      weight. Use for driver–pathway, hub–spoke, or predicted-driver
+      vs functional-gene connectivity claims.
+    avoid_when: >
+      Do not use equal-spacing single-ring nodes (graph-circular), a
+      Circos chord whose sector width is total flow (graph-chord), a
+      hive plot with categorical axes (graph-hive), or genomic
+      rearrangement ribbons (ideogram-circos). Do not infer
+      communities, ring membership, or edge weights in the script.
+    input_shape: >
+      nodes table (id, label, ring=inner|outer, category, size) plus
+      links table (source, target, weight)
+    language: "r"
+    status: "stable"
+
+  - id: "graph-chord"
+    title: "Weighted Circos chord"
+    aliases:
+      - "弦图"
+      - "circos chord"
+      - "Chord diagram"
+      - "细胞通讯弦图"
+    source: "scripts/graph/chord/plot.R"
+    examples:
+      - "scripts/graph/chord/example.tsv"
+    preview: "scripts/graph/chord/preview.png"
+    use_when: >
+      Show supplied from-to flows as Circos ribbons whose sector
+      width is the total flow touching that sector. directional
+      (diffHeight) and symmetric duplication stay in CONFIG.
+    avoid_when: >
+      Do not use equal-spacing circular nodes (graph-circular),
+      dual-ring hub–category networks (graph-circular-concentric),
+      genomic rearrangement links on an ideogram (ideogram-circos),
+      two-genome synteny ribbons (ideogram-synteny), or a Sankey of
+      conserved stacked flows. Do not compute CellChat or a
+      communication score in the script. Do not add an id per
+      tissue panel or for arrows on/off.
+    input_shape: "one row per directed flow; from, to, and non-negative value"
+    language: "r"
+    status: "stable"
+
+  - id: "graph-arc"
+    title: "Linear arc diagram"
+    aliases:
+      - "弧线图"
+      - "arc diagram"
+      - "线性弧图"
+    source: "scripts/graph/arc/plot.R"
+    examples:
+      - "scripts/graph/arc/example.tsv"
+    preview: "scripts/graph/arc/preview.png"
+    use_when: >
+      Place genes or other nodes on one axis and show signed links as
+      arcs. Edge colour encodes sign of corr; edge width encodes |corr|.
+    avoid_when: >
+      Do not use a circular chord layout (graph-circular or
+      graph-chord), a hive plot
+      (graph-hive), a force-directed hairball, a tree, or a Sankey of
+      conserved flows.
+    input_shape: "one row per directed edge; from, to, and signed corr in [-1, 1]"
+    language: "r"
+    status: "stable"
+
+  - id: "graph-hive"
+    title: "Hive plot"
+    aliases:
+      - "蜂巢图"
+      - "hive plot"
+    source: "scripts/graph/hive/plot.R"
+    examples:
+      - "scripts/graph/hive/nodes.tsv"
+      - "scripts/graph/hive/links.tsv"
+    preview: "scripts/graph/hive/preview.png"
+    use_when: >
+      Compare links among a few supplied node classes by placing each
+      class on its own radial axis. Edge colour encodes sign of corr;
+      edge width encodes |corr|.
+    avoid_when: >
+      Do not compute axis membership with community detection. Do not use
+      a force layout, arc diagram, or circular chord plot when the claim
+      is class-to-class connectivity.
+    input_shape: "nodes table (name, axis) plus links table (from, to, signed corr in [-1, 1])"
+    language: "r"
+    status: "stable"
+
+  - id: "graph-focus"
+    title: "Focus network"
+    aliases:
+      - "焦点图"
+      - "focus layout"
+      - "中心基因网络"
+    source: "scripts/graph/focus/plot.R"
+    examples:
+      - "scripts/graph/focus/example.tsv"
+    preview: "scripts/graph/focus/preview.png"
+    use_when: >
+      Show the neighborhood of one named node, with ring radius equal to
+      graph distance from that focus. Edge colour encodes sign of corr;
+      edge width encodes |corr|.
+    avoid_when: >
+      Do not choose the center by centrality unless the user asked for
+      that. Do not use a hive, arc, or force layout when the claim is
+      "neighbors of gene X".
+    input_shape: "one row per edge; from, to, signed corr in [-1, 1]; focus name in CONFIG"
+    language: "r"
+    status: "stable"
+
+  - id: "graph-fabric"
+    title: "BioFabric network"
+    aliases:
+      - "织物图"
+      - "BioFabric"
+      - "fabric plot"
+    source: "scripts/graph/fabric/plot.R"
+    examples:
+      - "scripts/graph/fabric/nodes.tsv"
+      - "scripts/graph/fabric/links.tsv"
+    preview: "scripts/graph/fabric/preview.png"
+    use_when: >
+      Show a dense signed network without a force-directed hairball.
+      Nodes are horizontal ranges; edges are vertical spans. Colour
+      encodes sign of corr; edge width encodes |corr|. Node colour is
+      a supplied group, not a detected community.
+    avoid_when: >
+      Do not use a hive, arc, or force layout when the claim is
+      "read every edge of a large network in order". Do not treat
+      BioFabric rank as clustering.
+    input_shape: "nodes table (name, group) plus links table (from, to, signed corr in [-1, 1])"
+    language: "r"
+    status: "stable"
+
+  - id: "graph-matrix"
+    title: "Adjacency matrix"
+    aliases:
+      - "邻接矩阵"
+      - "矩阵点图"
+      - "adjacency matrix"
+    source: "scripts/graph/matrix/plot.R"
+    examples:
+      - "scripts/graph/matrix/nodes.tsv"
+      - "scripts/graph/matrix/links.tsv"
+    preview: "scripts/graph/matrix/preview.png"
+    use_when: >
+      Show a signed network as a matrix of points so modules and hubs
+      are readable. Node order follows a supplied group, not clustering.
+      Colour encodes sign of corr; point size encodes |corr|.
+    avoid_when: >
+      Do not use a heatmap of a numeric matrix (heatmap family), a hive,
+      fabric, or force layout when the claim is pairwise adjacency.
+      Do not treat matrix order as a detected community.
+    input_shape: "nodes table (name, group) plus links table (from, to, signed corr in [-1, 1])"
+    language: "r"
+    status: "stable"
+
+  - id: "graph-cartesian"
+    title: "Cartesian network layout"
+    aliases:
+      - "笛卡尔网络图"
+    source: "scripts/graph/cartesian/plot.R"
+    examples:
+      - "scripts/graph/cartesian/nodes.tsv"
+      - "scripts/graph/cartesian/links.tsv"
+    preview: "scripts/graph/cartesian/preview.png"
+    use_when: >
+      Draw a network on an explicit Cartesian grid of node coordinates.
+    avoid_when: >
+      Do not use force layout when coordinates are supplied and must be kept.
+    input_shape: "nodes table (id, x, y) plus links table (source, target, value)"
+    language: "r"
+    status: "stable"

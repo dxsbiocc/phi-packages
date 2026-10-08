@@ -1,0 +1,25 @@
+flowchart TB
+    subgraph " "
+    v0["in_ch"]
+    v1["fasta"]
+    v2["fai"]
+    v3["gff"]
+    v4["save_mpileup"]
+    v9["channel.empty"]
+    end
+    v5(["IVAR_VARIANTS"])
+    subgraph " "
+    v6[" "]
+    v7[" "]
+    v8[" "]
+    v10[" "]
+    end
+    v0 --> v5
+    v1 --> v5
+    v2 --> v5
+    v3 --> v5
+    v4 --> v5
+    v5 --> v8
+    v5 --> v7
+    v5 --> v6
+    v9 --> v10

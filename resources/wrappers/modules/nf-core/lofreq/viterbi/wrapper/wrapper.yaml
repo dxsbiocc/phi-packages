@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored lofreq/viterbi module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/lofreq-viterbi
+name: "LoFreq viterbi"
+summary: "Realign reads with LoFreq viterbi."
+
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: "BAM file."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/lofreq_viterbi'
+    primary: true

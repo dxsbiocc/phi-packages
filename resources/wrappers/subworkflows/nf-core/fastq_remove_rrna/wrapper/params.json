@@ -1,0 +1,7 @@
+{
+  "reads_1": "tests/data/test_rnaseq_rrna_1.fastq.gz",
+  "reads_2": "tests/data/test_rnaseq_rrna_2.fastq.gz",
+  "rrna_fasta": "https://raw.githubusercontent.com/biocore/sortmerna/v4.3.4/data/rRNA_databases/rfam-5.8s-database-id98.fasta",
+  "outdir": "results",
+  "ribo_removal_tool": "sortmerna"
+}

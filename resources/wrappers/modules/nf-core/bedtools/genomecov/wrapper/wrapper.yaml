@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored bedtools/genomecov module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# BAM input only, bedGraph output (ext.args = '-bg', sorted, scale 1). The
+# module's BED-intervals mode needs a chromosome sizes file and is not exposed.
+id: nf-core/modules/bedtools-genomecov
+name: bedtools genomecov
+summary: Compute per-base genome coverage from a BAM as a bedGraph with bedtools genomecov.
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: Coordinate-sorted BAM file to compute coverage for.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the coverage bedGraph.
+
+outputs:
+  coverage:
+    type: directory
+    path: '${outdir}/bedtools_genomecov'
+    primary: true

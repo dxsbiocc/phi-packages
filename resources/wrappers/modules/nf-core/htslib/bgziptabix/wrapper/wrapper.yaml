@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored htslib/bgziptabix module at ../main.nf.
+# Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# This module is the maintained replacement for the deprecated
+# tabix/bgzip and tabix/tabix modules (both now assert false and refuse to
+# run — see their own main.nf) so this wrapper targets it directly instead.
+id: nf-core/modules/htslib-bgziptabix
+name: bgzip + tabix
+summary: Compress (or decompress) a VCF/BED/text file with bgzip and optionally index it with tabix, in one step.
+
+params:
+  input:
+    kind: input
+    type: file
+    required: true
+    description: File to compress or decompress (VCF, BED, or other tabix-indexable text).
+  action:
+    kind: option
+    type: string
+    required: false
+    enum: [compress, decompress]
+    description: Whether to compress or decompress the input.
+  make_index:
+    kind: option
+    type: boolean
+    required: false
+    description: Also build a tabix index (.tbi) for the output (compress action only).
+  out_ext:
+    kind: option
+    type: string
+    required: false
+    description: Output file extension before .gz (e.g. vcf, bed).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the (de)compressed file and its index.
+
+outputs:
+  output:
+    type: directory
+    path: '${outdir}/htslib_bgziptabix'
+    primary: true

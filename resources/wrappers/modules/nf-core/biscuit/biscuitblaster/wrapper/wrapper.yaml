@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored biscuit/biscuitblaster module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: builds the BISCUIT bisulfite index with the vendored biscuit index module first.
+id: nf-core/modules/biscuit-biscuitblaster
+name: "BISCUIT biscuitBlaster"
+summary: "Align, sort and mark duplicates in one pipeline with biscuitBlaster (builds the index first)."
+
+params:
+  reads:
+    kind: input
+    type: file
+    required: true
+    description: "Bisulfite reads FASTQ (.fastq.gz)."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/biscuit_biscuitblaster'
+    primary: true

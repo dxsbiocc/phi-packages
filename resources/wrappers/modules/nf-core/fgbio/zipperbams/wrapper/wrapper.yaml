@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored fgbio/zipperbams module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/fgbio-zipperbams
+name: "fgbio ZipperBams"
+summary: "Merge alignment info from a mapped BAM back into its unmapped source (mapped + unmapped -> ZipperBams)."
+
+params:
+  mapped:
+    kind: input
+    type: file
+    required: true
+    description: "Mapped BAM file."
+  unmapped:
+    kind: input
+    type: file
+    required: true
+    description: "Original unmapped BAM file."
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: "Reference FASTA file."
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: "FASTA index (.fai)."
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence dictionary (.dict)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  bam:
+    type: directory
+    path: '${outdir}/fgbio_zipperbams'
+    primary: true

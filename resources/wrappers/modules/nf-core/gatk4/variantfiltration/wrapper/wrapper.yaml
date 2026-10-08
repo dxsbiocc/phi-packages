@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored gatk4/variantfiltration
+# module at ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: nf-core/modules/gatk4-variantfiltration
+name: GATK4 VariantFiltration
+summary: Annotate VCF records with FILTER status against a reference with GATK4 VariantFiltration.
+
+params:
+  vcf:
+    kind: input
+    type: file
+    required: true
+    description: Input VCF file.
+  vcf_index:
+    kind: input
+    type: file
+    required: true
+    description: Index (.idx or .tbi) for the input VCF.
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: Reference FASTA file.
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: FASTA index (.fai) for the reference.
+  dict:
+    kind: input
+    type: file
+    required: true
+    description: Sequence dictionary (.dict) for the reference.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the filtered VCF.
+
+outputs:
+  vcf:
+    type: directory
+    path: '${outdir}/gatk4_variantfiltration'
+    primary: true

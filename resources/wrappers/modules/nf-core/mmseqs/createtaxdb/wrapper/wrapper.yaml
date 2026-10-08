@@ -1,0 +1,36 @@
+# Agent-facing wrapper adapter for the vendored mmseqs/createtaxdb module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+#
+# Composition: unpacks the database and the taxdump archives with the vendored untar module first.
+id: nf-core/modules/mmseqs-createtaxdb
+name: "MMseqs2 createtaxdb"
+summary: "Add taxonomy information to an MMseqs2 database with MMseqs2 createtaxdb."
+
+params:
+  db_archive:
+    kind: input
+    type: file
+    required: true
+    description: "MMseqs2 database archive (.tar.gz)."
+  taxdump:
+    kind: input
+    type: file
+    required: true
+    description: "NCBI taxdump archive (.tar.gz)."
+  tax_mapping:
+    kind: input
+    type: file
+    required: true
+    description: "Sequence-to-taxid mapping file."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the results."
+
+outputs:
+  db_with_taxonomy:
+    type: directory
+    path: '${outdir}/mmseqs_createtaxdb'
+    primary: true

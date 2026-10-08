@@ -1,0 +1,18 @@
+flowchart TB
+    subgraph " "
+    v0["cram_ch"]
+    v1["gff_ch"]
+    v2["fasta_ch"]
+    v3["fai_ch"]
+    end
+    v4(["QUALIMAP_BAMQCCRAM"])
+    subgraph " "
+    v5[" "]
+    v6[" "]
+    end
+    v0 --> v4
+    v1 --> v4
+    v2 --> v4
+    v3 --> v4
+    v4 --> v6
+    v4 --> v5
