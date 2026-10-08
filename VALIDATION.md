@@ -1,3 +1,28 @@
+# Content boundary correction validation
+
+Corrected the public source repository on 2026-10-08:
+
+- Removed the application palette tree, core runtime environment tree and local-only differential-expression image recipes.
+- Preserved all 652 callable wrapper adapters, including the eight differential-expression wrappers and the RNA-seq QC include.
+- Boundary and process-dependency tests: 11 passed. JavaScript syntax and changed-file whitespace checks passed.
+- Package builder and installer staging checks: all 206 packages passed (14 skills, 18 MCP connectors, 1 plugin, 173 wrapper packages).
+- Thirty-two R script, parameter and wrapper-entrypoint files remained byte-identical to the previous source.
+- Public OCI and native SIF dependency builds succeeded. The final layered OCI image build loaded DESeq2, edgeR, limma, BiocParallel, variancePartition, ggplot2, pheatmap, ashr and lme4 in its runtime stage.
+- The original local runtime reports ashr 2.2.63 and lme4 2.0.6; the new image resolves the same versions, now also pinned for local Conda execution.
+- OCI manifest digest and Linux AMD64 platform were verified. Maximum compressed layer is approximately 205 MB.
+- A focused independent source/dependency review found no material issue.
+
+## Verification limits
+
+No complete Nextflow analysis was run with real inputs, no native SIF execution was tested,
+and no native Conda environments were built on other platforms. The local OCI pull/check was
+cancelled after Docker's credentials helper blocked; library loading was verified in the
+successful public image build instead. The Phi application repository remains unchanged.
+
+## Historical initial import checks
+
+The following record describes the original broader import before this boundary correction.
+
 # Initial import validation
 
 Validated with the Phi package builder and installer validators from the source working tree on 2026-10-08.

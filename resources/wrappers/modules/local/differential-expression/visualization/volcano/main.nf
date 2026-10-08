@@ -3,16 +3,15 @@
 // de-visualization example, styling (diverging red/blue direction colors,
 // restrained theme) adapted from resources/skills/omics-visualization's
 // scatter/volcano template, using only packages already in this family's
-// shared image (resources/wrappers/images/differential-expression-r/)
+// declared module-local dependencies
 // rather than that template's own ggrepel/ggprism dependencies.
 process DE_VOLCANO {
     label "process_single"
 
-    // Shared family image (resources/wrappers/images/differential-expression-r/) --
-    // built and tagged locally, not published to any registry yet, so no
-    // singularity/apptainer branch here (see that directory's Dockerfile).
-    conda "${moduleDir}/../../../../../images/differential-expression-r/environment.yml"
-    container 'phi/differential-expression-r:1.0.0'
+    conda "${moduleDir}/environment.yml"
+    container "${ workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container ?
+        'oras://community.wave.seqera.io/library/bioconductor-biocparallel_bioconductor-deseq2_bioconductor-edger_bioconductor-limma_pruned:ccbe9c69fe5b6749' :
+        'community.wave.seqera.io/library/bioconductor-biocparallel_bioconductor-deseq2_bioconductor-edger_bioconductor-limma_pruned@sha256:e500cffd28caf431b76344610bd213a30b536e2d2fa58418255ec00238e3ab12' }"
 
     input:
     path results

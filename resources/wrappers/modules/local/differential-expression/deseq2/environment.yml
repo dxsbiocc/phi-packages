@@ -1,11 +1,11 @@
-# Not consumed by ../main.nf's `conda` directive anymore -- kept only so
-# an agent inspecting this module (readWrapperModuleDetails) sees the real
-# package versions actually installed. The real, shared spec that -profile
-# conda builds from (and that the Docker image below was built from) is
-# resources/wrappers/images/differential-expression-r/environment.yml.
-#
-# What this tool actually uses, as resolved in that shared image today:
-#   r-base                4.5.3
-#   bioconductor-deseq2    1.50.2
-#   bioconductor-limma     3.66.0   (makeContrasts)
-#   bioconductor-biocparallel 1.44.0 (MulticoreParam)
+# Process dependencies travel with this module.
+# R/Bioconductor versions retain the cohort recorded by the original runtime.
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - conda-forge::r-base=4.5.3
+  - bioconda::bioconductor-deseq2=1.50.2
+  - bioconda::bioconductor-limma=3.66.0
+  - bioconda::bioconductor-biocparallel=1.44.0
+  - conda-forge::r-ashr=2.2_63

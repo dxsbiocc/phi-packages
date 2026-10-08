@@ -1,9 +1,0 @@
-name: phi-jupyter
-description: 承载 Notebook 会话的 Jupyter Server；内核运行在各自的分析环境里。
-channels:
-  - conda-forge
-dependencies:
-  # The server process. jupyter_server pulls jupyter_core (the `jupyter`
-  # command) and jupyter_client (kernel management). No JupyterLab UI.
-  - python=3.12
-  - jupyter_server

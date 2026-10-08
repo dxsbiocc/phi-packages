@@ -13,8 +13,8 @@
     "plugins": 1,
     "pluginSkills": 1,
     "wrapperAdapters": 652,
-    "importedFiles": 7885,
-    "importedBytes": 85619915
+    "importedFiles": 7861,
+    "importedBytes": 85085862
   },
   "excluded": [
     {
@@ -24,10 +24,72 @@
     {
       "path": "resources/skills/create-wrapper/",
       "reason": "Core wrapper-authoring skill retained with the Phi engine, per the content distribution design."
+    },
+    {
+      "path": "resources/palettes/",
+      "reason": "Application-owned shared palette definitions stay with the Phi engine; plugin-private palette assets remain with the plugin."
+    },
+    {
+      "path": "resources/runtime/",
+      "reason": "Core managed runtime specifications and locks stay with Phi; each distributed wrapper retains its own process dependencies."
+    },
+    {
+      "path": "resources/wrappers/images/differential-expression-r/",
+      "reason": "Retired local-only image recipe; retained wrappers use module-local Conda specifications and fixed public OCI/SIF dependency references."
     }
   ],
   "notes": [
-    "Existing tracked file contents were copied without edits. The Phi app and its runtime code were not imported.",
-    "Environment definitions, palette sources, contracts, and distribution documents are reference snapshots; Phi remains their authority until a separate integration change."
-  ]
+    "The initial snapshot was copied byte-for-byte. Its original counts are retained in initialImportCounts; current counts reflect the corrected distribution scope.",
+    "Shared runtime and application palette definitions were removed from this repository. Contract/design documents remain reference snapshots maintained in Phi.",
+    "Eight differential-expression modules now carry executable local Conda specifications and use public frozen container references. Analysis scripts, parameter contracts and wrapper entrypoints are unchanged.",
+    "The Phi source repository was not modified by this content-repository correction."
+  ],
+  "initialImportCounts": {
+    "standaloneSkills": 14,
+    "connectors": 18,
+    "plugins": 1,
+    "pluginSkills": 1,
+    "wrapperAdapters": 652,
+    "importedFiles": 7885,
+    "importedBytes": 85619915
+  },
+  "scopeUpdatedAt": "2026-10-08T05:53:33.888025+00:00",
+  "transformedPaths": [
+    "resources/wrappers/modules/local/differential-expression/deseq2/environment.yml",
+    "resources/wrappers/modules/local/differential-expression/deseq2/main.nf",
+    "resources/wrappers/modules/local/differential-expression/edger/environment.yml",
+    "resources/wrappers/modules/local/differential-expression/edger/main.nf",
+    "resources/wrappers/modules/local/differential-expression/limma/environment.yml",
+    "resources/wrappers/modules/local/differential-expression/limma/main.nf",
+    "resources/wrappers/modules/local/differential-expression/qc/environment.yml",
+    "resources/wrappers/modules/local/differential-expression/qc/main.nf",
+    "resources/wrappers/modules/local/differential-expression/timeseries/environment.yml",
+    "resources/wrappers/modules/local/differential-expression/timeseries/main.nf",
+    "resources/wrappers/modules/local/differential-expression/visualization/heatmap/environment.yml",
+    "resources/wrappers/modules/local/differential-expression/visualization/heatmap/main.nf",
+    "resources/wrappers/modules/local/differential-expression/visualization/pca/environment.yml",
+    "resources/wrappers/modules/local/differential-expression/visualization/pca/main.nf",
+    "resources/wrappers/modules/local/differential-expression/visualization/volcano/environment.yml",
+    "resources/wrappers/modules/local/differential-expression/visualization/volcano/main.nf"
+  ],
+  "dependencyVerification": {
+    "dockerImage": "community.wave.seqera.io/library/bioconductor-biocparallel_bioconductor-deseq2_bioconductor-edger_bioconductor-limma_pruned@sha256:e500cffd28caf431b76344610bd213a30b536e2d2fa58418255ec00238e3ab12",
+    "singularityImage": "oras://community.wave.seqera.io/library/bioconductor-biocparallel_bioconductor-deseq2_bioconductor-edger_bioconductor-limma_pruned:ccbe9c69fe5b6749",
+    "dockerBuildId": "bd-b0d96e225f5adda7_1",
+    "namespacesLoaded": [
+      "DESeq2",
+      "edgeR",
+      "limma",
+      "BiocParallel",
+      "variancePartition",
+      "ggplot2",
+      "pheatmap",
+      "ashr",
+      "lme4"
+    ],
+    "originalAndNewVersions": {
+      "ashr": "2.2.63",
+      "lme4": "2.0.6"
+    }
+  }
 }

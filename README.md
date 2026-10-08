@@ -18,8 +18,6 @@ resources/
   connectors/            MCP 连接器声明
   plugins/               Visualization 插件及其组件
   wrappers/              Nextflow module、subworkflow、workflow 和适配器
-  palettes/              科研绘图的共享色板源码
-  runtime/environments/  受管理环境规格和平台锁文件的参考快照
 docs/
   contracts/             Phi 内容契约参考快照
   design/                内容分发、运行环境和 wrapper 设计
@@ -41,9 +39,19 @@ SOURCE.json              导入来源、版本、范围和排除项
 后续需要由 Phi 的统一校验器和包构建器生成独立 `.tar.gz` 包、目录索引及签名，
 再配置应用端远程软件源。核心运行时代码、安装器、校验器及应用界面留在 Phi 主仓库。
 
-`resources/runtime/environments/`、`resources/palettes/` 和 `docs/` 中的共享定义
-目前是配套参考快照；后续建立同步与发布流程前，仍以 Phi 主仓库中的定义为准。
+Phi 官方共享环境和应用级色板由主程序提供，本仓库不复制其核心定义。
+插件自身运行所需的资源仍随插件保存；`docs/` 中的契约和设计为参考快照，
+仍以 Phi 主仓库中的定义为准。
 运行时二进制、环境安装目录、账户凭据及运行产物未导入。
+
+## 分发边界
+
+本仓库只保存 skill、connector、插件、wrapper 及它们自身必需的资源。
+应用级 `resources/palettes/` 和核心 `resources/runtime/` 不属于内容分发范围。
+差异表达 wrapper 的旧本地镜像目录已移除，其依赖迁移说明见
+[差异表达依赖](resources/wrappers/modules/local/differential-expression/README.md)。
+
+边界检查：`node --test tests/content-boundaries.test.mjs`。
 
 ## 导入边界与第三方内容
 

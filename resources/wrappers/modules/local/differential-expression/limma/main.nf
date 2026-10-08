@@ -2,11 +2,10 @@ process LIMMA_DIFFERENTIAL {
     tag "$meta.id"
     label 'process_single'
 
-    // Shared family image (resources/wrappers/images/differential-expression-r/) --
-    // built and tagged locally, not published to any registry yet, so no
-    // singularity/apptainer branch here (see that directory's Dockerfile).
-    conda "${moduleDir}/../../../../images/differential-expression-r/environment.yml"
-    container 'phi/differential-expression-r:1.0.0'
+    conda "${moduleDir}/environment.yml"
+    container "${ workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container ?
+        'oras://community.wave.seqera.io/library/bioconductor-biocparallel_bioconductor-deseq2_bioconductor-edger_bioconductor-limma_pruned:ccbe9c69fe5b6749' :
+        'community.wave.seqera.io/library/bioconductor-biocparallel_bioconductor-deseq2_bioconductor-edger_bioconductor-limma_pruned@sha256:e500cffd28caf431b76344610bd213a30b536e2d2fa58418255ec00238e3ab12' }"
 
     input:
     tuple val(meta), val(contrast_variable), val(reference), val(target), val(formula), val(comparison)
