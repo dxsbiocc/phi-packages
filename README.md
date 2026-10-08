@@ -1,5 +1,7 @@
 # Phi Packages
 
+**中文** | [English](README.en.md)
+
 Phi 的独立公开内容仓库，保存可安装领域能力的源码。
 
 ## 当前内容
