@@ -73,9 +73,11 @@ Phi 官方共享环境和应用级色板由主程序提供，本仓库不复制�
 
 ## 可安装 connector
 
-[BioMCP](resources/connectors/biomcp/README.zh-CN.md) 提供独立的
-[本地软件源分发包](https://github.com/dxsbiocc/phi-packages/releases/tag/biomcp-v1.0.0)，
-可通过 Phi 现有目录安装功能添加，无需改动项目源码。
+[BioMCP](resources/connectors/biomcp/README.zh-CN.md) 当前源码为 1.1.0，
+需要 Phi 1.0.1 的原生托管安装流程；官方 PyPI wheel 的下载与校验在安装阶段完成，
+随后直接启动 `biomcp serve`。需重新构建发布签名目录后，应用才能获取新版。
+之前的 [1.0.0 本地软件源](https://github.com/dxsbiocc/phi-packages/releases/tag/biomcp-v1.0.0)
+保留为历史发行包，仍使用旧启动器。
 
 ## 内容约定
 

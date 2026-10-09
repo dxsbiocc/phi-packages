@@ -59,9 +59,12 @@ See [SOURCE.json](SOURCE.json) for the full scope and [VALIDATION.md](VALIDATION
 
 ## Installable connector
 
-[BioMCP](resources/connectors/biomcp/README.md) provides a standalone
-[local registry distribution](https://github.com/dxsbiocc/phi-packages/releases/tag/biomcp-v1.0.0)
-that can be added through Phi's existing directory installation flow without application source changes.
+[BioMCP](resources/connectors/biomcp/README.md) source version 1.1.0 requires Phi 1.0.1's
+managed native installation flow. Official pinned PyPI wheels are fetched and verified
+during installation, then the connector runs `biomcp serve` directly. Rebuild and publish
+the signed catalog before the app can obtain this version. The earlier
+[1.0.0 local registry](https://github.com/dxsbiocc/phi-packages/releases/tag/biomcp-v1.0.0)
+remains a historical release using the retired launcher.
 
 ## Content conventions
 

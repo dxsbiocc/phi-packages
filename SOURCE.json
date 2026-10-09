@@ -43,7 +43,7 @@
     "Shared runtime and application palette definitions were removed from this repository. Contract/design documents remain reference snapshots maintained in Phi.",
     "Eight differential-expression modules now carry executable local Conda specifications and use public frozen container references. Analysis scripts, parameter contracts and wrapper entrypoints are unchanged.",
     "The Phi source repository was not modified by this content-repository correction.",
-    "Eighteen existing Phi connector brand icons were copied byte-for-byte into package-local icon files; only those connector versions changed to 1.0.1. BioMCP remains 1.0.0 with no authored logo. See docs/content-icons.md for attribution and byte records."
+    "Eighteen existing Phi connector brand icons were copied byte-for-byte into package-local icon files and those connector versions changed to 1.0.1. BioMCP separately received its official website logo at 1.0.1 and retains it in the 1.1.0 managed-native package. See docs/content-icons.md for attribution and byte records."
   ],
   "initialImportCounts": {
     "standaloneSkills": 14,
@@ -96,8 +96,23 @@
   "addedContent": [
     {
       "path": "resources/connectors/biomcp/",
-      "origin": "Authored in phi-packages after the initial Phi snapshot. Uses official pinned biomcp-cli 0.9.1 native wheels.",
-      "packageVersion": "1.0.0"
+      "origin": "Authored in phi-packages after the initial Phi snapshot. Uses official pinned biomcp-cli 0.9.1 native wheels, installed through the connector-owned managed native environment.",
+      "packageVersion": "1.1.0",
+      "icon": {
+        "path": "resources/connectors/biomcp/icon.png",
+        "sourceUrl": "https://biomcp.org/assets/icon.png",
+        "retrievedAt": "2026-10-08",
+        "sha256": "0e448634f051ccdd5645189482251d948d0a9e4b69b5b5463b7bd05e8afff06c",
+        "size": 90550
+      },
+      "upstream": {
+        "repository": "https://github.com/genomoncology/biomcp",
+        "package": "biomcp-cli",
+        "version": "0.9.1",
+        "index": "https://pypi.org/project/biomcp-cli/0.9.1/",
+        "license": "MIT",
+        "pins": "environment.yml"
+      }
     }
   ],
   "iconMigration": {

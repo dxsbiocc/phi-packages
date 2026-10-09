@@ -30,8 +30,8 @@ or external content before display; invalid images retain the type fallback.
 The following 18 icons were copied byte-for-byte on 2026-10-08 from Phi's former
 `src/renderer/src/features/mcp/assets/` catalog assets into
 `resources/connectors/<id>/icon.<extension>`. Each affected connector's package
-version changed from 1.0.0 to 1.0.1 because its payload changed. BioMCP has no existing
-logo and keeps its 1.0.0 package and fallback. These provider assets identify services;
+version changed from 1.0.0 to 1.0.1 because its payload changed. BioMCP was added
+separately from its official website, as recorded below. These provider assets identify services;
 this attribution does not change their owners' licensing or trademark terms.
 
 | Icon                  | Listing                                                                                                 |
@@ -54,6 +54,25 @@ this attribution does not change their owners' licensing or trademark terms.
 | Clinical Trials       | https://claude.com/marketplace/connectors/clinical-trials                                               |
 | cBioPortal            | https://www.cbioportal.org/images/cbioportal_icon.png (official website favicon, retrieved 2026-10-08)  |
 | Open Targets Platform | https://opentargets.org/branding (official helix SVG); MCP: https://github.com/opentargets/platform-mcp |
+
+## BioMCP website icon
+
+BioMCP's package-local `resources/connectors/biomcp/icon.png` was copied
+byte-for-byte on 2026-10-08 from [its official website logo](https://biomcp.org/assets/icon.png),
+which [the website](https://biomcp.org/) references as `assets/icon.png`. The PNG
+is 389 × 380 pixels, 90,550 bytes, and has SHA-256
+`0e448634f051ccdd5645189482251d948d0a9e4b69b5b5463b7bd05e8afff06c`.
+The connector package changed from 1.0.0 to 1.0.1 for this payload addition;
+its upstream BioMCP pin stays at 0.9.1. The current 1.1.0 package retains these
+exact icon bytes while moving installation into its managed native environment.
+This asset is separate from the 18-icon migration and retains its owner's licensing
+and trademark terms.
+
+The signed official catalog must be rebuilt from the updated tracked source
+and publish the 1.1.0 archive, connector manifest sidecar, icon sidecar,
+`index.json`, and matching `index.sig.json` together. Updating this source alone
+does not change the published catalog or an installed connector. See
+[publishing](publishing.md).
 
 ## Migration byte record
 

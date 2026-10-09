@@ -1,0 +1,26 @@
+name: biomcp
+description: Official BioMCP 0.9.1 native executable from pinned PyPI wheels
+channels: []
+dependencies: []
+installation:
+  backend: native
+  executable: biomcp
+  artifacts:
+    darwin-arm64:
+      url: https://files.pythonhosted.org/packages/11/98/21f48a370567947f069fc01f1c2856230bf1d5b8c42863aa8d31b85560d0/biomcp_cli-0.9.1-py3-none-macosx_11_0_arm64.whl
+      sha256: 934befced41c457e3eea72a33d2c06d88fdbdcbb7780a4614f216db5ac9da859
+      size: 15340685
+      format: zip
+      member: biomcp_cli-0.9.1.data/scripts/biomcp
+    darwin-x64:
+      url: https://files.pythonhosted.org/packages/8a/a8/08e06bb1e8135ecd9cd18c1a33f28d96cd200f6cc820bfad0f1eb5f6ffe5/biomcp_cli-0.9.1-py3-none-macosx_10_12_x86_64.whl
+      sha256: 36a94801839a76bf5236263a56145a911b1ba7c79d3a7fed153cc337c6f4ea85
+      size: 16534235
+      format: zip
+      member: biomcp_cli-0.9.1.data/scripts/biomcp
+    linux-x64:
+      url: https://files.pythonhosted.org/packages/d6/3a/6cc7f2aaecf11ac24abadaaf768e2bbc9a2c0f582bd99bd9fa86befcf5fd/biomcp_cli-0.9.1-py3-none-manylinux_2_28_x86_64.whl
+      sha256: 83bad39c58aca37afc1aca9a2099f47447c0bd07e3464fab12465613715d8864
+      size: 16802942
+      format: zip
+      member: biomcp_cli-0.9.1.data/scripts/biomcp

@@ -1,16 +1,16 @@
 schemaVersion: 1
 id: biomcp
 type: mcp
-version: 1.0.0
+version: 1.1.0
 title: BioMCP
 summary: 统一检索基因、变异、文献、药物与临床试验的生物医学 MCP 服务
-minAppVersion: 1.0.0
+minAppVersion: 1.0.1
 connector:
   transport: stdio
   publisher: Phi / GenomOncology
   category: 健康与生命科学
   homepage: https://biomcp.org/
-  environment: phi:python@1
-  command: python
+  environment: ./environment.yml
+  command: biomcp
   args:
-    - ${package}/server.py
+    - serve

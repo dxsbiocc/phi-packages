@@ -2,87 +2,70 @@
 
 **English** | [中文](README.zh-CN.md)
 
-A Phi MCP connector for [BioMCP](https://github.com/genomoncology/biomcp), maintained
-as an adapter in `phi-packages`. It uses Phi's existing package and stdio mechanisms;
-no Phi application source changes are required.
+This `phi-packages` connector runs the official [BioMCP](https://github.com/genomoncology/biomcp)
+native executable in its own Phi-managed environment.
 
-## Versions and supported platforms
+## Versions and platforms
 
-- Connector package: **1.0.0**.
-- Upstream BioMCP: **0.9.1**, pinned in `upstream.json`.
-- macOS Apple Silicon, macOS Intel, and Linux x86-64 are supported. The Linux binary
-  requires glibc 2.28 or newer, matching its upstream wheel tag.
-- The connector references Phi's managed `phi:python@1` environment. Its definitions
-  and locks remain in Phi; this package adds no Python library dependencies.
+- Connector package: **1.1.0**; requires Phi **1.0.1** or newer.
+- Upstream package: **biomcp-cli 0.9.1**, distributed as native wheels on [PyPI](https://pypi.org/project/biomcp-cli/0.9.1/).
+- Platforms: macOS Apple Silicon, macOS Intel, and Linux x86-64. Linux requires glibc 2.28 or newer.
+- The [official website icon](../../../docs/content-icons.md#biomcp-website-icon) stays with the package.
 
-## Install without changing Phi
+## Installation and startup
 
-Download [biomcp-registry-1.0.0.zip](https://github.com/dxsbiocc/phi-packages/releases/download/biomcp-v1.0.0/biomcp-registry-1.0.0.zip)
-from the [connector release](https://github.com/dxsbiocc/phi-packages/releases/tag/biomcp-v1.0.0),
-extract it, open Phi's **Skills** catalog, click the folder-icon **Add** button, and
-select the extracted directory. This existing picker registers sources for all
-package types. A source containing only this connector has no skill rows; that is
-expected. Close the dialog, reopen the **Connectors** catalog, and install BioMCP.
-The directory contains `index.json` and `mcp-biomcp-1.0.0.tar.gz`.
-The current connector dialog itself has no local-directory picker. If Phi reports that its Python environment is not
-ready, build the referenced environment using Phi's existing environment controls.
+Install or update BioMCP from Phi's **Connectors** catalog. Phi verifies the package,
+then prepares its declared native environment before enabling the connector. The
+installation downloads approximately 15–17 MB for the selected platform, verifies
+the pinned size and SHA-256, and extracts only the declared native executable.
+Installation progress and failures belong to Phi's managed installation flow; a
+failed preparation leaves the connector unavailable until installation is retried.
 
-The local registry is unsigned and is treated as an imported source. This release
-uses the existing local-directory installation route; Phi's automatic remote registry
-fetching is not yet connected.
+`environment.yml` is the sole artifact-pin document. It declares the native backend,
+the executable `biomcp`, and exact official wheel URLs, sizes, hashes, and ZIP members
+for each supported platform. `locks/<platform>.txt` contains `@EXPLICIT` with zero
+Conda dependencies. The binary is installed under Phi's managed runtime prefix;
+the package launches it directly with `biomcp serve`.
 
-## Startup and caching
+This package has no Python launcher, Python runtime dependency, `pip install`,
+Conda package installation, Git clone, or first-start software download. Once
+prepared, startup reuses the installed native executable. Online biomedical
+queries still require their upstream services. Older 1.0.x connector launcher
+caches are left untouched and are no longer used by this package.
 
-The launcher uses Python's standard library to select the official platform wheel
-from PyPI, check its pinned size and SHA-256, and extract only the native `biomcp`
-executable. It does not run `pip install` or modify a managed environment.
+The 1.1.0 source must be rebuilt into the [signed catalog](../../../docs/publishing.md)
+before the app can install it. The earlier standalone
+[1.0.0 release](https://github.com/dxsbiocc/phi-packages/releases/tag/biomcp-v1.0.0)
+contains the retired launcher and does not provide this managed installation flow.
 
-The executable and verified wheel are stored outside the package, in:
+## Credentials and provenance
 
-- macOS: `~/Library/Caches/Phi/connectors/biomcp/<version>/<platform>/`.
-- Linux: `~/.cache/Phi/connectors/biomcp/<version>/<platform>/`.
+The connector exposes BioMCP's read-only biomedical tools. Many queries need no
+key; credentialed upstream services still require their own API keys. See the
+[upstream API-key guide](https://biomcp.org/getting-started/api-keys/).
 
-The Linux default intentionally stays independent of Phi's managed XDG cache so
-prewarming works across execution environments. A file lock serializes concurrent starts. Each start verifies the cached wheel and
-executable; corrupted binaries are repaired from the verified wheel. The launcher
-then replaces itself with `biomcp serve`, preserving the stdio MCP stream. Bootstrap
-messages go only to stderr.
+The wheel version, URLs, SHA-256 values, and sizes match the former 1.0.x pins.
+Each verified wheel contains `biomcp_cli-0.9.1.data/scripts/biomcp`; only that member
+is installed. `SOURCE.json` records the official repository, PyPI distribution,
+version, and icon provenance. The upstream MIT copyright and license remain in
+[LICENSE.upstream](LICENSE.upstream). Data-source terms remain separate; see
+[upstream source licensing](https://biomcp.org/reference/source-licensing/).
 
-The first start downloads approximately 15–17 MB. For a slow connection or offline
-use, warm the cache first with the same user account that runs Phi:
+## Verification
 
-```bash
-python /path/to/biomcp/server.py --prepare
+With Phi and `phi-packages` side by side, use Phi's existing parser and builder:
+
+```sh
+cd ../Phi
+node --import ./scripts/test-loader.mjs --test ../phi-packages/tests/biomcp-native.test.mjs
+node --import ./scripts/test-loader.mjs --test tests/envs-application-native.test.ts tests/envs-application-artifacts.test.ts tests/envs-ensure.test.ts
 ```
 
-After a Phi package install, the script is under
-`~/.phi/packages/mcp/biomcp/1.0.0/server.py`. A dedicated cache can be selected with
-`--cache-dir /path/to/biomcp-cache` when testing or preparing an offline environment.
-The initial download requires internet access; online biomedical queries continue
-to require access to their upstream data sources.
-
-## Capabilities and credentials
-
-This package enables BioMCP's standard read-only biomedical MCP surface, including
-literature, gene, variant, drug and trial retrieval. Many upstream queries work
-without keys. BioMCP's optional credentialed sources still require their own keys;
-this initial package does not add credential fields to Phi's stdio package contract
-or put credentials in source files. See the [upstream API-key guide](https://biomcp.org/getting-started/api-keys/).
-
-## Provenance and verification
-
-`upstream.json` records the exact official `biomcp-cli` wheel URLs, sizes and SHA-256
-checksums. BioMCP is MIT-licensed; its copyright and license notice are retained in
-[LICENSE.upstream](LICENSE.upstream). This notice applies to upstream BioMCP and does
-not establish a repository-wide license for the adapter. Data-source terms remain
-separate: see [upstream source licensing](https://biomcp.org/reference/source-licensing/).
-
-Run the adapter's offline tests with:
-
-```bash
-python3 -B -m unittest discover -s tests -p test_biomcp_connector.py
-```
-
-The macOS ARM64 native binary and launcher are also checked with actual MCP
-initialization and tool discovery. No real biomedical query or credentialed endpoint
-is required for that protocol check.
+The content suite verifies the native declarations, original pins, every platform
+lock, environment ownership and identity, license, and archive allowlist. Shared
+Phi tests cover download integrity, cache reuse, concurrency, bounded ZIP-member
+extraction, cancellation, and runtime readiness. The former launcher tests moved
+to these managed-runtime responsibilities instead of retaining a second installer.
+To check actual previously verified wheels without network access, set
+`PHI_BIOMCP_WHEEL_DIR` to a disposable directory containing the three official
+wheel filenames; the content suite then exercises Phi's native installer on them.
