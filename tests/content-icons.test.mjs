@@ -25,20 +25,12 @@ test('connector icon migration preserves original bytes, attribution, and packag
   }
 })
 
-test('BioMCP packages its official website icon with provenance and an updated version', () => {
-  const connector = provenance.addedContent.find(item => item.path === 'resources/connectors/biomcp/')
-  assert.equal(connector.packageVersion, '1.1.0')
-  const icon = connector.icon
-  assert.equal(icon.path, 'resources/connectors/biomcp/icon.png')
-  assert.equal(icon.sourceUrl, 'https://biomcp.org/assets/icon.png')
-  const bytes = readFileSync(join(root, icon.path))
-  assert.equal(bytes.length, icon.size)
-  assert.ok(bytes.length > 0 && bytes.length <= 256 * 1024)
-  assert.deepEqual(bytes.subarray(0, 8), Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]))
-  assert.equal(createHash('sha256').update(bytes).digest('hex'), icon.sha256)
-  const attribution = readFileSync(join(root, 'docs/content-icons.md'), 'utf8')
-  for (const value of [icon.path, icon.sourceUrl, icon.sha256]) assert.ok(attribution.includes(value))
-  assert.match(readFileSync(join(root, 'resources/connectors/biomcp/phi-package.yaml'), 'utf8'), /^version: 1\.1\.0$/m)
+test('withdrawn BioMCP connector is absent from distributable content', () => {
+  const connectorRoot = join(root, 'resources/connectors')
+  assert.equal(existsSync(join(connectorRoot, 'biomcp')), false)
+  const ids = readdirSync(connectorRoot).filter(name => name !== '.DS_Store')
+  assert.equal(provenance.counts.connectors, ids.length)
+  assert.ok(!provenance.addedContent.some(item => item.path === 'resources/connectors/biomcp/'))
 })
 
 test('icon attribution stays outside connector package roots and core resources remain absent', () => {
