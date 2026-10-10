@@ -44,10 +44,10 @@ Upload all assets to the repository's `catalog-v1` release, uploading the index 
 last. Phi validates the signature and every asset's SHA-256 and size before atomic cache activation.
 Keep an existing package version's archive immutable; bump the package version when its contents change.
 
-本次 wrapper 发布版本为 `0.1.1`，与旧安装 `0.1.0` 区分。
+wrapper 默认版本为 `1.0.0`，必须与 Phi 内置 wrapper 树的版本一致，否则在线条目会被当作降级且依赖范围无法满足。
 后续可显式使用 `--wrapper-version` 提升该组生成软件包版本；其他软件包使用各自 manifest 的版本。
 
-This wrapper release uses `0.1.1`, separate from the legacy installed `0.1.0` payload.
+Wrappers default to `1.0.0`, which must match the wrapper tree bundled with Phi; a lower version looks like a downgrade and breaks dependency ranges.
 For later changes, pass an explicit `--wrapper-version`; other packages retain their manifest versions.
 
 ## 安装路径 / Installation paths

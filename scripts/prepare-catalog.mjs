@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 const sourceRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const argv = process.argv.slice(2)
 if (argv.includes('--help')) {
-  console.log('node scripts/prepare-catalog.mjs --phi ../Phi --out /tmp/phi-catalog --key ~/.phi/publishing/phi-packages-ed25519.pem [--wrapper-version 0.1.1]')
+  console.log('node scripts/prepare-catalog.mjs --phi ../Phi --out /tmp/phi-catalog --key ~/.phi/publishing/phi-packages-ed25519.pem [--wrapper-version <semver>]')
   process.exit(0)
 }
 function argument(name, fallback) {
@@ -23,7 +23,7 @@ try {
     '--source', sourceRoot,
     '--out', resolve(argument('--out')),
     '--key', resolve(argument('--key')),
-    '--wrapper-version', argument('--wrapper-version', '0.1.1')
+    ...(argv.includes('--wrapper-version') ? ['--wrapper-version', argument('--wrapper-version')] : [])
   ]
   const result = spawnSync(process.execPath, command, { cwd: phiRoot, stdio: 'inherit' })
   if (result.error) throw result.error
