@@ -65,6 +65,37 @@ Processed output:
 
 `validate` checks required columns and writes mapping coverage. The Nutlin-3a check expects a lower median GDSC `LN_IC50` and `AUC` in TP53 wild-type lines than in lines with a non-silent `ncbigene:7157` mutation. Groups smaller than 3 models are skipped. Lines absent from the mutation table are excluded. A failed check exits non-zero.
 
+## Coverage on 2026-10-14
+
+Gene headers were read from DepMap 24Q2 without downloading the matrices. Before normalization, the old `SYMBOL (digits)` regex kept every label. After the HGNC complete set (approved symbols only), Entrez ids that are not in that set stay unmatched, and a header whose symbol and Entrez id point at different genes stays ambiguous. Mapped rows whose header symbol is not the approved symbol keep the header text in `source_symbol`.
+
+| Matrix | Labels | Before (regex kept) | After mapped | Unmatched | Ambiguous | Symbol updated |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| CRISPRGeneEffect | 18443 | 18443 | 18437 | 5 | 1 | 206 |
+| Expression TPMLogp1 | 19193 | 19193 | 19162 | 17 | 14 | 393 |
+
+Examples of updated symbols: `AATK (9625)` to `LMTK1`, `BVES (11149)` to `POPDC1`. Unmatched CRISPR labels are LOC genes whose Entrez id is not an approved HGNC id, such as `LOC730098 (730098)`. `RSC1A1 (6248)` is ambiguous because that Entrez id is not the current id for the gene HGNC now calls `DDI2`.
+
+Cell lines, primary rows, before Cellosaurus (Cell Model Passports crosswalk only) and after Cellosaurus 56.0. Problematic lines stay mapped and are counted in the flag columns.
+
+| Source | Rows | Before mapped / ambiguous / unmatched | After mapped / ambiguous / unmatched | Misidentified | Contaminated | Problematic |
+| --- | ---: | --- | --- | ---: | ---: | ---: |
+| DepMap | 1959 | 1880 / 7 / 72 | 1884 / 8 / 67 | 61 | 8 | 62 |
+| PRISM | 925 | 912 / 2 / 11 | 916 / 4 / 5 | 18 | 5 | 14 |
+| Cell Model Passports | 2292 | 1926 / 1 / 365 | 1982 / 5 / 305 | 81 | 13 | 66 |
+
+The extra DepMap mappings are Cellosaurus names or synonyms. Six PRISM rows matched by stripping a `_LUNG`-style CCLE suffix. Fifty-six CMP models with no RRID matched a Cellosaurus name. `H460` is not folded into `NCI-H460` by the normalizer; Cellosaurus lists `H460` as a synonym of `CVCL_0459`, so that synonym match is what resolves it.
+
+Compounds had no CID column. Before resolution every row was unmatched: GDSC 621, PRISM 19Q4 4739, PRISM 24Q2 6789 (11528 PRISM rows, 12149 in total). `phi-pgx resolve-compounds` then ran against PubChem and ChEMBL for the full set, using the on-disk cache after a 502 and a read timeout.
+
+| Source | Rows | Mapped | Ambiguous | Unmatched | With ChEMBL | With InChIKey |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| GDSC | 621 | 493 | 6 | 122 | 467 | 493 |
+| PRISM 19Q4 | 4739 | 4694 | 39 | 6 | 4334 | 4612 |
+| PRISM 24Q2 | 6789 | 6653 | 119 | 17 | 6180 | 6596 |
+
+GDSC `Nutlin-3a (-)` stayed stored under that name and mapped to PubChem CID 11433190 / `CHEMBL191334` by the stereo-stripped lookup `Nutlin-3a` (`pubchem_name_stereo`, confidence `low`). PRISM 19Q4 used SMILES for 2341 of its mapped rows (`confidence` high). The other mapped rows are exact names, BRD ids, synonyms, or salt-stripped names. A lookup that returned more than one CID was left ambiguous.
+
 ## Later batches
 
 `sources.yaml` `planned` lists sources that are not downloaded or parsed:

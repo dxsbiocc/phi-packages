@@ -78,9 +78,9 @@ class PubChemClient:
                 if exc.code in {400, 404}:
                     return None
                 last_error = exc
-                if exc.code not in {429, 500, 503}:
+                if exc.code not in {408, 429, 500, 502, 503, 504}:
                     raise DownloadError(f"PubChem/ChEMBL {url} returned HTTP {exc.code}") from exc
-            except URLError as exc:
+            except (URLError, TimeoutError) as exc:
                 last_error = exc
             time.sleep(min(60, 2 ** attempt))
         raise DownloadError(f"PubChem/ChEMBL {url} failed after retries: {last_error}")
@@ -125,7 +125,7 @@ class PubChemClient:
                 missing.append((kind, query))
         if not missing:
             return
-        with ThreadPoolExecutor(max_workers=4) as pool:
+        with ThreadPoolExecutor(max_workers=8) as pool:
             futures = [pool.submit(self._fetch_and_store, kind, query) for kind, query in missing]
             total = len(futures)
             for done, future in enumerate(as_completed(futures), start=1):
