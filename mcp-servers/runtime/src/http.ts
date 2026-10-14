@@ -24,8 +24,6 @@ export class UpstreamError extends Error {
 export interface JsonClient {
   getJson(url: string): Promise<unknown>;
   postJson(url: string, body: unknown): Promise<unknown>;
-  /** Optional raw GET. HMDB metabolite records are XML, not JSON. */
-  getText?(url: string): Promise<string>;
 }
 
 const nextSlot = new Map<string, number>();
@@ -68,19 +66,15 @@ export class UpstreamClient implements JsonClient {
   ) {}
 
   getJson(url: string): Promise<unknown> {
-    return this.request(url, "GET", undefined, "json");
-  }
-
-  getText(url: string): Promise<string> {
-    return this.request(url, "GET", undefined, "text") as Promise<string>;
+    return this.request(url, "GET");
   }
 
   postJson(url: string, body: unknown): Promise<unknown> {
-    return this.request(url, "POST", body, "json");
+    return this.request(url, "POST", body);
   }
 
-  private async request(url: string, method: "GET" | "POST", body: unknown, parse: "json" | "text"): Promise<unknown> {
-    const key = `${parse} ${method === "GET" ? url : `${method} ${url} ${JSON.stringify(body)}`}`;
+  private async request(url: string, method: "GET" | "POST", body?: unknown): Promise<unknown> {
+    const key = method === "GET" ? url : `${method} ${url} ${JSON.stringify(body)}`;
     const file = cacheFile(this.config.cacheDir, key);
     const cached = await readCache(file);
     if (cached !== undefined) return cached;
@@ -93,7 +87,7 @@ export class UpstreamClient implements JsonClient {
         const response = await this.fetchImpl(url, {
           method,
           headers: {
-            accept: parse === "text" ? "application/xml, text/xml, text/html;q=0.8, */*;q=0.1" : "application/json",
+            accept: "application/json",
             "user-agent": this.config.userAgent,
             ...(body === undefined ? {} : { "content-type": "application/json" }),
           },
@@ -109,14 +103,10 @@ export class UpstreamClient implements JsonClient {
           throw new UpstreamError(response.status, `${response.status} ${text.slice(0, 300)}`, retryable);
         }
         let parsed: unknown;
-        if (parse === "text") {
-          parsed = text;
-        } else {
-          try {
-            parsed = text.length === 0 ? null : JSON.parse(text) as unknown;
-          } catch {
-            throw new UpstreamError(response.status, "upstream response was not JSON", false);
-          }
+        try {
+          parsed = text.length === 0 ? null : JSON.parse(text) as unknown;
+        } catch {
+          throw new UpstreamError(response.status, "upstream response was not JSON", false);
         }
         await writeCache(file, parsed, this.config.cacheTtlMs);
         return parsed;
