@@ -65,3 +65,7 @@ See [SOURCE.json](SOURCE.json) for the full scope and [VALIDATION.md](VALIDATION
 - Check component references when modifying plugins. Local MCP services continue to run in managed environments on the user's machine.
 - Do not commit secrets, account configuration, installed environments, or Nextflow run outputs.
 - Default package-local `icon.svg`, `icon.png`, `icon.webp`, `icon.jpg`, or `icon.jpeg` files travel with content; see [content icons](docs/content-icons.md) for the convention and existing brand attribution.
+
+## Omics MCP servers
+
+`mcp-servers/` holds four self-hosted read-only omics MCP servers (transcriptomics and single-cell, cancer omics, epigenomics, proteomics and metabolomics). They are not under `resources/connectors/`, and the connector counts stay unchanged until a public HTTPS URL exists. Build, local stdio/HTTP, Docker, and catalog steps are in [mcp-servers/README.md](mcp-servers/README.md).

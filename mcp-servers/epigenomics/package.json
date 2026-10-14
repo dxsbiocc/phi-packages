@@ -1,0 +1,21 @@
+{
+  "name": "phi-omics-epigenomics",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Epigenomics MCP server",
+  "bin": { "phi-omics-epigenomics": "./dist/cli.js" },
+  "files": ["dist"],
+  "engines": { "node": ">=20" },
+  "exports": { ".": { "types": "./dist/server.d.ts", "import": "./dist/server.js" } },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "test": "tsc -p tsconfig.json && node --test --test-timeout 180000 dist/test/*.test.js"
+  },
+  "dependencies": {
+    "phi-omics-runtime": "1.0.0",
+    "phi-omics-schemas": "1.0.0",
+    "zod": "^4.1.12"
+  }
+}
