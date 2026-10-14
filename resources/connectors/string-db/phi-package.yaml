@@ -1,0 +1,13 @@
+schemaVersion: 1
+id: string-db
+type: mcp
+version: 1.0.0
+title: STRING
+summary: 检索蛋白质相互作用、同源物和功能富集
+connector:
+  transport: http
+  publisher: STRING
+  category: 健康与生命科学
+  homepage: https://github.com/meringlab/string-mcp
+  url: https://mcp.string-db.org/
+  auth: none

@@ -1,0 +1,13 @@
+schemaVersion: 1
+id: rcsb-mcp
+type: mcp
+version: 1.0.0
+title: RCSB PDB
+summary: 检索 PDB 结构、条目、配体和序列坐标。当前为 beta 端点
+connector:
+  transport: http
+  publisher: RCSB PDB
+  category: 健康与生命科学
+  homepage: https://github.com/rcsb/rcsb-mcp
+  url: https://mcp-beta.rcsb.org/mcp
+  auth: none
