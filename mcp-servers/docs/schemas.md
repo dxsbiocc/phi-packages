@@ -51,7 +51,7 @@ Each entity has `entity_type`, `id`, `xrefs`, and `source_extra`, plus the field
 
 `access` is `open`, `controlled`, or `unknown`. A controlled file must have `url: null`. The schema rejects any other value. Controlled datasets also omit portal URLs when the URL would point at the data rather than an open landing page; this codebase sets `url` to null whenever `access` is `controlled`.
 
-`metabolite` is part of the shared model. None of the verified MetaboLights JSON endpoints return a parsed metabolite table, so the current tools do not emit metabolite rows.
+`metabolite` is part of the shared model. MetaboLights study endpoints do not return a parsed metabolite table. HMDB tools map the public per-metabolite XML into this schema (`hmdb:HMDB0000001`, formula, InChIKey, and cross-references).
 
 ## Page
 
