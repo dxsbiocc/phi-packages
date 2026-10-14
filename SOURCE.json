@@ -9,7 +9,7 @@
   ],
   "counts": {
     "standaloneSkills": 14,
-    "connectors": 19,
+    "connectors": 22,
     "plugins": 1,
     "pluginSkills": 1,
     "wrapperAdapters": 652,
@@ -104,6 +104,42 @@
         "retrievedAt": "2026-10-14",
         "sha256": "ff042440a415c5e3f0b3c77dfbf2a367906e38cbabdd5b2270e6e01ff4f8a97f",
         "size": 4937
+      }
+    },
+    {
+      "path": "resources/connectors/rcsb-mcp/",
+      "origin": "Authored in phi-packages after the initial Phi snapshot. Remote HTTP MCP endpoint https://mcp-beta.rcsb.org/mcp with no authentication. Official beta server documented by https://github.com/rcsb/rcsb-mcp.",
+      "packageVersion": "1.0.0",
+      "icon": {
+        "path": "resources/connectors/rcsb-mcp/icon.png",
+        "sourceUrl": "https://cdn.rcsb.org/rcsb-pdb/v2/common/images/rcsb_logo2.png",
+        "retrievedAt": "2026-10-14",
+        "sha256": "9416b1b205b394ea873e046f46a55e5c6cc1dbe3f151bb0031436d311549e391",
+        "size": 51231
+      }
+    },
+    {
+      "path": "resources/connectors/string-db/",
+      "origin": "Authored in phi-packages after the initial Phi snapshot. Remote HTTP MCP endpoint https://mcp.string-db.org/ with no authentication. Official server documented at https://mcp.string-db.org/.",
+      "packageVersion": "1.0.0",
+      "icon": {
+        "path": "resources/connectors/string-db/icon.png",
+        "sourceUrl": "https://mcp.string-db.org/favicon.png",
+        "retrievedAt": "2026-10-14",
+        "sha256": "f3701e911c41d360df62761431fd5386da12aeb6993dec093fa1e29ca211a58c",
+        "size": 22775
+      }
+    },
+    {
+      "path": "resources/connectors/ols4/",
+      "origin": "Authored in phi-packages after the initial Phi snapshot. Remote HTTP MCP endpoint https://www.ebi.ac.uk/ols4/api/mcp with no authentication. Official docs page https://www.ebi.ac.uk/ols4/mcp builds this path as the Streamable HTTP server.",
+      "packageVersion": "1.0.0",
+      "icon": {
+        "path": "resources/connectors/ols4/icon.png",
+        "sourceUrl": "https://github.com/EBISPOT/ols4/blob/dev/backend/src/main/resources/static/icon-small.png",
+        "retrievedAt": "2026-10-14",
+        "sha256": "a7bf618db0cd107f86b4b1437aded5633273e74ff531afd58e84e1acb860deeb",
+        "size": 4335
       }
     }
   ],

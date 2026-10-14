@@ -1,0 +1,13 @@
+schemaVersion: 1
+id: ols4
+type: mcp
+version: 1.0.0
+title: OLS4
+summary: 检索本体论术语、层级和语义相似类
+connector:
+  transport: http
+  publisher: EMBL-EBI
+  category: 健康与生命科学
+  homepage: https://www.ebi.ac.uk/ols4/mcp
+  url: https://www.ebi.ac.uk/ols4/api/mcp
+  auth: none

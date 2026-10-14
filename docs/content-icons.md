@@ -66,6 +66,40 @@ The connector package is `1.0.0` and includes this icon from the first version.
 This asset is separate from the 18-icon migration and retains its owner's licensing
 and trademark terms. Excalidraw is MIT licensed.
 
+## RCSB PDB logo
+
+`resources/connectors/rcsb-mcp/icon.png` was copied byte-for-byte on 2026-10-14 from
+the official RCSB logo
+[rcsb_logo2.png](https://cdn.rcsb.org/rcsb-pdb/v2/common/images/rcsb_logo2.png).
+The PNG is 380 × 380 pixels, 51,231 bytes, and has SHA-256
+`9416b1b205b394ea873e046f46a55e5c6cc1dbe3f151bb0031436d311549e391`.
+The connector package is `1.0.0` and includes this icon from the first version.
+This asset is separate from the 18-icon migration and retains RCSB PDB's licensing
+and trademark terms.
+
+## STRING server icon
+
+`resources/connectors/string-db/icon.png` was copied byte-for-byte on 2026-10-14 from
+the icon the official STRING MCP server advertises,
+[favicon.png](https://mcp.string-db.org/favicon.png). The MCP `initialize` result
+lists that URL as the server icon. The PNG is 512 × 512 pixels, 22,775 bytes, and
+has SHA-256 `f3701e911c41d360df62761431fd5386da12aeb6993dec093fa1e29ca211a58c`.
+The connector package is `1.0.0` and includes this icon from the first version.
+This asset is separate from the 18-icon migration and retains its owner's licensing
+and trademark terms. STRING data served by the endpoint is CC BY 4.0; the server
+source is MIT.
+
+## OLS4 server icon
+
+`resources/connectors/ols4/icon.png` was copied byte-for-byte on 2026-10-14 from
+[`backend/src/main/resources/static/icon-small.png`](https://github.com/EBISPOT/ols4/blob/dev/backend/src/main/resources/static/icon-small.png)
+in EBISPOT/ols4. The hosted MCP server returns these same bytes in its `initialize`
+result. The PNG is 64 × 64 pixels, 4,335 bytes, and has SHA-256
+`a7bf618db0cd107f86b4b1437aded5633273e74ff531afd58e84e1acb860deeb`.
+The connector package is `1.0.0` and includes this icon from the first version.
+This asset is separate from the 18-icon migration. The OLS4 repository is
+Apache-2.0; the EMBL-EBI mark retains its owner's trademark terms.
+
 ## Migration byte record
 
 These hashes preserve the original image bytes without a frontend asset dependency.
