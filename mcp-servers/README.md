@@ -12,7 +12,7 @@ Five read-only MCP servers for omics databases that do not ship an official MCP 
 
 The same TypeScript runs locally over stdio or Streamable HTTP, and in Docker on one host. Packages are private workspace members. An npm scope and a publish workflow are intentionally not set up yet; `bin`, `files`, and `engines` are already in each package so that step can be added later without moving code.
 
-These servers are not catalog connectors. `resources/connectors/` is unchanged until a public HTTPS URL exists. See [Add them to the Phi catalog](#add-them-to-the-phi-catalog) after deployment.
+Public HTTPS endpoints are live on `phi.omicsagent.cn`. Matching manifests live under `resources/connectors/` (`transcriptomics-single-cell`, `cancer-omics`, `epigenomics`, `proteomics`, `metabolomics`).
 
 ## Build and test
 
@@ -139,7 +139,7 @@ ENCODE's edge blocks the `from` query parameter, so search tools request the lea
 - **ChIP-Atlas.** `https://chip-atlas.dbcls.jp/api/v1/experiment` returned AccessDenied, and the experiment-list keys that were tried were missing. Roadmap Epigenomics is queried through ENCODE instead.
 - **CELLxGENE Census matrices and controlled GDC/ENCODE/HCA/HuBMAP/MetaboLights files.** Responses stay metadata. Controlled files have `url: null`.
 - **A MetaboLights metabolite catalog.** `/studies/{id}/metabolites` is not a JSON table. The `metabolite` schema exists for a later source.
-- **Catalog manifests.** There is no public URL yet, so nothing was added under `resources/connectors/`.
+- **Catalog manifests.** Added under `resources/connectors/` after the HTTPS gateway went live on `phi.omicsagent.cn`.
 
 ## Planned
 
@@ -147,7 +147,7 @@ HMDB will be added to the metabolomics server from a local bulk download. The pu
 
 ## Add them to the Phi catalog
 
-After the gateway is reachable over HTTPS, add one connector directory per server. Do not point a manifest at a URL that is not public yet. For a host `https://omics.example.com`, the transcriptomics manifest is:
+After the gateway is reachable over HTTPS, add one connector directory per server. Do not point a manifest at a URL that is not public yet. For the deployed host `https://phi.omicsagent.cn`, the transcriptomics manifest is:
 
 ```yaml
 schemaVersion: 1
@@ -161,7 +161,7 @@ connector:
   publisher: Phi Packages
   category: 健康与生命科学
   homepage: https://github.com/dxsbiocc/phi-packages
-  url: https://omics.example.com/transcriptomics/mcp
+  url: https://phi.omicsagent.cn/transcriptomics/mcp
   auth: none
 ```
 

@@ -1,0 +1,13 @@
+schemaVersion: 1
+id: metabolomics
+type: mcp
+version: 1.0.0
+title: Metabolomics
+summary: 检索 MetaboLights 的开放代谢组学研究与文件元数据
+connector:
+  transport: http
+  publisher: Phi Packages
+  category: 健康与生命科学
+  homepage: https://github.com/dxsbiocc/phi-packages
+  url: https://phi.omicsagent.cn/metabolomics/mcp
+  auth: none

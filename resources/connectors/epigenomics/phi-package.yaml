@@ -1,0 +1,13 @@
+schemaVersion: 1
+id: epigenomics
+type: mcp
+version: 1.0.0
+title: Epigenomics
+summary: 检索 ENCODE 与 Roadmap Epigenomics 的开放表观基因组元数据
+connector:
+  transport: http
+  publisher: Phi Packages
+  category: 健康与生命科学
+  homepage: https://github.com/dxsbiocc/phi-packages
+  url: https://phi.omicsagent.cn/epigenomics/mcp
+  auth: none

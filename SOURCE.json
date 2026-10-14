@@ -9,7 +9,7 @@
   ],
   "counts": {
     "standaloneSkills": 14,
-    "connectors": 22,
+    "connectors": 27,
     "plugins": 1,
     "pluginSkills": 1,
     "wrapperAdapters": 652,
@@ -43,7 +43,8 @@
     "Shared runtime and application palette definitions were removed from this repository. Contract/design documents remain reference snapshots maintained in Phi.",
     "Eight differential-expression modules now carry executable local Conda specifications and use public frozen container references. Analysis scripts, parameter contracts and wrapper entrypoints are unchanged.",
     "The Phi source repository was not modified by this content-repository correction.",
-    "Eighteen existing Phi connector brand icons were copied byte-for-byte into package-local icon files and those connector versions changed to 1.0.1. See docs/content-icons.md for attribution and byte records."
+    "Eighteen existing Phi connector brand icons were copied byte-for-byte into package-local icon files and those connector versions changed to 1.0.1. See docs/content-icons.md for attribution and byte records.",
+    "Five Phi omics MCP connectors point at the HTTPS gateway on phi.omicsagent.cn (Streamable HTTP). initialImportCounts.connectors remains 18."
   ],
   "initialImportCounts": {
     "standaloneSkills": 14,
@@ -140,6 +141,61 @@
         "retrievedAt": "2026-10-14",
         "sha256": "a7bf618db0cd107f86b4b1437aded5633273e74ff531afd58e84e1acb860deeb",
         "size": 4335
+      }
+    },
+    {
+      "path": "resources/connectors/transcriptomics-single-cell/",
+      "kind": "connector",
+      "note": "Phi omics MCP gateway over HTTPS on phi.omicsagent.cn",
+      "icon": {
+        "path": "resources/connectors/transcriptomics-single-cell/icon.svg",
+        "format": "svg",
+        "sha256": "0d699f0413e25d658492c37a174c0c07547c2b2885d9a822e79233ce8980de15",
+        "size": 376
+      }
+    },
+    {
+      "path": "resources/connectors/cancer-omics/",
+      "kind": "connector",
+      "note": "Phi omics MCP gateway over HTTPS on phi.omicsagent.cn",
+      "icon": {
+        "path": "resources/connectors/cancer-omics/icon.svg",
+        "format": "svg",
+        "sha256": "56e1c614e4d0aadf17ab3e18f6090411ad34fa8eb2f9902fe74e984a6f951eed",
+        "size": 271
+      }
+    },
+    {
+      "path": "resources/connectors/epigenomics/",
+      "kind": "connector",
+      "note": "Phi omics MCP gateway over HTTPS on phi.omicsagent.cn",
+      "icon": {
+        "path": "resources/connectors/epigenomics/icon.svg",
+        "format": "svg",
+        "sha256": "ae9ef5d433b0c32c2afb986fdd54df5a15e9c91f6d8fe95094307658b91b9cde",
+        "size": 425
+      }
+    },
+    {
+      "path": "resources/connectors/proteomics/",
+      "kind": "connector",
+      "note": "Phi omics MCP gateway over HTTPS on phi.omicsagent.cn",
+      "icon": {
+        "path": "resources/connectors/proteomics/icon.svg",
+        "format": "svg",
+        "sha256": "73b619b9dd6f9fda5b8a32d05efe8c0a0e648bc65a08b4ad56f4c85d63deb41d",
+        "size": 387
+      }
+    },
+    {
+      "path": "resources/connectors/metabolomics/",
+      "kind": "connector",
+      "note": "Phi omics MCP gateway over HTTPS on phi.omicsagent.cn",
+      "icon": {
+        "path": "resources/connectors/metabolomics/icon.svg",
+        "format": "svg",
+        "sha256": "e30d3c4344a23b5c5179ec077f071ba5477b4dad305a1d6b947b7e708b04018f",
+        "size": 338
       }
     }
   ],

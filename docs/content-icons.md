@@ -124,3 +124,18 @@ These hashes preserve the original image bytes without a frontend asset dependen
 | `resources/connectors/serpapi/icon.svg`         | `53656f8526033e4323a0d6c502cf1caf3f4ab17be72c2f83be37bd0cec9163e8` |  1848 |
 | `resources/connectors/slack/icon.svg`           | `fd9e7be2ea0056bcbab54e03b027c5be9b1d1c2d157821c06de2d563982c05fb` |  1738 |
 | `resources/connectors/tavily/icon.svg`          | `320ef37b5a13331bee4d756c6aed45422e61e73a02816ac3a4768815f6ed5153` |  2282 |
+
+## Phi omics MCP gateway icons
+
+Five original SVG marks were added on 2026-10-14 for the Phi-hosted omics MCP
+connectors. They are not part of the 18-icon migration. Each file sits beside its
+`phi-package.yaml` and is recorded in `SOURCE.json` `addedContent`.
+
+| Package file | SHA-256 | Bytes |
+| --- | --- | ---: |
+| `resources/connectors/transcriptomics-single-cell/icon.svg` | `0d699f0413e25d658492c37a174c0c07547c2b2885d9a822e79233ce8980de15` | 376 |
+| `resources/connectors/cancer-omics/icon.svg` | `56e1c614e4d0aadf17ab3e18f6090411ad34fa8eb2f9902fe74e984a6f951eed` | 271 |
+| `resources/connectors/epigenomics/icon.svg` | `ae9ef5d433b0c32c2afb986fdd54df5a15e9c91f6d8fe95094307658b91b9cde` | 425 |
+| `resources/connectors/proteomics/icon.svg` | `73b619b9dd6f9fda5b8a32d05efe8c0a0e648bc65a08b4ad56f4c85d63deb41d` | 387 |
+| `resources/connectors/metabolomics/icon.svg` | `e30d3c4344a23b5c5179ec077f071ba5477b4dad305a1d6b947b7e708b04018f` | 338 |
+

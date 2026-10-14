@@ -1,0 +1,13 @@
+schemaVersion: 1
+id: proteomics
+type: mcp
+version: 1.0.0
+title: Proteomics
+summary: 检索 PRIDE 与 Human Protein Atlas 的开放蛋白质组元数据
+connector:
+  transport: http
+  publisher: Phi Packages
+  category: 健康与生命科学
+  homepage: https://github.com/dxsbiocc/phi-packages
+  url: https://phi.omicsagent.cn/proteomics/mcp
+  auth: none

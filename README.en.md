@@ -9,7 +9,7 @@ Phi's independent public content repository, containing source files for install
 | Content | Count |
 | --- | ---: |
 | Standalone skills | 13 |
-| MCP connector definitions | 22 |
+| MCP connector definitions | 27 |
 | Composite Phi plugins | 1 |
 | Skills within plugins | 1 |
 | Wrapper adapters | 652 |
@@ -68,4 +68,4 @@ See [SOURCE.json](SOURCE.json) for the full scope and [VALIDATION.md](VALIDATION
 
 ## Omics MCP servers
 
-`mcp-servers/` holds five self-hosted read-only omics MCP servers (transcriptomics and single-cell, cancer omics, epigenomics, proteomics, and metabolomics). They are not under `resources/connectors/`, and the connector counts stay unchanged until a public HTTPS URL exists. Build, local stdio/HTTP, Docker, and catalog steps are in [mcp-servers/README.md](mcp-servers/README.md).
+`mcp-servers/` holds five self-hosted read-only omics MCP servers (transcriptomics and single-cell, cancer omics, epigenomics, proteomics, and metabolomics). The public HTTPS gateway is live at `https://phi.omicsagent.cn/{transcriptomics,cancer,epigenomics,proteomics,metabolomics}/mcp`, with matching manifests under `resources/connectors/`. Local stdio/HTTP and Docker steps are in [mcp-servers/README.md](mcp-servers/README.md).

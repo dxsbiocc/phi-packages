@@ -1,0 +1,13 @@
+schemaVersion: 1
+id: transcriptomics-single-cell
+type: mcp
+version: 1.0.0
+title: Transcriptomics and single-cell
+summary: 检索 GTEx、CELLxGENE、HCA 与 HuBMAP 的开放组学元数据
+connector:
+  transport: http
+  publisher: Phi Packages
+  category: 健康与生命科学
+  homepage: https://github.com/dxsbiocc/phi-packages
+  url: https://phi.omicsagent.cn/transcriptomics/mcp
+  auth: none
