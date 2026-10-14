@@ -151,6 +151,7 @@ def build_xrefs(document: dict, raw_root: Path, out: Path) -> dict[str, int]:
             if path:
                 for record in compounds_from_prism_names(read_csv_dicts(path), source["id"], id_field):
                     add_compound(records, record)
+    _add_batch2_xrefs(raw_root, roles, document, cellosaurus, model_rows, records)
     con = connect()
     model_columns = list(model_rows[0]) if model_rows else [
         "source", "source_model_id", "alias", "alias_type", "cvcl", "match_method", "status",
@@ -454,6 +455,18 @@ def _copy_dataset(con: duckdb.DuckDBPyConnection, sql: str, params: list[object]
     _replace_tree(part)
     con.execute(f"COPY ({sql}) TO '{part.as_posix()}/part.parquet' (FORMAT PARQUET)", params)
     count = con.execute("SELECT count(*) FROM read_parquet(?)", [str(part / "part.parquet")]).fetchone()
+    return int(count[0] if count else 0)
+
+
+def write_part(con: duckdb.DuckDBPyConnection, sql: str, params: list[object], root: Path, dataset: str, part_name: str) -> int:
+    """Write one parquet file inside a dataset directory without removing sibling parts."""
+    directory = root / f"dataset={dataset}"
+    directory.mkdir(parents=True, exist_ok=True)
+    dest = directory / part_name
+    if dest.exists():
+        dest.unlink()
+    con.execute(f"COPY ({sql}) TO '{dest.as_posix()}' (FORMAT PARQUET)", params)
+    count = con.execute("SELECT count(*) FROM read_parquet(?)", [str(dest)]).fetchone()
     return int(count[0] if count else 0)
 
 
@@ -977,7 +990,7 @@ def attach_pubchem(con: duckdb.DuckDBPyConnection, response_root: Path, xref: Pa
     if not response_root.exists():
         return
     xref_file = (xref / "part.parquet").as_posix()
-    for part in response_root.glob("dataset=*/part.parquet"):
+    for part in sorted(response_root.glob("dataset=*/*.parquet")):
         temporary = part.with_suffix(".parquet.next")
         con.execute(
             f"""
@@ -1000,6 +1013,60 @@ def attach_pubchem(con: duckdb.DuckDBPyConnection, response_root: Path, xref: Pa
             """
         )
         temporary.replace(part)
+
+
+def _add_batch2_xrefs(
+    raw_root: Path,
+    roles: dict[str, list[tuple[dict, dict]]],
+    document: dict,
+    cellosaurus: object | None,
+    model_rows: list[dict[str, str | None]],
+    records: dict[tuple[str, str], CompoundRecord],
+) -> None:
+    from pgx.nci60 import assay_tables, collect_compounds, collect_models
+    from pgx.pset import collect_source
+
+    nci_pairs: list[tuple[dict, dict]] = []
+    for role in ("nci60_endpoint", "nci60_oneconc", "nci60_doseresp"):
+        nci_pairs.extend(roles.get(role, []))
+    opened = assay_tables(raw_root, nci_pairs)
+    con = connect()
+    if opened:
+        tables = [path for _source, _spec, path in opened]
+        model_rows.extend(collect_models(con, tables, cellosaurus))
+        for record in collect_compounds(con, tables):
+            add_compound(records, record)
+    for source in document.get("sources") or []:
+        if not source.get("enabled", True):
+            continue
+        models, compounds = collect_source(con, raw_root, source, cellosaurus)
+        model_rows.extend(models)
+        for record in compounds:
+            add_compound(records, record)
+
+
+def _load_batch2_responses(
+    con: duckdb.DuckDBPyConnection,
+    document: dict,
+    raw_root: Path,
+    roles: dict[str, list[tuple[dict, dict]]],
+    xref: Path,
+    response_root: Path,
+) -> int:
+    from pgx.nci60 import assay_tables, load_responses
+    from pgx.pset import load_source
+
+    nci_pairs: list[tuple[dict, dict]] = []
+    for role in ("nci60_endpoint", "nci60_oneconc", "nci60_doseresp"):
+        nci_pairs.extend(roles.get(role, []))
+    opened = assay_tables(raw_root, nci_pairs)
+    tables = [(spec["name"], spec.get("role") or "", path) for _source, spec, path in opened]
+    total = load_responses(con, tables, xref, response_root) if tables else 0
+    for source in document.get("sources") or []:
+        if not source.get("enabled", True):
+            continue
+        total += load_source(con, raw_root, source, xref, response_root)
+    return total
 
 
 def process_all(document: dict, raw_root: Path, out: Path) -> dict[str, int]:
@@ -1052,6 +1119,7 @@ def process_all(document: dict, raw_root: Path, out: Path) -> dict[str, int]:
         path = file_for(raw_root, source["id"], str(source["version"]), spec["name"])
         if path:
             total_response += load_primary_lfc(con, path, str(spec["dataset"]), xref, response_root)
+    total_response += _load_batch2_responses(con, document, raw_root, roles, xref, response_root)
     counts.update(load_combinations(document, raw_root, out))
     total_response += counts.get("combination_responses", 0)
     if total_response:

@@ -30,6 +30,7 @@ async function writeFixture(dir: string): Promise<void> {
     `SELECT * FROM (VALUES
       ('gdsc','1047','Nutlin-3a (-)','','', '1047','11433190','CHEMBL191334','BDUHCSBCVGXTJM-WUFINQPMSA-N','', 'source_pubchem','mapped','PubChem CID column'),
       ('gdsc','1012','Vorinostat','','', '1012','5311','CHEMBL98','WAEXFXRVDQXREF-UHFFFAOYSA-N','', 'source_pubchem','mapped','PubChem CID column'),
+      ('nci60','NSC740','NSC740','','', NULL,'11433190',NULL,NULL,NULL, 'pubchem_nsc','mapped','NSC synonym'),
       ('prism_19q4','BRD-A12230535-001-06-7','nutlin-3','','BRD-A12230535-001-06-7',NULL,NULL,NULL,NULL,NULL,'unmatched','unmatched','no PubChem CID')
     ) AS t(source, source_compound_id, name, synonyms, brd_id, gdsc_drug_id, pubchem_cid, chembl_id, inchikey, smiles, match_method, status, evidence)`,
     path.join(dir, "compound_xref", "part.parquet"),
@@ -81,6 +82,12 @@ async function writeFixture(dir: string): Promise<void> {
     ) AS t(source_model_id, model_cvcl, source_compound_id, pubchem_cid, compound_name, metric, value, unit, dose, screen_id, qc, combination_id, response_class, anchor_conc, library_conc)`,
     path.join(dir, "drug_response", "dataset=gdsc1", "part.parquet"),
   );
+  await copy(
+    `SELECT * FROM (VALUES
+      ('NCI-H23','CVCL_1547','NSC740','11433190','NSC740', 'GI50', -7.1, 'log10_M', NULL::DOUBLE, '0001MD02', NULL::VARCHAR, NULL::VARCHAR, 'single', NULL::DOUBLE, NULL::DOUBLE)
+    ) AS t(source_model_id, model_cvcl, source_compound_id, pubchem_cid, compound_name, metric, value, unit, dose, screen_id, qc, combination_id, response_class, anchor_conc, library_conc)`,
+    path.join(dir, "drug_response", "dataset=nci60", "part.parquet"),
+  );
 }
 
 test("pharmacogenomics tools read fixture parquet", async () => {
@@ -131,6 +138,21 @@ test("pharmacogenomics tools read fixture parquet", async () => {
       assert.equal(included.page.total, 2);
       assert.equal(included.items[0]?.entity_type === "drug_response" ? included.items[0].combination_id : null, "gdsc.combination:1012:1003");
       assert.equal(included.items[0]?.entity_type === "drug_response" ? included.items[0].compound_id : "set", null);
+    }
+    const across = ToolResultSchema.parse(await tools[3]!.call(client, { compound: "pubchem:11433190", limit: 10 }));
+    assert.equal(across.entity_type, "page");
+    if (across.entity_type === "page") {
+      const datasets = across.items.map((item) => item.entity_type === "drug_response" ? item.dataset_id : null);
+      assert.equal(datasets.includes("pgx.dataset:gdsc1"), true);
+      assert.equal(datasets.includes("pgx.dataset:nci60"), true);
+      assert.equal(across.page.total, 3);
+    }
+    const nsc = ToolResultSchema.parse(await tools[3]!.call(client, { compound: "NSC740", limit: 5 }));
+    assert.equal(nsc.entity_type, "page");
+    if (nsc.entity_type === "page" && nsc.items[0]?.entity_type === "drug_response") {
+      assert.equal(nsc.page.total, 1);
+      assert.equal(nsc.items[0].dataset_id, "pgx.dataset:nci60");
+      assert.equal(nsc.items[0].compound_id, "pubchem:11433190");
     }
     const only = ToolResultSchema.parse(await tools[3]!.call(client, { compound: "Vorinostat + Camptothecin", limit: 5 }));
     assert.equal(only.entity_type, "page");

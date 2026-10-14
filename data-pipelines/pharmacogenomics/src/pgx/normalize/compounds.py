@@ -3,6 +3,8 @@
 Salt forms and stereo parentheticals are removed only from the lookup string.
 The source name stored on the record is unchanged. A lookup that returns more
 than one CID is ambiguous and stops; a looser name is not tried after that.
+An NSC number is queried as ``NSC740`` and ``NSC 740`` after a structure and
+before the stored name.
 """
 
 from __future__ import annotations
@@ -13,6 +15,8 @@ from collections.abc import Iterable
 from typing import Protocol
 
 from pgx.ids import CompoundRecord, apply_pubchem
+
+_NSC = re.compile(r"^NSC\s*(\d+)$", re.IGNORECASE)
 
 SALT_WORDS = (
     "dihydrochloride",
@@ -198,6 +202,9 @@ def iter_queries(record: CompoundRecord) -> list[tuple[str, str, str, str]]:
         add("inchikey", record.inchikey, "pubchem_inchikey", "high")
     if record.smiles:
         add("smiles", record.smiles, "pubchem_smiles", "high")
+    for token in _nsc_tokens(record):
+        add("name", token, "pubchem_nsc", "high")
+        add("name", token.replace("NSC", "NSC ", 1), "pubchem_nsc", "high")
     if record.name:
         _add_name(add, record.name, "pubchem_name", "pubchem_name_stereo", "pubchem_name_salt", "pubchem_name_dose")
         for extra in extra_lookup_names(record.name):
@@ -209,6 +216,24 @@ def iter_queries(record: CompoundRecord) -> list[tuple[str, str, str, str]]:
     if record.brd_id:
         add("name", record.brd_id, "pubchem_brd", "medium")
     return queries
+
+
+def _nsc_tokens(record: CompoundRecord) -> list[str]:
+    """PubChem stores NCI numbers as ``NSC740`` and ``NSC 740`` synonyms."""
+    found: list[str] = []
+    seen: set[str] = set()
+    for raw in (record.source_compound_id, record.name, *sorted(record.synonyms)):
+        if not raw:
+            continue
+        match = _NSC.match(str(raw).strip())
+        if not match:
+            continue
+        token = f"NSC{match.group(1)}"
+        if token in seen:
+            continue
+        seen.add(token)
+        found.append(token)
+    return found
 
 
 def _add_name(add, original: str, exact: str, stereo: str, salt: str, dose: str) -> None:

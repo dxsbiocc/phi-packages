@@ -1,4 +1,4 @@
-# Batch 1 downloads. Large matrices stay behind `phi-pgx download --live`
+# Batch 1 and batch 2 downloads. Large matrices stay behind `phi-pgx download --live`
 # or PHI_PGX_LIVE=1. Checksums are sha256 of the bytes retrieved on 2026-10-14.
 #
 # DepMap's portal catalogue (https://depmap.org/portal/api/download/files and
@@ -238,41 +238,189 @@ sources:
         role: cellosaurus
         live: false
 
-planned:
   - id: nci60_dtp
-    version: "2026-04"
-    enabled: false
+    version: "2026-10"
+    enabled: true
+    batch: 2
+    dataset: nci60
+    homepage: https://wiki.nci.nih.gov/display/NCIDTPdata/NCI-60+Growth+Inhibition+Data
+    license: "US National Cancer Institute DTP public release. Credit the National Cancer Institute. Not CC BY."
+    citation: "National Cancer Institute Developmental Therapeutics Program. NCI-60 growth-inhibition data, October 2026 files on wiki page 147193864. The April 2026 filenames are no longer published separately on that page."
     notes: >
-      NCI60 DTP April 2026 is not downloaded in batch 1. Add an NSC-to-PubChem
-      crosswalk and an explicit cell-line-to-CVCL crosswalk, then emit the same
-      drug_response and model_xref tables. Do not fuzzy-match NCI60 names.
+      Compounds are NSC numbers. PubChem is queried as NSC740 / NSC 740.
+      public_nscs.csv is a number list with no SMILES. No DTP structure file
+      was pinned. Cell-line names are matched with Cellosaurus only; names are
+      not fuzzy-matched. DOSERESP.zip is Deflate64 and is not extracted unless
+      7z is installed.
+    files:
+      - name: GI50.zip
+        url: https://wiki.nci.nih.gov/download/attachments/147193864/GI50.zip?version=20&modificationDate=1791427415735&api=v2
+        sha256: 65212008012e0fc4648709f5f081c18e577986a40a8ba45ea271f8c3bb81f728
+        role: nci60_endpoint
+        live: false
+      - name: TGI.zip
+        url: https://wiki.nci.nih.gov/download/attachments/147193864/TGI.zip?version=22&modificationDate=1791427437226&api=v2
+        sha256: f260a919f4f8c476f9398ed26aa6db6e8bd5a440896099b5da683f21541e0cc8
+        role: nci60_endpoint
+        live: false
+      - name: LC50.zip
+        url: https://wiki.nci.nih.gov/download/attachments/147193864/LC50.zip?version=20&modificationDate=1791427425036&api=v2
+        sha256: 0493ef82660e2f0f6d7a36ba56fbc212885ccb72193103ca50d21f3b4371beba
+        role: nci60_endpoint
+        live: false
+      - name: IC50.zip
+        url: https://wiki.nci.nih.gov/download/attachments/147193864/IC50.zip?version=20&modificationDate=1791427419479&api=v2
+        sha256: 9e5fd767f0738307b62b1bf83d3f9199d18757b3d23bcca213be65e419ad2ad2
+        role: nci60_endpoint
+        live: false
+      - name: ONECONC.zip
+        url: https://wiki.nci.nih.gov/download/attachments/147193864/ONECONC.zip?version=21&modificationDate=1791427429291&api=v2
+        sha256: 681291402e668f1b6edd95a0a6b4ef62ac50cfe997066c9382add32bf2d610ed
+        role: nci60_oneconc
+        live: false
+      - name: public_nscs.csv
+        url: https://wiki.nci.nih.gov/download/attachments/147193864/public_nscs.csv?version=21&modificationDate=1791427802612&api=v2
+        sha256: 34d74a29c94e546c8942e171ca5477bef43a48ca144437c609b19da6c536b125
+        role: nci60_nsc_list
+        live: false
+      - name: DOSERESP.zip
+        url: https://wiki.nci.nih.gov/download/attachments/147193864/DOSERESP.zip?version=21&modificationDate=1791427380930&api=v2
+        role: nci60_doseresp
+        live: true
+
   - id: orcestra_ctrpv2
     version: "2.1"
-    enabled: false
-    access: R/PharmacoGx or rpy2
-    notes: Frozen ORCESTRA PSet CTRPv2.1. Not implemented.
-  - id: orcestra_gcsi
-    enabled: false
-    access: R/PharmacoGx or rpy2
-    notes: Frozen ORCESTRA PSet gCSI. Not implemented.
-  - id: orcestra_fimm
-    enabled: false
-    access: R/PharmacoGx or rpy2
-    notes: Frozen ORCESTRA PSet FIMM. Not implemented.
-  - id: orcestra_gray
-    enabled: false
-    access: R/PharmacoGx or rpy2
-    notes: Frozen ORCESTRA PSet GRAY. Not implemented.
-  - id: orcestra_uhnhbreast
-    enabled: false
-    access: R/PharmacoGx or rpy2
-    notes: Frozen ORCESTRA PSet UHNBreast. Not implemented.
-  - id: orcestra_ccle
-    enabled: false
-    access: R/PharmacoGx or rpy2
+    enabled: true
+    batch: 2
+    dataset: ctrpv2
+    homepage: https://doi.org/10.5281/zenodo.21794049
+    license: CC BY 4.0
+    citation: "ORCESTRA CTRPv2.1 PharmacoSet. Zenodo. https://doi.org/10.5281/zenodo.21794049 (2026-07-31)."
     notes: >
-      Frozen ORCESTRA CCLE PSet. Not implemented. Do not use an ORCESTRA PRISM
-      PSet; PRISM in this pipeline comes from the DepMap Figshare releases.
+      Published TSV extracts are loaded without R. The RDS is the same record
+      the user linked and is converted by r/extract_pset.R when Rscript and
+      PharmacoGx are available. Numeric compound ids are stored as ctrpv2:{id}.
+    files:
+      - name: sample.tsv
+        url: https://zenodo.org/records/21794049/files/sample.tsv?download=1
+        sha256: d4d20a7d448c4320568e23f8a6b6c2adc7881a62b8addf3ea2bb5f8a89b21cbc
+        role: pset_cells
+        live: false
+      - name: treatment.tsv
+        url: https://zenodo.org/records/21794049/files/treatment.tsv?download=1
+        sha256: 214997d1c04906d9415e69fa8ef6d1f6134f469ea643a3ee5c9b5757906cca48
+        role: pset_drugs
+        live: false
+      - name: v2.1_auc_sensitivities.tsv
+        url: https://zenodo.org/records/21794049/files/v2.1_auc_sensitivities.tsv?download=1
+        sha256: 0ba514c0c0d2d95b90306ebed5c4df4526a27ed048f54bfe4c5940088e33eb33
+        role: pset_profiles
+        live: false
+      - name: recomputed_profiles.tsv
+        url: https://zenodo.org/records/21794049/files/recomputed_profiles.tsv?download=1
+        sha256: 23121c0d08299df0d090381e01eef213b47626da66180143c14952fae5fab4f1
+        role: pset_recomputed
+        live: true
+      - name: sensitivity.tsv
+        url: https://zenodo.org/records/21794049/files/sensitivity.tsv?download=1
+        role: pset_raw
+        live: true
+      - name: CTRPv2.1_PSet.rds
+        url: https://zenodo.org/records/21794049/files/CTRPv2.1_PSet.rds?download=1
+        role: pset_rds
+        live: true
+
+  - id: orcestra_gcsi
+    version: "2019"
+    enabled: true
+    batch: 2
+    dataset: gcsi
+    homepage: https://doi.org/10.5281/zenodo.4737437
+    license: CC BY 4.0
+    citation: "ORCESTRA gCSI 2019 PharmacoSet (gCSI2.rds). Zenodo. https://doi.org/10.5281/zenodo.4737437 (2021-04-28). Screen year 2019."
+    notes: RDS only. md5 edca97d598105c2e8c45dbafa16f4287. Extract with the pipeline Dockerfile.
+    files:
+      - name: gCSI2.rds
+        url: https://zenodo.org/records/4737437/files/gCSI2.rds?download=1
+        role: pset_rds
+        live: true
+
+  - id: orcestra_fimm
+    version: "2020-06-24"
+    enabled: true
+    batch: 2
+    dataset: fimm
+    homepage: https://doi.org/10.5281/zenodo.3905448
+    license: CC0-1.0
+    citation: "ORCESTRA FIMM PharmacoSet. Zenodo. https://doi.org/10.5281/zenodo.3905448 (2020-06-24, CC0). An earlier CC BY 4.0 file is 10.5281/zenodo.3598728 (2020-01-08)."
+    notes: >
+      The pinned object is 231489 bytes, md5 d30826eec0da0fcc08bb4111e1ca6180.
+      It is small enough to download, and it is not read unless Rscript is installed.
+    files:
+      - name: FIMM.rds
+        url: https://zenodo.org/records/3905448/files/FIMM.rds?download=1
+        role: pset_rds
+        live: false
+
+  - id: orcestra_gray
+    version: "2017"
+    enabled: true
+    batch: 2
+    dataset: gray
+    homepage: https://doi.org/10.5281/zenodo.3905458
+    license: CC0-1.0
+    citation: "ORCESTRA GRAY PharmacoSet, screen year 2017. Zenodo deposit 2020-06-24. https://doi.org/10.5281/zenodo.3905458."
+    notes: GRAY.rds is 155116234 bytes, md5 78372c002c76827b7756ef525a2b48a4. RDS only.
+    files:
+      - name: GRAY.rds
+        url: https://zenodo.org/records/3905458/files/GRAY.rds?download=1
+        role: pset_rds
+        live: true
+
+  - id: orcestra_uhnhbreast
+    version: "2019"
+    enabled: true
+    batch: 2
+    dataset: uhnbreast
+    homepage: https://doi.org/10.5281/zenodo.3601415
+    license: CC BY 4.0
+    citation: "ORCESTRA UHNBreast 2019 PharmacoSet (UHN_2019.rds). Zenodo. https://doi.org/10.5281/zenodo.3601415 (2020-01-08)."
+    notes: >
+      The 2019-named file is pinned. A later CC0 object, 10.5281/zenodo.7826860
+      (2023-04-13), was not used. md5 2e1191e41e7d391042afdacbc11eb982.
+    files:
+      - name: UHN_2019.rds
+        url: https://zenodo.org/records/3601415/files/UHN_2019.rds?download=1
+        role: pset_rds
+        live: true
+
+  - id: orcestra_ccle
+    version: "2019"
+    enabled: true
+    batch: 2
+    dataset: ccle
+    homepage: https://doi.org/10.5281/zenodo.18759113
+    license: CC BY 4.0
+    citation: "ORCESTRA CCLE PSet 2019. Zenodo. https://doi.org/10.5281/zenodo.18759113 (2026-02-24)."
+    notes: >
+      CCLE_PharmacoSet.RDS is about 3 GB, md5 b0f4636d8f4ec41d2d11d52dc7203bac.
+      Do not use an ORCESTRA PRISM PSet; PRISM in this pipeline comes from the
+      DepMap Figshare releases.
+    files:
+      - name: CCLE_PharmacoSet.RDS
+        url: https://zenodo.org/records/18759113/files/CCLE_PharmacoSet.RDS?download=1
+        role: pset_rds
+        live: true
+
+planned:
+  - id: orcestra_nci60
+    version: "2026"
+    enabled: false
+    notes: >
+      ORCESTRA lists a canonical NCI60_2026 PharmacoSet, but no public Zenodo
+      file with that name was found on 2026-10-14. The 2021 CC BY 4.0 deposit
+      10.5281/zenodo.5570629 is an older NCI60 PSet and is not pinned. A future
+      PSet must use dataset nci60_pset so it does not overwrite DTP nci60.
   - id: hmdb
     enabled: false
     notes: >

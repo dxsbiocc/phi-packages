@@ -68,6 +68,7 @@ IDENTIFIER_METHODS = {
     "cmp_cosmic",
     "cmp_rrid",
     "depmap_ach",
+    "pset_cellosaurus",
 }
 
 _LINEAGE_TAILS = tuple("_" + suffix for suffix in sorted(CCLE_LINEAGES, key=len, reverse=True))
