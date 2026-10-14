@@ -8,7 +8,7 @@ Phi's independent public content repository, containing source files for install
 
 | Content | Count |
 | --- | ---: |
-| Standalone skills | 13 |
+| Standalone skills | 18 |
 | MCP connector definitions | 19 |
 | Composite Phi plugins | 1 |
 | Skills within plugins | 1 |
@@ -60,6 +60,7 @@ See [SOURCE.json](SOURCE.json) for the full scope and [VALIDATION.md](VALIDATION
 ## Content conventions
 
 - Follow the existing directory layout and content formats where possible. Package manifests follow the [Package contract](docs/contracts/package.md).
+- Standalone skills live in `resources/skills/<name>/`. `SKILL.md` follows the [Skill contract](docs/contracts/skill.md), and the directory name equals the frontmatter `name`.
 - Keep wrapper include targets, support files, and test data together so copying an adapter alone does not leave missing dependencies.
 - Check component references when modifying plugins. Local MCP services continue to run in managed environments on the user's machine.
 - Do not commit secrets, account configuration, installed environments, or Nextflow run outputs.
