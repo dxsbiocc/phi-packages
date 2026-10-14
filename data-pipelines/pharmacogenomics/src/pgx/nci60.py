@@ -8,6 +8,7 @@ GI50, TGI, LC50, and IC50 share dataset ``nci60`` and are distinguished by
 
 from __future__ import annotations
 
+import csv
 import shutil
 import subprocess
 import zipfile
@@ -19,6 +20,7 @@ from pgx.ids import CompoundRecord, Decision, clean, xref_rows
 
 NCI_SOURCE = "nci60"
 ENDPOINT_METRICS = {"GI50", "TGI", "LC50", "IC50"}
+CURATED_CELLS = Path(__file__).resolve().parents[2] / "curated" / "nci60_cell_lines.csv"
 
 
 def nsc_id(value: object) -> str | None:
@@ -83,7 +85,45 @@ def _quote(name: str) -> str:
     return '"' + name.replace('"', '""') + '"'
 
 
-def collect_models(con: duckdb.DuckDBPyConnection, tables: list[Path], cellosaurus: object | None) -> list[dict[str, str | None]]:
+def load_curated(path: Path | None = None) -> dict[str, dict[str, str]]:
+    """DTP cell-line name to the curated row. Exact `dtp_name` is the lookup key."""
+    source = path or CURATED_CELLS
+    if not source.exists():
+        return {}
+    found: dict[str, dict[str, str]] = {}
+    with source.open(newline="") as handle:
+        for row in csv.DictReader(handle):
+            name = clean(row.get("dtp_name"))
+            cvcl = clean(row.get("cvcl"))
+            if not name or not cvcl:
+                continue
+            found[name] = {key: (value or "") for key, value in row.items()}
+    return found
+
+
+def curated_decision(row: dict[str, str], cellosaurus: object | None) -> Decision:
+    """Curated accession wins. A Cellosaurus problem flag is still attached."""
+    cvcl = row["cvcl"]
+    notes = row.get("notes") or f"curated {cvcl}"
+    flag = None
+    if cellosaurus is not None:
+        primary = cellosaurus.primary(cvcl)
+        if primary:
+            if primary != cvcl:
+                notes = f"{notes} Secondary {cvcl} -> {primary}."
+            cvcl = primary
+            flag = cellosaurus.flag(primary)
+        else:
+            notes = f"{notes} Accession was not in the loaded Cellosaurus file."
+    return Decision(cvcl, "curated", "mapped", notes, flag)
+
+
+def collect_models(
+    con: duckdb.DuckDBPyConnection,
+    tables: list[Path],
+    cellosaurus: object | None,
+    curated: dict[str, dict[str, str]] | None = None,
+) -> list[dict[str, str | None]]:
     rows: dict[str, str | None] = {}
     for table in tables:
         columns = set(_columns(con, table))
@@ -101,9 +141,13 @@ def collect_models(con: duckdb.DuckDBPyConnection, tables: list[Path], cellosaur
             token = clean(name)
             if token and token not in rows:
                 rows[token] = clean(tissue)
+    curated_rows = load_curated() if curated is None else curated
     out: list[dict[str, str | None]] = []
     for name, tissue in rows.items():
-        if cellosaurus is not None:
+        chosen = curated_rows.get(name)
+        if chosen:
+            decision = curated_decision(chosen, cellosaurus)
+        elif cellosaurus is not None:
             decision = cellosaurus.decide_names([name])
         else:
             decision = Decision(None, "unmatched", "unmatched", "no Cellosaurus index")
