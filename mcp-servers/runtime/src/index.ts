@@ -6,6 +6,7 @@ export {
   cellType,
   compound,
   dataset,
+  drugCombination,
   drugResponse,
   donor,
   expression,

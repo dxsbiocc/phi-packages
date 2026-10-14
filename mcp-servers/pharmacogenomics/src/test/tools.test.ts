@@ -29,9 +29,16 @@ async function writeFixture(dir: string): Promise<void> {
   await copy(
     `SELECT * FROM (VALUES
       ('gdsc','1047','Nutlin-3a (-)','','', '1047','11433190','CHEMBL191334','BDUHCSBCVGXTJM-WUFINQPMSA-N','', 'source_pubchem','mapped','PubChem CID column'),
+      ('gdsc','1012','Vorinostat','','', '1012','5311','CHEMBL98','WAEXFXRVDQXREF-UHFFFAOYSA-N','', 'source_pubchem','mapped','PubChem CID column'),
       ('prism_19q4','BRD-A12230535-001-06-7','nutlin-3','','BRD-A12230535-001-06-7',NULL,NULL,NULL,NULL,NULL,'unmatched','unmatched','no PubChem CID')
     ) AS t(source, source_compound_id, name, synonyms, brd_id, gdsc_drug_id, pubchem_cid, chembl_id, inchikey, smiles, match_method, status, evidence)`,
     path.join(dir, "compound_xref", "part.parquet"),
+  );
+  await copy(
+    `SELECT * FROM (VALUES
+      ('gdsc.combination:1012:1003','gdsc_combinations','gdsc_combination_validation','Vorinostat + Camptothecin','1012','1003','Vorinostat','Camptothecin','5311','24360','CHEMBL98','CHEMBL65','2','0.1','uM','mapped',NULL)
+    ) AS t(combination_id, source, screen, name, anchor_drug_id, library_drug_id, anchor_name, library_name, anchor_pubchem_cid, library_pubchem_cid, anchor_chembl_id, library_chembl_id, anchor_concentrations, library_concentrations, concentration_unit, status, source_drug_id)`,
+    path.join(dir, "combination_xref", "part.parquet"),
   );
   await copy(
     `SELECT * FROM (VALUES
@@ -67,9 +74,11 @@ async function writeFixture(dir: string): Promise<void> {
   );
   await copy(
     `SELECT * FROM (VALUES
-      ('ACH-000001','CVCL_0001','1047','11433190','Nutlin-3a (-)', 'LN_IC50', 0.2, 'ln_uM', NULL::DOUBLE, NULL::VARCHAR, NULL::VARCHAR),
-      ('ACH-000002','CVCL_0002','1047','11433190','Nutlin-3a (-)', 'LN_IC50', 2.5, 'ln_uM', NULL::DOUBLE, NULL::VARCHAR, NULL::VARCHAR)
-    ) AS t(source_model_id, model_cvcl, source_compound_id, pubchem_cid, compound_name, metric, value, unit, dose, screen_id, qc)`,
+      ('ACH-000001','CVCL_0001','1047','11433190','Nutlin-3a (-)', 'LN_IC50', 0.2, 'ln_uM', NULL::DOUBLE, NULL::VARCHAR, NULL::VARCHAR, NULL::VARCHAR, 'single', NULL::DOUBLE, NULL::DOUBLE),
+      ('ACH-000002','CVCL_0002','1047','11433190','Nutlin-3a (-)', 'LN_IC50', 2.5, 'ln_uM', NULL::DOUBLE, NULL::VARCHAR, NULL::VARCHAR, NULL::VARCHAR, 'single', NULL::DOUBLE, NULL::DOUBLE),
+      ('ACH-000001','CVCL_0001','1012','5311','Vorinostat', 'LN_IC50', 1.0, 'ln_uM', NULL::DOUBLE, NULL::VARCHAR, NULL::VARCHAR, NULL::VARCHAR, 'single', NULL::DOUBLE, NULL::DOUBLE),
+      ('ACH-000001','CVCL_0001','1012:1003',NULL,'Vorinostat + Camptothecin', 'SYNERGY_DELTA_AUC', 0.05, NULL, NULL::DOUBLE, NULL::VARCHAR, NULL::VARCHAR, 'gdsc.combination:1012:1003', 'combination', 2.0, 0.1)
+    ) AS t(source_model_id, model_cvcl, source_compound_id, pubchem_cid, compound_name, metric, value, unit, dose, screen_id, qc, combination_id, response_class, anchor_conc, library_conc)`,
     path.join(dir, "drug_response", "dataset=gdsc1", "part.parquet"),
   );
 }
@@ -106,7 +115,31 @@ test("pharmacogenomics tools read fixture parquet", async () => {
     assert.equal(response.entity_type, "page");
     if (response.entity_type === "page" && response.items[0]?.entity_type === "drug_response") {
       assert.equal(response.items[0].compound_id, "pubchem:11433190");
+      assert.equal(response.items[0].combination_id, null);
       assert.equal(response.items[0].value, 0.2);
+      assert.equal(response.items.every((item) => item.entity_type === "drug_response" && item.source_extra.response_class === "single"), true);
+    }
+    const singleAgent = ToolResultSchema.parse(await tools[3]!.call(client, { compound: "1012", limit: 5 }));
+    assert.equal(singleAgent.entity_type, "page");
+    if (singleAgent.entity_type === "page") {
+      assert.equal(singleAgent.page.total, 1);
+      assert.equal(singleAgent.items[0]?.entity_type === "drug_response" ? singleAgent.items[0].metric : null, "LN_IC50");
+    }
+    const included = ToolResultSchema.parse(await tools[3]!.call(client, { compound: "Vorinostat", combinations: "include", limit: 5 }));
+    assert.equal(included.entity_type, "page");
+    if (included.entity_type === "page") {
+      assert.equal(included.page.total, 2);
+      assert.equal(included.items[0]?.entity_type === "drug_response" ? included.items[0].combination_id : null, "gdsc.combination:1012:1003");
+      assert.equal(included.items[0]?.entity_type === "drug_response" ? included.items[0].compound_id : "set", null);
+    }
+    const only = ToolResultSchema.parse(await tools[3]!.call(client, { compound: "Vorinostat + Camptothecin", limit: 5 }));
+    assert.equal(only.entity_type, "page");
+    if (only.entity_type === "page" && only.items[0]?.entity_type === "drug_response") {
+      assert.equal(only.page.total, 1);
+      assert.equal(only.items[0].combination_id, "gdsc.combination:1012:1003");
+      assert.equal(only.items[0].compound_id, null);
+      assert.equal(only.items[0].metric, "SYNERGY_DELTA_AUC");
+      assert.equal(only.items[0].source_extra.response_class, "combination");
     }
   } finally {
     delete process.env.PHI_PGX_DATA_DIR;

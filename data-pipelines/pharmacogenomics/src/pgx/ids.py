@@ -433,6 +433,7 @@ class CompoundRecord:
     confidence: str | None = None
     status: str = "unmatched"
     evidence: str = "no PubChem CID in the source file"
+    review_reason: str | None = None
 
 
 def _cid(value: object) -> str | None:
@@ -489,6 +490,7 @@ def compound_rows(records: dict[tuple[str, str], CompoundRecord]) -> list[dict[s
             "confidence": record.confidence,
             "status": record.status,
             "evidence": record.evidence,
+            "review_reason": record.review_reason,
         })
     return rows
 
@@ -513,7 +515,16 @@ def compounds_from_gdsc(rows: list[dict[str, str]]) -> list[CompoundRecord]:
             inchikey=clean(row.get("INCHIKEY") or row.get("inchikey")),
         )
         record.synonyms.update(split_synonyms(row.get("SYNONYMS")))
-        if cid:
+        from pgx.normalize.combinations import is_annotation_combination
+
+        if is_annotation_combination(record.name):
+            record.status = "combination"
+            record.review_reason = "combination"
+            record.match_method = "combination"
+            record.confidence = None
+            record.pubchem_cid = None
+            record.evidence = "combination name is not a single compound"
+        elif cid:
             record.status = "mapped"
             record.match_method = "source_pubchem"
             record.confidence = "high"

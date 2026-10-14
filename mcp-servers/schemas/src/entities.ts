@@ -146,10 +146,28 @@ export const CompoundSchema = z.object({
   synonyms: z.array(z.string()),
 });
 
+export const CombinationRoleSchema = z.enum(["anchor", "library"]);
+
+export const DrugCombinationComponentSchema = z.object({
+  compound_id: CurieSchema.nullable(),
+  role: CombinationRoleSchema,
+  name: z.string().nullable(),
+  concentrations: z.array(z.number()),
+  unit: z.string().nullable(),
+});
+
+export const DrugCombinationSchema = z.object({
+  entity_type: z.literal("drug_combination"),
+  ...base,
+  name: z.string().nullable(),
+  components: z.array(DrugCombinationComponentSchema),
+});
+
 export const DrugResponseSchema = z.object({
   entity_type: z.literal("drug_response"),
   ...base,
   compound_id: CurieSchema.nullable(),
+  combination_id: CurieSchema.nullable(),
   sample_id: CurieSchema.nullable(),
   dataset_id: CurieSchema.nullable(),
   metric: z.string().nullable(),
@@ -252,6 +270,7 @@ export const EntitySchema = z.discriminatedUnion("entity_type", [
   ProteinSchema,
   MetaboliteSchema,
   CompoundSchema,
+  DrugCombinationSchema,
   DrugResponseSchema,
   ExpressionSchema,
   VariantSchema,
@@ -269,6 +288,7 @@ export const ENTITY_TYPES = [
   "protein",
   "metabolite",
   "compound",
+  "drug_combination",
   "drug_response",
   "expression",
   "variant",

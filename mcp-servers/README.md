@@ -147,7 +147,7 @@ ENCODE's edge blocks the `from` query parameter, so search tools request the lea
 
 ### Pharmacogenomics
 
-`usage_terms`, `resolve_cell_line`, `gene_dependency`, `compound_response`, `model_summary`.
+`usage_terms`, `resolve_cell_line`, `gene_dependency`, `compound_response`, `model_summary`. `compound_response` returns single-agent rows unless `combinations` is `include` or `only`, or the query is a combination id or an `Anchor + Library` name. Combination rows set `combination_id` and leave `compound_id` null.
 
 The server does not download releases. Build the tables with `data-pipelines/pharmacogenomics` and point `PHI_PGX_DATA_DIR` at the `processed/` directory. Without that directory the query tools return `unavailable`. `usage_terms` still returns the license text.
 

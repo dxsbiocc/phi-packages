@@ -8,7 +8,7 @@ from pathlib import Path
 
 from pgx.download import download_all, live_enabled, load_sources
 from pgx.ids import CompoundRecord, add_compound, compound_rows
-from pgx.process import _write_rows, connect, process_all
+from pgx.process import _write_rows, connect, process_all, refresh_combination_components
 from pgx.pubchem import resolve_records
 from pgx.validate import validate
 
@@ -75,6 +75,7 @@ def main(argv: list[str] | None = None) -> None:
                 confidence=data.get("confidence"),
                 status=data.get("status") or "unmatched",
                 evidence=data.get("evidence") or "",
+                review_reason=data.get("review_reason"),
             )
             if data.get("synonyms"):
                 record.synonyms.update(part for part in str(data["synonyms"]).split(";") if part)
@@ -83,7 +84,9 @@ def main(argv: list[str] | None = None) -> None:
         _write_rows(connect(), compound_rows(records), out / "compound_xref", [
             "source", "source_compound_id", "name", "synonyms", "brd_id", "gdsc_drug_id",
             "pubchem_cid", "chembl_id", "inchikey", "smiles", "match_method", "confidence", "status", "evidence",
+            "review_reason",
         ])
+        refresh_combination_components(out)
         summary: dict[str, dict[str, int]] = {}
         for record in records.values():
             bucket = summary.setdefault(record.source, {"rows": 0, "mapped": 0, "unmatched": 0, "ambiguous": 0})
