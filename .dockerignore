@@ -1,0 +1,9 @@
+.git
+node_modules
+**/node_modules
+**/dist
+resources
+tests
+docs
+*.md
+!mcp-servers/README.md

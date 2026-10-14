@@ -1,0 +1,20 @@
+services:
+  omics-mcp:
+    build:
+      context: ..
+      dockerfile: mcp-servers/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      HOST: 0.0.0.0
+      PORT: "8080"
+      PHI_OMICS_CACHE_DIR: /var/cache/phi-omics-mcp
+      PHI_OMICS_RATE_LIMIT_RPS: "4"
+      PHI_OMICS_CACHE_TTL_MS: "21600000"
+      PHI_OMICS_TIMEOUT_MS: "30000"
+    volumes:
+      - omics-cache:/var/cache/phi-omics-mcp
+    restart: unless-stopped
+
+volumes:
+  omics-cache:

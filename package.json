@@ -1,0 +1,22 @@
+{
+  "name": "phi-packages",
+  "private": true,
+  "workspaces": [
+    "mcp-servers/schemas",
+    "mcp-servers/runtime",
+    "mcp-servers/transcriptomics-single-cell",
+    "mcp-servers/cancer-omics",
+    "mcp-servers/epigenomics",
+    "mcp-servers/proteomics-metabolomics",
+    "mcp-servers/gateway"
+  ],
+  "scripts": {
+    "build:mcp": "npm run build --workspaces --if-present",
+    "lint:mcp": "npm run lint --workspaces --if-present",
+    "test:mcp": "npm run test --workspaces --if-present"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.21",
+    "typescript": "^5.8.3"
+  }
+}
