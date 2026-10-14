@@ -66,7 +66,9 @@ def test_nci60_endpoints_oneconc_and_doseresp(tmp_path):
     by_name = {row["source_model_id"]: row for row in primary}
     assert by_name["NCI-H23"]["cvcl"] == "CVCL_1547"
     assert by_name["NCI-H23"]["status"] == "mapped"
+    assert by_name["NCI-H23"]["match_method"] == "curated"
     assert by_name["MDA-MB-435"]["cvcl"] == "CVCL_0417"
+    assert by_name["MDA-MB-435"]["match_method"] == "curated"
     assert by_name["MDA-MB-435"]["cellosaurus_flag"] == "misidentified"
     compounds = collect_compounds(con, tables)
     assert {record.source_compound_id for record in compounds} == {"NSC740"}

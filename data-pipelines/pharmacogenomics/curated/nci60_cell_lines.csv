@@ -1,0 +1,79 @@
+dtp_panel,dtp_name,cvcl,cellosaurus_name,panel_role,notes,source
+Breast Cancer,BT-549,CVCL_1092,BT-549,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Breast Cancer,HS 578T,CVCL_0332,Hs 578T,standard,DTP name is a Cellosaurus synonym of Hs 578T.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Breast Cancer,MCF7,CVCL_0031,MCF-7,standard,DTP name is a Cellosaurus synonym of MCF-7.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Breast Cancer,MCF7/ATCC,CVCL_0031,MCF-7,standard,DTP ATCC stock name of the NCI-60 MCF-7 line. CellMiner uses MCF7 for this panel member.,Cellosaurus 56.0 NCI-60; DTP cell list / CellMiner panel
+Breast Cancer,MDA-MB-231/ATCC,CVCL_0062,MDA-MB-231,standard,DTP name of the NCI-60 MDA-MB-231 line. Cellosaurus ID does not include the /ATCC suffix.,Cellosaurus 56.0 NCI-60; DTP cell list / CellMiner panel
+Breast Cancer,MDA-MB-468,CVCL_0419,MDA-MB-468,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Breast Cancer,T-47D,CVCL_0553,T-47D,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+CNS Cancer,SF-268,CVCL_1689,SF268,standard,DTP name is a Cellosaurus synonym of SF268.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+CNS Cancer,SF-295,CVCL_1690,SF295,standard,DTP name is a Cellosaurus synonym of SF295.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+CNS Cancer,SF-539,CVCL_1691,SF539,standard,DTP name is a Cellosaurus synonym of SF539.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+CNS Cancer,SNB-19,CVCL_0535,SNB-19,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+CNS Cancer,SNB-75,CVCL_1706,SNB-75,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+CNS Cancer,SNB-78,CVCL_B321,SNB-78,historical,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 additional lines
+CNS Cancer,U251,CVCL_0021,U-251MG,standard,DTP name is a Cellosaurus synonym of U-251MG.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+CNS Cancer,XF 498,CVCL_8928,XF 498,historical,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 additional lines
+Colon Cancer,COLO 205,CVCL_0218,COLO 205,standard,NCI-60 entry CVCL_0218. Not the separate record COLO205 (CVCL_F402).,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Colon Cancer,DLD-1,CVCL_0248,DLD-1,historical,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 additional lines
+Colon Cancer,HCC-2998,CVCL_1266,HCC2998,standard,DTP name is a Cellosaurus synonym of HCC2998.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Colon Cancer,HCT-116,CVCL_0291,HCT 116,standard,DTP name is a Cellosaurus synonym of HCT 116.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Colon Cancer,HCT-116/P,CVCL_0291,HCT 116,standard,Cellosaurus lists HCT-116/P as a synonym of HCT 116 (parental stock).,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Colon Cancer,HCT-15,CVCL_0292,HCT 15,standard,DTP name is a Cellosaurus synonym of HCT 15.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Colon Cancer,HT29,CVCL_0320,HT-29,standard,DTP name HT29 is a synonym of NCI-60 HT-29 (CVCL_0320). Not the separate record HT29 (CVCL_A8EZ).,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Colon Cancer,KM12,CVCL_1331,KM12,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Colon Cancer,KM20L2,CVCL_D889,KM20L2,historical,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 additional lines
+Colon Cancer,SW-620,CVCL_0547,SW620,standard,DTP name is a Cellosaurus synonym of SW620.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Leukemia,CCRF-CEM,CVCL_0207,CCRF-CEM,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Leukemia,HL-60(TB),CVCL_A794,HL-60(TB),standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Leukemia,K-562,CVCL_0004,K-562,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Leukemia,MOLT-4,CVCL_0013,MOLT-4,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Leukemia,NB4,CVCL_0005,NB4,historical,DTP leukemia name matches Cellosaurus ID NB4 (CVCL_0005). Not the SJNB-4 synonym NB4 (CVCL_8821).,Cellosaurus 56.0 ID NB4; DTP historical screen
+Leukemia,P388,CVCL_7222,P388,historical,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 additional lines
+Leukemia,P388/ADR,CVCL_IZ75,P388/ADR,historical,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 additional lines
+Leukemia,RPMI-8226,CVCL_0014,RPMI-8226,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Leukemia,SR,CVCL_1711,SR,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Melanoma,LOX IMVI,CVCL_1381,LOX-IMVI,standard,DTP name is a Cellosaurus synonym of LOX-IMVI.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Melanoma,M14,CVCL_1395,M14,standard,"NCI-60 melanoma CVCL_1395. The stripped key also hits unrelated lines (M14K, M1.4, MIN6-m14). MDA-MB-435 is a misidentified derivative; M14 itself is not flagged.",Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Melanoma,M19-MEL,CVCL_B415,M19-MEL,historical,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 additional lines
+Melanoma,MALME-3M,CVCL_1438,Malme-3M,standard,DTP name is a Cellosaurus synonym of Malme-3M.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Melanoma,MDA-MB-435,CVCL_0417,MDA-MB-435,standard,"NCI-60 entry. Cellosaurus: contaminated M14 derivative, ICLAC-00235. The misidentification flag is kept.",Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Melanoma,MDA-N,CVCL_1910,MDA-N,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Melanoma,RPMI-7951,CVCL_1666,RPMI-7951,historical,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 additional lines
+Melanoma,SK-MEL-2,CVCL_0069,SK-MEL-2,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Melanoma,SK-MEL-28,CVCL_0526,SK-MEL-28,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Melanoma,SK-MEL-5,CVCL_0527,SK-MEL-5,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Melanoma,UACC-257,CVCL_1779,UACC-257,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Melanoma,UACC-62,CVCL_1780,UACC-62,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Non-Small Cell Lung Cancer,A549/ATCC,CVCL_0023,A-549,standard,DTP name is a Cellosaurus synonym of A-549.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Non-Small Cell Lung Cancer,EKVX,CVCL_1195,EKVX,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Non-Small Cell Lung Cancer,HOP-62,CVCL_1285,HOP-62,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Non-Small Cell Lung Cancer,HOP-92,CVCL_1286,HOP-92,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Non-Small Cell Lung Cancer,LXFL 529,CVCL_D085,LXFL 529L,historical,DTP name is a Cellosaurus synonym of LXFL 529L.,Cellosaurus 56.0 NCI-60 additional lines
+Non-Small Cell Lung Cancer,NCI-H226,CVCL_1544,NCI-H226,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Non-Small Cell Lung Cancer,NCI-H23,CVCL_1547,NCI-H23,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Non-Small Cell Lung Cancer,NCI-H322M,CVCL_1557,NCI-H322M,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Non-Small Cell Lung Cancer,NCI-H460,CVCL_0459,NCI-H460,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Non-Small Cell Lung Cancer,NCI-H522,CVCL_1567,NCI-H522,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Ovarian Cancer,IGROV1,CVCL_1304,IGROV-1,standard,DTP name is a Cellosaurus synonym of IGROV-1.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Ovarian Cancer,NCI/ADR-RES,CVCL_1452,NCI-ADR-RES,standard,DTP name is a Cellosaurus synonym of NCI-ADR-RES.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Ovarian Cancer,OVCAR-3,CVCL_0465,OVCAR-3,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Ovarian Cancer,OVCAR-4,CVCL_1627,OVCAR-4,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Ovarian Cancer,OVCAR-5,CVCL_1628,OVCAR-5,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Ovarian Cancer,OVCAR-8,CVCL_1629,OVCAR-8,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Ovarian Cancer,SK-OV-3,CVCL_0532,SK-OV-3,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Prostate Cancer,DU-145,CVCL_0105,DU145,standard,DTP name is a Cellosaurus synonym of DU145.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Prostate Cancer,ND-1,CVCL_4781,ND-1,historical,Cellosaurus ID ND-1. Contaminated DU145 derivative (ICLAC-00244). The Cellosaurus misidentification flag is kept.,Cellosaurus 56.0 ID ND-1; DTP historical screen
+Prostate Cancer,PC-3,CVCL_0035,PC-3,standard,NCI-60 prostate line CVCL_0035. Not PaCa-3 or other names that collapse to the same key.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Renal Cancer,786-0,CVCL_1051,786-O,standard,DTP name is a Cellosaurus synonym of 786-O.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Renal Cancer,A498,CVCL_1056,A-498,standard,DTP name is a Cellosaurus synonym of A-498.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Renal Cancer,ACHN,CVCL_1067,ACHN,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Renal Cancer,CAKI-1,CVCL_0234,Caki-1,standard,DTP name is a Cellosaurus synonym of Caki-1.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Renal Cancer,RXF 393,CVCL_1673,RXF 393L,standard,DTP name is a Cellosaurus synonym of RXF 393L.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Renal Cancer,RXF-631,CVCL_A780,RXF 631L,historical,DTP name is a Cellosaurus synonym of RXF 631L.,Cellosaurus 56.0 NCI-60 additional lines
+Renal Cancer,SN12C,CVCL_1705,SN12C,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Renal Cancer,SN12K1,CVCL_D106,SN12K1,historical,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 additional lines
+Renal Cancer,TK-10,CVCL_1773,TK-10,standard,NCI-60 renal line CVCL_1773. Not UCH-ICF-TK-10 (CVCL_E5GS).,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Renal Cancer,UO-31,CVCL_1911,UO-31,standard,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 cross-ref; DTP cell list / CellMiner panel
+Rhabdoid Tumor,A-204,CVCL_1058,A-204,historical,DTP rhabdoid-panel name matches Cellosaurus ID A-204. The stripped key also hits Urd-B (CVCL_1N55); that line is not used.,Cellosaurus 56.0 ID A-204; DTP historical screen
+Small Cell Lung Cancer,DMS 114,CVCL_1174,DMS 114,historical,DTP name matches the Cellosaurus ID.,Cellosaurus 56.0 NCI-60 additional lines

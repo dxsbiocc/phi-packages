@@ -245,6 +245,25 @@ def resolve_records(
     limit: int | None = None,
 ) -> int:
     from pgx.normalize.compounds import resolve_compounds
+    from pgx.nsc_pubchem import apply_deposits, apply_synonyms, load_crosswalk, nsc_digits, synonym_cids
 
+    crosswalk = crosswalk_path_for(cache_dir)
+    if crosswalk.exists():
+        apply_deposits(records, load_crosswalk(crosswalk))
+    synonym_file = cache_dir / "CID-Synonym-filtered.gz"
+    if synonym_file.exists():
+        wanted = set()
+        for record in records:
+            if record.source == "nci60" and record.status not in {"mapped", "ambiguous", "combination"}:
+                digits = nsc_digits(record.source_compound_id)
+                if digits:
+                    wanted.add(digits)
+        apply_synonyms(records, synonym_cids(synonym_file, wanted))
     client = PubChemClient(cache_dir, pause_s=pause_s)
     return resolve_compounds(records, client, limit=limit)
+
+
+def crosswalk_path_for(cache_dir: Path) -> Path:
+    from pgx.nsc_pubchem import crosswalk_path
+
+    return crosswalk_path(cache_dir)
