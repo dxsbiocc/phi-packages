@@ -25,7 +25,7 @@ Do not use it to execute a Nextflow module design that `nextflow` already covers
 2. List the input files that exist in the project. Record format, path, and what each row or record is. Do not invent a path.
 3. Call `find-skills` and name the skill that owns the analysis. Typical matches: `scanpy` for scRNA-seq, `scvelo` for velocity, `pysam` for alignment and variant files, `nextflow` for a multi-step pipeline, `scikit-learn` or `scikit-survival` for tabular models, `rdkit` for molecules, `seaborn` or `matplotlib` for figures, `omics-visualization` for template omics figures.
 4. Write the plan from the template. Every step names the skill, the command or script entry point that skill documents, the parameters that change the result, and the output file.
-5. Name the environment the skill declares (`phi:python@1`, `phi:r@1`, or the skill-local environment). Do not add a new `environment.yml` unless `create-skills` is in use and the checklist there is met.
+5. Name the environment the skill declares (`phi:python@1`, `phi:r@1`, or the skill-local environment). Do not add a new `environment.yml` unless `skill-creator` is in use and the checklist in `references/phi.md` is met.
 6. Run only the steps the user asked to run. Leave the rest as a plan. After a run, fill in the outputs that were actually written.
 
 ## Rules

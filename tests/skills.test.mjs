@@ -76,11 +76,12 @@ test('README skill counts match standalone skill directories', () => {
   assert.match(readFileSync(join(root, 'README.en.md'), 'utf8'), new RegExp(`\\| Standalone skills \\| ${count} \\|`))
 })
 
-test('find-skills routing table names every standalone skill', () => {
-  const routing = readFileSync(join(skillRoot, 'find-skills/references/routing.md'), 'utf8')
-  for (const name of skillNames()) {
-    assert.match(routing, new RegExp(`\`${name}\``), `routing.md is missing ${name}`)
-  }
+test('find-skills searches the public skills ecosystem', () => {
+  const text = readFileSync(join(skillRoot, 'find-skills/SKILL.md'), 'utf8')
+  assert.match(text, /npx skills find/)
+  assert.equal(existsSync(join(skillRoot, 'find-skills/references/routing.md')), false)
+  assert.equal(existsSync(join(skillRoot, 'skill-creator/references/phi.md')), true)
+  assert.match(readFileSync(join(skillRoot, 'skill-creator/SKILL.md'), 'utf8'), /references\/phi\.md/)
 })
 
 for (const name of skillNames()) {
