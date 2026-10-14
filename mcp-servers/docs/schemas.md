@@ -17,6 +17,7 @@ Identifiers are CURIEs: `prefix:local`. Dotted prefixes are allowed (`gdc.case`,
 | Taxon | `NCBITaxon:9606` |
 | Uberon, CL, EFO, MONDO, PATO, CHEBI | ontology prefix plus zero-padded local id, for example `UBERON:0002190` or `CL:0000636` |
 | Source records | `gtex.tissue:Whole_Blood`, `gdc.case:<uuid>`, `gdc.file:<uuid>`, `gdc.ssm:<uuid>`, `encode:ENCSR...`, `pride:PXD001357`, `pride.file:<id>`, `mtbls:MTBLS1`, `hubmap:HBM...`, `hca.project:<uuid>`, `cellxgene.collection:<uuid>`, `cellxgene.dataset:<uuid>`, `cbioportal.study:<id>`, `pdc.study:PDC000759` |
+| Publication | `doi:<lowercased bare DOI>` when a DOI exists, even if there is no PMID. Otherwise `pmid:<digits>`, then `arxiv:<id without version>`. `pmcid:PMC…`, `openalex:W…`, and `s2:<id>` are xrefs, not primary keys |
 
 `xrefs` is an array of additional CURIEs on every entity. It is always present.
 
@@ -48,6 +49,9 @@ Each entity has `entity_type`, `id`, `xrefs`, and `source_extra`, plus the field
 | `metabolite` | `name`, `formula`, `inchikey` |
 | `expression` | `gene_id`, `tissue_id`, `cell_type_id`, `sample_id`, `value`, `unit`, `statistic` |
 | `variant` | `gene_id`, `locus`, `consequence` |
+| `publication` | `doi`, `title`, `authors` (`name`, `orcid`), `venue`, `dates` (`published`, `posted`, `updated`), `abstract`, `type`, `is_oa`, `oa_urls`, `license`, `published_as`, `preprint_of` |
+
+`publication.type` is `journal-article`, `preprint`, `review`, `book-chapter`, `proceedings-article`, `other`, or null. `oa_urls[]` has `url`, `content_type` (`html`, `pdf`, `xml`, `landing`, `other`), and `version`. A preprint and its journal version are two records. `published_as` on the preprint and `preprint_of` on the journal article point at the other record's CURIE. When `doi` is set it is the lowercased DOI without `https://doi.org/`, and `id` is `doi:` plus that value. PMID and PMCID then live in `xrefs`.
 
 `access` is `open`, `controlled`, or `unknown`. A controlled file must have `url: null`. The schema rejects any other value. Controlled datasets also omit portal URLs when the URL would point at the data rather than an open landing page; this codebase sets `url` to null whenever `access` is `controlled`.
 

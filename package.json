@@ -9,6 +9,7 @@
     "mcp-servers/epigenomics",
     "mcp-servers/proteomics",
     "mcp-servers/metabolomics",
+    "mcp-servers/literature",
     "mcp-servers/gateway"
   ],
   "scripts": {

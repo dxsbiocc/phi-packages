@@ -156,6 +156,70 @@ export const VariantSchema = z.object({
   consequence: z.string().nullable(),
 });
 
+export const PUBLICATION_TYPES = [
+  "journal-article",
+  "preprint",
+  "review",
+  "book-chapter",
+  "proceedings-article",
+  "other",
+] as const;
+
+export const PublicationTypeSchema = z.enum(PUBLICATION_TYPES);
+
+export const PublicationAuthorSchema = z.object({
+  name: z.string().min(1),
+  orcid: z.string().nullable(),
+});
+
+export const PublicationDatesSchema = z.object({
+  published: z.string().nullable(),
+  posted: z.string().nullable(),
+  updated: z.string().nullable(),
+});
+
+export const OaUrlSchema = z.object({
+  url: z.string().min(1),
+  content_type: z.enum(["html", "pdf", "xml", "landing", "other"]),
+  version: z.string().nullable(),
+});
+
+export const PublicationSchema = z.object({
+  entity_type: z.literal("publication"),
+  ...base,
+  doi: z.string().nullable(),
+  title: z.string().nullable(),
+  authors: z.array(PublicationAuthorSchema),
+  venue: z.string().nullable(),
+  dates: PublicationDatesSchema,
+  abstract: z.string().nullable(),
+  type: PublicationTypeSchema.nullable(),
+  is_oa: z.boolean().nullable(),
+  oa_urls: z.array(OaUrlSchema),
+  license: z.string().nullable(),
+  published_as: CurieSchema.nullable(),
+  preprint_of: CurieSchema.nullable(),
+}).superRefine((publication, ctx) => {
+  if (publication.doi) {
+    if (/[A-Z]/.test(publication.doi) || /^https?:/i.test(publication.doi)) {
+      ctx.addIssue({ code: "custom", message: "doi must be a lowercased bare DOI", path: ["doi"] });
+    }
+    if (publication.id !== `doi:${publication.doi}`) {
+      ctx.addIssue({
+        code: "custom",
+        message: "id must be doi:<lowercased DOI> when a DOI is present",
+        path: ["id"],
+      });
+    }
+  } else if (!publication.id.startsWith("pmid:") && !publication.id.startsWith("arxiv:")) {
+    ctx.addIssue({
+      code: "custom",
+      message: "without a DOI, id must be pmid: or arxiv:",
+      path: ["id"],
+    });
+  }
+});
+
 export const EntitySchema = z.discriminatedUnion("entity_type", [
   GeneSchema,
   SampleSchema,
@@ -168,6 +232,7 @@ export const EntitySchema = z.discriminatedUnion("entity_type", [
   MetaboliteSchema,
   ExpressionSchema,
   VariantSchema,
+  PublicationSchema,
 ]);
 
 export const ENTITY_TYPES = [
@@ -182,6 +247,7 @@ export const ENTITY_TYPES = [
   "metabolite",
   "expression",
   "variant",
+  "publication",
 ] as const;
 
 export const EntityTypeSchema = z.enum(ENTITY_TYPES);

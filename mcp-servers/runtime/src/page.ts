@@ -10,6 +10,7 @@ import {
   MetaboliteSchema,
   PageSchema,
   ProteinSchema,
+  PublicationSchema,
   SampleSchema,
   TissueSchema,
   VariantSchema,
@@ -28,6 +29,7 @@ import {
   type OmicsFile,
   type Page,
   type Protein,
+  type Publication,
   type Sample,
   type Source,
   type Tissue,
@@ -258,6 +260,27 @@ export function expression(fields: Partial<Expression> & Pick<Expression, "id"> 
     statistic: null,
     source_extra: {},
     ...fields,
+  });
+}
+
+export function publication(fields: Partial<Publication> & Pick<Publication, "id">): Publication {
+  return PublicationSchema.parse({
+    entity_type: "publication",
+    xrefs: [],
+    doi: null,
+    title: null,
+    authors: [],
+    venue: null,
+    abstract: null,
+    type: null,
+    is_oa: null,
+    oa_urls: [],
+    license: null,
+    published_as: null,
+    preprint_of: null,
+    source_extra: {},
+    ...fields,
+    dates: { published: null, posted: null, updated: null, ...fields.dates },
   });
 }
 

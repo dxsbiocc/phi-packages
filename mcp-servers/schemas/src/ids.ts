@@ -73,6 +73,50 @@ export function strandOf(value: unknown): "+" | "-" | "." | null {
   return null;
 }
 
+/** Bare lowercased DOI, without a resolver URL or `doi:` prefix. */
+export function normalizeDoi(value: string | null | undefined): string | null {
+  if (!value) return null;
+  const text = value.trim()
+    .replace(/^https?:\/\/(?:dx\.)?doi\.org\//i, "")
+    .replace(/^doi:/i, "")
+    .replace(/[.,;]+$/, "");
+  if (!/^10\.\d{4,9}\/\S+$/i.test(text)) return null;
+  return text.toLowerCase();
+}
+
+/** PMID digits, without a `pmid:` prefix. */
+export function normalizePmid(value: string | null | undefined): string | null {
+  if (!value) return null;
+  const match = value.trim().match(/^(?:pmid:)?(\d{1,9})$/i);
+  return match?.[1] ?? null;
+}
+
+/** arXiv id without a version suffix or URL. */
+export function normalizeArxiv(value: string | null | undefined): string | null {
+  if (!value) return null;
+  const text = value.trim()
+    .replace(/^https?:\/\/arxiv\.org\/abs\//i, "")
+    .replace(/^arxiv:/i, "")
+    .replace(/v\d+$/i, "");
+  if (!/^(\d{4}\.\d{4,5}|[a-z-]+(?:\.[a-z]{2})?\/\d{7})$/i.test(text)) return null;
+  return text.toLowerCase();
+}
+
+/**
+ * Publication primary key. DOI wins, including online-first articles that have
+ * no PMID. Otherwise PMID, then arXiv. Preprint and published version stay
+ * separate records.
+ */
+export function publicationId(ids: { doi?: string | null; pmid?: string | null; arxiv?: string | null }): string {
+  const doi = normalizeDoi(ids.doi);
+  if (doi) return curie("doi", doi);
+  const pmid = normalizePmid(ids.pmid);
+  if (pmid) return curie("pmid", pmid);
+  const arxiv = normalizeArxiv(ids.arxiv);
+  if (arxiv) return curie("arxiv", arxiv);
+  throw new Error("publication id requires a DOI, PMID, or arXiv id");
+}
+
 export function sexOf(value: unknown): "female" | "male" | "unknown" | null {
   if (typeof value !== "string" || !value.trim()) return null;
   const text = value.trim().toLowerCase();

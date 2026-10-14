@@ -1,5 +1,5 @@
 export { cacheDirFor, loadConfig, type RuntimeConfig } from "./config.js";
-export { InputError, UpstreamClient, UpstreamError, type JsonClient } from "./http.js";
+export { InputError, UpstreamClient, UpstreamError, type JsonClient, type UpstreamRequest } from "./http.js";
 export {
   asArray,
   asRecord,
@@ -20,6 +20,7 @@ export {
   pageInfo,
   paging,
   protein,
+  publication,
   sample,
   sliceList,
   sourceOf,
