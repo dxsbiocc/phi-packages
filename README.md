@@ -8,7 +8,7 @@ Phi 的独立公开内容仓库，保存可安装领域能力的源码。
 
 | 内容 | 数量 |
 | --- | ---: |
-| 独立 skills | 13 |
+| 独立 skills | 18 |
 | MCP connector 定义 | 19 |
 | Phi 复合插件 | 1 |
 | 插件内 skills | 1 |
@@ -74,6 +74,7 @@ Phi 官方共享环境和应用级色板由主程序提供，本仓库不复制�
 ## 内容约定
 
 - 尽量沿用现有目录布局及内容格式；包清单遵循 [Package contract](docs/contracts/package.md)。
+- 独立 skill 放在 `resources/skills/<name>/`。`SKILL.md` 遵循 [Skill contract](docs/contracts/skill.md)，目录名等于 frontmatter 的 `name`。
 - Wrapper 保留其 include 目标、辅助文件和测试数据，避免只复制适配器造成依赖丢失。
 - 修改插件时同时核对组件引用；本地 MCP 服务仍在用户机器的受管理环境中运行。
 - 不提交密钥、账户配置、环境安装目录或 Nextflow 运行结果。
