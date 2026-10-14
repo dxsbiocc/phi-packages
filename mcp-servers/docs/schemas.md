@@ -19,6 +19,7 @@ Identifiers are CURIEs: `prefix:local`. Dotted prefixes are allowed (`gdc.case`,
 | Source records | `gtex.tissue:Whole_Blood`, `gdc.case:<uuid>`, `gdc.file:<uuid>`, `gdc.ssm:<uuid>`, `encode:ENCSR...`, `pride:PXD001357`, `pride.file:<id>`, `mtbls:MTBLS1`, `hubmap:HBM...`, `hca.project:<uuid>`, `cellxgene.collection:<uuid>`, `cellxgene.dataset:<uuid>`, `cbioportal.study:<id>`, `pdc.study:PDC000759` |
 | Cell line | `cellosaurus:CVCL_0465` |
 | Compound | `pubchem:11433190`, with `chembl:CHEMBL191334` in `xrefs` when a single ChEMBL id is known |
+| Drug combination | `gdsc.combination:<anchor>:<library>` or `gdsc.combination:annotation:<drug id>`. This is not a compound id |
 | Drug response | `pgx.response:<dataset>/<model>/<compound>/<metric>` |
 | Pharmacogenomics dataset | `pgx.dataset:gdsc1` |
 | Publication | `doi:<lowercased bare DOI>` when a DOI exists, even if there is no PMID. Otherwise `pmid:<digits>`, then `arxiv:<id without version>`. `pmcid:PMC…`, `openalex:W…`, and `s2:<id>` are xrefs, not primary keys |
@@ -52,7 +53,8 @@ Each entity has `entity_type`, `id`, `xrefs`, and `source_extra`, plus the field
 | `protein` | `name`, `gene_id`, `gene_symbol`, `taxon_id` |
 | `metabolite` | `name`, `formula`, `inchikey` |
 | `compound` | `name`, `pubchem_cid`, `chembl_id`, `inchikey`, `synonyms` |
-| `drug_response` | `compound_id`, `sample_id`, `dataset_id`, `metric`, `value`, `unit` |
+| `drug_combination` | `name`, `components` (`compound_id`, `role` `anchor` or `library`, `name`, `concentrations`, `unit`) |
+| `drug_response` | `compound_id`, `combination_id`, `sample_id`, `dataset_id`, `metric`, `value`, `unit` |
 | `expression` | `gene_id`, `tissue_id`, `cell_type_id`, `sample_id`, `value`, `unit`, `statistic` |
 | `variant` | `gene_id`, `locus`, `consequence` |
 | `publication` | `doi`, `title`, `authors` (`name`, `orcid`), `venue`, `dates` (`published`, `posted`, `updated`), `abstract`, `type`, `is_oa`, `oa_urls`, `license`, `published_as`, `preprint_of` |
@@ -63,7 +65,7 @@ Each entity has `entity_type`, `id`, `xrefs`, and `source_extra`, plus the field
 
 `metabolite` is part of the shared model. None of the verified MetaboLights JSON endpoints return a parsed metabolite table, so the current tools do not emit metabolite rows.
 
-`compound` and `drug_response` are the pharmacogenomics entities. A compound id is `pubchem:<CID>` when one PubChem CID is known. Source names, BRD ids, and GDSC drug ids stay in `xrefs` and `source_extra`; they are not a second compound schema. `metric` is the published statistic (`AUC`, `IC50`, `LN_IC50`, `EC50`, `LFC`). `unit` is null when the release does not name one. DepMap expression is log2(TPM+1), so those rows use `unit: null` and `statistic: "log2_tpm_plus_1"` rather than `TPM`.
+`compound`, `drug_combination`, and `drug_response` are the pharmacogenomics entities. A compound id is `pubchem:<CID>` when one PubChem CID is known. A combination is a different entity: its id is `gdsc.combination:<anchor>:<library>`, and `components` lists each drug in anchor then library order with that drug's own compound id. A combination name is never stored as a compound. `drug_response.combination_id` is null for a single agent and set for a combination result, whose `compound_id` stays null. `metric` is the published statistic (`AUC`, `IC50`, `LN_IC50`, `EC50`, `LFC`, or a combination delta such as `SYNERGY_DELTA_AUC`). `unit` is null when the release does not name one. DepMap expression is log2(TPM+1), so those rows use `unit: null` and `statistic: "log2_tpm_plus_1"` rather than `TPM`.
 
 ## Page
 

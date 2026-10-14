@@ -188,6 +188,55 @@ class PubChemClient:
                 found[key] = chembl_ids
         return found
 
+    def chembl_by_name(self, query: str) -> list[dict[str, str | None]]:
+        """Exact ChEMBL synonym, then exact preferred name. Empty when neither hits."""
+        key = query.casefold()
+        cached = self._read("chembl_name", key)
+        if cached is not None and "molecules" in cached:
+            return list(cached["molecules"])
+        molecules: list[dict[str, str | None]] = []
+        for field in ("molecule_synonyms__molecule_synonym__iexact", "pref_name__iexact"):
+            payload = self._request(f"{CHEMBL}?{field}={quote(query)}&limit=5") or {}
+            found = [_molecule_brief(molecule) for molecule in payload.get("molecules") or []]
+            if found:
+                molecules = found
+                break
+        self._write("chembl_name", key, {"molecules": molecules})
+        return molecules
+
+    def prefetch_chembl_names(self, names: list[str]) -> None:
+        missing: list[str] = []
+        seen: set[str] = set()
+        for name in names:
+            key = name.casefold()
+            if key in seen:
+                continue
+            seen.add(key)
+            cached = self._read("chembl_name", key)
+            if cached is None or "molecules" not in cached:
+                missing.append(name)
+        if not missing:
+            return
+        with ThreadPoolExecutor(max_workers=4) as pool:
+            futures = [pool.submit(self.chembl_by_name, name) for name in missing]
+            total = len(futures)
+            for done, future in enumerate(as_completed(futures), start=1):
+                future.result()
+                if done == total or done % 25 == 0:
+                    print(f"chembl_name {done}/{total}", file=sys.stderr, flush=True)
+
+
+def _molecule_brief(molecule: dict) -> dict[str, str | None]:
+    structures = molecule.get("molecule_structures") or {}
+    chembl_id = molecule.get("molecule_chembl_id")
+    inchikey = structures.get("standard_inchi_key")
+    pref = molecule.get("pref_name")
+    return {
+        "chembl_id": str(chembl_id) if chembl_id else None,
+        "inchikey": str(inchikey) if inchikey else None,
+        "pref_name": str(pref) if pref else None,
+    }
+
 
 def resolve_records(
     records: list[CompoundRecord],

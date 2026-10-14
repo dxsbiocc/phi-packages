@@ -110,6 +110,33 @@ def coverage(out: Path) -> dict:
                 "unmatched": int(unmatched),
                 "ambiguous": int(ambiguous),
             }
+        columns = _columns(con, compounds)
+        if "review_reason" in columns:
+            report["compound_review"] = {
+                f"{source}:{reason or 'unspecified'}": int(count)
+                for source, reason, count in con.execute(
+                    """
+                    SELECT source, coalesce(review_reason, ''), count(*)
+                    FROM read_parquet(?)
+                    WHERE status != 'mapped'
+                    GROUP BY 1, 2
+                    ORDER BY 1, 2
+                    """,
+                    [str(compounds)],
+                ).fetchall()
+            }
+    combinations = out / "combination_xref" / "part.parquet"
+    if combinations.exists():
+        report["combinations"] = {
+            "rows": _one(con, "SELECT count(*) FROM read_parquet(?)", [str(combinations)]),
+            "by_status": {
+                status: int(count)
+                for status, count in con.execute(
+                    "SELECT coalesce(status, ''), count(*) FROM read_parquet(?) GROUP BY 1 ORDER BY 1",
+                    [str(combinations)],
+                ).fetchall()
+            },
+        }
     for table in ("gene_effect", "expression", "mutation", "cnv", "drug_response"):
         root = out / table
         parts = list(root.glob("dataset=*/**/*.parquet")) if root.exists() else []

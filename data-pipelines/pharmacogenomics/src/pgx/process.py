@@ -9,6 +9,7 @@ from pathlib import Path
 import duckdb
 
 from pgx.ids import (
+    CompoundRecord,
     add_compound,
     build_model_xref,
     compound_rows,
@@ -376,7 +377,13 @@ def load_mutations(
     return int(count[0] if count else 0)
 
 
-def load_gdsc_response(con: duckdb.DuckDBPyConnection, path: Path, xref: Path, dest_root: Path) -> int:
+def load_gdsc_response(
+    con: duckdb.DuckDBPyConnection,
+    path: Path,
+    xref: Path,
+    dest_root: Path,
+    combination_ids: set[str] | None = None,
+) -> int:
     join_cvcl = f"""
       LEFT JOIN (
         SELECT source_model_id, any_value(cvcl) AS model_cvcl
@@ -385,6 +392,9 @@ def load_gdsc_response(con: duckdb.DuckDBPyConnection, path: Path, xref: Path, d
         GROUP BY source_model_id
       ) models ON models.source_model_id = base.source_model_id
     """
+    combo_list = ",".join("'" + drug_id + "'" for drug_id in sorted(combination_ids or []) if drug_id.isdigit())
+    if not combo_list:
+        combo_list = "''"
     con.execute(
         f"""
         CREATE OR REPLACE TEMP TABLE gdsc_long AS
@@ -399,7 +409,12 @@ def load_gdsc_response(con: duckdb.DuckDBPyConnection, path: Path, xref: Path, d
             unit,
             NULL::DOUBLE AS dose,
             NULL::VARCHAR AS screen_id,
-            NULL::VARCHAR AS qc
+            NULL::VARCHAR AS qc,
+            CASE
+              WHEN CAST(DRUG_ID AS VARCHAR) IN ({combo_list})
+              THEN 'gdsc.combination:annotation:' || CAST(DRUG_ID AS VARCHAR)
+              ELSE NULL
+            END AS combination_id
           FROM (
             SELECT *, 'AUC' AS metric, CAST(AUC AS VARCHAR) AS metric_value, NULL AS unit FROM read_csv(?, header=true, all_varchar=true)
             UNION ALL
@@ -408,7 +423,11 @@ def load_gdsc_response(con: duckdb.DuckDBPyConnection, path: Path, xref: Path, d
         )
         SELECT base.dataset, base.source_model_id, models.model_cvcl, base.source_compound_id,
                NULL::VARCHAR AS pubchem_cid, base.compound_name, base.metric, base.value, base.unit,
-               base.dose, base.screen_id, base.qc
+               base.dose, base.screen_id, base.qc,
+               base.combination_id,
+               CASE WHEN base.combination_id IS NULL THEN 'single' ELSE 'combination' END AS response_class,
+               NULL::DOUBLE AS anchor_conc,
+               NULL::DOUBLE AS library_conc
         FROM base
         {join_cvcl}
         WHERE base.value IS NOT NULL
@@ -470,7 +489,11 @@ def load_secondary_curve(con: duckdb.DuckDBPyConnection, path: Path, dataset: st
             NULL::VARCHAR AS unit,
             NULL::DOUBLE AS dose,
             base.screen_id,
-            NULL::VARCHAR AS qc
+            NULL::VARCHAR AS qc,
+            NULL::VARCHAR AS combination_id,
+            'single' AS response_class,
+            NULL::DOUBLE AS anchor_conc,
+            NULL::DOUBLE AS library_conc
           FROM base
           LEFT JOIN (
             SELECT source_model_id, any_value(cvcl) AS model_cvcl
@@ -512,7 +535,11 @@ def load_prism24_lfc(con: duckdb.DuckDBPyConnection, path: Path, dataset: str, x
             NULL::VARCHAR AS unit,
             base.dose,
             base.screen_id,
-            base.qc
+            base.qc,
+            NULL::VARCHAR AS combination_id,
+            'single' AS response_class,
+            NULL::DOUBLE AS anchor_conc,
+            NULL::DOUBLE AS library_conc
           FROM base
           LEFT JOIN (
             SELECT source_model_id, any_value(cvcl) AS model_cvcl
@@ -558,7 +585,9 @@ def load_primary_lfc(con: duckdb.DuckDBPyConnection, path: Path, dataset: str, x
           )
           SELECT src.source_model_id, models.model_cvcl, src.source_compound_id,
                  NULL::VARCHAR AS pubchem_cid, NULL::VARCHAR AS compound_name, 'LFC' AS metric,
-                 src.value, NULL::VARCHAR AS unit, src.dose, src.screen_id, NULL::VARCHAR AS qc
+                 src.value, NULL::VARCHAR AS unit, src.dose, src.screen_id, NULL::VARCHAR AS qc,
+                 NULL::VARCHAR AS combination_id, 'single' AS response_class,
+                 NULL::DOUBLE AS anchor_conc, NULL::DOUBLE AS library_conc
           FROM src
           LEFT JOIN (
             SELECT source_model_id, any_value(cvcl) AS model_cvcl
@@ -573,6 +602,376 @@ def load_primary_lfc(con: duckdb.DuckDBPyConnection, path: Path, dataset: str, x
     )
 
 
+COMBINATION_COLUMNS = [
+    "combination_id", "source", "screen", "name",
+    "anchor_drug_id", "library_drug_id", "anchor_name", "library_name",
+    "anchor_pubchem_cid", "library_pubchem_cid", "anchor_chembl_id", "library_chembl_id",
+    "anchor_concentrations", "library_concentrations", "concentration_unit",
+    "status", "source_drug_id",
+]
+
+_SYNERGY_METRICS = (
+    "SYNERGY_DELTA_AUC",
+    "SYNERGY_DELTA_EMAX",
+    "SYNERGY_DELTA_XMID",
+    "SYNERGY_DELTA_XMID_uM",
+    "SYNERGY_DELTA_fAUC",
+)
+
+
+def annotation_combination_ids(raw_root: Path, roles: dict[str, list[tuple[dict, dict]]]) -> set[str]:
+    from pgx.normalize.combinations import is_annotation_combination
+
+    found: set[str] = set()
+    for source, spec in roles.get("gdsc_compounds", []):
+        path = file_for(raw_root, source["id"], str(source["version"]), spec["name"])
+        if not path:
+            continue
+        con = connect()
+        for drug_id, name in con.execute(
+            "SELECT CAST(DRUG_ID AS VARCHAR), DRUG_NAME FROM read_csv(?, header=true, all_varchar=true)",
+            [str(path)],
+        ).fetchall():
+            if drug_id and is_annotation_combination(name):
+                found.add(str(drug_id))
+    return found
+
+
+def _blank_combination(**values: str | None) -> dict[str, str | None]:
+    row = {column: None for column in COMBINATION_COLUMNS}
+    row.update(values)
+    row["status"] = row.get("status") or "unmatched"
+    return row
+
+
+def _union_concentrations(left: str | None, right: str | None) -> str | None:
+    values: set[float] = set()
+    for text in (left, right):
+        if not text:
+            continue
+        for part in str(text).split(";"):
+            try:
+                values.add(float(part))
+            except ValueError:
+                continue
+    if not values:
+        return None
+    return ";".join(f"{value:.6g}" for value in sorted(values))
+
+
+def _merge_combination(rows: dict[str, dict[str, str | None]], incoming: dict[str, str | None]) -> None:
+    key = incoming["combination_id"]
+    if not key:
+        return
+    current = rows.get(key)
+    if current is None:
+        rows[key] = incoming
+        return
+    current["anchor_concentrations"] = _union_concentrations(current.get("anchor_concentrations"), incoming.get("anchor_concentrations"))
+    current["library_concentrations"] = _union_concentrations(current.get("library_concentrations"), incoming.get("library_concentrations"))
+    screens = [part for part in f"{current.get('screen') or ''};{incoming.get('screen') or ''}".split(";") if part]
+    current["screen"] = ";".join(dict.fromkeys(screens))
+    for field in ("anchor_drug_id", "library_drug_id", "anchor_name", "library_name", "concentration_unit", "source_drug_id"):
+        if incoming.get(field) and not current.get(field):
+            current[field] = incoming[field]
+
+
+def combinations_from_annotations(raw_root: Path, roles: dict[str, list[tuple[dict, dict]]]) -> dict[str, dict[str, str | None]]:
+    from pgx.normalize.combinations import parse_annotation_combination
+
+    rows: dict[str, dict[str, str | None]] = {}
+    for source, spec in roles.get("gdsc_compounds", []):
+        path = file_for(raw_root, source["id"], str(source["version"]), spec["name"])
+        if not path:
+            continue
+        con = connect()
+        for drug_id, name in con.execute(
+            "SELECT CAST(DRUG_ID AS VARCHAR), DRUG_NAME FROM read_csv(?, header=true, all_varchar=true)",
+            [str(path)],
+        ).fetchall():
+            parsed = parse_annotation_combination(str(drug_id or ""), str(name or ""))
+            if parsed:
+                _merge_combination(rows, _blank_combination(**parsed))
+    return rows
+
+
+def _screen_identities(con: duckdb.DuckDBPyConnection, path: Path, screen: str) -> list[dict[str, str | None]]:
+    from pgx.normalize.combinations import parse_screen_combination
+
+    fetched = con.execute(
+        """
+        SELECT
+          CAST(ANCHOR_ID AS VARCHAR),
+          any_value(ANCHOR_NAME),
+          CAST(LIBRARY_ID AS VARCHAR),
+          any_value(LIBRARY_NAME),
+          list(DISTINCT try_cast(ANCHOR_CONC AS DOUBLE)) FILTER (WHERE try_cast(ANCHOR_CONC AS DOUBLE) IS NOT NULL),
+          list(DISTINCT try_cast(LIBRARY_CONC AS DOUBLE)) FILTER (WHERE try_cast(LIBRARY_CONC AS DOUBLE) IS NOT NULL)
+        FROM read_csv(?, header=true, all_varchar=true)
+        WHERE ANCHOR_ID IS NOT NULL AND LIBRARY_ID IS NOT NULL
+        GROUP BY 1, 3
+        """,
+        [str(path)],
+    ).fetchall()
+    rows: list[dict[str, str | None]] = []
+    for anchor_id, anchor_name, library_id, library_name, anchor_concs, library_concs in fetched:
+        parsed = parse_screen_combination(
+            str(anchor_id),
+            anchor_name,
+            str(library_id),
+            library_name,
+            [float(value) for value in anchor_concs or []],
+            [float(value) for value in library_concs or []],
+            screen=screen,
+        )
+        if parsed:
+            rows.append(_blank_combination(**parsed))
+    return rows
+
+
+def load_combination_responses(
+    con: duckdb.DuckDBPyConnection,
+    path: Path,
+    dataset: str,
+    xref: Path,
+    dest: Path,
+) -> int:
+    xref_file = (xref / "part.parquet").as_posix()
+    metrics = ", ".join(_SYNERGY_METRICS)
+    return _copy_dataset(
+        con,
+        f"""
+          WITH raw AS (
+            SELECT * FROM read_csv(?, header=true, all_varchar=true)
+          ),
+          long AS (
+            SELECT * FROM (
+              UNPIVOT raw
+              ON {metrics}
+              INTO NAME metric VALUE metric_value
+            )
+          ),
+          base AS (
+            SELECT
+              coalesce(nullif(SIDM, ''), 'COSMIC:' || CAST(COSMIC_ID AS VARCHAR), CELL_LINE_NAME) AS source_model_id,
+              CAST(ANCHOR_ID AS VARCHAR) || ':' || CAST(LIBRARY_ID AS VARCHAR) AS source_compound_id,
+              ANCHOR_NAME || ' + ' || LIBRARY_NAME AS compound_name,
+              'gdsc.combination:' || CAST(ANCHOR_ID AS VARCHAR) || ':' || CAST(LIBRARY_ID AS VARCHAR) AS combination_id,
+              try_cast(ANCHOR_CONC AS DOUBLE) AS anchor_conc,
+              try_cast(LIBRARY_CONC AS DOUBLE) AS library_conc,
+              metric,
+              try_cast(metric_value AS DOUBLE) AS value,
+              CASE WHEN metric = 'SYNERGY_DELTA_XMID_uM' THEN 'uM' ELSE NULL END AS unit
+            FROM long
+          )
+          SELECT
+            base.source_model_id,
+            models.model_cvcl,
+            base.source_compound_id,
+            NULL::VARCHAR AS pubchem_cid,
+            base.compound_name,
+            base.metric,
+            base.value,
+            base.unit,
+            NULL::DOUBLE AS dose,
+            NULL::VARCHAR AS screen_id,
+            NULL::VARCHAR AS qc,
+            base.combination_id,
+            'combination' AS response_class,
+            base.anchor_conc,
+            base.library_conc
+          FROM base
+          LEFT JOIN (
+            SELECT source_model_id, any_value(cvcl) AS model_cvcl
+            FROM read_parquet('{xref_file}')
+            WHERE alias_type = 'primary' AND status = 'mapped' AND source IN ('gdsc', 'sanger_cmp')
+            GROUP BY source_model_id
+            HAVING count(DISTINCT cvcl) = 1
+          ) models ON models.source_model_id = base.source_model_id
+          WHERE base.value IS NOT NULL AND base.combination_id IS NOT NULL
+        """,
+        [str(path)],
+        dest,
+        dataset,
+    )
+
+
+def load_combinations(document: dict, raw_root: Path, out: Path) -> dict[str, int]:
+    """Write combination_xref and combination drug_response partitions.
+
+    Single-agent response partitions are left in place. A combination row uses
+    response_class `combination` and a combination_id, and its pubchem_cid is null.
+    """
+    roles = specs_by_role(document)
+    rows = combinations_from_annotations(raw_root, roles)
+    con = connect()
+    response_root = out / "drug_response"
+    response_root.mkdir(parents=True, exist_ok=True)
+    responses = 0
+    for source, spec in roles.get("gdsc_combination_screen", []):
+        path = file_for(raw_root, source["id"], str(source["version"]), spec["name"])
+        if not path:
+            continue
+        screen = str(spec.get("dataset") or "gdsc_combination")
+        for record in _screen_identities(con, path, screen):
+            _merge_combination(rows, record)
+        responses += load_combination_responses(con, path, screen, out / "model_xref", response_root)
+    if rows:
+        _write_rows(con, list(rows.values()), out / "combination_xref", COMBINATION_COLUMNS)
+        add_screen_compound_stubs(out, rows)
+        refresh_combination_components(out)
+    return {"combinations": len(rows), "combination_responses": responses}
+
+
+def add_screen_compound_stubs(out: Path, rows: dict[str, dict[str, str | None]]) -> None:
+    """Add GDSC compound rows for screen components missing from screened_compounds.
+
+    They stay unmatched until resolve-compounds maps each name on its own.
+    """
+    compounds = out / "compound_xref" / "part.parquet"
+    if not compounds.exists():
+        return
+    con = connect()
+    columns = [item[0] for item in con.execute("DESCRIBE SELECT * FROM read_parquet(?)", [str(compounds)]).fetchall()]
+    records: dict[tuple[str, str], CompoundRecord] = {}
+    for fetched in con.execute(f"SELECT {', '.join(columns)} FROM read_parquet(?)", [str(compounds)]).fetchall():
+        data = dict(zip(columns, fetched, strict=True))
+        record = CompoundRecord(
+            source=data["source"],
+            source_compound_id=data["source_compound_id"],
+            name=data.get("name"),
+            brd_id=data.get("brd_id"),
+            gdsc_drug_id=data.get("gdsc_drug_id"),
+            pubchem_cid=data.get("pubchem_cid"),
+            chembl_id=data.get("chembl_id"),
+            inchikey=data.get("inchikey"),
+            smiles=data.get("smiles"),
+            match_method=data.get("match_method") or "unmatched",
+            confidence=data.get("confidence"),
+            status=data.get("status") or "unmatched",
+            evidence=data.get("evidence") or "",
+            review_reason=data.get("review_reason"),
+        )
+        if data.get("synonyms"):
+            record.synonyms.update(part for part in str(data["synonyms"]).split(";") if part)
+        add_compound(records, record)
+    added = False
+    for row in rows.values():
+        for role in ("anchor", "library"):
+            raw_id = row.get(f"{role}_drug_id")
+            raw_name = row.get(f"{role}_name")
+            if not raw_id:
+                continue
+            ids = [part.strip() for part in str(raw_id).split("|")]
+            names = [part.strip() for part in str(raw_name).split("|")] if raw_name else []
+            for index, drug_id in enumerate(ids):
+                if not drug_id or ("gdsc", drug_id) in records:
+                    continue
+                name = names[index] if index < len(names) else None
+                add_compound(records, CompoundRecord(
+                    source="gdsc",
+                    source_compound_id=drug_id,
+                    name=name,
+                    gdsc_drug_id=drug_id,
+                    match_method="unmatched",
+                    status="unmatched",
+                    evidence="combination screen component; not in screened_compounds",
+                ))
+                added = True
+    if not added:
+        return
+    written = compound_rows(records)
+    fields = list(written[0]) if written else columns
+    _write_rows(con, written, out / "compound_xref", fields)
+
+
+def _join_parts(values: list[str]) -> str | None:
+    if not any(values):
+        return None
+    return "|".join(values)
+
+
+def refresh_combination_components(out: Path) -> None:
+    """Copy component PubChem and ChEMBL ids from single-agent compound_xref.
+
+    An ambiguous component contributes no CID. A `|` id is two drugs in that
+    role, kept in source order. The combination itself is never given a CID.
+    Status is mapped when every component has one CID, partial when some do,
+    and unmatched otherwise. Several GDSC ids may share one name and one CID.
+    """
+    combo = out / "combination_xref" / "part.parquet"
+    compounds = out / "compound_xref" / "part.parquet"
+    if not combo.exists() or not compounds.exists():
+        return
+    con = connect()
+    by_id: dict[str, tuple[str, str | None]] = {}
+    by_name: dict[str, tuple[set[str], set[str], set[str | None]]] = {}
+    for drug_id, name, cid, chembl in con.execute(
+        """
+        SELECT source_compound_id, lower(name), pubchem_cid, chembl_id
+        FROM read_parquet(?)
+        WHERE source = 'gdsc' AND status = 'mapped' AND pubchem_cid IS NOT NULL
+        """,
+        [str(compounds)],
+    ).fetchall():
+        current = by_id.get(str(drug_id))
+        if current and current[0] != cid:
+            by_id[str(drug_id)] = ("", None)
+        elif current is None:
+            by_id[str(drug_id)] = (str(cid), str(chembl) if chembl else None)
+        key = (name or "").casefold()
+        if key:
+            ids, cids, chembls = by_name.setdefault(key, (set(), set(), set()))
+            ids.add(str(drug_id))
+            cids.add(str(cid))
+            if chembl:
+                chembls.add(str(chembl))
+    columns = [item[0] for item in con.execute("DESCRIBE SELECT * FROM read_parquet(?)", [str(combo)]).fetchall()]
+    rows: list[dict[str, str | None]] = []
+    for fetched in con.execute(f"SELECT {', '.join(columns)} FROM read_parquet(?)", [str(combo)]).fetchall():
+        row = dict(zip(columns, fetched, strict=True))
+        for role in ("anchor", "library"):
+            raw_id = row.get(f"{role}_drug_id")
+            raw_name = row.get(f"{role}_name")
+            if raw_id:
+                parts = str(raw_id).split("|")
+                cids: list[str] = []
+                chembls: list[str] = []
+                for part in parts:
+                    found = by_id.get(part)
+                    if not found or not found[0]:
+                        cids.append("")
+                        chembls.append("")
+                    else:
+                        cids.append(found[0])
+                        chembls.append(found[1] or "")
+                row[f"{role}_pubchem_cid"] = _join_parts(cids)
+                row[f"{role}_chembl_id"] = _join_parts(chembls)
+            else:
+                found_name = by_name.get((raw_name or "").casefold())
+                if found_name and len(found_name[1]) == 1:
+                    row[f"{role}_pubchem_cid"] = next(iter(found_name[1]))
+                    row[f"{role}_chembl_id"] = next(iter(found_name[2])) if len(found_name[2]) == 1 else None
+                    if len(found_name[0]) == 1:
+                        row[f"{role}_drug_id"] = next(iter(found_name[0]))
+                else:
+                    row[f"{role}_pubchem_cid"] = None
+                    row[f"{role}_chembl_id"] = None
+        pieces = []
+        for role in ("anchor", "library"):
+            joined = row.get(f"{role}_pubchem_cid") or ""
+            pieces.extend(joined.split("|") if joined else [""])
+        filled = [part for part in pieces if part]
+        if filled and len(filled) == len(pieces):
+            row["status"] = "mapped"
+        elif filled:
+            row["status"] = "partial"
+        else:
+            row["status"] = "unmatched"
+        rows.append({column: None if row.get(column) in {None, ""} else str(row.get(column)) for column in COMBINATION_COLUMNS})
+    _write_rows(con, rows, out / "combination_xref", COMBINATION_COLUMNS)
+
+
 def attach_pubchem(con: duckdb.DuckDBPyConnection, response_root: Path, xref: Path) -> None:
     """Fill pubchem_cid on drug_response partitions from a mapped compound_xref."""
     if not response_root.exists():
@@ -583,7 +982,12 @@ def attach_pubchem(con: duckdb.DuckDBPyConnection, response_root: Path, xref: Pa
         con.execute(
             f"""
             COPY (
-              SELECT response.* REPLACE (coalesce(response.pubchem_cid, compounds.pubchem_cid) AS pubchem_cid)
+              SELECT response.* REPLACE (
+                CASE
+                  WHEN coalesce(response.response_class, 'single') = 'combination' THEN NULL
+                  ELSE coalesce(response.pubchem_cid, compounds.pubchem_cid)
+                END AS pubchem_cid
+              )
               FROM read_parquet('{part.as_posix()}') response
               LEFT JOIN (
                 SELECT source_compound_id, any_value(pubchem_cid) AS pubchem_cid
@@ -631,10 +1035,11 @@ def process_all(document: dict, raw_root: Path, out: Path) -> dict[str, int]:
     response_root = out / "drug_response"
     response_root.mkdir(parents=True, exist_ok=True)
     total_response = 0
+    combo_ids = annotation_combination_ids(raw_root, roles)
     for source, spec in roles.get("gdsc_dose_response", []):
         path = file_for(raw_root, source["id"], str(source["version"]), spec["name"])
         if path:
-            total_response += load_gdsc_response(con, path, xref, response_root)
+            total_response += load_gdsc_response(con, path, xref, response_root, combo_ids)
     for source, spec in roles.get("prism_secondary_curve", []):
         path = file_for(raw_root, source["id"], str(source["version"]), spec["name"])
         if path:
@@ -647,6 +1052,8 @@ def process_all(document: dict, raw_root: Path, out: Path) -> dict[str, int]:
         path = file_for(raw_root, source["id"], str(source["version"]), spec["name"])
         if path:
             total_response += load_primary_lfc(con, path, str(spec["dataset"]), xref, response_root)
+    counts.update(load_combinations(document, raw_root, out))
+    total_response += counts.get("combination_responses", 0)
     if total_response:
         attach_pubchem(con, response_root, out / "compound_xref")
         counts["drug_response"] = total_response

@@ -24,7 +24,10 @@ export {
   ExpressionSchema,
   ExpressionUnitSchema,
   FileSchema,
+  CombinationRoleSchema,
   CompoundSchema,
+  DrugCombinationComponentSchema,
+  DrugCombinationSchema,
   DrugResponseSchema,
   GeneSchema,
   LocusSchema,
@@ -61,6 +64,7 @@ import {
   ExpressionSchema,
   FileSchema,
   CompoundSchema,
+  DrugCombinationSchema,
   DrugResponseSchema,
   GeneSchema,
   LocusSchema,
@@ -82,12 +86,13 @@ export type CellType = z.infer<typeof CellTypeSchema>;
 export type Tissue = z.infer<typeof TissueSchema>;
 export type Protein = z.infer<typeof ProteinSchema>;
 export type Compound = z.infer<typeof CompoundSchema>;
+export type DrugCombination = z.infer<typeof DrugCombinationSchema>;
 export type DrugResponse = z.infer<typeof DrugResponseSchema>;
 export type Metabolite = z.infer<typeof MetaboliteSchema>;
 export type Expression = z.infer<typeof ExpressionSchema>;
 export type Variant = z.infer<typeof VariantSchema>;
 export type Publication = z.infer<typeof PublicationSchema>;
-export type Entity = Gene | Sample | Donor | Dataset | OmicsFile | CellType | Tissue | Protein | Metabolite | Compound | DrugResponse | Expression | Variant | Publication;
+export type Entity = Gene | Sample | Donor | Dataset | OmicsFile | CellType | Tissue | Protein | Metabolite | Compound | DrugCombination | DrugResponse | Expression | Variant | Publication;
 export type Locus = z.infer<typeof LocusSchema>;
 export type Page = z.infer<typeof PageSchema>;
 export type ErrorObject = z.infer<typeof ErrorObjectSchema>;

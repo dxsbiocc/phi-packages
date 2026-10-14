@@ -167,6 +167,35 @@ sources:
         role: gdsc_dose_response
         live: true
 
+  - id: gdsc_combinations
+    version: "2022"
+    enabled: true
+    batch: 1
+    homepage: https://gdsc-combinations.depmap.sanger.ac.uk/
+    license: "GDSC² combination screens are for non-exclusive internal research and education. They are not licensed for resale or commercial services, and they are not CC BY. Confirm current terms at https://gdsc-combinations.depmap.sanger.ac.uk/ before redistribution."
+    citation: "Jaaks P, et al. Effective drug combinations in breast, colon and pancreatic cancer cells. Nature. 2022. DOI 10.1038/s41586-022-04437-2. Screening documentation: https://gdsc-combinations.depmap.sanger.ac.uk/downloads/Screening_documentation.pdf."
+    files:
+      - name: Glossary.xlsx
+        url: https://api.figshare.com/v2/file/download/34006715
+        figshare_file_id: 34006715
+        sha256: e29d8d2dccf230ce5e17b530c1a012389659142fdf78ae20c55b20a4c34619ce
+        role: gdsc_combination_glossary
+        live: false
+      - name: Validation_screen_All_tissues_fitted_data.csv
+        url: https://api.figshare.com/v2/file/download/34007258
+        figshare_file_id: 34007258
+        sha256: dcbd4c3108d212fa771c52ae977c8e1c01a421162a2232cdc4273faf257b2775
+        role: gdsc_combination_screen
+        dataset: gdsc_combination_validation
+        live: false
+      - name: Original_screen_All_tissues_fitted_data.csv
+        url: https://api.figshare.com/v2/file/download/34006655
+        figshare_file_id: 34006655
+        sha256: 1188968ce7fdcfb66d03791cf266515b7c7a2794e1fc73c966dba40266ffa278
+        role: gdsc_combination_screen
+        dataset: gdsc_combination_original
+        live: true
+
   - id: sanger_cmp
     version: "2026-10-14"
     enabled: true

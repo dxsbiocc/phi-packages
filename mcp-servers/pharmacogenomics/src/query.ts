@@ -27,7 +27,7 @@ const usage = {
 export const USAGE_SUMMARY = [
   "Cell-line pharmacogenomics for research. These screens are not treatment recommendations.",
   "DepMap 24Q2 Public, PRISM Repurposing 19Q4 (primary and secondary screens, Corsello et al. 2020), and PRISM Repurposing Public 24Q2 are CC BY 4.0 on their Figshare records.",
-  "GDSC1/GDSC2 release 8.4 is the 24 Jul 2022 Sanger dose-response release. Cell Model Passports supplies model identifiers.",
+  "GDSC1/GDSC2 release 8.4 is the 24 Jul 2022 Sanger single-agent dose-response release. GDSC² combination screens (Jaaks et al., Nature 2022) are a separate source and are not CC BY. Cell Model Passports supplies model identifiers.",
   "Cell lines are Cellosaurus CVCL accessions. Compounds are PubChem CIDs when a single CID is known. Unmatched and conflicting identifiers are left unresolved.",
   "DepMap expression values are log2(TPM+1). CRISPR values are Chronos gene-effect scores. GDSC LN_IC50 is the natural log of micromolar IC50, and a lower AUC or LN_IC50 means a stronger response.",
 ].join(" ");
@@ -249,6 +249,60 @@ export async function geneDependency(args: Record<string, unknown>): Promise<Too
   });
 }
 
+function combinationIdentity(query: string, row: Record<string, unknown>): boolean {
+  const id = text(row.combination_id) ?? "";
+  const local = id.startsWith("gdsc.combination:") ? id.slice("gdsc.combination:".length) : id;
+  const name = (text(row.name) ?? "").toLowerCase();
+  const folded = query.trim().toLowerCase();
+  return folded === id.toLowerCase() || folded === local.toLowerCase() || folded === name;
+}
+
+function componentCurie(cid: string | null, chembl: string | null): string | null {
+  if (cid) return curie("pubchem", cid);
+  if (chembl) return curie("chembl", chembl);
+  return null;
+}
+
+function splitRole(value: string | null): string[] {
+  if (!value) return [];
+  return value.split("|");
+}
+
+function roleComponents(
+  role: "anchor" | "library",
+  ids: string | null,
+  names: string | null,
+  cids: string | null,
+  chembls: string | null,
+  concentrations: number[],
+  unit: string | null,
+): Array<Record<string, unknown>> {
+  const idParts = splitRole(ids);
+  const nameParts = splitRole(names);
+  const cidParts = splitRole(cids);
+  const chemblParts = splitRole(chembls);
+  const count = Math.max(idParts.length, nameParts.length, cidParts.length, 1);
+  const items = [];
+  for (let index = 0; index < count; index += 1) {
+    const cid = cidParts[index]?.trim() || null;
+    const chembl = chemblParts[index]?.trim() || null;
+    items.push({
+      role,
+      name: nameParts[index]?.trim() || null,
+      compound_id: componentCurie(cid, chembl),
+      concentrations,
+      unit,
+    });
+  }
+  return items;
+}
+
+function concentrationsOf(value: unknown): number[] {
+  const textValue = text(value);
+  if (!textValue) return [];
+  return textValue.split(";").map((part) => Number(part)).filter((part) => Number.isFinite(part));
+}
+
 export async function compoundResponse(args: Record<string, unknown>): Promise<ToolResult> {
   const dir = dataDir();
   if (!dir) return unavailable("Set PHI_PGX_DATA_DIR to the processed pharmacogenomics parquet directory.");
@@ -257,6 +311,10 @@ export async function compoundResponse(args: Record<string, unknown>): Promise<T
   if (!compounds || !responses) return unavailable("compound_xref or drug_response parquet is not in PHI_PGX_DATA_DIR.");
   const query = text(args.compound);
   if (!query) throw new InputError("compound is required");
+  const mode = text(args.combinations) ?? "exclude";
+  if (mode !== "exclude" && mode !== "include" && mode !== "only") {
+    throw new InputError("combinations must be exclude, include, or only");
+  }
   const dataset = text(args.dataset);
   const metric = text(args.metric);
   const { offset, limit } = bounds(args);
@@ -265,43 +323,100 @@ export async function compoundResponse(args: Record<string, unknown>): Promise<T
     dir,
     `SELECT source, source_compound_id, name, pubchem_cid, chembl_id, inchikey, brd_id, gdsc_drug_id, status, match_method
      FROM read_parquet(?)
-     WHERE lower(coalesce(name, '')) = lower(?)
-        OR lower(source_compound_id) = lower(?)
-        OR lower(coalesce(brd_id, '')) = lower(?)
-        OR coalesce(gdsc_drug_id, '') = ?
-        OR coalesce(pubchem_cid, '') = ?
-        OR lower(coalesce(chembl_id, '')) = lower(?)
-        OR lower(coalesce(inchikey, '')) = lower(?)
-        OR list_contains(string_split(lower(coalesce(synonyms, '')), ';'), lower(?))`,
+     WHERE status IS DISTINCT FROM 'combination'
+       AND (
+         lower(coalesce(name, '')) = lower(?)
+         OR lower(source_compound_id) = lower(?)
+         OR lower(coalesce(brd_id, '')) = lower(?)
+         OR coalesce(gdsc_drug_id, '') = ?
+         OR coalesce(pubchem_cid, '') = ?
+         OR lower(coalesce(chembl_id, '')) = lower(?)
+         OR lower(coalesce(inchikey, '')) = lower(?)
+         OR list_contains(string_split(lower(coalesce(synonyms, '')), ';'), lower(?))
+       )`,
     [compounds, query, query, query, query, bare, query, query, query],
   );
-  if (!matched.length) return failure(dataSource, "not_found", `No compound alias matched ${query}`, false);
-  const ids = [...new Set(matched.map((row) => text(row.source_compound_id)).filter((item): item is string => item != null))];
+  const combinationFile = tablePath(dir, "combination_xref", false);
+  const matchedCombinations = combinationFile
+    ? await rows(
+      dir,
+      `SELECT combination_id, name, screen, status,
+              anchor_drug_id, library_drug_id, anchor_name, library_name,
+              anchor_pubchem_cid, library_pubchem_cid, anchor_chembl_id, library_chembl_id,
+              anchor_concentrations, library_concentrations, concentration_unit
+       FROM read_parquet(?)
+       WHERE lower(coalesce(combination_id, '')) = lower(?)
+          OR lower(replace(coalesce(combination_id, ''), 'gdsc.combination:', '')) = lower(?)
+          OR lower(coalesce(name, '')) = lower(?)
+          OR coalesce(anchor_drug_id, '') = ?
+          OR coalesce(library_drug_id, '') = ?
+          OR lower(coalesce(anchor_name, '')) = lower(?)
+          OR lower(coalesce(library_name, '')) = lower(?)
+          OR coalesce(anchor_pubchem_cid, '') = ?
+          OR coalesce(library_pubchem_cid, '') = ?
+          OR lower(coalesce(anchor_chembl_id, '')) = lower(?)
+          OR lower(coalesce(library_chembl_id, '')) = lower(?)`,
+      [combinationFile, query, query, query, query, query, query, query, bare, bare, query, query],
+    )
+    : [];
+  if (!matched.length && !matchedCombinations.length) return failure(dataSource, "not_found", `No compound alias matched ${query}`, false);
+  const forcedIds = matchedCombinations.filter((row) => combinationIdentity(query, row)).map((row) => text(row.combination_id)).filter((item): item is string => item != null);
+  const combinationIds = mode === "exclude"
+    ? [...new Set(forcedIds)]
+    : [...new Set(matchedCombinations.map((row) => text(row.combination_id)).filter((item): item is string => item != null))];
+  const singleIds = mode === "only"
+    ? []
+    : [...new Set(matched.map((row) => text(row.source_compound_id)).filter((item): item is string => item != null))];
+  if (!singleIds.length && !combinationIds.length) return failure(dataSource, "not_found", `No compound alias matched ${query}`, false);
+  const described = await rows(dir, "DESCRIBE SELECT * FROM read_parquet(?, hive_partitioning=true)", [responses]);
+  const columns = new Set(described.map((row) => text(row.column_name)).filter((item): item is string => item != null));
+  const hasClass = columns.has("response_class") && columns.has("combination_id");
+  const classSelect = hasClass
+    ? "combination_id, response_class, anchor_conc, library_conc"
+    : "NULL::VARCHAR AS combination_id, 'single' AS response_class, NULL::DOUBLE AS anchor_conc, NULL::DOUBLE AS library_conc";
+  const classWhere = hasClass
+    ? `(
+         (list_contains(string_split(?, ','), source_compound_id) AND coalesce(response_class, 'single') = 'single' AND combination_id IS NULL)
+         OR (list_contains(string_split(?, ','), combination_id) AND coalesce(response_class, 'single') = 'combination')
+       )`
+    : "list_contains(string_split(?, ','), source_compound_id)";
   const cids = [...new Set(matched.map((row) => text(row.pubchem_cid)).filter((item): item is string => item != null))];
-  const where = `WHERE list_contains(string_split(?, ','), source_compound_id)
+  const where = `WHERE ${classWhere}
                   AND (? IS NULL OR dataset = ?)
                   AND (? IS NULL OR metric = ?)
                   AND coalesce(qc, '') = ''`;
-  const params: DuckDBValue[] = [ids.join(","), dataset, dataset, metric, metric];
+  const classParams: DuckDBValue[] = hasClass
+    ? [singleIds.join(",") || "__none__", combinationIds.join(",") || "__none__"]
+    : [singleIds.join(",") || "__none__"];
+  const params: DuckDBValue[] = [...classParams, dataset, dataset, metric, metric];
   const total = num((await rows(dir, `SELECT count(*)::INTEGER AS n FROM read_parquet(?, hive_partitioning=true) ${where}`, [responses, ...params]))[0]?.n);
   const found = await rows(
     dir,
-    `SELECT dataset, source_model_id, model_cvcl, source_compound_id, pubchem_cid, compound_name, metric, value, unit, dose, screen_id
+    `SELECT dataset, source_model_id, model_cvcl, source_compound_id, pubchem_cid, compound_name, metric, value, unit, dose, screen_id, ${classSelect}
      FROM read_parquet(?, hive_partitioning=true) ${where}
      ORDER BY value ASC NULLS LAST
      LIMIT ? OFFSET ?`,
     [responses, ...params, limit, offset],
   );
+  const combinationById = new Map(matchedCombinations.map((row) => [text(row.combination_id), row]));
   const items = found.map((row) => {
-    const cid = text(row.pubchem_cid);
+    const responseClass = text(row.response_class) === "combination" || text(row.combination_id) ? "combination" : "single";
+    const combinationId = text(row.combination_id);
+    const combination = combinationId ? combinationById.get(combinationId) : undefined;
+    const cid = responseClass === "combination" ? null : text(row.pubchem_cid);
     const cvcl = text(row.model_cvcl);
     const datasetName = text(row.dataset) ?? "unknown";
     const compoundId = text(row.source_compound_id) ?? query;
     const metricName = text(row.metric) ?? "value";
     const dose = num(row.dose);
+    const anchorConc = num(row.anchor_conc);
+    const libraryConc = num(row.library_conc);
+    const idParts = [datasetName, cvcl ?? text(row.source_model_id) ?? "model", compoundId, metricName, dose == null ? "na" : String(dose), text(row.screen_id) ?? "na"];
+    if (responseClass === "combination") idParts.push(anchorConc == null ? "na" : String(anchorConc), libraryConc == null ? "na" : String(libraryConc));
     return drugResponse({
-      id: curie("pgx.response", [datasetName, cvcl ?? text(row.source_model_id) ?? "model", compoundId, metricName, dose == null ? "na" : String(dose), text(row.screen_id) ?? "na"].join("/")),
+      id: curie("pgx.response", idParts.join("/")),
       compound_id: cid ? curie("pubchem", cid) : null,
+      combination_id: combinationId,
       sample_id: cvcl ? curie("cellosaurus", cvcl) : null,
       dataset_id: curie("pgx.dataset", datasetName),
       metric: metricName,
@@ -310,23 +425,46 @@ export async function compoundResponse(args: Record<string, unknown>): Promise<T
       xrefs: [
         compoundId.startsWith("BRD-") ? curie("brd", compoundId) : null,
         /^\d+$/.test(compoundId) ? curie("gdsc.drug", compoundId) : null,
+        combinationId,
       ].filter((item): item is string => item != null),
       source_extra: {
+        response_class: responseClass,
         source_compound_id: compoundId,
         compound_name: text(row.compound_name),
         dose,
+        anchor_conc: anchorConc,
+        library_conc: libraryConc,
         screen_id: text(row.screen_id),
         source_model_id: text(row.source_model_id),
-        ambiguous_compound: cids.length > 1,
+        ambiguous_compound: responseClass === "single" && cids.length > 1,
+        components: combination
+          ? [
+            ...roleComponents("anchor", text(combination.anchor_drug_id), text(combination.anchor_name), text(combination.anchor_pubchem_cid), text(combination.anchor_chembl_id), anchorConc == null ? concentrationsOf(combination.anchor_concentrations) : [anchorConc], text(combination.concentration_unit)),
+            ...roleComponents("library", text(combination.library_drug_id), text(combination.library_name), text(combination.library_pubchem_cid), text(combination.library_chembl_id), libraryConc == null ? concentrationsOf(combination.library_concentrations) : [libraryConc], text(combination.concentration_unit)),
+          ]
+          : [],
       },
     });
   });
+  const combinationSummary = matchedCombinations
+    .filter((row) => combinationIds.includes(text(row.combination_id) ?? ""))
+    .map((row) => ({
+      combination_id: text(row.combination_id),
+      name: text(row.name),
+      status: text(row.status),
+      components: [
+        ...roleComponents("anchor", text(row.anchor_drug_id), text(row.anchor_name), text(row.anchor_pubchem_cid), text(row.anchor_chembl_id), concentrationsOf(row.anchor_concentrations), text(row.concentration_unit)),
+        ...roleComponents("library", text(row.library_drug_id), text(row.library_name), text(row.library_pubchem_cid), text(row.library_chembl_id), concentrationsOf(row.library_concentrations), text(row.concentration_unit)),
+      ],
+    }));
   return makePage("drug_response", items, offset, limit, total, dataSource, {
-    summary: cids.length > 1
-      ? "This alias matches more than one PubChem CID. Responses are returned for every matched source id and none was chosen automatically."
-      : "Drug-response rows ordered by value ascending. Lower GDSC AUC and LN_IC50 mean a stronger response.",
+    summary: combinationIds.length && !singleIds.length
+      ? "Combination responses are separate from single-agent responses. Each component keeps its own PubChem or ChEMBL id. Delta metrics are the screened synergy values."
+      : cids.length > 1
+        ? "This alias matches more than one PubChem CID. Responses are returned for every matched source id and none was chosen automatically."
+        : "Drug-response rows ordered by value ascending. Lower GDSC AUC and LN_IC50 mean a stronger response. Combination rows are omitted unless the query is a combination or combinations is include or only.",
     url: "https://www.cancerrxgene.org/",
-  }, { pubchem_cids: cids, match_count: matched.length });
+  }, { pubchem_cids: cids, match_count: matched.length, combinations: combinationSummary });
 }
 
 export async function modelSummary(args: Record<string, unknown>): Promise<ToolResult> {

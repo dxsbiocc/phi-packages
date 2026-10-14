@@ -3,6 +3,7 @@ import {
   CellTypeSchema,
   CompoundSchema,
   DatasetSchema,
+  DrugCombinationSchema,
   DrugResponseSchema,
   DonorSchema,
   ErrorObjectSchema,
@@ -20,6 +21,7 @@ import {
   type CellType,
   type Compound,
   type Dataset,
+  type DrugCombination,
   type DrugResponse,
   type Donor,
   type Entity,
@@ -253,11 +255,23 @@ export function compound(fields: Partial<Compound> & Pick<Compound, "id">): Comp
   });
 }
 
+export function drugCombination(fields: Partial<DrugCombination> & Pick<DrugCombination, "id">): DrugCombination {
+  return DrugCombinationSchema.parse({
+    entity_type: "drug_combination",
+    xrefs: [],
+    name: null,
+    components: [],
+    source_extra: {},
+    ...fields,
+  });
+}
+
 export function drugResponse(fields: Partial<DrugResponse> & Pick<DrugResponse, "id">): DrugResponse {
   return DrugResponseSchema.parse({
     entity_type: "drug_response",
     xrefs: [],
     compound_id: null,
+    combination_id: null,
     sample_id: null,
     dataset_id: null,
     metric: null,
