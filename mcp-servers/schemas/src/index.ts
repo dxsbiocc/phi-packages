@@ -4,7 +4,11 @@ export {
   curie,
   ensemblGeneCurie,
   humanChrom,
+  normalizeArxiv,
+  normalizeDoi,
+  normalizePmid,
   ontologyCurie,
+  publicationId,
   sexOf,
   strandOf,
   taxonCurie,
@@ -23,7 +27,13 @@ export {
   GeneSchema,
   LocusSchema,
   MetaboliteSchema,
+  OaUrlSchema,
+  PUBLICATION_TYPES,
   ProteinSchema,
+  PublicationAuthorSchema,
+  PublicationDatesSchema,
+  PublicationSchema,
+  PublicationTypeSchema,
   SampleSchema,
   SexSchema,
   SourceExtraSchema,
@@ -53,6 +63,7 @@ import {
   MetaboliteSchema,
   ProteinSchema,
   SampleSchema,
+  PublicationSchema,
   TissueSchema,
   VariantSchema,
 } from "./entities.js";
@@ -69,7 +80,8 @@ export type Protein = z.infer<typeof ProteinSchema>;
 export type Metabolite = z.infer<typeof MetaboliteSchema>;
 export type Expression = z.infer<typeof ExpressionSchema>;
 export type Variant = z.infer<typeof VariantSchema>;
-export type Entity = Gene | Sample | Donor | Dataset | OmicsFile | CellType | Tissue | Protein | Metabolite | Expression | Variant;
+export type Publication = z.infer<typeof PublicationSchema>;
+export type Entity = Gene | Sample | Donor | Dataset | OmicsFile | CellType | Tissue | Protein | Metabolite | Expression | Variant | Publication;
 export type Locus = z.infer<typeof LocusSchema>;
 export type Page = z.infer<typeof PageSchema>;
 export type ErrorObject = z.infer<typeof ErrorObjectSchema>;

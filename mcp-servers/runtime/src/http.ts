@@ -21,9 +21,15 @@ export class UpstreamError extends Error {
   }
 }
 
+export interface UpstreamRequest {
+  headers?: Record<string, string>;
+  accept?: string;
+}
+
 export interface JsonClient {
-  getJson(url: string): Promise<unknown>;
-  postJson(url: string, body: unknown): Promise<unknown>;
+  getJson(url: string, request?: UpstreamRequest): Promise<unknown>;
+  postJson(url: string, body: unknown, request?: UpstreamRequest): Promise<unknown>;
+  getText?(url: string, request?: UpstreamRequest): Promise<string>;
 }
 
 const nextSlot = new Map<string, number>();
@@ -65,16 +71,25 @@ export class UpstreamClient implements JsonClient {
     private readonly fetchImpl: typeof fetch = fetch,
   ) {}
 
-  getJson(url: string): Promise<unknown> {
-    return this.request(url, "GET");
+  getJson(url: string, request?: UpstreamRequest): Promise<unknown> {
+    return this.request(url, "GET", undefined, request, "json");
   }
 
-  postJson(url: string, body: unknown): Promise<unknown> {
-    return this.request(url, "POST", body);
+  postJson(url: string, body: unknown, request?: UpstreamRequest): Promise<unknown> {
+    return this.request(url, "POST", body, request, "json");
   }
 
-  private async request(url: string, method: "GET" | "POST", body?: unknown): Promise<unknown> {
-    const key = method === "GET" ? url : `${method} ${url} ${JSON.stringify(body)}`;
+  getText(url: string, request?: UpstreamRequest): Promise<string> {
+    return this.request(url, "GET", undefined, request, "text").then((body) => String(body));
+  }
+
+  private async request(url: string, method: "GET" | "POST", body?: unknown, request?: UpstreamRequest, as: "json" | "text" = "json"): Promise<unknown> {
+    const headerKey = request?.headers && Object.keys(request.headers).length > 0 ? ` ${JSON.stringify(request.headers)}` : "";
+    const acceptKey = request?.accept ? ` accept=${request.accept}` : "";
+    const textKey = as === "text" ? "TEXT " : "";
+    const key = method === "GET"
+      ? `${textKey}${url}${headerKey}${acceptKey}`
+      : `${textKey}${method} ${url} ${JSON.stringify(body)}${headerKey}${acceptKey}`;
     const file = cacheFile(this.config.cacheDir, key);
     const cached = await readCache(file);
     if (cached !== undefined) return cached;
@@ -87,9 +102,10 @@ export class UpstreamClient implements JsonClient {
         const response = await this.fetchImpl(url, {
           method,
           headers: {
-            accept: "application/json",
+            accept: request?.accept ?? (as === "json" ? "application/json" : "application/xml, text/xml, text/plain, */*"),
             "user-agent": this.config.userAgent,
             ...(body === undefined ? {} : { "content-type": "application/json" }),
+            ...(request?.headers ?? {}),
           },
           body: body === undefined ? undefined : JSON.stringify(body),
           signal: AbortSignal.timeout(this.config.timeoutMs),
@@ -101,6 +117,10 @@ export class UpstreamClient implements JsonClient {
         if (!response.ok) {
           const retryable = response.status === 429 || response.status >= 500;
           throw new UpstreamError(response.status, `${response.status} ${text.slice(0, 300)}`, retryable);
+        }
+        if (as === "text") {
+          await writeCache(file, text, this.config.cacheTtlMs);
+          return text;
         }
         let parsed: unknown;
         try {

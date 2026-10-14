@@ -8,6 +8,8 @@ import {
   ensemblGeneCurie,
   humanChrom,
   ontologyCurie,
+  publicationId,
+  PublicationSchema,
   type EntityType,
 } from "../index.js";
 
@@ -41,6 +43,9 @@ test("CURIE helpers normalize ontology, Ensembl, and chromosomes", () => {
   assert.equal(humanChrom("chrM"), "chrM");
   assert.equal(humanChrom("MT"), "chrM");
   assert.equal(curie("gtex.tissue", "Whole_Blood"), "gtex.tissue:Whole_Blood");
+  assert.equal(publicationId({ doi: "https://doi.org/10.1038/S41586-020-2012-7" }), "doi:10.1038/s41586-020-2012-7");
+  assert.equal(publicationId({ pmid: "pmid:22745249" }), "pmid:22745249");
+  assert.equal(publicationId({ arxiv: "arXiv:2201.00001v2" }), "arxiv:2201.00001");
 });
 
 test("every entity type fits the shared page envelope", () => {
@@ -56,6 +61,7 @@ test("every entity type fits the shared page envelope", () => {
     ["metabolite", { entity_type: "metabolite", id: "CHEBI:15377", xrefs: [], name: "water", formula: "H2O", inchikey: null, source_extra: {} }],
     ["expression", { entity_type: "expression", id: "gtex.expression:ENSG00000141510:Adipose_Subcutaneous:median", xrefs: [], gene_id: "ensembl:ENSG00000141510", tissue_id: "gtex.tissue:Adipose_Subcutaneous", cell_type_id: null, sample_id: null, value: 22.6549, unit: "TPM", statistic: "median", source_extra: {} }],
     ["variant", { entity_type: "variant", id: "gtex.variant:chr1_64764_C_T_b38", xrefs: ["dbsnp:rs769952832"], gene_id: "ensembl:ENSG00000227232", locus: { genome_build: "GRCh38", chrom: "chr1", start: 64764, end: 64764, strand: null }, consequence: null, source_extra: {} }],
+    ["publication", { entity_type: "publication", id: "doi:10.1126/science.1225829", xrefs: ["pmid:22745249", "pmcid:PMC6286148", "openalex:W2045435533"], doi: "10.1126/science.1225829", title: "A programmable dual-RNA-guided DNA endonuclease in adaptive bacterial immunity.", authors: [{ name: "Martin Jinek", orcid: "https://orcid.org/0000-0002-7601-210X" }], venue: "Science", dates: { published: "2012-08-17", posted: "2012-06-28", updated: null }, abstract: "Clustered regularly interspaced short palindromic repeats.", type: "journal-article", is_oa: true, oa_urls: [{ url: "https://europepmc.org/articles/PMC6286148", content_type: "html", version: "accepted" }], license: "cc-by", published_as: null, preprint_of: null, source_extra: {} }],
   ];
   for (const [itemType, item] of cases) {
     const parsed = ToolResultSchema.parse(page(itemType, [item]));
@@ -80,6 +86,47 @@ test("pages reject mixed entity types and controlled file URLs", () => {
     source_extra: {},
   });
   assert.equal(leaked.success, false);
+});
+
+test("publication ids prefer a lowercased DOI over PMID", () => {
+  const rejected = PublicationSchema.safeParse({
+    entity_type: "publication",
+    id: "pmid:22745249",
+    xrefs: [],
+    doi: "10.1126/science.1225829",
+    title: null,
+    authors: [],
+    venue: null,
+    dates: { published: null, posted: null, updated: null },
+    abstract: null,
+    type: null,
+    is_oa: null,
+    oa_urls: [],
+    license: null,
+    published_as: null,
+    preprint_of: null,
+    source_extra: {},
+  });
+  assert.equal(rejected.success, false);
+  const preprint = PublicationSchema.parse({
+    entity_type: "publication",
+    id: "doi:10.1101/2024.05.28.596311",
+    xrefs: [],
+    doi: "10.1101/2024.05.28.596311",
+    title: null,
+    authors: [],
+    venue: "bioRxiv",
+    dates: { published: null, posted: "2024-06-01", updated: null },
+    abstract: null,
+    type: "preprint",
+    is_oa: true,
+    oa_urls: [],
+    license: "cc-by-nc-nd",
+    published_as: "doi:10.1038/s41593-025-01960-z",
+    preprint_of: null,
+    source_extra: {},
+  });
+  assert.equal(preprint.published_as, "doi:10.1038/s41593-025-01960-z");
 });
 
 test("errors use the shared error object", () => {
