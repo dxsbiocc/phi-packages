@@ -1,0 +1,5 @@
+raw/
+processed/
+.pytest_cache/
+*.egg-info/
+.venv/

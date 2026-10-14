@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Path router that serves the Phi omics and literature MCP servers",
+  "description": "Path router that serves the Phi omics, pharmacogenomics, and literature MCP servers",
   "bin": { "phi-omics-gateway": "./dist/cli.js" },
   "files": ["dist"],
   "engines": { "node": ">=20" },
@@ -17,6 +17,7 @@
     "phi-omics-epigenomics": "1.0.0",
     "phi-literature": "1.0.0",
     "phi-omics-metabolomics": "1.0.0",
+    "phi-omics-pharmacogenomics": "1.0.0",
     "phi-omics-proteomics": "1.0.0",
     "phi-omics-runtime": "1.0.0",
     "phi-omics-transcriptomics": "1.0.0"

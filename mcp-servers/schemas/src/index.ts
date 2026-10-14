@@ -24,6 +24,8 @@ export {
   ExpressionSchema,
   ExpressionUnitSchema,
   FileSchema,
+  CompoundSchema,
+  DrugResponseSchema,
   GeneSchema,
   LocusSchema,
   MetaboliteSchema,
@@ -58,6 +60,8 @@ import {
   DonorSchema,
   ExpressionSchema,
   FileSchema,
+  CompoundSchema,
+  DrugResponseSchema,
   GeneSchema,
   LocusSchema,
   MetaboliteSchema,
@@ -77,11 +81,13 @@ export type OmicsFile = z.infer<typeof FileSchema>;
 export type CellType = z.infer<typeof CellTypeSchema>;
 export type Tissue = z.infer<typeof TissueSchema>;
 export type Protein = z.infer<typeof ProteinSchema>;
+export type Compound = z.infer<typeof CompoundSchema>;
+export type DrugResponse = z.infer<typeof DrugResponseSchema>;
 export type Metabolite = z.infer<typeof MetaboliteSchema>;
 export type Expression = z.infer<typeof ExpressionSchema>;
 export type Variant = z.infer<typeof VariantSchema>;
 export type Publication = z.infer<typeof PublicationSchema>;
-export type Entity = Gene | Sample | Donor | Dataset | OmicsFile | CellType | Tissue | Protein | Metabolite | Expression | Variant | Publication;
+export type Entity = Gene | Sample | Donor | Dataset | OmicsFile | CellType | Tissue | Protein | Metabolite | Compound | DrugResponse | Expression | Variant | Publication;
 export type Locus = z.infer<typeof LocusSchema>;
 export type Page = z.infer<typeof PageSchema>;
 export type ErrorObject = z.infer<typeof ErrorObjectSchema>;

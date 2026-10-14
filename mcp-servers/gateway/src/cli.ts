@@ -22,6 +22,7 @@ if (options.help) {
   /epigenomics/mcp
   /proteomics/mcp
   /metabolomics/mcp
+  /pharmacogenomics/mcp
   /literature/mcp
 
 Set MCP_SERVER to one server name to serve only that server at /mcp.

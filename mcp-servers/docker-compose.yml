@@ -1,4 +1,4 @@
-# Gateway paths: /transcriptomics/mcp /cancer/mcp /epigenomics/mcp /proteomics/mcp /metabolomics/mcp /literature/mcp
+# Gateway paths: /transcriptomics/mcp /cancer/mcp /epigenomics/mcp /proteomics/mcp /metabolomics/mcp /pharmacogenomics/mcp /literature/mcp
 services:
   omics-mcp:
     build:
@@ -13,8 +13,10 @@ services:
       PHI_OMICS_RATE_LIMIT_RPS: "4"
       PHI_OMICS_CACHE_TTL_MS: "21600000"
       PHI_OMICS_TIMEOUT_MS: "30000"
+      PHI_PGX_DATA_DIR: /var/lib/phi-pgx
     volumes:
       - omics-cache:/var/cache/phi-omics-mcp
+      - ${PHI_PGX_DATA_DIR:-./pgx-data}:/var/lib/phi-pgx:ro
     restart: unless-stopped
 
 volumes:

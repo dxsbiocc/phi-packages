@@ -1,6 +1,6 @@
 # Omics MCP servers
 
-Six read-only MCP servers for public scientific databases that do not ship an official MCP endpoint. They share one entity model (`docs/schemas.md`) and one HTTP client (timeouts, retries, per-host rate limit, on-disk cache).
+Seven read-only MCP servers for public scientific databases that do not ship an official MCP endpoint. They share one entity model (`docs/schemas.md`). The remote servers share one HTTP client (timeouts, retries, per-host rate limit, on-disk cache). Pharmacogenomics reads local Parquet instead.
 
 | Server | Package | Sources |
 | --- | --- | --- |
@@ -9,11 +9,12 @@ Six read-only MCP servers for public scientific databases that do not ship an of
 | Epigenomics | `phi-omics-epigenomics` | ENCODE portal, Roadmap via `award.rfa=Roadmap` |
 | Proteomics | `phi-omics-proteomics` | PRIDE, Human Protein Atlas |
 | Metabolomics | `phi-omics-metabolomics` | MetaboLights |
+| Pharmacogenomics | `phi-omics-pharmacogenomics` | DepMap 24Q2, PRISM 19Q4 and Public 24Q2, GDSC 8.4, Cell Model Passports |
 | Literature | `phi-literature` | PubMed, Europe PMC, bioRxiv/medRxiv, Crossref, OpenAlex, Semantic Scholar, arXiv, Unpaywall, OpenCitations |
 
 The same TypeScript runs locally over stdio or Streamable HTTP, and in Docker on one host. Packages are private workspace members. An npm scope and a publish workflow are intentionally not set up yet; `bin`, `files`, and `engines` are already in each package so that step can be added later without moving code.
 
-Public HTTPS endpoints for the five omics servers are live on `phi.omicsagent.cn`. Matching manifests live under `resources/connectors/` (`transcriptomics-single-cell`, `cancer-omics`, `epigenomics`, `proteomics`, `metabolomics`). Literature is mounted at `/literature/mcp` in this repo and should be added to the catalog only after that path is deployed.
+Public HTTPS endpoints for the five omics servers are live on `phi.omicsagent.cn`. Matching manifests live under `resources/connectors/` (`transcriptomics-single-cell`, `cancer-omics`, `epigenomics`, `proteomics`, `metabolomics`). Pharmacogenomics is mounted at `/pharmacogenomics/mcp` and reads local Parquet. Literature is mounted at `/literature/mcp`. Add those paths to the catalog only after they are deployed.
 
 ## Build and test
 
@@ -43,10 +44,11 @@ node mcp-servers/cancer-omics/dist/cli.js --help
 npm exec -w phi-omics-epigenomics -- phi-omics-epigenomics --stdio
 npm exec -w phi-omics-proteomics -- phi-omics-proteomics --http --port 8788
 npm exec -w phi-omics-metabolomics -- phi-omics-metabolomics --http --port 8789
-npm exec -w phi-literature -- phi-literature --http --port 8790
+PHI_PGX_DATA_DIR=/path/to/processed npm exec -w phi-omics-pharmacogenomics -- phi-omics-pharmacogenomics --http --port 8790
+npm exec -w phi-literature -- phi-literature --http --port 8791
 ```
 
-The bins are `phi-omics-transcriptomics`, `phi-omics-cancer`, `phi-omics-epigenomics`, `phi-omics-proteomics`, `phi-omics-metabolomics`, `phi-literature`, and `phi-omics-gateway`. Each server defaults to stdio and switches to HTTP with `--http`. Bun can run the same `dist/cli.js` files; there are no native addons.
+The bins are `phi-omics-transcriptomics`, `phi-omics-cancer`, `phi-omics-epigenomics`, `phi-omics-proteomics`, `phi-omics-metabolomics`, `phi-omics-pharmacogenomics`, `phi-literature`, and `phi-omics-gateway`. Each server defaults to stdio and switches to HTTP with `--http`. The remote servers and literature have no native addons. Pharmacogenomics uses the DuckDB Node binding (`@duckdb/node-api`) to read Parquet.
 
 Example stdio entry for a desktop client, with paths adjusted to this checkout:
 
@@ -81,6 +83,7 @@ Cache files go to `PHI_OMICS_CACHE_DIR`, or `$XDG_CACHE_HOME/phi-omics-mcp`, or 
 | `GTEX_GENOME` | `GRCh38/hg38` | GTEx genome build argument |
 | `CELLGUIDE_SNAPSHOT` | `1692975365` | Pinned CellGuide public snapshot |
 | `MCP_SERVER` | `all` | Gateway only: one server name, or `all` |
+| `PHI_PGX_DATA_DIR` | unset | Pharmacogenomics only: directory of processed Parquet from `data-pipelines/pharmacogenomics` |
 | `NCBI_API_KEY` | empty | Literature: NCBI E-utilities key. Without it, keep the shared rate near 3 requests/second |
 | `PHI_LITERATURE_EMAIL` | empty | Literature: contact email for the Crossref, OpenAlex, and Unpaywall polite pools. Also read from `NCBI_EMAIL` or `UNPAYWALL_EMAIL` |
 | `S2_API_KEY` | empty | Literature: Semantic Scholar key, used only when that source is requested |
@@ -103,9 +106,12 @@ The image listens on port 8080:
 - `POST /epigenomics/mcp`
 - `POST /proteomics/mcp`
 - `POST /metabolomics/mcp`
+- `POST /pharmacogenomics/mcp`
 - `POST /literature/mcp`
 
-`MCP_SERVER=transcriptomics-single-cell` (or `cancer-omics`, `epigenomics`, `proteomics`, `metabolomics`, `literature`) serves that one server at `/mcp` instead.
+`MCP_SERVER=transcriptomics-single-cell` (or `cancer-omics`, `epigenomics`, `proteomics`, `metabolomics`, `pharmacogenomics`, `literature`) serves that one server at `/mcp` instead.
+
+Mount the processed pharmacogenomics tables by setting `PHI_PGX_DATA_DIR` on the host to that directory. Compose maps it read-only to `/var/lib/phi-pgx`. The pipeline itself runs outside the image.
 
 Put TLS on a reverse proxy. `Caddyfile.example` proxies a hostname to `127.0.0.1:8080`. Caddy obtains and renews certificates. Nginx or another proxy is the same pattern: forward `POST`, `GET`, and `DELETE` to the Node process, preserve `Authorization` and `Mcp-Session-Id` if you add auth later, and do not buffer streaming responses. This process does not terminate TLS and does not authenticate clients. Bind it to localhost when the proxy is on the same machine.
 
@@ -138,6 +144,12 @@ ENCODE's edge blocks the `from` query parameter, so search tools request the lea
 ### Metabolomics
 
 `usage_terms`, `metabolights_list_studies`, `metabolights_get_study`, `metabolights_list_files`, `metabolights_list_assays`.
+
+### Pharmacogenomics
+
+`usage_terms`, `resolve_cell_line`, `gene_dependency`, `compound_response`, `model_summary`.
+
+The server does not download releases. Build the tables with `data-pipelines/pharmacogenomics` and point `PHI_PGX_DATA_DIR` at the `processed/` directory. Without that directory the query tools return `unavailable`. `usage_terms` still returns the license text.
 
 ### Literature
 
@@ -175,11 +187,11 @@ Designs were read from public docs and READMEs. No code was copied.
 
 ## What was not implemented
 
-- **DepMap.** `https://depmap.org/portal/api/public/models` returned an HTML bot-check page, not JSON.
+- **DepMap on the cancer server.** The public models API returns an HTML bot check, so cancer omics does not call it. DepMap release files are handled by the pharmacogenomics pipeline via Figshare, not by a live portal client.
 - **ChIP-Atlas.** `https://chip-atlas.dbcls.jp/api/v1/experiment` returned AccessDenied, and the experiment-list keys that were tried were missing. Roadmap Epigenomics is queried through ENCODE instead.
 - **CELLxGENE Census matrices and controlled GDC/ENCODE/HCA/HuBMAP/MetaboLights files.** Responses stay metadata. Controlled files have `url: null`.
 - **A MetaboLights metabolite catalog.** `/studies/{id}/metabolites` is not a JSON table. The `metabolite` schema exists for a later source.
-- **Catalog manifests.** Added under `resources/connectors/` for the five omics servers after the HTTPS gateway went live on `phi.omicsagent.cn`. Literature stays out of the catalog until `/literature/mcp` is on that host.
+- **Catalog manifests.** Added under `resources/connectors/` for the five omics servers after the HTTPS gateway went live on `phi.omicsagent.cn`. Pharmacogenomics and literature stay out of the catalog until `/pharmacogenomics/mcp` and `/literature/mcp` are on that host. The connector count stays at 27.
 - **Literature PDF parsing, paywalled text, and paid APIs.** `get_fulltext` does not download or parse PDFs. Closed and unknown licenses return links. Semantic Scholar and arXiv are opt-in. OpenCitations is only the fallback for citations and references. bioRxiv and medRxiv keyword search is not invented on top of their date API. A category filter on a bioRxiv date browse applies to the fetched page.
 
 ## Planned
@@ -206,4 +218,4 @@ connector:
   auth: none
 ```
 
-Use the same shape for `cancer-omics` (`/cancer/mcp`), `epigenomics` (`/epigenomics/mcp`), `proteomics` (`/proteomics/mcp`), and `metabolomics` (`/metabolomics/mcp`). Add `literature` (`/literature/mcp`) only after that path responds on the public host. Add an original icon that passes Phi's SVG checks, record it outside the 18-icon migration in `docs/content-icons.md` and `SOURCE.json` `addedContent`, and set `SOURCE.json` `counts.connectors` plus both README connector counts to the new directory total. Leave `initialImportCounts.connectors` at 18. Re-run `node --test tests/content-icons.test.mjs tests/content-boundaries.test.mjs`.
+Use the same shape for `cancer-omics` (`/cancer/mcp`), `epigenomics` (`/epigenomics/mcp`), `proteomics` (`/proteomics/mcp`), and `metabolomics` (`/metabolomics/mcp`). Add `pharmacogenomics` (`/pharmacogenomics/mcp`) and `literature` (`/literature/mcp`) only after those paths respond on the public host. Add an original icon that passes Phi's SVG checks, record it outside the 18-icon migration in `docs/content-icons.md` and `SOURCE.json` `addedContent`, and set `SOURCE.json` `counts.connectors` plus both README connector counts to the new directory total. Leave `initialImportCounts.connectors` at 18. Re-run `node --test tests/content-icons.test.mjs tests/content-boundaries.test.mjs`.

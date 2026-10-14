@@ -1,0 +1,223 @@
+# Batch 1 downloads. Large matrices stay behind `phi-pgx download --live`
+# or PHI_PGX_LIVE=1. Checksums are sha256 of the bytes retrieved on 2026-10-14.
+#
+# DepMap's portal catalogue (https://depmap.org/portal/api/download/files and
+# /api/no-captcha/download/files) returned an HTTP 200 Cloudflare HTML page
+# from this environment. Figshare release records answered, so those URLs are
+# configured. Clear `url` and pass `--resolve-urls` to try the portal catalogue
+# first and fall back to the figshare article.
+
+batch: 1
+
+sources:
+  - id: depmap
+    version: "24Q2"
+    enabled: true
+    batch: 1
+    homepage: https://depmap.org/portal/
+    license: CC BY 4.0
+    citation: "DepMap, Broad (2024). DepMap 24Q2 Public. Figshare+. Dataset. https://doi.org/10.25452/figshare.plus.25880521.v1"
+    resolvers:
+      - type: depmap_api
+        api_url: https://depmap.org/portal/api/download/files
+        release: DepMap Public 24Q2
+      - type: figshare
+        api_url: https://api.figshare.com/v2
+        article_id: 25880521
+    files:
+      - name: Model.csv
+        url: https://api.figshare.com/v2/file/download/46489732
+        figshare_file_id: 46489732
+        sha256: a4cac376131b41aa10b60a075b11c80264bfa860a5509d22cde259c5e85867f8
+        role: depmap_models
+        live: false
+      - name: CRISPRGeneEffect.csv
+        url: https://api.figshare.com/v2/file/download/46489063
+        figshare_file_id: 46489063
+        role: gene_matrix
+        dataset: depmap_crispr_24q2
+        metric: chronos_gene_effect
+        live: true
+      - name: OmicsExpressionProteinCodingGenesTPMLogp1.csv
+        url: https://api.figshare.com/v2/file/download/46490878
+        figshare_file_id: 46490878
+        role: gene_matrix
+        dataset: depmap_expression_24q2
+        metric: log2_tpm_plus_1
+        live: true
+      - name: OmicsCNGene.csv
+        url: https://api.figshare.com/v2/file/download/46489771
+        figshare_file_id: 46489771
+        role: gene_matrix
+        dataset: depmap_cn_24q2
+        metric: relative_copy_number
+        live: true
+      - name: OmicsSomaticMutations.csv
+        url: https://api.figshare.com/v2/file/download/46500367
+        figshare_file_id: 46500367
+        role: depmap_mutations
+        dataset: depmap_mutations_24q2
+        live: true
+
+  - id: prism_19q4
+    version: "19Q4"
+    enabled: true
+    batch: 1
+    homepage: https://doi.org/10.6084/m9.figshare.9393293.v4
+    license: CC BY 4.0
+    citation: "DepMap, Broad; Corsello, Steven; Kocak, Mustafa; Golub, Todd (2019). PRISM Repurposing 19Q4 Dataset. figshare. Dataset. https://doi.org/10.6084/m9.figshare.9393293.v4"
+    resolvers:
+      - type: figshare
+        api_url: https://api.figshare.com/v2
+        article_id: 9393293
+    files:
+      - name: primary-screen-cell-line-info.csv
+        url: https://api.figshare.com/v2/file/download/20237718
+        figshare_file_id: 20237718
+        sha256: c17174f48264fea0adb3eb4b2b1f2daf61b83999b0db6e4965338e3bd6a9fde2
+        role: prism_cell_meta
+        live: false
+      - name: primary-screen-replicate-collapsed-treatment-info.csv
+        url: https://api.figshare.com/v2/file/download/20237715
+        figshare_file_id: 20237715
+        sha256: d649f207a437c9e9910572c5023d02f68a77c946f6e972c998b057160a3505e6
+        role: prism_primary_compounds
+        live: false
+      - name: primary-screen-replicate-collapsed-logfold-change.csv
+        url: https://api.figshare.com/v2/file/download/20237709
+        figshare_file_id: 20237709
+        role: prism_primary_lfc
+        dataset: prism_primary_19q4
+        live: true
+      - name: secondary-screen-cell-line-info.csv
+        url: https://api.figshare.com/v2/file/download/20237769
+        figshare_file_id: 20237769
+        sha256: b93436b5f4bcf5fd14589697be4ca8f99ffd99d639223080380bc514c3718d27
+        role: prism_cell_meta
+        live: false
+      - name: secondary-screen-replicate-collapsed-treatment-info.csv
+        url: https://api.figshare.com/v2/file/download/20237763
+        figshare_file_id: 20237763
+        sha256: 9d0d1fb4faa87a63cd84965ec5e2b55a9df5680520a41b029abb679cfd4384f7
+        role: prism_secondary_compounds
+        live: false
+      - name: secondary-screen-dose-response-curve-parameters.csv
+        url: https://api.figshare.com/v2/file/download/20237739
+        figshare_file_id: 20237739
+        role: prism_secondary_curve
+        dataset: prism_secondary_19q4
+        live: true
+
+  - id: prism_24q2
+    version: "24Q2"
+    enabled: true
+    batch: 1
+    homepage: https://doi.org/10.6084/m9.figshare.25917643.v1
+    license: CC BY 4.0
+    citation: "DepMap, Broad; Kocak, Mustafa (2024). Repurposing Public 24Q2. figshare. Dataset. https://doi.org/10.6084/m9.figshare.25917643.v1"
+    resolvers:
+      - type: figshare
+        api_url: https://api.figshare.com/v2
+        article_id: 25917643
+    files:
+      - name: Repurposing_Public_24Q2_Cell_Line_Meta_Data.csv
+        url: https://api.figshare.com/v2/file/download/46630978
+        figshare_file_id: 46630978
+        sha256: 13a85da9e45656c455d3911a4491f3636d7d0975a9d2333dc3d0a3e2cd3b0526
+        role: prism_cell_meta
+        live: false
+      - name: Repurposing_Public_24Q2_Extended_Primary_Compound_List.csv
+        url: https://api.figshare.com/v2/file/download/46630981
+        figshare_file_id: 46630981
+        sha256: 7e78f5901c1a97d2baab0789ab89832e716388da4eacaa9f094e7d2f2f5a3463
+        role: prism_24q2_compounds
+        live: false
+      - name: Repurposing_Public_24Q2_Treatment_Meta_Data.csv
+        url: https://api.figshare.com/v2/file/download/46631146
+        figshare_file_id: 46631146
+        sha256: 6be6422ba804ad0775e78b457677bdf088707b9354746a03e110ae63f5eb2061
+        role: prism_24q2_treatment
+        live: false
+      - name: Repurposing_Public_24Q2_LFC_COLLAPSED.csv
+        url: https://api.figshare.com/v2/file/download/46631056
+        figshare_file_id: 46631056
+        role: prism_24q2_lfc
+        dataset: prism_public_24q2
+        live: true
+
+  - id: gdsc
+    version: "8.4"
+    enabled: true
+    batch: 1
+    homepage: https://www.cancerrxgene.org/
+    license: "Sanger GDSC release 8.4. Confirm current terms at https://www.cancerrxgene.org/ before redistribution."
+    citation: "Yang W, et al. Genomics of Drug Sensitivity in Cancer (GDSC). Nucleic Acids Res. 2013. Release 8.4 files are dated 24 Jul 2022 on ftp.sanger.ac.uk."
+    files:
+      - name: screened_compounds_rel_8.4.csv
+        url: https://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-8.4/screened_compounds_rel_8.4.csv
+        sha256: d3cbb8b595980b36bf92d54af1da1dd995d2e2ce624c7cc70aacf2a754dce782
+        role: gdsc_compounds
+        live: false
+      - name: GDSC1_fitted_dose_response_24Jul22.csv
+        url: https://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-8.4/GDSC1_fitted_dose_response_24Jul22.csv
+        role: gdsc_dose_response
+        live: true
+      - name: GDSC2_fitted_dose_response_24Jul22.csv
+        url: https://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-8.4/GDSC2_fitted_dose_response_24Jul22.csv
+        role: gdsc_dose_response
+        live: true
+
+  - id: sanger_cmp
+    version: "2026-10-14"
+    enabled: true
+    batch: 1
+    homepage: https://cellmodelpassports.sanger.ac.uk/
+    license: "Cell Model Passports model list. Confirm current terms at https://cellmodelpassports.sanger.ac.uk/ before redistribution."
+    citation: "van der Meer D, et al. Cell Model Passports. Nucleic Acids Res. 2019. https://cellmodelpassports.sanger.ac.uk/"
+    files:
+      - name: model_list_latest.csv
+        url: https://cog.sanger.ac.uk/cmp/download/model_list_latest.csv
+        sha256: 5e2868d7c063dfd83b8965cbab60f7531f5089968107999e316a2a38e07da6d9
+        role: cmp_models
+        live: false
+
+planned:
+  - id: nci60_dtp
+    version: "2026-04"
+    enabled: false
+    notes: >
+      NCI60 DTP April 2026 is not downloaded in batch 1. Add an NSC-to-PubChem
+      crosswalk and an explicit cell-line-to-CVCL crosswalk, then emit the same
+      drug_response and model_xref tables. Do not fuzzy-match NCI60 names.
+  - id: orcestra_ctrpv2
+    version: "2.1"
+    enabled: false
+    access: R/PharmacoGx or rpy2
+    notes: Frozen ORCESTRA PSet CTRPv2.1. Not implemented.
+  - id: orcestra_gcsi
+    enabled: false
+    access: R/PharmacoGx or rpy2
+    notes: Frozen ORCESTRA PSet gCSI. Not implemented.
+  - id: orcestra_fimm
+    enabled: false
+    access: R/PharmacoGx or rpy2
+    notes: Frozen ORCESTRA PSet FIMM. Not implemented.
+  - id: orcestra_gray
+    enabled: false
+    access: R/PharmacoGx or rpy2
+    notes: Frozen ORCESTRA PSet GRAY. Not implemented.
+  - id: orcestra_uhnhbreast
+    enabled: false
+    access: R/PharmacoGx or rpy2
+    notes: Frozen ORCESTRA PSet UHNBreast. Not implemented.
+  - id: orcestra_ccle
+    enabled: false
+    access: R/PharmacoGx or rpy2
+    notes: >
+      Frozen ORCESTRA CCLE PSet. Not implemented. Do not use an ORCESTRA PRISM
+      PSet; PRISM in this pipeline comes from the DepMap Figshare releases.
+  - id: hmdb
+    enabled: false
+    notes: >
+      HMDB bulk XML is a later local-download batch. The public site is behind
+      Cloudflare, so this pipeline does not call per-metabolite HTTP lookups.
