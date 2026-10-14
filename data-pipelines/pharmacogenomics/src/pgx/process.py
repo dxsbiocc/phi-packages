@@ -15,6 +15,8 @@ from pgx.ids import (
     compounds_from_gdsc,
     compounds_from_prism_names,
 )
+from pgx.normalize.cell_lines import CellosaurusIndex
+from pgx.normalize.genes import HgncIndex, header_labels, resolve_labels
 
 GENE_LABEL = r"^(.*) \(([0-9]+)\)$"
 
@@ -125,7 +127,13 @@ def build_xrefs(document: dict, raw_root: Path, out: Path) -> dict[str, int]:
             """,
             [str(path)],
         ).fetchall())
-    model_rows = build_model_xref(read_csv_dicts(cmp_path), read_csv_dicts(depmap_path), gdsc_rows, prism_rows)
+    cellosaurus = None
+    cellosaurus_path = _first_file(raw_root, roles.get("cellosaurus", []))
+    if cellosaurus_path:
+        cellosaurus = CellosaurusIndex.load(cellosaurus_path)
+    model_rows = build_model_xref(
+        read_csv_dicts(cmp_path), read_csv_dicts(depmap_path), gdsc_rows, prism_rows, cellosaurus=cellosaurus,
+    )
     records = {}
     for source, spec in roles.get("gdsc_compounds", []):
         path = file_for(raw_root, source["id"], str(source["version"]), spec["name"])
@@ -145,12 +153,12 @@ def build_xrefs(document: dict, raw_root: Path, out: Path) -> dict[str, int]:
     con = connect()
     model_columns = list(model_rows[0]) if model_rows else [
         "source", "source_model_id", "alias", "alias_type", "cvcl", "match_method", "status",
-        "evidence", "display_name", "tissue", "disease", "species",
+        "evidence", "display_name", "tissue", "disease", "species", "cellosaurus_flag",
     ]
     compound_list = compound_rows(records)
     compound_columns = list(compound_list[0]) if compound_list else [
         "source", "source_compound_id", "name", "synonyms", "brd_id", "gdsc_drug_id",
-        "pubchem_cid", "chembl_id", "inchikey", "smiles", "match_method", "status", "evidence",
+        "pubchem_cid", "chembl_id", "inchikey", "smiles", "match_method", "confidence", "status", "evidence",
     ]
     _write_rows(con, model_rows, out / "model_xref", model_columns)
     _write_rows(con, compound_list, out / "compound_xref", compound_columns)
@@ -187,9 +195,101 @@ def _model_join(source_name: str) -> str:
     """
 
 
-def melt_gene_matrix(con: duckdb.DuckDBPyConnection, path: Path, dataset: str, metric: str, xref: Path, model_source: str, dest: Path) -> int:
+GENE_COLUMNS = [
+    "source_label", "source_symbol", "symbol", "ncbigene", "ensembl_gene_id",
+    "match_method", "status", "evidence",
+]
+
+
+def _mutation_labels(path: Path) -> list[str]:
+    con = connect()
+    rows = con.execute(
+        """
+        SELECT DISTINCT HugoSymbol, nullif(CAST(try_cast(EntrezGeneID AS BIGINT) AS VARCHAR), '0')
+        FROM read_csv(?, header=true, all_varchar=true)
+        """,
+        [str(path)],
+    ).fetchall()
+    labels: list[str] = []
+    for symbol, entrez in rows:
+        if symbol and entrez:
+            labels.append(f"{symbol} ({entrez})")
+        elif symbol:
+            labels.append(str(symbol))
+    return labels
+
+
+def build_gene_xref(document: dict, raw_root: Path, out: Path) -> dict[str, int]:
+    roles = specs_by_role(document)
+    hgnc_path = _first_file(raw_root, roles.get("hgnc_genes", []))
+    if not hgnc_path:
+        return {}
+    labels: list[str] = []
+    for source, spec in roles.get("gene_matrix", []):
+        path = file_for(raw_root, source["id"], str(source["version"]), spec["name"])
+        if path:
+            labels.extend(header_labels(path))
+    for source, spec in roles.get("depmap_mutations", []):
+        path = file_for(raw_root, source["id"], str(source["version"]), spec["name"])
+        if path:
+            labels.extend(_mutation_labels(path))
+    if not labels:
+        return {}
+    rows = [decision.row() for decision in resolve_labels(labels, HgncIndex.load(hgnc_path))]
+    con = connect()
+    _write_rows(con, rows, out / "gene_xref", GENE_COLUMNS)
+    review = [row for row in rows if row["status"] != "mapped"]
+    _write_rows(con, review, out / "review" / "genes", GENE_COLUMNS)
+    return {
+        "gene_labels": len(rows),
+        "gene_mapped": sum(1 for row in rows if row["status"] == "mapped"),
+    }
+
+
+def melt_gene_matrix(
+    con: duckdb.DuckDBPyConnection,
+    path: Path,
+    dataset: str,
+    metric: str,
+    xref: Path,
+    model_source: str,
+    dest: Path,
+    gene_xref: Path | None = None,
+) -> int:
     _replace_tree(dest)
     join = _model_join(model_source).replace(Path("__MODEL_XREF__").as_posix(), (xref / "part.parquet").as_posix())
+    gene_file = gene_xref / "part.parquet" if gene_xref and (gene_xref / "part.parquet").exists() else None
+    if gene_file:
+        gene_sql = f"""
+          src AS (
+            SELECT
+              ? AS dataset,
+              long.source_model_id,
+              genes.ncbigene AS ncbi_gene_id,
+              genes.symbol AS symbol,
+              long.value,
+              ? AS metric
+            FROM long
+            JOIN read_parquet('{gene_file.as_posix()}') genes
+              ON genes.source_label = long.gene_label AND genes.status = 'mapped'
+            WHERE long.value IS NOT NULL
+          )
+        """
+    else:
+        gene_sql = f"""
+          src AS (
+            SELECT
+              ? AS dataset,
+              source_model_id,
+              regexp_extract(gene_label, '{GENE_LABEL}', 2) AS ncbi_gene_id,
+              regexp_extract(gene_label, '{GENE_LABEL}', 1) AS symbol,
+              value,
+              ? AS metric
+            FROM long
+            WHERE value IS NOT NULL
+              AND regexp_matches(gene_label, '{GENE_LABEL}')
+          )
+        """
     con.execute(
         f"""
         COPY (
@@ -205,18 +305,7 @@ def melt_gene_matrix(con: duckdb.DuckDBPyConnection, path: Path, dataset: str, m
               INTO NAME gene_label VALUE value
             )
           ),
-          src AS (
-            SELECT
-              ? AS dataset,
-              source_model_id,
-              regexp_extract(gene_label, '{GENE_LABEL}', 2) AS ncbi_gene_id,
-              regexp_extract(gene_label, '{GENE_LABEL}', 1) AS symbol,
-              value,
-              ? AS metric
-            FROM long
-            WHERE value IS NOT NULL
-              AND regexp_matches(gene_label, '{GENE_LABEL}')
-          )
+          {gene_sql}
           SELECT src.dataset, src.source_model_id, models.model_cvcl, src.ncbi_gene_id, src.symbol, src.value, src.metric
           FROM src
           {join}
@@ -228,9 +317,27 @@ def melt_gene_matrix(con: duckdb.DuckDBPyConnection, path: Path, dataset: str, m
     return int(count[0] if count else 0)
 
 
-def load_mutations(con: duckdb.DuckDBPyConnection, path: Path, dataset: str, xref: Path, dest: Path) -> int:
+def load_mutations(
+    con: duckdb.DuckDBPyConnection,
+    path: Path,
+    dataset: str,
+    xref: Path,
+    dest: Path,
+    gene_xref: Path | None = None,
+) -> int:
     _replace_tree(dest)
     join = _model_join("depmap").replace(Path("__MODEL_XREF__").as_posix(), (xref / "part.parquet").as_posix())
+    gene_file = gene_xref / "part.parquet" if gene_xref and (gene_xref / "part.parquet").exists() else None
+    if gene_file:
+        symbol_sql = f"""
+          LEFT JOIN read_parquet('{gene_file.as_posix()}') genes
+            ON genes.status = 'mapped'
+           AND genes.source_label = src.symbol || ' (' || src.ncbi_gene_id || ')'
+        """
+        select_sql = "SELECT src.* REPLACE (coalesce(genes.symbol, src.symbol) AS symbol), models.model_cvcl"
+    else:
+        symbol_sql = ""
+        select_sql = "SELECT src.*, models.model_cvcl"
     con.execute(
         f"""
         COPY (
@@ -257,8 +364,9 @@ def load_mutations(con: duckdb.DuckDBPyConnection, path: Path, dataset: str, xre
             FROM read_csv(?, header=true, all_varchar=true)
             WHERE EntrezGeneID IS NOT NULL AND EntrezGeneID NOT IN ('', 'NA')
           )
-          SELECT src.*, models.model_cvcl
+          {select_sql}
           FROM src
+          {symbol_sql}
           {join}
         ) TO '{dest.as_posix()}' (FORMAT PARQUET, PARTITION_BY (dataset))
         """,
@@ -493,6 +601,7 @@ def attach_pubchem(con: duckdb.DuckDBPyConnection, response_root: Path, xref: Pa
 def process_all(document: dict, raw_root: Path, out: Path) -> dict[str, int]:
     out.mkdir(parents=True, exist_ok=True)
     counts = build_xrefs(document, raw_root, out)
+    counts.update(build_gene_xref(document, raw_root, out))
     roles = specs_by_role(document)
     for name in ("gene_effect", "expression", "cnv", "mutation", "drug_response"):
         existing = out / name
@@ -500,6 +609,7 @@ def process_all(document: dict, raw_root: Path, out: Path) -> dict[str, int]:
             shutil.rmtree(existing)
     con = connect()
     xref = out / "model_xref"
+    gene_xref = out / "gene_xref" if (out / "gene_xref" / "part.parquet").exists() else None
     matrix_roles = {
         "gene_matrix": melt_gene_matrix,
     }
@@ -513,11 +623,11 @@ def process_all(document: dict, raw_root: Path, out: Path) -> dict[str, int]:
             "log2_tpm_plus_1": "expression",
             "relative_copy_number": "cnv",
         }.get(str(spec["metric"]), str(spec["metric"]))
-        counts[table] = matrix_roles["gene_matrix"](con, path, dataset, str(spec["metric"]), xref, "depmap", out / table)
+        counts[table] = matrix_roles["gene_matrix"](con, path, dataset, str(spec["metric"]), xref, "depmap", out / table, gene_xref)
     for source, spec in roles.get("depmap_mutations", []):
         path = file_for(raw_root, source["id"], str(source["version"]), spec["name"])
         if path:
-            counts["mutation"] = load_mutations(con, path, str(spec.get("dataset") or "depmap_mutations_24q2"), xref, out / "mutation")
+            counts["mutation"] = load_mutations(con, path, str(spec.get("dataset") or "depmap_mutations_24q2"), xref, out / "mutation", gene_xref)
     response_root = out / "drug_response"
     response_root.mkdir(parents=True, exist_ok=True)
     total_response = 0

@@ -63,6 +63,29 @@ def coverage(out: Path) -> dict:
             "unmatched": int(unmatched),
             "ambiguous": int(ambiguous),
         }
+    if "cellosaurus_flag" in _columns(con, xref):
+        report["cellosaurus_flags"] = {
+            flag or "": int(count)
+            for flag, count in con.execute(
+                """
+                SELECT coalesce(cellosaurus_flag, ''), count(*)
+                FROM read_parquet(?)
+                WHERE alias_type = 'primary' AND status = 'mapped'
+                GROUP BY 1
+                ORDER BY 1
+                """,
+                [str(xref)],
+            ).fetchall()
+        }
+    gene_xref = out / "gene_xref" / "part.parquet"
+    if gene_xref.exists():
+        report["genes"] = {
+            status: int(count)
+            for status, count in con.execute(
+                "SELECT status, count(*) FROM read_parquet(?) GROUP BY 1 ORDER BY 1",
+                [str(gene_xref)],
+            ).fetchall()
+        }
     compounds = out / "compound_xref" / "part.parquet"
     if compounds.exists():
         missing = REQUIRED["compound_xref"] - _columns(con, compounds)

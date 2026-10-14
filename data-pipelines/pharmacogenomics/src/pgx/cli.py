@@ -72,6 +72,7 @@ def main(argv: list[str] | None = None) -> None:
                 inchikey=data.get("inchikey"),
                 smiles=data.get("smiles"),
                 match_method=data.get("match_method") or "unmatched",
+                confidence=data.get("confidence"),
                 status=data.get("status") or "unmatched",
                 evidence=data.get("evidence") or "",
             )
@@ -81,9 +82,14 @@ def main(argv: list[str] | None = None) -> None:
         updated = resolve_records(list(records.values()), raw_root / "pubchem", limit=args.limit)
         _write_rows(connect(), compound_rows(records), out / "compound_xref", [
             "source", "source_compound_id", "name", "synonyms", "brd_id", "gdsc_drug_id",
-            "pubchem_cid", "chembl_id", "inchikey", "smiles", "match_method", "status", "evidence",
+            "pubchem_cid", "chembl_id", "inchikey", "smiles", "match_method", "confidence", "status", "evidence",
         ])
-        print(json.dumps({"resolved": updated}))
+        summary: dict[str, dict[str, int]] = {}
+        for record in records.values():
+            bucket = summary.setdefault(record.source, {"rows": 0, "mapped": 0, "unmatched": 0, "ambiguous": 0})
+            bucket["rows"] += 1
+            bucket[record.status] = bucket.get(record.status, 0) + 1
+        print(json.dumps({"resolved": updated, "compounds": summary}, indent=2))
 
 
 if __name__ == "__main__":
