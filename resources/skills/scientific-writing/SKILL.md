@@ -11,7 +11,7 @@ metadata: {"version": "1.0.0", "skill-author": "Phi Packages"}
 
 Write the prose the user asked for from files in the project. Numbers, sample sizes, test names, and software versions come from those files or from the skill that produced them. A missing number stays missing.
 
-Use `reproducible-analysis` when the analysis has not been planned yet. Use `literature-search` when the section needs citations. Use `seaborn`, `matplotlib`, or `omics-visualization` when the user wants a figure rather than a caption. Patterns for each section are in [references/section-patterns.md](references/section-patterns.md).
+Use a Phi wrapper and its packaged environment when the analysis has not been run yet. Use the agent's built-in search tools when the section needs citations. Use `seaborn`, `matplotlib`, or `omics-visualization` when the user wants a figure rather than a caption. Patterns for each section are in [references/section-patterns.md](references/section-patterns.md).
 
 ## When to use this skill
 
