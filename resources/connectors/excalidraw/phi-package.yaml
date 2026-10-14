@@ -1,0 +1,13 @@
+schemaVersion: 1
+id: excalidraw
+type: mcp
+version: 1.0.0
+title: Excalidraw
+summary: 绘制并导出手绘风格的示意图
+connector:
+  transport: http
+  publisher: Excalidraw
+  category: 设计创作
+  homepage: https://github.com/excalidraw/excalidraw-mcp
+  url: https://mcp.excalidraw.com/mcp
+  auth: none
