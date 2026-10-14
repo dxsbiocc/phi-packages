@@ -1,5 +1,11 @@
 # Terminate TLS in front of the omics MCP process. Replace the hostname.
 # The Node process stays on 127.0.0.1:8080 (or the compose service name).
+# Paths on this host:
+#   POST /transcriptomics/mcp
+#   POST /cancer/mcp
+#   POST /epigenomics/mcp
+#   POST /proteomics/mcp
+#   POST /metabolomics/mcp
 omics.example.com {
 	reverse_proxy 127.0.0.1:8080
 }

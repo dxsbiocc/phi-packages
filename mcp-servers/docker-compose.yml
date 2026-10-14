@@ -1,3 +1,4 @@
+# Gateway paths: /transcriptomics/mcp /cancer/mcp /epigenomics/mcp /proteomics/mcp /metabolomics/mcp
 services:
   omics-mcp:
     build:

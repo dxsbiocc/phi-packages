@@ -1,10 +1,10 @@
 {
-  "name": "phi-omics-proteomics",
+  "name": "phi-omics-metabolomics",
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Proteomics and metabolomics MCP server",
-  "bin": { "phi-omics-proteomics": "./dist/cli.js" },
+  "description": "Metabolomics MCP server",
+  "bin": { "phi-omics-metabolomics": "./dist/cli.js" },
   "files": ["dist"],
   "engines": { "node": ">=20" },
   "exports": { ".": { "types": "./dist/server.d.ts", "import": "./dist/server.js" } },

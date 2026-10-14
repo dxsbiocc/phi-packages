@@ -82,4 +82,4 @@ Phi 官方共享环境和应用级色板由主程序提供，本仓库不复制�
 
 ## 组学 MCP 服务
 
-`mcp-servers/` 是四个自建的只读组学 MCP 服务（转录组与单细胞、癌症组学、表观基因组、蛋白质组与代谢组），不在 `resources/connectors/` 中。公开 HTTPS 地址还没有，因此目录计数不变。构建、本地 stdio/HTTP、Docker 和接入目录的方式见 [mcp-servers/README.md](mcp-servers/README.md)。
+`mcp-servers/` 是五个自建的只读组学 MCP 服务（转录组与单细胞、癌症组学、表观基因组、蛋白质组、代谢组），不在 `resources/connectors/` 中。公开 HTTPS 地址还没有，因此目录计数不变。构建、本地 stdio/HTTP、Docker 和接入目录的方式见 [mcp-servers/README.md](mcp-servers/README.md)。

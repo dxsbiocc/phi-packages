@@ -36,28 +36,6 @@ async function live(t: test.TestContext, name: string, args: Record<string, unkn
   }
 }
 
-test("live PRIDE project and file", async (t) => {
-  await live(t, "pride_get_project", { accession: "PXD001357" }, (result) => {
-    assert.equal(result.entity_type, "page");
-    if (result.entity_type === "page") assert.equal(result.items[0]?.id, "pride:PXD001357");
-  });
-  await live(t, "pride_list_files", { accession: "PXD001357", limit: 1 }, (result) => {
-    assert.equal(result.entity_type, "page");
-    if (result.entity_type === "page") assert.equal(result.item_type, "file");
-  });
-});
-
-test("live Human Protein Atlas TP53", async (t) => {
-  await live(t, "hpa_get_gene", { gene: "ENSG00000141510" }, (result) => {
-    assert.equal(result.entity_type, "page");
-    if (result.entity_type === "page") assert.equal(result.items[0]?.id, "ensembl:ENSG00000141510");
-  });
-  await live(t, "hpa_list_proteins", { gene: "ENSG00000141510", limit: 5 }, (result) => {
-    assert.equal(result.entity_type, "page");
-    if (result.entity_type === "page") assert.equal(result.items[0]?.id, "uniprot:P04637");
-  });
-});
-
 test("live MetaboLights MTBLS1", async (t) => {
   await live(t, "metabolights_get_study", { study_id: "MTBLS1" }, (result) => {
     assert.equal(result.entity_type, "page");
@@ -69,10 +47,8 @@ test("live MetaboLights MTBLS1", async (t) => {
   });
 });
 
-test("live remaining proteomics tools", async (t) => {
+test("live remaining metabolomics tools", async (t) => {
   const calls: Array<[string, Record<string, unknown>, string]> = [
-    ["pride_search_projects", { limit: 1 }, "pride:PXD001357"],
-    ["hpa_search_genes", { query: "TP53", limit: 1 }, "ensembl:ENSG00000141510"],
     ["metabolights_list_studies", { limit: 1 }, "mtbls:MTBLS1"],
     ["metabolights_list_files", { study_id: "MTBLS1", limit: 1 }, "mtbls.file:MTBLS1:"],
   ];
