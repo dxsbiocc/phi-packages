@@ -68,4 +68,4 @@ See [SOURCE.json](SOURCE.json) for the full scope and [VALIDATION.md](VALIDATION
 
 ## Omics MCP servers
 
-`mcp-servers/` holds four self-hosted read-only omics MCP servers (transcriptomics and single-cell, cancer omics, epigenomics, proteomics and metabolomics). They are not under `resources/connectors/`, and the connector counts stay unchanged until a public HTTPS URL exists. Build, local stdio/HTTP, Docker, and catalog steps are in [mcp-servers/README.md](mcp-servers/README.md).
+`mcp-servers/` holds five self-hosted read-only omics MCP servers (transcriptomics and single-cell, cancer omics, epigenomics, proteomics, and metabolomics). They are not under `resources/connectors/`, and the connector counts stay unchanged until a public HTTPS URL exists. Build, local stdio/HTTP, Docker, and catalog steps are in [mcp-servers/README.md](mcp-servers/README.md).

@@ -1,13 +1,14 @@
 # Omics MCP servers
 
-Four read-only MCP servers for omics databases that do not ship an official MCP endpoint. They share one entity model (`docs/schemas.md`) and one HTTP client (timeouts, retries, per-host rate limit, on-disk cache).
+Five read-only MCP servers for omics databases that do not ship an official MCP endpoint. They share one entity model (`docs/schemas.md`) and one HTTP client (timeouts, retries, per-host rate limit, on-disk cache).
 
 | Server | Package | Sources |
 | --- | --- | --- |
 | Transcriptomics and single-cell | `phi-omics-transcriptomics` | GTEx v10, CELLxGENE Discover, CellGuide, HCA Azul, HuBMAP search |
 | Cancer omics | `phi-omics-cancer` | GDC, cBioPortal public REST, PDC GraphQL |
 | Epigenomics | `phi-omics-epigenomics` | ENCODE portal, Roadmap via `award.rfa=Roadmap` |
-| Proteomics and metabolomics | `phi-omics-proteomics` | PRIDE, Human Protein Atlas, MetaboLights |
+| Proteomics | `phi-omics-proteomics` | PRIDE, Human Protein Atlas |
+| Metabolomics | `phi-omics-metabolomics` | MetaboLights |
 
 The same TypeScript runs locally over stdio or Streamable HTTP, and in Docker on one host. Packages are private workspace members. An npm scope and a publish workflow are intentionally not set up yet; `bin`, `files`, and `engines` are already in each package so that step can be added later without moving code.
 
@@ -40,9 +41,10 @@ node mcp-servers/transcriptomics-single-cell/dist/cli.js --http --port 8787
 node mcp-servers/cancer-omics/dist/cli.js --help
 npm exec -w phi-omics-epigenomics -- phi-omics-epigenomics --stdio
 npm exec -w phi-omics-proteomics -- phi-omics-proteomics --http --port 8788
+npm exec -w phi-omics-metabolomics -- phi-omics-metabolomics --http --port 8789
 ```
 
-The bins are `phi-omics-transcriptomics`, `phi-omics-cancer`, `phi-omics-epigenomics`, `phi-omics-proteomics`, and `phi-omics-gateway`. Bun can run the same `dist/cli.js` files; there are no native addons.
+The bins are `phi-omics-transcriptomics`, `phi-omics-cancer`, `phi-omics-epigenomics`, `phi-omics-proteomics`, `phi-omics-metabolomics`, and `phi-omics-gateway`. Each server defaults to stdio and switches to HTTP with `--http`. Bun can run the same `dist/cli.js` files; there are no native addons.
 
 Example stdio entry for a desktop client, with paths adjusted to this checkout:
 
@@ -95,8 +97,9 @@ The image listens on port 8080:
 - `POST /cancer/mcp`
 - `POST /epigenomics/mcp`
 - `POST /proteomics/mcp`
+- `POST /metabolomics/mcp`
 
-`MCP_SERVER=transcriptomics-single-cell` (or `cancer-omics`, `epigenomics`, `proteomics-metabolomics`) serves that one server at `/mcp` instead.
+`MCP_SERVER=transcriptomics-single-cell` (or `cancer-omics`, `epigenomics`, `proteomics`, `metabolomics`) serves that one server at `/mcp` instead.
 
 Put TLS on a reverse proxy. `Caddyfile.example` proxies a hostname to `127.0.0.1:8080`. Caddy obtains and renews certificates. Nginx or another proxy is the same pattern: forward `POST`, `GET`, and `DELETE` to the Node process, preserve `Authorization` and `Mcp-Session-Id` if you add auth later, and do not buffer streaming responses. This process does not terminate TLS and does not authenticate clients. Bind it to localhost when the proxy is on the same machine.
 
@@ -122,9 +125,13 @@ cBioPortal here is the public REST API. The existing `cbioportal` connector (OAu
 
 ENCODE's edge blocks the `from` query parameter, so search tools request the leading window and slice it. `offset + limit` must be at most 100.
 
-### Proteomics and metabolomics
+### Proteomics
 
-`usage_terms`, `pride_search_projects`, `pride_get_project`, `pride_list_files`, `hpa_search_genes`, `hpa_get_gene`, `hpa_list_proteins`, `metabolights_list_studies`, `metabolights_get_study`, `metabolights_list_files`, `metabolights_list_assays`.
+`usage_terms`, `pride_search_projects`, `pride_get_project`, `pride_list_files`, `hpa_search_genes`, `hpa_get_gene`, `hpa_list_proteins`.
+
+### Metabolomics
+
+`usage_terms`, `metabolights_list_studies`, `metabolights_get_study`, `metabolights_list_files`, `metabolights_list_assays`.
 
 ## What was not implemented
 
@@ -154,4 +161,4 @@ connector:
   auth: none
 ```
 
-Use the same shape for `cancer-omics` (`/cancer/mcp`), `epigenomics` (`/epigenomics/mcp`), and `proteomics-metabolomics` (`/proteomics/mcp`). Add an original icon that passes Phi's SVG checks, record it outside the 18-icon migration in `docs/content-icons.md` and `SOURCE.json` `addedContent`, and set `SOURCE.json` `counts.connectors` plus both README connector counts to the new directory total. Leave `initialImportCounts.connectors` at 18. Re-run `node --test tests/content-icons.test.mjs tests/content-boundaries.test.mjs`.
+Use the same shape for `cancer-omics` (`/cancer/mcp`), `epigenomics` (`/epigenomics/mcp`), `proteomics` (`/proteomics/mcp`), and `metabolomics` (`/metabolomics/mcp`). Add an original icon that passes Phi's SVG checks, record it outside the 18-icon migration in `docs/content-icons.md` and `SOURCE.json` `addedContent`, and set `SOURCE.json` `counts.connectors` plus both README connector counts to the new directory total. Leave `initialImportCounts.connectors` at 18. Re-run `node --test tests/content-icons.test.mjs tests/content-boundaries.test.mjs`.
