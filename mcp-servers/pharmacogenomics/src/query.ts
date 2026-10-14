@@ -29,6 +29,8 @@ export const USAGE_SUMMARY = [
   "DepMap 24Q2 Public, PRISM Repurposing 19Q4 (primary and secondary screens, Corsello et al. 2020), and PRISM Repurposing Public 24Q2 are CC BY 4.0 on their Figshare records.",
   "GDSC1/GDSC2 release 8.4 is the 24 Jul 2022 Sanger single-agent dose-response release. GDSC² combination screens (Jaaks et al., Nature 2022) are a separate source and are not CC BY. Cell Model Passports supplies model identifiers.",
   "Cell lines are Cellosaurus CVCL accessions. Compounds are PubChem CIDs when a single CID is known. Unmatched and conflicting identifiers are left unresolved.",
+  "NCI-60 growth-inhibition data are a US National Cancer Institute DTP release. Credit the National Cancer Institute. They are not CC BY. The pinned files are the October 2026 wiki attachments.",
+  "ORCESTRA PharmacoSets are frozen Zenodo records. CTRPv2.1 (10.5281/zenodo.21794049), gCSI 2019 (10.5281/zenodo.4737437), UHNBreast 2019 (10.5281/zenodo.3601415), and CCLE 2019 (10.5281/zenodo.18759113) are CC BY 4.0. FIMM (10.5281/zenodo.3905448) and GRAY 2017 (10.5281/zenodo.3905458) are CC0.",
   "DepMap expression values are log2(TPM+1). CRISPR values are Chronos gene-effect scores. GDSC LN_IC50 is the natural log of micromolar IC50, and a lower AUC or LN_IC50 means a stronger response.",
 ].join(" ");
 
@@ -462,7 +464,7 @@ export async function compoundResponse(args: Record<string, unknown>): Promise<T
       ? "Combination responses are separate from single-agent responses. Each component keeps its own PubChem or ChEMBL id. Delta metrics are the screened synergy values."
       : cids.length > 1
         ? "This alias matches more than one PubChem CID. Responses are returned for every matched source id and none was chosen automatically."
-        : "Drug-response rows ordered by value ascending. Lower GDSC AUC and LN_IC50 mean a stronger response. Combination rows are omitted unless the query is a combination or combinations is include or only.",
+        : "Drug-response rows ordered by value ascending. Omitting dataset returns every loaded dataset for this compound. Lower GDSC AUC and LN_IC50 mean a stronger response. Combination rows are omitted unless the query is a combination or combinations is include or only.",
     url: "https://www.cancerrxgene.org/",
   }, { pubchem_cids: cids, match_count: matched.length, combinations: combinationSummary });
 }

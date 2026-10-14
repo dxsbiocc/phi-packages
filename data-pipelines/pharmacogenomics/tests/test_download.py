@@ -150,10 +150,15 @@ def test_live_files_are_skipped_unless_requested(tmp_path):
 def test_sources_yaml_declares_batch1_and_leaves_later_batches_disabled():
     document = load_sources(__import__("pathlib").Path(__file__).resolve().parents[1] / "sources.yaml")
     enabled = {source["id"] for source in document["sources"] if source.get("enabled", True)}
-    assert enabled == {"depmap", "prism_19q4", "prism_24q2", "gdsc", "gdsc_combinations", "sanger_cmp", "hgnc", "cellosaurus"}
+    assert enabled == {
+        "depmap", "prism_19q4", "prism_24q2", "gdsc", "gdsc_combinations", "sanger_cmp", "hgnc", "cellosaurus",
+        "nci60_dtp", "orcestra_ctrpv2", "orcestra_gcsi", "orcestra_fimm", "orcestra_gray", "orcestra_uhnhbreast", "orcestra_ccle",
+    }
     planned = {item["id"] for item in document["planned"]}
-    assert "nci60_dtp" in planned
-    assert "orcestra_ctrpv2" in planned
-    assert "hmdb" in planned
+    assert planned == {"orcestra_nci60", "hmdb"}
     assert all(item.get("enabled") is False for item in document["planned"])
-    assert "ORCESTRA PRISM" in next(item["notes"] for item in document["planned"] if item["id"] == "orcestra_ccle")
+    ccle = next(source for source in document["sources"] if source["id"] == "orcestra_ccle")
+    assert "ORCESTRA PRISM" in ccle["notes"]
+    nci = next(source for source in document["sources"] if source["id"] == "nci60_dtp")
+    assert nci["version"] == "2026-10"
+    assert nci["dataset"] == "nci60"

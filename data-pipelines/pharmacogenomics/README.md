@@ -47,9 +47,9 @@ Without `cellosaurus.txt`, name matching falls back to Cell Model Passports name
 
 ### Compounds
 
-Compounds are keyed by PubChem CID. Source names are whitespace- and Unicode-normalized for lookup. Stereo and enantiomer parentheticals (`Nutlin-3a (-)`) and trailing salt tokens are removed only from the lookup string; `name` keeps the source text. Synonym lists are split on `;`, `|`, and commas. GDSC `DRUG_ID` is stored as `gdsc_drug_id` and is not sent to PubChem as a name. BRD ids are a last lookup when the name and any SMILES or InChIKey missed.
+Compounds are keyed by PubChem CID. Source names are whitespace- and Unicode-normalized for lookup. Stereo and enantiomer parentheticals (`Nutlin-3a (-)`) and trailing salt tokens are removed only from the lookup string; `name` keeps the source text. Synonym lists are split on `;`, `|`, and commas. GDSC `DRUG_ID` is stored as `gdsc_drug_id` and is not sent to PubChem as a name. An NCI NSC number is stored as `NSC740` (never the bare integer, which would collide with a GDSC drug id) and is queried as the PubChem synonyms `NSC740` and `NSC 740` after a structure and before the stored name. A PharmacoSet drug id that is only digits is stored as `{dataset}:{id}`, for example `ctrpv2:1788`. BRD ids are a last lookup when the name and any SMILES or InChIKey missed.
 
-`phi-pgx resolve-compounds` prefers a source InChIKey, then SMILES, then the exact name, then the stereo-stripped name, then the salt-stripped name, then a dose parenthetical stripped from the lookup only (`Bleomycin (50 uM)` is looked up as `Bleomycin`). A comma-separated synonym list in the name (`Brivanib, BMS-540215`) is split for lookup. A comma between digits is a locant and is not split. The first query that returns one CID wins and records `match_method` plus `confidence` (`high` for structure, `medium` for an exact name or BRD, `low` for a stripped name). More than one CID is `ambiguous` and a looser query is not tried. Names that are still unmatched or ambiguous are looked up as an exact ChEMBL synonym, then an exact preferred name. One ChEMBL molecule with a standard InChIKey is resolved to a PubChem CID. More than one ChEMBL molecule stops. A parenthetical counterion such as `(TFA)` is not treated as a second drug.
+`phi-pgx resolve-compounds` prefers a source InChIKey, then SMILES, then an NSC synonym, then the exact name, then the stereo-stripped name, then the salt-stripped name, then a dose parenthetical stripped from the lookup only (`Bleomycin (50 uM)` is looked up as `Bleomycin`). A CID already present on the source row, including a PharmacoSet PubChem CID, is kept and is not sent to PubChem again. A comma-separated synonym list in the name (`Brivanib, BMS-540215`) is split for lookup. A comma between digits is a locant and is not split. The first query that returns one CID wins and records `match_method` plus `confidence` (`high` for structure, `medium` for an exact name or BRD, `low` for a stripped name). More than one CID is `ambiguous` and a looser query is not tried. Names that are still unmatched or ambiguous are looked up as an exact ChEMBL synonym, then an exact preferred name. One ChEMBL molecule with a standard InChIKey is resolved to a PubChem CID. More than one ChEMBL molecule stops. A parenthetical counterion such as `(TFA)` is not treated as a second drug.
 
 ### Drug combinations
 
@@ -116,12 +116,78 @@ GDSC² combinations are 2027 records: 2025 anchored-screen pairs from the origin
 
 PRISM 19Q4 used SMILES for 2341 of its mapped rows (`confidence` high). Two PRISM 24Q2 mebhydroline naphthalenedisulfonate rows mapped to the parent mebhydrolin CID 22530, the same CID as the 19Q4 SMILES row. A lookup that returned more than one CID was left ambiguous.
 
-## Later batches
+## Batch 2 drug datasets
 
-`sources.yaml` `planned` lists sources that are not downloaded or parsed:
+NCI-60 and the frozen ORCESTRA PharmacoSets write the same `drug_response` columns as GDSC and PRISM. `dataset` is the source partition (`nci60`, `ctrpv2`, `gcsi`, `fimm`, `gray`, `uhnbreast`, `ccle`). Combinations stay on `drug_combination` and are not created for these screens. `compound_response` with `dataset` omitted returns every partition whose `source_compound_id` shares the queried compound.
 
-- NCI60 DTP April 2026
-- Frozen ORCESTRA PSets CTRPv2.1, gCSI, FIMM, GRAY, UHNBreast, and CCLE, via R/PharmacoGx or rpy2
-- HMDB bulk XML
+`model_xref.source` for these screens is the dataset id. A PharmacoSet Cellosaurus accession is confirmed with `match_method=pset_cellosaurus`. A name that maps to a different accession is left `ambiguous` and is not overwritten. NCI-60 has cell-line names only. Those names go through `CellosaurusIndex.decide_names`. The canonical key strips punctuation (`NCI-H23` matches `NCIH23` when Cellosaurus lists that form). It does not fuzzy-match. Misidentified lines stay mapped and keep `cellosaurus_flag`.
 
-Do not point this pipeline at an ORCESTRA PRISM PSet. PRISM stays on the DepMap Figshare releases above.
+### NCI-60 DTP, October 2026
+
+The wiki page now says “FILES FOR DOWNLOAD October 2026 Release” (page 147193864, updated 7 Oct 2026). The April 2026 filenames are no longer published separately, so this pipeline pins the October versioned attachment URLs. License: US government work. Credit the National Cancer Institute. Not CC BY.
+
+Downloaded on 2026-10-14, not behind `--live`:
+
+| File | Bytes | sha256 |
+| --- | ---: | --- |
+| GI50.zip | 39212645 | `65212008012e0fc4648709f5f081c18e577986a40a8ba45ea271f8c3bb81f728` |
+| TGI.zip | 34639387 | `f260a919f4f8c476f9398ed26aa6db6e8bd5a440896099b5da683f21541e0cc8` |
+| LC50.zip | 30684621 | `0493ef82660e2f0f6d7a36ba56fbc212885ccb72193103ca50d21f3b4371beba` |
+| IC50.zip | 37261424 | `9e5fd767f0738307b62b1bf83d3f9199d18757b3d23bcca213be65e419ad2ad2` |
+| ONECONC.zip | 55646891 | `681291402e668f1b6edd95a0a6b4ef62ac50cfe997066c9382add32bf2d610ed` |
+| public_nscs.csv | 2587451 | `34d74a29c94e546c8942e171ca5477bef43a48ca144437c609b19da6c536b125` |
+
+`public_nscs.csv` is 334,952 NSC numbers and has no SMILES, names, or structures. No DTP structure file was pinned. Assay rows with `PREFIX` other than `S` are dropped. `S`-series rows in the downloaded zips: GI50 4,871,117, TGI 4,853,400, LC50 4,838,827, IC50 4,895,862, ONECONC 5,468,176. Endpoint `AVERAGE` is stored as `GI50`, `TGI`, `LC50`, or `IC50` with unit `log10_M` when `CONCENTRATION_UNIT` is `M`. `ONECONC` stores percent growth (`ONECONC_GIPRCNT`) and the prescreen concentration as `dose` (not log-transformed). `DOSERESP` stores `GIPRCNT` and `PTC` with `dose = 10^CONCENTRATION` when the unit is molar. The full matrices were counted from the CSVs. They were not written to `processed/` in this run; the loader is covered by fixture tests.
+
+`DOSERESP.zip` (349,294,730 bytes, version 21) was not downloaded. Its zip method is Deflate64, which the Python zip reader cannot extract. `phi-pgx` calls `7z` when that binary is on `PATH`.
+
+### ORCESTRA PharmacoSets
+
+| Dataset | Pinned object | License | What was downloaded |
+| --- | --- | --- | --- |
+| ctrpv2 | [10.5281/zenodo.21794049](https://doi.org/10.5281/zenodo.21794049) CTRPv2.1, 2026-07-31 | CC BY 4.0 | `sample.tsv`, `treatment.tsv`, `v2.1_auc_sensitivities.tsv`, and `recomputed_profiles.tsv` (69,384,293 bytes, sha256 `23121c0d08299df0d090381e01eef213b47626da66180143c14952fae5fab4f1`). The RDS and `sensitivity.tsv` were not retrieved. |
+| gcsi | [10.5281/zenodo.4737437](https://doi.org/10.5281/zenodo.4737437) `gCSI2.rds`, screen year 2019 | CC BY 4.0 | Not downloaded (about 1.7 GB, RDS only). |
+| fimm | [10.5281/zenodo.3905448](https://doi.org/10.5281/zenodo.3905448) 2020-06-24 | CC0-1.0 | Not retrieved in this run. `phi-pgx download` fetches the 231,489-byte RDS because it is not marked `live`. An earlier CC BY 4.0 file is 10.5281/zenodo.3598728 and was not used. |
+| gray | [10.5281/zenodo.3905458](https://doi.org/10.5281/zenodo.3905458) deposit 2020-06-24, screen year 2017 | CC0-1.0 | Not downloaded (155 MB RDS). |
+| uhnbreast | [10.5281/zenodo.3601415](https://doi.org/10.5281/zenodo.3601415) `UHN_2019.rds` | CC BY 4.0 | Not downloaded (279 MB RDS). The later CC0 object 10.5281/zenodo.7826860 was not used. |
+| ccle | [10.5281/zenodo.18759113](https://doi.org/10.5281/zenodo.18759113) CCLE PSet 2019 | CC BY 4.0 | Not downloaded (`CCLE_PharmacoSet.RDS`, about 3 GB). |
+
+CTRPv2.1 already publishes the tables an R extract would emit. Those TSVs are the loaded path. A PharmacoSet CID is `match_method=pset_pubchem`. Two different CIDs on the same drug stay `ambiguous`. Numeric ids are prefixed with the dataset id.
+
+RDS files are converted by `r/extract_pset.R` through `Rscript` (PharmacoGx for an S4 PharmacoSet, or a plain list for tests). This environment does not have R. The image that carries the dependency is `data-pipelines/pharmacogenomics/Dockerfile` (`rocker/r-ver:4.4.2` plus Bioconductor PharmacoGx):
+
+```bash
+docker build -t phi-pgx:batch2 data-pipelines/pharmacogenomics
+docker run --rm -v "$PWD/raw:/data" --entrypoint Rscript phi-pgx:batch2 \
+  /opt/phi-pgx/r/extract_pset.R /data/orcestra_gcsi/2019/gCSI2.rds /data/orcestra_gcsi/2019/extract
+```
+
+ORCESTRA lists NCI60_2026, but no public Zenodo file with that name was found. The 2021 deposit 10.5281/zenodo.5570629 is not pinned. A future PSet must use dataset `nci60_pset` so it does not overwrite DTP `nci60`. Do not point this pipeline at an ORCESTRA PRISM PSet.
+
+### Coverage
+
+Counts use Cellosaurus 56.0 and the files downloaded on 2026-10-14. NCI NSC numbers were not sent to PubChem. gCSI, GRAY, UHNBreast, CCLE, and FIMM have no sensitivity rows here because their RDS files were not extracted. CTRP recomputed profiles were downloaded and are loaded only together with `sensitivity.tsv`, which was not retrieved, so this run's CTRP response rows are the v2.1 AUC table.
+
+| Dataset | Cell lines | Mapped | Ambiguous | Unmatched | Compounds | Mapped | Ambiguous | Unmatched |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| nci60 | 159 | 113 | 8 | 38 | 140,045 screened NSCs | not resolved | not resolved | 140,045 until `resolve-compounds` |
+| ctrpv2 | 835 | 832 | 2 | 1 | 481 | 467 | 0 | 14 |
+
+`public_nscs.csv` lists 334,952 NSC numbers. The 140,045 figure is the distinct `S`-series NSCs that appear in GI50, TGI, LC50, IC50, or ONECONC. Of the 113 mapped NCI lines, 9 are flagged misidentified and 2 problematic. The 8 ambiguous names are `A-204`, `COLO 205`, `HT29`, `M14`, `NB4`, `ND-1`, `PC-3`, and `TK-10`. The existing canonical key strips punctuation, and each of those keys hits more than one Cellosaurus accession (`COLO 205` is both `CVCL_0218` and `CVCL_F402`; `PC-3` also collides with synonyms that collapse to `pc3`). None was chosen. The 38 unmatched names have no Cellosaurus name or synonym, including engineered derivatives such as `HCT-116/P21/C` and `A-FOS 3`.
+
+CTRPv2 `v2.1_auc_sensitivities.tsv` has 326,148 AUC rows. Its cells are the 835 `master_ccl_id` values in that table. 832 carry one confirmed Cellosaurus accession (18 of those flagged misidentified, 21 problematic, 3 contaminated). `HLF` is ambiguous: the PSet accession is `CVCL_2255` (HLF-a, problematic) and the name matches `CVCL_2947`. `HUH6` is ambiguous: the PSet accession is `CVCL_1296` (HuH-6 Clone 5) and the name matches `CVCL_4381`. `TTTHYROID` has no accession and no Cellosaurus name. 467 compounds have one PSet PubChem CID (`pset_pubchem`). The other 14 have a BRD id and no CID in the PSet, so they stay unmatched until `resolve-compounds`. Two different CIDs on one drug would stay ambiguous; this release had no such row among the screened compounds.
+
+### Later
+
+HMDB bulk XML remains planned and is not downloaded.
+
+## Limitations
+
+- NCI-60 April 2026 is not a separate download anymore. The pin is October 2026.
+- No DTP SMILES or structure file is in the pinned set. NSC-to-CID mapping is a PubChem synonym lookup, and a missing or multi-CID synonym stays unresolved.
+- `DOSERESP.zip` was not downloaded. It needs 7-Zip because the archive is Deflate64.
+- gCSI, GRAY, UHNBreast, CCLE, and FIMM were not extracted. CTRP `sensitivity.tsv` was not retrieved, so recomputed IC50/AUC profiles (which need that file for the cell id) were not loaded. The AUC table does not need it.
+- Recomputed CTRP profiles have a `response_id` and no cell id. They are loaded only when `sensitivity.tsv` is present to supply `master_ccl_id`.
+- PharmacoGx raw sensitivity stored as an array, rather than a data.frame, is noted in `extract_notes.txt` and is not expanded.
+- Cancelled NCI experiments are not in these zips. Rows whose `PREFIX` is not `S` are ignored anyway.
+- These screens are research assays. They are not treatment recommendations.

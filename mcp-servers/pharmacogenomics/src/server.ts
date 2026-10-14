@@ -32,7 +32,7 @@ export const tools: OmicsTool[] = [
   {
     name: "compound_response",
     title: "Compound response profile",
-    description: "Drug-response rows for a compound or a drug combination. Accepts a PubChem CID, ChEMBL id, InChIKey, BRD id, GDSC drug id, combination id, or name. Single-agent rows are the default. combinations=include adds combination rows, and combinations=only returns those rows. A combination id or an 'Anchor + Library' name returns combination rows either way. Rows are ordered by value ascending.",
+    description: "Drug-response rows for a compound or a drug combination. Accepts a PubChem CID, ChEMBL id, InChIKey, BRD id, GDSC drug id, NSC id, combination id, or name. Omit dataset to compare the compound across every loaded dataset. Single-agent rows are the default. combinations=include adds combination rows, and combinations=only returns those rows. A combination id or an 'Anchor + Library' name returns combination rows either way. Rows are ordered by value ascending.",
     inputSchema: z.object({
       compound: z.string().min(1),
       dataset: z.string().optional(),
