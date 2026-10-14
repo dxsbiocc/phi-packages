@@ -47,6 +47,21 @@ test("live MetaboLights MTBLS1", async (t) => {
   });
 });
 
+test("live HMDB 1-Methylhistidine", async (t) => {
+  await live(t, "hmdb_get_metabolite", { hmdb_id: "HMDB0000001" }, (result) => {
+    assert.equal(result.entity_type, "page");
+    if (result.entity_type !== "page" || result.items[0]?.entity_type !== "metabolite") return;
+    assert.equal(result.items[0].id, "hmdb:HMDB0000001");
+    assert.equal(result.items[0].formula, "C7H11N3O2");
+    assert.equal(result.items[0].inchikey, "BRMWTNUJHUMWMS-LURJTMIESA-N");
+    assert.ok(result.items[0].xrefs.includes("CHEBI:50599"));
+  });
+  await live(t, "hmdb_search_metabolites", { query: "1-Methylhistidine", limit: 5 }, (result) => {
+    assert.equal(result.entity_type, "page");
+    if (result.entity_type === "page") assert.ok(result.items.some((item) => item.id === "hmdb:HMDB0000001"), result.items.map((item) => item.id).join(","));
+  });
+});
+
 test("live remaining metabolomics tools", async (t) => {
   const calls: Array<[string, Record<string, unknown>, string]> = [
     ["metabolights_list_studies", { limit: 1 }, "mtbls:MTBLS1"],

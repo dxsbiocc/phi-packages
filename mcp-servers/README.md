@@ -8,7 +8,7 @@ Five read-only MCP servers for omics databases that do not ship an official MCP 
 | Cancer omics | `phi-omics-cancer` | GDC, cBioPortal public REST, PDC GraphQL |
 | Epigenomics | `phi-omics-epigenomics` | ENCODE portal, Roadmap via `award.rfa=Roadmap` |
 | Proteomics | `phi-omics-proteomics` | PRIDE, Human Protein Atlas |
-| Metabolomics | `phi-omics-metabolomics` | MetaboLights |
+| Metabolomics | `phi-omics-metabolomics` | MetaboLights, HMDB |
 
 The same TypeScript runs locally over stdio or Streamable HTTP, and in Docker on one host. Packages are private workspace members. An npm scope and a publish workflow are intentionally not set up yet; `bin`, `files`, and `engines` are already in each package so that step can be added later without moving code.
 
@@ -131,14 +131,17 @@ ENCODE's edge blocks the `from` query parameter, so search tools request the lea
 
 ### Metabolomics
 
-`usage_terms`, `metabolights_list_studies`, `metabolights_get_study`, `metabolights_list_files`, `metabolights_list_assays`.
+`usage_terms`, `metabolights_list_studies`, `metabolights_get_study`, `metabolights_list_files`, `metabolights_list_assays`, `hmdb_get_metabolite`, `hmdb_search_metabolites`.
+
+HMDB lookup reads `https://hmdb.ca/metabolites/HMDBxxxxxxx.xml`. HMDB does not offer a public JSON API (`/simple/api` is contact-only). Search reads accession links from the first page of the public HTML search. The bulk metabolite XML archive is multiple gigabytes and is not downloaded. A Cloudflare challenge is returned as `unavailable`.
 
 ## What was not implemented
 
 - **DepMap.** `https://depmap.org/portal/api/public/models` returned an HTML bot-check page, not JSON.
 - **ChIP-Atlas.** `https://chip-atlas.dbcls.jp/api/v1/experiment` returned AccessDenied, and the experiment-list keys that were tried were missing. Roadmap Epigenomics is queried through ENCODE instead.
 - **CELLxGENE Census matrices and controlled GDC/ENCODE/HCA/HuBMAP/MetaboLights files.** Responses stay metadata. Controlled files have `url: null`.
-- **A MetaboLights metabolite catalog.** `/studies/{id}/metabolites` is not a JSON table. The `metabolite` schema exists for a later source.
+- **A MetaboLights metabolite catalog.** `/studies/{id}/metabolites` is not a JSON table. Metabolite rows come from HMDB instead.
+- **HMDB bulk download and the contact-only API.** Per-metabolite XML and the HTML name search are the public endpoints that were usable as lookups. Spectra are left in the XML and are not separate entities. Search does not follow later HTML pages. Records larger than the 8MB body cap are rejected.
 - **Catalog manifests.** There is no public URL yet, so nothing was added under `resources/connectors/`.
 
 ## Add them to the Phi catalog
