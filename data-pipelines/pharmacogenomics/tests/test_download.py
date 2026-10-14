@@ -150,7 +150,7 @@ def test_live_files_are_skipped_unless_requested(tmp_path):
 def test_sources_yaml_declares_batch1_and_leaves_later_batches_disabled():
     document = load_sources(__import__("pathlib").Path(__file__).resolve().parents[1] / "sources.yaml")
     enabled = {source["id"] for source in document["sources"] if source.get("enabled", True)}
-    assert enabled == {"depmap", "prism_19q4", "prism_24q2", "gdsc", "sanger_cmp"}
+    assert enabled == {"depmap", "prism_19q4", "prism_24q2", "gdsc", "sanger_cmp", "hgnc", "cellosaurus"}
     planned = {item["id"] for item in document["planned"]}
     assert "nci60_dtp" in planned
     assert "orcestra_ctrpv2" in planned

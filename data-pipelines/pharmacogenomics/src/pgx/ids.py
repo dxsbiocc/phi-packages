@@ -11,7 +11,6 @@ import re
 from dataclasses import dataclass, field
 
 CVCL_RE = re.compile(r"^CVCL_[A-Z0-9]{4}$")
-GENE_RE = re.compile(r"^(?P<symbol>.+?) \((?P<entrez>\d+)\)$")
 SIDM_RE = re.compile(r"^SIDM\d+$", re.IGNORECASE)
 ACH_RE = re.compile(r"^ACH-\d+$", re.IGNORECASE)
 CHEMBL_RE = re.compile(r"^CHEMBL\d+$")
@@ -45,10 +44,15 @@ def norm_name(value: str) -> str:
 
 
 def parse_gene_label(label: str) -> tuple[str, str] | None:
-    match = GENE_RE.match(label.strip())
-    if not match:
+    """Return `(symbol, entrez)` only for a single `SYMBOL (ENTREZ)` header."""
+    from pgx.normalize.genes import parse_gene_header
+
+    parsed = parse_gene_header(label)
+    if parsed.parse_status != "ok" or len(parsed.entrez_ids) != 1 or not parsed.source_symbol:
         return None
-    return match.group("symbol"), match.group("entrez")
+    if parsed.odd_tokens or parsed.ensembl_ids:
+        return None
+    return parsed.source_symbol, parsed.entrez_ids[0]
 
 
 def cvcl_values(value: object) -> list[str]:
@@ -103,6 +107,7 @@ class Decision:
     match_method: str
     status: str
     evidence: str
+    cellosaurus_flag: str | None = None
 
 
 @dataclass
@@ -290,6 +295,7 @@ def xref_rows(
             "tissue": tissue,
             "disease": disease,
             "species": species,
+            "cellosaurus_flag": decision.cellosaurus_flag,
         })
     return rows
 
@@ -299,7 +305,9 @@ def build_model_xref(
     depmap_rows: list[dict[str, str]],
     gdsc_rows: list[dict[str, str]] | None = None,
     prism_rows: list[dict[str, str]] | None = None,
+    cellosaurus: object | None = None,
 ) -> list[dict[str, str | None]]:
+    """Map models. When a Cellosaurus index is provided it is applied after stable ids."""
     cmp = index_cmp(cmp_rows)
     out: list[dict[str, str | None]] = []
     depmap_decisions: dict[str, Decision] = {}
@@ -308,6 +316,10 @@ def build_model_xref(
         if not ach:
             continue
         decision = classify_depmap(row, cmp)
+        if cellosaurus is not None:
+            decision = cellosaurus.harmonize(decision, [
+                row.get("CellLineName"), row.get("StrippedCellLineName"), row.get("CCLEName"),
+            ])
         depmap_decisions[ach] = decision
         display = cmp.display.get(decision.cvcl or "", {})
         out.extend(xref_rows(
@@ -339,6 +351,12 @@ def build_model_xref(
             decision = Decision(cvcl, "cmp_rrid", "mapped", "Cell Model Passports RRID")
         else:
             decision = Decision(None, "unmatched", "unmatched", "CMP model has no RRID")
+        if cellosaurus is not None and decision.match_method != "conflict_identifier":
+            synonym_names = [row.get("model_name") or ""]
+            synonym = clean(row.get("synonyms"))
+            if synonym:
+                synonym_names.extend(part.strip() for part in synonym.split(";"))
+            decision = cellosaurus.harmonize(decision, synonym_names, identifier_names=[row.get("model_name")])
         out.extend(xref_rows(
             "sanger_cmp",
             sidm,
@@ -363,6 +381,8 @@ def build_model_xref(
         if not source_id:
             continue
         decision = classify_gdsc(sidm, cosmic, name, cmp)
+        if cellosaurus is not None:
+            decision = cellosaurus.harmonize(decision, [name])
         display = cmp.display.get(decision.cvcl or "", {})
         out.extend(xref_rows(
             "gdsc",
@@ -381,6 +401,8 @@ def build_model_xref(
             continue
         seen_prism.add(ach)
         decision = classify_ach(ach, depmap_decisions, cmp)
+        if cellosaurus is not None:
+            decision = cellosaurus.harmonize(decision, [row.get("ccle_name")])
         display = cmp.display.get(decision.cvcl or "", {})
         out.extend(xref_rows(
             "prism",
@@ -408,6 +430,7 @@ class CompoundRecord:
     inchikey: str | None = None
     smiles: str | None = None
     match_method: str = "unmatched"
+    confidence: str | None = None
     status: str = "unmatched"
     evidence: str = "no PubChem CID in the source file"
 
@@ -444,6 +467,7 @@ def add_compound(records: dict[tuple[str, str], CompoundRecord], record: Compoun
             current.pubchem_cid = record.pubchem_cid
             current.status = "mapped"
             current.match_method = record.match_method
+            current.confidence = record.confidence or current.confidence
             current.evidence = record.evidence
 
 
@@ -462,6 +486,7 @@ def compound_rows(records: dict[tuple[str, str], CompoundRecord]) -> list[dict[s
             "inchikey": record.inchikey,
             "smiles": record.smiles,
             "match_method": record.match_method,
+            "confidence": record.confidence,
             "status": record.status,
             "evidence": record.evidence,
         })
@@ -487,12 +512,11 @@ def compounds_from_gdsc(rows: list[dict[str, str]]) -> list[CompoundRecord]:
             chembl_id=chembl,
             inchikey=clean(row.get("INCHIKEY") or row.get("inchikey")),
         )
-        synonym = clean(row.get("SYNONYMS"))
-        if synonym:
-            record.synonyms.update(part.strip() for part in synonym.split(",") if clean(part))
+        record.synonyms.update(split_synonyms(row.get("SYNONYMS")))
         if cid:
             record.status = "mapped"
             record.match_method = "source_pubchem"
+            record.confidence = "high"
             record.evidence = "PubChem CID column"
         out.append(record)
     return out
@@ -506,28 +530,53 @@ def compounds_from_prism_names(rows: list[dict[str, str]], source: str, id_field
             continue
         name = clean(row.get("name") or row.get("Drug.Name") or row.get("DRUG_NAME"))
         record = CompoundRecord(source=source, source_compound_id=brd, name=name, brd_id=brd, smiles=clean(row.get("smiles")))
+        record.synonyms.update(split_synonyms(row.get("Synonyms") or row.get("SYNONYMS") or row.get("synonyms")))
         cid = _cid(row.get("pubchem_cid") or row.get("PUBCHEM"))
         if cid:
             record.pubchem_cid = cid
             record.status = "mapped"
             record.match_method = "source_pubchem"
+            record.confidence = "high"
             record.evidence = "PubChem CID column"
         out.append(record)
     return out
 
 
-def apply_pubchem(record: CompoundRecord, cid: str | None, inchikey: str | None, chembl_id: str | None, method: str, evidence: str) -> None:
+def split_synonyms(value: object) -> list[str]:
+    text = clean(value)
+    if not text:
+        return []
+    parts: list[str] = []
+    for chunk in re.split(r"[;|]", text):
+        if "," in chunk:
+            parts.extend(piece.strip() for piece in chunk.split(","))
+        else:
+            parts.append(chunk.strip())
+    return [part for part in parts if clean(part)]
+
+
+def apply_pubchem(
+    record: CompoundRecord,
+    cid: str | None,
+    inchikey: str | None,
+    chembl_id: str | None,
+    method: str,
+    evidence: str,
+    confidence: str | None = None,
+) -> None:
     if record.status == "ambiguous":
         return
     if record.pubchem_cid and cid and record.pubchem_cid != cid:
         record.status = "ambiguous"
         record.match_method = "conflict_pubchem"
+        record.confidence = None
         record.evidence = f"existing CID {record.pubchem_cid} disagrees with {cid}"
         record.pubchem_cid = None
         return
     if not cid:
         record.status = "unmatched"
         record.match_method = method
+        record.confidence = None
         record.evidence = evidence
         return
     record.pubchem_cid = cid
@@ -535,4 +584,5 @@ def apply_pubchem(record: CompoundRecord, cid: str | None, inchikey: str | None,
     record.chembl_id = chembl_id or record.chembl_id
     record.status = "mapped"
     record.match_method = method
+    record.confidence = confidence
     record.evidence = evidence

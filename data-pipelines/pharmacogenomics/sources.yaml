@@ -181,6 +181,34 @@ sources:
         role: cmp_models
         live: false
 
+  - id: hgnc
+    version: "2026-10-13"
+    enabled: true
+    batch: 1
+    homepage: https://www.genenames.org/
+    license: "HGNC data are free to use. Confirm current terms at https://www.genenames.org/about/overview/ before redistribution."
+    citation: "Seal RL, et al. Genenames.org: the HGNC resources in 2023. Nucleic Acids Res. 2023. Complete set downloaded 2026-10-13."
+    files:
+      - name: hgnc_complete_set.txt
+        url: https://storage.googleapis.com/public-download-files/hgnc/tsv/tsv/hgnc_complete_set.txt
+        sha256: 2828618d23d315be76ea415f7ef0e951858716ebab07e2d584190f52e5178c1e
+        role: hgnc_genes
+        live: false
+
+  - id: cellosaurus
+    version: "56.0"
+    enabled: true
+    batch: 1
+    homepage: https://www.cellosaurus.org/
+    license: CC BY 4.0
+    citation: "Bairoch A. The Cellosaurus, a cell-line knowledge resource. J Biomol Tech. 2018. Release 56.0, 25 June 2026."
+    files:
+      - name: cellosaurus.txt
+        url: https://ftp.expasy.org/databases/cellosaurus/cellosaurus.txt
+        sha256: b225da548b65e8db10597759bc152c78b1b9d23e123494744510d7569cf4ab3b
+        role: cellosaurus
+        live: false
+
 planned:
   - id: nci60_dtp
     version: "2026-04"
