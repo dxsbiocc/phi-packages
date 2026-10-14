@@ -82,4 +82,4 @@ Phi 官方共享环境和应用级色板由主程序提供，本仓库不复制�
 
 ## 组学 MCP 服务
 
-`mcp-servers/` 是五个自建的只读组学 MCP 服务（转录组与单细胞、癌症组学、表观基因组、蛋白质组、代谢组）。公开 HTTPS 网关已部署在 `https://phi.omicsagent.cn/{transcriptomics,cancer,epigenomics,proteomics,metabolomics}/mcp`，对应 connector 在 `resources/connectors/`。本地 stdio/HTTP、Docker 见 [mcp-servers/README.md](mcp-servers/README.md)。
+`mcp-servers/` 是六个自建的只读组学 MCP 服务（转录组与单细胞、癌症组学、表观基因组、蛋白质组、代谢组、药物基因组），另有一个文献服务。其中五个组学服务的公开 HTTPS 网关已部署在 `https://phi.omicsagent.cn/{transcriptomics,cancer,epigenomics,proteomics,metabolomics}/mcp`，对应 connector 在 `resources/connectors/`。药物基因组服务读取 `data-pipelines/pharmacogenomics` 产出的 Parquet。文献服务挂在 `/literature/mcp`。这两条路径都还没有公开 HTTPS 地址，因此 connector 计数保持 27。本地 stdio/HTTP、Docker 见 [mcp-servers/README.md](mcp-servers/README.md)。

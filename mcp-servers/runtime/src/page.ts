@@ -1,7 +1,9 @@
 import { UpstreamError } from "./http.js";
 import {
   CellTypeSchema,
+  CompoundSchema,
   DatasetSchema,
+  DrugResponseSchema,
   DonorSchema,
   ErrorObjectSchema,
   ExpressionSchema,
@@ -16,7 +18,9 @@ import {
   VariantSchema,
   type Access,
   type CellType,
+  type Compound,
   type Dataset,
+  type DrugResponse,
   type Donor,
   type Entity,
   type EntityType,
@@ -230,6 +234,35 @@ export function protein(fields: Partial<Protein> & Pick<Protein, "id">): Protein
     gene_id: null,
     gene_symbol: null,
     taxon_id: null,
+    source_extra: {},
+    ...fields,
+  });
+}
+
+export function compound(fields: Partial<Compound> & Pick<Compound, "id">): Compound {
+  return CompoundSchema.parse({
+    entity_type: "compound",
+    xrefs: [],
+    name: null,
+    pubchem_cid: null,
+    chembl_id: null,
+    inchikey: null,
+    synonyms: [],
+    source_extra: {},
+    ...fields,
+  });
+}
+
+export function drugResponse(fields: Partial<DrugResponse> & Pick<DrugResponse, "id">): DrugResponse {
+  return DrugResponseSchema.parse({
+    entity_type: "drug_response",
+    xrefs: [],
+    compound_id: null,
+    sample_id: null,
+    dataset_id: null,
+    metric: null,
+    value: null,
+    unit: null,
     source_extra: {},
     ...fields,
   });
