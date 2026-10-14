@@ -21,7 +21,6 @@ Use a different skill when the question is not a literature search:
 
 - Target, disease, or drug associations: the `open-targets` connector.
 - Cancer genomics studies already in cBioPortal: the `cbioportal` connector.
-- Turning a downloaded PDF or Office file into Markdown: `markitdown`.
 - Writing methods or results from the user's own analysis: `scientific-writing`.
 
 ## Procedure
@@ -31,7 +30,7 @@ Use a different skill when the question is not a literature search:
 3. Use the tools exposed by that installed connector. Read the tool schema before calling it. Do not invent tool names.
 4. Keep the identifiers the tool returned (PMID, PMCID, DOI, NCT number, preprint DOI). Drop a hit you cannot tie to an identifier from the response.
 5. Write the note from `assets/note-template.md`. Quote only short phrases that appear in the returned title or abstract. Paraphrase the rest.
-6. If the user wants the full text, prefer a PMC full text the `pubmed` connector already returned. Otherwise pass a local PDF through `markitdown`. Do not claim a paper was read when only the abstract was returned.
+6. If the user wants the full text, use a PMC full text the `pubmed` connector already returned. Do not claim a paper was read when only the abstract was returned.
 
 ## Report
 
