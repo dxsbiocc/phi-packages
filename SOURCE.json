@@ -9,7 +9,7 @@
   ],
   "counts": {
     "standaloneSkills": 14,
-    "connectors": 18,
+    "connectors": 19,
     "plugins": 1,
     "pluginSkills": 1,
     "wrapperAdapters": 652,
@@ -93,7 +93,20 @@
       "lme4": "2.0.6"
     }
   },
-  "addedContent": [],
+  "addedContent": [
+    {
+      "path": "resources/connectors/excalidraw/",
+      "origin": "Authored in phi-packages after the initial Phi snapshot. Remote HTTP MCP endpoint https://mcp.excalidraw.com/mcp with no authentication.",
+      "packageVersion": "1.0.0",
+      "icon": {
+        "path": "resources/connectors/excalidraw/icon.svg",
+        "sourceUrl": "https://github.com/excalidraw/excalidraw/blob/master/public/favicon.svg",
+        "retrievedAt": "2026-10-14",
+        "sha256": "ff042440a415c5e3f0b3c77dfbf2a367906e38cbabdd5b2270e6e01ff4f8a97f",
+        "size": 4937
+      }
+    }
+  ],
   "iconMigration": {
     "migratedAt": "2026-10-08",
     "sourceRepository": "https://github.com/dxsbiocc/phi",

@@ -55,6 +55,17 @@ this attribution does not change their owners' licensing or trademark terms.
 | Open Targets Platform | https://opentargets.org/branding (official helix SVG); MCP: https://github.com/opentargets/platform-mcp |
 
 
+## Excalidraw website icon
+
+Excalidraw's package-local `resources/connectors/excalidraw/icon.svg` was copied
+byte-for-byte on 2026-10-14 from the official
+[Excalidraw favicon](https://github.com/excalidraw/excalidraw/blob/master/public/favicon.svg)
+(`public/favicon.svg` in excalidraw/excalidraw). The SVG is 4,937 bytes and has
+SHA-256 `ff042440a415c5e3f0b3c77dfbf2a367906e38cbabdd5b2270e6e01ff4f8a97f`.
+The connector package is `1.0.0` and includes this icon from the first version.
+This asset is separate from the 18-icon migration and retains its owner's licensing
+and trademark terms. Excalidraw is MIT licensed.
+
 ## Migration byte record
 
 These hashes preserve the original image bytes without a frontend asset dependency.
