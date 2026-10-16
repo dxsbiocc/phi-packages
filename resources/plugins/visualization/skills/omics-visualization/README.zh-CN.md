@@ -150,6 +150,6 @@ skill_run({ skill: "omics-visualization", script: "bar/basic/plot.R", args: ["sc
 
 - 不能代替 DESeq2、limma、clusterProfiler 或任何上游检验。
 - 不是通用商业看板，也不是 AI 插画工具。
-- 不是批量编写或维护模板库本身的工作流。
+- 不是批量编写或维护模板库本身的工作流。那是同插件的 `create-template` 技能（`skill://create-template`）。
 
 [切换到 English](README.md)
