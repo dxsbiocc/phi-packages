@@ -156,6 +156,6 @@ Required R packages are listed in each script header. Missing packages should be
 
 - Not a replacement for DESeq2, limma, clusterProfiler, or any upstream test.
 - Not a generic business-dashboard or AI-illustration kit.
-- Not the workflow for authoring or mass-editing the template library itself.
+- Not the workflow for authoring or mass-editing the template library itself. That is the sibling skill `create-template` (`skill://create-template`).
 
 [Switch to 中文](README.zh-CN.md)

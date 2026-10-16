@@ -11,7 +11,7 @@
     "standaloneSkills": 17,
     "connectors": 27,
     "plugins": 1,
-    "pluginSkills": 1,
+    "pluginSkills": 2,
     "wrapperAdapters": 652,
     "importedFiles": 7885,
     "importedBytes": 85272892
@@ -45,7 +45,8 @@
     "The Phi source repository was not modified by this content-repository correction.",
     "Eighteen existing Phi connector brand icons were copied byte-for-byte into package-local icon files and those connector versions changed to 1.0.1. See docs/content-icons.md for attribution and byte records.",
     "Five Phi omics MCP connectors point at the HTTPS gateway on phi.omicsagent.cn (Streamable HTTP). initialImportCounts.connectors remains 18.",
-    "The K-Dense resources/skills/nextflow/ skill was replaced by five official Nextflow Agent Skills from https://github.com/nextflow-io/agent-skills at commit 5ed41d00a93442fa1b8973c80fb23b74f3af537e (Apache-2.0): install-nextflow, create-workflow, run-module, launch-workflow, and migrate-nextflow-code."
+    "The K-Dense resources/skills/nextflow/ skill was replaced by five official Nextflow Agent Skills from https://github.com/nextflow-io/agent-skills at commit 5ed41d00a93442fa1b8973c80fb23b74f3af537e (Apache-2.0): install-nextflow, create-workflow, run-module, launch-workflow, and migrate-nextflow-code.",
+    "Visualization plugin 1.1.0 adds skills/create-template so the Visualization agent can author and register catalog templates. Ordinary user-data plotting stays on skills/omics-visualization. counts.pluginSkills is 2; initialImportCounts.pluginSkills stays 1."
   ],
   "initialImportCounts": {
     "standaloneSkills": 14,
@@ -238,6 +239,12 @@
       "license": "Apache-2.0",
       "sourceRepository": "https://github.com/nextflow-io/agent-skills",
       "sourceCommit": "5ed41d00a93442fa1b8973c80fb23b74f3af537e"
+    },
+    {
+      "path": "resources/plugins/visualization/skills/create-template/",
+      "kind": "plugin-skill",
+      "origin": "Authored into the bundled visualization plugin (1.1.0) so the Visualization agent can register catalog templates in the sibling omics-visualization skill. The skill has no scripts; validation runs from the installed omics-visualization skill root.",
+      "packageVersion": "1.1.0"
     }
   ],
   "iconMigration": {
