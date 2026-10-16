@@ -8,7 +8,7 @@
     "resources/connectors/cbioportal/phi-package.yaml"
   ],
   "counts": {
-    "standaloneSkills": 14,
+    "standaloneSkills": 17,
     "connectors": 27,
     "plugins": 1,
     "pluginSkills": 1,
@@ -44,7 +44,8 @@
     "Eight differential-expression modules now carry executable local Conda specifications and use public frozen container references. Analysis scripts, parameter contracts and wrapper entrypoints are unchanged.",
     "The Phi source repository was not modified by this content-repository correction.",
     "Eighteen existing Phi connector brand icons were copied byte-for-byte into package-local icon files and those connector versions changed to 1.0.1. See docs/content-icons.md for attribution and byte records.",
-    "Five Phi omics MCP connectors point at the HTTPS gateway on phi.omicsagent.cn (Streamable HTTP). initialImportCounts.connectors remains 18."
+    "Five Phi omics MCP connectors point at the HTTPS gateway on phi.omicsagent.cn (Streamable HTTP). initialImportCounts.connectors remains 18.",
+    "The K-Dense resources/skills/nextflow/ skill was replaced by five official Nextflow Agent Skills from https://github.com/nextflow-io/agent-skills at commit 5ed41d00a93442fa1b8973c80fb23b74f3af537e (Apache-2.0): install-nextflow, create-workflow, run-module, launch-workflow, and migrate-nextflow-code."
   ],
   "initialImportCounts": {
     "standaloneSkills": 14,
@@ -197,6 +198,46 @@
         "sha256": "e30d3c4344a23b5c5179ec077f071ba5477b4dad305a1d6b947b7e708b04018f",
         "size": 338
       }
+    },
+    {
+      "path": "resources/skills/install-nextflow/",
+      "kind": "skill",
+      "origin": "Official Nextflow Agent Skill from https://github.com/nextflow-io/agent-skills (master, commit 5ed41d00a93442fa1b8973c80fb23b74f3af537e). Apache-2.0. Replaces the previous K-Dense resources/skills/nextflow/ skill together with create-workflow, run-module, launch-workflow, and migrate-nextflow-code.",
+      "license": "Apache-2.0",
+      "sourceRepository": "https://github.com/nextflow-io/agent-skills",
+      "sourceCommit": "5ed41d00a93442fa1b8973c80fb23b74f3af537e"
+    },
+    {
+      "path": "resources/skills/create-workflow/",
+      "kind": "skill",
+      "origin": "Official Nextflow Agent Skill from https://github.com/nextflow-io/agent-skills (master, commit 5ed41d00a93442fa1b8973c80fb23b74f3af537e). Apache-2.0.",
+      "license": "Apache-2.0",
+      "sourceRepository": "https://github.com/nextflow-io/agent-skills",
+      "sourceCommit": "5ed41d00a93442fa1b8973c80fb23b74f3af537e"
+    },
+    {
+      "path": "resources/skills/run-module/",
+      "kind": "skill",
+      "origin": "Official Nextflow Agent Skill from https://github.com/nextflow-io/agent-skills (master, commit 5ed41d00a93442fa1b8973c80fb23b74f3af537e). Apache-2.0.",
+      "license": "Apache-2.0",
+      "sourceRepository": "https://github.com/nextflow-io/agent-skills",
+      "sourceCommit": "5ed41d00a93442fa1b8973c80fb23b74f3af537e"
+    },
+    {
+      "path": "resources/skills/launch-workflow/",
+      "kind": "skill",
+      "origin": "Official Nextflow Agent Skill from https://github.com/nextflow-io/agent-skills (master, commit 5ed41d00a93442fa1b8973c80fb23b74f3af537e). Apache-2.0.",
+      "license": "Apache-2.0",
+      "sourceRepository": "https://github.com/nextflow-io/agent-skills",
+      "sourceCommit": "5ed41d00a93442fa1b8973c80fb23b74f3af537e"
+    },
+    {
+      "path": "resources/skills/migrate-nextflow-code/",
+      "kind": "skill",
+      "origin": "Official Nextflow Agent Skill from https://github.com/nextflow-io/agent-skills (master, commit 5ed41d00a93442fa1b8973c80fb23b74f3af537e). Apache-2.0.",
+      "license": "Apache-2.0",
+      "sourceRepository": "https://github.com/nextflow-io/agent-skills",
+      "sourceCommit": "5ed41d00a93442fa1b8973c80fb23b74f3af537e"
     }
   ],
   "iconMigration": {
