@@ -159,6 +159,8 @@ opt <- list(
   independent_filtering = TRUE,
   p_adjust_method = 'BH',
   alpha = 0.1,
+  # Post-hoc |log2FoldChange| cutoff. padj uses alpha (also DESeq2's independent-filtering target).
+  log2fc_threshold = 1,
   minmu = 0.5,
   vs_method = 'vst', # 'rlog', 'vst', or 'rlog,vst'
   shrink_lfc = TRUE,
@@ -499,6 +501,29 @@ write.table(
   sep = '\t',
   quote = FALSE
 )
+
+# Differentially expressed genes: |log2FoldChange| >= log2fc_threshold and padj < alpha.
+# Rows with NA fold change or padj are dropped. Up/down split on the sign of
+# log2FoldChange (exact zeros stay only in the combined table).
+log2fc <- comp.results[['log2FoldChange']]
+padj <- comp.results[['padj']]
+de_mask <- !is.na(log2fc) & !is.na(padj) & abs(log2fc) >= opt\$log2fc_threshold & padj < opt\$alpha
+de_genes <- comp.results[de_mask, , drop = FALSE]
+filtered_tables <- list(
+  list(de_genes, 'deseq2.de_genes_filtered.tsv'),
+  list(de_genes[de_genes[['log2FoldChange']] > 0, , drop = FALSE], 'deseq2.de_genes_filtered_up.tsv'),
+  list(de_genes[de_genes[['log2FoldChange']] < 0, , drop = FALSE], 'deseq2.de_genes_filtered_down.tsv')
+)
+for (de_table in filtered_tables) {
+  write.table(
+    de_table[[1]],
+    file = paste(opt\$output_prefix, de_table[[2]], sep = '.'),
+    col.names = TRUE,
+    row.names = FALSE,
+    sep = '\t',
+    quote = FALSE
+  )
+}
 
 # Dispersion plot
 

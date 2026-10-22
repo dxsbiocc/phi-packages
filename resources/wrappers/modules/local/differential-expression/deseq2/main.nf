@@ -24,6 +24,9 @@ process DESEQ2_DIFFERENTIAL {
     tuple val(meta), path("*.vst.tsv")                         , optional: true, emit: vst_counts
     tuple val(meta), path("*.deseq2.model.txt")                , emit: model
     tuple val(meta), path("*.R_sessionInfo.log")               , emit: session_info
+    tuple val(meta), path("*.deseq2.de_genes_filtered.tsv")    , emit: de_genes
+    tuple val(meta), path("*.deseq2.de_genes_filtered_up.tsv") , emit: de_genes_up
+    tuple val(meta), path("*.deseq2.de_genes_filtered_down.tsv"), emit: de_genes_down
     path "versions.yml", emit: versions, topic: versions
 
     when:
@@ -35,6 +38,9 @@ process DESEQ2_DIFFERENTIAL {
     stub:
     """
     touch ${meta.id}.deseq2.results.tsv
+    touch ${meta.id}.deseq2.de_genes_filtered.tsv
+    touch ${meta.id}.deseq2.de_genes_filtered_up.tsv
+    touch ${meta.id}.deseq2.de_genes_filtered_down.tsv
     touch ${meta.id}.deseq2.dispersion.png
     touch ${meta.id}.deseq2.dispersion.pdf
     touch ${meta.id}.dds.rld.rds
