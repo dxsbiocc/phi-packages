@@ -98,6 +98,41 @@ output:
           pattern: "*.deseq2.results.tsv"
           ontologies:
             - edam: http://edamontology.org/format_3475 # TSV
+  de_genes:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing contrast information, same as input meta
+      - "*.deseq2.de_genes_filtered.tsv":
+          type: file
+          description: |
+            Results rows with |log2FoldChange| >= log2fc_threshold (default 1)
+            and padj < alpha. Rows with NA fold change or padj are excluded.
+          pattern: "*.deseq2.de_genes_filtered.tsv"
+          ontologies:
+            - edam: http://edamontology.org/format_3475 # TSV
+  de_genes_up:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing contrast information, same as input meta
+      - "*.deseq2.de_genes_filtered_up.tsv":
+          type: file
+          description: Filtered results with log2FoldChange > 0
+          pattern: "*.deseq2.de_genes_filtered_up.tsv"
+          ontologies:
+            - edam: http://edamontology.org/format_3475 # TSV
+  de_genes_down:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing contrast information, same as input meta
+      - "*.deseq2.de_genes_filtered_down.tsv":
+          type: file
+          description: Filtered results with log2FoldChange < 0
+          pattern: "*.deseq2.de_genes_filtered_down.tsv"
+          ontologies:
+            - edam: http://edamontology.org/format_3475 # TSV
   dispersion_plot_png:
     - - meta:
           type: map

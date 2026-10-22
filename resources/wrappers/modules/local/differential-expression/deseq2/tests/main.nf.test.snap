@@ -1361,6 +1361,72 @@
                     ]
                 ],
                 "10": [
+                    [
+                        {
+                            "id": "treatment_mCherry_hND6_",
+                            "variable": "treatment",
+                            "reference": "mCherry",
+                            "target": "hND6",
+                            "blocking": ""
+                        },
+                        "treatment_mCherry_hND6_.deseq2.de_genes_filtered.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ],
+                    [
+                        {
+                            "id": "treatment_mCherry_hND6_sample_number",
+                            "variable": "treatment",
+                            "reference": "mCherry",
+                            "target": "hND6",
+                            "blocking": "sample_number"
+                        },
+                        "treatment_mCherry_hND6_sample_number.deseq2.de_genes_filtered.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "11": [
+                    [
+                        {
+                            "id": "treatment_mCherry_hND6_",
+                            "variable": "treatment",
+                            "reference": "mCherry",
+                            "target": "hND6",
+                            "blocking": ""
+                        },
+                        "treatment_mCherry_hND6_.deseq2.de_genes_filtered_up.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ],
+                    [
+                        {
+                            "id": "treatment_mCherry_hND6_sample_number",
+                            "variable": "treatment",
+                            "reference": "mCherry",
+                            "target": "hND6",
+                            "blocking": "sample_number"
+                        },
+                        "treatment_mCherry_hND6_sample_number.deseq2.de_genes_filtered_up.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "12": [
+                    [
+                        {
+                            "id": "treatment_mCherry_hND6_",
+                            "variable": "treatment",
+                            "reference": "mCherry",
+                            "target": "hND6",
+                            "blocking": ""
+                        },
+                        "treatment_mCherry_hND6_.deseq2.de_genes_filtered_down.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ],
+                    [
+                        {
+                            "id": "treatment_mCherry_hND6_sample_number",
+                            "variable": "treatment",
+                            "reference": "mCherry",
+                            "target": "hND6",
+                            "blocking": "sample_number"
+                        },
+                        "treatment_mCherry_hND6_sample_number.deseq2.de_genes_filtered_down.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "13": [
                     "versions.yml:md5,2d67217d8adb1fa0d143b4017e6657fe",
                     "versions.yml:md5,2d67217d8adb1fa0d143b4017e6657fe"
                 ],
@@ -1519,6 +1585,72 @@
                             "blocking": "sample_number"
                         },
                         "treatment_mCherry_hND6_sample_number.R_sessionInfo.log:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "de_genes": [
+                    [
+                        {
+                            "id": "treatment_mCherry_hND6_",
+                            "variable": "treatment",
+                            "reference": "mCherry",
+                            "target": "hND6",
+                            "blocking": ""
+                        },
+                        "treatment_mCherry_hND6_.deseq2.de_genes_filtered.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ],
+                    [
+                        {
+                            "id": "treatment_mCherry_hND6_sample_number",
+                            "variable": "treatment",
+                            "reference": "mCherry",
+                            "target": "hND6",
+                            "blocking": "sample_number"
+                        },
+                        "treatment_mCherry_hND6_sample_number.deseq2.de_genes_filtered.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "de_genes_down": [
+                    [
+                        {
+                            "id": "treatment_mCherry_hND6_",
+                            "variable": "treatment",
+                            "reference": "mCherry",
+                            "target": "hND6",
+                            "blocking": ""
+                        },
+                        "treatment_mCherry_hND6_.deseq2.de_genes_filtered_down.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ],
+                    [
+                        {
+                            "id": "treatment_mCherry_hND6_sample_number",
+                            "variable": "treatment",
+                            "reference": "mCherry",
+                            "target": "hND6",
+                            "blocking": "sample_number"
+                        },
+                        "treatment_mCherry_hND6_sample_number.deseq2.de_genes_filtered_down.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "de_genes_up": [
+                    [
+                        {
+                            "id": "treatment_mCherry_hND6_",
+                            "variable": "treatment",
+                            "reference": "mCherry",
+                            "target": "hND6",
+                            "blocking": ""
+                        },
+                        "treatment_mCherry_hND6_.deseq2.de_genes_filtered_up.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ],
+                    [
+                        {
+                            "id": "treatment_mCherry_hND6_sample_number",
+                            "variable": "treatment",
+                            "reference": "mCherry",
+                            "target": "hND6",
+                            "blocking": "sample_number"
+                        },
+                        "treatment_mCherry_hND6_sample_number.deseq2.de_genes_filtered_up.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "dispersion_plot_pdf": [
