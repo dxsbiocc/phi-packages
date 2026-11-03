@@ -20,5 +20,5 @@ params:
 outputs:
   index:
     type: directory
-    path: '${outdir}/biscuit_index'
+    path: '${outdir}/biscuit_index/BiscuitIndex'
     primary: true

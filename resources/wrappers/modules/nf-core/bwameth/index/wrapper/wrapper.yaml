@@ -20,5 +20,5 @@ params:
 outputs:
   index:
     type: directory
-    path: '${outdir}/bwameth_index'
+    path: '${outdir}/bwameth_index/BwamethIndex'
     primary: true

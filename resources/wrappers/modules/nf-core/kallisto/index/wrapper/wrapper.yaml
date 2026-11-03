@@ -19,6 +19,6 @@ params:
 
 outputs:
   index:
-    type: directory
-    path: "${outdir}/kallisto_index"
+    type: file
+    path: "${outdir}/kallisto_index/kallisto"
     primary: true

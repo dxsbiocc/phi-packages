@@ -20,5 +20,5 @@ params:
 outputs:
   index:
     type: directory
-    path: "${outdir}/salmon_index"
+    path: "${outdir}/salmon_index/salmon"
     primary: true

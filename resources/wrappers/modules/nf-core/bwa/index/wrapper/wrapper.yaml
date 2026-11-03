@@ -20,5 +20,5 @@ params:
 outputs:
   index:
     type: directory
-    path: '${outdir}/bwa_index'
+    path: '${outdir}/bwa_index/bwa'
     primary: true

@@ -42,5 +42,5 @@ params:
 outputs:
   db:
     type: directory
-    path: '${outdir}/kraken2_build'
+    path: '${outdir}/kraken2_build/kraken2-database'
     primary: true

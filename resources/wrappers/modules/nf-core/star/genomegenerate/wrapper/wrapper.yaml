@@ -25,5 +25,5 @@ params:
 outputs:
   index:
     type: directory
-    path: '${outdir}/star_genomegenerate'
+    path: '${outdir}/star_genomegenerate/star'
     primary: true

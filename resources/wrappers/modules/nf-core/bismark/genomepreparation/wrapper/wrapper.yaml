@@ -20,5 +20,5 @@ params:
 outputs:
   index:
     type: directory
-    path: '${outdir}/bismark_genomepreparation'
+    path: '${outdir}/bismark_genomepreparation/BismarkIndex'
     primary: true

@@ -20,5 +20,5 @@ params:
 outputs:
   index:
     type: directory
-    path: '${outdir}/bwameme_index'
+    path: '${outdir}/bwameme_index/bwameme'
     primary: true

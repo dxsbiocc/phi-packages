@@ -29,5 +29,5 @@ params:
 outputs:
   index:
     type: directory
-    path: '${outdir}/hisat2_build'
+    path: '${outdir}/hisat2_build/hisat2'
     primary: true

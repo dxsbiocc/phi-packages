@@ -20,5 +20,5 @@ params:
 outputs:
   hashmap:
     type: directory
-    path: '${outdir}/dragmap_hashtable'
+    path: '${outdir}/dragmap_hashtable/dragmap'
     primary: true

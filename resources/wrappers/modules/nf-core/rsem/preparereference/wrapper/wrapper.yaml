@@ -25,5 +25,5 @@ params:
 outputs:
   index:
     type: directory
-    path: "${outdir}/rsem_preparereference"
+    path: "${outdir}/rsem_preparereference/rsem"
     primary: true
