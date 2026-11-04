@@ -10,6 +10,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from build_template_gallery import canonical_text, gallery_document
 from route_template import DEFAULT_CONTRACTS, ROLE_HINTS
 
 SKILL_ROOT = Path(__file__).resolve().parents[1]
@@ -216,6 +217,14 @@ def validate_contracts(contracts_path: Path, skill_root: Path = SKILL_ROOT) -> d
             errors.append(f"{template_id}: intent_keywords must be a non-empty list")
         elif len(keywords) < 3:
             warnings.append(f"{template_id}: fewer than three intent keywords")
+
+    gallery, gallery_errors = gallery_document(skill_root)
+    errors.extend(gallery_errors)
+    gallery_path = skill_root / "references" / "template_gallery.json"
+    if not gallery_path.is_file():
+        errors.append("references/template_gallery.json is missing; run scripts/build_template_gallery.py")
+    elif gallery_path.read_text(encoding="utf-8") != canonical_text(gallery):
+        errors.append("references/template_gallery.json is stale; run scripts/build_template_gallery.py")
 
     missing_paths = [
         template_id

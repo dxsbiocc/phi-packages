@@ -1,0 +1,844 @@
+{
+  "schemaVersion": 1,
+  "skill": "omics-visualization",
+  "previewBackground": "transparent",
+  "families": [
+    {
+      "id": "scatter",
+      "title": "Scatter and point-based plots",
+      "templates": [
+        {
+          "id": "scatter-basic",
+          "title": "Basic scatter plot",
+          "preview": "scripts/scatter/basic/preview.png"
+        },
+        {
+          "id": "scatter-group",
+          "title": "Grouped scatter plot",
+          "preview": "scripts/scatter/group/preview.png"
+        },
+        {
+          "id": "scatter-ternary",
+          "title": "Ternary composition scatter",
+          "preview": "scripts/scatter/ternary/preview.png"
+        },
+        {
+          "id": "scatter-umap-circos",
+          "title": "UMAP in a circos composition ring",
+          "preview": "scripts/scatter/umap_circos/preview.png"
+        },
+        {
+          "id": "scatter-voronoi",
+          "title": "Voronoi scatter",
+          "preview": "scripts/scatter/voronoi/preview.png"
+        },
+        {
+          "id": "scatter-bubble",
+          "title": "Bubble scatter plot",
+          "preview": "scripts/scatter/bubble/preview.png"
+        },
+        {
+          "id": "scatter-volcano",
+          "title": "Differential-expression volcano plot",
+          "preview": "scripts/scatter/volcano/preview.png"
+        },
+        {
+          "id": "scatter-volcano-inset",
+          "title": "Volcano plot with zoom inset",
+          "preview": "scripts/scatter/volcano_inset/preview.png"
+        },
+        {
+          "id": "scatter-maplot",
+          "title": "MA plot",
+          "preview": "scripts/scatter/maplot/preview.png"
+        },
+        {
+          "id": "scatter-quadrant",
+          "title": "Quadrant scatter plot",
+          "preview": "scripts/scatter/quadrant/preview.png"
+        },
+        {
+          "id": "scatter-correlation",
+          "title": "Correlation scatter with fit",
+          "preview": "scripts/scatter/correlation/preview.png"
+        },
+        {
+          "id": "scatter-marginal",
+          "title": "Scatter with marginal boxplots",
+          "preview": "scripts/scatter/marginal/preview.png"
+        },
+        {
+          "id": "scatter-matrix",
+          "title": "Category-by-category bubble grid",
+          "preview": "scripts/scatter/matrix/preview.png"
+        },
+        {
+          "id": "scatter-pairs",
+          "title": "Pairs plot with correlation tiles",
+          "preview": "scripts/scatter/pairs/preview.png"
+        },
+        {
+          "id": "scatter-hex",
+          "title": "Hexbin density scatter",
+          "preview": "scripts/scatter/hex/preview.png"
+        },
+        {
+          "id": "scatter-contour",
+          "title": "Scatter with density contours",
+          "preview": "scripts/scatter/contour/preview.png"
+        },
+        {
+          "id": "scatter-jitter",
+          "title": "Jitter plot by category",
+          "preview": "scripts/scatter/jitter/preview.png"
+        },
+        {
+          "id": "scatter-jitter-group",
+          "title": "Grouped jitter plot",
+          "preview": "scripts/scatter/jitter_group/preview.png"
+        },
+        {
+          "id": "scatter-beeswarm",
+          "title": "Beeswarm plot",
+          "preview": "scripts/scatter/beeswarm/preview.png"
+        },
+        {
+          "id": "scatter-beeswarm-group",
+          "title": "Grouped beeswarm plot",
+          "preview": "scripts/scatter/beeswarm_group/preview.png"
+        },
+        {
+          "id": "scatter-cleveland",
+          "title": "Cleveland dot plot",
+          "preview": "scripts/scatter/cleveland/preview.png"
+        },
+        {
+          "id": "scatter-rank",
+          "title": "Ranked lollipop / score plot",
+          "preview": "scripts/scatter/rank/preview.png"
+        },
+        {
+          "id": "scatter-lollipop-delta",
+          "title": "Signed lollipop with p-value size",
+          "preview": "scripts/scatter/lollipop_delta/preview.png"
+        },
+        {
+          "id": "scatter-lollipop-polar",
+          "title": "Polar lollipop plot",
+          "preview": "scripts/scatter/lollipop_polar/preview.png"
+        },
+        {
+          "id": "scatter-lollipop-radial",
+          "title": "Radial lollipop plot",
+          "preview": "scripts/scatter/lollipop_radial/preview.png"
+        },
+        {
+          "id": "scatter-lollipop-circular",
+          "title": "Circular lollipop with error bars",
+          "preview": "scripts/scatter/lollipop_circular/preview.png"
+        },
+        {
+          "id": "scatter-single",
+          "title": "Single-axis bubble strip",
+          "preview": "scripts/scatter/single/preview.png"
+        },
+        {
+          "id": "scatter-dumbbell",
+          "title": "Dumbbell plot",
+          "preview": "scripts/scatter/dumbbell/preview.png"
+        },
+        {
+          "id": "scatter-dumbbell-groups",
+          "title": "Multi-group dumbbell plot",
+          "preview": "scripts/scatter/dumbbell_groups/preview.png"
+        },
+        {
+          "id": "scatter-dumbbell-horizontal",
+          "title": "Horizontal dumbbell plot",
+          "preview": "scripts/scatter/dumbbell_horizontal/preview.png"
+        },
+        {
+          "id": "scatter-dumbbell-rect",
+          "title": "Rectangular dumbbell plot",
+          "preview": "scripts/scatter/dumbbell_rect/preview.png"
+        },
+        {
+          "id": "scatter-dumbbell-region",
+          "title": "Dumbbell with mean-SD region",
+          "preview": "scripts/scatter/dumbbell_region/preview.png"
+        },
+        {
+          "id": "scatter-paired",
+          "title": "Paired before-after scatter",
+          "preview": "scripts/scatter/paired/preview.png"
+        },
+        {
+          "id": "scatter-diagonal",
+          "title": "Diagonal comparison scatter",
+          "preview": "scripts/scatter/diagonal/preview.png"
+        },
+        {
+          "id": "scatter-one2many",
+          "title": "One-to-many correlation scatter",
+          "preview": "scripts/scatter/one2many/preview.png"
+        },
+        {
+          "id": "scatter-bezier",
+          "title": "Bezier-linked scatter",
+          "preview": "scripts/scatter/bezier/preview.png"
+        },
+        {
+          "id": "scatter-svg",
+          "title": "Scatter with SVG glyphs",
+          "preview": "scripts/scatter/svg/preview.png"
+        }
+      ]
+    },
+    {
+      "id": "heatmap",
+      "title": "Heatmaps and matrix displays",
+      "templates": [
+        {
+          "id": "heatmap-basic",
+          "title": "Basic heatmap",
+          "preview": "scripts/heatmap/basic/preview.png"
+        },
+        {
+          "id": "heatmap-cluster-basic",
+          "title": "Clustered heatmap",
+          "preview": "scripts/heatmap/cluster_basic/preview.png"
+        },
+        {
+          "id": "heatmap-cluster-block",
+          "title": "Clustered heatmap with cutree blocks",
+          "preview": "scripts/heatmap/cluster_block/preview.png"
+        },
+        {
+          "id": "heatmap-enrichment-zoom",
+          "title": "DE heatmap with aligned enrichment zooms",
+          "preview": "scripts/heatmap/enrichment_zoom/preview.png"
+        },
+        {
+          "id": "heatmap-enrichment-terms",
+          "title": "Term-by-group enrichment heatmap",
+          "preview": "scripts/heatmap/enrichment_terms/preview.png"
+        },
+        {
+          "id": "heatmap-signif",
+          "title": "Correlation heatmap with significance marks",
+          "preview": "scripts/heatmap/signif/preview.png"
+        },
+        {
+          "id": "heatmap-corr-grouped",
+          "title": "Grouped lower-triangle correlation heatmap",
+          "preview": "scripts/heatmap/corr_grouped/preview.png"
+        },
+        {
+          "id": "heatmap-corr-rotate",
+          "title": "Rotated triangular correlation heatmap",
+          "preview": "scripts/heatmap/corr_rotate/preview.png"
+        },
+        {
+          "id": "heatmap-corr-dot",
+          "title": "Association-dot heatmap",
+          "preview": "scripts/heatmap/corr_dot/preview.png"
+        },
+        {
+          "id": "heatmap-corr-bubble",
+          "title": "Correlation bubble grid with stars",
+          "preview": "scripts/heatmap/corr_bubble/preview.png"
+        },
+        {
+          "id": "heatmap-corr-triangle",
+          "title": "Diagonal-split correlation heatmap",
+          "preview": "scripts/heatmap/corr_triangle/preview.png"
+        },
+        {
+          "id": "heatmap-shape",
+          "title": "Star-cell correlation triangle",
+          "preview": "scripts/heatmap/shape/preview.png"
+        },
+        {
+          "id": "heatmap-two",
+          "title": "Two-set correlation heatmap",
+          "preview": "scripts/heatmap/two/preview.png"
+        },
+        {
+          "id": "heatmap-two-shape",
+          "title": "Two-set heatmap with shape overlay",
+          "preview": "scripts/heatmap/two_shape/preview.png"
+        },
+        {
+          "id": "heatmap-mantel",
+          "title": "Mantel-style correlation heatmap",
+          "preview": "scripts/heatmap/mantel/preview.png"
+        },
+        {
+          "id": "heatmap-mantel-size",
+          "title": "Mantel heatmap with sized links",
+          "preview": "scripts/heatmap/mantel_size/preview.png"
+        },
+        {
+          "id": "heatmap-mutation-energy",
+          "title": "Saturation mutation energy heatmap",
+          "preview": "scripts/heatmap/mutation_energy/preview.png"
+        },
+        {
+          "id": "heatmap-oncoprint",
+          "title": "Gene × sample oncoprint",
+          "preview": "scripts/heatmap/oncoprint/preview.png"
+        },
+        {
+          "id": "heatmap-circos-split",
+          "title": "Group-split circular heatmap",
+          "preview": "scripts/heatmap/circos_split/preview.png"
+        }
+      ]
+    },
+    {
+      "id": "bar",
+      "title": "Bar-based comparisons",
+      "templates": [
+        {
+          "id": "bar-basic",
+          "title": "Basic bar chart",
+          "preview": "scripts/bar/basic/preview.png"
+        },
+        {
+          "id": "bar-group",
+          "title": "Grouped bar chart",
+          "preview": "scripts/bar/group/preview.png"
+        },
+        {
+          "id": "bar-stack",
+          "title": "Stacked bar chart",
+          "preview": "scripts/bar/stack/preview.png"
+        },
+        {
+          "id": "bar-percent",
+          "title": "Percent stacked bar chart",
+          "preview": "scripts/bar/percent/preview.png"
+        },
+        {
+          "id": "bar-errorbar",
+          "title": "Bar chart with error bars",
+          "preview": "scripts/bar/errorbar/preview.png"
+        },
+        {
+          "id": "bar-break",
+          "title": "Bar chart with axis break",
+          "preview": "scripts/bar/break/preview.png"
+        },
+        {
+          "id": "bar-waterfall",
+          "title": "Waterfall chart",
+          "preview": "scripts/bar/waterfall/preview.png"
+        },
+        {
+          "id": "bar-butterfly",
+          "title": "Butterfly / diverging bar chart",
+          "preview": "scripts/bar/butterfly/preview.png"
+        },
+        {
+          "id": "bar-opposite",
+          "title": "Opposite-direction bar chart",
+          "preview": "scripts/bar/opposite/preview.png"
+        },
+        {
+          "id": "bar-waffle",
+          "title": "Waffle chart",
+          "preview": "scripts/bar/waffle/preview.png"
+        },
+        {
+          "id": "bar-svg-icon",
+          "title": "Horizontal bars with SVG category marks",
+          "preview": "scripts/bar/svg_icon/preview.png"
+        },
+        {
+          "id": "bar-radial",
+          "title": "Radial bar chart",
+          "preview": "scripts/bar/radial/preview.png"
+        },
+        {
+          "id": "bar-radial-groups",
+          "title": "Grouped radial bar chart",
+          "preview": "scripts/bar/radial_groups/preview.png"
+        },
+        {
+          "id": "bar-polar-horizontal",
+          "title": "Polar horizontal bars",
+          "preview": "scripts/bar/polar_horizontal/preview.png"
+        },
+        {
+          "id": "bar-polar-vertical",
+          "title": "Polar vertical bars",
+          "preview": "scripts/bar/polar_vertical/preview.png"
+        },
+        {
+          "id": "bar-polar-stack",
+          "title": "Polar stacked bars",
+          "preview": "scripts/bar/polar_stack/preview.png"
+        },
+        {
+          "id": "bar-polar-stack-ring",
+          "title": "Polar stacked ring bars",
+          "preview": "scripts/bar/polar_stack_ring/preview.png"
+        },
+        {
+          "id": "bar-polar-sector",
+          "title": "Polar sector bars",
+          "preview": "scripts/bar/polar_sector/preview.png"
+        },
+        {
+          "id": "bar-enrichment-points",
+          "title": "Enrichment bars with gene-ratio points",
+          "preview": "scripts/bar/enrichment_points/preview.png"
+        },
+        {
+          "id": "bar-enrichment-dot",
+          "title": "Enrichment dotplot",
+          "preview": "scripts/bar/enrichment_dot/preview.png"
+        },
+        {
+          "id": "bar-enrichment-genes",
+          "title": "Enrichment bars by gene count",
+          "preview": "scripts/bar/enrichment_genes/preview.png"
+        },
+        {
+          "id": "bar-enrichment-groups",
+          "title": "Grouped enrichment bars",
+          "preview": "scripts/bar/enrichment_groups/preview.png"
+        },
+        {
+          "id": "bar-enrichment-expand",
+          "title": "Enrichment bars with expanded category headers",
+          "preview": "scripts/bar/enrichment_expand/preview.png"
+        },
+        {
+          "id": "bar-upset",
+          "title": "UpSet combination matrix",
+          "preview": "scripts/bar/upset/preview.png"
+        },
+        {
+          "id": "bar-venn",
+          "title": "Overlapping Venn circles",
+          "preview": "scripts/bar/venn/preview.png"
+        },
+        {
+          "id": "bar-flower",
+          "title": "Multi-set flower / petal diagram",
+          "preview": "scripts/bar/flower/preview.png"
+        },
+        {
+          "id": "bar-swimmer",
+          "title": "Swimmer plot of patient treatment lanes",
+          "preview": "scripts/bar/swimmer/preview.png"
+        }
+      ]
+    },
+    {
+      "id": "boxplot",
+      "title": "Distribution and summary plots",
+      "templates": [
+        {
+          "id": "boxplot-basic",
+          "title": "Basic boxplot",
+          "preview": "scripts/boxplot/basic/preview.png"
+        },
+        {
+          "id": "boxplot-group",
+          "title": "Grouped boxplot",
+          "preview": "scripts/boxplot/group/preview.png"
+        },
+        {
+          "id": "boxplot-violin",
+          "title": "Violin plot",
+          "preview": "scripts/boxplot/violin/preview.png"
+        },
+        {
+          "id": "boxplot-point",
+          "title": "Boxplot with points",
+          "preview": "scripts/boxplot/point/preview.png"
+        },
+        {
+          "id": "boxplot-round",
+          "title": "Rounded boxplot",
+          "preview": "scripts/boxplot/round/preview.png"
+        },
+        {
+          "id": "boxplot-paired",
+          "title": "Paired boxplot",
+          "preview": "scripts/boxplot/paired/preview.png"
+        },
+        {
+          "id": "boxplot-bezier-point",
+          "title": "Boxplot with Bezier pair links",
+          "preview": "scripts/boxplot/bezier_point/preview.png"
+        },
+        {
+          "id": "boxplot-differential-expression",
+          "title": "Differential-expression boxplot",
+          "preview": "scripts/boxplot/differential_expression/preview.png"
+        },
+        {
+          "id": "boxplot-differential-two",
+          "title": "Two-panel differential boxplot",
+          "preview": "scripts/boxplot/differential_two/preview.png"
+        },
+        {
+          "id": "boxplot-differential-facet",
+          "title": "Faceted differential boxplot",
+          "preview": "scripts/boxplot/differential_facet/preview.png"
+        },
+        {
+          "id": "boxplot-differential-bg",
+          "title": "Banded two-level differential boxplot",
+          "preview": "scripts/boxplot/differential_bg/preview.png"
+        },
+        {
+          "id": "boxplot-raincloud",
+          "title": "Raincloud plot",
+          "preview": "scripts/boxplot/raincloud/preview.png"
+        },
+        {
+          "id": "boxplot-raincloud-vertical",
+          "title": "Vertical raincloud plot",
+          "preview": "scripts/boxplot/raincloud_vertical/preview.png"
+        },
+        {
+          "id": "boxplot-raincloud-differential",
+          "title": "Differential raincloud plot",
+          "preview": "scripts/boxplot/raincloud_differential/preview.png"
+        },
+        {
+          "id": "boxplot-polar",
+          "title": "Polar boxplot",
+          "preview": "scripts/boxplot/polar/preview.png"
+        },
+        {
+          "id": "boxplot-polar-heatmap",
+          "title": "Polar heatmap with outer violins",
+          "preview": "scripts/boxplot/polar_heatmap/preview.png"
+        }
+      ]
+    },
+    {
+      "id": "line",
+      "title": "Lines, areas, and time series",
+      "templates": [
+        {
+          "id": "line-basic",
+          "title": "Basic line chart",
+          "preview": "scripts/line/basic/preview.png"
+        },
+        {
+          "id": "line-group",
+          "title": "Grouped line chart",
+          "preview": "scripts/line/group/preview.png"
+        },
+        {
+          "id": "line-stack",
+          "title": "Stacked area chart",
+          "preview": "scripts/line/stack/preview.png"
+        },
+        {
+          "id": "line-bump",
+          "title": "Bump chart",
+          "preview": "scripts/line/bump/preview.png"
+        },
+        {
+          "id": "line-highlight",
+          "title": "Line with peak highlight",
+          "preview": "scripts/line/highlight/preview.png"
+        },
+        {
+          "id": "line-double",
+          "title": "Dual-axis hydrograph",
+          "preview": "scripts/line/double/preview.png"
+        },
+        {
+          "id": "line-independent",
+          "title": "Two-panel independent time series",
+          "preview": "scripts/line/independent/preview.png"
+        },
+        {
+          "id": "line-survival",
+          "title": "Survival / Kaplan-Meier curve",
+          "preview": "scripts/line/survival/preview.png"
+        },
+        {
+          "id": "line-ridge",
+          "title": "Ridgeline / joyplot",
+          "preview": "scripts/line/ridge/preview.png"
+        }
+      ]
+    },
+    {
+      "id": "pie",
+      "title": "Part-to-whole circular charts",
+      "templates": [
+        {
+          "id": "pie-basic",
+          "title": "Basic pie chart",
+          "preview": "scripts/pie/basic/preview.png"
+        },
+        {
+          "id": "pie-doughnut",
+          "title": "Doughnut chart",
+          "preview": "scripts/pie/doughnut/preview.png"
+        },
+        {
+          "id": "pie-doughnut-round",
+          "title": "Rounded doughnut chart",
+          "preview": "scripts/pie/doughnut_round/preview.png"
+        },
+        {
+          "id": "pie-doughnut-bar",
+          "title": "Doughnut with outer radial bars",
+          "preview": "scripts/pie/doughnut_bar/preview.png"
+        },
+        {
+          "id": "pie-half",
+          "title": "Half-pie chart",
+          "preview": "scripts/pie/half/preview.png"
+        },
+        {
+          "id": "pie-nest",
+          "title": "Nested two-ring pie",
+          "preview": "scripts/pie/nest/preview.png"
+        },
+        {
+          "id": "pie-combine",
+          "title": "Combined nested pie",
+          "preview": "scripts/pie/combine/preview.png"
+        },
+        {
+          "id": "pie-nightingale",
+          "title": "Nightingale rose chart",
+          "preview": "scripts/pie/nightingale/preview.png"
+        }
+      ]
+    },
+    {
+      "id": "radar",
+      "title": "Radar and spider charts",
+      "templates": [
+        {
+          "id": "radar-basic",
+          "title": "Basic radar chart",
+          "preview": "scripts/radar/basic/preview.png"
+        },
+        {
+          "id": "radar-group",
+          "title": "Faceted radar charts",
+          "preview": "scripts/radar/group/preview.png"
+        }
+      ]
+    },
+    {
+      "id": "graph",
+      "title": "Node-link networks",
+      "templates": [
+        {
+          "id": "graph-basic",
+          "title": "Basic node-link graph",
+          "preview": "scripts/graph/basic/preview.png"
+        },
+        {
+          "id": "graph-force",
+          "title": "Force-directed graph",
+          "preview": "scripts/graph/force/preview.png"
+        },
+        {
+          "id": "graph-stress",
+          "title": "Stress-layout network",
+          "preview": "scripts/graph/stress/preview.png"
+        },
+        {
+          "id": "graph-circular",
+          "title": "Circular network layout",
+          "preview": "scripts/graph/circular/preview.png"
+        },
+        {
+          "id": "graph-circular-concentric",
+          "title": "Concentric dual-ring network",
+          "preview": "scripts/graph/circular_concentric/preview.png"
+        },
+        {
+          "id": "graph-chord",
+          "title": "Weighted Circos chord",
+          "preview": "scripts/graph/chord/preview.png"
+        },
+        {
+          "id": "graph-arc",
+          "title": "Linear arc diagram",
+          "preview": "scripts/graph/arc/preview.png"
+        },
+        {
+          "id": "graph-hive",
+          "title": "Hive plot",
+          "preview": "scripts/graph/hive/preview.png"
+        },
+        {
+          "id": "graph-focus",
+          "title": "Focus network",
+          "preview": "scripts/graph/focus/preview.png"
+        },
+        {
+          "id": "graph-fabric",
+          "title": "BioFabric network",
+          "preview": "scripts/graph/fabric/preview.png"
+        },
+        {
+          "id": "graph-matrix",
+          "title": "Adjacency matrix",
+          "preview": "scripts/graph/matrix/preview.png"
+        },
+        {
+          "id": "graph-cartesian",
+          "title": "Cartesian network layout",
+          "preview": "scripts/graph/cartesian/preview.png"
+        }
+      ]
+    },
+    {
+      "id": "sankey",
+      "title": "Sankey flow diagrams",
+      "templates": [
+        {
+          "id": "sankey-basic",
+          "title": "Two-level Sankey diagram",
+          "preview": "scripts/sankey/basic/preview.png"
+        },
+        {
+          "id": "sankey-level",
+          "title": "Multi-level Sankey diagram",
+          "preview": "scripts/sankey/level/preview.png"
+        },
+        {
+          "id": "sankey-parallel-sets",
+          "title": "Parallel-sets diagram",
+          "preview": "scripts/sankey/parallel_sets/preview.png"
+        }
+      ]
+    },
+    {
+      "id": "sunburst",
+      "title": "Sunburst hierarchy rings",
+      "templates": [
+        {
+          "id": "sunburst-basic",
+          "title": "Basic sunburst chart",
+          "preview": "scripts/sunburst/basic/preview.png"
+        },
+        {
+          "id": "sunburst-advanced",
+          "title": "Layered sunburst with outside labels",
+          "preview": "scripts/sunburst/advanced/preview.png"
+        }
+      ]
+    },
+    {
+      "id": "tree",
+      "title": "Trees and dendrograms",
+      "templates": [
+        {
+          "id": "tree-basic",
+          "title": "Vertical tree / dendrogram",
+          "preview": "scripts/tree/basic/preview.png"
+        },
+        {
+          "id": "tree-dendrogram",
+          "title": "Clustering dendrogram",
+          "preview": "scripts/tree/dendrogram/preview.png"
+        },
+        {
+          "id": "tree-group",
+          "title": "Grouped forest of trees",
+          "preview": "scripts/tree/group/preview.png"
+        },
+        {
+          "id": "tree-treemap",
+          "title": "Hierarchical treemap",
+          "preview": "scripts/tree/treemap/preview.png"
+        },
+        {
+          "id": "tree-circlepack",
+          "title": "Circle packing",
+          "preview": "scripts/tree/circlepack/preview.png"
+        },
+        {
+          "id": "tree-partition",
+          "title": "Icicle / rectangular partition",
+          "preview": "scripts/tree/partition/preview.png"
+        },
+        {
+          "id": "tree-enrichment-ring",
+          "title": "Classification tree with outer enrichment track",
+          "preview": "scripts/tree/enrichment_ring/preview.png"
+        }
+      ]
+    },
+    {
+      "id": "ideogram",
+      "title": "Chromosome ideograms and gene models",
+      "templates": [
+        {
+          "id": "ideogram-gene",
+          "title": "Transcript gene-structure tracks",
+          "preview": "scripts/ideogram/gene/preview.png"
+        },
+        {
+          "id": "ideogram-karyotype",
+          "title": "Chromosome G-banding ideogram",
+          "preview": "scripts/ideogram/karyotype/preview.png"
+        },
+        {
+          "id": "ideogram-loci",
+          "title": "Gene loci on chromosome ideograms",
+          "preview": "scripts/ideogram/loci/preview.png"
+        },
+        {
+          "id": "ideogram-density",
+          "title": "Ideogram with continuous density fill",
+          "preview": "scripts/ideogram/density/preview.png"
+        },
+        {
+          "id": "ideogram-coverage",
+          "title": "Genomic locus coverage browser",
+          "preview": "scripts/ideogram/coverage/preview.png"
+        },
+        {
+          "id": "ideogram-lollipop",
+          "title": "Protein mutation lollipop",
+          "preview": "scripts/ideogram/lollipop/preview.png"
+        },
+        {
+          "id": "ideogram-dandelion",
+          "title": "Dense-site dandelion plot",
+          "preview": "scripts/ideogram/dandelion/preview.png"
+        },
+        {
+          "id": "ideogram-circos",
+          "title": "Multi-track genomic Circos",
+          "preview": "scripts/ideogram/circos/preview.png"
+        },
+        {
+          "id": "ideogram-synteny",
+          "title": "Two-genome synteny Circos",
+          "preview": "scripts/ideogram/synteny/preview.png"
+        },
+        {
+          "id": "ideogram-circos-heatmap",
+          "title": "Genomic Circos heatmap with connectors",
+          "preview": "scripts/ideogram/circos_heatmap/preview.png"
+        },
+        {
+          "id": "ideogram-nested",
+          "title": "Nested Circos overview and zoom",
+          "preview": "scripts/ideogram/nested/preview.png"
+        }
+      ]
+    }
+  ]
+}
