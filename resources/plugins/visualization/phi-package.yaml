@@ -1,7 +1,7 @@
 schemaVersion: 1
 id: visualization
 type: plugin
-version: 1.1.0
+version: 1.1.1
 title: 科研绘图
 summary: 用模板生成可直接发表的组学图表，并支持把新图做成可复用模板；配有专属绘图智能体。
 toolPrefix: viz

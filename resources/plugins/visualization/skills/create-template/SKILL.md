@@ -176,6 +176,7 @@ Run these from the installed omics-visualization skill root (sibling
 under `create-template`.
 
 ```bash
+python3 scripts/build_template_gallery.py
 python3 scripts/validate_template_contracts.py --json
 python3 scripts/qa_single_plot.py scripts/<family>/<slug>/preview.png --json
 ```

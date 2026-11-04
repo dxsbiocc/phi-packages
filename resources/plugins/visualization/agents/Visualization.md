@@ -109,6 +109,7 @@ The library to edit is the installed sibling skill `omics-visualization` (plugin
 Choose extend-versus-new-id before minting a template-id. A CONFIG or layout flag is not a new id. Render the preview, then validate from the installed omics-visualization skill root:
 
 ```bash
+python3 scripts/build_template_gallery.py
 python3 scripts/validate_template_contracts.py --json
 python3 scripts/qa_single_plot.py scripts/<family>/<slug>/preview.png --json
 ```

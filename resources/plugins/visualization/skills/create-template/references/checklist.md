@@ -93,6 +93,7 @@ Rscript scripts/<family>/<slug>/plot.R \
   scripts/<family>/<slug>/preview.png
 
 # validate
+python3 scripts/build_template_gallery.py
 python3 scripts/validate_template_contracts.py --json
 python3 scripts/qa_single_plot.py scripts/<family>/<slug>/preview.png --json
 ```
