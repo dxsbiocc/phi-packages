@@ -1,0 +1,47 @@
+{
+  "header": {
+    "type": "esummary",
+    "version": "0.3"
+  },
+  "result": {
+    "uids": [
+      "5508784"
+    ],
+    "5508784": {
+      "uid": "5508784",
+      "pubdate": "2017 Jun 15",
+      "epubdate": "2017 May 4",
+      "source": "Cell",
+      "authors": [
+        {
+          "name": "Zheng C",
+          "authtype": "Author"
+        },
+        {
+          "name": "Zheng L",
+          "authtype": "Author"
+        }
+      ],
+      "title": "Landscape of Infiltrating T Cells in Liver Cancer Revealed by Single-Cell Sequencing",
+      "volume": "169",
+      "issue": "7",
+      "pages": "1342-1356.e16",
+      "articleids": [
+        {
+          "idtype": "pmid",
+          "value": "28622514"
+        },
+        {
+          "idtype": "pmcid",
+          "value": "PMC5508784"
+        },
+        {
+          "idtype": "doi",
+          "value": "10.1016/j.cell.2017.05.035"
+        }
+      ],
+      "fulljournalname": "Cell",
+      "sortdate": "2017/06/15 00:00"
+    }
+  }
+}

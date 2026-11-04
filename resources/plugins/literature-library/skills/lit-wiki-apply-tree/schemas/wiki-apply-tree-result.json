@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["ok", "mode", "wrote"],
+  "properties": {
+    "ok": { "type": "boolean" },
+    "mode": { "const": "live" },
+    "wrote": { "type": "boolean" },
+    "applied": { "type": "array" }
+  },
+  "additionalProperties": true
+}

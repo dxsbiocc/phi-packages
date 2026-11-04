@@ -1,0 +1,27 @@
+{
+  "meta": {"count": 2},
+  "results": [
+    {
+      "id": "https://openalex.org/W901",
+      "doi": "https://doi.org/10.1000/cite.901",
+      "display_name": "Paper citing Zheng 901",
+      "publication_year": 2020,
+      "type": "article",
+      "ids": {"openalex": "https://openalex.org/W901", "doi": "https://doi.org/10.1000/cite.901"},
+      "authorships": [{"author": {"display_name": "Cite Nine"}}],
+      "primary_location": {"source": {"display_name": "New Journal"}, "landing_page_url": null},
+      "abstract_inverted_index": {"Citing": [0]}
+    },
+    {
+      "id": "https://openalex.org/W902",
+      "doi": "https://doi.org/10.1000/cite.902",
+      "display_name": "Paper citing Zheng 902",
+      "publication_year": 2021,
+      "type": "article",
+      "ids": {"openalex": "https://openalex.org/W902", "doi": "https://doi.org/10.1000/cite.902"},
+      "authorships": [{"author": {"display_name": "Cite Ten"}}],
+      "primary_location": {"source": {"display_name": "New Journal"}, "landing_page_url": null},
+      "abstract_inverted_index": null
+    }
+  ]
+}

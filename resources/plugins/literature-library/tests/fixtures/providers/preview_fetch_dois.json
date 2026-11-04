@@ -1,0 +1,22 @@
+{
+  "dois": {
+    "10.1038/s41586-020-0001-x": {
+      "doi": "10.1038/s41586-020-0001-x",
+      "pmid": "32000001",
+      "title": "Amazing Exhaustion Study In Mice And Humans",
+      "abstract": "Journal version abstract for preview_fetch mock.",
+      "authors": [{"family": "Smith", "given": "A"}],
+      "year": 2020,
+      "venue": "Nature",
+      "type": "journal-article"
+    },
+    "10.1101/2020.01.01.123456": {
+      "doi": "10.1101/2020.01.01.123456",
+      "title": "Amazing Exhaustion Study In Mice And Humans",
+      "abstract": "Preprint abstract for preview_fetch mock.",
+      "authors": [{"family": "Smith", "given": "A"}],
+      "year": 2020,
+      "type": "preprint"
+    }
+  }
+}

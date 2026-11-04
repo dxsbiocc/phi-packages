@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["ok"],
+  "properties": {
+    "ok": { "type": "boolean" },
+    "run_id": {},
+    "collection_id": {},
+    "hits": { "type": "object" },
+    "collection": { "type": "object" },
+    "ratios": { "type": "object" }
+  },
+  "additionalProperties": true
+}

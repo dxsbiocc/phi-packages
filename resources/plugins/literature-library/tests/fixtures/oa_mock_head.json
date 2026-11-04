@@ -1,0 +1,19 @@
+{
+  "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5482351/pdf/nihms862.pdf": {
+    "http_status": 200,
+    "content_type": "application/pdf",
+    "final_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5482351/pdf/nihms862.pdf"
+  },
+  "https://paywall.example/login?article=1": {
+    "http_status": 403,
+    "content_type": "text/html"
+  },
+  "https://publisher.example/article/123": {
+    "http_status": 200,
+    "content_type": "text/html; charset=utf-8"
+  },
+  "*": {
+    "oa_status": "unknown",
+    "http_status": 0
+  }
+}

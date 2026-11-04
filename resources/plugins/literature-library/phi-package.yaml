@@ -1,0 +1,38 @@
+# Packaged release 0.6.0 — first landing in phi-packages (promoted from 0.6.0-draft).
+schemaVersion: 1
+id: literature-library
+type: plugin
+version: 0.6.0
+title: Literature Library
+summary: >-
+  Project-scoped literature library: HTTP search by default, optional MCP
+  client (no in-plugin MCP server), PDF extract/OCR soft-fail, path-watch
+  rebind, schema v6, and own-account institutional access. No commercial
+  gateways, embeddings, or plugin API keys.
+toolPrefix: lit
+components:
+  agents:
+    - agents/LiteratureLibrary.md
+  skills:
+    - skills/lit-db
+    - skills/lit-collection
+    - skills/lit-run-config
+    - skills/lit-search
+    - skills/lit-ingest
+    - skills/lit-institutional
+    - skills/lit-enrich
+    - skills/lit-query
+    - skills/lit-export
+    - skills/lit-expand
+    - skills/lit-wiki-lib
+    - skills/lit-wiki-init
+    - skills/lit-wiki-ingest
+    - skills/lit-wiki-lint
+    - skills/lit-wiki-query
+    - skills/lit-wiki-suggest-tree
+    - skills/lit-wiki-apply-tree
+    - skills/lit-versions
+    - skills/lit-coverage
+    - skills/lit-run-close
+    - skills/lit-review-queue
+# No environments: skills use phi:python@1.

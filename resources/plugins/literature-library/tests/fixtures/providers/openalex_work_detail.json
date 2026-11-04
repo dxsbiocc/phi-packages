@@ -1,0 +1,18 @@
+{
+  "id": "https://openalex.org/W2741809807",
+  "doi": "https://doi.org/10.1016/j.cell.2017.05.035",
+  "display_name": "Landscape of Infiltrating T Cells in Liver Cancer Revealed by Single-Cell Sequencing",
+  "publication_year": 2017,
+  "type": "article",
+  "ids": {
+    "openalex": "https://openalex.org/W2741809807",
+    "doi": "https://doi.org/10.1016/j.cell.2017.05.035",
+    "pmid": "https://pubmed.ncbi.nlm.nih.gov/28622514"
+  },
+  "authorships": [{"author": {"display_name": "Chunhong Zheng"}}],
+  "primary_location": {"source": {"display_name": "Cell"}, "landing_page_url": "https://doi.org/10.1016/j.cell.2017.05.035"},
+  "abstract_inverted_index": {"Landscape": [0], "of": [1], "T": [2]},
+  "cited_by_count": 2500,
+  "related_works": ["https://openalex.org/W111", "https://openalex.org/W222"],
+  "referenced_works": ["https://openalex.org/W333", "https://openalex.org/W444", "https://openalex.org/W555"]
+}

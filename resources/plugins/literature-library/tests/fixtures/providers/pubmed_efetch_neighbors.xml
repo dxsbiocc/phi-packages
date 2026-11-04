@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE PubmedArticleSet PUBLIC "-//NLM//DTD PubMedArticle, 1st January 2019//EN" "https://dtd.nlm.nih.gov/ncbi/pubmed/out/pubmed_190101.dtd">
+<PubmedArticleSet>
+  <PubmedArticle>
+    <MedlineCitation>
+      <PMID>30092201</PMID>
+      <Article>
+        <Journal><Title>Cell</Title><JournalIssue><PubDate><Year>2018</Year></PubDate></JournalIssue></Journal>
+        <ArticleTitle>Related T cell exhaustion paper A</ArticleTitle>
+        <Abstract><AbstractText>Abstract A for expand similar test.</AbstractText></Abstract>
+        <AuthorList><Author><LastName>Alpha</LastName><ForeName>A</ForeName></Author></AuthorList>
+        <ELocationID EIdType="doi">10.1000/expand.a</ELocationID>
+      </Article>
+    </MedlineCitation>
+  </PubmedArticle>
+  <PubmedArticle>
+    <MedlineCitation>
+      <PMID>31028727</PMID>
+      <Article>
+        <Journal><Title>Nature</Title><JournalIssue><PubDate><Year>2019</Year></PubDate></JournalIssue></Journal>
+        <ArticleTitle>Related T cell exhaustion paper B</ArticleTitle>
+        <Abstract><AbstractText>Abstract B for expand similar test.</AbstractText></Abstract>
+        <AuthorList><Author><LastName>Beta</LastName><ForeName>B</ForeName></Author></AuthorList>
+        <ELocationID EIdType="doi">10.1000/expand.b</ELocationID>
+      </Article>
+    </MedlineCitation>
+  </PubmedArticle>
+</PubmedArticleSet>

@@ -1,0 +1,4 @@
+# DOI / PMID list fixture
+doi:10.1016/j.cell.2017.05.035
+PMID:28622514
+10.1038/s41586-019-0969-x
