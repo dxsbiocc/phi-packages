@@ -50,6 +50,7 @@ GENERIC_TERMS = frozenset(
 )
 EXAMPLE_DATA_EXTENSIONS = {".tsv", ".csv"}
 NOT_ASSETS = {"plot.R", "preview.png"}
+PREVIEW_FILE = re.compile(r"^preview(?:_[A-Za-z0-9][A-Za-z0-9_-]{0,63})?\.png$")
 
 HEADER_LABEL = re.compile(r"^# ([A-Z][A-Za-z-]*(?: [a-z]+)*):[ \t]*(.*)$")
 SECTION_MARKER = re.compile(r"^# (CONFIG|DATA PREPARATION|PLOT|SAVE)\b")
@@ -309,7 +310,11 @@ def copy_assets(template_script: str, target_dir: str) -> list[str]:
     names = sorted(
         name
         for name in os.listdir(source_dir)
-        if name not in NOT_ASSETS and os.path.splitext(name)[1].lower() not in EXAMPLE_DATA_EXTENSIONS
+        if (
+            name not in NOT_ASSETS
+            and not PREVIEW_FILE.fullmatch(name)
+            and os.path.splitext(name)[1].lower() not in EXAMPLE_DATA_EXTENSIONS
+        )
     )
     for name in names:
         copy_entry(os.path.join(source_dir, name), os.path.join(target_dir, name))
@@ -348,7 +353,8 @@ def score_template(template: dict[str, Any], terms: list[str]) -> int:
 
 
 def is_installed_preview(path: str) -> bool:
-    if not os.path.isabs(path) or os.path.basename(path) != "preview.png":
+    file_name = os.path.basename(path)
+    if not os.path.isabs(path) or not PREVIEW_FILE.fullmatch(file_name):
         return False
     try:
         root = os.path.realpath(SKILL_ROOT)
@@ -357,7 +363,7 @@ def is_installed_preview(path: str) -> bool:
         return (
             len(parts) == 4
             and parts[0] == "scripts"
-            and parts[3] == "preview.png"
+            and parts[3] == file_name
             and os.path.isfile(real)
         )
     except OSError:
