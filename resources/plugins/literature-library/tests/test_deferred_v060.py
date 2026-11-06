@@ -18,10 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 FX = ROOT / "tests" / "fixtures"
 REEFV = ROOT.parent / "research-evidence"
 
-sys.path.insert(0, str(ROOT / "skills" / "lit-db" / "scripts"))
-sys.path.insert(0, str(ROOT / "skills" / "lit-ingest" / "scripts"))
-sys.path.insert(0, str(ROOT / "skills" / "lit-search" / "scripts"))
-sys.path.insert(0, str(ROOT / "skills" / "lit-institutional" / "scripts"))
+sys.path.insert(0, str(ROOT / "skills" / "literature-library" / "scripts"))
 
 from db import SCHEMA_VERSION, init_db, open_db, record_pub_file, utc_now  # noqa: E402
 from pdf_extract import extract_pdf_text, extract_with_pdftotext  # noqa: E402
@@ -288,7 +285,7 @@ class InstitutionalTests(unittest.TestCase):
             self.assertEqual(saml.get("error"), "saml_browser_host_concern")
 
     def test_cli_requires_flag(self):
-        script = ROOT / "skills" / "lit-institutional" / "scripts" / "institutional_access.py"
+        script = ROOT / "skills" / "literature-library" / "scripts" / "institutional_access.py"
         proc = subprocess.run(
             [
                 sys.executable,
@@ -369,7 +366,7 @@ class McpClientTests(unittest.TestCase):
             proc = subprocess.run(
                 [
                     sys.executable,
-                    str(ROOT / "skills" / "lit-search" / "scripts" / "search.py"),
+                    str(ROOT / "skills" / "literature-library" / "scripts" / "search.py"),
                     "--project_root",
                     str(root),
                     "--collection_id",

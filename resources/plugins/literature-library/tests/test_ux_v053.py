@@ -10,10 +10,9 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "skills" / "lit-wiki-lib" / "scripts"))
-sys.path.insert(0, str(ROOT / "skills" / "lit-db" / "scripts"))
-sys.path.insert(0, str(ROOT / "skills" / "lit-ingest" / "scripts"))
-sys.path.insert(0, str(ROOT / "skills" / "lit-wiki-ingest" / "scripts"))
+sys.path.insert(0, str(ROOT / "skills" / "lit-wiki" / "scripts"))
+sys.path.insert(0, str(ROOT / "skills" / "literature-library" / "scripts"))
+sys.path.insert(0, str(ROOT / "skills" / "lit-wiki" / "scripts"))
 
 from wiki_lib import (  # noqa: E402
     init_vault,
@@ -146,8 +145,8 @@ class QueryAliasTests(unittest.TestCase):
             conn.close()
             init_vault(col, collection_id=cid, collection_name="Q")
 
-            q_script = ROOT / "skills" / "lit-query" / "scripts" / "query.py"
-            wq_script = ROOT / "skills" / "lit-wiki-query" / "scripts" / "wiki_query.py"
+            q_script = ROOT / "skills" / "literature-library" / "scripts" / "query.py"
+            wq_script = ROOT / "skills" / "lit-wiki" / "scripts" / "wiki_query.py"
             for script, extra in (
                 (q_script, []),
                 (wq_script, ["--collection_id", cid]),

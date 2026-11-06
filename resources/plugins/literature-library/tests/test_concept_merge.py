@@ -9,8 +9,8 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "skills" / "lit-wiki-lib" / "scripts"))
-sys.path.insert(0, str(ROOT / "skills" / "lit-db" / "scripts"))
+sys.path.insert(0, str(ROOT / "skills" / "lit-wiki" / "scripts"))
+sys.path.insert(0, str(ROOT / "skills" / "literature-library" / "scripts"))
 
 from wiki_lib import (  # noqa: E402
     ingest_publication_to_wiki,

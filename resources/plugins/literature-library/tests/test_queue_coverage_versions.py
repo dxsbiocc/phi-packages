@@ -10,7 +10,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "skills" / "lit-db" / "scripts"))
+sys.path.insert(0, str(ROOT / "skills" / "literature-library" / "scripts"))
 
 from db import (  # noqa: E402
     SCHEMA_VERSION,
@@ -447,7 +447,7 @@ class CliSmokeTests(unittest.TestCase):
             rq = subprocess.check_output(
                 [
                     py,
-                    str(ROOT / "skills/lit-review-queue/scripts/review_queue.py"),
+                    str(ROOT / "skills/literature-library/scripts/review_queue.py"),
                     "--project_root",
                     str(root),
                     "--collection_id",
@@ -460,7 +460,7 @@ class CliSmokeTests(unittest.TestCase):
             cov = subprocess.check_output(
                 [
                     py,
-                    str(ROOT / "skills/lit-coverage/scripts/coverage.py"),
+                    str(ROOT / "skills/literature-library/scripts/coverage.py"),
                     "--project_root",
                     str(root),
                     "--run_id",
@@ -475,7 +475,7 @@ class CliSmokeTests(unittest.TestCase):
             ver = subprocess.check_output(
                 [
                     py,
-                    str(ROOT / "skills/lit-versions/scripts/versions.py"),
+                    str(ROOT / "skills/literature-library/scripts/versions.py"),
                     "--project_root",
                     str(root),
                     "--action",

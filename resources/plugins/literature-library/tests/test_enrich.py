@@ -11,17 +11,15 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "skills" / "lit-db" / "scripts"))
-sys.path.insert(0, str(ROOT / "skills" / "lit-ingest" / "scripts"))
-sys.path.insert(0, str(ROOT / "skills" / "lit-enrich" / "scripts"))
+sys.path.insert(0, str(ROOT / "skills" / "literature-library" / "scripts"))
 
 from db import init_db, open_db  # noqa: E402
 from enrich import enrich_publications, needs_enrich  # noqa: E402
 from ingest import ingest_records, load_records  # noqa: E402
 
-ENRICH = ROOT / "skills" / "lit-enrich" / "scripts" / "enrich.py"
-INGEST = ROOT / "skills" / "lit-ingest" / "scripts" / "ingest.py"
-COL = ROOT / "skills" / "lit-collection" / "scripts" / "collection.py"
+ENRICH = ROOT / "skills" / "literature-library" / "scripts" / "enrich.py"
+INGEST = ROOT / "skills" / "literature-library" / "scripts" / "ingest.py"
+COL = ROOT / "skills" / "literature-library" / "scripts" / "collection.py"
 ZHENG_TITLE = "Landscape of Infiltrating T Cells in Liver Cancer Revealed by Single-Cell Sequencing"
 
 
@@ -118,7 +116,7 @@ class EnrichMockTests(unittest.TestCase):
             self.assertGreater(len(abstract or ""), 200)
 
     def test_compile_request_warns_on_shell(self):
-        sys.path.insert(0, str(ROOT / "skills" / "lit-wiki-lib" / "scripts"))
+        sys.path.insert(0, str(ROOT / "skills" / "lit-wiki" / "scripts"))
         from wiki_llm import build_compile_request  # noqa: WPS433
 
         req = build_compile_request(
