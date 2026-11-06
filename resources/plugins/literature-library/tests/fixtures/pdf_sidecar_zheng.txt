@@ -1,0 +1,10 @@
+---
+title: Landscape of Infiltrating T Cells in Liver Cancer Revealed by Single-Cell Sequencing
+authors: Zheng, Chunhong; Zheng, Liangtao
+year: 2017
+---
+DOI: 10.1016/j.cell.2017.05.035
+PMID: 28622514
+
+This sidecar stands in for PDF text. Detailed characterization of the composition
+and dynamics of T cells in the hepatocellular carcinoma (HCC) microenvironment.

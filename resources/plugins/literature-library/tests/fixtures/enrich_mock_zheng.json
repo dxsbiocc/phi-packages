@@ -1,0 +1,24 @@
+{
+  "pmid:28622514": {
+    "source": "mock",
+    "pmid": "28622514",
+    "doi": "10.1016/j.cell.2017.05.035",
+    "title": "Landscape of Infiltrating T Cells in Liver Cancer Revealed by Single-Cell Sequencing",
+    "abstract": "Systematic interrogation of tumor-infiltrating lymphocytes is key to the development of immunotherapies and the prediction of their clinical responses in cancers. Here, we perform deep single-cell RNA sequencing on 5,063 single T cells isolated from peripheral blood, tumor, and adjacent normal tissues from six hepatocellular carcinoma patients. The transcriptional profiles of these individual cells, coupled with assembled T cell receptor (TCR) sequences, enable us to identify 11 T cell subsets based on their molecular and functional properties and delineate their developmental trajectory. Specific subsets such as exhausted CD8+ T cells and Tregs are preferentially enriched and potentially clonally expanded in hepatocellular carcinoma (HCC), and we identified signature genes for each subset. One of the genes, layilin, is upregulated on activated CD8+ T cells and Tregs and represses the CD8+ T cell functions in vitro. This compendium of transcriptome data provides valuable insights and a rich resource for understanding the immune landscape in cancers.",
+    "authors": ["Zheng, Chunhong", "Zheng, Liangtao", "Yoo, Jae-Kwang"],
+    "year": "2017",
+    "venue": "Cell",
+    "type": "journal-article"
+  },
+  "doi:10.1016/j.cell.2017.05.035": {
+    "source": "mock",
+    "pmid": "28622514",
+    "doi": "10.1016/j.cell.2017.05.035",
+    "title": "Landscape of Infiltrating T Cells in Liver Cancer Revealed by Single-Cell Sequencing",
+    "abstract": "Systematic interrogation of tumor-infiltrating lymphocytes is key to the development of immunotherapies and the prediction of their clinical responses in cancers. Here, we perform deep single-cell RNA sequencing on 5,063 single T cells isolated from peripheral blood, tumor, and adjacent normal tissues from six hepatocellular carcinoma patients. The transcriptional profiles of these individual cells, coupled with assembled T cell receptor (TCR) sequences, enable us to identify 11 T cell subsets based on their molecular and functional properties and delineate their developmental trajectory. Specific subsets such as exhausted CD8+ T cells and Tregs are preferentially enriched and potentially clonally expanded in hepatocellular carcinoma (HCC), and we identified signature genes for each subset. One of the genes, layilin, is upregulated on activated CD8+ T cells and Tregs and represses the CD8+ T cell functions in vitro. This compendium of transcriptome data provides valuable insights and a rich resource for understanding the immune landscape in cancers.",
+    "authors": ["Zheng, Chunhong", "Zheng, Liangtao", "Yoo, Jae-Kwang"],
+    "year": "2017",
+    "venue": "Cell",
+    "type": "journal-article"
+  }
+}

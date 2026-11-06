@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["ok", "mode", "n", "out_path"],
+  "properties": {
+    "ok": { "type": "boolean" },
+    "mode": { "const": "live" },
+    "n": { "type": "integer" },
+    "out_path": { "type": "string" },
+    "format": { "type": "string" }
+  },
+  "additionalProperties": true
+}

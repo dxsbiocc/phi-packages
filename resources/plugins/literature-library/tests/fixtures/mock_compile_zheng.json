@@ -1,0 +1,58 @@
+{
+  "publication_id": "doi:10.1016/j.cell.2017.05.035",
+  "summary": "Zheng et al. map the infiltrating T-cell compartment of hepatocellular carcinoma with deep single-cell RNA-seq, resolving subset structure and trajectories rather than treating TILs as a single pool. The atlas links exhausted and regulatory states to the tumor niche and nominates LAYN as a functionally relevant marker on immunosuppressive T cells.",
+  "key_claims": [
+    "5,063 T cells from blood, tumor, and adjacent liver of six HCC patients were profiled by scRNA-seq.",
+    "Eleven T-cell subsets were defined using transcriptional programs plus assembled TCR sequences.",
+    "Exhausted CD8+ T cells and Tregs are preferentially enriched and potentially clonally expanded in HCC.",
+    "Layilin (LAYN) is upregulated on activated CD8+ T cells and Tregs and can repress CD8+ function in vitro."
+  ],
+  "methods": [
+    "scRNA-seq",
+    "TCR sequencing",
+    "trajectory analysis"
+  ],
+  "concepts": [
+    {
+      "name": "T cell exhaustion",
+      "slug_hint": "t-cell-exhaustion"
+    },
+    {
+      "name": "hepatocellular carcinoma",
+      "slug_hint": "hepatocellular-carcinoma"
+    },
+    {
+      "name": "infiltrating T cells"
+    },
+    {
+      "name": "regulatory T cells"
+    },
+    {
+      "name": "scRNA-seq"
+    }
+  ],
+  "entities": [
+    {
+      "symbol": "LAYN",
+      "name": "layilin",
+      "kind": "gene"
+    },
+    {
+      "symbol": "CD8",
+      "kind": "protein"
+    },
+    {
+      "symbol": "TCR",
+      "name": "T cell receptor",
+      "kind": "complex"
+    }
+  ],
+  "tags": [
+    "HCC",
+    "T cell exhaustion",
+    "scRNA-seq",
+    "LAYN",
+    "TIL"
+  ],
+  "confidence_notes": "mock fixture grounded in Zheng 2017 abstract wording"
+}

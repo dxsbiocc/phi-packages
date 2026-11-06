@@ -1,0 +1,33 @@
+{
+  "id": "https://openalex.org/W999000111",
+  "doi": "https://doi.org/10.1101/2020.01.01.123456",
+  "display_name": "Amazing Exhaustion Study In Mice And Humans",
+  "publication_year": 2020,
+  "type": "preprint",
+  "ids": {
+    "openalex": "https://openalex.org/W999000111",
+    "doi": "https://doi.org/10.1101/2020.01.01.123456"
+  },
+  "authorships": [{"author": {"display_name": "Jane Smith"}}],
+  "primary_location": {
+    "source": {"display_name": "bioRxiv"},
+    "landing_page_url": "https://doi.org/10.1101/2020.01.01.123456",
+    "version": "submittedVersion"
+  },
+  "locations": [
+    {
+      "source": {"display_name": "bioRxiv"},
+      "landing_page_url": "https://doi.org/10.1101/2020.01.01.123456",
+      "version": "submittedVersion",
+      "is_published": false
+    },
+    {
+      "source": {"display_name": "Nature"},
+      "landing_page_url": "https://doi.org/10.1038/s41586-020-0001-x",
+      "version": "publishedVersion",
+      "is_published": true
+    }
+  ],
+  "related_works": ["https://openalex.org/W888"],
+  "referenced_works": []
+}

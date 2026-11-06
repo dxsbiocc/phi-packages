@@ -1,0 +1,21 @@
+{
+  "status": "ok",
+  "message-type": "work",
+  "message": {
+    "DOI": "10.1101/2020.01.01.123456",
+    "title": ["Amazing Exhaustion Study In Mice And Humans"],
+    "type": "posted-content",
+    "subtype": "preprint",
+    "author": [{"given": "Jane", "family": "Smith"}],
+    "issued": {"date-parts": [[2020, 1, 1]]},
+    "relation": {
+      "is-preprint-of": [
+        {
+          "id-type": "doi",
+          "id": "10.1038/s41586-020-0001-x",
+          "asserted-by": "object"
+        }
+      ]
+    }
+  }
+}

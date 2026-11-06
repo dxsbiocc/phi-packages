@@ -1,0 +1,27 @@
+{
+  "meta": {"count": 2},
+  "results": [
+    {
+      "id": "https://openalex.org/W111",
+      "doi": "https://doi.org/10.1000/related.111",
+      "display_name": "OpenAlex related work 111",
+      "publication_year": 2016,
+      "type": "article",
+      "ids": {"openalex": "https://openalex.org/W111", "doi": "https://doi.org/10.1000/related.111"},
+      "authorships": [{"author": {"display_name": "Rel One"}}],
+      "primary_location": {"source": {"display_name": "Journal A"}, "landing_page_url": null},
+      "abstract_inverted_index": {"Related": [0]}
+    },
+    {
+      "id": "https://openalex.org/W222",
+      "doi": "https://doi.org/10.1000/related.222",
+      "display_name": "OpenAlex related work 222",
+      "publication_year": 2015,
+      "type": "article",
+      "ids": {"openalex": "https://openalex.org/W222", "doi": "https://doi.org/10.1000/related.222"},
+      "authorships": [{"author": {"display_name": "Rel Two"}}],
+      "primary_location": {"source": {"display_name": "Journal B"}, "landing_page_url": null},
+      "abstract_inverted_index": null
+    }
+  ]
+}

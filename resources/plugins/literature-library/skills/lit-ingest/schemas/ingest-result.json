@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["ok", "mode", "counts"],
+  "properties": {
+    "ok": { "type": "boolean" },
+    "mode": { "const": "live" },
+    "collection_id": { "type": "string" },
+    "counts": { "type": "object" },
+    "n_parsed": { "type": "integer" }
+  },
+  "additionalProperties": true
+}

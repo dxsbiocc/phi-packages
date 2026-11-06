@@ -1,0 +1,150 @@
+{
+  "data": [
+    {
+      "id": "10.5281/zenodo.5138594",
+      "type": "dois",
+      "attributes": {
+        "doi": "10.5281/zenodo.5138594",
+        "identifiers": [
+          {
+            "identifier": "https://zenodo.org/record/5138595",
+            "identifierType": "URL"
+          }
+        ],
+        "creators": [
+          {
+            "affiliation": [
+              "Department of Gastroenterology and Hepatology, University Hospital Coventry, UK"
+            ],
+            "givenName": "Ayman",
+            "familyName": "Bannaga",
+            "name": "Bannaga, Ayman",
+            "nameIdentifiers": []
+          },
+          {
+            "affiliation": [
+              "Mosaiques Diagnostics GmbH, Germany"
+            ],
+            "givenName": "Jochen",
+            "familyName": "Metzger",
+            "name": "Metzger, Jochen",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org",
+                "nameIdentifier": "https://orcid.org/0000-0003-4475-4499"
+              }
+            ]
+          },
+          {
+            "affiliation": [
+              "Department of Gastroenterology, Hepatology and Endocrinology, Hannover Medical School, Germany"
+            ],
+            "givenName": "Torsten",
+            "familyName": "Voigtl\u00e4nder",
+            "name": "Voigtl\u00e4nder, Torsten",
+            "nameIdentifiers": []
+          }
+        ],
+        "titles": [
+          {
+            "title": "Pathophysiological Implications of Urinary Peptides in Hepatocellular Carcinoma"
+          }
+        ],
+        "publisher": "Zenodo",
+        "container": {},
+        "publicationYear": 2021,
+        "subjects": [
+          {
+            "subject": "hepatocellular carcinoma; capillary electrophoresis mass spectrometry; urinary peptides; diagnosis; prognosis"
+          }
+        ],
+        "contributors": [],
+        "dates": [
+          {
+            "date": "2021-07-26",
+            "dateType": "Issued"
+          }
+        ],
+        "language": "en",
+        "types": {
+          "schemaOrg": "ScholarlyArticle",
+          "resourceTypeGeneral": "Text",
+          "citeproc": "article-journal",
+          "bibtex": "article",
+          "ris": "JOUR",
+          "resourceType": "Journal article"
+        },
+        "relatedIdentifiers": [
+          {
+            "relationType": "HasVersion",
+            "relatedIdentifier": "10.5281/zenodo.5138595",
+            "relatedIdentifierType": "DOI"
+          }
+        ],
+        "relatedItems": [],
+        "sizes": [],
+        "formats": [],
+        "version": "HCC_CEMS_CANCER_v.1",
+        "rightsList": [
+          {
+            "rightsIdentifierScheme": "SPDX",
+            "rightsUri": "https://creativecommons.org/licenses/by/4.0/legalcode",
+            "schemeUri": "https://spdx.org/licenses/",
+            "rights": "Creative Commons Attribution 4.0 International",
+            "rightsIdentifier": "cc-by-4.0"
+          },
+          {
+            "rightsUri": "info:eu-repo/semantics/openAccess",
+            "rights": "Open Access"
+          }
+        ],
+        "descriptions": [
+          {
+            "descriptionType": "Abstract",
+            "description": "In this study, the application of capillary electrophoresis mass spectrometry enabled identification of 31 urinary peptides significantly associated with hepatocellular carcinoma diagnosis and prognosis. Further assessment of these peptides leads to prediction of cellular proteases involved in their development namely Meprin A subunit \u03b1 and Kallikrein-6. Subsequent identification of the proteases \u2026"
+          }
+        ],
+        "geoLocations": [],
+        "fundingReferences": [],
+        "url": "https://zenodo.org/record/5138594",
+        "contentUrl": null,
+        "metadataVersion": 1,
+        "schemaVersion": "http://datacite.org/schema/kernel-4",
+        "source": "mds",
+        "isActive": true,
+        "state": "findable",
+        "reason": null,
+        "viewCount": 0,
+        "downloadCount": 0,
+        "referenceCount": 0,
+        "citationCount": 0,
+        "partCount": 0,
+        "partOfCount": 0,
+        "versionCount": 0,
+        "versionOfCount": 0,
+        "created": "2021-08-06T11:42:07Z",
+        "registered": "2021-08-06T11:42:08Z",
+        "published": null,
+        "updated": "2021-08-06T20:23:50Z"
+      },
+      "relationships": {
+        "client": {
+          "data": {
+            "id": "cern.zenodo",
+            "type": "clients"
+          }
+        }
+      }
+    }
+  ],
+  "meta": {
+    "total": 2,
+    "totalPages": 2,
+    "page": 1
+  },
+  "links": {
+    "self": "https://api.datacite.org/dois?query=10.5281/zenodo.5138595&page%5Bsize%5D=1",
+    "next": "https://api.datacite.org/dois?page%5Bnumber%5D=2&page%5Bsize%5D=1&query=10.5281%2Fzenodo.5138595"
+  }
+}

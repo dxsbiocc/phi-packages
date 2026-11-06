@@ -1,0 +1,38 @@
+{
+  "meta": {"count": 3},
+  "results": [
+    {
+      "id": "https://openalex.org/W333",
+      "doi": "https://doi.org/10.1000/ref.333",
+      "display_name": "Referenced work 333",
+      "publication_year": 2010,
+      "type": "article",
+      "ids": {"openalex": "https://openalex.org/W333", "doi": "https://doi.org/10.1000/ref.333"},
+      "authorships": [{"author": {"display_name": "Ref Three"}}],
+      "primary_location": {"source": {"display_name": "Old Journal"}, "landing_page_url": null},
+      "abstract_inverted_index": {"Ref": [0]}
+    },
+    {
+      "id": "https://openalex.org/W444",
+      "doi": "https://doi.org/10.1000/ref.444",
+      "display_name": "Referenced work 444",
+      "publication_year": 2012,
+      "type": "article",
+      "ids": {"openalex": "https://openalex.org/W444", "doi": "https://doi.org/10.1000/ref.444"},
+      "authorships": [{"author": {"display_name": "Ref Four"}}],
+      "primary_location": {"source": {"display_name": "Old Journal"}, "landing_page_url": null},
+      "abstract_inverted_index": null
+    },
+    {
+      "id": "https://openalex.org/W555",
+      "doi": "https://doi.org/10.1000/ref.555",
+      "display_name": "Referenced work 555",
+      "publication_year": 2014,
+      "type": "article",
+      "ids": {"openalex": "https://openalex.org/W555", "doi": "https://doi.org/10.1000/ref.555"},
+      "authorships": [{"author": {"display_name": "Ref Five"}}],
+      "primary_location": {"source": {"display_name": "Old Journal"}, "landing_page_url": null},
+      "abstract_inverted_index": null
+    }
+  ]
+}

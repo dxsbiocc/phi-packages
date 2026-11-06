@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "ok": { "type": "boolean" },
+    "n_candidates": { "type": "integer" },
+    "n_enriched": { "type": "integer" },
+    "n_failed": { "type": "integer" },
+    "n_skipped": { "type": "integer" },
+    "dry_run": { "type": "boolean" },
+    "mock": { "type": "boolean" },
+    "details": { "type": "array" }
+  }
+}
