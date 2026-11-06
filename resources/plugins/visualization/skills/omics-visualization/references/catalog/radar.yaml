@@ -7,15 +7,46 @@ templates:
     aliases:
       - "雷达图"
       - "蜘蛛图"
+      - "多边形雷达图"
+      - "圆形雷达图"
+      - "平滑雷达图"
     source: "scripts/radar/basic/plot.R"
     examples:
       - "scripts/radar/basic/example.tsv"
+      - "scripts/radar/basic/example_units.tsv"
+      - "scripts/radar/basic/example_models.tsv"
+      - "scripts/radar/basic/example_smooth.tsv"
     preview: "scripts/radar/basic/preview.png"
+    variants:
+      - image: "scripts/radar/basic/preview_units.png"
+        example: "scripts/radar/basic/example_units.tsv"
+        config: "axis_scale = \"per_axis\", log_axes, value_labels = TRUE"
+        shows: "Axes in different units, each scaled to its own max, raw values printed."
+      - image: "scripts/radar/basic/preview_models.png"
+        example: "scripts/radar/basic/example_models.tsv"
+        config: "r_min = 0.5, series_shapes, grid_shape = \"circle\", fill_alpha = 0, axis_band = \"per_axis\""
+        shows: "Truncated radial baseline with ticks, marker shapes, one coloured band per axis."
+      - image: "scripts/radar/basic/preview_smooth.png"
+        example: "scripts/radar/basic/example_smooth.tsv"
+        config: "smooth = TRUE, grid_shape = \"circle\", fill_alpha = 0.55"
+        shows: "Smoothed outlines for many axes; points mark the real values (curve between axes is not data)."
     use_when: >
       Overlay a small number of series on the same set of named axes.
+      When axes carry different units, set axis_scale = "per_axis"
+      (optional axis_max column, optional log_axes) and value_labels =
+      TRUE so raw values are printed; radius is then comparable only
+      along one axis. A truncated radial baseline (r_min, e.g. 0.5 for
+      R² or accuracy) always prints radial ticks. grid_shape =
+      "circle", per-series point shapes, value labels, and an outer
+      band (axis_group column, or one coloured segment per axis with
+      its name) are CONFIG, not new ids.
     avoid_when: >
-      Do not overlay many series; use radar-group facets instead.
-    input_shape: "wide table with one row per axis and one column per series"
+      Do not overlay many series; use radar-group facets instead. Do
+      not add a template per radar package (fmsb, ggradar,
+      ggiraphExtra) or per grid shape.
+    input_shape: >
+      wide table with one row per axis and one column per series;
+      optional axis_max and axis_group columns
     language: "r"
     status: "stable"
 
@@ -24,14 +55,70 @@ templates:
     aliases:
       - "分面雷达图"
       - "多雷达图"
+      - "圆形分面雷达图"
     source: "scripts/radar/group/plot.R"
     examples:
       - "scripts/radar/group/example.tsv"
+      - "scripts/radar/group/example_scores.tsv"
+      - "scripts/radar/group/example_axis_group.tsv"
     preview: "scripts/radar/group/preview.png"
+    variants:
+      - image: "scripts/radar/group/preview_scores.png"
+        example: "scripts/radar/group/example_scores.tsv"
+        config: "no baseline column -> fill_mode \"auto\" fills from the centre"
+        shows: "Plain one-radar-per-series panels filled from the centre."
+      - image: "scripts/radar/group/preview_axis_group.png"
+        example: "scripts/radar/group/example_axis_group.tsv"
+        config: "strip_style = \"box\", point_style = \"filled\", axis_group column"
+        shows: "Coloured strip boxes and an outer band grouping the axes."
     use_when: >
       Draw one radar per series in a grid so polygons do not overlap.
+      All panels share the same radial scaling. Per-axis scaling,
+      value labels, circular grid, strip style (box / series-coloured
+      text), an axis_group outer band, and ncol are CONFIG.
+      With a baseline (scalar or per-axis column, e.g. chance-level
+      feature importance) the area between the baseline and the line is
+      shaded, above and below (the preview); without one the radar is
+      filled from the centre. fill_mode is CONFIG, not a new id. See
+      variants for the centre-filled and axis-band styles.
     avoid_when: >
-      Do not use when two series should share one radar (use radar-basic).
-    input_shape: "wide table with one row per axis and one column per series"
+      Do not use when two series should share one radar (use
+      radar-basic). Do not add a template per radar package or for an
+      outer annotation ring; that is the axis_group column.
+    input_shape: >
+      wide table with one row per axis and one column per series;
+      optional baseline, axis_max, and axis_group columns
+    language: "r"
+    status: "stable"
+
+  - id: "radar-signif"
+    title: "Radial group profile with significance rings"
+    aliases:
+      - "雷达图加显著性"
+      - "显著性雷达图"
+      - "极坐标折线显著性"
+      - "radial profile significance"
+      - "acylcarnitine radar"
+    source: "scripts/radar/signif/plot.R"
+    examples:
+      - "scripts/radar/signif/profile.tsv"
+      - "scripts/radar/signif/signif.tsv"
+    preview: "scripts/radar/signif/preview.png"
+    use_when: >
+      Compare group means across many features (lipids, metabolites,
+      genes) as closed radial lines with optional uncertainty ribbons
+      (lower/upper), and mark significant pairwise comparisons as
+      outer rings of dots (one ring per comparison, padj < alpha).
+      Optional panel column draws side-by-side panels.
+    avoid_when: >
+      Do not use for a few series without inference (radar-basic) or
+      one radar per series (radar-group). Do not run FindMarkers,
+      AverageExpression, tests, or p-value correction in the script;
+      means, bounds, and padj are inputs. No dot means not significant
+      or not tested, never "tested in one direction only".
+    input_shape: >
+      profile table (feature, group, mean; optional lower, upper,
+      panel) plus signif table (feature, comparison, padj; optional
+      panel). Feature row order is clockwise order.
     language: "r"
     status: "stable"

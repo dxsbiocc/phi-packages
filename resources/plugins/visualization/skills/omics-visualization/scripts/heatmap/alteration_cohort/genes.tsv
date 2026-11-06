@@ -1,0 +1,19 @@
+gene	role
+EGFR	Oncogene
+FGFR1	Oncogene
+FGFR2	Oncogene
+FGFR3	Oncogene
+MET	Oncogene
+ERBB2	Oncogene
+KIT	Oncogene
+PDGFRA	Oncogene
+KRAS	Oncogene
+NRAS	Oncogene
+HRAS	Oncogene
+BRAF	Oncogene
+MAP2K1	Oncogene
+NF1	Tumor Suppressor
+RASA1	Tumor Suppressor
+CBL	Tumor Suppressor
+ERRFI1	Tumor Suppressor
+SPRED1	Tumor Suppressor

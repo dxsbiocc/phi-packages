@@ -8,18 +8,164 @@ templates:
       - "散点图"
       - "xy scatter"
       - "基础散点"
+      - "边际rug散点"
+      - "axis rug scatter"
     source: "scripts/scatter/basic/plot.R"
     examples:
       - "scripts/scatter/basic/example.tsv"
+      - "scripts/scatter/basic/example_rug.tsv"
     preview: "scripts/scatter/basic/preview.png"
+    variants:
+      - image: "scripts/scatter/basic/preview_rug.png"
+        example: "scripts/scatter/basic/example_rug.tsv"
+        config: "style = \"rug\", columns x/y = wt/mpg, rug$x = \"Qualitative.Bold:3\", rug$y = \"Qualitative.Bold:7\", rug$point = \"Qualitative.Safe:12\""
+        shows: "Scatter with thick catalog-coloured marginal rugs on the bottom (x) and left (y) axes; rugs are a display of the supplied margins."
     use_when: >
       Plot two numeric variables against each other with no grouping,
-      trend overlay, or extra encodings.
+      trend overlay, or extra encodings. With style = "rug", add
+      coloured marginal rugs on the x and y axes.
     avoid_when: >
       Do not use when points need grouping, size encoding, density,
       a statistical overlay, or SVG glyphs (use scatter-group, bubble,
-      hex, correlation, or scatter-svg).
+      hex, correlation, or scatter-svg). Grouped histogram rugs are
+      scatter-hist-rug. Marginal boxplots are scatter-marginal.
     input_shape: "one row per observation; two numeric columns"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-hist-rug"
+    title: "Grouped density histogram with rugs"
+    aliases:
+      - "分组直方图rug"
+      - "边际分布rug图"
+      - "histogram with rugs"
+      - "grouped hist rug"
+    source: "scripts/scatter/hist_rug/plot.R"
+    examples:
+      - "scripts/scatter/hist_rug/example.tsv"
+    preview: "scripts/scatter/hist_rug/preview.png"
+    use_when: >
+      Overlay density histograms for a numeric value across categories
+      and draw one rug row per category under the x axis (continent
+      life-expectancy style). Palette is CONFIG.
+    avoid_when: >
+      Do not use plain axis rugs on an x-y scatter (scatter-basic
+      style = rug), a plain / stacked / freqpoly histogram
+      (scatter-hist), marginal boxplots (scatter-marginal), or 2D
+      density panels (scatter-density2d). Do not run density tests
+      in the script.
+    input_shape: "one row per observation; numeric value plus group"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-hist"
+    title: "1D histogram / frequency polygon"
+    aliases:
+      - "直方图"
+      - "freqpoly"
+      - "频率多边形"
+      - "堆积直方图"
+      - "镜像直方图"
+      - "分面叠加直方图"
+      - "histogram"
+    source: "scripts/scatter/hist/plot.R"
+    examples:
+      - "scripts/scatter/hist/example.tsv"
+      - "scripts/scatter/hist/example_mirror.tsv"
+      - "scripts/scatter/hist/example_overlay.tsv"
+      - "scripts/scatter/hist/example_facet_overlay.tsv"
+    preview: "scripts/scatter/hist/preview.png"
+    variants:
+      - image: "scripts/scatter/hist/preview_stack.png"
+        example: "scripts/scatter/hist/example.tsv"
+        config: "columns x = \"price\", group = \"cut\", bins = 40, position = \"stack\", group_order = Fair..Ideal"
+        shows: "Stacked histogram of price filled by diamond cut, thin white bar borders."
+      - image: "scripts/scatter/hist/preview_freqpoly.png"
+        example: "scripts/scatter/hist/example.tsv"
+        config: "geom = \"freqpoly\", columns x = \"price\", group = \"cut\", y_stat = \"density\", bins = 40"
+        shows: "Frequency polygons of price by cut on a density scale for shape comparison."
+      - image: "scripts/scatter/hist/preview_facet.png"
+        example: "scripts/scatter/hist/example.tsv"
+        config: "columns x = \"price\", group = \"cut\", facet = TRUE, facet_scales = \"free_y\", bins = 40"
+        shows: "One histogram panel per cut with free y so the small Fair group stays readable."
+      - image: "scripts/scatter/hist/preview_overlay.png"
+        example: "scripts/scatter/hist/example_overlay.tsv"
+        config: "columns x = \"value\", group = \"type\", position = \"identity\", palette = \"Qualitative.Set1 / 9\""
+        shows: "Overlapping identity histograms for two named series."
+      - image: "scripts/scatter/hist/preview_facet_overlay.png"
+        example: "scripts/scatter/hist/example_facet_overlay.tsv"
+        config: "columns x/group/facet = photons/series/prepared, position = \"identity\", facet = TRUE, facet_title = \"inset\", tick_direction = \"in\", facet_nrow/ncol = 2"
+        shows: "2×2 panels of overlapping identity histograms with coloured inset titles and inward ticks."
+      - image: "scripts/scatter/hist/preview_mirror.png"
+        example: "scripts/scatter/hist/example_mirror.tsv"
+        config: "layout = \"mirror\", columns a/b = var1/var2"
+        shows: "Mirrored histograms: one series up, one down, catalog teal / indigo fills."
+    use_when: >
+      Show a 1D histogram or frequency polygon of a numeric value,
+      optionally by group (stack / identity), faceted, horizontal, or
+      as a mirrored pair. A separate facet column with identity
+      overlays and inset coloured titles is CONFIG.
+    avoid_when: >
+      Do not use when rugs under grouped density histograms are
+      required (scatter-hist-rug), when the claim is a 1D kernel
+      density (scatter-density1d), or ridgelines (line-ridge).
+      Do not add an id for facet-plus-overlay alone.
+    input_shape: "one row per observation; numeric value, optional group and facet; mirror uses two numeric columns"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-density1d"
+    title: "1D kernel density"
+    aliases:
+      - "一维密度图"
+      - "密度曲线"
+      - "堆积密度图"
+      - "镜像密度图"
+      - "效应量密度对比"
+      - "geom_density"
+      - "1D density"
+    source: "scripts/scatter/density1d/plot.R"
+    examples:
+      - "scripts/scatter/density1d/example.tsv"
+      - "scripts/scatter/density1d/example_mirror.tsv"
+      - "scripts/scatter/density1d/example_effect.tsv"
+    preview: "scripts/scatter/density1d/preview.png"
+    variants:
+      - image: "scripts/scatter/density1d/preview_group.png"
+        example: "scripts/scatter/density1d/example.tsv"
+        config: "columns x = \"depth\", group = \"cut\", alpha = 0.15, xlim = c(55, 70)"
+        shows: "Overlapping filled densities of depth by cut."
+      - image: "scripts/scatter/density1d/preview_stack.png"
+        example: "scripts/scatter/density1d/example.tsv"
+        config: "columns x = \"carat\", group = \"cut\", position = \"stack\", y_stat = \"count\""
+        shows: "Stacked density scaled to count by cut."
+      - image: "scripts/scatter/density1d/preview_fill.png"
+        example: "scripts/scatter/density1d/example.tsv"
+        config: "columns x = \"carat\", group = \"cut\", position = \"fill\", y_stat = \"count\", xlim = c(0.2, 2.5)"
+        shows: "Percent (conditional) density: share of each cut across carat, clipped to the well-sampled range."
+      - image: "scripts/scatter/density1d/preview_facet.png"
+        example: "scripts/scatter/density1d/example.tsv"
+        config: "columns x = \"price\", group = \"cut\", facet = TRUE, alpha = 0.6"
+        shows: "One filled density panel per cut on a shared y scale."
+      - image: "scripts/scatter/density1d/preview_effect.png"
+        example: "scripts/scatter/density1d/example_effect.tsv"
+        config: "layout = \"effect\", series/facet columns, palettes reference = Pastel grey + case = Bold blue/gold/pink, annotations_effect.tsv"
+        shows: "Stacked panels of shared grey reference vs panel-coloured case densities, mode lines, and supplied n / d / P notes."
+      - image: "scripts/scatter/density1d/preview_mirror.png"
+        example: "scripts/scatter/density1d/example_mirror.tsv"
+        config: "layout = \"mirror\", columns a/b = var1/var2"
+        shows: "Mirrored densities for two series."
+    use_when: >
+      Show a 1D kernel density of a numeric value, optionally by group
+      with identity / stack / fill position, faceted, mirrored, or as
+      effect panels (shared reference vs coloured case). Bandwidth
+      adjust and supplied annotations are CONFIG.
+    avoid_when: >
+      Do not use histograms / freqpoly (scatter-hist), ridgelines
+      (line-ridge), or 2D densities (scatter-density2d). The density
+      is a display smooth, not a test. Do not compute Cohen's d or P
+      in the script; annotation text is supplied.
+    input_shape: "one row per observation; numeric value, optional group; effect uses series+facet; mirror uses two numeric columns; optional annotations.tsv"
     language: "r"
     status: "stable"
 
@@ -36,11 +182,47 @@ templates:
       Color points by a categorical group in the same x-y plane.
     avoid_when: >
       Do not use for a single series, when marks must be a supplied SVG
-      glyph (use scatter-svg), when group structure is a linear fit
-      plus margins (use scatter-marginal), when groups should fill
-      Voronoi tiles (use scatter-voronoi), when a supplied UMAP sits
-      in a circos composition ring (use scatter-umap-circos), or when
-      position is a three-part composition (use scatter-ternary).
+      glyph (use scatter-svg),       when group structure is a linear fit
+      plus margins (use scatter-marginal), when overall and per-group
+      fits with equation labels are needed (use scatter-fit-group),
+      when groups should fill Voronoi tiles (use scatter-voronoi),
+      when component scores are split by block and status with a
+      supplied class background (use scatter-variate-panel),
+      when a supplied UMAP sits in a circos composition ring
+      (use scatter-umap-circos), when an embedding needs an aligned
+      radial cluster hierarchy and four corner annotation views
+      (use scatter-umap-atlas), when a supplied UMAP needs dashed
+      density outlines, numbered badges, and a matching marker-gene
+      dot plot (use scatter-umap-dot), when position is a
+      three-part composition (use scatter-ternary), or when many
+      groups overlap and each needs its own panel against grey
+      context (use scatter-highlight).
+    input_shape: "one row per observation; two numeric columns plus a group label"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-highlight"
+    title: "Small-multiple highlight scatter"
+    aliases:
+      - "分面高亮散点"
+      - "高亮分面图"
+      - "灰色背景分面"
+      - "gghighlight"
+      - "highlight facet"
+    source: "scripts/scatter/highlight/plot.R"
+    examples:
+      - "scripts/scatter/highlight/example.tsv"
+    preview: "scripts/scatter/highlight/preview.png"
+    use_when: >
+      Show each group in its own panel, coloured on top of all other
+      observations in grey, so each group is read against the whole
+      distribution. Use when many groups would overlap in one panel.
+      Strip colour matching the group, background colour, ncol, and
+      free scales are CONFIG.
+    avoid_when: >
+      Do not use for a few well-separated groups in one plane
+      (scatter-group), group outlines (scatter-contour), or a zoom
+      window (scatter-zoom). Do not cluster in the script.
     input_shape: "one row per observation; two numeric columns plus a group label"
     language: "r"
     status: "stable"
@@ -80,6 +262,9 @@ templates:
       - "UMAP circos"
       - "UMAP环图"
       - "circos UMAP"
+      - "plot1cell"
+      - "plot1cell composition"
+      - "UMAP Group orig.ident"
     source: "scripts/scatter/umap_circos/plot.R"
     examples:
       - "scripts/scatter/umap_circos/example.tsv"
@@ -89,14 +274,113 @@ templates:
       sectors are cell types, with a cell-count axis, a celltype colour
       strip, and stacked-proportion rings for extra categorical columns.
       Extra metadata rings and log10 vs linear polar scale are CONFIG.
+      A plot1cell-style embedding with Group / orig.ident composition
+      rings, without a supplied radial hierarchy and corner views,
+      belongs here.
     avoid_when: >
       Do not use a plain grouped scatter (scatter-group) or a circos
       doughnut without an embedding (pie-doughnut-bar). Do not run
       UMAP, PCA, or clustering in the script. Do not read a Seurat
       object or wrap plot1cell. Do not add an id per extra track.
       A few hundred cells with no composition rings stay on
-      scatter-group.
+      scatter-group. A numbered UMAP with density outlines and a
+      marker-gene dot plot is scatter-umap-dot.
+      A supplied radial cluster hierarchy aligned to annotation rings,
+      cell-count bars, a centre embedding, and four corner recolourings
+      is scatter-umap-atlas. A tree without an embedding is tree-cell-ring.
     input_shape: "one row per cell; umap_1, umap_2, Celltype, plus optional categorical track columns"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-umap-atlas"
+    title: "Single-cell atlas with radial cluster hierarchy"
+    aliases:
+      - "单细胞图谱圈中圈"
+      - "UMAP环形聚类树"
+      - "single cell atlas"
+      - "radial cluster hierarchy"
+      - "plot1cell atlas"
+      - "UMAP大类亚群双环"
+      - "UMAP Class/Subtype 双环"
+      - "Class/Subtype double-ring UMAP"
+    source: "scripts/scatter/umap_atlas/plot.R"
+    examples:
+      - "scripts/scatter/umap_atlas/example.tsv"
+      - "scripts/scatter/umap_atlas/clusters.tsv"
+      - "scripts/scatter/umap_atlas/hierarchy.tsv"
+      - "scripts/scatter/umap_atlas/class_subtype/example.tsv"
+      - "scripts/scatter/umap_atlas/class_subtype/clusters.tsv"
+      - "scripts/scatter/umap_atlas/class_subtype/hierarchy.tsv"
+    preview: "scripts/scatter/umap_atlas/preview.png"
+    variants:
+      - image: "scripts/scatter/umap_atlas/preview_celltype.png"
+        example: "scripts/scatter/umap_atlas/example.tsv"
+        config: "contour$scope = \"celltype\", contour$grid = 100, contour$peak_fraction = 0.18"
+        shows: "Separate density outlines by Celltype, with the same embedding points and atlas rings."
+      - image: "scripts/scatter/umap_atlas/preview_class_subtype.png"
+        example: "scripts/scatter/umap_atlas/class_subtype/example.tsv"
+        config: "Rscript plot.R --class-subtype class_subtype/example.tsv output.png"
+        shows: "Class-coloured embedding with individual Class outlines, a supplied radial tree, and labelled inner Class and outer Subtype rings."
+    use_when: >
+      Show a supplied embedding at the centre of a radial cluster
+      hierarchy whose leaves align with cluster annotation rings,
+      Group / orig.ident proportions, and outer cell-count bars.
+      A shared kernel density estimate uses all embedding coordinates,
+      so neighbouring clouds can share an outline while points retain
+      their Celltype colours. Per-Celltype contours are a CONFIG variant.
+      Four corner views recolour the same supplied coordinates by
+      Region, Marker category, CycleScore, and Pseudoage. The cluster
+      order, tree topology, node heights, annotations, and counts are
+      supplied. Counts are checked against the input cells. The
+      Class/Subtype double-ring variant uses the same tree geometry.
+      Each Subtype corresponds to one leaf and belongs to one Class.
+    avoid_when: >
+      A simple plot1cell-style UMAP with categorical composition rings
+      uses scatter-umap-circos; plot1cell alone does not imply this atlas.
+      A circular annotation tree without an embedding is tree-cell-ring.
+      A numbered embedding paired with marker-gene dots is scatter-umap-dot.
+      Do not compute UMAP, PCA, clustering, cluster distances, nearest-
+      neighbour pseudoage, marker expression, or biological annotations
+      in the script, or fetch a Seurat object or external atlas data.
+    input_shape: >
+      Default cell rows use cell_id, umap_1, umap_2, cluster, Celltype,
+      Region, Group, orig.ident, Marker, CycleScore, and Pseudoage.
+      Default clusters.tsv uses cluster, Celltype, order, Region, Age,
+      CycleScore, and count. The --class-subtype variant uses cell_id,
+      umap_1, umap_2, Subtype, and Class in the cell table, with Subtype,
+      Class, order, and count in clusters.tsv. Both use hierarchy.tsv
+      (node, parent, height) with one root, exact leaf IDs, monotone
+      heights, and contiguous subtrees in the supplied leaf order.
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-umap-dot"
+    title: "UMAP with marker-gene dot plot"
+    aliases:
+      - "UMAP气泡图"
+      - "UMAP标记基因"
+      - "细胞类型点图"
+      - "marker dot plot"
+    source: "scripts/scatter/umap_dot/plot.R"
+    examples:
+      - "scripts/scatter/umap_dot/umap.tsv"
+      - "scripts/scatter/umap_dot/dots.tsv"
+    preview: "scripts/scatter/umap_dot/preview.png"
+    use_when: >
+      Show a supplied embedding above a marker-gene dot plot that
+      shares the same cluster numbers and colours. Each cluster has a
+      dashed density outline and a numbered badge. Dot size is percent
+      expressing and fill is within-gene scaled average expression.
+      Each gene group is a facet, with a bracket over its genes.
+    avoid_when: >
+      Do not use a plain grouped scatter (scatter-group) or an
+      enrichment term dotplot (bar-enrichment-dot). Do not use a UMAP
+      inside a composition ring (scatter-umap-circos), or an embedding
+      with a radial cluster hierarchy and corner annotation views
+      (scatter-umap-atlas). Do not run UMAP, PCA,
+      clustering, or Seurat in the script. Do not compute percent
+      expressing or mean expression here.
+    input_shape: "embedding rows cell, umap_1, umap_2, celltype; dot rows celltype, gene, group, pct, avg"
     language: "r"
     status: "stable"
 
@@ -109,16 +393,74 @@ templates:
     source: "scripts/scatter/voronoi/plot.R"
     examples:
       - "scripts/scatter/voronoi/example.tsv"
+      - "scripts/scatter/voronoi/boundary.tsv"
     preview: "scripts/scatter/voronoi/preview.png"
+    variants:
+      - image: "scripts/scatter/voronoi/preview_radius.png"
+        example: "scripts/scatter/voronoi/example.tsv"
+        config: "max_radius = 1.1"
+        shows: "Each cell clipped to a radius around its point: sparse points become rounded islands, dense clusters stay tiled."
+      - image: "scripts/scatter/voronoi/preview_bound.png"
+        example: "scripts/scatter/voronoi/boundary.tsv"
+        config: "bound = \"boundary.tsv\" (supplied x, y polygon beside the input; \"hull\" = convex hull of the points), dashed outline drawn"
+        shows: "Tiles clipped to a supplied outline (e.g. tissue boundary) instead of the bounding rectangle."
+      - image: "scripts/scatter/voronoi/preview_delaunay.png"
+        example: "scripts/scatter/voronoi/example.tsv"
+        config: "overlay = \"delaunay\" (or \"delaunay_only\" for no tiles), delaunay_max_edge = 2.2"
+        shows: "Delaunay triangulation (neighbour graph) over the tiles, long hull edges dropped by a length cut-off."
     use_when: >
       Fill the plane around supplied x-y points with nearest-site
       Voronoi tiles coloured by a supplied group. Overlay the points.
+      Radius clip, hull / supplied-outline bound, unit-scaled
+      tessellation (normalize), cell edges and a Delaunay neighbour
+      overlay are CONFIG variants, not new ids.
     avoid_when: >
       Do not use a plain grouped scatter (scatter-group), a convex-hull
       outline (scatter-contour), or hex bins (scatter-hex). Do not run
-      PCA, UMAP, or clustering in the script. max.radius, expand, and
-      corner radius stay in CONFIG. Tile area is not density.
+      PCA, UMAP, or clustering in the script. An sPLS-DA max.dist
+      class background behind faceted component scores is
+      scatter-variate-panel, not tiles computed from the points.
+      max.radius, expand, and corner radius stay in CONFIG. Tile area
+      is not density.
     input_shape: "one row per observation; two numeric columns plus a group label"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-variate-panel"
+    title: "Faceted X-variate scatter with class background"
+    aliases:
+      - "X-variate图"
+      - "潜变量分面散点"
+      - "PLS个体图"
+      - "plotIndiv"
+      - "多组学背景散点"
+      - "时间轨迹潜变量"
+    source: "scripts/scatter/variate_panel/plot.R"
+    examples:
+      - "scripts/scatter/variate_panel/example.tsv"
+      - "scripts/scatter/variate_panel/background.tsv"
+      - "scripts/scatter/variate_panel/example_X.tsv"
+      - "scripts/scatter/variate_panel/example_samples.tsv"
+    preview: "scripts/scatter/variate_panel/preview.png"
+    use_when: >
+      Show component scores from one (s)PLS-DA per block and status.
+      Time is colour and shape together, each panel states that model's
+      explained-variance percent, and the background is the max.dist
+      class polygons (the class with the largest linear score).
+      prepare.R fits the model and writes both tables. Optional
+      label_x and label_y place sample names.
+    avoid_when: >
+      Do not use a plain grouped scatter (scatter-group) or nearest-site
+      tiles computed from the points (scatter-voronoi). Do not use
+      Zi–Pi role rectangles (scatter-zipi) or a pathway enrichment
+      facet (scatter-pathway-facet). plot.R does not fit PLS-DA;
+      prepare.R does, from a feature matrix and a sample table.
+    input_shape: >
+      scores: one row per sample with label, x, y, time, block, status,
+      expl_x, expl_y; optional label_x, label_y. background: one row per
+      polygon vertex with block, status, class, region, ord, x, y.
+      class is the predicted time. Source matrices are example_X.tsv
+      and example_samples.tsv.
     language: "r"
     status: "stable"
 
@@ -127,16 +469,74 @@ templates:
     aliases:
       - "气泡图"
       - "bubble chart"
+      - "GNI coverage bubble"
+      - "income group bubble"
+      - "fractions per year bubble"
+      - "methane invention bubble"
+      - "emission share bubble"
+      - "ISO country bubble"
     source: "scripts/scatter/bubble/plot.R"
     examples:
       - "scripts/scatter/bubble/example.tsv"
+      - "scripts/scatter/bubble/example_methane.tsv"
     preview: "scripts/scatter/bubble/preview.png"
+    variants:
+      - image: "scripts/scatter/bubble/preview_methane.png"
+        example: "scripts/scatter/bubble/example_methane.tsv"
+        config: >
+          columns x/y/size/group/id = diff_share/invent_share/emission_share/country_group/code;
+          x_log10 = FALSE; show_fit = FALSE; hollow = FALSE; size_guide = "right";
+          size_breaks = 0.1/1/10; callouts_path = NULL;
+          show_label only for large countries (USA/CHN/JPN/IND/BRA/DEU/FRA/RUS)
+        shows: >
+          Methane invention-vs-emission share bubble: linear axes, filled
+          alpha bubbles by country group, size key stacked on the right
+          (0.1/1/10%), few large-country ISO labels via ggrepel only.
     use_when: >
-      Encode a third numeric variable as point size on an x-y scatter.
+      Encode a third supplied numeric as point size on an x-y scatter,
+      with colour by a discrete group, optional log10 x-axis, optional
+      overall linear fit, selective id labels, optional nested size key,
+      and optional cluster callouts (e.g. GNI vs coverage, or invention
+      vs emission-share difference by country group).
     avoid_when: >
-      Do not use when size is not a comparable magnitude, or when
-      overplotting is the main problem (use hex or contour).
-    input_shape: "one row per observation; two position columns plus a size column"
+      Do not use when size is not a comparable magnitude, when
+      overplotting needs hex/contour, for a dual-panel threshold bubble
+      (scatter-bubble-panel), a category × category bubble grid
+      (scatter-matrix), or bilateral x/y error bars with a supplied
+      reference curve (scatter-xyerror). Do not compute GNI, coverage,
+      fractions, invention shares, or emission shares in the script.
+    input_shape: "one row per observation; x, y, size, group; optional id, show_label; optional callouts TSV"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-xyerror"
+    title: "Scatter with bilateral error bars and reference curve"
+    aliases:
+      - "双边误差散点"
+      - "共振波长散点"
+      - "xy error bubble"
+      - "diameter resonance scatter"
+      - "simulation overlay scatter"
+    source: "scripts/scatter/xyerror/plot.R"
+    examples:
+      - "scripts/scatter/xyerror/example.tsv"
+      - "scripts/scatter/xyerror/curve.tsv"
+    preview: "scripts/scatter/xyerror/preview.png"
+    use_when: >
+      Show supplied x-y points with bilateral error bars (xerr, yerr
+      half-widths), size from a magnitude such as occurrence frequency,
+      colour by a discrete group, and a supplied reference curve (for
+      example experimental resonance vs diameter with a simulation
+      line). Errors and the curve are supplied, not fitted here.
+    avoid_when: >
+      Do not invent standard deviations or SEM from replicates in the
+      script. Do not use a plain bubble without errors (scatter-bubble)
+      or a bar with category error bars (bar-errorbar). Curve vertices
+      come from curve.tsv; do not fit the simulation line in plot.R.
+    input_shape: >
+      points: one row per observation with x, y, xerr, yerr, size,
+      group. curves: one row per polyline vertex with x, y, series
+      (header-only table allowed when no curve is needed).
     language: "r"
     status: "stable"
 
@@ -157,7 +557,11 @@ templates:
       Do not use as the sole evidence for biological importance, when
       adjusted p-values are unavailable, or for mean-vs-fold MA displays
       (use scatter-maplot). Do not use when the request is a rectangular
-      zoom with a densely labelled inset (use scatter-volcano-inset).
+      zoom with a densely labelled inset (use scatter-volcano-inset), a
+      volcano whose shoulders carry down/up GO bars in the same
+      coordinate system (use scatter-volcano-go), several contrasts
+      side by side (use scatter-volcano-multi), or shaded regions,
+      signature boxes and gene-set barcodes (scatter-volcano-barcode).
     input_shape: "feature-level differential-expression result table"
     language: "r"
     status: "stable"
@@ -177,11 +581,135 @@ templates:
       densely labels points in that window. Geometry is ggmagnify
       (from / to / plot), not a second panel id.
     avoid_when: >
-      Do not use for an overview-only volcano (scatter-volcano) or an
-      MA plot (scatter-maplot). Do not run a differential test in the
-      script. from and to stay in CONFIG; do not replace geom_magnify
-      with annotation_custom.
+      Do not use for an overview-only volcano (scatter-volcano), a
+      volcano with bilateral GO bars in the same panel
+      (scatter-volcano-go), or an MA plot (scatter-maplot). Do not run
+      a differential test in the script. from and to stay in CONFIG;
+      do not replace geom_magnify with annotation_custom.
     input_shape: "one row per feature; effect, p-value, and a label column"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-volcano-multi"
+    title: "Multi-contrast signed volcano"
+    aliases:
+      - "多组火山图"
+      - "多对比火山图"
+      - "扇区火山图"
+      - "极坐标火山图"
+      - "polar volcano"
+      - "亚群差异火山图"
+      - "单细胞组间差异火山图"
+      - "分面火山图"
+      - "multi-contrast volcano"
+      - "faceted volcano"
+    source: "scripts/scatter/volcano_multi/plot.R"
+    examples:
+      - "scripts/scatter/volcano_multi/example.tsv"
+      - "scripts/scatter/volcano_multi/example_polar.tsv"
+    preview: "scripts/scatter/volcano_multi/preview.png"
+    variants:
+      - image: "scripts/scatter/volcano_multi/preview_polar.png"
+        example: "scripts/scatter/volcano_multi/example_polar.tsv"
+        config: "layout = \"polar\"; columns padj = \"pvalue\"; polar fc_range = c(0, 14), colour = \"satt_index\", colour_limits = c(0, 1), colour_title = \"SATT index\", tag = \"SUMO2\\nSATTs\"; label_italic = FALSE; point_size = 1.5; size 8 x 7.5"
+        shows: "Sector (polar) volcano: one tinted sector per contrast with a hollow centre (inner_radius) and sector padding, angle within the sector = log2FC, radius = -log10(P), continuous colour column, circled repelled labels and a fold-change arc scale."
+      - image: "scripts/scatter/volcano_multi/preview_strip.png"
+        example: "scripts/scatter/volcano_multi/example.tsv"
+        config: "layout = \"strip\"; palette = \"Qualitative.Bold\"; labels y = \"avg_log2FC (ECM vs. CON)\"; size 11 x 4.2"
+        shows: "Cell-type / region strip volcano: framed panels with grey top strips, y = log2FC, x = unsigned -log10(padj) on one shared range, grey points with only labelled genes in the panel colour, labels pushed to the open side."
+    use_when: >
+      Compare several supplied differential contrasts (stages, cell
+      types, time points) side by side: one panel per contrast with a
+      shared log2FC y axis and a signed -log10(padj) x axis (up right,
+      down left), contrast-coloured points beyond a fold-change
+      threshold, dashed threshold lines, and repelled gene labels.
+      Contrast order, threshold, label mode (label column or top-n per
+      side) and palette are CONFIG. A polar sector layout (angle =
+      log2FC within each contrast sector, radius = -log10 P, optional
+      continuous colour column) is layout = "polar", and framed
+      top-strip panels with unsigned -log10(padj) (single-cell subtype
+      DE) are layout = "strip"; neither is a new id.
+    avoid_when: >
+      Do not use a single-contrast volcano (scatter-volcano), a zoom
+      inset (scatter-volcano-inset), bilateral GO bars
+      (scatter-volcano-go), or an MA plot (scatter-maplot). Do not run
+      a differential test or p-value adjustment in the script. Do not
+      add an id per contrast count.
+    input_shape: >
+      one row per gene within a contrast; contrast, gene, log2FC, padj,
+      optional label
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-volcano-barcode"
+    title: "Volcano with gene-set barcodes and signature boxes"
+    aliases:
+      - "条形码火山图"
+      - "基因集火山图"
+      - "barcode volcano"
+      - "GSEA barcode volcano"
+      - "Science KRAS火山图"
+    source: "scripts/scatter/volcano_barcode/plot.R"
+    examples:
+      - "scripts/scatter/volcano_barcode/example.tsv"
+      - "scripts/scatter/volcano_barcode/genesets.tsv"
+      - "scripts/scatter/volcano_barcode/set_stats.tsv"
+    preview: "scripts/scatter/volcano_barcode/preview.png"
+    variants:
+      - image: "scripts/scatter/volcano_barcode/preview_sets.png"
+        example: "scripts/scatter/volcano_barcode/example.tsv"
+        config: "show_regions = FALSE; show_signature = FALSE; set_palette = \"Diverging.RdBu\", set_index = c(1, 9)"
+        shows: "Gene-set members filled red / blue in the volcano with barcode rows and supplied ES / p; no shaded regions or Top-N boxes."
+      - image: "scripts/scatter/volcano_barcode/preview_regions.png"
+        example: "scripts/scatter/volcano_barcode/example.tsv"
+        config: "show_signature = FALSE; show_barcode = FALSE; highlight_sets = FALSE; size 6 x 5"
+        shows: "Plain volcano with shaded significant regions, side titles, alpha line and labelled key genes only."
+    use_when: >
+      Show one supplied differential result as a volcano with gene-set
+      context: tinted regions spanning genes past |log2FC| and alpha
+      on each side with side titles, dotted boxes around a supplied
+      (or top-N ranked) signature, gene-set members as filled points,
+      one barcode row per gene set under the x axis with supplied ES /
+      p, and labelled key genes. Each layer is a CONFIG switch.
+    avoid_when: >
+      Do not use for an overview-only volcano (scatter-volcano), a zoom
+      inset (scatter-volcano-inset), bilateral GO bars
+      (scatter-volcano-go), several contrasts (scatter-volcano-multi),
+      or two contrasts against each other (scatter-fc-split). Do not
+      run DE, GSEA or a gene-set test in the script; ES and p come
+      from set_stats.tsv. Running enrichment-score curves are line-gsea. Do not add an id per layer combination.
+    input_shape: >
+      de table (gene, log2FC, padj, optional label / signature) plus a
+      gene-set table (set, gene) and optional set_stats.tsv (set, ES,
+      pval) beside the de table
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-volcano-go"
+    title: "Volcano with bilateral GO bars"
+    aliases:
+      - "火山图GO"
+      - "双侧GO火山图"
+      - "volcano GO"
+      - "Fig 6i"
+    source: "scripts/scatter/volcano_go/plot.R"
+    examples:
+      - "scripts/scatter/volcano_go/deg.tsv"
+      - "scripts/scatter/volcano_go/go.tsv"
+    preview: "scripts/scatter/volcano_go/preview.png"
+    use_when: >
+      Show supplied fold-change and p-value as a volcano, with down-gene
+      GO bars on the left shoulder and up-gene GO bars on the right,
+      drawn in one coordinate system so the enrichment zones meet the
+      bar baseline. Bar length is a supplied score.
+    avoid_when: >
+      Do not use an overview-only volcano (scatter-volcano), a zoom
+      inset (scatter-volcano-inset), enrichment bars beside a DE
+      heatmap (heatmap-enrichment-zoom), or a patchwork of two plots.
+      Do not run DE or enrichment in the script.
+    input_shape: >
+      deg table (gene, log2FC, pvalue) plus go table
+      (direction=down|up, term, score)
     language: "r"
     status: "stable"
 
@@ -236,9 +764,175 @@ templates:
       Show the linear association of two numeric variables with a fitted line.
     avoid_when: >
       Do not use for grouped correlation-plus-margins (use scatter-marginal),
+      overall plus per-group fits with equations (use scatter-fit-group),
+      residual stems sized by absolute residual (use scatter-residual),
       a pairs grid of several variables (use scatter-pairs), or a
       coefficient-only matrix (use heatmap-signif).
     input_shape: "one row per observation; two numeric columns"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-residual"
+    title: "Residual stem scatter with absolute-residual encoding"
+    aliases:
+      - "残差散点图"
+      - "残差连线散点"
+      - "absolute residual scatter"
+      - "residual stem plot"
+    source: "scripts/scatter/residual/plot.R"
+    examples:
+      - "scripts/scatter/residual/example.tsv"
+    preview: "scripts/scatter/residual/preview.png"
+    use_when: >
+      Show an OLS fit with vertical residual stems from each point to
+      its prediction, open circles on the line, and observed points
+      sized and filled by absolute residual (theme_prism by default).
+      predicted / abs_rd may be supplied or computed from lm(y ~ x)
+      as a display residual.
+    avoid_when: >
+      Do not use a plain correlation label (scatter-correlation),
+      grouped multi-fit equations (scatter-fit-group), or a bubble
+      panel. Do not run multivariate models or formal residual
+      diagnostics in the script. Fill ends are catalog palette refs.
+    input_shape: "one row per observation; two numeric columns; optional predicted and abs_rd"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-fit-group"
+    title: "Grouped scatter with overall and per-group fits"
+    aliases:
+      - "多类别拟合散点"
+      - "分组回归散点"
+      - "多组拟合曲线"
+      - "grouped lm scatter"
+    source: "scripts/scatter/fit_group/plot.R"
+    examples:
+      - "scripts/scatter/fit_group/example.tsv"
+    preview: "scripts/scatter/fit_group/preview.png"
+    use_when: >
+      Show grouped x-y points with one overall linear fit and one fit
+      per group, each with a confidence band, plus equation, adjusted
+      R-squared, and P labels. Direct group names sit near the clouds.
+    avoid_when: >
+      Do not use a single-series fit (scatter-correlation), a grouped
+      fit that must keep marginal boxplots (scatter-marginal), or a
+      plain grouped scatter with no fit (scatter-group). Do not run
+      multivariate models in the script. Overall-fit toggle is CONFIG.
+    input_shape: "one row per observation; two numeric columns plus a group label"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-pathway-facet"
+    title: "Faceted pathway enrichment scatter"
+    aliases:
+      - "通路富集分面散点"
+      - "生态型通路散点"
+      - "pathway enrichment facet"
+      - "spatial ecotype pathways"
+    source: "scripts/scatter/pathway_facet/plot.R"
+    examples:
+      - "scripts/scatter/pathway_facet/example.tsv"
+    preview: "scripts/scatter/pathway_facet/preview.png"
+    use_when: >
+      Show supplied pathway enrichment as -log10(FDR) versus enrichment
+      score in one panel per group (e.g. spatial ecotype), with coloured
+      strip headers, sized points, and leader labels for highlighted
+      pathways.
+    avoid_when: >
+      Do not use a ranked enrichment list or classic GO/KEGG dotplot
+      (bar-enrichment-*), a DE volcano (scatter-volcano*), or a
+      term-by-group signed-p heatmap (heatmap-enrichment-terms). Do not
+      run enrichment or spatial clustering in the script. Absolute
+      multi-panel coordinate hacks and decorative trail tables are out
+      of scope; facet_wrap geometry is enough.
+    input_shape: "one row per pathway-in-group; group, pathway, -log10(FDR), score; optional size and show_label"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-zipi"
+    title: "Zi–Pi keystone role scatter"
+    aliases:
+      - "ZiPi图"
+      - "关键物种图"
+      - "拓扑角色散点"
+      - "zipi plot"
+      - "keystone zi pi"
+    source: "scripts/scatter/zipi/plot.R"
+    examples:
+      - "scripts/scatter/zipi/example.tsv"
+    preview: "scripts/scatter/zipi/preview.png"
+    use_when: >
+      Plot supplied Zi against Pi with MetaNet-style shaded role
+      regions (Peripheral / Connector / Module hub / Network hub).
+      Points are coloured by a supplied group (omics layer); role is
+      the background, not the point colour.
+    avoid_when: >
+      Do not use ordinary grouped scatter (scatter-group), volcano
+      plots, or pathway enrichment facets. Do not run module
+      detection, zp_analyse, or MetaNet in the script. Role from
+      thresholds is display-only on supplied zi/pi. Faceted component
+      scores with a supplied class background are scatter-variate-panel.
+    input_shape: "one row per node; node, zi, pi; optional group, role, show_label"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-taxon-manhattan"
+    title: "Taxon-ordered differential OTU Manhattan plot"
+    aliases:
+      - "差异OTU曼哈顿图"
+      - "OTU曼哈顿图"
+      - "微生物曼哈顿图"
+      - "taxon manhattan"
+      - "OTU manhattan plot"
+    source: "scripts/scatter/taxon_manhattan/plot.R"
+    examples:
+      - "scripts/scatter/taxon_manhattan/example.tsv"
+    preview: "scripts/scatter/taxon_manhattan/preview.png"
+    use_when: >
+      Show supplied per-OTU log2 fold changes for one or more
+      comparisons, with OTUs placed on x by taxon (Order blocks, Family
+      within a block), point size from relative abundance, colour by
+      Order, filled = significant and hollow = not significant. One
+      stacked panel per comparison and a coloured Order label strip.
+      top_n_orders keeps the most abundant Orders (drop or merge the
+      rest).
+    avoid_when: >
+      Do not use a volcano (scatter-volcano, x is fold change), a
+      genomic GWAS Manhattan (scatter-manhattan), or a per-taxon bar /
+      heatmap summary. Do
+      not run edgeR, DESeq2 or ANCOM in the script, and do not jitter
+      y: the plotted fold change is the supplied value.
+    input_shape: >
+      long table, one row per OTU-in-comparison: otu, order, comparison,
+      log2fc, abundance, significant; optional family
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-bubble-panel"
+    title: "Dual-panel threshold bubble scatter"
+    aliases:
+      - "双面板气泡图"
+      - "阈值气泡散点"
+      - "国家标签气泡图"
+      - "bubble panel"
+      - "threshold bubble"
+    source: "scripts/scatter/bubble_panel/plot.R"
+    examples:
+      - "scripts/scatter/bubble_panel/example.tsv"
+    preview: "scripts/scatter/bubble_panel/preview.png"
+    use_when: >
+      Compare two related y-metrics as side-by-side bubble scatters on a
+      shared log10 x-axis, with region colour, size from a weight,
+      dashed x/y thresholds, and optional bordered id labels with
+      leader lines. Clip points at the panel edge.
+    avoid_when: >
+      Do not use ordinary grouped scatter (scatter-group), pathway
+      enrichment facets, or Zi–Pi role plots. Do not compute GDP, loss
+      shares, or attribution in the script. Panel count and threshold
+      values stay in CONFIG / the long table.
+    input_shape: >
+      long table: id, region, x, y, bubble_weight, panel; optional
+      show_label, label_x, label_y
     language: "r"
     status: "stable"
 
@@ -255,7 +949,9 @@ templates:
       Combine a grouped scatter, linear fit, Pearson r, and axis-wise
       boxplots of the same points.
     avoid_when: >
-      Do not use when only the scatter or only the distributions are needed.
+      Do not use when only the scatter or only the distributions are
+      needed, or when overall plus per-group equation labels without
+      margins are required (scatter-fit-group).
     input_shape: "one row per observation; two numeric columns plus a group label"
     language: "r"
     status: "stable"
@@ -307,21 +1003,218 @@ templates:
     status: "stable"
 
   - id: "scatter-hex"
-    title: "Hexbin density scatter"
+    title: "Hexbin / 2D histogram"
     aliases:
       - "六边形密度图"
       - "hexbin"
+      - "二维直方图"
+      - "bin2d"
+      - "geom_hex"
+      - "geom_bin2d"
     source: "scripts/scatter/hex/plot.R"
     examples:
       - "scripts/scatter/hex/example.tsv"
+      - "scripts/scatter/hex/example_xy.tsv"
     preview: "scripts/scatter/hex/preview.png"
+    variants:
+      - image: "scripts/scatter/hex/preview_xy.png"
+        example: "scripts/scatter/hex/example_xy.tsv"
+        config: "columns x/y, show_fit = FALSE, xlim/ylim = c(4, 10), fill_palette = \"Gradient.YlGnBu\", cell border"
+        shows: "Plain hex 2D histogram (diamonds x/y window) with catalog fill and cell borders, no fit."
+      - image: "scripts/scatter/hex/preview_bin2d.png"
+        example: "scripts/scatter/hex/example_xy.tsv"
+        config: "bin_shape = \"square\" (geom_bin2d), bins = 15, show_fit = FALSE, xlim/ylim = c(4, 10)"
+        shows: "Rectangular 2D histogram bins in the same x/y window."
+      - image: "scripts/scatter/hex/preview_square.png"
+        example: "scripts/scatter/hex/example.tsv"
+        config: "bin_shape = \"square\" (geom_bin2d); bins or binwidth = c(wx, wy)"
+        shows: "Rectangular 2D histogram bins instead of hexagons, with optional lm / Pearson."
+      - image: "scripts/scatter/hex/preview_marginal.png"
+        example: "scripts/scatter/hex/example.tsv"
+        config: "marginal = \"histogram\", show_fit = FALSE, marginal_bins = 35"
+        shows: "Hexbin centre with top and right marginal histograms of x and y."
     use_when: >
-      Summarize a dense two-numeric cloud as hexagonal bins to reduce
-      overplotting.
+      Summarize a dense two-numeric cloud as hexagonal or rectangular
+      (bin2d) count bins. bins / binwidth, cell border, xlim/ylim, fit
+      on/off, catalog fill and marginal histograms are CONFIG.
     avoid_when: >
       Do not use for small n where individual points should stay visible,
-      or when contours are preferred (use scatter-contour).
+      or when smooth density bands / contour lines are preferred (use
+      scatter-density2d).
     input_shape: "one row per observation; two numeric columns"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-zoom"
+    title: "Scatter with zoomed panels"
+    aliases:
+      - "散点放大图"
+      - "局部放大散点"
+      - "facet_zoom"
+      - "zoom scatter"
+    source: "scripts/scatter/zoom/plot.R"
+    examples:
+      - "scripts/scatter/zoom/example.tsv"
+    preview: "scripts/scatter/zoom/preview.png"
+    variants:
+      - image: "scripts/scatter/zoom/preview_hull.png"
+        example: "scripts/scatter/zoom/example.tsv"
+        config: "zoom_x = c(3, 5.1), zoom_y = NULL, mark = \"hull\""
+        shows: "x-only zoom below the overview, with group hulls and leader labels."
+    use_when: >
+      Show an overview scatter and magnified panel(s) of a supplied x
+      and/or y window, joined by shaded trapezoid connectors
+      (facet_zoom layout). x only, y only, both in one panel, or both
+      split into a 2 x 2 grid are CONFIG. Optional rounded convex hulls
+      with leader-line group labels (mark = "hull") are CONFIG.
+    avoid_when: >
+      Do not use for a volcano with a labelled inset (scatter-volcano-inset),
+      a plain grouped scatter (scatter-group), or group outlines without
+      a zoom (scatter-contour). Do not cluster points or pick the zoom
+      window in the script.
+    input_shape: "one row per observation; two numeric columns plus an optional group label"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-qq"
+    title: "Distribution Q-Q / P-P plot"
+    aliases:
+      - "QQ图"
+      - "Q-Q图"
+      - "PP图"
+      - "P-P图"
+      - "正态性检验图"
+      - "分位数图"
+    source: "scripts/scatter/qq/plot.R"
+    examples:
+      - "scripts/scatter/qq/example.tsv"
+    preview: "scripts/scatter/qq/preview.png"
+    variants:
+      - image: "scripts/scatter/qq/preview_pp.png"
+        example: "scripts/scatter/qq/example.tsv"
+        config: "type = \"pp\""
+        shows: "P-P plot of empirical vs theoretical cumulative probability."
+    use_when: >
+      Check whether supplied values follow a theoretical distribution
+      (normal by default; t, gamma, beta, exp, lnorm, ... with supplied
+      dparams): sample vs theoretical quantiles with a reference line
+      and a pointwise order-statistic band, one panel per group.
+      type = "pp", detrend, overlay vs facet are CONFIG.
+    avoid_when: >
+      Do not use for p-value calibration with lambda
+      (scatter-qq-pvalue), a density or histogram view, or a formal
+      normality test. Do not fit distribution parameters in the script;
+      dparams are supplied.
+    input_shape: "one row per observation; one numeric value column plus an optional group"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-qq-pvalue"
+    title: "P-value Q-Q plot with genomic inflation"
+    aliases:
+      - "p值QQ图"
+      - "GWAS QQ图"
+      - "QQ plot p-value"
+      - "基因组膨胀系数"
+      - "lambda GC"
+    source: "scripts/scatter/qq_pvalue/plot.R"
+    examples:
+      - "scripts/scatter/qq_pvalue/example.tsv"
+    preview: "scripts/scatter/qq_pvalue/preview.png"
+    use_when: >
+      Check calibration of many supplied p-values (GWAS, eQTL, DE,
+      association scans): expected vs observed -log10(p) against y = x,
+      a pointwise null band, and lambda per group in the legend.
+      Overlaid models (e.g. adjusted vs unadjusted) and a significance
+      line are CONFIG.
+    avoid_when: >
+      Do not use for checking raw values against a distribution
+      (scatter-qq), a Manhattan plot, or a volcano plot. Do not run
+      tests or correct p-values in the script; thinning never changes
+      lambda.
+    input_shape: "one row per test; a p column plus an optional group / model column"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-manhattan"
+    title: "GWAS Manhattan plot"
+    aliases:
+      - "曼哈顿图"
+      - "GWAS曼哈顿图"
+      - "manhattan plot"
+      - "GWAS manhattan"
+      - "Miami图"
+      - "miami plot"
+      - "多性状曼哈顿图"
+      - "环形曼哈顿图"
+      - "叠加曼哈顿图"
+      - "带QQ图的曼哈顿图"
+      - "circular manhattan"
+    source: "scripts/scatter/manhattan/plot.R"
+    examples:
+      - "scripts/scatter/manhattan/example.tsv"
+      - "scripts/scatter/manhattan/genes.tsv"
+      - "scripts/scatter/manhattan/example_traits.tsv"
+      - "scripts/scatter/manhattan/example_haqtl.tsv"
+      - "scripts/scatter/manhattan/regions.tsv"
+    preview: "scripts/scatter/manhattan/preview.png"
+    variants:
+      - image: "scripts/scatter/manhattan/preview_alternate.png"
+        example: "scripts/scatter/manhattan/example.tsv"
+        config: "color_mode = \"alternate\", genomewide = \"bonferroni\", suggestive = 1e-4, highlight_mode = \"threshold\""
+        shows: "Two-colour chromosomes, Bonferroni and suggestive lines, every SNP past the line highlighted."
+      - image: "scripts/scatter/manhattan/preview_traits.png"
+        example: "scripts/scatter/manhattan/example_traits.tsv"
+        config: "trait column, regions_file = \"regions.tsv\", label_mode = \"top_per_chr\", ymax = 10"
+        shows: "One stacked panel per trait with candidate regions boxed across all panels and top SNP per chromosome labelled."
+      - image: "scripts/scatter/manhattan/preview_miami.png"
+        example: "scripts/scatter/manhattan/example_traits.tsv"
+        config: "layout = \"miami\", traits = c(\"Trait 1\", \"Trait 2\")"
+        shows: "Miami plot: two traits mirrored above and below a shared chromosome axis."
+      - image: "scripts/scatter/manhattan/preview_density.png"
+        example: "scripts/scatter/manhattan/example.tsv"
+        config: "color_mode = \"value\", density_track = TRUE"
+        shows: "Points fade grey to orange by -log10(p), with a SNP-density strip above."
+      - image: "scripts/scatter/manhattan/preview_circular.png"
+        example: "scripts/scatter/manhattan/example_traits.tsv"
+        config: "layout = \"circular\", density_track = TRUE, signal_tiers = TRUE"
+        shows: "Circular Manhattan: one concentric ring per trait, chromosome band, outer SNP-density ring, two-tier signal colours."
+      - image: "scripts/scatter/manhattan/preview_overlay.png"
+        example: "scripts/scatter/manhattan/example_traits.tsv"
+        config: "layout = \"overlay\", highlight_mode = \"threshold\""
+        shows: "All traits in one panel coloured by trait, significant SNPs enlarged in their trait colour with a dark outline."
+      - image: "scripts/scatter/manhattan/preview_haqtl.png"
+        example: "scripts/scatter/manhattan/example_haqtl.tsv"
+        config: "layout = \"overlay\", overlay_sig_p = 0.005, genomewide = 0.005, traits = Brain/Heart/Muscle/Lung, chr_bands = TRUE, highlight_mode = \"threshold\", point_size = 1.15, highlight_size = 2.0"
+        shows: "Overlaid multi-tissue haQTL Manhattan: emp P 0.005 line (no label); below grey, above coloured by tissue."
+      - image: "scripts/scatter/manhattan/preview_qq_inset.png"
+        example: "scripts/scatter/manhattan/example.tsv"
+        config: "qq_inset = TRUE, point_shape = \"hollow\""
+        shows: "Hollow points with an observed vs expected -log10(p) QQ inset, 95% band and lambda."
+    use_when: >
+      Show supplied per-SNP association p-values along the genome:
+      chromosomes end to end, -log10(p) on y, genome-wide (p value or
+      "bonferroni") and optional suggestive lines, highlighted SNPs
+      past the line and/or from a list, and gene labels from a
+      genes.tsv sidecar (snp, gene). A trait column gives one stacked
+      panel per trait; layout = "miami" mirrors two traits;
+      layout = "overlay" puts all traits in one panel coloured by trait;
+      layout = "circular" draws one concentric ring per trait. Regions
+      (regions.tsv or "chr3:1-30000000") are boxed or highlighted.
+      Per-chromosome, alternating, or by-value colours, a SNP density
+      strip (top or bottom), two-tier signal colours (signal_tiers),
+      a QQ inset (qq_inset), hollow points, chromosome bands
+      (chr_bands), a threshold_label, a y label such as
+      -log10(FDR), logp = FALSE, label_mode and ymax are CONFIG.
+      Multi-tissue haQTL overlays are CONFIG on this id
+      (preview_haqtl.png).
+    avoid_when: >
+      Do not use for taxon-ordered OTU fold changes
+      (scatter-taxon-manhattan), p-value calibration (scatter-qq-pvalue),
+      or a volcano plot. Do not run GWAS, LD clumping or gene
+      annotation in the script; genes are supplied. A single-region
+      zoom with gene models (LocusZoom style) is out of scope.
+    input_shape: "one row per SNP (per trait): snp, chr, bp, p; optional trait; optional genes.tsv (snp, gene) and regions.tsv (chr, start, end) sidecars"
     language: "r"
     status: "stable"
 
@@ -338,8 +1231,74 @@ templates:
       Overlay 2D density contours on a scatter to show concentration.
     avoid_when: >
       Do not use when hex bins or a simple scatter is enough, or when
-      groups should fill Voronoi tiles (scatter-voronoi).
+      groups should fill Voronoi tiles (scatter-voronoi). This draws
+      group hull outlines; 2D kernel density bands / contour lines are
+      scatter-density2d.
     input_shape: "one row per observation; two numeric columns"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-density2d"
+    title: "2D kernel density plot"
+    aliases:
+      - "二维密度图"
+      - "二维核密度"
+      - "密度等高线"
+      - "2D density"
+      - "density_2d"
+      - "kde2d"
+      - "边缘密度图"
+      - "标注等高线"
+      - "labeled contour"
+      - "密度点阵"
+    source: "scripts/scatter/density2d/plot.R"
+    examples:
+      - "scripts/scatter/density2d/example.tsv"
+      - "scripts/scatter/density2d/example_faithful.tsv"
+      - "scripts/scatter/density2d/example_xy.tsv"
+    preview: "scripts/scatter/density2d/preview.png"
+    variants:
+      - image: "scripts/scatter/density2d/preview_lines.png"
+        example: "scripts/scatter/density2d/example_faithful.tsv"
+        config: "mode = \"lines\", show_points = TRUE, columns x/y = eruptions/waiting"
+        shows: "Scatter with black 2D density contour lines (faithful-style)."
+      - image: "scripts/scatter/density2d/preview_group.png"
+        example: "scripts/scatter/density2d/example.tsv"
+        config: "mode = \"lines\", colour_by_group = TRUE"
+        shows: "Contour lines and points coloured by a supplied group, one density per group."
+      - image: "scripts/scatter/density2d/preview_facet.png"
+        example: "scripts/scatter/density2d/example.tsv"
+        config: "mode = \"filled\", facet_by_group = TRUE, contour_var = \"count\", show_points = FALSE"
+        shows: "One filled-density panel per group, colour scaled to expected counts so group sizes compare."
+      - image: "scripts/scatter/density2d/preview_raster.png"
+        example: "scripts/scatter/density2d/example.tsv"
+        config: "mode = \"raster\", show_points = FALSE"
+        shows: "Continuous smooth density raster instead of discrete bands."
+      - image: "scripts/scatter/density2d/preview_points.png"
+        example: "scripts/scatter/density2d/example_xy.tsv"
+        config: "mode = \"points\", bins controls grid resolution"
+        shows: "Density evaluated on a coarse grid as points sized and coloured by density."
+      - image: "scripts/scatter/density2d/preview_marginal.png"
+        example: "scripts/scatter/density2d/example.tsv"
+        config: "marginal = \"density\" (or \"histogram\")"
+        shows: "Filled bands plus contours in the centre with top and right 1D marginal densities."
+      - image: "scripts/scatter/density2d/preview_labeled.png"
+        example: "scripts/scatter/density2d/example_faithful.tsv"
+        config: "mode = \"labeled\", columns x/y = eruptions/waiting, fill_palette = \"Gradient.YlGnBu\""
+        shows: "Points coloured by local kernel density, black density contours with numeric labels."
+    use_when: >
+      Show where a dense two-numeric cloud concentrates as 2D kernel
+      density: filled bands, contour lines, both, a smooth raster,
+      labeled contours, or a density point grid, with optional points.
+      Group-coloured contours, per-group facets (density / count),
+      raster / points / labeled modes, bandwidth, band count and
+      marginal density / histogram panels are CONFIG variants.
+    avoid_when: >
+      Do not use hexagon / square count bins (scatter-hex), group hull
+      outlines (scatter-contour), or nearest-site tiles
+      (scatter-voronoi). Do not cluster or test in the script; the KDE
+      is a display smoothing. Do not add an id per mode or facet.
+    input_shape: "one row per observation; two numeric columns plus an optional group label"
     language: "r"
     status: "stable"
 
@@ -348,16 +1307,28 @@ templates:
     aliases:
       - "抖动图"
       - "jitter"
+      - "dotplot"
+      - "堆叠点图"
+      - "Wilkinson dotplot"
     source: "scripts/scatter/jitter/plot.R"
     examples:
       - "scripts/scatter/jitter/example.tsv"
+      - "scripts/scatter/jitter/example_dotplot.tsv"
     preview: "scripts/scatter/jitter/preview.png"
+    variants:
+      - image: "scripts/scatter/jitter/preview_dotplot.png"
+        example: "scripts/scatter/jitter/example_dotplot.tsv"
+        config: "style = \"dotplot\", columns x/y = dose/len, dotplot$fill = \"Qualitative.Bold\" (one colour per dose), dotplot$binwidth = 1.5, stackdir = \"center\""
+        shows: "Wilkinson stacked dots along y for each dose category (ToothGrowth-style): one catalog Bold colour per dose, dark stroke, white panel with light grid; binning is a display transform."
     use_when: >
       Show raw values within categories by spreading overlapping points.
+      With style = "dotplot", stack observations into Wilkinson bins
+      along y (geom_dotplot) instead of random jitter.
     avoid_when: >
       Do not use when a beeswarm, boxplot, or violin better shows
-      distribution shape, or when groups need a second grouping factor
-      (use scatter-jitter-group).
+      distribution shape, when groups need a second grouping factor
+      (use scatter-jitter-group), or when the claim is an enrichment
+      term dotplot (bar-enrichment-dot).
     input_shape: "one row per observation; category plus numeric value"
     language: "r"
     status: "stable"
@@ -383,17 +1354,43 @@ templates:
     aliases:
       - "蜂群图"
       - "beeswarm"
+      - "swarm mean SEM"
+      - "ELISA swarm"
+      - "CCL2 supernatant"
+      - "mean SEM beeswarm"
     source: "scripts/scatter/beeswarm/plot.R"
     examples:
       - "scripts/scatter/beeswarm/example.tsv"
+      - "scripts/scatter/beeswarm/example_ccl2.tsv"
+      - "scripts/scatter/beeswarm/brackets_ccl2.tsv"
     preview: "scripts/scatter/beeswarm/preview.png"
+    variants:
+      - image: "scripts/scatter/beeswarm/preview_ccl2.png"
+        example: "scripts/scatter/beeswarm/example_ccl2.tsv"
+        config: >
+          style = "mean_sem"; columns x/y = group/value; group_order;
+          group_colours; mean_sem$brackets_file = "brackets_ccl2.tsv";
+          panel_label; labels$y
+        shows: >
+          White classic panel: quasirandom swarm coloured by group,
+          mean ± SEM as a short black bar with whiskers, optional
+          supplied significance bracket (e.g. Control–Diabetic ***),
+          and a panel letter (ELISA / supernatant style).
     use_when: >
       Show every observation in a category without random jitter, as a
-      compact swarm.
+      compact swarm. With style = "mean_sem", overlay mean ± SEM and
+      optional supplied brackets on a white classic panel (e.g. ELISA
+      supernatant by clinical group).
     avoid_when: >
-      Do not use when a simple jitter or boxplot is sufficient, or when
-      a second grouping factor is required (use scatter-beeswarm-group).
-    input_shape: "one row per observation; category plus numeric value"
+      Do not use outline boxes plus a swarm (boxplot-basic style =
+      beeswarm). Do not use when a simple jitter or boxplot is
+      sufficient, or when a second grouping factor is required
+      (use scatter-beeswarm-group). Do not compute ANOVA / Tukey in
+      the script; bracket labels are supplied. Do not add a new id
+      for mean±SEM alone.
+    input_shape: >
+      one row per observation; category plus numeric value; optional
+      second colour group (quartile) or brackets.tsv (mean_sem)
     language: "r"
     status: "stable"
 
@@ -418,13 +1415,24 @@ templates:
     aliases:
       - "Cleveland点图"
       - "棒状点图"
+      - "GO二级分类图"
+      - "GO level2棒棒糖图"
+      - "分组棒棒糖图"
     source: "scripts/scatter/cleveland/plot.R"
     examples:
       - "scripts/scatter/cleveland/example.tsv"
+      - "scripts/scatter/cleveland/example_go.tsv"
     preview: "scripts/scatter/cleveland/preview.png"
+    variants:
+      - image: "scripts/scatter/cleveland/preview_go.png"
+        example: "scripts/scatter/cleveland/example_go.tsv"
+        config: "columns x = \"count\", y = \"term\", group = \"ontology\"; group_order = BP/CC/MF; orientation = \"vertical\"; sort = \"desc\"; head = \"solid\"; value_labels = TRUE; palette_index = c(3, 8, 6); title = NULL"
+        shows: "GO level-2 term counts: vertical lollipops grouped and coloured by ontology, sorted within group, counts printed in solid heads, term labels coloured by group."
     use_when: >
       Rank categories by a single numeric value with a stem from zero
-      to each point.
+      to each point. Group colouring (e.g. GO ontology), vertical
+      orientation, within-group sorting, solid or ring heads and
+      values printed in the heads are CONFIG.
     avoid_when: >
       Do not use for two-group before/after comparisons (use a dumbbell),
       a signed delta lollipop whose point size is p-value
@@ -474,11 +1482,40 @@ templates:
     avoid_when: >
       Do not use a one-sided Cleveland stem (scatter-cleveland), a
       ranked gene score scatter (scatter-rank), a two-point
-      before/after dumbbell (scatter-dumbbell), or a protein mutation
-      lollipop (ideogram-lollipop). Do not run Wilcoxon or ssGSEA in
-      the script. Do not add an id per deconvolution method or per
-      Long/Short facet.
+      before/after dumbbell (scatter-dumbbell), a multi-panel
+      predictive/therapeutic index grid (scatter-lollipop-index), or a
+      protein mutation lollipop (ideogram-lollipop). Do not run Wilcoxon
+      or ssGSEA in the script. Do not add an id per deconvolution
+      method or per Long/Short facet.
     input_shape: "one row per item; label, signed delta, p-value, and set"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-lollipop-index"
+    title: "Faceted signed index lollipop grid"
+    aliases:
+      - "预测指数棒棒糖"
+      - "治疗指数棒棒糖"
+      - "Pi/Ti lollipop"
+      - "Predictive Index"
+      - "Therapeutic Index"
+      - "immune index panel"
+    source: "scripts/scatter/lollipop_index/plot.R"
+    examples:
+      - "scripts/scatter/lollipop_index/example.tsv"
+    preview: "scripts/scatter/lollipop_index/preview.png"
+    use_when: >
+      Show supplied signed indices (e.g. Predictive Index and
+      Therapeutic Index) as a treatment × metric facet grid of
+      vertical lollipops through zero, coloured by cell/group and
+      sized by |value|, with Favourable / Unfavourable cues.
+    avoid_when: >
+      Do not use a single signed delta lollipop
+      (scatter-lollipop-delta), a dual GDP bubble panel
+      (scatter-bubble-panel), a Cleveland stem (scatter-cleveland),
+      or a protein mutation lollipop (ideogram-lollipop). Do not
+      compute predictive or therapeutic indices in the script.
+    input_shape: "one row per group × treatment × metric; group, treatment, metric, signed value"
     language: "r"
     status: "stable"
 
@@ -590,7 +1627,35 @@ templates:
       Connect more than two group values per category as a dumbbell.
     avoid_when: >
       Do not use for a strict two-point dumbbell (use scatter-dumbbell).
+      Per-sample vertical dumbbells faceted by response are
+      scatter-dumbbell-facet.
     input_shape: "one row per category-by-group; category, group, and numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-dumbbell-facet"
+    title: "Faceted sample dumbbell (response / maxMAF)"
+    aliases:
+      - "疗效分面哑铃图"
+      - "maxMAF分面图"
+      - "分面样本连线图"
+      - "response dumbbell"
+      - "ctDNA MAF dumbbell"
+    source: "scripts/scatter/dumbbell_facet/plot.R"
+    examples:
+      - "scripts/scatter/dumbbell_facet/example.tsv"
+    preview: "scripts/scatter/dumbbell_facet/preview.png"
+    use_when: >
+      Show per-sample vertical connectors faceted by clinical response:
+      baseline maxMAF above zero, on-therapy maxMAF below zero, and an
+      optional clearance mark (mR) at zero, with panel fills and a
+      pseudo-log mirrored axis.
+    avoid_when: >
+      Do not use a two-point category dumbbell (scatter-dumbbell) or a
+      horizontal multi-year dumbbell (scatter-dumbbell-groups). Do not
+      compute MAF, clearance, or response in the script; signed values
+      and facets are supplied. Extra samples/series stay CONFIG on this id.
+    input_shape: "one row per sample-by-series; sample, response, series (Baseline/mR/C2D1/C3D1), signed value, line_class"
     language: "r"
     status: "stable"
 
@@ -676,7 +1741,41 @@ templates:
     avoid_when: >
       Do not use when there is no identity reference, or for a
       correlation fit without a diagonal (use scatter-correlation).
+      log2FC of two differential contrasts with split discs filled by
+      each contrast's -log10(padj) is scatter-fc-split.
     input_shape: "one row per item; two comparable numeric columns"
+    language: "r"
+    status: "stable"
+
+  - id: "scatter-fc-split"
+    title: "Dual-contrast fold-change scatter with split discs"
+    aliases:
+      - "双分组条件火山图"
+      - "双条件火山图"
+      - "双对比FC散点"
+      - "split-disc FC scatter"
+      - "dual-contrast volcano"
+    source: "scripts/scatter/fc_split/plot.R"
+    examples:
+      - "scripts/scatter/fc_split/example.tsv"
+    preview: "scripts/scatter/fc_split/preview.png"
+    use_when: >
+      Compare two supplied differential contrasts gene by gene: x =
+      log2FC in contrast X, y = log2FC in contrast Y, each gene a disc
+      split into equal halves filled by that contrast's -log10(padj),
+      with zero and identity dashed lines, a glyph key, and repelled
+      (optionally highlighted) labels. Which contrast is x / y, disc
+      radius, palette and label mode are CONFIG.
+    avoid_when: >
+      Do not use for a single-contrast volcano (scatter-volcano),
+      several contrasts side by side or in sectors
+      (scatter-volcano-multi), raw expression vs expression
+      (scatter-diagonal), or a quadrant split by thresholds
+      (scatter-quadrant). Do not make sector angle proportional to
+      p-values. Do not run FindAllMarkers or a DE test in the script.
+    input_shape: >
+      long table, one row per gene x contrast; gene, contrast, log2FC,
+      padj, optional label and highlight
     language: "r"
     status: "stable"
 

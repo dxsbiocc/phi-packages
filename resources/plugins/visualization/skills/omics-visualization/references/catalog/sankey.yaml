@@ -17,7 +17,8 @@ templates:
       Do not use for three or more hierarchy levels inferred from an
       edge list (use sankey-level), a parallel-sets table of several
       categorical columns plus a count (use sankey-parallel-sets),
-      or a sunburst/tree of containment.
+      equal-width protein–trait–disease association maps
+      (sankey-alluvial-map), or a sunburst/tree of containment.
     input_shape: "one row per directed edge; source, target, and value"
     language: "r"
     status: "stable"
@@ -37,7 +38,8 @@ templates:
     avoid_when: >
       Do not use a two-column source-target Sankey (sankey-basic), a
       parallel-sets table of several categorical columns plus a count
-      (sankey-parallel-sets), or a sunburst when the claim is
+      (sankey-parallel-sets), equal-width association maps
+      (sankey-alluvial-map), or a sunburst when the claim is
       containment rather than flow.
     input_shape: "one row per directed edge; source, target, and value"
     language: "r"
@@ -59,9 +61,80 @@ templates:
       axis values plus a supplied count.
     avoid_when: >
       Do not use an edge list Sankey (sankey-basic or sankey-level),
-      a sunburst of containment, or a two-column source-target flow.
-      Axis order and which column colours the ribbons stay in CONFIG.
-      Do not tabulate raw samples in the script.
+      equal-width protein–trait–disease association maps
+      (sankey-alluvial-map; no count / ribbon width), a sunburst of
+      containment, or a two-column source-target flow. Axis order and
+      which column colours the ribbons stay in CONFIG. Do not
+      tabulate raw samples in the script.
     input_shape: "one row per category combination; two or more axis columns plus a count"
+    language: "r"
+    status: "stable"
+
+  - id: "sankey-alluvial-map"
+    title: "Protein–trait–disease alluvial map"
+    aliases:
+      - "alluvial map"
+      - "bipartite mapping"
+      - "protein trait alluvial"
+      - "蛋白性状冲积图"
+      - "蛋白性状关联图"
+      - "二分映射图"
+      - "疾病分类冲积图"
+    source: "scripts/sankey/alluvial_map/plot.R"
+    examples:
+      - "scripts/sankey/alluvial_map/example.tsv"
+    preview: "scripts/sankey/alluvial_map/preview.png"
+    use_when: >
+      Show supplied protein/gene ↔ clinical-trait associations as
+      equal-width sigmoid links through a middle trait axis into
+      disease-category hubs (e.g. ASCVD, MASH, Diabetes, Obesity,
+      CKD). Colour encodes the disease category. Suits coloc + MR
+      support maps where presence of a link is the claim, not flow
+      mass.
+    avoid_when: >
+      Do not use when ribbon width must encode a count (use
+      sankey-parallel-sets) or a weighted edge list (sankey-basic /
+      sankey-level). Circular phenotype↔locus chords are
+      graph-chord-bipartite. Do not run coloc, MR, or GWAS in the
+      script; associations are supplied.
+    input_shape: >
+      one row per association; protein (or gene), trait, and disease
+      category
+    language: "r"
+    status: "stable"
+
+  - id: "sankey-enrichment"
+    title: "Gene-to-term Sankey with enrichment panel"
+    aliases:
+      - "桑基富集图"
+      - "桑基图加点图"
+      - "桑基图加柱状图"
+      - "基因通路桑基图"
+      - "sankey enrichment"
+    source: "scripts/sankey/enrichment/plot.R"
+    examples:
+      - "scripts/sankey/enrichment/example.tsv"
+    preview: "scripts/sankey/enrichment/preview.png"
+    variants:
+      - image: "scripts/sankey/enrichment/preview_bar.png"
+        example: "scripts/sankey/enrichment/example.tsv"
+        config: "right_panel = \"bar\", flow_colour = \"gene\""
+        shows: "Bar panel with Count labels; ribbons coloured by gene."
+    use_when: >
+      Show which genes belong to which enriched terms (ribbons from a
+      gene column to a term column) and, aligned on the same rows, the
+      terms' GeneRatio, Count, and -log10(p.adjust) as a dot or bar
+      panel. Suits small gene sets (signature genes) and top-N terms.
+      right_panel = "bar" and flow colouring are CONFIG.
+    avoid_when: >
+      Do not use for a plain ranked enrichment dotplot
+      (bar-enrichment-dot), weighted flows between arbitrary nodes
+      (sankey-basic), or hundreds of genes. Do not run enrichment or
+      randomly sample genes in the script. A term block's height is
+      the number of genes drawn, not Count.
+    input_shape: >
+      one row per enriched term: Description, GeneRatio (number or
+      "k/n"), Count, p.adjust, geneID ("/"-separated), e.g.
+      clusterProfiler output
     language: "r"
     status: "stable"

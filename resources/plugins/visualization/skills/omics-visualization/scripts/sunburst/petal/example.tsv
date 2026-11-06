@@ -1,0 +1,54 @@
+group	category	category_label	colour	subcategory
+Gen	Style Control	Style\nControl\n(13k)	#5B1A6E	Artistic Traditions
+Gen	Style Control	Style\nControl\n(13k)	#5B1A6E	Media & Illustrative
+Gen	Style Control	Style\nControl\n(13k)	#5B1A6E	Photographic
+Gen	Style Control	Style\nControl\n(13k)	#5B1A6E	Speculative & Fantasy
+Gen	Complex Instructions	Complex\nInstructions\n(6k)	#E8436A	Multi-Attribute
+Gen	Complex Instructions	Complex\nInstructions\n(6k)	#E8436A	Multi-Subject
+Gen	Complex Instructions	Complex\nInstructions\n(6k)	#E8436A	Interaction
+Gen	Complex Instructions	Complex\nInstructions\n(6k)	#E8436A	Complex Spatial
+Gen	Complex Instructions	Complex\nInstructions\n(6k)	#E8436A	Composition
+Gen	Complex Instructions	Complex\nInstructions\n(6k)	#E8436A	Temporal Sequence
+Gen	Complex Instructions	Complex\nInstructions\n(6k)	#E8436A	Coherence
+Gen	Complex Instructions	Complex\nInstructions\n(6k)	#E8436A	Action Trajectory
+Gen	Complex Instructions	Complex\nInstructions\n(6k)	#E8436A	Rendering
+Gen	Complex Instructions	Complex\nInstructions\n(6k)	#E8436A	Causal Reasoning
+Gen	Text Rendering	Text\nRendering\n(3k)	#F7C531	Textual Accuracy
+Gen	Text Rendering	Text\nRendering\n(3k)	#F7C531	Typography
+Gen	Text Rendering	Text\nRendering\n(3k)	#F7C531	Structured Text Layout
+Gen	Text Rendering	Text\nRendering\n(3k)	#F7C531	Text-Graphic Integration
+Gen	Text Rendering	Text\nRendering\n(3k)	#F7C531	Textual Tone and Style
+Gen	Spatial Reasoning	Spatial\nReasoning\n(8k)	#2DC9A0	Containment
+Gen	Spatial Reasoning	Spatial\nReasoning\n(8k)	#2DC9A0	Relative Position
+Gen	Spatial Reasoning	Spatial\nReasoning\n(8k)	#2DC9A0	Comparative Reasoning
+Gen	Spatial Reasoning	Spatial\nReasoning\n(8k)	#2DC9A0	Symmetry Analysis
+Gen	Spatial Reasoning	Spatial\nReasoning\n(8k)	#2DC9A0	Size Reasoning
+Gen	Spatial Reasoning	Spatial\nReasoning\n(8k)	#2DC9A0	Object Counting
+Gen	Scientific Imagery	Scientific\nImagery\n(10k)	#12A66B	Astronomy
+Gen	Scientific Imagery	Scientific\nImagery\n(10k)	#12A66B	Earth Science
+Gen	Scientific Imagery	Scientific\nImagery\n(10k)	#12A66B	Biological
+Gen	Scientific Imagery	Scientific\nImagery\n(10k)	#12A66B	Mechanical
+Gen	Scientific Imagery	Scientific\nImagery\n(10k)	#12A66B	Engineering
+Gen	Scientific Imagery	Scientific\nImagery\n(10k)	#12A66B	charts
+Gen	Scientific Imagery	Scientific\nImagery\n(10k)	#12A66B	Ecological Relationship
+Edit	Multi Complex	Multi Complex\nTurn (1.5k)\n(4k)	#2A2450	sub-instruction 2
+Edit	Multi Complex	Multi Complex\nTurn (1.5k)\n(4k)	#2A2450	sub-instruction 3
+Edit	Multi Complex	Multi Complex\nTurn (1.5k)\n(4k)	#2A2450	sub-instruction 4
+Edit	Multi Complex	Multi Complex\nTurn (1.5k)\n(4k)	#2A2450	2 Turns
+Edit	Multi Complex	Multi Complex\nTurn (1.5k)\n(4k)	#2A2450	3 Turns
+Edit	Multi Complex	Multi Complex\nTurn (1.5k)\n(4k)	#2A2450	4 Turns
+Edit	Subject	Subject\n(19k)	#D81B73	Add
+Edit	Subject	Subject\n(19k)	#D81B73	Replace
+Edit	Subject	Subject\n(19k)	#D81B73	Remove
+Edit	Subject	Subject\n(19k)	#D81B73	Alter
+Edit	Subject	Subject\n(19k)	#D81B73	Object Extraction
+Edit	Global	Global\n(5k)	#E6B800	Style Transfer
+Edit	Global	Global\n(5k)	#E6B800	Change Background
+Edit	Text	Text\n(3k)	#12A89A	Add
+Edit	Text	Text\n(3k)	#12A89A	Change
+Edit	Text	Text\n(3k)	#12A89A	Remove
+Edit	Text	Text\n(3k)	#12A89A	Alter
+Edit	Others	Others\n(8k)	#0E7C86	Reference Editing
+Edit	Others	Others\n(8k)	#0E7C86	Motion
+Edit	Others	Others\n(8k)	#0E7C86	Change Material
+Edit	Others	Others\n(8k)	#0E7C86	Move

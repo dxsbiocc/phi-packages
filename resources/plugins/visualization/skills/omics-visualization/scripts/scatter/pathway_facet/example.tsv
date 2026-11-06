@@ -1,0 +1,33 @@
+ecotype	pathway	neg_log10_fdr	score	size	show_label
+C-I	Toll-like receptor signaling	6.2	8.4	6.2	1
+C-I	Innate inflammatory response	5.4	7.1	5.4	1
+C-I	NF-kappaB cascade	4.1	5.8	4.1	1
+C-I	Complement activation	3.2	4.2	3.2	0
+C-I	Cytokine receptor binding	2.8	3.5	2.8	0
+C-I	Leukocyte migration	2.1	2.9	2.1	0
+C-I	Pattern recognition	4.6	6.2	4.6	1
+C-I	Acute phase response	1.8	2.2	1.8	0
+C-II	Extracellular matrix organization	5.9	7.8	5.9	1
+C-II	Collagen formation	5.1	6.9	5.1	1
+C-II	Fibroblast activation	4.4	5.5	4.4	1
+C-II	TGF-beta signaling	3.7	4.8	3.7	1
+C-II	Wound healing	2.9	3.6	2.9	0
+C-II	Integrin cell surface	2.4	3.1	2.4	0
+C-II	Stromal remodeling	4.0	5.2	4.0	0
+C-II	Myofibroblast differentiation	1.9	2.4	1.9	0
+C-III	Cell cycle G2/M	6.5	8.9	6.5	1
+C-III	DNA replication	5.8	7.6	5.8	1
+C-III	Mitotic spindle	4.9	6.4	4.9	1
+C-III	E2F targets	4.2	5.7	4.2	1
+C-III	Chromosome segregation	3.3	4.1	3.3	0
+C-III	Proliferation signature	2.7	3.4	2.7	0
+C-III	Myc targets	3.8	4.9	3.8	0
+C-III	Nucleotide synthesis	2.0	2.6	2.0	0
+C-IV	IFN-gamma response	6.0	8.1	6.0	1
+C-IV	Cytokine signaling	5.3	7.0	5.3	1
+C-IV	T cell activation	4.7	6.1	4.7	1
+C-IV	Antigen presentation	3.9	5.0	3.9	1
+C-IV	Lymphocyte chemotaxis	3.1	3.9	3.1	0
+C-IV	Adaptive immune response	2.5	3.2	2.5	0
+C-IV	NK cell mediated cytotoxicity	4.3	5.4	4.3	0
+C-IV	JAK-STAT cascade	2.2	2.8	2.2	0

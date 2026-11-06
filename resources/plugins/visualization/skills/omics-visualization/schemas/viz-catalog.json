@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://phi.local/skills/omics-visualization/viz-catalog.json",
+  "title": "viz catalog result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["mode"],
+  "properties": {
+    "mode": { "enum": ["index", "family", "ids", "alias"] },
+    "template_count": { "type": "integer", "minimum": 0 },
+    "family": { "type": "string", "minLength": 1 },
+    "alias": { "type": "string", "minLength": 1 },
+    "families": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["family", "title", "use_when", "templates"],
+        "properties": {
+          "family": { "type": "string", "minLength": 1 },
+          "title": { "type": "string" },
+          "use_when": { "type": "string" },
+          "templates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["template_id", "title"],
+              "properties": {
+                "template_id": { "type": "string", "minLength": 1 },
+                "title": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "templates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["template_id", "title", "aliases", "use_when", "avoid_when", "input_shape"],
+        "properties": {
+          "template_id": { "type": "string", "minLength": 1 },
+          "family": { "type": "string", "minLength": 1 },
+          "title": { "type": "string" },
+          "aliases": { "type": "array", "items": { "type": "string" } },
+          "use_when": { "type": "string" },
+          "avoid_when": { "type": "string" },
+          "input_shape": { "type": "string" },
+          "roles": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["required", "optional"],
+            "properties": {
+              "required": { "type": "array", "items": { "type": "string" } },
+              "optional": { "type": "array", "items": { "type": "string" } }
+            }
+          },
+          "examples": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+          "preview": { "type": "string", "minLength": 1 },
+          "preview_markdown": { "type": "string", "minLength": 1 },
+          "variants": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["config", "shows", "preview", "preview_markdown"],
+              "properties": {
+                "config": { "type": "string" },
+                "shows": { "type": "string" },
+                "example": { "type": "string", "minLength": 1 },
+                "preview": { "type": "string", "minLength": 1 },
+                "preview_markdown": { "type": "string", "minLength": 1 }
+              }
+            }
+          },
+          "risks": { "type": "array", "items": { "type": "string" } } }
+        }
+      }
+    }
+  }
+}

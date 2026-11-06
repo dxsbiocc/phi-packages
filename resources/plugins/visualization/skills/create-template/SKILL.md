@@ -153,10 +153,9 @@ Minimum registration set. Paths are inside the sibling skill
    `source`, `examples`, `preview`, `use_when`, `avoid_when`, `input_shape`,
    `language`, `status`
 2. Update nearby siblings' `avoid_when` so agents do not mis-route
-3. `references/template_contracts.json` — same `id`, `preferred_shapes`,
-   `roles` (only known role names from `scripts/route_template.py` in that
-   skill), `intent_keywords` (include Chinese aliases), `use_when`,
-   `avoid_when`
+3. `references/template_contracts.json` — same `id` and `roles` (only
+   names listed in that file's `role_types`). Selection text
+   (`use_when`, `avoid_when`, aliases) lives in the catalog YAML.
 4. `references/plots.yaml` — family aliases if users will say a new Chinese name
 5. `SKILL.md` **Easy mis-routes** — one line when the new id is easy to confuse
 

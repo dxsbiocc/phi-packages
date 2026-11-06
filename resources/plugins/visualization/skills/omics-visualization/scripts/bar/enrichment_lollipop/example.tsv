@@ -1,0 +1,16 @@
+term	score	p.adjust	cluster
+Complement	42.5	1e-04	Cluster 4
+Epithelial-mesenchymal transition	28.2	3e-04	Cluster 4
+Angiogenesis	25	5e-04	Cluster 4
+Hypoxia	22.4	8e-04	Cluster 4
+Myogenesis	20.1	0.001	Cluster 4
+Coagulation	18	0.0015	Cluster 4
+TNF-alpha signaling via NF-kB	15.2	0.002	Cluster 4
+KRAS signaling up	14	0.003	Cluster 4
+Apoptosis	13.1	0.004	Cluster 4
+Inflammatory response	12	0.005	Cluster 4
+Androgen response	11.2	0.008	Cluster 1
+p53 pathway	10	0.01	Cluster 3
+IL-2-STAT5 signaling	7.2	0.02	Cluster 4
+UV response up	6.1	0.03	Cluster 4
+mTORC1 signaling	5	0.04	Cluster 4

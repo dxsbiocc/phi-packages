@@ -1,0 +1,9 @@
+name	PG3:High	PG2:Low	PG1:Low	axis_group
+Cytotoxicity	0.82	0.55	0.40	Phenotype
+Effector	0.90	0.48	0.35	Phenotype
+Exhaustion	0.35	0.62	0.70	Phenotype
+Proliferation	0.70	0.42	0.30	Phenotype
+Memory	0.45	0.66	0.58	Persistence
+Stemness	0.38	0.71	0.64	Persistence
+Survival	0.52	0.60	0.50	Persistence
+Clonal size	0.88	0.40	0.32	Persistence

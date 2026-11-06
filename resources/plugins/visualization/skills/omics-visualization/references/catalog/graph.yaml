@@ -38,9 +38,40 @@ templates:
       "manual"; it does not run a force or stress algorithm.
     avoid_when: >
       Do not use when coordinates must be computed from edges (use
-      graph-stress). Do not use when x/y are a meaningful cartesian
-      grid (graph-cartesian) or a basic supplied layout (graph-basic).
+      graph-stress). Do not use a TF–target regulon with log2FC fill
+      and weight alpha (graph-tf-target). Do not use when x/y are a
+      meaningful cartesian grid (graph-cartesian) or a basic supplied
+      layout (graph-basic).
     input_shape: "nodes table (id, x, y) plus links table (source, target, value)"
+    language: "r"
+    status: "stable"
+
+  - id: "graph-tf-target"
+    title: "TF–target regulatory network"
+    aliases:
+      - "转录因子调控网络"
+      - "GRN"
+      - "iRegulon network"
+      - "GENIE3 network"
+      - "TF target network"
+    source: "scripts/graph/tf_target/plot.R"
+    examples:
+      - "scripts/graph/tf_target/nodes.tsv"
+      - "scripts/graph/tf_target/links.tsv"
+    preview: "scripts/graph/tf_target/preview.png"
+    use_when: >
+      Show a TF–target regulon: large labelled TFs, small targets filled
+      by supplied log2FC, edges coloured by source TF and transparent
+      by supplied interaction weight (e.g. GENIE3). Prefer supplied x/y;
+      otherwise stress/fr is a display layout only.
+    avoid_when: >
+      Do not run iRegulon, GENIE3, or DE in the script. Do not use a
+      plain force hairball (graph-force), signed corr stress net
+      (graph-stress), or dual-ring hub layout
+      (graph-circular-concentric).
+    input_shape: >
+      nodes (id, type=TF|Target, log2FC, optional x/y) plus links
+      (source=TF, target, weight)
     language: "r"
     status: "stable"
 
@@ -61,9 +92,79 @@ templates:
     avoid_when: >
       Do not use when x/y are already supplied (graph-force,
       graph-basic, graph-cartesian). Do not add separate kk, fr, or
-      lgl templates. Do not use a hive, arc, fabric, or matrix when
-      the claim is an algorithm-placed hairball of a signed network.
+      lgl templates. A TF–target regulon with log2FC fill and weight
+      alpha is graph-tf-target. Multi-treatment co-occurrence panels
+      with supplied modules and an isolate ring are graph-module-panel.
+      Multi-omics / cross-domain networks with node class colour and
+      abundance size are graph-signed-group. Do not use a hive, arc,
+      fabric, or matrix when the claim is an algorithm-placed hairball
+      of a signed network.
     input_shape: "one row per edge; from, to, and signed corr in [-1, 1]"
+    language: "r"
+    status: "stable"
+
+  - id: "graph-signed-group"
+    title: "Signed multi-omics / cross-domain network"
+    aliases:
+      - "多组学网络"
+      - "跨域网络"
+      - "细菌真菌网络"
+      - "signed omics network"
+      - "cross-domain network"
+    source: "scripts/graph/signed_group/plot.R"
+    examples:
+      - "scripts/graph/signed_group/nodes.tsv"
+      - "scripts/graph/signed_group/links.tsv"
+      - "scripts/graph/signed_group/nodes_bf.tsv"
+      - "scripts/graph/signed_group/links_bf.tsv"
+    preview: "scripts/graph/signed_group/preview.png"
+    use_when: >
+      Draw a signed correlation network with node colour by a supplied
+      class (phylum, metabolite type, …), node size by abundance, and
+      edge colour / width by corr sign and |corr|. Covers
+      genome–transcript–metabolome and bacteria–fungi figures; layer
+      count is CONFIG, not a new id.
+    avoid_when: >
+      Do not use a plain signed hairball without node annotations
+      (graph-stress), multi-panel module isolate-ring panels
+      (graph-module-panel), or dual-ring hub layouts
+      (graph-circular-concentric). Do not run Spearman, MetaNet
+      multi_net_build, or community detection in the script. Do not
+      add separate sphere / fr / kk template ids.
+    input_shape: >
+      nodes table (id, class, size; optional layer, label) plus links
+      table (from, to, corr in [-1, 1])
+    language: "r"
+    status: "stable"
+
+  - id: "graph-module-panel"
+    title: "Multi-panel module co-occurrence network"
+    aliases:
+      - "共现网络"
+      - "模块网络四联图"
+      - "co-occurrence network"
+      - "module panel network"
+    source: "scripts/graph/module_panel/plot.R"
+    examples:
+      - "scripts/graph/module_panel/nodes.tsv"
+      - "scripts/graph/module_panel/links.tsv"
+    preview: "scripts/graph/module_panel/preview.png"
+    use_when: >
+      Compare several treatment/system co-occurrence networks side by
+      side. Connected nodes use FR; degree-zero isolates sit on an
+      outer ring. Colour encodes a supplied module; within-module
+      edges inherit that colour. Each panel caption reports Nodes and
+      Edges.
+    avoid_when: >
+      Do not use a single signed-corr hairball (graph-stress), a
+      dual-ring hub layout (graph-circular-concentric), or when x/y
+      are already supplied (graph-force). Do not run Spearman, RMT,
+      iDIRECT, or community detection in the script. FR here is only
+      the connected-core half of this hybrid layout — not a general
+      FR template.
+    input_shape: >
+      nodes table (system, node, module; optional kingdom) plus links
+      table (system, from, to, edge_group; optional sign, rho)
     language: "r"
     status: "stable"
 
@@ -120,6 +221,38 @@ templates:
     language: "r"
     status: "stable"
 
+  - id: "graph-chord-bipartite"
+    title: "Bipartite phenotype–locus chord"
+    aliases:
+      - "二分弦图"
+      - "表型位点弦图"
+      - "共定位弦图"
+      - "coloc chord"
+      - "phenotype locus circos"
+      - "HF susceptibility chord"
+    source: "scripts/graph/chord_bipartite/plot.R"
+    examples:
+      - "scripts/graph/chord_bipartite/nodes.tsv"
+      - "scripts/graph/chord_bipartite/links.tsv"
+    preview: "scripts/graph/chord_bipartite/preview.png"
+    use_when: >
+      Show supplied bipartite associations (e.g. clinical phenotypes ↔
+      HF susceptibility loci with coloc PP H4 above a cutoff) as a
+      circular chord: side-A nodes with horizontal labels, side-B with
+      radial labels, degree numbers in coloured circles, and ribbons
+      coloured by the from/phenotype node.
+    avoid_when: >
+      Do not use a flow-weighted Circos chord (graph-chord), equal-
+      spacing homogeneous circular networks (graph-circular), disease-
+      sector bars with gene labels (bar-circos-links), or genomic
+      rearrangement ribbons (ideogram-circos). Do not run coloc, GWAS,
+      or PP H4 filtering in the script; links are supplied.
+    input_shape: >
+      nodes table (id, side=phenotype|locus, optional label/colour) plus
+      links table (from, to; optional colour)
+    language: "r"
+    status: "stable"
+
   - id: "graph-chord"
     title: "Weighted Circos chord"
     aliases:
@@ -127,22 +260,34 @@ templates:
       - "circos chord"
       - "Chord diagram"
       - "细胞通讯弦图"
+      - "多个和弦图"
+      - "和弦图矩阵"
+      - "small multiple chord"
     source: "scripts/graph/chord/plot.R"
     examples:
       - "scripts/graph/chord/example.tsv"
+      - "scripts/graph/chord/example_grid.tsv"
     preview: "scripts/graph/chord/preview.png"
+    variants:
+      - image: "scripts/graph/chord/preview_grid.png"
+        example: "scripts/graph/chord/example_grid.tsv"
+        config: "facet = list(row = c(\"treatment\", \"direction\"), col = \"sender\"); size 10 x 7.5"
+        shows: "Small-multiple chord grid: one chord per condition x sender, sender sector and links in the column colour, receivers grey and labelled, column titles on top, two-level row labels with boxed treatment groups."
     use_when: >
       Show supplied from-to flows as Circos ribbons whose sector
       width is the total flow touching that sector. directional
-      (diffHeight) and symmetric duplication stay in CONFIG.
+      (diffHeight) and symmetric duplication stay in CONFIG. A grid of
+      small chords (rows = condition, columns = sender) is CONFIG facet,
+      not a new id.
     avoid_when: >
       Do not use equal-spacing circular nodes (graph-circular),
       dual-ring hub–category networks (graph-circular-concentric),
-      genomic rearrangement links on an ideogram (ideogram-circos),
-      two-genome synteny ribbons (ideogram-synteny), or a Sankey of
-      conserved stacked flows. Do not compute CellChat or a
-      communication score in the script. Do not add an id per
-      tissue panel or for arrows on/off.
+      bipartite phenotype–locus chords with degree badges
+      (graph-chord-bipartite), genomic rearrangement links on an
+      ideogram (ideogram-circos), two-genome synteny ribbons
+      (ideogram-synteny), or a Sankey of conserved stacked flows. Do
+      not compute CellChat or a communication score in the script. Do
+      not add an id per tissue panel or for arrows on/off.
     input_shape: "one row per directed flow; from, to, and non-negative value"
     language: "r"
     status: "stable"

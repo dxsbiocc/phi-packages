@@ -1,0 +1,201 @@
+code	region	gdp_per_capita	bubble_weight	panel	y	show_label	label_x	label_y
+MOZ	Africa	5591.8	541	(a) Attributable direct losses	0.672	1	3966.2176747247	0.792751639907248
+MDG	Africa	6586.1	159	(a) Attributable direct losses	0.694	1	5824.63761915841	0.794210067476146
+ETH	Africa	858.7	804	(a) Attributable direct losses	0.891	1	573.616360235844	0.821539907575585
+MWI	Africa	1877.7	841	(a) Attributable direct losses	0.835	1	2524.72320036532	0.926201589754783
+VNM	Asia	2161	1868	(a) Attributable direct losses	0.61	1	2541.41728256297	0.70572494356893
+PHL	Asia	12438.4	835	(a) Attributable direct losses	0.399	1	22008.4640668893	0.347855084660463
+PAK	Asia	16301.5	1448	(a) Attributable direct losses	0.453	1	31675.2846918713	0.5209732553754
+CHN	Asia	8136.7	1751	(a) Attributable direct losses	0.568	1	4673.54296232477	0.620898155860603
+USA	Americas	23582.7	178	(a) Attributable direct losses	0.484	1	18396.0478594355	0.364885259052738
+PRI	Americas	32726.1	1517	(a) Attributable direct losses	0.437	1	64711.7105236031	0.53304245539289
+AUS	Oceania	1365.1	1430	(a) Attributable direct losses	0.732	1	1296.18682069009	0.654671902310103
+IND	Asia	735.9	720	(a) Attributable direct losses	0.715	1	774.110925744322	0.780841396045871
+NGA	Africa	1478.9	1676	(a) Attributable direct losses	0.675	1	2842.42248344291	0.735194629882462
+BRA	Americas	24113.1	133	(a) Attributable direct losses	0.55	1	18064.7628722666	0.618146879235283
+DEU	Europe	22866.7	384	(a) Attributable direct losses	0.548	1	16331.0874233831	0.450925248178653
+JPN	Asia	1625.7	421	(a) Attributable direct losses	0.705	1	1323.16408690548	0.660219055819325
+IDN	Asia	22937.1	903	(a) Attributable direct losses	0.521	1	19904.7799792733	0.64106410622038
+THA	Asia	42199.3	1000	(a) Attributable direct losses	0.349	1	31849.6241283432	0.476710090586916
+A57	Asia	22065.7	1250	(a) Attributable direct losses	0.48	0	NA	NA
+U85	Europe	26940.9	692	(a) Attributable direct losses	0.436	0	NA	NA
+F23	Americas	11115	1991	(a) Attributable direct losses	0.655	0	NA	NA
+B28	Americas	2913.6	1762	(a) Attributable direct losses	0.597	0	NA	NA
+O29	Europe	67941.2	1315	(a) Attributable direct losses	0.47	0	NA	NA
+B35	Europe	73071.3	228	(a) Attributable direct losses	0.452	0	NA	NA
+N35	Asia	10085.7	343	(a) Attributable direct losses	0.531	0	NA	NA
+Z77	Asia	18415	562	(a) Attributable direct losses	0.611	0	NA	NA
+S40	Europe	9938.4	224	(a) Attributable direct losses	0.536	0	NA	NA
+C42	Asia	70959.1	1389	(a) Attributable direct losses	0.437	0	NA	NA
+V77	Asia	1393.6	1060	(a) Attributable direct losses	0.668	0	NA	NA
+N66	Americas	23246.4	1728	(a) Attributable direct losses	0.388	0	NA	NA
+E68	Asia	80301.3	1170	(a) Attributable direct losses	0.429	0	NA	NA
+Y70	Americas	28673.7	1332	(a) Attributable direct losses	0.376	0	NA	NA
+I76	Asia	4222.2	1366	(a) Attributable direct losses	0.645	0	NA	NA
+F63	Africa	6344.9	341	(a) Attributable direct losses	0.759	0	NA	NA
+K67	Africa	408.2	1140	(a) Attributable direct losses	0.9	0	NA	NA
+C48	Africa	1275.6	1897	(a) Attributable direct losses	0.867	0	NA	NA
+K34	Africa	1244	795	(a) Attributable direct losses	0.818	0	NA	NA
+Q15	Americas	2207.6	954	(a) Attributable direct losses	0.739	0	NA	NA
+O59	Europe	10444.8	977	(a) Attributable direct losses	0.667	0	NA	NA
+I39	Africa	1465.8	65	(a) Attributable direct losses	0.793	0	NA	NA
+P95	Americas	760.1	99	(a) Attributable direct losses	0.803	0	NA	NA
+S25	Africa	3885.5	1111	(a) Attributable direct losses	0.768	0	NA	NA
+Q47	Europe	54447.3	917	(a) Attributable direct losses	0.457	0	NA	NA
+L13	Europe	20012.6	1417	(a) Attributable direct losses	0.55	0	NA	NA
+K53	Africa	1753.8	244	(a) Attributable direct losses	0.852	0	NA	NA
+A41	Africa	1048	1523	(a) Attributable direct losses	0.9	0	NA	NA
+J84	Africa	6840.2	1285	(a) Attributable direct losses	0.758	0	NA	NA
+G42	Americas	5981.3	736	(a) Attributable direct losses	0.654	0	NA	NA
+H60	Africa	605.5	1150	(a) Attributable direct losses	0.9	0	NA	NA
+B11	Americas	649.4	1372	(a) Attributable direct losses	0.843	0	NA	NA
+G97	Americas	7392.8	277	(a) Attributable direct losses	0.582	0	NA	NA
+Q92	Americas	22264.9	1402	(a) Attributable direct losses	0.358	0	NA	NA
+O90	Asia	2388.5	131	(a) Attributable direct losses	0.735	0	NA	NA
+K88	Africa	1378.4	1700	(a) Attributable direct losses	0.801	0	NA	NA
+W11	Asia	10865.6	255	(a) Attributable direct losses	0.634	0	NA	NA
+Z33	Europe	46370	1217	(a) Attributable direct losses	0.459	0	NA	NA
+O64	Africa	2997.9	1485	(a) Attributable direct losses	0.752	0	NA	NA
+W29	Africa	3667.2	1768	(a) Attributable direct losses	0.849	0	NA	NA
+O81	Americas	51680.6	843	(a) Attributable direct losses	0.524	0	NA	NA
+V60	Europe	29947.1	1738	(a) Attributable direct losses	0.485	0	NA	NA
+I94	Europe	64056.4	526	(a) Attributable direct losses	0.282	0	NA	NA
+U63	Europe	73659.8	1471	(a) Attributable direct losses	0.484	0	NA	NA
+I38	Africa	1155.5	582	(a) Attributable direct losses	0.883	0	NA	NA
+J37	Americas	7295	497	(a) Attributable direct losses	0.562	0	NA	NA
+P29	Asia	67159.5	1339	(a) Attributable direct losses	0.361	0	NA	NA
+G71	Asia	1535.3	1937	(a) Attributable direct losses	0.812	0	NA	NA
+D63	Oceania	26958.3	517	(a) Attributable direct losses	0.519	0	NA	NA
+F21	Oceania	10174.4	1749	(a) Attributable direct losses	0.66	0	NA	NA
+P81	Africa	2968.9	1129	(a) Attributable direct losses	0.773	0	NA	NA
+S98	Africa	4224.8	263	(a) Attributable direct losses	0.772	0	NA	NA
+D90	Asia	9614.8	760	(a) Attributable direct losses	0.533	0	NA	NA
+L76	Africa	2109	1792	(a) Attributable direct losses	0.795	0	NA	NA
+H68	Africa	634.5	1746	(a) Attributable direct losses	0.9	0	NA	NA
+Q43	Africa	951	1863	(a) Attributable direct losses	0.852	0	NA	NA
+R87	Asia	4194.2	681	(a) Attributable direct losses	0.639	0	NA	NA
+G43	Africa	414.1	774	(a) Attributable direct losses	0.818	0	NA	NA
+G93	Asia	65069.1	1084	(a) Attributable direct losses	0.372	0	NA	NA
+W33	Asia	2661.7	731	(a) Attributable direct losses	0.647	0	NA	NA
+L24	Asia	3662.7	1656	(a) Attributable direct losses	0.682	0	NA	NA
+A79	Oceania	2848.5	269	(a) Attributable direct losses	0.654	0	NA	NA
+A63	Africa	2608.6	136	(a) Attributable direct losses	0.837	0	NA	NA
+K75	Asia	997.3	1581	(a) Attributable direct losses	0.704	0	NA	NA
+Z40	Africa	1014.8	1807	(a) Attributable direct losses	0.819	0	NA	NA
+W31	Africa	1214.5	1093	(a) Attributable direct losses	0.877	0	NA	NA
+K93	Africa	1114.2	769	(a) Attributable direct losses	0.9	0	NA	NA
+U56	Asia	21679.3	1941	(a) Attributable direct losses	0.47	0	NA	NA
+Y92	Europe	8627.5	407	(a) Attributable direct losses	0.642	0	NA	NA
+I74	Oceania	723.4	586	(a) Attributable direct losses	0.71	0	NA	NA
+U91	Asia	1342.1	1213	(a) Attributable direct losses	0.744	0	NA	NA
+C33	Americas	10320.3	114	(a) Attributable direct losses	0.608	0	NA	NA
+D63	Asia	42939.2	1344	(a) Attributable direct losses	0.43	0	NA	NA
+W54	Europe	25099.7	502	(a) Attributable direct losses	0.533	0	NA	NA
+H83	Europe	34593.6	1869	(a) Attributable direct losses	0.616	0	NA	NA
+A90	Africa	2572.5	1934	(a) Attributable direct losses	0.801	0	NA	NA
+V27	Africa	1202.7	507	(a) Attributable direct losses	0.791	0	NA	NA
+P80	Europe	71698.3	1455	(a) Attributable direct losses	0.453	0	NA	NA
+A14	Americas	6211.8	66	(a) Attributable direct losses	0.585	0	NA	NA
+W94	Asia	3387.3	94	(a) Attributable direct losses	0.665	0	NA	NA
+Y35	Africa	701	387	(a) Attributable direct losses	0.9	0	NA	NA
+N38	Africa	2615.4	736	(a) Attributable direct losses	0.761	0	NA	NA
+MOZ	Africa	5591.8	541	(b) Attributable direct and indirect losses	0.794	1	10094.8493385578	0.925043654922396
+MDG	Africa	6586.1	159	(b) Attributable direct and indirect losses	0.871	1	5049.86031663428	0.923781465658918
+ETH	Africa	858.7	804	(b) Attributable direct and indirect losses	0.98	1	1491.09426235428	0.934238700717688
+MWI	Africa	1877.7	841	(b) Attributable direct and indirect losses	0.98	1	1219.71652419791	0.863339398135431
+VNM	Asia	2161	1868	(b) Attributable direct and indirect losses	0.696	1	3517.44422284132	0.601934427366592
+PHL	Asia	12438.4	835	(b) Attributable direct and indirect losses	0.487	1	7948.74690073328	0.602975525518879
+PAK	Asia	16301.5	1448	(b) Attributable direct and indirect losses	0.604	1	31928.9087318394	0.740628278610297
+CHN	Asia	8136.7	1751	(b) Attributable direct and indirect losses	0.818	1	9775.44886263643	0.874371989692561
+USA	Americas	23582.7	178	(b) Attributable direct and indirect losses	0.771	1	39300.0581312729	0.655888658034615
+PRI	Americas	32726.1	1517	(b) Attributable direct and indirect losses	0.648	1	45447.2073594857	0.725810439732857
+AUS	Oceania	1365.1	1430	(b) Attributable direct and indirect losses	0.847	1	2873.17579366049	0.95
+IND	Asia	735.9	720	(b) Attributable direct and indirect losses	0.885	1	819.684903711792	0.781375574371778
+NGA	Africa	1478.9	1676	(b) Attributable direct and indirect losses	0.928	1	845.250105023725	0.95
+BRA	Americas	24113.1	133	(b) Attributable direct and indirect losses	0.656	1	42651.4012707055	0.528905596150085
+DEU	Europe	22866.7	384	(b) Attributable direct and indirect losses	0.815	1	20128.8258795353	0.885623781192116
+JPN	Asia	1625.7	421	(b) Attributable direct and indirect losses	0.926	1	2338.98181585601	0.809366232635453
+IDN	Asia	22937.1	903	(b) Attributable direct and indirect losses	0.745	1	17219.3591086414	0.633805623902008
+THA	Asia	42199.3	1000	(b) Attributable direct and indirect losses	0.647	1	37987.5049771191	0.691117032093927
+A57	Asia	22065.7	1250	(b) Attributable direct and indirect losses	0.641	0	NA	NA
+U85	Europe	26940.9	692	(b) Attributable direct and indirect losses	0.643	0	NA	NA
+F23	Americas	11115	1991	(b) Attributable direct and indirect losses	0.774	0	NA	NA
+B28	Americas	2913.6	1762	(b) Attributable direct and indirect losses	0.853	0	NA	NA
+O29	Europe	67941.2	1315	(b) Attributable direct and indirect losses	0.722	0	NA	NA
+B35	Europe	73071.3	228	(b) Attributable direct and indirect losses	0.61	0	NA	NA
+N35	Asia	10085.7	343	(b) Attributable direct and indirect losses	0.632	0	NA	NA
+Z77	Asia	18415	562	(b) Attributable direct and indirect losses	0.857	0	NA	NA
+S40	Europe	9938.4	224	(b) Attributable direct and indirect losses	0.749	0	NA	NA
+C42	Asia	70959.1	1389	(b) Attributable direct and indirect losses	0.661	0	NA	NA
+V77	Asia	1393.6	1060	(b) Attributable direct and indirect losses	0.889	0	NA	NA
+N66	Americas	23246.4	1728	(b) Attributable direct and indirect losses	0.594	0	NA	NA
+E68	Asia	80301.3	1170	(b) Attributable direct and indirect losses	0.707	0	NA	NA
+Y70	Americas	28673.7	1332	(b) Attributable direct and indirect losses	0.603	0	NA	NA
+I76	Asia	4222.2	1366	(b) Attributable direct and indirect losses	0.847	0	NA	NA
+F63	Africa	6344.9	341	(b) Attributable direct and indirect losses	0.98	0	NA	NA
+K67	Africa	408.2	1140	(b) Attributable direct and indirect losses	0.98	0	NA	NA
+C48	Africa	1275.6	1897	(b) Attributable direct and indirect losses	0.98	0	NA	NA
+K34	Africa	1244	795	(b) Attributable direct and indirect losses	0.98	0	NA	NA
+Q15	Americas	2207.6	954	(b) Attributable direct and indirect losses	0.975	0	NA	NA
+O59	Europe	10444.8	977	(b) Attributable direct and indirect losses	0.776	0	NA	NA
+I39	Africa	1465.8	65	(b) Attributable direct and indirect losses	0.98	0	NA	NA
+P95	Americas	760.1	99	(b) Attributable direct and indirect losses	0.98	0	NA	NA
+S25	Africa	3885.5	1111	(b) Attributable direct and indirect losses	0.872	0	NA	NA
+Q47	Europe	54447.3	917	(b) Attributable direct and indirect losses	0.66	0	NA	NA
+L13	Europe	20012.6	1417	(b) Attributable direct and indirect losses	0.771	0	NA	NA
+K53	Africa	1753.8	244	(b) Attributable direct and indirect losses	0.94	0	NA	NA
+A41	Africa	1048	1523	(b) Attributable direct and indirect losses	0.98	0	NA	NA
+J84	Africa	6840.2	1285	(b) Attributable direct and indirect losses	0.98	0	NA	NA
+G42	Americas	5981.3	736	(b) Attributable direct and indirect losses	0.863	0	NA	NA
+H60	Africa	605.5	1150	(b) Attributable direct and indirect losses	0.98	0	NA	NA
+B11	Americas	649.4	1372	(b) Attributable direct and indirect losses	0.98	0	NA	NA
+G97	Americas	7392.8	277	(b) Attributable direct and indirect losses	0.865	0	NA	NA
+Q92	Americas	22264.9	1402	(b) Attributable direct and indirect losses	0.486	0	NA	NA
+O90	Asia	2388.5	131	(b) Attributable direct and indirect losses	0.818	0	NA	NA
+K88	Africa	1378.4	1700	(b) Attributable direct and indirect losses	0.917	0	NA	NA
+W11	Asia	10865.6	255	(b) Attributable direct and indirect losses	0.812	0	NA	NA
+Z33	Europe	46370	1217	(b) Attributable direct and indirect losses	0.746	0	NA	NA
+O64	Africa	2997.9	1485	(b) Attributable direct and indirect losses	0.842	0	NA	NA
+W29	Africa	3667.2	1768	(b) Attributable direct and indirect losses	0.98	0	NA	NA
+O81	Americas	51680.6	843	(b) Attributable direct and indirect losses	0.644	0	NA	NA
+V60	Europe	29947.1	1738	(b) Attributable direct and indirect losses	0.639	0	NA	NA
+I94	Europe	64056.4	526	(b) Attributable direct and indirect losses	0.561	0	NA	NA
+U63	Europe	73659.8	1471	(b) Attributable direct and indirect losses	0.574	0	NA	NA
+I38	Africa	1155.5	582	(b) Attributable direct and indirect losses	0.98	0	NA	NA
+J37	Americas	7295	497	(b) Attributable direct and indirect losses	0.847	0	NA	NA
+P29	Asia	67159.5	1339	(b) Attributable direct and indirect losses	0.543	0	NA	NA
+G71	Asia	1535.3	1937	(b) Attributable direct and indirect losses	0.98	0	NA	NA
+D63	Oceania	26958.3	517	(b) Attributable direct and indirect losses	0.677	0	NA	NA
+F21	Oceania	10174.4	1749	(b) Attributable direct and indirect losses	0.784	0	NA	NA
+P81	Africa	2968.9	1129	(b) Attributable direct and indirect losses	0.98	0	NA	NA
+S98	Africa	4224.8	263	(b) Attributable direct and indirect losses	0.911	0	NA	NA
+D90	Asia	9614.8	760	(b) Attributable direct and indirect losses	0.644	0	NA	NA
+L76	Africa	2109	1792	(b) Attributable direct and indirect losses	0.98	0	NA	NA
+H68	Africa	634.5	1746	(b) Attributable direct and indirect losses	0.98	0	NA	NA
+Q43	Africa	951	1863	(b) Attributable direct and indirect losses	0.98	0	NA	NA
+R87	Asia	4194.2	681	(b) Attributable direct and indirect losses	0.867	0	NA	NA
+G43	Africa	414.1	774	(b) Attributable direct and indirect losses	0.98	0	NA	NA
+G93	Asia	65069.1	1084	(b) Attributable direct and indirect losses	0.653	0	NA	NA
+W33	Asia	2661.7	731	(b) Attributable direct and indirect losses	0.743	0	NA	NA
+L24	Asia	3662.7	1656	(b) Attributable direct and indirect losses	0.844	0	NA	NA
+A79	Oceania	2848.5	269	(b) Attributable direct and indirect losses	0.751	0	NA	NA
+A63	Africa	2608.6	136	(b) Attributable direct and indirect losses	0.98	0	NA	NA
+K75	Asia	997.3	1581	(b) Attributable direct and indirect losses	0.823	0	NA	NA
+Z40	Africa	1014.8	1807	(b) Attributable direct and indirect losses	0.965	0	NA	NA
+W31	Africa	1214.5	1093	(b) Attributable direct and indirect losses	0.98	0	NA	NA
+K93	Africa	1114.2	769	(b) Attributable direct and indirect losses	0.98	0	NA	NA
+U56	Asia	21679.3	1941	(b) Attributable direct and indirect losses	0.688	0	NA	NA
+Y92	Europe	8627.5	407	(b) Attributable direct and indirect losses	0.876	0	NA	NA
+I74	Oceania	723.4	586	(b) Attributable direct and indirect losses	0.846	0	NA	NA
+U91	Asia	1342.1	1213	(b) Attributable direct and indirect losses	0.98	0	NA	NA
+C33	Americas	10320.3	114	(b) Attributable direct and indirect losses	0.831	0	NA	NA
+D63	Asia	42939.2	1344	(b) Attributable direct and indirect losses	0.624	0	NA	NA
+W54	Europe	25099.7	502	(b) Attributable direct and indirect losses	0.666	0	NA	NA
+H83	Europe	34593.6	1869	(b) Attributable direct and indirect losses	0.845	0	NA	NA
+A90	Africa	2572.5	1934	(b) Attributable direct and indirect losses	0.98	0	NA	NA
+V27	Africa	1202.7	507	(b) Attributable direct and indirect losses	0.91	0	NA	NA
+P80	Europe	71698.3	1455	(b) Attributable direct and indirect losses	0.695	0	NA	NA
+A14	Americas	6211.8	66	(b) Attributable direct and indirect losses	0.878	0	NA	NA
+W94	Asia	3387.3	94	(b) Attributable direct and indirect losses	0.933	0	NA	NA
+Y35	Africa	701	387	(b) Attributable direct and indirect losses	0.98	0	NA	NA
+N38	Africa	2615.4	736	(b) Attributable direct and indirect losses	0.848	0	NA	NA

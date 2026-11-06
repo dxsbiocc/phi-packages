@@ -7,70 +7,62 @@ phi:
   attachTo:
   - Visualization
   scripts:
-  - name: examples
-    description: Find real preview.png images already shipped with omics-visualization templates. Use when the user asks to see examples or styles without providing a data table. This reads the installed catalog and images; it does not create sample data, simulate a plot, render a new figure, or write to the project. Embed the returned preview_markdown images unchanged and explain that they are template examples, not plots of the user's data.
+  - name: catalog
+    description: 'Look up bundled templates; it never ranks or guesses. No arguments: every family with its template ids and titles. family: that family''s templates with title, aliases, use_when, avoid_when, input_shape, to choose from. ids: full entries with input roles, example data, preview_markdown (the main preview.png), and variants (CONFIG options as preview_<name>.png with their own preview_markdown). alias: exact name lookup, empty when nothing matches. You choose the template; never invent ids. Embed preview_markdown unchanged and label it a template example. When variants exist, also embed those that illustrate a CONFIG option the user might want.'
     run:
     - python
     - ./scripts/viz.py
-    - examples
+    - catalog
     args:
       type: object
       additionalProperties: false
-      required:
-      - purpose
       properties:
-        purpose:
+        family:
           type: string
-          description: Chart family or visual purpose to preview.
-        top:
-          type: integer
-          minimum: 1
-          maximum: 4
-          default: 4
+          description: A family id such as "scatter" or "heatmap".
+        ids:
+          type: array
+          items:
+            type: string
+          description: Template ids, for example ["scatter-volcano"].
+        alias:
+          type: string
+          description: A chart name such as "火山图" or "UpSet", matched exactly.
     approval: read
-    output: ./schemas/viz-examples.json
+    output: ./schemas/viz-catalog.json
     timeoutSeconds: 120
-  - name: route
-    description: For new figure selection, profile a result table and shortlist bundled omics templates that fit its purpose. Returns columns and up to six candidates with template_id, fit, risks, and preview_markdown. Use it before choosing a new template; never invent template ids. Do not call it for a small revision of an existing prepared script. To show previews, embed each candidate's preview_markdown and stop for the user's choice. Data and scripts must be inside the project; copy external data in first.
+  - name: profile
+    description: 'Count facts about input tables: per column the type (number/text), missing ("" or NA), min/max, distinct values, uniqueness, examples; other files beside the data; and, for each join, identifier overlap between two tables. It reads only. Data must be inside the project; copy external data in first.'
     run:
     - python
     - ./scripts/viz.py
-    - route
+    - profile
     args:
       type: object
       additionalProperties: false
       required:
       - data_path
-      - purpose
       properties:
         data_path:
           type: string
           format: input-path
-          description: Path of the CSV/TSV result table inside the project (project-relative or absolute). It is only read.
-        purpose:
-          type: string
-          description: What the figure should show, for example "volcano plot of differential expression".
-        mode:
-          type: string
-          enum:
-          - preview
-          - publication
-          default: preview
-          description: '"publication" is stricter and expects the catalog entry to be confirmed by hand.'
-        top:
-          type: integer
-          minimum: 1
-          maximum: 6
-          default: 4
-        sidecar_dir:
-          type: string
-          format: input-path
-          description: Directory holding companion tables such as nodes.tsv or links.tsv, when not beside the data.
+          description: The main CSV/TSV table inside the project.
+        tables:
+          type: array
+          items:
+            type: string
+            format: input-path
+          description: Companion tables or files, such as nodes.tsv or tree.nwk.
+        joins:
+          type: array
+          items:
+            type: string
+          description: Identifier checks as "links.tsv:from=nodes.tsv:id", naming tables by file name.
     approval: read
-    output: ./schemas/viz-route.json
+    output: ./schemas/viz-profile.json
     timeoutSeconds: 120
   - name: prepare
-    description: For a newly selected template, copy its plot.R into the project and return the input contract and editable CONFIG/DATA PREPARATION sections. Edit the copy, then call viz_render. For a revision of an existing prepared plot.R, read and edit that project copy directly; do not copy or reset the bundled template. An existing copy is kept with its edits unless reset is true. Data and scripts must be inside the project; copy external data in first.
+    description: For a newly chosen template, copy its plot.R into the project and return its inputs, editable CONFIG/DATA PREPARATION sections, and which of its R packages are missing. With inputs and columns, also check your role=column mapping against the template's roles and report problems; it fixes nothing. Edit the copy, then call viz_render. For a revision of an existing prepared plot.R, edit that project copy directly; do not copy or reset the bundled template. An existing copy is kept unless reset is true. Data must be inside the project.
     run:
     - python
     - ./scripts/viz.py
@@ -84,7 +76,7 @@ phi:
       properties:
         template_id:
           type: string
-          description: A template_id from viz_route, for example "scatter-volcano".
+          description: A template_id from viz_catalog, for example "scatter-volcano".
         workdir:
           type: string
           format: project-path
@@ -92,6 +84,17 @@ phi:
         reset:
           type: boolean
           description: Discard an earlier copy and its edits and start again.
+        inputs:
+          type: array
+          items:
+            type: string
+            format: input-path
+          description: Input tables for the column check.
+        columns:
+          type: array
+          items:
+            type: string
+          description: Role mapping as "role=column", one per item, for example "effect_size=log2FC". Repeat a role for a multi-column role.
     approval: write
     output: ./schemas/viz-prepare.json
     timeoutSeconds: 120
@@ -144,25 +147,29 @@ readable type at final size, unless journal rules specify otherwise.
 
 ## Installed examples without data
 
-Without user data, call `viz_examples` by purpose. Embed its existing
-`preview.png` via `preview_markdown` unchanged as a Markdown image; label it a
-template example. Show up to four; ask for choice or data. Do not create
-simulated data, render, copy, or replace it; report no match.
+Without user data, find matching templates with `viz_catalog` (an `alias`, or
+a `family` you pick), choose up to four yourself, then fetch them by `ids`.
+Embed each existing `preview.png` via `preview_markdown` unchanged as a
+Markdown image; label it a template example. If the entry has `variants`,
+also embed those `preview_markdown` images and say which CONFIG option each
+shows. Ask for choice or data. Do not create simulated data, render, copy,
+or replace it; report no match.
 
 ## Revise an existing figure
 
 For a prior figure, follow [revision workflow](references/revision-workflow.md):
-edit its script and palette; do not call `viz_route` or `viz_prepare` for colors.
+edit its script and palette; do not call `viz_catalog` or `viz_prepare` for colors.
 
 ## Match a reference image
 
 For a new figure guided by a user image, follow
 [reference workflow](references/reference-figure-workflow.md). Inspect the image
-before routing. If editable source already exists, revise it instead.
+before choosing a template. If editable source already exists, revise it instead.
 
-## New figure route
+## New figure
 
-Use `viz_route`, `viz_prepare`, `viz_render` for new figures.
+Use `viz_profile`, `viz_catalog`, `viz_prepare`, `viz_render` for new figures.
+The tools count, look up, check, and run; you choose the template.
 
 1. State the visualization purpose before choosing a chart: what should become
    easier to see, compare, verify, or question after plotting? If the purpose is
@@ -171,34 +178,29 @@ Use `viz_route`, `viz_prepare`, `viz_render` for new figures.
 2. Inspect the data's observation unit, columns, comparison, and claim. Check
    row count, types, category order, ranges, missingness, zeros, duplicate IDs,
    and any pairing, time, hierarchy, interval, network, or matrix structure.
-   `viz_route` gives column types; inspect values when the figure depends on them.
+   `viz_profile` counts these per column; pass companion tables and `joins` to
+   count identifier overlap. Overlap gaps are facts to report, not permission
+   to filter, reorder, or impute.
 3. Write or infer a one-sentence figure claim before selecting geometry. A
    single composite glyph (for example a circular tree inset in a polar track)
    is still one template. Follow **Multi-panel composition** only for labelled
    a/b/c figures that combine several plots with distinct evidence roles.
-4. Shortlist templates with `viz_route` (data path, purpose, mode).
-   It profiles the table against
-   [references/template_contracts.json](references/template_contracts.json) and
-   scans recognized companion files in the input directory (`nodes.tsv`,
-   `links.tsv`, `rowInfo.tsv`, `colInfo.tsv`, `enrichment.tsv`, `cytoband.tsv`,
-   `domains.tsv`, `karyotype.tsv`; pass `sidecar_dir` when they live elsewhere),
-   reporting whether their IDs align. Alignment warnings lower confidence; they
-   do not authorize silent filtering, reordering, imputation, or upstream
-   statistical analysis. A high-confidence result is a shortlist, not permission
-   to skip step 6.
-5. If the router is low confidence, if several viable templates would change
-   the scientific reading, or if the output is publication-critical, read
-   [references/plots.yaml](references/plots.yaml) and then only the relevant
-   family catalog under `references/catalog/`. Compare `use_when`, `avoid_when`,
-   and `input_shape`. When two templates of one family look alike, read
+4. Pick the family: `viz_catalog` with no arguments lists every family and
+   template id; [references/plots.yaml](references/plots.yaml) describes each
+   family. A chart name the user gave can be looked up with `alias`.
+5. Read that family with `viz_catalog` `family` and compare `use_when`,
+   `avoid_when`, and `input_shape` against the purpose, the profile, and the
+   claim. When two templates look alike, read
    [references/mis-routes.md](references/mis-routes.md). If one template clearly
-   matches the purpose, distribution, claim, and data contract, proceed with it
-   and record the reason. If alternatives change interpretation, show up to
-   four real previews (`preview_markdown`), fit, risks and required input;
-   let the user choose.
-6. Select one canonical template and make a project-local copy with
-   `viz_prepare`. It returns the template's purpose, the tables it takes, its R
-   dependencies, and the CONFIG and DATA PREPARATION sections with their line
+   fits, proceed and record why. If alternatives change interpretation, fetch
+   up to four by `ids` and show their `preview_markdown`, variants,
+   fit, risks, and required input; let the user choose.
+6. Make a project-local copy with `viz_prepare`, passing `inputs` and your
+   `columns` mapping (`role=column`, roles from the `ids` entry). Resolve every
+   reported problem by fixing the mapping or the DATA PREPARATION, never by
+   silently dropping data. If `r_packages.missing` is not empty, report the
+   template as blocked; do not install packages. It also returns the tables the
+   template takes and the CONFIG and DATA PREPARATION sections with their line
    numbers; read the PLOT lines only when the geometry must change. [Without the
    tool: read the template's `plot.R` in full, and any helper it sources, before
    modifying or executing it. Current templates use
@@ -255,23 +257,19 @@ Use `viz_route`, `viz_prepare`, `viz_render` for new figures.
    only shows the file is sound: inspect the rendered artifact at final size and
    correct labels, scales, legends, clipping, overlaps, spacing, and misleading
    encodings, then rerun until the output and source agree.
-Routing is complete only when the chosen template, its input assumptions,
-implementation language, sourced helpers, and runnable project-local copy are
-known. When the contract router is used, delivery notes should include the
-recommended template id, confidence, decisive matched shape, and any listed
-risk that had to be checked. Delivery is complete only after the final rendered
-artifact has passed lightweight QA and visual inspection.
+Selection is complete only when the chosen template, its column mapping,
+input assumptions, sourced helpers, and runnable project-local copy are known.
+Delivery notes name the template id, why it fits, and any reported problem or
+risk that had to be resolved. Delivery is complete only after the final
+rendered artifact has passed lightweight QA and visual inspection.
 
 ## Efficient use
 
-- Use `viz_route` as the fast path for preview-mode and
-  common result-table shapes. Trust high-confidence contract recommendations
-  enough to avoid reading unrelated family catalogs, but still confirm the
-  selected template's contract (`viz_prepare`) before rendering.
-- Trust `references/plots.yaml` and the family catalogs for low-confidence,
-  publication, or novel shapes. Do not search the template scripts by text
-  unless a catalog entry is missing, stale, or internally inconsistent.
-- When adding or editing routing contracts, run
+- Read one family, not the whole catalog. Fetch full entries by `ids` only
+  for the candidates you are weighing.
+- Do not search the template scripts by text unless a catalog entry is
+  missing, stale, or internally inconsistent.
+- When adding or editing template contracts or catalog entries, run
   `skill_run({ skill: "omics-visualization", script: "validate_template_contracts.py", args: ["--json"] })` before delivery.
   The validator must pass with no errors; warnings require an explicit note.
   Use the text report with `--max-missing-per-family 3` to prioritize future
@@ -318,7 +316,7 @@ artifact has passed lightweight QA and visual inspection.
 ## Confusable templates
 
 Read [references/mis-routes.md](references/mis-routes.md) when two templates of one
-family look alike or the router's pick and the user's wording disagree. It lists
+family look alike or your pick and the user's wording disagree. It lists
 the confusable pairs and the geometry that separates them. Confirm against the
 family catalog either way.
 

@@ -1,0 +1,41 @@
+symptom	category	n
+Fatigue	General	352
+Stress	General	1880
+Weight loss	General	107
+Weight gain	General	3246
+Sleep disturbance	General	1096
+Anxiety	General	2133
+Depression	General	1028
+Memory loss	General	3281
+Confusion	General	2990
+Apathy	General	3255
+Irritability	General	290
+Headache	General	2094
+Dizziness	General	1655
+Nausea	General	3198
+Bradykinesia	Motor	1243
+Tremor	Motor	2264
+Muscle weakness	Motor	927
+Spasticity	Motor	676
+Ataxia	Motor	674
+Dyskinesia	Motor	1298
+Rigidity	Motor	2800
+Gait disturbance	Motor	1679
+Falls	Motor	2619
+Dystonia	Motor	2773
+Myoclonus	Motor	1547
+Fasciculations	Motor	2647
+Hypokinesia	Motor	1306
+Hyperreflexia	Motor	2520
+Constipation	Sensory/autonomic	1482
+Hearing problem	Sensory/autonomic	2984
+Visual impairment	Sensory/autonomic	1106
+Pain	Sensory/autonomic	345
+Numbness	Sensory/autonomic	2701
+Tingling	Sensory/autonomic	2965
+Bladder dysfunction	Sensory/autonomic	3184
+Sweating	Sensory/autonomic	1920
+Dry mouth	Sensory/autonomic	2392
+Loss of smell	Sensory/autonomic	2566
+Loss of taste	Sensory/autonomic	2096
+Photophobia	Sensory/autonomic	2402

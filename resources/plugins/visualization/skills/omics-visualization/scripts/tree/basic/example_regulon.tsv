@@ -1,0 +1,75 @@
+parent	name	path	value
+	KRAS_G12D	KRAS_G12D	
+KRAS_G12D	IFN-JAK/STAT	KRAS_G12D/IFN-JAK/STAT	
+IFN-JAK/STAT	Stat1	KRAS_G12D/IFN-JAK/STAT/Stat1	
+Stat1	Oas2	KRAS_G12D/IFN-JAK/STAT/Stat1/Oas2	9.6
+Stat1	Oas3	KRAS_G12D/IFN-JAK/STAT/Stat1/Oas3	9.1
+Stat1	Tlr3	KRAS_G12D/IFN-JAK/STAT/Stat1/Tlr3	5.21
+Stat1	Psmb9	KRAS_G12D/IFN-JAK/STAT/Stat1/Psmb9	7.99
+Stat1	Ifit3b	KRAS_G12D/IFN-JAK/STAT/Stat1/Ifit3b	4.67
+Stat1	Ifit3	KRAS_G12D/IFN-JAK/STAT/Stat1/Ifit3	5.85
+Stat1	Tap1	KRAS_G12D/IFN-JAK/STAT/Stat1/Tap1	2.86
+IFN-JAK/STAT	Stat2	KRAS_G12D/IFN-JAK/STAT/Stat2	
+Stat2	Oas2	KRAS_G12D/IFN-JAK/STAT/Stat2/Oas2	9.6
+Stat2	Ifit3b	KRAS_G12D/IFN-JAK/STAT/Stat2/Ifit3b	4.67
+Stat2	Ifit3	KRAS_G12D/IFN-JAK/STAT/Stat2/Ifit3	5.85
+Stat2	Irf7	KRAS_G12D/IFN-JAK/STAT/Stat2/Irf7	2.68
+Stat2	Oas1a	KRAS_G12D/IFN-JAK/STAT/Stat2/Oas1a	8.02
+Stat2	Pml	KRAS_G12D/IFN-JAK/STAT/Stat2/Pml	2.75
+Stat2	Mx1	KRAS_G12D/IFN-JAK/STAT/Stat2/Mx1	4.91
+IFN-JAK/STAT	Irf9	KRAS_G12D/IFN-JAK/STAT/Irf9	
+Irf9	Oas2	KRAS_G12D/IFN-JAK/STAT/Irf9/Oas2	9.6
+Irf9	Oas3	KRAS_G12D/IFN-JAK/STAT/Irf9/Oas3	9.1
+Irf9	Ifit3b	KRAS_G12D/IFN-JAK/STAT/Irf9/Ifit3b	4.67
+Irf9	Ifit3	KRAS_G12D/IFN-JAK/STAT/Irf9/Ifit3	5.85
+Irf9	Irf7	KRAS_G12D/IFN-JAK/STAT/Irf9/Irf7	2.68
+Irf9	Pml	KRAS_G12D/IFN-JAK/STAT/Irf9/Pml	2.75
+Irf9	Adar	KRAS_G12D/IFN-JAK/STAT/Irf9/Adar	1.02
+IFN-JAK/STAT	Irf1	KRAS_G12D/IFN-JAK/STAT/Irf1	
+Irf1	Psmb9	KRAS_G12D/IFN-JAK/STAT/Irf1/Psmb9	7.99
+Irf1	Ifit3b	KRAS_G12D/IFN-JAK/STAT/Irf1/Ifit3b	4.67
+Irf1	Ccl5	KRAS_G12D/IFN-JAK/STAT/Irf1/Ccl5	9.4
+Irf1	Ifit3	KRAS_G12D/IFN-JAK/STAT/Irf1/Ifit3	5.85
+Irf1	Tap1	KRAS_G12D/IFN-JAK/STAT/Irf1/Tap1	2.86
+Irf1	Cxcl10	KRAS_G12D/IFN-JAK/STAT/Irf1/Cxcl10	8.47
+Irf1	Ddx58	KRAS_G12D/IFN-JAK/STAT/Irf1/Ddx58	9.61
+IFN-JAK/STAT	Irf2	KRAS_G12D/IFN-JAK/STAT/Irf2	
+Irf2	Ifit3b	KRAS_G12D/IFN-JAK/STAT/Irf2/Ifit3b	4.67
+Irf2	Ifit3	KRAS_G12D/IFN-JAK/STAT/Irf2/Ifit3	5.85
+Irf2	Tap1	KRAS_G12D/IFN-JAK/STAT/Irf2/Tap1	2.86
+Irf2	Adar	KRAS_G12D/IFN-JAK/STAT/Irf2/Adar	1.02
+Irf2	Parp14	KRAS_G12D/IFN-JAK/STAT/Irf2/Parp14	9.54
+Irf2	Nmi	KRAS_G12D/IFN-JAK/STAT/Irf2/Nmi	6.41
+Irf2	Isg15	KRAS_G12D/IFN-JAK/STAT/Irf2/Isg15	3.36
+KRAS_G12D	NF-kB/inflammation	KRAS_G12D/NF-kB/inflammation	
+NF-kB/inflammation	Nfkb1	KRAS_G12D/NF-kB/inflammation/Nfkb1	
+Nfkb1	Ccl5	KRAS_G12D/NF-kB/inflammation/Nfkb1/Ccl5	9.4
+Nfkb1	B2m	KRAS_G12D/NF-kB/inflammation/Nfkb1/B2m	6.79
+Nfkb1	Irf7	KRAS_G12D/NF-kB/inflammation/Nfkb1/Irf7	2.68
+Nfkb1	Cxcl10	KRAS_G12D/NF-kB/inflammation/Nfkb1/Cxcl10	8.47
+Nfkb1	Mmp3	KRAS_G12D/NF-kB/inflammation/Nfkb1/Mmp3	5.74
+Nfkb1	Timp1	KRAS_G12D/NF-kB/inflammation/Nfkb1/Timp1	8.93
+Nfkb1	Ripk2	KRAS_G12D/NF-kB/inflammation/Nfkb1/Ripk2	6.47
+NF-kB/inflammation	Rela	KRAS_G12D/NF-kB/inflammation/Rela	
+Rela	Ccl5	KRAS_G12D/NF-kB/inflammation/Rela/Ccl5	9.4
+Rela	Irf7	KRAS_G12D/NF-kB/inflammation/Rela/Irf7	2.68
+Rela	Cxcl10	KRAS_G12D/NF-kB/inflammation/Rela/Cxcl10	8.47
+Rela	Mmp3	KRAS_G12D/NF-kB/inflammation/Rela/Mmp3	5.74
+Rela	Timp1	KRAS_G12D/NF-kB/inflammation/Rela/Timp1	8.93
+Rela	Ripk2	KRAS_G12D/NF-kB/inflammation/Rela/Ripk2	6.47
+Rela	Cdkn1a	KRAS_G12D/NF-kB/inflammation/Rela/Cdkn1a	7.66
+KRAS_G12D	AP-1/stress	KRAS_G12D/AP-1/stress	
+AP-1/stress	Jun	KRAS_G12D/AP-1/stress/Jun	
+Jun	Ccl5	KRAS_G12D/AP-1/stress/Jun/Ccl5	9.4
+Jun	Spp1	KRAS_G12D/AP-1/stress/Jun/Spp1	8.23
+Jun	Mmp3	KRAS_G12D/AP-1/stress/Jun/Mmp3	5.74
+Jun	Fosl1	KRAS_G12D/AP-1/stress/Jun/Fosl1	9.12
+Jun	Mmp12	KRAS_G12D/AP-1/stress/Jun/Mmp12	1.83
+Jun	Cdkn1a	KRAS_G12D/AP-1/stress/Jun/Cdkn1a	7.66
+Jun	Ccl2	KRAS_G12D/AP-1/stress/Jun/Ccl2	6.17
+AP-1/stress	Fos	KRAS_G12D/AP-1/stress/Fos	
+Fos	Ccl5	KRAS_G12D/AP-1/stress/Fos/Ccl5	9.4
+Fos	Mmp3	KRAS_G12D/AP-1/stress/Fos/Mmp3	5.74
+Fos	Fosl1	KRAS_G12D/AP-1/stress/Fos/Fosl1	9.12
+Fos	Cdkn1a	KRAS_G12D/AP-1/stress/Fos/Cdkn1a	7.66
+Fos	Ccl2	KRAS_G12D/AP-1/stress/Fos/Ccl2	6.17

@@ -1,0 +1,4 @@
+pos	label	shape	colour	lane
+63178600	rs12454712 (IGF1, T2D_BMI)	triangle	Diverging.RdBu:1	1
+63178600	rs74625348 (colocalized eQTL)	triangle	Diverging.RdBu:9	1
+63178750	Gene-linked tile closest to eQTL	tick	black	2

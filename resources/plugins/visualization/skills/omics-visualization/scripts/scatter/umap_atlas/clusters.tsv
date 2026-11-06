@@ -1,0 +1,73 @@
+cluster	Celltype	order	Region	Age	CycleScore	count
+C001	Neuroblasts	1	Head	9.5	1.594	89
+C002	Neuroblasts	2	Head	13	1.842	106
+C003	Neuroblasts	3	Head	16.5	1.646	123
+C004	Neuroblasts	4	Head	7.5	1.127	75
+C005	Neuroblasts	5	Head	11	0.525	92
+C006	Neuroblasts	6	Head	14.5	0.183	109
+C007	Neurons	7	Forebrain	18	0.279	126
+C008	Neurons	8	Forebrain	9	0.773	78
+C009	Neurons	9	Forebrain	12.5	1.361	95
+C010	Neurons	10	Forebrain	16	1.796	112
+C011	Neurons	11	Forebrain	7	1.766	129
+C012	Neurons	12	Forebrain	10.5	1.349	81
+C013	Astrocytes	13	Midbrain	14	0.713	98
+C014	Astrocytes	14	Midbrain	17.5	0.236	115
+C015	Astrocytes	15	Midbrain	8.5	0.204	132
+C016	Astrocytes	16	Midbrain	12	0.542	84
+C017	Astrocytes	17	Midbrain	15.5	1.146	101
+C018	Astrocytes	18	Midbrain	6.5	1.685	118
+C019	OPCs	19	Hindbrain	10	1.834	135
+C020	OPCs	20	Hindbrain	13.5	1.569	87
+C021	OPCs	21	Hindbrain	17	0.964	104
+C022	OPCs	22	Hindbrain	8	0.372	121
+C023	OPCs	23	Hindbrain	11.5	0.158	73
+C024	OPCs	24	Hindbrain	15	0.401	90
+C025	Immune	25	Head	6	0.928	107
+C026	Immune	26	Head	9.5	1.505	124
+C027	Immune	27	Head	13	1.835	76
+C028	Immune	28	Head	16.5	1.71	93
+C029	Immune	29	Head	7.5	1.187	110
+C030	Immune	30	Head	11	0.591	127
+C031	Endothelial	31	Forebrain	14.5	0.217	79
+C032	Endothelial	32	Forebrain	18	0.26	96
+C033	Endothelial	33	Forebrain	9	0.673	113
+C034	Endothelial	34	Forebrain	12.5	1.317	130
+C035	Endothelial	35	Forebrain	16	1.749	82
+C036	Endothelial	36	Forebrain	7	1.803	99
+C037	Pericytes	37	Midbrain	10.5	1.401	116
+C038	Pericytes	38	Midbrain	14	0.838	133
+C039	Pericytes	39	Midbrain	17.5	0.288	85
+C040	Pericytes	40	Midbrain	8.5	0.192	102
+C041	Pericytes	41	Midbrain	12	0.483	119
+C042	Pericytes	42	Midbrain	15.5	1.088	136
+C043	Mesenchyme	43	Hindbrain	6.5	1.623	88
+C044	Mesenchyme	44	Hindbrain	10	1.803	105
+C045	Mesenchyme	45	Hindbrain	13.5	1.615	122
+C046	Mesenchyme	46	Hindbrain	17	1.065	74
+C047	Mesenchyme	47	Hindbrain	8	0.469	91
+C048	Mesenchyme	48	Hindbrain	11.5	0.157	108
+C049	Ependymal	49	Head	15	0.298	125
+C050	Ependymal	50	Head	6	0.846	77
+C051	Ependymal	51	Head	9.5	1.46	94
+C052	Ependymal	52	Head	13	1.836	111
+C053	Ependymal	53	Head	16.5	1.757	128
+C054	Ependymal	54	Head	7.5	1.305	80
+C055	Radial glia	55	Forebrain	11	0.643	97
+C056	Radial glia	56	Forebrain	14.5	0.242	114
+C057	Radial glia	57	Forebrain	18	0.213	131
+C058	Radial glia	58	Forebrain	9	0.611	83
+C059	Radial glia	59	Forebrain	12.5	1.231	100
+C060	Radial glia	60	Forebrain	16	1.736	117
+C061	Schwann	61	Midbrain	7	1.839	134
+C062	Schwann	62	Midbrain	10.5	1.503	86
+C063	Schwann	63	Midbrain	14	0.91	103
+C064	Schwann	64	Midbrain	17.5	0.351	120
+C065	Schwann	65	Midbrain	8.5	0.188	72
+C066	Schwann	66	Midbrain	12	0.355	89
+C067	Erythroid	67	Hindbrain	15.5	1.002	106
+C068	Erythroid	68	Hindbrain	6.5	1.558	123
+C069	Erythroid	69	Hindbrain	10	1.811	75
+C070	Erythroid	70	Hindbrain	13.5	1.68	92
+C071	Erythroid	71	Hindbrain	17	1.137	109
+C072	Erythroid	72	Hindbrain	8	0.501	126

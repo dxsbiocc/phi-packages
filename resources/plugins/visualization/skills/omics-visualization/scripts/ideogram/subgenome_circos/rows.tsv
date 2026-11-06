@@ -1,0 +1,25 @@
+species	subgenome	anchor	level	group	ploidy
+PWB sp1	C	C	1	PWB	6x
+PWB sp2	C	C	2	PWB	6x
+PWB sp3	C	C	3	PWB	6x
+NWB sp1	C	C	4	NWB	4x
+NWB sp2	C	C	5	NWB	4x
+NWB sp3	C	C	6	NWB	4x
+TWB sp1	C	C	7	TWB	4x
+TWB sp2	C	C	8	TWB	4x
+TWB sp3	C	C	9	TWB	4x
+HB sp1	H	C	10	HB	2x
+HB sp2	H	C	11	HB	2x
+Outgroup	H	C	12		2x
+PWB sp1	B	B	1	PWB	6x
+PWB sp2	B	B	2	PWB	6x
+PWB sp3	B	B	3	PWB	6x
+NWB sp1	B	B	4	NWB	4x
+NWB sp2	B	B	5	NWB	4x
+NWB sp3	B	B	6	NWB	4x
+PWB sp1	A	A	1	PWB	6x
+PWB sp2	A	A	2	PWB	6x
+PWB sp3	A	A	3	PWB	6x
+TWB sp1	D	A	7	TWB	4x
+TWB sp2	D	A	8	TWB	4x
+TWB sp3	D	A	9	TWB	4x

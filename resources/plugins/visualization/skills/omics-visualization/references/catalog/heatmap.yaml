@@ -268,8 +268,39 @@ templates:
       Do not compute Spearman in the script. Facet vs vline, or size
       from p vs from an abundance column, is not a second id. Do not
       use a per-cell diagonal split with two fill scales
-      (heatmap-corr-triangle).
+      (heatmap-corr-triangle). Equal-size observation dots with
+      top/left n bars are heatmap-obs-dot.
     input_shape: "one row per cell; category x, category y, numeric rho, numeric p; optional size and facet columns"
+    language: "r"
+    status: "stable"
+
+  - id: "heatmap-obs-dot"
+    title: "Observation-dot matrix with marginal n bars"
+    aliases:
+      - "症状疾病点阵"
+      - "观测均值点阵"
+      - "边际柱点阵热图"
+      - "symptom disease matrix"
+      - "observation dot heatmap"
+    source: "scripts/heatmap/obs_dot/plot.R"
+    examples:
+      - "scripts/heatmap/obs_dot/example.tsv"
+      - "scripts/heatmap/obs_dot/col_n.tsv"
+      - "scripts/heatmap/obs_dot/row_n.tsv"
+    preview: "scripts/heatmap/obs_dot/preview.png"
+    use_when: >
+      Show a category-by-category grid of equal-size dots coloured by a
+      supplied mean observation, with optional significance stars, a
+      top bar of column n, a left bar of row n, and row-category
+      strips (e.g. symptom × disease matrices).
+    avoid_when: >
+      Do not use a size-and-star correlation bubble grid
+      (heatmap-corr-bubble), a shape-cutoff association grid
+      (heatmap-corr-dot), or plain tiles (heatmap-basic). Do not
+      aggregate case reports or test significance in the script;
+      mean, stars, and n bars are supplied. Extra rows/columns stay
+      CONFIG on this id.
+    input_shape: "one row per cell; x, y, category, mean, significant; sidecars col_n.tsv and row_n.tsv"
     language: "r"
     status: "stable"
 
@@ -440,13 +471,45 @@ templates:
     avoid_when: >
       Do not use a numeric expression matrix (heatmap-basic),
       site × amino-acid ΔΔG tiles (heatmap-mutation-energy), a
-      protein-residue lollipop (ideogram-lollipop), dense-site
+      gene × cohort frequency matrix (heatmap-alteration-cohort),
+      a protein-residue lollipop (ideogram-lollipop), dense-site
       dandelions (ideogram-dandelion), or a signed-change waterfall
       bar (bar-waterfall). Triangle vs bar glyphs are not a second
       id. Do not parse MAF, fetch cBioPortal, or call variants in
       the script. An expression heatmap beside the oncoprint is a
       sidecar or a multi-panel figure.
     input_shape: "one row per gene-sample-alteration (gene, sample, alteration); several types in one cell are several rows or MUT;AMP"
+    language: "r"
+    status: "stable"
+
+  - id: "heatmap-alteration-cohort"
+    title: "Gene × cohort alteration-frequency heatmap"
+    aliases:
+      - "癌种变异频率热图"
+      - "基因队列变异热图"
+      - "alteration frequency heatmap"
+      - "cohort alteration heatmap"
+      - "通路癌种变异图"
+    source: "scripts/heatmap/alteration_cohort/plot.R"
+    examples:
+      - "scripts/heatmap/alteration_cohort/example.tsv"
+      - "scripts/heatmap/alteration_cohort/genes.tsv"
+      - "scripts/heatmap/alteration_cohort/cohorts.tsv"
+    preview: "scripts/heatmap/alteration_cohort/preview.png"
+    use_when: >
+      Show supplied alteration counts in a gene × cancer-cohort
+      grid: each cell is a number coloured by alteration class
+      (intensity from the value), with stacked frequency bars on
+      the top and right, a gene-role strip (oncogene / tumour
+      suppressor), cohorts grouped by organ system, and an optional
+      Total row. Extra alteration classes stay in CONFIG.
+    avoid_when: >
+      Do not use gene × sample layered glyphs (heatmap-oncoprint),
+      a plain expression matrix (heatmap-basic), or site × amino-acid
+      ΔΔG tiles (heatmap-mutation-energy). Do not call variants,
+      fetch cBioPortal, or run enrichment in the script. Intensity
+      and bar heights are display summaries of the supplied values.
+    input_shape: "one row per gene-cohort cell (gene, cohort, alteration, value); sidecars genes.tsv (gene, role) and cohorts.tsv (cohort, group)"
     language: "r"
     status: "stable"
 
@@ -460,12 +523,26 @@ templates:
     source: "scripts/heatmap/circos_split/plot.R"
     examples:
       - "scripts/heatmap/circos_split/example.tsv"
+      - "scripts/heatmap/circos_split/example_gwas.tsv"
     preview: "scripts/heatmap/circos_split/preview.png"
+    variants:
+      - image: "scripts/heatmap/circos_split/preview_gwas.png"
+        example: "scripts/heatmap/circos_split/example_gwas.tsv"
+        config: "inner = \"none\", show_qval = FALSE (no qval column), heat_palette = \"Diverging.Spectral\", heat_ramp = \"full\", heat_reverse = TRUE, value_range = c(0, 1), cell_border = \"grey64\", sector_border = NA, show_rownames = FALSE, sector_label = \"outside\", column_label = \"repel\", legend_position = \"center\", legend_labels = c(\"Low\", \"High\"), start.degree = 90, gap.last = 45"
+        shows: "Cell-type × disorder GWAS-hit ring: no row names, sector names outside, disorder names beside each ring in the gap, de-overlapped ggrepel-style with leaders only when moved, Spectral 0–1 scale and a Low/High legend in the centre."
+      - image: "scripts/heatmap/circos_split/preview_locus.png"
+        example: "scripts/heatmap/circos_split/example_locus.tsv"
+        config: "layout = \"locus\", inner = \"none\", show_qval = FALSE, gap.within = 6, gap.last = 26, locus$band / locus / label_class columns, locus$band_colors and label_colors (\"Family.Name:index\"), locus$blocks (title, columns, type = \"binary\" | \"continuous\", palette), size 10 x 10"
+        shows: "GWAS locus-to-gene prioritisation ring: outer gene names coloured by Novel / Known, trait band, merged locus-number ring, a binary Locus Classifier block (Coloc / Mendel / ABC) and a continuous Predictor block (Overall / V2G / TWAS / PoPS) with track names in the top gap and sector names inside."
     use_when: >
       Show a supplied numeric matrix as a circular heatmap whose sectors
       are a supplied Group, with an optional q-value diamond track and
       an optional Euler diagram of gene-name overlap in the hole.
-      inner = "euler" vs "none" and the q-value track are CONFIG.
+      inner = "euler" vs "none" and the q-value track are CONFIG, as
+      are palette, value range, borders, row names, outside sector
+      labels, repelled column labels and a centre legend. A locus-to-
+      gene ring (coloured gene labels, band, locus numbers, binary +
+      continuous track blocks) is layout = "locus", not a new id.
     avoid_when: >
       Do not use a rectangular unclustered matrix (heatmap-basic), a
       clustered sample heatmap (heatmap-cluster-basic), cutree blocks
@@ -474,6 +551,71 @@ templates:
       connector lines on an ideogram is ideogram-circos-heatmap.
       Do not cluster, rescale, or test in
       the script. Do not add an id per group count or per missing Euler.
-    input_shape: "one row per gene-in-group; Gene, Group, qval, plus numeric site columns"
+    input_shape: "one row per gene-in-group; Gene, Group, optional qval, plus numeric site columns"
+    language: "r"
+    status: "stable"
+
+  - id: "heatmap-circos-cohort"
+    title: "Circular per-sample cohort tracks with gap summaries"
+    aliases:
+      - "环状样本信息图"
+      - "环形样本信息"
+      - "样本信息环图"
+      - "队列环图统计"
+      - "circular sample overview"
+      - "cohort circos"
+      - "multi-omics aging cohort ring"
+    source: "scripts/heatmap/circos_cohort/plot.R"
+    examples:
+      - "scripts/heatmap/circos_cohort/example.tsv"
+    preview: "scripts/heatmap/circos_cohort/preview.png"
+    use_when: >
+      Show every sample as one equal slice (ID outside) with numeric
+      lollipop tracks (y axis) and categorical tile tracks, plus
+      summary columns in the empty gap aligned with each ring: box +
+      dots with quartile labels for numeric tracks and percent stacked
+      bars for categorical tracks, with legends. Track list (type,
+      colours, height, title), gap, start angle, IDs, axis and
+      quartile labels are CONFIG; summary positions come from ring
+      radii, no hand placement.
+    avoid_when: >
+      Do not use grouped category sectors with counts and a centre
+      total (heatmap-circos-annotation), a numeric gene matrix split
+      by group (heatmap-circos-split), or a genomic Circos
+      (ideogram-circos). Do not run tests in the script; quartiles and
+      percentages are descriptive. Do not add an id per track mix.
+    input_shape: "one row per sample; ID plus numeric and categorical columns named in CONFIG tracks"
+    language: "r"
+    status: "stable"
+
+  - id: "heatmap-circos-annotation"
+    title: "Circular cohort annotation rings"
+    aliases:
+      - "环状样本信息图"
+      - "队列概览环图"
+      - "样本注释环"
+      - "circular cohort"
+      - "cohort overview ring"
+    source: "scripts/heatmap/circos_annotation/plot.R"
+    examples:
+      - "scripts/heatmap/circos_annotation/example.tsv"
+    preview: "scripts/heatmap/circos_annotation/preview.png"
+    use_when: >
+      Summarise a cohort with one equal-angle slice per unit (sample,
+      tissue block) and concentric rings of independent categorical
+      attributes (cohort, assay, tumor type, cancer type), an optional
+      outer radial bar per unit (e.g. serial sections), counts on the
+      labelled ring and totals in the centre. A fan-shaped ring key is
+      CONFIG (ring_key).
+    avoid_when: >
+      Do not use for nested categories whose angle encodes descendant
+      size (sunburst-*), within-group composition plus radial bars
+      (pie-doughnut-bar), or numeric matrices (heatmap-circos-split).
+      Do not hand-write counts; they are tallied from the rows. One
+      slice per sample with numeric lollipop tracks and gap summary
+      columns is heatmap-circos-cohort.
+    input_shape: >
+      one row per unit; two or more categorical ring columns plus an
+      optional numeric bar column
     language: "r"
     status: "stable"

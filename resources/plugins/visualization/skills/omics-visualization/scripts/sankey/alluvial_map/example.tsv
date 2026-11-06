@@ -1,0 +1,139 @@
+protein	trait	category
+F11	Ischaemic stroke	ASCVD
+F11	Stroke	ASCVD
+PROCR	Ischaemic stroke	ASCVD
+PROCR	Stroke	ASCVD
+APOE	Ischaemic stroke	ASCVD
+APOE	CAD	ASCVD
+APOE	LDL	ASCVD
+C1R	Ischaemic stroke	ASCVD
+C1R	Stroke	ASCVD
+LPA	Ischaemic stroke	ASCVD
+LPA	Stroke	ASCVD
+LPA	Myocardial infarction	ASCVD
+LPA	CAD	ASCVD
+LPA	Peripheral artery disease	ASCVD
+LPA	LDL	ASCVD
+CFH	Ischaemic stroke	ASCVD
+CFH	Stroke	ASCVD
+ICAM1	CAD	ASCVD
+ICAM1	Heart failure	ASCVD
+SHBG	CAD	ASCVD
+SHBG	Myocardial infarction	ASCVD
+SHBG	Type 2 diabetes	Diabetes
+SHBG	WHRadjBMI	Obesity
+AGT	CAD	ASCVD
+AGT	Heart failure	ASCVD
+AGT	SBP	ASCVD
+AGT	DBP	ASCVD
+PCSK9	CAD	ASCVD
+PCSK9	LDL	ASCVD
+PCSK9	Myocardial infarction	ASCVD
+IL6R	CAD	ASCVD
+IL6R	CRP	MASH
+IL6R	Heart failure	ASCVD
+ANGPTL3	CAD	ASCVD
+ANGPTL3	LDL	ASCVD
+ANGPTL3	Triglyceride	ASCVD
+CELSR2	CAD	ASCVD
+CELSR2	LDL	ASCVD
+SORT1	CAD	ASCVD
+SORT1	LDL	ASCVD
+ABO	CAD	ASCVD
+ABO	Stroke	ASCVD
+FURIN	CAD	ASCVD
+FURIN	SBP	ASCVD
+CDKN2B	CAD	ASCVD
+PHACTR1	CAD	ASCVD
+PHACTR1	Myocardial infarction	ASCVD
+NOS3	CAD	ASCVD
+NOS3	SBP	ASCVD
+NOS3	DBP	ASCVD
+GCKR	ALT	MASH
+GCKR	AST	MASH
+GCKR	Triglyceride	ASCVD
+GCKR	Fasting glucose	Diabetes
+PNPLA3	ALT	MASH
+PNPLA3	AST	MASH
+PNPLA3	Liver cirrhosis	MASH
+PNPLA3	GGT	MASH
+TM6SF2	ALT	MASH
+TM6SF2	AST	MASH
+TM6SF2	Liver cirrhosis	MASH
+HSD17B13	ALT	MASH
+HSD17B13	AST	MASH
+MARC1	ALT	MASH
+MARC1	ALP	MASH
+TRIB1	ALT	MASH
+TRIB1	Triglyceride	ASCVD
+MLXIPL	Triglyceride	ASCVD
+MLXIPL	ALT	MASH
+APOC3	Triglyceride	ASCVD
+APOC3	ALT	MASH
+CRP	CRP	MASH
+IL1RN	CRP	MASH
+IL1RN	ALT	MASH
+FGF21	ALT	MASH
+FGF21	GGT	MASH
+SLC2A2	Fasting glucose	Diabetes
+SLC2A2	Glucose	Diabetes
+GCK	Fasting glucose	Diabetes
+GCK	HbA1c	Diabetes
+GCK	Type 2 diabetes	Diabetes
+TCF7L2	Type 2 diabetes	Diabetes
+TCF7L2	HbA1c	Diabetes
+TCF7L2	Fasting glucose	Diabetes
+ADCY5	Type 2 diabetes	Diabetes
+ADCY5	Fasting glucose	Diabetes
+MTNR1B	Fasting glucose	Diabetes
+MTNR1B	HbA1c	Diabetes
+MTNR1B	Glucose	Diabetes
+GLP1R	Type 2 diabetes	Diabetes
+GLP1R	HbA1c	Diabetes
+IGF2	Type 2 diabetes	Diabetes
+IGF2	Random glucose	Diabetes
+ANK1	HbA1c	Diabetes
+ANK1	Glucose	Diabetes
+FTO	BMI (ukbb giant)	Obesity
+FTO	Weight	Obesity
+FTO	WHRadjBMI	Obesity
+FTO	Type 2 diabetes	Diabetes
+MC4R	BMI (ukbb giant)	Obesity
+MC4R	Weight	Obesity
+MC4R	Fat-free mass index	Obesity
+LEPR	BMI (ukbb giant)	Obesity
+LEPR	Weight	Obesity
+ADCY3	BMI (ukbb giant)	Obesity
+ADCY3	Height	Obesity
+NPC1	BMI (ukbb giant)	Obesity
+SH2B1	BMI (ukbb giant)	Obesity
+SH2B1	Weight	Obesity
+POMC	BMI (ukbb giant)	Obesity
+POMC	WHRadjBMI	Obesity
+GIPR	BMI (ukbb giant)	Obesity
+GIPR	Type 2 diabetes	Diabetes
+SEC16B	BMI (ukbb giant)	Obesity
+FAIM2	BMI (ukbb giant)	Obesity
+TFAP2B	BMI (ukbb giant)	Obesity
+TFAP2B	WHRadjBMI	Obesity
+UMOD	eGFR	CKD
+UMOD	Urea	CKD
+UMOD	Urate	CKD
+SHROOM3	eGFR	CKD
+SHROOM3	Urea	CKD
+GATM	eGFR	CKD
+GATM	Urate	CKD
+PDILT	eGFR	CKD
+PDILT	Urea	CKD
+CST3	eGFR	CKD
+CST3	Urate	CKD
+NAT8	eGFR	CKD
+SLC34A1	eGFR	CKD
+SLC34A1	Urate	CKD
+CUBN	eGFR	CKD
+CUBN	Urea	CKD
+DAB2	eGFR	CKD
+PRKAG2	eGFR	CKD
+PRKAG2	Urate	CKD
+WDR72	eGFR	CKD
+WDR72	Urea	CKD

@@ -71,7 +71,7 @@ first, then apply these finishing rules:
 
 ## Efficient Application
 
-- Apply this pass after template selection. Do not restart catalog routing
+- Apply this pass after template selection. Do not restart template selection
   unless the chosen template cannot support the scientific claim honestly.
 - Prefer editing labels, scales, theme settings, legend guides, and output size
   over reworking data preparation.

@@ -1,0 +1,6 @@
+group	auc_label
+A vs NT +MCHAT	AUC 0.97
+A vs NT	AUC 0.90
+A vs Non-A	AUC 0.86
+A+LD vs NT	AUC 0.72
+LD vs NT	AUC 0.65

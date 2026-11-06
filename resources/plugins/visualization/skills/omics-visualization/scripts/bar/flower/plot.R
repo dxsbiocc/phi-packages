@@ -28,8 +28,10 @@
 #   labels). Extra sets are extra rows, not a new id. Do not compute
 #   set membership from raw samples here — supply total / unique /
 #   core. Two–four overlapping circles stay bar-venn; combination
-#   matrices stay bar-upset. Petals are annular sectors (radial
-#   sides + outer arc), not ellipses.
+#   matrices stay bar-upset. Default petals are annular sectors
+#   (radial sides + outer arc); petal_shape = "ellipse" (narrow, or
+#   wide + alpha for overlapping petals) and "pentagon" are variants,
+#   with petal_label, label_rotate and core_style in CONFIG.
 #
 # Scientific assumptions:
 #   total, unique, and core_n are supplied display counts. This
@@ -93,6 +95,18 @@ config <- list(
         title = "",
         core = "Core"
     ),
+    petal_shape = "wedge",       # "wedge", "ellipse", "pentagon"
+    petal_label = "both",        # "both", "total", "unique"
+    label_rotate = FALSE,        # rotate set names / counts along petals
+    core_style = "label",        # "label" (Core + n) or "ring" (n in a small dot)
+    core_border = TRUE,          # ring style: black outline on the core dot
+    alpha = 1,
+    text = list(count = 3.3, set = 3.6, core = 3.8),  # single-count labels
+    border = FALSE,              # petal outline in a darker petal colour
+    ellipse = list(inner = 0.4, outer = 1.05, width = 0.11),
+    # centre = NULL places each pentagon so its inner corners sit
+    # `tuck` inside the core circle, which then covers them.
+    pentagon = list(centre = NULL, radius = 0.28, tuck = 0.1),
     size = list(
         width = 8.2,
         height = 8.2
@@ -154,8 +168,10 @@ df$idx <- seq_len(n)
 # Clockwise from top (CK at 12 o'clock in the default example).
 df$theta <- pi / 2 - (df$idx - 1L) * (2 * pi / n)
 petal_pal <- config$palettes$petal
-if (length(petal_pal) == 1L && !startsWith(petal_pal, "#")) {
-    df$fill <- palette_colors(petal_pal, n = n)
+if (!any(startsWith(petal_pal, "#"))) {
+    pool <- unique(unlist(lapply(petal_pal, palette_colors)))
+    df$fill <- if (length(pool) >= n) pool[seq_len(n)] else
+        expand_palette(pool, n)
 } else {
     df$fill <- expand_palette(petal_pal, n)
 }
@@ -261,9 +277,51 @@ make_petal <- function(id, theta, fill, r_in, r_out, half_ang,
     )
 }
 
+make_ellipse <- function(id, theta, fill, r_in, r_out, b, k = 90) {
+    t <- seq(0, 2 * pi, length.out = k)
+    a <- (r_out - r_in) / 2
+    u <- (r_in + r_out) / 2 + a * cos(t)
+    v <- b * sin(t)
+    data.frame(id = id, fill = fill, x = u * cos(theta) - v * sin(theta),
+        y = u * sin(theta) + v * cos(theta), stringsAsFactors = FALSE)
+}
+make_pentagon <- function(id, theta, fill, rc, rp) {
+    ang <- theta + (0:4) * 2 * pi / 5
+    data.frame(id = id, fill = fill, x = rc * cos(theta) + rp * cos(ang),
+        y = rc * sin(theta) + rp * sin(ang), stringsAsFactors = FALSE)
+}
+
 slot <- 2 * pi / n
 half_ang <- slot * (1 - config$geometry$petal_gap) / 2
-petal_df <- do.call(
+shape <- config$petal_shape
+if (identical(shape, "ellipse")) {
+    el <- config$ellipse
+    petal_df <- do.call(rbind, lapply(seq_len(n), function(i) {
+        make_ellipse(i, df$theta[[i]], df$fill[[i]], el$inner, el$outer,
+            el$width)
+    }))
+    df$tx <- (el$inner + el$outer) / 2 * cos(df$theta) * 1.1
+    df$ty <- (el$inner + el$outer) / 2 * sin(df$theta) * 1.1
+} else if (identical(shape, "pentagon")) {
+    pg <- config$pentagon
+    rp <- pg$radius
+    rc <- pg$centre
+    if (is.null(rc)) {
+        # Tuck the two inner corners under the core circle.
+        r_hide <- config$geometry$core_r * (1 - pg$tuck)
+        half <- rp * sin(pi / 5)
+        if (r_hide <= half) {
+            stop("core_r too small to cover the pentagon base; raise core_r ",
+                "or lower pentagon$radius.", call. = FALSE)
+        }
+        rc <- rp * cos(pi / 5) + sqrt(r_hide^2 - half^2)
+    }
+    petal_df <- do.call(rbind, lapply(seq_len(n), function(i) {
+        make_pentagon(i, df$theta[[i]], df$fill[[i]], rc, rp)
+    }))
+    df$tx <- (rc + rp * 0.25) * cos(df$theta)
+    df$ty <- (rc + rp * 0.25) * sin(df$theta)
+} else petal_df <- do.call(
     rbind,
     lapply(seq_len(n), function(i) {
         make_petal(
@@ -284,12 +342,26 @@ petal_df <- do.call(
 # PLOT
 # -----------------------------------------------------------------------------
 core_fill <- "#ffffff"
+deg <- df$theta * 180 / pi
+flip <- cos(df$theta) < -1e-9
+df$rot <- if (isTRUE(config$label_rotate)) ifelse(flip, deg + 180, deg) else 0
+df$hj <- if (isTRUE(config$label_rotate)) ifelse(flip, 1, 0) else 0.5
+df$lab_one <- switch(config$petal_label,
+    total = df$lab_total,
+    unique = as.character(as.integer(round(df[[uni_col]]))),
+    df$lab_total)
+edge <- grDevices::adjustcolor(petal_df$fill, red.f = 0.75, green.f = 0.75,
+    blue.f = 0.75)
+ring <- identical(config$core_style, "ring")
+df$set_col_dk <- grDevices::adjustcolor(df$fill, red.f = 0.7, green.f = 0.7,
+    blue.f = 0.7)
 
 p <- ggplot() +
     geom_polygon(
         data = petal_df,
         aes(x = x, y = y, group = id, fill = I(fill)),
-        colour = NA
+        colour = if (isTRUE(config$border)) edge else NA,
+        alpha = config$alpha, linewidth = 0.5
     ) +
     ggforce::geom_circle(
         aes(
@@ -297,46 +369,40 @@ p <- ggplot() +
             r = config$geometry$core_r
         ),
         fill = core_fill,
-        colour = NA,
+        colour = if (ring && isTRUE(config$core_border)) "black" else NA,
+        linewidth = 0.6,
         inherit.aes = FALSE
-    ) +
+    )
+if (identical(config$petal_label, "both")) {
+    p <- p +
+        geom_text(data = df, aes(x = tx, y = ty, label = lab_total,
+            angle = rot), size = 3.4, fontface = "bold", colour = "grey15",
+            vjust = 0.1) +
+        geom_text(data = df, aes(x = tx, y = ty, label = lab_unique,
+            angle = rot), size = 2.8, colour = "grey25", vjust = 1.4)
+} else {
+    p <- p + geom_text(data = df, aes(x = tx, y = ty, label = lab_one,
+        angle = rot), size = config$text$count, fontface = "bold",
+        colour = "grey10")
+}
+if (ring) {
+    p <- p + annotate("text", x = 0, y = 0, label = as.character(core_n),
+        size = config$text$core, fontface = "bold", colour = "grey10")
+} else {
+    p <- p +
+        annotate("text", x = 0, y = 0.06, label = config$labels$core,
+            size = 4.2, fontface = "bold", colour = "grey10") +
+        annotate("text", x = 0, y = -0.1, label = as.character(core_n),
+            size = 4.6, fontface = "bold", colour = "grey10")
+}
+p <- p +
     geom_text(
         data = df,
-        aes(x = tx, y = ty, label = lab_total),
-        size = 3.4,
-        fontface = "bold",
-        colour = "grey15",
-        vjust = 0.1
-    ) +
-    geom_text(
-        data = df,
-        aes(x = tx, y = ty, label = lab_unique),
-        size = 2.8,
-        colour = "grey25",
-        vjust = 1.4
-    ) +
-    annotate(
-        "text",
-        x = 0, y = 0.06,
-        label = config$labels$core,
-        size = 4.2,
-        fontface = "bold",
-        colour = "grey10"
-    ) +
-    annotate(
-        "text",
-        x = 0, y = -0.1,
-        label = as.character(core_n),
-        size = 4.6,
-        fontface = "bold",
-        colour = "grey10"
-    ) +
-    geom_text(
-        data = df,
-        aes(x = lx, y = ly, label = .data[[set_col]]),
-        size = 3.6,
-        fontface = "bold",
-        colour = "grey10"
+        aes(x = lx, y = ly, label = .data[[set_col]], angle = rot,
+            hjust = hj, colour = if (isTRUE(config$label_rotate)) I(set_col_dk)
+            else I("grey10")),
+        size = config$text$set,
+        fontface = "bold"
     ) +
     coord_fixed(clip = "off") +
     labs(title = config$labels$title) +

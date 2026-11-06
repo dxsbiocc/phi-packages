@@ -40,6 +40,41 @@ templates:
       per-node colors.
     avoid_when: >
       Do not use sunburst-basic when that layered labeling is required.
+      Rounded wedges with tapered capsule leaves and centre group arcs
+      are sunburst-petal.
     input_shape: "hierarchical table with parent, name, path, value, and optional itemStyle.color"
+    language: "r"
+    status: "stable"
+
+  - id: "sunburst-petal"
+    title: "Rounded petal sunburst"
+    aliases:
+      - "圆角旭日图"
+      - "花瓣旭日图"
+      - "花瓣分类图"
+      - "petal sunburst"
+      - "taxonomy flower"
+    source: "scripts/sunburst/petal/plot.R"
+    examples:
+      - "scripts/sunburst/petal/example.tsv"
+    preview: "scripts/sunburst/petal/preview.png"
+    use_when: >
+      Show a two- or three-level taxonomy (super-group → category →
+      leaf) as rounded inner wedges, one tapered rounded capsule per
+      leaf on the outer ring with the leaf name inside, and optional
+      thick centre arcs for super-groups. Every leaf has equal angle,
+      so wedge angle encodes the number of leaves.
+    avoid_when: >
+      Do not use when leaf values should set angle or when sharp
+      annular rings are wanted (sunburst-basic, sunburst-advanced).
+      Equal-angle wedges with semicircular caps and no hierarchy
+      are pie-nightingale shape = "petal". A 5+ set flower / Venn
+      around a shared core is bar-flower. Do not use a part-to-whole
+      composition (pie-*) or a node-link tree. Sample counts such
+      as "(13k)" are label text, not angle; the script does not
+      count or classify.
+    input_shape: >
+      one row per leaf in clockwise order: category, subcategory;
+      optional group, category_label, colour (hex per category)
     language: "r"
     status: "stable"

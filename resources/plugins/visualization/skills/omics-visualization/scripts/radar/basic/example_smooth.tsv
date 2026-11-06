@@ -1,0 +1,25 @@
+name	ME_UP	L28BME_UP
+LT-HSC	0.95	0.7
+ST-HSC	0.88	0.45
+LMPP	0.78	0.3
+preGM	0.8	0.25
+GMP	0.82	0.55
+Granulocytes	0.86	0.72
+Monocyte	0.98	0.85
+CLP	0.45	0.9
+ETP	0.2	0.3
+NK cells	0.12	0.42
+NK mature	0.1	0.38
+Pre B	0.08	0.55
+Pro B	0.22	0.95
+B Cell	0.06	0.62
+CD4+ T cells	0.08	0.55
+Naive CD8+ T cells	0.1	0.48
+Activated CD4+ T cells	0.25	0.7
+Activated CD8+ T cells	0.3	0.75
+MkE	0.42	0.3
+MkP	0.4	0.2
+Pre CFUE	0.15	0.08
+CFUE	0.1	0.06
+ProE	0.08	0.05
+Nucleated Erythrocytes	0.12	0.1

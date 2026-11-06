@@ -47,7 +47,8 @@
     "Five Phi omics MCP connectors point at the HTTPS gateway on phi.omicsagent.cn (Streamable HTTP). initialImportCounts.connectors remains 18.",
     "The K-Dense resources/skills/nextflow/ skill was replaced by five official Nextflow Agent Skills from https://github.com/nextflow-io/agent-skills at commit 5ed41d00a93442fa1b8973c80fb23b74f3af537e (Apache-2.0): install-nextflow, create-workflow, run-module, launch-workflow, and migrate-nextflow-code.",
     "Visualization plugin 1.1.0 adds skills/create-template so the Visualization agent can author and register catalog templates. Ordinary user-data plotting stays on skills/omics-visualization. counts.pluginSkills is 2; initialImportCounts.pluginSkills stays 1.",
-    "Visualization plugin 1.1.1 adds skills/omics-visualization/references/template_gallery.json so the installed plugin page can show every catalog plot template. The index is generated from the catalogs; layout audit images are not templates."
+    "Visualization plugin 1.1.1 adds skills/omics-visualization/references/template_gallery.json so the installed plugin page can show every catalog plot template. The index is generated from the catalogs; layout audit images are not templates.",
+    "Visualization plugin 1.2.0 expands omics-visualization to 211 catalog templates with preview_* variants, and replaces heuristic viz_route ranking with agent choice plus deterministic viz_catalog/viz_profile lookup."
   ],
   "initialImportCounts": {
     "standaloneSkills": 14,

@@ -1,0 +1,115 @@
+group	day	mouse	volume
+Control	Day 9	C1	140.8
+Control	Day 9	C2	178.9
+Control	Day 9	C3	174.8
+Control	Day 9	C4	139.5
+Control	Day 9	C5	189.8
+Control	Day 9	C6	169.4
+Control	Day 14	C1	461.1
+Control	Day 14	C2	376.9
+Control	Day 14	C3	341.6
+Control	Day 14	C4	420.2
+Control	Day 14	C5	298.3
+Control	Day 14	C6	475.3
+Control	Day 17	C1	649.2
+Control	Day 17	C2	534.8
+Control	Day 17	C3	837
+Control	Day 17	C4	699.5
+Control	Day 17	C5	722.5
+Control	Day 17	C6	1043.6
+Control	Day 21	C1	1531.2
+Control	Day 21	C2	1503.4
+Control	Day 21	C3	1327.9
+Control	Day 21	C4	1170.3
+Control	Day 21	C5	842.2
+Control	Day 21	C6	1270.2
+FUS	Day 9	F1	128.6
+FUS	Day 9	F2	146.9
+FUS	Day 9	F3	147.2
+FUS	Day 9	F4	153.9
+FUS	Day 9	F5	146.2
+FUS	Day 9	F6	118.9
+FUS	Day 14	F1	327.6
+FUS	Day 14	F2	287.5
+FUS	Day 14	F3	374.5
+FUS	Day 14	F4	440.1
+FUS	Day 14	F5	377.7
+FUS	Day 14	F6	252
+FUS	Day 17	F1	20
+FUS	Day 17	F2	605.5
+FUS	Day 17	F3	580.8
+FUS	Day 17	F4	335.5
+FUS	Day 17	F5	568.3
+FUS	Day 17	F6	562.1
+FUS	Day 21	F1	832
+FUS	Day 21	F2	767.8
+FUS	Day 21	F3	849.4
+FUS	Day 21	F4	808.7
+FUS	Day 21	F5	1191.4
+FUS	Day 21	F6	881.8
+FUS	Day 24	F1	1342.2
+FUS	Day 24	F2	1186.2
+FUS	Day 24	F3	1394.8
+FUS	Day 24	F4	954.8
+FUS	Day 24	F5	1461.7
+FUS	Day 24	F6	1737
+Dox	Day 9	D1	138.7
+Dox	Day 9	D2	151.5
+Dox	Day 9	D3	126
+Dox	Day 9	D4	182.6
+Dox	Day 9	D5	178.5
+Dox	Day 9	D6	162.9
+Dox	Day 14	D1	343.1
+Dox	Day 14	D2	283.3
+Dox	Day 14	D3	234.8
+Dox	Day 14	D4	335.4
+Dox	Day 14	D5	292.7
+Dox	Day 14	D6	186.8
+Dox	Day 17	D1	276.4
+Dox	Day 17	D2	302.9
+Dox	Day 17	D3	492.8
+Dox	Day 17	D4	248.9
+Dox	Day 17	D5	392
+Dox	Day 17	D6	305.9
+Dox	Day 21	D1	556.8
+Dox	Day 21	D2	519.6
+Dox	Day 21	D3	550.6
+Dox	Day 21	D4	393.1
+Dox	Day 21	D5	441.6
+Dox	Day 21	D6	587.7
+Dox	Day 24	D1	739.4
+Dox	Day 24	D2	760.2
+Dox	Day 24	D3	664.5
+Dox	Day 24	D4	830.7
+Dox	Day 24	D5	480.2
+Dox	Day 24	D6	570.1
+Dox + FUS	Day 9	DF1	151.1
+Dox + FUS	Day 9	DF2	172.6
+Dox + FUS	Day 9	DF3	78.6
+Dox + FUS	Day 9	DF4	163.5
+Dox + FUS	Day 9	DF5	140.2
+Dox + FUS	Day 9	DF6	143.1
+Dox + FUS	Day 14	DF1	180.3
+Dox + FUS	Day 14	DF2	130.6
+Dox + FUS	Day 14	DF3	156
+Dox + FUS	Day 14	DF4	209.3
+Dox + FUS	Day 14	DF5	181
+Dox + FUS	Day 14	DF6	195.8
+Dox + FUS	Day 17	DF1	272.7
+Dox + FUS	Day 17	DF2	163.8
+Dox + FUS	Day 17	DF3	282.9
+Dox + FUS	Day 17	DF4	291.2
+Dox + FUS	Day 17	DF5	234.2
+Dox + FUS	Day 17	DF6	370.9
+Dox + FUS	Day 21	DF1	316.7
+Dox + FUS	Day 21	DF2	284.8
+Dox + FUS	Day 21	DF3	245.6
+Dox + FUS	Day 21	DF4	230.3
+Dox + FUS	Day 21	DF5	248.5
+Dox + FUS	Day 21	DF6	245.7
+Dox + FUS	Day 24	DF1	347.5
+Dox + FUS	Day 24	DF2	288.2
+Dox + FUS	Day 24	DF3	474.2
+Dox + FUS	Day 24	DF4	363.6
+Dox + FUS	Day 24	DF5	351.2
+Dox + FUS	Day 24	DF6	292.7

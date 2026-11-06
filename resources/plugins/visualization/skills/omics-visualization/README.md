@@ -10,13 +10,13 @@ Agent operating rules live in [SKILL.md](SKILL.md). This page is the human-facin
 
 ## What it does
 
-- Recommend a plot from a two-level catalog (family → template), using `use_when` / `avoid_when` rather than a filename guess.
-- When the user only wants examples, show the installed `preview.png` files through `viz_examples`; no data simulation or rendering is needed.
+- Recommend a plot from a two-level catalog (family → template), using `use_when` / `avoid_when` rather than a filename guess. The agent chooses the template; the tools look up, count, copy, and run.
+- When the user only wants examples, look up installed `preview.png` files with `viz_catalog` by alias or family; no data simulation or rendering is needed.
 - For an existing figure, edit its prepared script and rerender with the original inputs. For a user reference image, inspect it before making a new data figure.
-- Use a lightweight contract router for preview-mode and common result-table shapes, so the agent can shortlist likely templates before opening full catalogs.
-- Inspect the distribution and data contract before recommending a template.
+- Count the table with `viz_profile` before choosing: column types, missing values, ranges, and identifier overlap.
+- Look up one family or an exact name with `viz_catalog`. It never ranks or guesses.
 - Show matching `preview.png` images when several candidates would change the scientific reading. Several candidates appear as a numbered list so you can compare them.
-- Copy the chosen `plot.R` into **your project**, map columns, restyle, and render PDF / PNG / SVG.
+- Copy the chosen `plot.R` into **your project** with `viz_prepare`, map columns, restyle, and render PDF / PNG / SVG with `viz_render`.
 - Apply named palettes from the OmicsAgent ColorPicker catalog instead of invented hex codes.
 - Assemble labelled multi-panel figures when several plots must support one claim, then audit the layout.
 - Move quickly when the catalog and data shape point to one clear template; show alternatives only when they change the scientific reading.
@@ -41,13 +41,13 @@ Visualization starts by stating what should become easier to see, compare, verif
 
 The baseline style is compact and evidence-led: minimal visual vocabulary, quiet secondary marks, explicit units and transformations, no decorative backgrounds, no rainbow palettes, and no labels that only work when zoomed. Journal-specific submission rules still come from the target venue; this skill supplies the design posture.
 
-### Contract fast path, then catalog
+### Agent chooses, tools look up
 
-Agents must not recommend a template from training data. For preview-mode and common shapes, they can first run the dependency-free router in [scripts/route_template.py](scripts/route_template.py), which uses generic entity/feature/category roles from [references/template_contracts.json](references/template_contracts.json). High-confidence results let the agent skip unrelated family catalogs, but the selected catalog entry and `plot.R` still get checked before rendering.
+Agents must not recommend a template from training data, and scripts must not rank templates from column names or keywords. The agent reads the purpose, the `viz_profile` facts, and one family from `viz_catalog`, then compares `use_when`, `avoid_when`, and `input_shape`. `viz_catalog` looks up by family, exact id, or exact alias (including Chinese names). It does not score or shortlist.
 
-Contract edits are checked with [scripts/validate_template_contracts.py](scripts/validate_template_contracts.py), which verifies template ids, source paths, and preview paths against the catalogs. Its text report also shows contract coverage by family, so the remaining long tail can be expanded by priority instead of manually reading the whole catalog every time.
+[references/template_contracts.json](references/template_contracts.json) lists the input roles each template expects. `viz_prepare` checks an agent-supplied `role=column` mapping against those roles; it does not choose the template. Catalog edits are checked with [scripts/validate_template_contracts.py](scripts/validate_template_contracts.py), which verifies template ids, source paths, preview paths, and role names against the catalogs.
 
-For low-confidence, novel, or publication-critical figures, agents read [references/plots.yaml](references/plots.yaml), open only that family’s catalog, and compare `preview`, `use_when`, `avoid_when`, and `input_shape`. Aliases (including Chinese names) help interpret a request; they are not enough to choose.
+For a named chart, look it up with `alias`. For a new figure, read [references/plots.yaml](references/plots.yaml), open only that family’s catalog, and choose. An alias helps interpret a request; it is not enough to choose when several templates would change the reading.
 
 ### Preview when it changes the decision
 
@@ -74,45 +74,48 @@ A labelled figure starts from one major claim and a necessity test: if removing 
 ## How selection works
 
 ```text
-example request without data → viz_examples → shipped preview.png images → user choice
+example request without data
+    → viz_catalog (alias or family)
+    → shipped preview.png images
+    → user choice
 
 data + claim
-    → purpose + distribution snapshot
-    → route_template.py    (fast shortlist for preview/common shapes)
-    → plots.yaml          (pick one family)
-    → catalog/<family>.yaml
-    → preview.png list    (only for material alternatives)
-    → palettes.yaml       (named hex only)
-    → copy plot.R locally
+    → purpose
+    → viz_profile          (count the table)
+    → plots.yaml           (pick one family)
+    → viz_catalog family   (read use_when / avoid_when / input_shape)
+    → preview.png list     (only for material alternatives)
+    → palettes.yaml        (named hex only)
+    → viz_prepare          (copy plot.R; check role=column)
     → source installed helpers
-    → nature-style pass   (final-size polish when relevant)
-    → render, run qa_single_plot.py, and inspect the artifact
+    → nature-style pass    (final-size polish when relevant)
+    → viz_render, inspect the artifact
 ```
 
 For a multi-panel request, write the figure-level claim and each panel’s evidence role first, then route every necessary panel through the same catalog.
 
 ## Library
 
-About **149** single-plot templates in **12** families, plus a small layout set:
+**211** single-plot templates in **12** families, plus a small layout set. Some templates also ship `preview_<name>.png` CONFIG variants:
 
 | Family | Typical use |
 |---|---|
-| `scatter` | Coordinates, embeddings, UMAP-in-circos rings, Voronoi tiles, volcano / zoom-inset volcano / MA, dumbbells, beeswarm, SVG glyphs, signed and circular lollipops, ternary compositions, pairs grids |
-| `heatmap` | Matrices, clustering, cutree-block scores, correlation, association-dot / bubble / diagonal-split grids, Mantel-style displays, DE heatmap with enrichment zooms, term-by-group enrichment heatmap, saturation-mutation energy with mean ΔΔG overlay, gene × sample oncoprint, group-split circular heatmap |
-| `bar` | Magnitudes, stacks, ranked enrichment bars and dotplots, category SVG marks, UpSet combination matrices, 2–4 set Venn circles, patient swimmer lanes |
-| `boxplot` | Distributions, violins, rainclouds, paired contrasts |
-| `line` | Time, rank, stacked area, survival, density ridges |
-| `pie` | Part-to-whole, rings, Nightingale, circos doughnut with outer bars |
-| `radar` | A few named numeric axes |
-| `graph` | Node–link networks (supplied coordinates or `graph-stress`), weighted Circos chords |
-| `sankey` | Conserved flows, including parallel-sets across categorical axes |
-| `sunburst` | Hierarchy as rings whose **angle** encodes size |
-| `tree` | Node-link trees, hclust dendrograms, treemap / pack / icicle, enrichment ring |
-| `ideogram` | Gene models, chromosome G-banding, loci on chromosomes, density fill, genomic-locus coverage, protein mutation lollipops, dense-site dandelions, multi-track genomic Circos, two-genome synteny, genomic Circos heatmap, nested Circos zoom |
+| `scatter` | Coordinates, embeddings, UMAP atlas / circos / marker-gene dots, Voronoi tiles, volcano / multi / barcode / GO-shoulder / MA, Manhattan / QQ, 1D hist / density, 2D density, residuals, xy-error, zoom insets, dumbbells, beeswarm (no boxes), SVG glyphs, lollipops, ternary, pairs, grouped fits, pathway facets, Zi–Pi, variate panels |
+| `heatmap` | Matrices, clustering, cutree-block scores, correlation, association-dot / bubble / diagonal-split / observation-dot grids, Mantel-style displays, DE heatmap with enrichment zooms, term-by-group enrichment, Circos annotation / cohort / split rings, alteration-frequency cohort, saturation-mutation energy, oncoprint |
+| `bar` | Magnitudes, stacks, stack+doughnut, ranked enrichment bars / cluster / lollipop, cell-communication bars, radial donut / line, multi-axis line+bar, Circos links, category SVG marks, UpSet, Venn, flower / petal sets, swimmer lanes |
+| `boxplot` | Distributions, outline-box beeswarm / notched / cohort boxes, violins, rainclouds, letter-value boxes, paired and butterfly contrasts |
+| `line` | Time, rank, stacked area, survival, density ridges, GSEA, difference ribbons, ROC, spiral plots |
+| `pie` | Part-to-whole, rings, Nightingale / petal pie, circos doughnut with outer bars |
+| `radar` | A few named numeric axes, including significance-marked profiles |
+| `graph` | Node–link networks (supplied coordinates or `graph-stress`), TF–target regulons, signed multi-omics networks, module co-occurrence panels, weighted / bipartite Circos chords |
+| `sankey` | Conserved flows, parallel-sets, equal-width protein–trait alluvial maps, enrichment flow with a ranked bar |
+| `sunburst` | Hierarchy as rings whose **angle** encodes size, including petal taxonomies |
+| `tree` | Node-link trees, hclust dendrograms, treemap / pack / icicle, enrichment ring, circular cell-annotation tree, daylight and phylo-ring phylogenies |
+| `ideogram` | Gene models, chromosome G-banding, loci / multi-trait loci, density fill, genomic-locus coverage, protein mutation lollipops, dandelions, Circos / synteny / linear riparian / subgenome Circos, nested Circos zoom |
 
 `circular` and `outer = "bar"` / `"point"` are CONFIG on the existing id, not extra templates. The SVG file on `scatter-svg` / `bar-svg-icon` is CONFIG too. `graph-force` keeps supplied x/y (`layout = "manual"`). Algorithm layout from an edge table is `graph-stress`.
 
-Each template ships with `plot.R`, example data, and `preview.png`. Catalog entries record `id`, aliases, language, status, and the input shape the script expects.
+Each template ships with `plot.R`, example data, and `preview.png`. A CONFIG option that changes the figure also ships as `preview_<name>.png` and is listed under `variants` in the catalog. `viz_catalog` `ids` returns those images as extra `preview_markdown`. Catalog entries record `id`, aliases, language, status, and the input shape the script expects.
 
 Palettes live in the generated [palette index](references/palettes.yaml), with the full OmicsAgent set in the [color catalog](references/palettes/colors.json). These files are synced byte-for-byte from Phi's shared `resources/palettes/` catalog so the installed plugin stays self-contained; edit the shared source, not this copy. Defaults: `Qualitative.Safe` for groups, `Quantitative.BluGrn` for heatmaps, `Diverging.RdBu` for signed values, `Brand.Algolia` when matching the OmicsAgent product.
 
@@ -122,7 +125,7 @@ Palettes live in the generated [palette index](references/palettes.yaml), with t
 SKILL.md                         Agent contract
 README.md / README.zh-CN.md      This introduction
 references/
-  template_contracts.json         Fast routing contracts for common shapes
+  template_contracts.json        Input roles each template expects
   plots.yaml                     Family index
   palettes.yaml                  Generated recommended palettes
   palettes/colors.json           Generated full hex catalog
@@ -132,9 +135,12 @@ references/
   nature-figure-principles.md
   rendered-layout-qa.md
 scripts/
-  route_template.py              Dependency-free preview router
+  viz.py                         catalog / profile / prepare / render
+  viz_catalog.py                 Exact catalog lookup
+  viz_profile.py                 Table counts and column checks
+  viz_templates.py               Copy and parse plot.R
   qa_single_plot.py              Lightweight single-plot artifact QA
-  validate_template_contracts.py Contract/catalog consistency check
+  validate_template_contracts.py Catalog and role consistency check
   lib/common.R                   Shared I/O and save helpers
   <family>/<template>/plot.R
   layouts/<layout>/compose.R
@@ -142,7 +148,7 @@ scripts/
 
 ## Using it
 
-In a compatible agent environment, invoke the **omics-visualization** skill when you have result tables or matrices and want a scientific figure. Bring the data (or a clear column contract). The agent should first state the display purpose, inspect the distribution, proceed when one template is clearly supported, and show previews for user selection only when viable candidates would tell materially different scientific stories.
+In a compatible agent environment, invoke the **omics-visualization** skill when you have result tables or matrices and want a scientific figure. Bring the data (or a clear column contract). The agent should first state the display purpose, count the table with `viz_profile`, look up one family with `viz_catalog`, proceed when one template is clearly supported, and show previews for user selection only when viable candidates would tell materially different scientific stories.
 
 To run a template yourself:
 

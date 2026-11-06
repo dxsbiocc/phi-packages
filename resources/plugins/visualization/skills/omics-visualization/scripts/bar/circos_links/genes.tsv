@@ -1,0 +1,91 @@
+disease	gene	score	direction
+Type 2 diabetes	TCF7L2	0.386	positive
+Type 2 diabetes	KCNJ11	0.15	positive
+Type 2 diabetes	PPARG	0.584	positive
+Type 2 diabetes	SLC30A8	0.162	negative
+Type 2 diabetes	FTO	0.205	negative
+Type 2 diabetes	CDKAL1	0.962	negative
+Type 2 diabetes	IGF2BP2	0.224	positive
+Type 2 diabetes	HNF1B	0.396	positive
+Type 2 diabetes	APOE	0.899	positive
+Prostate cancer	HOXB13	0.284	positive
+Prostate cancer	KLK3	0.558	positive
+Prostate cancer	MSMB	0.323	positive
+Prostate cancer	BRCA2	0.728	positive
+Prostate cancer	HNF1B	0.459	positive
+Prostate cancer	MYC	0.448	positive
+Prostate cancer	TERT	0.203	positive
+Prostate cancer	NKX3-1	0.561	positive
+Premature mortality	APOE	0.841	positive
+Premature mortality	FOXO3	0.696	positive
+Premature mortality	CHRNA5	0.385	positive
+Premature mortality	LPA	0.238	negative
+Premature mortality	CDKN2B	0.368	positive
+Premature mortality	TERT	0.199	negative
+COPD	CHRNA5	0.692	positive
+COPD	HHIP	0.162	positive
+COPD	FAM13A	0.6	positive
+COPD	AGER	0.859	positive
+COPD	MMP12	0.577	negative
+COPD	SERPINA1	0.658	positive
+COPD	TGFB2	0.512	positive
+Lung cancer	CHRNA5	0.265	positive
+Lung cancer	TERT	0.79	negative
+Lung cancer	EGFR	0.298	negative
+Lung cancer	TP63	0.643	positive
+Lung cancer	CLPTM1L	0.789	positive
+Lung cancer	HLA-DQA1	0.305	positive
+Lung cancer	BRCA2	0.199	negative
+Lung cancer	MYC	0.574	positive
+Renal disease	UMOD	0.38	positive
+Renal disease	APOL1	0.432	negative
+Renal disease	SHROOM3	0.459	positive
+Renal disease	SLC34A1	0.337	positive
+Renal disease	PKD1	0.193	negative
+Renal disease	CDKN2B	0.572	negative
+Renal disease	LPA	0.582	positive
+Heart failure	BAG3	0.461	positive
+Heart failure	TTN	0.8	positive
+Heart failure	CDKN2B	0.162	negative
+Heart failure	LPA	0.555	negative
+Heart failure	APOE	0.839	positive
+Heart failure	FTO	0.353	positive
+Heart failure	SYNPO2L	0.801	positive
+Heart failure	CLCNKA	0.314	positive
+Parkinson's disease	SNCA	0.738	negative
+Parkinson's disease	LRRK2	0.779	negative
+Parkinson's disease	GBA	0.629	positive
+Parkinson's disease	MAPT	0.272	negative
+Parkinson's disease	TMEM175	0.75	positive
+Parkinson's disease	HLA-DRB5	0.226	positive
+Parkinson's disease	BST1	0.522	positive
+Colon cancer	APC	0.318	negative
+Colon cancer	SMAD7	0.396	negative
+Colon cancer	MYC	0.992	negative
+Colon cancer	CDH1	0.295	negative
+Colon cancer	GREM1	0.534	positive
+Colon cancer	TERT	0.211	positive
+Colon cancer	POLD1	0.172	positive
+Colon cancer	BMP4	0.878	positive
+Breast cancer	BRCA1	0.381	positive
+Breast cancer	BRCA2	0.753	positive
+Breast cancer	FGFR2	0.808	positive
+Breast cancer	ESR1	0.994	negative
+Breast cancer	TOX3	0.724	positive
+Breast cancer	MYC	0.625	positive
+Breast cancer	TERT	0.533	negative
+Breast cancer	CDH1	0.735	positive
+Breast cancer	PALB2	0.339	negative
+Acute pancreatitis	PRSS1	0.724	positive
+Acute pancreatitis	SPINK1	0.696	positive
+Acute pancreatitis	CTRC	0.271	negative
+Acute pancreatitis	CFTR	0.307	positive
+Acute pancreatitis	CLDN2	0.708	positive
+Acute pancreatitis	CASR	0.632	negative
+Multimorbidity	APOE	0.305	negative
+Multimorbidity	FTO	0.189	negative
+Multimorbidity	CDKN2B	0.99	negative
+Multimorbidity	LPA	0.308	positive
+Multimorbidity	TERT	0.382	negative
+Multimorbidity	FOXO3	0.852	positive
+Multimorbidity	MYC	0.233	positive

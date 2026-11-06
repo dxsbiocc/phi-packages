@@ -1,7 +1,7 @@
 # Easy mis-routes
 
-Read this when two templates of one family look alike, or when the router's
-recommendation and the user's wording disagree. Paths and template ids are the
+Read this when two templates of one family look alike, or when your pick and
+the user's wording disagree. Paths and template ids are the
 same as in SKILL.md.
 
 Confirm against the family catalog. These pairs share vocabulary but not
@@ -156,8 +156,17 @@ geometry:
   multi-panel layout. Do not tabulate raw samples or compute expected
   counts in the script. Overlapping circles of 2–4 supplied sets →
   `bar-venn`. Percentage and element-name labels stay in CONFIG. Five
-  or more sets stay on `bar-upset`. Do not add an id per ggvenn / venn
-  package or for a 5–7 petal Venn.
+  or more sets as petals around a shared core → `bar-flower`
+  (`petal_shape` is CONFIG). That is not pie-nightingale
+  `shape = "petal"` (equal-angle value wedges with caps) and not
+  `sunburst-petal` (hierarchical taxonomy capsules). Do not add an
+  id per ggvenn / venn package or for a 5–7 petal Venn.
+  Outline boxes plus a quasirandom swarm → `boxplot-basic`
+  `style = "beeswarm"`. A swarm without boxes, or mean±SEM ELISA-style,
+  → `scatter-beeswarm`. Do not add an id for notch or cohort boxes;
+  those stay on `boxplot-basic`. 1D histograms / freqpoly →
+  `scatter-hist`. 1D kernel densities → `scatter-density1d`. Stacked
+  density ridges → `line-ridge`. Those are not boxplots.
   One lane per patient on a time axis, treatment intervals as
   rectangles, response points and stop marks → `bar-swimmer`. Extra
   treatments and left-hand annotation tiles stay in CONFIG. That is

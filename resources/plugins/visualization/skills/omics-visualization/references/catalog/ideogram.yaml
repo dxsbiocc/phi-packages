@@ -72,9 +72,45 @@ templates:
     avoid_when: >
       Do not use transcript exon / CDS / UTR tracks (ideogram-gene) or
       G-banding with no loci (ideogram-karyotype). A multi-track
-      Circos with rearrangement links is ideogram-circos. Do not add
-      an id per gene set or per genome build.
+      Circos with rearrangement links is ideogram-circos. Loci with
+      several traits each, drawn as per-organ marker rings, are
+      ideogram-loci-traits. Do not add an id per gene set or per
+      genome build.
     input_shape: "one row per locus (chr, start, end, gene, category) plus a cytoband sidecar"
+    language: "r"
+    status: "stable"
+
+  - id: "ideogram-loci-traits"
+    title: "Multi-trait loci circos with organ marker rings"
+    aliases:
+      - "多性状位点环图"
+      - "多效性位点环图"
+      - "GWAS位点性状环图"
+      - "pleiotropic loci circos"
+      - "multi-trait loci"
+    source: "scripts/ideogram/loci_traits/plot.R"
+    examples:
+      - "scripts/ideogram/loci_traits/example.tsv"
+      - "scripts/ideogram/loci_traits/cytoband.tsv"
+    preview: "scripts/ideogram/loci_traits/preview.png"
+    use_when: >
+      Show supplied locus × trait associations on a circular
+      ideogram: one band label per locus with its association count,
+      branching leaders from the genomic midpoint to a column of
+      markers, one concentric marker ring per organ (shape = organ,
+      fill = trait) and an organ-grouped legend in the centre. Label
+      and marker angles are spread with order preserved. Organ
+      shapes / palettes / ring order, spacing and chromosome set are
+      CONFIG.
+    avoid_when: >
+      Do not use single-category gene labels (ideogram-loci), a
+      Manhattan plot of all SNPs (scatter-manhattan), quantitative
+      genomic tracks or links (ideogram-circos), or a genomic interval
+      heatmap (ideogram-circos-heatmap). Do not run GWAS, LD clumping,
+      colocalisation or locus definition in the script.
+    input_shape: >
+      one row per locus-by-trait association (chr, start, end, locus,
+      band, organ, trait) plus a cytoband sidecar
     language: "r"
     status: "stable"
 
@@ -110,14 +146,32 @@ templates:
       - "coverage track"
       - "ATAC coverage"
       - "HiChIP loops"
+      - "SCARlink"
+      - "peak-to-gene"
+      - "BCL2 accessibility"
+      - "chromatin accessibility tracks"
+      - "gene-linked tiles"
     source: "scripts/ideogram/coverage/plot.R"
     examples:
       - "scripts/ideogram/coverage/example.tsv"
+      - "scripts/ideogram/coverage/linked/example.tsv"
+      - "scripts/ideogram/coverage/linked/gene_models.tsv"
+      - "scripts/ideogram/coverage/linked/tiles.tsv"
+      - "scripts/ideogram/coverage/linked/markers.tsv"
+      - "scripts/ideogram/coverage/linked/expression.tsv"
     preview: "scripts/ideogram/coverage/preview.png"
+    variants:
+      - image: "scripts/ideogram/coverage/preview_linked.png"
+        example: "scripts/ideogram/coverage/linked/example.tsv"
+        config: "layout = \"linked\"; sidecars in linked/: gene_models.tsv (gene, feature, start, end, lane), tiles.tsv (track, start, end, z, flag), markers.tsv (pos, label, shape, colour, lane), expression.tsv (track, value); linked$coef_track, focus_gene, z_limits, scale_bar, title_gene / title_rest, track_palette"
+        shows: "Peak-to-gene locus panel: exon-level gene models with a highlighted focus gene, per-cell-type accessibility lines each with a gene-linked tile Z-score dot strip (flagged tile ringed), a black coefficient track, SNP triangles and tile tick with a 100 kb scale bar, and aligned per-cell-type expression violins on the right."
     use_when: >
       Stack supplied coverage tracks on one genomic window, with
       optional chromatin-loop arcs and gene intervals. Extra tracks,
       a highlight window, and loops on/off stay in CONFIG / sidecars.
+      A peak-to-gene panel (gene models, line tracks with linked-tile
+      strips, coefficient track, SNP markers, side expression
+      violins) is layout = "linked", not a new id.
     avoid_when: >
       Do not use whole-chromosome density fill (ideogram-density)
       or transcript exon / CDS / UTR models (ideogram-gene). Do not
@@ -138,15 +192,28 @@ templates:
       - "lollipop"
       - "MutationMapper"
       - "g3viz"
+      - "线粒体突变环图"
+      - "环形位点棒棒糖"
+      - "mtDNA lollipop"
     source: "scripts/ideogram/lollipop/plot.R"
     examples:
       - "scripts/ideogram/lollipop/example.tsv"
+      - "scripts/ideogram/lollipop/example_mito.tsv"
+      - "scripts/ideogram/lollipop/domains_mito.tsv"
     preview: "scripts/ideogram/lollipop/preview.png"
+    variants:
+      - image: "scripts/ideogram/lollipop/preview_circular.png"
+        example: "scripts/ideogram/lollipop/example_mito.tsv"
+        config: "layout = \"circular\", protein_length = 16569, domains = \"domains_mito.tsv\", label_min = 0, label_prefix = \"\", label_big_mark = \",\""
+        shows: "Circular sequence (mtDNA): feature ring coloured by group, radial stems with solid heads, position labels, dashed score rings."
     use_when: >
       Draw mutations on a protein amino-acid axis: stem height is a
       supplied count, heads are pie or solid circles by mutation
       class, and domains sit on a sidecar bar. Pie vs circle, hotspot
-      labels, and legend stay in CONFIG.
+      labels, and legend stay in CONFIG. layout = "circular" bends a
+      circular sequence (mtDNA, plasmid, viral genome) into a feature
+      ring (domains sidecar with an optional group column) with radial
+      stems outward or inward and position labels.
     avoid_when: >
       Do not use transcript exon / CDS / UTR tracks (ideogram-gene),
       a genomic-locus coverage browser (ideogram-coverage), a signed
@@ -195,24 +262,37 @@ templates:
       - "环状基因组"
       - "CNV circos"
       - "重排环图"
+      - "色带Circos"
+      - "ribbon circos"
     source: "scripts/ideogram/circos/plot.R"
     examples:
       - "scripts/ideogram/circos/example.tsv"
       - "scripts/ideogram/circos/cytoband.tsv"
       - "scripts/ideogram/circos/links.tsv"
+      - "scripts/ideogram/circos/example_ribbons.tsv"
+      - "scripts/ideogram/circos/cytoband_ribbons.tsv"
+      - "scripts/ideogram/circos/links_ribbons.tsv"
     preview: "scripts/ideogram/circos/preview.png"
+    variants:
+      - image: "scripts/ideogram/circos/preview_ribbons.png"
+        example: "scripts/ideogram/circos/example_ribbons.tsv"
+        config: "sector_style = \"plain\", histogram_fill, link group colours, chromosomes order, background = \"white\""
+        shows: "Publication-style Circos: plain sectors, solid density track, thick pastel ribbons coloured by link group."
     use_when: >
       Draw one genome as circular sectors with an ideogram, concentric
       quantitative tracks (histogram / scatter / line), and optional
       rearrangement links. Extra tracks are extra `track` levels.
-      Links on/off is CONFIG. A microbial or mitochondrial circle is
-      the cytoband table, not a new id.
+      Links on/off, link group colouring, chromosome order, plain
+      sectors, solid histogram fill and background are CONFIG. A
+      microbial or mitochondrial circle is the cytoband table, not a
+      new id.
     avoid_when: >
       Do not use labelled gene loci without tracks (ideogram-loci),
       linear window fill (ideogram-density), two-genome homology
       ribbons (ideogram-synteny), a group-split circular heatmap
       (heatmap-circos-split), a genomic Circos heatmap with
-      connector lines (ideogram-circos-heatmap), or a nested
+      connector lines, including mixed scatter / CNV tracks and
+      inner gene labels (ideogram-circos-heatmap), or a nested
       overview-plus-zoom Circos (ideogram-nested). Do not add an id per track type or for links
       on/off. Do not call CNV, SV, or density in the script.
     input_shape: "one row per genomic window (chr, start, end, value, track, type) plus cytoband.tsv and optional links.tsv sidecars"
@@ -236,12 +316,90 @@ templates:
       blocks as ribbons. Extra chromosomes are extra karyotype rows.
       A third genome is another genome level in the sidecar.
     avoid_when: >
+      Do not use many species stacked per subgenome with inner
+      heatmap tracks (ideogram-subgenome-circos), or a horizontal
+      multi-genome riparian track (ideogram-synteny-linear).
       Do not use one genome with quantitative tracks and SV links
       (ideogram-circos), a weighted category chord (graph-chord),
       or equal-spacing circular nodes (graph-circular). Do not run
       BLAST, minimap, or MCScanX in the script. Do not add an id
       per species pair.
     input_shape: "one row per aligned block (chr1, start1, end1, chr2, start2, end2, group) plus karyotype.tsv (genome, chr, start, end). chr names must be unique across genomes (Q1/T1, not chr1 twice)."
+    language: "r"
+    status: "stable"
+
+  - id: "ideogram-synteny-linear"
+    title: "Horizontal multi-genome synteny"
+    aliases:
+      - "线性共线性"
+      - "水平共线性"
+      - "riparian"
+      - "riparian plot"
+      - "linear synteny"
+      - "genome synteny"
+      - "多基因组共线性"
+      - "染色体共线性带"
+    source: "scripts/ideogram/synteny_linear/plot.R"
+    examples:
+      - "scripts/ideogram/synteny_linear/example.tsv"
+      - "scripts/ideogram/synteny_linear/karyotype.tsv"
+    preview: "scripts/ideogram/synteny_linear/preview.png"
+    use_when: >
+      Compare three or more assemblies as horizontal chromosome-bar
+      tracks with sigmoid ribbons between adjacent genomes. Optional
+      class column colours large rearrangements (e.g. orange) versus
+      conserved synteny (grey). Extra genomes are extra karyotype
+      levels plus adjacent-pair blocks — not a new id.
+    avoid_when: >
+      Do not use a two-genome Circos (ideogram-synteny), a circular
+      subgenome riparian with heatmap tracks (ideogram-subgenome-circos),
+      or one-genome Circos tracks (ideogram-circos). Do not run BLAST,
+      minimap, MCScanX, WGDI, or JCVI in the script; blocks and the
+      rearrangement class are supplied.
+    input_shape: >
+      one row per aligned block (genome1, chr1, start1, end1, genome2,
+      chr2, start2, end2; optional class) plus karyotype.tsv (genome,
+      chr, start, end). start2 > end2 marks an inverted block.
+    language: "r"
+    status: "stable"
+
+  - id: "ideogram-subgenome-circos"
+    title: "Multi-species subgenome synteny Circos"
+    aliases:
+      - "亚基因组环图"
+      - "多倍体共线性"
+      - "多物种共线性环图"
+      - "环形riparian"
+      - "circular riparian"
+      - "subgenome circos"
+      - "polyploid synteny"
+      - "竹子基因组环图"
+    source: "scripts/ideogram/subgenome_circos/plot.R"
+    examples:
+      - "scripts/ideogram/subgenome_circos/example.tsv"
+      - "scripts/ideogram/subgenome_circos/rows.tsv"
+      - "scripts/ideogram/subgenome_circos/blocks.tsv"
+      - "scripts/ideogram/subgenome_circos/tracks.tsv"
+      - "scripts/ideogram/subgenome_circos/links.tsv"
+    preview: "scripts/ideogram/subgenome_circos/preview.png"
+    use_when: >
+      Compare many species across subgenomes: reference subgenomes
+      are sectors with an inner chromosome ring, stacked heatmap
+      tracks (expression / methylation / gene / synteny windows) and
+      central homeolog links; outside, each sector carries a radial
+      stack of species rows joined by supplied synteny blocks between
+      adjacent rows. Subgenomes absent from the reference are rows
+      anchored on a reference sector. Extra species are extra rows;
+      extra heatmap tracks, sector order, dashed missing level, and
+      outer chr labels are CONFIG. Drop a sidecar by setting it NULL.
+    avoid_when: >
+      Do not use two assemblies with ribbons only (ideogram-synteny),
+      a horizontal multi-genome riparian (ideogram-synteny-linear),
+      one genome with histogram / scatter tracks (ideogram-circos), or
+      interval heatmaps with connectors (ideogram-circos-heatmap). Do
+      not run MCScanX, WGDI, JCVI, or BLAST, or compute window
+      statistics in the script. Do not add an id per ploidy group.
+    input_shape: "karyotype (species, subgenome, chr, length) plus rows.tsv (species, subgenome, anchor, level, group, ploidy), blocks.tsv (species1, chr1, start1, end1, species2, chr2, start2, end2; start2 > end2 = inverted), tracks.tsv (chr, start, end, track, value) and links.tsv (chr1, start1, end1, chr2, start2, end2) on reference chr"
     language: "r"
     status: "stable"
 
@@ -252,23 +410,40 @@ templates:
       - "circos heatmap"
       - "genomicHeatmap"
       - "环状基因组热图"
+      - "多轨Circos热图"
+      - "散点CNV热图环图"
+      - "多组学基因组环图"
+      - "multi-track circos heatmap"
     source: "scripts/ideogram/circos_heatmap/plot.R"
     examples:
       - "scripts/ideogram/circos_heatmap/example.tsv"
       - "scripts/ideogram/circos_heatmap/cytoband.tsv"
+      - "scripts/ideogram/circos_heatmap/multitrack/example.tsv"
+      - "scripts/ideogram/circos_heatmap/multitrack/cytoband.tsv"
+      - "scripts/ideogram/circos_heatmap/multitrack/tracks.tsv"
+      - "scripts/ideogram/circos_heatmap/multitrack/genes.tsv"
     preview: "scripts/ideogram/circos_heatmap/preview.png"
+    variants:
+      - image: "scripts/ideogram/circos_heatmap/preview_multitrack.png"
+        example: "scripts/ideogram/circos_heatmap/multitrack/example.tsv"
+        config: "Optional tracks.tsv and genes.tsv beside input; sector_style = \"auto\"; labels$center sets the sample name."
+        shows: "Solid chromosome sectors and Mb ticks, scatter and signed CNV tracks, connected four-layer heatmap, and inner gene labels. Measurement values and labels are synthetic demonstration data."
     use_when: >
       Draw genomic intervals as a circular heatmap whose tiles are
       supplied numeric columns, with connector lines from each
       locus to its tile stack. Extra columns are extra layers.
-      side = "inside" vs "outside" is CONFIG.
+      Optional tracks.tsv adds supplied scatter / histogram / line
+      tracks outside the heatmap; genes.tsv adds inner locus labels.
+      Use this template for a combined scatter + signed CNV +
+      heatmap + gene-label Circos. side, sector style, track heights,
+      and centre text are CONFIG; these are variants, not new ids.
     avoid_when: >
       Do not use a Group-split gene matrix (heatmap-circos-split),
       histogram / scatter tracks without tiles (ideogram-circos),
       or labelled loci without a heatmap (ideogram-loci). Do not
-      add an id per side or per mark. Do not call peaks, z-score,
-      or fetch a genome in the script.
-    input_shape: "one row per interval (chr, start, end, plus numeric layer columns) plus cytoband.tsv"
+      add an id per side or per mark. Do not call CNV, infer variants,
+      call peaks, z-score, or fetch a genome in the script.
+    input_shape: "one row per interval (chr, start, end, plus numeric layer columns) plus cytoband.tsv; optional tracks.tsv (chr, start, end, value, track, type) and genes.tsv (chr, start, end, label) beside input"
     language: "r"
     status: "stable"
 

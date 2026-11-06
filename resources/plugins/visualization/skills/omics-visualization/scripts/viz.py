@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
-"""Omics visualization tools: examples, route, prepare, and render.
+"""Omics visualization tools: catalog, profile, prepare, and render.
 
 Success writes one JSON object to stdout and exits 0. Failure writes
 {"error": "..."} to stdout and exits 1. Diagnostics go to stderr.
+
+The tools look things up, count, copy, check, and run. Choosing a template
+for a purpose is the agent's job; nothing here ranks templates.
 """
 
 from __future__ import annotations
 
 import argparse
-import json
 import os
 import sys
 from typing import Any, NoReturn
@@ -20,103 +22,54 @@ _SCRIPTS_DIR = os.path.dirname(os.path.abspath(__file__))
 if _SCRIPTS_DIR not in sys.path:
     sys.path.insert(0, _SCRIPTS_DIR)
 
+from viz_catalog import (
+    entry,
+    load_catalog,
+    load_contracts,
+    load_families,
+    lookup_alias,
+    summary,
+)
 from viz_common import (
     COMMON_R,
     QA_SCRIPT,
-    ROUTER,
-    SKILL_ROOT,
-    as_string,
     clamp,
     fail,
-    json_number,
+    node_resolve,
     note,
+    project_relative,
     r_environment,
     r_failure,
-    node_resolve,
-    project_relative,
     resolve_inside_project,
     run_process,
-    string_map,
-    strings,
     succeed,
     summarize_qa,
 )
+from viz_profile import check_columns, profile
 from viz_templates import (
-    MAX_EXAMPLES,
-    MAX_WHY,
     closest_names,
     copy_assets,
-    installed_preview,
-    is_installed_preview,
     line_section,
     list_template_sources,
     parse_template_source,
     patch_bootstrap,
     refresh_project_common_r,
-    score_template,
     script_input_names,
-    terms_for,
     write_descriptor,
 )
 
-DEFAULT_ROUTE_TOP = 4
-MAX_ROUTE_TOP = 6
 MAX_SUGGESTIONS = 4
-ROUTER_TIMEOUT_SECONDS = 60
 QA_TIMEOUT_SECONDS = 60
+R_PACKAGE_TIMEOUT_SECONDS = 60
 DEFAULT_RENDER_TIMEOUT_SECONDS = 180
 MAX_RENDER_TIMEOUT_SECONDS = 900
-ROUTER_ERROR_CHARS = 800
 MESSAGE_CHARS = 400
 OUTPUT_EXTENSIONS = {".png", ".pdf", ".svg"}
+R_PACKAGE_CHECK = (
+    "pk <- commandArgs(TRUE); "
+    "cat(pk[!nzchar(vapply(pk, function(p) system.file(package = p), character(1)))], sep = '\\n')"
+)
 
-def compact_router_output(raw: object) -> dict[str, Any]:
-    root = raw if isinstance(raw, dict) else {}
-    profile = root.get("input_profile") if isinstance(root.get("input_profile"), dict) else {}
-    numeric = set(strings(profile.get("numeric_columns")))
-    sidecars_value = profile.get("sidecars")
-    sidecars = list(sidecars_value.keys()) if isinstance(sidecars_value, dict) else []
-    alignment_value = profile.get("sidecar_alignment")
-    alignment = alignment_value.get("status") if isinstance(alignment_value, dict) else None
-    recommendations = root.get("recommendations")
-    if not isinstance(recommendations, list):
-        recommendations = []
-    candidates: list[dict[str, Any]] = []
-    for rec in recommendations:
-        if not isinstance(rec, dict):
-            continue
-        template_id = as_string(rec.get("id"))
-        preview_value = rec.get("preview")
-        preview = os.path.join(SKILL_ROOT, preview_value) if isinstance(preview_value, str) else ""
-        candidates.append(
-            {
-                "template_id": template_id,
-                "confidence": as_string(rec.get("confidence"), "unknown"),
-                "score": json_number(rec.get("score")),
-                "title": as_string(rec.get("title")),
-                "why": strings(rec.get("rationale"))[:MAX_WHY],
-                "risks": strings(rec.get("risks")),
-                "use_when": as_string(rec.get("use_when")),
-                "avoid_when": as_string(rec.get("avoid_when")),
-                "required_roles": strings(rec.get("required_roles")),
-                "role_mapping": string_map(rec.get("role_mapping")),
-                "preview": preview,
-                "preview_markdown": f"![{template_id}]({preview})" if preview else "",
-            }
-        )
-    payload: dict[str, Any] = {
-        "rows": json_number(profile.get("row_count")),
-        "columns": [
-            {"name": name, "type": "number" if name in numeric else "text"}
-            for name in strings(profile.get("columns"))
-        ],
-        "roles": string_map(profile.get("role_mapping")),
-    }
-    if sidecars:
-        payload["sidecars"] = sidecars
-    if isinstance(alignment, str) and alignment != "not_checked":
-        payload["sidecar_alignment"] = alignment
-    return {"input": payload, "candidates": candidates}
 
 class JsonArgumentParser(argparse.ArgumentParser):
     def __init__(self, *args: Any, **kwargs: Any) -> None:
@@ -127,120 +80,104 @@ class JsonArgumentParser(argparse.ArgumentParser):
     def error(self, message: str) -> NoReturn:
         fail(message)
 
-def command_examples(purpose: str, top: int | None) -> None:
-    purpose = purpose.strip()
-    if not purpose:
-        fail("purpose is required.")
-    catalog_path = os.path.join(SKILL_ROOT, "references", "template_contracts.json")
-    with open(catalog_path, encoding="utf-8") as handle:
-        catalog = json.load(handle)
-    templates = catalog.get("templates") if isinstance(catalog, dict) else None
-    if not isinstance(templates, list):
-        templates = []
-    terms = terms_for(purpose)
-    matches: list[tuple[int, int, dict[str, Any]]] = []
-    for order, template in enumerate(templates):
-        if not isinstance(template, dict):
-            continue
-        score = score_template(template, terms)
-        if score > 0:
-            matches.append((score, order, template))
-    matches.sort(key=lambda item: (-item[0], item[1]))
-    limit = clamp(top if top is not None else MAX_EXAMPLES, 1, MAX_EXAMPLES)
-    candidates: list[dict[str, Any]] = []
-    for _score, _order, template in matches:
-        preview = installed_preview(template)
-        if preview is None:
-            continue
-        template_id = str(template.get("id", ""))
-        roles = template.get("roles") if isinstance(template.get("roles"), dict) else {}
-        required = roles.get("required") if isinstance(roles, dict) else None
-        if isinstance(required, list):
-            required_roles = [item for item in required if isinstance(item, str)]
-        else:
-            required_roles = []
-        candidates.append(
+
+def unknown_ids(ids: list[str], known: list[str]) -> NoReturn:
+    parts = []
+    for template_id in ids:
+        close = closest_names(template_id, known, MAX_SUGGESTIONS)
+        hint = f" (closest: {', '.join(close)})" if close else ""
+        parts.append(f'"{template_id}"{hint}')
+    fail(f"There is no template {'; '.join(parts)}. Call viz_catalog without arguments to list every id.")
+
+
+def command_catalog(family: str | None, ids: list[str], alias: str | None) -> None:
+    family = (family or "").strip()
+    ids = [item.strip() for item in ids if item.strip()]
+    alias = (alias or "").strip()
+    if sum(1 for given in (family, ids, alias) if given) > 1:
+        fail("Give at most one of family, ids, or alias.")
+    templates = load_catalog()
+    if family:
+        families = [item["family"] for item in load_families()]
+        if family not in families:
+            fail(f'There is no family "{family}". Families: {", ".join(families)}.')
+        chosen = [summary(template) for template in templates if template["family"] == family]
+        succeed({"mode": "family", "family": family, "templates": chosen})
+        return
+    if ids:
+        by_id = {template["template_id"]: template for template in templates}
+        missing = [template_id for template_id in ids if template_id not in by_id]
+        if missing:
+            unknown_ids(missing, list(by_id))
+        succeed({"mode": "ids", "templates": [entry(by_id[template_id]) for template_id in dict.fromkeys(ids)]})
+        return
+    if alias:
+        succeed({"mode": "alias", "alias": alias, "templates": [entry(template) for template in lookup_alias(alias)]})
+        return
+    index = []
+    for item in load_families():
+        index.append(
             {
-                "template_id": template_id,
-                "title": str(template.get("title", "")),
-                "family": str(template.get("family", "")),
-                "preview": preview,
-                "preview_markdown": f"![{template_id}]({preview})",
-                "use_when": str(template.get("use_when") or ""),
-                "avoid_when": str(template.get("avoid_when") or ""),
-                "required_roles": required_roles,
+                "family": item["family"],
+                "title": item["title"],
+                "use_when": item["use_when"],
+                "templates": [
+                    {"template_id": template["template_id"], "title": template["title"]}
+                    for template in templates
+                    if template["family"] == item["family"]
+                ],
             }
         )
-        if len(candidates) >= limit:
-            break
-    succeed(
-        {
-            "purpose": purpose,
-            "source": "bundled-template-preview",
-            "dataFitted": False,
-            "totalMatches": len(matches),
-            "candidates": candidates,
-        }
-    )
+    succeed({"mode": "index", "template_count": len(templates), "families": index})
 
-def command_route(
-    data_path: str, purpose: str, mode: str, top: int | None, sidecar_dir: str | None
-) -> None:
+
+def command_profile(data_path: str, tables: list[str], joins: list[str]) -> None:
     data_path = data_path.strip()
-    purpose = purpose.strip()
-    if not data_path or not purpose:
-        fail("data_path and purpose are required.")
-    if not os.path.isfile(data_path):
-        fail(f"The data table was not found: {data_path}")
-    limit = clamp(top if top is not None else DEFAULT_ROUTE_TOP, 1, MAX_ROUTE_TOP)
-    argv = [
-        sys.executable,
-        ROUTER,
-        "--input",
-        data_path,
-        "--query",
-        purpose,
-        "--mode",
-        mode,
-        "--top",
-        str(limit),
-    ]
-    if sidecar_dir and sidecar_dir.strip():
-        argv.extend(["--sidecar-dir", sidecar_dir.strip()])
-    argv.append("--json")
-    outcome = run_process(argv, timeout=ROUTER_TIMEOUT_SECONDS)
-    if outcome.spawn_error:
-        fail(
-            f"python3 was not found ({outcome.spawn_error}). "
-            "The template router needs Python 3 on PATH; report this as a missing dependency."
-        )
-    if outcome.timed_out or outcome.code != 0:
-        note(outcome.stderr)
-        detail = "timed out" if outcome.timed_out else outcome.stderr.strip()[-ROUTER_ERROR_CHARS:]
-        fail(f"The template router failed: {detail}")
+    if not data_path:
+        fail("data_path is required.")
+    paths = [data_path, *[item.strip() for item in tables if item.strip()]]
+    paths = list(dict.fromkeys(paths))
+    missing = [path for path in paths if not os.path.isfile(path)]
+    if missing:
+        fail(f"File(s) not found: {', '.join(missing)}")
     try:
-        parsed = json.loads(outcome.stdout)
-    except json.JSONDecodeError:
-        note(outcome.stderr)
-        fail("The template router returned output that is not JSON.")
-    if outcome.stderr:
-        note(outcome.stderr)
-    succeed(compact_router_output(parsed))
+        succeed(profile(paths, [item.strip() for item in joins if item.strip()]))
+    except ValueError as exc:
+        fail(str(exc))
 
-def command_prepare(template_id: str, workdir: str, reset: bool) -> None:
+
+def r_packages(dependencies: list[str]) -> dict[str, Any]:
+    if not dependencies:
+        return {"checked": True, "missing": []}
+    ran = run_process(
+        ["Rscript", "-e", R_PACKAGE_CHECK, *dependencies],
+        env=r_environment(),
+        timeout=R_PACKAGE_TIMEOUT_SECONDS,
+    )
+    if ran.spawn_error or ran.timed_out or ran.code != 0:
+        note(ran.stderr)
+        return {"checked": False, "missing": []}
+    return {"checked": True, "missing": [line.strip() for line in ran.stdout.splitlines() if line.strip()]}
+
+
+def command_prepare(
+    template_id: str, workdir: str, reset: bool, inputs: list[str], columns: list[str]
+) -> None:
     template_id = template_id.strip()
     workdir = workdir.strip()
+    inputs = [item.strip() for item in inputs if item.strip()]
+    columns = [item.strip() for item in columns if item.strip()]
     if not template_id or not workdir:
         fail("template_id and workdir are required.")
+    if bool(inputs) != bool(columns):
+        fail("Give inputs and columns together: the column check needs both.")
     templates = list_template_sources()
     template = next((candidate for candidate in templates if candidate["id"] == template_id), None)
     if template is None:
-        close = closest_names(template_id, [candidate["id"] for candidate in templates], MAX_SUGGESTIONS)
-        suggestion = f" Closest: {', '.join(close)}." if close else ""
-        fail(
-            f'There is no template "{template_id}".{suggestion}'
-            " Use viz_route to find one for the data; do not guess template ids."
-        )
+        unknown_ids([template_id], [candidate["id"] for candidate in templates])
+    missing_inputs = [path for path in inputs if not os.path.isfile(path)]
+    if missing_inputs:
+        fail(f"Input file(s) not found: {', '.join(missing_inputs)}")
     directory = resolve_inside_project(os.getcwd(), workdir, "The working directory")
     script = os.path.join(directory, "plot.R")
     resolve_inside_project(os.getcwd(), os.path.realpath(script), "The script")
@@ -268,6 +205,15 @@ def command_prepare(template_id: str, workdir: str, reset: bool) -> None:
     joined = " ".join(f"<{name}>" for name in names)
     result["run"] = f"Rscript {script} {joined} <output>"
     result["dependencies"] = template["dependencies"]
+    result["r_packages"] = r_packages(template["dependencies"])
+    if columns:
+        catalog = next((item for item in load_catalog() if item["template_id"] == template_id), None)
+        roles = catalog["roles"] if catalog else {"required": [], "optional": []}
+        role_types = load_contracts().get("role_types", {})
+        try:
+            result["column_check"] = check_columns(roles, role_types, inputs, columns)
+        except ValueError as exc:
+            fail(str(exc))
     if template.get("adaptation"):
         result["adaptation"] = template["adaptation"]
     if template.get("assumptions"):
@@ -282,6 +228,7 @@ def command_prepare(template_id: str, workdir: str, reset: bool) -> None:
     if isinstance(plot, dict):
         result["plot"] = {"start_line": plot["start_line"], "end_line": plot["end_line"]}
     succeed(result)
+
 
 def command_render(script: str, inputs: list[str], output: str, timeout_seconds: int | None) -> None:
     script = script.strip()
@@ -380,28 +327,39 @@ def command_render(script: str, inputs: list[str], output: str, timeout_seconds:
     result["artifacts"] = [project_relative(cwd, output_path)]
     succeed(result)
 
+
+KNOWN_FLAGS = {
+    "catalog": {"--family", "--ids", "--alias"},
+    "profile": {"--data_path", "--tables", "--joins"},
+    "prepare": {"--template_id", "--workdir", "--reset", "--inputs", "--columns"},
+    "render": {"--script", "--inputs", "--output", "--timeout_seconds"},
+}
+
+
 def build_parser() -> JsonArgumentParser:
     parser = JsonArgumentParser(prog="viz.py")
     commands = parser.add_subparsers(dest="command", required=True, parser_class=JsonArgumentParser)
-    examples = commands.add_parser("examples")
-    examples.add_argument("--purpose", required=True)
-    examples.add_argument("--top", type=int)
-    route = commands.add_parser("route")
-    route.add_argument("--data_path", required=True)
-    route.add_argument("--purpose", required=True)
-    route.add_argument("--mode", choices=("preview", "publication"), default="preview")
-    route.add_argument("--top", type=int)
-    route.add_argument("--sidecar_dir")
+    catalog = commands.add_parser("catalog")
+    catalog.add_argument("--family")
+    catalog.add_argument("--ids", action="append", default=[])
+    catalog.add_argument("--alias")
+    profile_parser = commands.add_parser("profile")
+    profile_parser.add_argument("--data_path", required=True)
+    profile_parser.add_argument("--tables", action="append", default=[])
+    profile_parser.add_argument("--joins", action="append", default=[])
     prepare = commands.add_parser("prepare")
     prepare.add_argument("--template_id", required=True)
     prepare.add_argument("--workdir", required=True)
     prepare.add_argument("--reset", action="store_true")
+    prepare.add_argument("--inputs", action="append", default=[])
+    prepare.add_argument("--columns", action="append", default=[])
     render = commands.add_parser("render")
     render.add_argument("--script", required=True)
     render.add_argument("--inputs", action="append", required=True)
     render.add_argument("--output", required=True)
     render.add_argument("--timeout_seconds", type=int)
     return parser
+
 
 def reject_unknown_flags(argv: list[str]) -> None:
     """Report an unknown option before a missing required one.
@@ -411,12 +369,7 @@ def reject_unknown_flags(argv: list[str]) -> None:
     """
     if not argv or argv[0].startswith("-"):
         return
-    known = {
-        "examples": {"--purpose", "--top"},
-        "route": {"--data_path", "--purpose", "--mode", "--top", "--sidecar_dir"},
-        "prepare": {"--template_id", "--workdir", "--reset"},
-        "render": {"--script", "--inputs", "--output", "--timeout_seconds"},
-    }.get(argv[0])
+    known = KNOWN_FLAGS.get(argv[0])
     if known is None:
         return
     for token in argv[1:]:
@@ -425,23 +378,25 @@ def reject_unknown_flags(argv: list[str]) -> None:
         if token.startswith("-") and token.split("=", 1)[0] not in known:
             fail(f"unrecognized arguments: {token}")
 
+
 def main(argv: list[str] | None = None) -> None:
     args_list = list(sys.argv[1:] if argv is None else argv)
     reject_unknown_flags(args_list)
     args = build_parser().parse_args(args_list)
-    if args.command == "examples":
-        command_examples(args.purpose, args.top)
+    if args.command == "catalog":
+        command_catalog(args.family, args.ids, args.alias)
         return
-    if args.command == "route":
-        command_route(args.data_path, args.purpose, args.mode, args.top, args.sidecar_dir)
+    if args.command == "profile":
+        command_profile(args.data_path, args.tables, args.joins)
         return
     if args.command == "prepare":
-        command_prepare(args.template_id, args.workdir, args.reset)
+        command_prepare(args.template_id, args.workdir, args.reset, args.inputs, args.columns)
         return
     if args.command == "render":
         command_render(args.script, args.inputs if args.inputs else [], args.output, args.timeout_seconds)
         return
     fail(f"unknown command {args.command}")
+
 
 if __name__ == "__main__":
     try:

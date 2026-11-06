@@ -43,15 +43,59 @@ templates:
     title: "Stacked bar chart"
     aliases:
       - "堆叠柱状图"
+      - "百分比堆叠柱"
+      - "带连接带的堆叠柱"
+      - "stacked bar with links"
+      - "bar-stack-normalization"
     source: "scripts/bar/stack/plot.R"
     examples:
       - "scripts/bar/stack/example.tsv"
     preview: "scripts/bar/stack/preview.png"
+    variants:
+      - image: "scripts/bar/stack/preview_absolute.png"
+        example: "scripts/bar/stack/example.tsv"
+        config: "scale = \"absolute\", links = FALSE"
+        shows: "Plain stacked magnitudes without link bands."
     use_when: >
-      Show composition within each category as stacked magnitudes.
+      Show composition within each category as stacked bars, normalised
+      to 100% (default) or as absolute magnitudes (scale = "absolute").
+      Translucent bands link the same component between adjacent bars
+      so its share can be followed across categories (links = TRUE,
+      the preview). Scale and links are CONFIG, not new ids.
     avoid_when: >
-      Do not use for side-by-side groups or a 100% composition (use bar-percent).
+      Do not use for side-by-side groups, flows between different
+      components (that is a Sankey), faceted horizontal percent bars
+      per group (bar-percent), or a ranked horizontal stack with an
+      inset inheritance / composition doughnut (bar-stack-donut).
     input_shape: "one row per category-by-component; category, component, and value"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-stack-donut"
+    title: "Horizontal stacked bars with inset doughnut"
+    aliases:
+      - "基因频率堆叠条形图"
+      - "inheritance bar donut"
+      - "SNHL gene frequency"
+      - "stacked bar with pie"
+    source: "scripts/bar/stack_donut/plot.R"
+    examples:
+      - "scripts/bar/stack_donut/example.tsv"
+      - "scripts/bar/stack_donut/donut.tsv"
+    preview: "scripts/bar/stack_donut/preview.png"
+    use_when: >
+      Rank categories (e.g. genes) by supplied absolute frequency as
+      horizontal stacked bars by a fill such as inheritance mode, and
+      show overall fill composition as an inset doughnut (sidecar
+      percents preferred).
+    avoid_when: >
+      Do not use a plain stack without a doughnut (bar-stack), a
+      doughnut alone (pie-doughnut), or a circos doughnut with radial
+      bars (pie-doughnut-bar). Do not call genotypes or assign
+      inheritance in the script; counts and donut percents are supplied.
+    input_shape: >
+      bars: one row per gene × mode with count; optional donut.tsv
+      with mode and percent
     language: "r"
     status: "stable"
 
@@ -136,9 +180,64 @@ templates:
     use_when: >
       Mirror two series left and right of a shared category axis.
     avoid_when: >
-      Do not use for a single-sided ranking or opposite-direction stacked bars
-      (use bar-opposite).
+      Do not use for a single-sided ranking, grade-stacked TRAE/AE
+      butterflies (use bar-butterfly-stack), or tissue-wise
+      outgoing/incoming bars aligned to a log2 ratio heatmap
+      (use bar-communication).
     input_shape: "one row per category with two opposing numeric series"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-butterfly-stack"
+    title: "Diverging stacked butterfly bars"
+    aliases:
+      - "分级对称条形图"
+      - "TRAE AE butterfly"
+      - "adverse event butterfly"
+      - "diverging stacked bar"
+    source: "scripts/bar/butterfly_stack/plot.R"
+    examples:
+      - "scripts/bar/butterfly_stack/example.tsv"
+    preview: "scripts/bar/butterfly_stack/preview.png"
+    use_when: >
+      Compare two opposing sides (e.g. TRAEs vs AEs irrespective of
+      causality) on shared event terms, each side stacked by supplied
+      severity grade from the centre outward, with end totals and dual
+      legends.
+    avoid_when: >
+      Do not use a non-stacked two-group butterfly (bar-butterfly), a
+      one-sided stacked bar (bar-stack), enrichment opposite bars
+      (bar-opposite), or communication bars with a ratio heatmap
+      (bar-communication). Do not count patients, assign causality, or
+      grade events in the script; percent by term/side/grade is supplied.
+    input_shape: >
+      one row per term × side × grade; term, side, grade, percent
+    language: "r"
+    status: "stable"
+
+  - id: "bar-communication"
+    title: "Cell communication mirrored bars"
+    aliases:
+      - "细胞通讯图"
+      - "细胞通讯强度"
+      - "outgoing incoming"
+      - "communication bars"
+    source: "scripts/bar/communication/plot.R"
+    examples:
+      - "scripts/bar/communication/example.tsv"
+    preview: "scripts/bar/communication/preview.png"
+    use_when: >
+      Compare supplied outgoing and incoming interaction strength for
+      the same cell types across tissues, with outgoing drawn left and
+      incoming right, and a log2 ratio heatmap of a focal tissue versus
+      the other tissues on the same rows.
+    avoid_when: >
+      Do not use a single butterfly panel (bar-butterfly), a Circos
+      chord of flows (graph-chord), or a plain heatmap. Do not run
+      CellChat or infer interaction scores in the script.
+    input_shape: >
+      one row per cell × tissue × direction; cell, tissue,
+      direction=outgoing|incoming, strength
     language: "r"
     status: "stable"
 
@@ -169,13 +268,21 @@ templates:
     source: "scripts/bar/waffle/plot.R"
     examples:
       - "scripts/bar/waffle/example.tsv"
+      - "scripts/bar/waffle/example_parliament.tsv"
     preview: "scripts/bar/waffle/preview.png"
+    variants:
+      - image: "scripts/bar/waffle/preview_parliament.png"
+        example: "scripts/bar/waffle/example_parliament.tsv"
+        config: "layout = \"parliament\", columns fill = \"cell_type\", values = \"cells\", parliament$unit = 20, arc = 180 (360 = full ring), rows = NULL (auto), inner = 0.4, palette = \"Qualitative.Paired / 12\", legend_title"
+        shows: "Parliament / hemicycle: one bordered dot per 20 cells on concentric arcs, each cell type filling an angular sector."
     use_when: >
-      Show part-to-whole composition as a grid of unit squares.
+      Show part-to-whole composition as a grid of unit squares. One dot
+      per unit on concentric hemicycle arcs (parliament plot) is
+      layout = "parliament", not a new id.
     avoid_when: >
       Do not use when a pie, stacked bar, or percent bar is clearer, or
       when each category is a custom SVG rather than a square tile
-      (bar-svg-icon).
+      (bar-svg-icon). A continuous semicircle of areas is pie-half.
     input_shape: "one row per category; category plus numeric share"
     language: "r"
     status: "stable"
@@ -233,7 +340,8 @@ templates:
     avoid_when: >
       Do not use for a single radial series (use bar-radial). Do not
       use a circos doughnut with an inner composition ring
-      (pie-doughnut-bar).
+      (pie-doughnut-bar), or stacked radial bars around an independent
+      summary doughnut (bar-radial-donut).
     input_shape: "one row per category-by-group; category, group, and value"
     language: "r"
     status: "stable"
@@ -322,6 +430,106 @@ templates:
     language: "r"
     status: "stable"
 
+  - id: "bar-radial-line"
+    title: "Circular bar–line composite"
+    aliases:
+      - "环形柱线复合图"
+      - "环形柱状折线图"
+      - "极坐标柱线图"
+      - "circular bar-line"
+      - "radial bar line composite"
+    source: "scripts/bar/radial_line/plot.R"
+    examples:
+      - "scripts/bar/radial_line/example.tsv"
+    preview: "scripts/bar/radial_line/preview.png"
+    use_when: >
+      Show two supplied measures per item on one circle: radial bars of
+      one measure (e.g. number of sites) in the inner band and a polar
+      line with points and value labels of another (e.g. a threshold)
+      in the outer band, with group-tinted sectors and an outer ring of
+      item label tiles. Missing line values break the line; groups
+      with no line values get an arc, neutral groups a dot. Scale
+      maxima, radii, neutral groups and axis titles are CONFIG.
+    avoid_when: >
+      Do not use a single radial measure (bar-radial), grouped radial
+      bars without a second measure (bar-radial-groups), disease
+      sectors with header bands and shared-gene links
+      (bar-circos-links), or a cartesian dual-axis line (line-double).
+      Do not fit thresholds, breakpoints, or regressions in the script.
+    input_shape: >
+      one row per item; item, group, non-negative bar value, and an
+      optional line value (empty = missing)
+    language: "r"
+    status: "stable"
+
+  - id: "bar-radial-donut"
+    title: "Radial stacked bars around a summary doughnut"
+    aliases:
+      - "环形柱+甜甜圈"
+      - "eGene环图"
+      - "细胞类型环形柱状图"
+      - "radial bars with donut"
+    source: "scripts/bar/radial_donut/plot.R"
+    examples:
+      - "scripts/bar/radial_donut/bars.tsv"
+      - "scripts/bar/radial_donut/ring.tsv"
+    preview: "scripts/bar/radial_donut/preview.png"
+    use_when: >
+      Show one stacked radial bar per item (e.g. cell type), grouped
+      and coloured by a supplied group (e.g. lineage) with a darker tip
+      for the outer stack part, rotated item labels (with "^{...}"
+      superscripts), a scale axis at 12 o'clock, and an inner doughnut
+      from a second, independent table (e.g. eGenes by number of
+      sharing cell types) with its total in the centre. Stack parts,
+      gaps, palettes, ring labels and title are CONFIG.
+    avoid_when: >
+      Do not use when the doughnut and bars show the same parts
+      (pie-doughnut-bar), grouped radial bars without an inner ring
+      (bar-radial-groups), a second measure as a polar line
+      (bar-radial-line), or disease sectors with shared-gene links
+      (bar-circos-links). Do not run eQTL mapping or sharing tests in
+      the script.
+    input_shape: >
+      bars table (item, group, two or more stack-part columns) plus a
+      ring table (category, value) in display order
+    language: "r"
+    status: "stable"
+
+  - id: "bar-circos-links"
+    title: "Circos sector bars with item labels and links"
+    aliases:
+      - "疾病基因环图"
+      - "疾病-基因关联环图"
+      - "Circos环形条形图"
+      - "disease gene circos"
+      - "sector bar circos"
+    source: "scripts/bar/circos_links/plot.R"
+    examples:
+      - "scripts/bar/circos_links/genes.tsv"
+      - "scripts/bar/circos_links/links.tsv"
+    preview: "scripts/bar/circos_links/preview.png"
+    use_when: >
+      Group items (genes, proteins, metabolites) into Circos sectors by
+      a supplied category (disease, phenotype, drug), with a header band
+      per sector, item labels coloured by a supplied two-level
+      direction, an inner bar track of a supplied score, and optional
+      central links between items in different sectors (e.g. shared
+      genes). Sort order, colours, track heights and links on/off are
+      CONFIG.
+    avoid_when: >
+      Do not use ggplot polar bars without sectors or links (bar-radial,
+      bar-radial-groups), a chord whose sector width is total flow
+      (graph-chord), genomic coordinates on an ideogram
+      (ideogram-circos), or a circular heatmap (heatmap-circos-split).
+      Do not run GWAS, Mendelian randomization, or a gene-overlap test
+      in the script; links are supplied endpoints.
+    input_shape: >
+      items table (disease, gene, score, direction) plus links table
+      (from_disease, from_gene, to_disease, to_gene; header-only for
+      no links)
+    language: "r"
+    status: "stable"
+
   - id: "bar-enrichment-points"
     title: "Enrichment bars with gene-ratio points"
     aliases:
@@ -369,8 +577,10 @@ templates:
       across groups as bars (bar-enrichment-groups), when terms sit
       under category headers (bar-enrichment-expand), when a
       term-by-group signed-p heatmap is needed
-      (heatmap-enrichment-terms), or when enrichment bars align to
-      Up/Down gene splits on a DE heatmap (heatmap-enrichment-zoom).
+      (heatmap-enrichment-terms), when enrichment bars align to
+      Up/Down gene splits on a DE heatmap (heatmap-enrichment-zoom),
+      or when cell-type marker bubbles share numbers with a UMAP
+      (scatter-umap-dot).
       Do not run enricher or GSEA in the script.
     input_shape: "one row per term; description, gene ratio, adjusted p, count"
     language: "r"
@@ -425,10 +635,65 @@ templates:
       Group enrichment terms under readable category headers on the y-axis.
     avoid_when: >
       Do not use when ontology is already handled by facets
-      (bar-enrichment-points), a classification tree with an outer
-      enrichment track (tree-enrichment-ring), or enrichment bars as
-      zoom panels on a DE heatmap (heatmap-enrichment-zoom).
+      (bar-enrichment-points), coloured cluster facets with strip
+      labels (bar-enrichment-cluster), a classification tree with an
+      outer enrichment track (tree-enrichment-ring), or enrichment
+      bars as zoom panels on a DE heatmap (heatmap-enrichment-zoom).
     input_shape: "one row per term; category, description, and enrichment statistic"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-enrichment-cluster"
+    title: "Clustered enrichment bars"
+    aliases:
+      - "分簇富集柱状图"
+      - "cluster enrichment bars"
+      - "Klf4 dose enrichment"
+    source: "scripts/bar/enrichment_cluster/plot.R"
+    examples:
+      - "scripts/bar/enrichment_cluster/example.tsv"
+    preview: "scripts/bar/enrichment_cluster/preview.png"
+    use_when: >
+      Rank enrichment terms as horizontal bars in separate cluster
+      facets, each with a matching tinted panel, coloured strip label
+      (cluster + dose), and an optional -log10 significance threshold.
+      Cluster colours are catalog refs (gold / sky / teal by default).
+    avoid_when: >
+      Do not use when category headers sit on one shared y-axis
+      (bar-enrichment-expand), the same terms are compared across
+      groups (bar-enrichment-groups), ontology facets with gene-ratio
+      points (bar-enrichment-points), a classic enrichment dotplot
+      (bar-enrichment-dot), or a single-panel EnrichR combined-score
+      lollipop coloured by cluster (bar-enrichment-lollipop). Do not
+      run enricher in the script.
+    input_shape: "one row per term; cluster, description, adjusted p; optional dose for the strip subtitle"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-enrichment-lollipop"
+    title: "Enrichment lollipop by combined score"
+    aliases:
+      - "富集棒棒糖图"
+      - "EnrichR lollipop"
+      - "MSigDB lollipop"
+      - "combined score lollipop"
+      - "LOESS cluster enrichment"
+    source: "scripts/bar/enrichment_lollipop/plot.R"
+    examples:
+      - "scripts/bar/enrichment_lollipop/example.tsv"
+    preview: "scripts/bar/enrichment_lollipop/preview.png"
+    use_when: >
+      Rank enrichment terms on one panel as horizontal lollipops by a
+      supplied score (e.g. EnrichR combined score), with point size =
+      -log10(adjusted p), fill by cluster, and an optional shaded
+      low-score band plus vertical guide.
+    avoid_when: >
+      Do not use a classic gene-ratio enrichment dotplot
+      (bar-enrichment-dot), faceted cluster bars
+      (bar-enrichment-cluster), or signed delta lollipops
+      (scatter-lollipop-delta). Do not run EnrichR, GSEA, or LOESS
+      clustering in the script; score, p.adjust, and cluster are supplied.
+    input_shape: "one row per term; term, score, p.adjust, cluster"
     language: "r"
     status: "stable"
 
@@ -440,23 +705,31 @@ templates:
       - "UpSet图"
       - "集合交集图"
       - "组合模式图"
+      - "分组UpSet"
     source: "scripts/bar/upset/plot.R"
     examples:
       - "scripts/bar/upset/example.tsv"
+      - "scripts/bar/upset/example_grouped.tsv"
     preview: "scripts/bar/upset/preview.png"
+    variants:
+      - image: "scripts/bar/upset/preview_grouped.png"
+        example: "scripts/bar/upset/example_grouped.tsv"
+        config: "style = \"grouped\", columns sets/count/percent/group, group_order T1..Other, set_order, Pastel soft + Bold hard palettes"
+        shows: "Track-coloured intersection bars with count/percent labels, group-coloured matrix dots and connectors, alternating row stripes, and bottom T-group labels."
     use_when: >
-      Show which sets co-occur in supplied combinations, with two-group
-      intersection bars (observed vs expected) on top, membership as a
-      dot matrix coloured by the number of member sets, and set size on
-      the left.
+      Show which sets co-occur in supplied combinations. style =
+      "dual" draws observed vs expected bars, an n-set coloured
+      matrix, and left set sizes. style = "grouped" colours bars and
+      matrix dots by a supplied track group (e.g. T1–T7) with count /
+      percent labels.
     avoid_when: >
       Do not draw overlapping Venn circles (use bar-venn for 2–4
       sets) or a core-plus-petal flower (bar-flower). Do not
       enumerate combinations from raw samples in the
-      script. expected is a supplied null, not computed here.
-      Two-set overlap as a single number is not this figure.
-      Do not add a second id for n-set colouring or dual bars.
-    input_shape: "one row per exclusive combination; member list, observed count, expected count"
+      script. expected / percent / group are supplied. Two-set
+      overlap as a single number is not this figure. Do not add a
+      second id for grouped colouring or dual bars.
+    input_shape: "one row per exclusive combination; dual: sets, observed, expected; grouped: sets, count, percent, group"
     language: "r"
     status: "stable"
 
@@ -498,18 +771,38 @@ templates:
     source: "scripts/bar/flower/plot.R"
     examples:
       - "scripts/bar/flower/example.tsv"
+      - "scripts/bar/flower/example_15.tsv"
+      - "scripts/bar/flower/example_5.tsv"
     preview: "scripts/bar/flower/preview.png"
+    variants:
+      - image: "scripts/bar/flower/preview_ellipse.png"
+        example: "scripts/bar/flower/example_15.tsv"
+        config: "petal_shape = \"ellipse\", ellipse = list(inner = 0.12, outer = 1.05, width = 0.085), petal_label = \"unique\", label_rotate = TRUE, core_style = \"ring\", core_r = 0.1, label_r = 1.12, palettes$petal = c(\"Qualitative.Pastel\", \"Qualitative.Set3 / 12\"), core_n = 50"
+        shows: "15 narrow non-overlapping ellipse petals with rotated counts and set names, small ringed core count."
+      - image: "scripts/bar/flower/preview_overlap.png"
+        example: "scripts/bar/flower/example_15.tsv"
+        config: "as preview_ellipse plus ellipse = list(inner = 0.05, outer = 1.05, width = 0.2), alpha = 0.55, border = TRUE"
+        shows: "Wide translucent overlapping ellipse petals with darker outlines around a ringed core."
+      - image: "scripts/bar/flower/preview_pentagon.png"
+        example: "scripts/bar/flower/example_5.tsv"
+        config: "petal_shape = \"pentagon\", pentagon = list(centre = NULL, radius = 0.28, tuck = 0.1) (centre NULL = inner corners tucked under the core), core_r = 0.36, alpha = 0.85, border = TRUE, petal_label = \"unique\", label_rotate = TRUE, core_style = \"ring\", core_border = FALSE, label_r = 0.84, core_n = 2, text = list(count = 7, set = 6, core = 8), palettes$petal = \"Qualitative.Vivid\""
+        shows: "Five outlined pentagon petals pointing outward whose inner corners slide under a white core circle carrying the shared count."
     use_when: >
       Show five or more supplied sets as petals around a shared core
       count. Each petal carries a supplied total and unique count;
       core_n is CONFIG. Extra sets are extra rows, not a new id.
+      Petal shape (rounded wedge / ellipse / overlapping ellipse /
+      pentagon), label content and rotation, alpha, outline and core
+      style are CONFIG variants.
     avoid_when: >
       Do not draw classic overlapping circles for 2–4 sets
       (bar-venn). Do not use an UpSet combination matrix
       (bar-upset) when the claim is core-plus-per-set totals.
-      Do not enumerate membership or test enrichment in the script.
-      Equal-length decorative petals with mismatched percentages are
-      not this figure.
+      Equal-angle value petals with caps are pie-nightingale
+      shape = "petal". A hierarchical taxonomy of capsules is
+      sunburst-petal. Do not enumerate membership or test
+      enrichment in the script. Equal-length decorative petals
+      with mismatched percentages are not this figure.
     input_shape: "one row per set; set name, total count, unique count; core_n in CONFIG"
     language: "r"
     status: "stable"
@@ -521,21 +814,60 @@ templates:
       - "游泳图"
       - "swimmer plot"
       - "swimmer’s plot"
+      - "剂量泳道图"
     source: "scripts/bar/swimmer/plot.R"
     examples:
       - "scripts/bar/swimmer/example.tsv"
+      - "scripts/bar/swimmer/example_dose.tsv"
     preview: "scripts/bar/swimmer/preview.png"
+    variants:
+      - image: "scripts/bar/swimmer/preview_dose.png"
+        example: "scripts/bar/swimmer/example_dose.tsv"
+        config: "style = \"dose\", events_dose.tsv, dose_order, break_axis cut_low/cut_high, palettes$dose"
+        shows: "Dose-coloured lanes with black SD circles / PD squares, escalate (*) and compassionate (#) marks, end labels, and an x-axis break."
     use_when: >
       Show each patient's treatment course as a horizontal time lane,
       with supplied intervals, best-response points, stop marks or
       ongoing arrows, and optional left-hand annotation tiles.
-      Extra treatments and extra annotation columns are CONFIG.
+      style = "dose" uses dose fills, SD/PD glyphs, marks, end labels,
+      and an optional axis break on a white panel. Extra treatments
+      and annotation columns are CONFIG.
     avoid_when: >
       Do not use a magnitude bar (bar-basic), a two-point dumbbell
       (scatter-dumbbell), or a population Kaplan-Meier curve
       (line-survival). Do not convert calendar dates, call response,
       or estimate survival in the script. Do not add an id per
       metadata column or per Nature paper variant.
-    input_shape: "one row per treatment interval; patient, treatment, start, end, plus optional response, stop, and annotation columns"
+    input_shape: "one row per treatment interval; patient, treatment, start, end, plus optional response, stop, and annotation columns; dose style uses patient/dose/start/end/end_label plus events.tsv"
+    language: "r"
+    status: "stable"
+
+  - id: "bar-line-multiaxis"
+    title: "Multi-axis bar and line chart"
+    aliases:
+      - "多Y轴"
+      - "多轴图"
+      - "多轴柱线图"
+      - "双Y轴柱线图"
+      - "柱线组合图"
+      - "multiple y axes"
+      - "bar line combo"
+    source: "scripts/bar/line_multiaxis/plot.R"
+    examples:
+      - "scripts/bar/line_multiaxis/example.tsv"
+    preview: "scripts/bar/line_multiaxis/preview.png"
+    use_when: >
+      Draw several supplied series on one category axis, each on its
+      own coloured y axis: bars dodged side by side, lines with open
+      points on top, axes stacked on the left and / or right with
+      titles on top and a shared tick count so gridlines align. Series
+      count, type, side, colour, limits and units are CONFIG entries.
+    avoid_when: >
+      Do not use when series share units (one axis, bar-group /
+      line-group), for a mirrored flow-up / rain-down hydrograph
+      (line-double), or two opposing bar series (bar-butterfly). Do not
+      add an id per axis count. Do not rescale data beyond the linear
+      drawing map.
+    input_shape: "one row per category (wide); category plus one numeric column per series"
     language: "r"
     status: "stable"

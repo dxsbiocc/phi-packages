@@ -1,4 +1,4 @@
-"""Template parsing, listing, copying, and scoring for the omics visualization CLI."""
+"""Template parsing, listing, and copying for the omics visualization CLI."""
 
 from __future__ import annotations
 
@@ -24,32 +24,12 @@ from viz_common import (
     sha256_file,
 )
 
-MAX_EXAMPLES = 4
-MAX_WHY = 3
-MAX_SUGGESTIONS = 4
 MAX_SCAN_DEPTH = 4
 TITLE_MAX = 200
 
-GENERIC_TERMS = frozenset(
-    {
-        "example",
-        "examples",
-        "preview",
-        "previews",
-        "show",
-        "template",
-        "templates",
-        "plot",
-        "figure",
-        "示例",
-        "模板",
-        "预览",
-        "图片",
-        "图",
-    }
-)
 EXAMPLE_DATA_EXTENSIONS = {".tsv", ".csv"}
 NOT_ASSETS = {"plot.R", "preview.png"}
+PREVIEW_NAME = re.compile(r"^preview(?:_[A-Za-z0-9_-]+)?\.png$")
 
 HEADER_LABEL = re.compile(r"^# ([A-Z][A-Za-z-]*(?: [a-z]+)*):[ \t]*(.*)$")
 SECTION_MARKER = re.compile(r"^# (CONFIG|DATA PREPARATION|PLOT|SAVE)\b")
@@ -309,7 +289,9 @@ def copy_assets(template_script: str, target_dir: str) -> list[str]:
     names = sorted(
         name
         for name in os.listdir(source_dir)
-        if name not in NOT_ASSETS and os.path.splitext(name)[1].lower() not in EXAMPLE_DATA_EXTENSIONS
+        if name not in NOT_ASSETS
+        and not PREVIEW_NAME.match(name)
+        and os.path.splitext(name)[1].lower() not in EXAMPLE_DATA_EXTENSIONS
     )
     for name in names:
         copy_entry(os.path.join(source_dir, name), os.path.join(target_dir, name))
@@ -322,33 +304,8 @@ def line_section(section: dict[str, Any] | None) -> dict[str, Any] | None:
     return {"start_line": section["start_line"], "end_line": section["end_line"], "text": section["text"]}
 
 
-def terms_for(purpose: str) -> list[str]:
-    return [term for term in re.split(r"[\s,;，；。:：/]+", purpose.lower()) if term and term not in GENERIC_TERMS]
-
-
-def score_template(template: dict[str, Any], terms: list[str]) -> int:
-    if not terms:
-        return 1
-    labels = [
-        str(template.get("id", "")),
-        str(template.get("title", "")),
-        str(template.get("family", "")),
-    ]
-    keywords = template.get("intent_keywords") or []
-    labels.extend(str(keyword) for keyword in keywords)
-    lowered = [label.lower() for label in labels]
-    use_when = str(template.get("use_when") or "").lower()
-    score = 0
-    for term in terms:
-        if any(term in label or label in term for label in lowered):
-            score += 4
-        elif term in use_when:
-            score += 1
-    return score
-
-
 def is_installed_preview(path: str) -> bool:
-    if not os.path.isabs(path) or os.path.basename(path) != "preview.png":
+    if not os.path.isabs(path) or not PREVIEW_NAME.match(os.path.basename(path)):
         return False
     try:
         root = os.path.realpath(SKILL_ROOT)
@@ -357,7 +314,7 @@ def is_installed_preview(path: str) -> bool:
         return (
             len(parts) == 4
             and parts[0] == "scripts"
-            and parts[3] == "preview.png"
+            and PREVIEW_NAME.match(parts[3])
             and os.path.isfile(real)
         )
     except OSError:

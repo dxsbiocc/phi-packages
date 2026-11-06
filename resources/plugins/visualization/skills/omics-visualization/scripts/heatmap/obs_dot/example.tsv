@@ -1,0 +1,601 @@
+disease	symptom	category	mean_obs	significant
+Alzheimer's disease	Fatigue	General	1.48	0
+Alzheimer's disease	Stress	General	0.82	0
+Alzheimer's disease	Weight loss	General	1.1	0
+Alzheimer's disease	Weight gain	General	1.86	0
+Alzheimer's disease	Sleep disturbance	General	2.49	1
+Alzheimer's disease	Anxiety	General	2.37	1
+Alzheimer's disease	Depression	General	1.79	0
+Alzheimer's disease	Memory loss	General	3.77	0
+Alzheimer's disease	Confusion	General	4.44	1
+Alzheimer's disease	Apathy	General	4.09	1
+Alzheimer's disease	Irritability	General	2.26	0
+Alzheimer's disease	Headache	General	3.13	0
+Alzheimer's disease	Dizziness	General	1	0
+Alzheimer's disease	Nausea	General	1.48	0
+Alzheimer's disease	Bradykinesia	Motor	0.52	0
+Alzheimer's disease	Tremor	Motor	1.63	0
+Alzheimer's disease	Muscle weakness	Motor	1.61	0
+Alzheimer's disease	Spasticity	Motor	4.11	1
+Alzheimer's disease	Ataxia	Motor	3.28	0
+Alzheimer's disease	Dyskinesia	Motor	2.48	1
+Alzheimer's disease	Rigidity	Motor	3.73	1
+Alzheimer's disease	Gait disturbance	Motor	1.84	0
+Alzheimer's disease	Falls	Motor	2.29	1
+Alzheimer's disease	Dystonia	Motor	2.93	1
+Alzheimer's disease	Myoclonus	Motor	4.31	1
+Alzheimer's disease	Fasciculations	Motor	3.47	1
+Alzheimer's disease	Hypokinesia	Motor	3.11	1
+Alzheimer's disease	Hyperreflexia	Motor	0.36	0
+Alzheimer's disease	Constipation	Sensory/autonomic	2.41	0
+Alzheimer's disease	Hearing problem	Sensory/autonomic	2.19	0
+Alzheimer's disease	Visual impairment	Sensory/autonomic	0.78	0
+Alzheimer's disease	Pain	Sensory/autonomic	2.06	0
+Alzheimer's disease	Numbness	Sensory/autonomic	2.18	0
+Alzheimer's disease	Tingling	Sensory/autonomic	2.71	1
+Alzheimer's disease	Bladder dysfunction	Sensory/autonomic	2.91	1
+Alzheimer's disease	Sweating	Sensory/autonomic	2.41	1
+Alzheimer's disease	Dry mouth	Sensory/autonomic	3.31	0
+Alzheimer's disease	Loss of smell	Sensory/autonomic	2.98	1
+Alzheimer's disease	Loss of taste	Sensory/autonomic	3.34	0
+Alzheimer's disease	Photophobia	Sensory/autonomic	3.42	0
+Parkinson's disease	Fatigue	General	2.7	0
+Parkinson's disease	Stress	General	2.4	1
+Parkinson's disease	Weight loss	General	0.79	0
+Parkinson's disease	Weight gain	General	1.09	0
+Parkinson's disease	Sleep disturbance	General	0.84	0
+Parkinson's disease	Anxiety	General	0.37	0
+Parkinson's disease	Depression	General	0.51	0
+Parkinson's disease	Memory loss	General	0.82	0
+Parkinson's disease	Confusion	General	1.15	0
+Parkinson's disease	Apathy	General	1.77	0
+Parkinson's disease	Irritability	General	3.47	0
+Parkinson's disease	Headache	General	2.29	0
+Parkinson's disease	Dizziness	General	1.86	0
+Parkinson's disease	Nausea	General	1.89	0
+Parkinson's disease	Bradykinesia	Motor	5.12	1
+Parkinson's disease	Tremor	Motor	4.26	0
+Parkinson's disease	Muscle weakness	Motor	1.7	0
+Parkinson's disease	Spasticity	Motor	1.77	0
+Parkinson's disease	Ataxia	Motor	0.26	0
+Parkinson's disease	Dyskinesia	Motor	3.27	0
+Parkinson's disease	Rigidity	Motor	4.09	1
+Parkinson's disease	Gait disturbance	Motor	4.17	0
+Parkinson's disease	Falls	Motor	3.35	0
+Parkinson's disease	Dystonia	Motor	0.45	0
+Parkinson's disease	Myoclonus	Motor	1.25	0
+Parkinson's disease	Fasciculations	Motor	3.24	0
+Parkinson's disease	Hypokinesia	Motor	3.19	1
+Parkinson's disease	Hyperreflexia	Motor	2.02	0
+Parkinson's disease	Constipation	Sensory/autonomic	3.45	1
+Parkinson's disease	Hearing problem	Sensory/autonomic	1.52	0
+Parkinson's disease	Visual impairment	Sensory/autonomic	3.33	0
+Parkinson's disease	Pain	Sensory/autonomic	1.74	0
+Parkinson's disease	Numbness	Sensory/autonomic	3.31	1
+Parkinson's disease	Tingling	Sensory/autonomic	0.16	0
+Parkinson's disease	Bladder dysfunction	Sensory/autonomic	1.77	0
+Parkinson's disease	Sweating	Sensory/autonomic	1.57	0
+Parkinson's disease	Dry mouth	Sensory/autonomic	2.01	0
+Parkinson's disease	Loss of smell	Sensory/autonomic	1.35	0
+Parkinson's disease	Loss of taste	Sensory/autonomic	2.78	1
+Parkinson's disease	Photophobia	Sensory/autonomic	1.17	0
+Multiple sclerosis	Fatigue	General	4.35	0
+Multiple sclerosis	Stress	General	2.64	1
+Multiple sclerosis	Weight loss	General	2.61	1
+Multiple sclerosis	Weight gain	General	0.82	0
+Multiple sclerosis	Sleep disturbance	General	3.3	0
+Multiple sclerosis	Anxiety	General	0.55	0
+Multiple sclerosis	Depression	General	3.05	1
+Multiple sclerosis	Memory loss	General	2.96	1
+Multiple sclerosis	Confusion	General	2.24	1
+Multiple sclerosis	Apathy	General	0.4	0
+Multiple sclerosis	Irritability	General	3.31	0
+Multiple sclerosis	Headache	General	2.69	1
+Multiple sclerosis	Dizziness	General	1.62	0
+Multiple sclerosis	Nausea	General	2.73	1
+Multiple sclerosis	Bradykinesia	Motor	4.22	1
+Multiple sclerosis	Tremor	Motor	3.15	0
+Multiple sclerosis	Muscle weakness	Motor	2.36	1
+Multiple sclerosis	Spasticity	Motor	0.41	0
+Multiple sclerosis	Ataxia	Motor	3.82	1
+Multiple sclerosis	Dyskinesia	Motor	1.32	0
+Multiple sclerosis	Rigidity	Motor	3.58	1
+Multiple sclerosis	Gait disturbance	Motor	3.65	1
+Multiple sclerosis	Falls	Motor	2.93	1
+Multiple sclerosis	Dystonia	Motor	3.94	1
+Multiple sclerosis	Myoclonus	Motor	1.09	0
+Multiple sclerosis	Fasciculations	Motor	3.06	1
+Multiple sclerosis	Hypokinesia	Motor	3.71	0
+Multiple sclerosis	Hyperreflexia	Motor	2.77	1
+Multiple sclerosis	Constipation	Sensory/autonomic	3.22	1
+Multiple sclerosis	Hearing problem	Sensory/autonomic	0.37	0
+Multiple sclerosis	Visual impairment	Sensory/autonomic	3.83	0
+Multiple sclerosis	Pain	Sensory/autonomic	0.29	0
+Multiple sclerosis	Numbness	Sensory/autonomic	4.37	1
+Multiple sclerosis	Tingling	Sensory/autonomic	1.84	0
+Multiple sclerosis	Bladder dysfunction	Sensory/autonomic	0.79	0
+Multiple sclerosis	Sweating	Sensory/autonomic	2.64	0
+Multiple sclerosis	Dry mouth	Sensory/autonomic	2.44	1
+Multiple sclerosis	Loss of smell	Sensory/autonomic	0.6	0
+Multiple sclerosis	Loss of taste	Sensory/autonomic	1.44	0
+Multiple sclerosis	Photophobia	Sensory/autonomic	3.3	1
+Amyotrophic lateral sclerosis	Fatigue	General	0.8	0
+Amyotrophic lateral sclerosis	Stress	General	1.58	0
+Amyotrophic lateral sclerosis	Weight loss	General	2.68	0
+Amyotrophic lateral sclerosis	Weight gain	General	0.9	0
+Amyotrophic lateral sclerosis	Sleep disturbance	General	0.38	0
+Amyotrophic lateral sclerosis	Anxiety	General	3.11	0
+Amyotrophic lateral sclerosis	Depression	General	3.13	1
+Amyotrophic lateral sclerosis	Memory loss	General	1.84	0
+Amyotrophic lateral sclerosis	Confusion	General	2.3	0
+Amyotrophic lateral sclerosis	Apathy	General	1.97	0
+Amyotrophic lateral sclerosis	Irritability	General	1.86	0
+Amyotrophic lateral sclerosis	Headache	General	2.74	0
+Amyotrophic lateral sclerosis	Dizziness	General	3.01	1
+Amyotrophic lateral sclerosis	Nausea	General	1.44	0
+Amyotrophic lateral sclerosis	Bradykinesia	Motor	2.86	0
+Amyotrophic lateral sclerosis	Tremor	Motor	3.41	1
+Amyotrophic lateral sclerosis	Muscle weakness	Motor	2.85	1
+Amyotrophic lateral sclerosis	Spasticity	Motor	0.22	0
+Amyotrophic lateral sclerosis	Ataxia	Motor	0.14	0
+Amyotrophic lateral sclerosis	Dyskinesia	Motor	3.12	1
+Amyotrophic lateral sclerosis	Rigidity	Motor	3.98	1
+Amyotrophic lateral sclerosis	Gait disturbance	Motor	0.53	0
+Amyotrophic lateral sclerosis	Falls	Motor	3.32	0
+Amyotrophic lateral sclerosis	Dystonia	Motor	2.74	1
+Amyotrophic lateral sclerosis	Myoclonus	Motor	3.47	1
+Amyotrophic lateral sclerosis	Fasciculations	Motor	4.09	1
+Amyotrophic lateral sclerosis	Hypokinesia	Motor	2.56	1
+Amyotrophic lateral sclerosis	Hyperreflexia	Motor	1.31	0
+Amyotrophic lateral sclerosis	Constipation	Sensory/autonomic	3.75	0
+Amyotrophic lateral sclerosis	Hearing problem	Sensory/autonomic	3.76	0
+Amyotrophic lateral sclerosis	Visual impairment	Sensory/autonomic	3.33	0
+Amyotrophic lateral sclerosis	Pain	Sensory/autonomic	1.67	0
+Amyotrophic lateral sclerosis	Numbness	Sensory/autonomic	2.63	1
+Amyotrophic lateral sclerosis	Tingling	Sensory/autonomic	1.18	0
+Amyotrophic lateral sclerosis	Bladder dysfunction	Sensory/autonomic	3.26	1
+Amyotrophic lateral sclerosis	Sweating	Sensory/autonomic	2.56	1
+Amyotrophic lateral sclerosis	Dry mouth	Sensory/autonomic	0.23	0
+Amyotrophic lateral sclerosis	Loss of smell	Sensory/autonomic	1	0
+Amyotrophic lateral sclerosis	Loss of taste	Sensory/autonomic	0.2	0
+Amyotrophic lateral sclerosis	Photophobia	Sensory/autonomic	3.38	0
+Huntington's disease	Fatigue	General	1.49	0
+Huntington's disease	Stress	General	0.65	0
+Huntington's disease	Weight loss	General	1.72	0
+Huntington's disease	Weight gain	General	2.31	1
+Huntington's disease	Sleep disturbance	General	0.82	0
+Huntington's disease	Anxiety	General	1.78	0
+Huntington's disease	Depression	General	1.13	0
+Huntington's disease	Memory loss	General	2.64	1
+Huntington's disease	Confusion	General	3.43	0
+Huntington's disease	Apathy	General	2.86	0
+Huntington's disease	Irritability	General	1.82	0
+Huntington's disease	Headache	General	2.6	1
+Huntington's disease	Dizziness	General	3.13	1
+Huntington's disease	Nausea	General	0.59	0
+Huntington's disease	Bradykinesia	Motor	1.29	0
+Huntington's disease	Tremor	Motor	2.96	1
+Huntington's disease	Muscle weakness	Motor	0.46	0
+Huntington's disease	Spasticity	Motor	4.02	0
+Huntington's disease	Ataxia	Motor	2.33	0
+Huntington's disease	Dyskinesia	Motor	0.33	0
+Huntington's disease	Rigidity	Motor	1.21	0
+Huntington's disease	Gait disturbance	Motor	1.34	0
+Huntington's disease	Falls	Motor	0.91	0
+Huntington's disease	Dystonia	Motor	4.2	1
+Huntington's disease	Myoclonus	Motor	2.06	0
+Huntington's disease	Fasciculations	Motor	2.49	1
+Huntington's disease	Hypokinesia	Motor	0.76	0
+Huntington's disease	Hyperreflexia	Motor	1.54	0
+Huntington's disease	Constipation	Sensory/autonomic	1.66	0
+Huntington's disease	Hearing problem	Sensory/autonomic	0.48	0
+Huntington's disease	Visual impairment	Sensory/autonomic	3.17	1
+Huntington's disease	Pain	Sensory/autonomic	2.62	0
+Huntington's disease	Numbness	Sensory/autonomic	1.17	0
+Huntington's disease	Tingling	Sensory/autonomic	3.4	1
+Huntington's disease	Bladder dysfunction	Sensory/autonomic	1.93	0
+Huntington's disease	Sweating	Sensory/autonomic	0.89	0
+Huntington's disease	Dry mouth	Sensory/autonomic	1.37	0
+Huntington's disease	Loss of smell	Sensory/autonomic	0.21	0
+Huntington's disease	Loss of taste	Sensory/autonomic	3.19	0
+Huntington's disease	Photophobia	Sensory/autonomic	1.22	0
+Epilepsy	Fatigue	General	1.87	0
+Epilepsy	Stress	General	1.51	0
+Epilepsy	Weight loss	General	3.29	0
+Epilepsy	Weight gain	General	0.43	0
+Epilepsy	Sleep disturbance	General	1.83	0
+Epilepsy	Anxiety	General	1.88	0
+Epilepsy	Depression	General	1.85	0
+Epilepsy	Memory loss	General	1.3	0
+Epilepsy	Confusion	General	1.33	0
+Epilepsy	Apathy	General	2.05	0
+Epilepsy	Irritability	General	0.75	0
+Epilepsy	Headache	General	3.3	0
+Epilepsy	Dizziness	General	1.37	0
+Epilepsy	Nausea	General	3.42	1
+Epilepsy	Bradykinesia	Motor	1.29	0
+Epilepsy	Tremor	Motor	2.16	0
+Epilepsy	Muscle weakness	Motor	0.25	0
+Epilepsy	Spasticity	Motor	3.58	1
+Epilepsy	Ataxia	Motor	0.41	0
+Epilepsy	Dyskinesia	Motor	0.11	0
+Epilepsy	Rigidity	Motor	0.5	0
+Epilepsy	Gait disturbance	Motor	1.84	0
+Epilepsy	Falls	Motor	1.64	0
+Epilepsy	Dystonia	Motor	1.3	0
+Epilepsy	Myoclonus	Motor	1.23	0
+Epilepsy	Fasciculations	Motor	4.33	1
+Epilepsy	Hypokinesia	Motor	2.27	1
+Epilepsy	Hyperreflexia	Motor	2.57	0
+Epilepsy	Constipation	Sensory/autonomic	0.93	0
+Epilepsy	Hearing problem	Sensory/autonomic	0.32	0
+Epilepsy	Visual impairment	Sensory/autonomic	3.79	1
+Epilepsy	Pain	Sensory/autonomic	3.25	0
+Epilepsy	Numbness	Sensory/autonomic	3.14	0
+Epilepsy	Tingling	Sensory/autonomic	2.62	1
+Epilepsy	Bladder dysfunction	Sensory/autonomic	1.09	0
+Epilepsy	Sweating	Sensory/autonomic	2.01	0
+Epilepsy	Dry mouth	Sensory/autonomic	0.78	0
+Epilepsy	Loss of smell	Sensory/autonomic	3.47	0
+Epilepsy	Loss of taste	Sensory/autonomic	3.02	1
+Epilepsy	Photophobia	Sensory/autonomic	2.41	1
+Migraine	Fatigue	General	1.6	0
+Migraine	Stress	General	0.66	0
+Migraine	Weight loss	General	2.04	0
+Migraine	Weight gain	General	3.48	1
+Migraine	Sleep disturbance	General	2.91	0
+Migraine	Anxiety	General	2.74	1
+Migraine	Depression	General	3.24	1
+Migraine	Memory loss	General	3.15	1
+Migraine	Confusion	General	3.44	1
+Migraine	Apathy	General	2.71	0
+Migraine	Irritability	General	0.43	0
+Migraine	Headache	General	1.12	0
+Migraine	Dizziness	General	2.03	0
+Migraine	Nausea	General	1.2	0
+Migraine	Bradykinesia	Motor	2.56	0
+Migraine	Tremor	Motor	3.05	1
+Migraine	Muscle weakness	Motor	2.02	0
+Migraine	Spasticity	Motor	3.77	0
+Migraine	Ataxia	Motor	1.2	0
+Migraine	Dyskinesia	Motor	4.28	1
+Migraine	Rigidity	Motor	0.73	0
+Migraine	Gait disturbance	Motor	2.28	0
+Migraine	Falls	Motor	0.24	0
+Migraine	Dystonia	Motor	2.33	1
+Migraine	Myoclonus	Motor	1.87	0
+Migraine	Fasciculations	Motor	0.89	0
+Migraine	Hypokinesia	Motor	0.17	0
+Migraine	Hyperreflexia	Motor	1.24	0
+Migraine	Constipation	Sensory/autonomic	2.69	1
+Migraine	Hearing problem	Sensory/autonomic	1.55	0
+Migraine	Visual impairment	Sensory/autonomic	2.03	0
+Migraine	Pain	Sensory/autonomic	1.39	0
+Migraine	Numbness	Sensory/autonomic	1.35	0
+Migraine	Tingling	Sensory/autonomic	0.55	0
+Migraine	Bladder dysfunction	Sensory/autonomic	3.65	0
+Migraine	Sweating	Sensory/autonomic	1.58	0
+Migraine	Dry mouth	Sensory/autonomic	0.71	0
+Migraine	Loss of smell	Sensory/autonomic	3.31	1
+Migraine	Loss of taste	Sensory/autonomic	3.19	0
+Migraine	Photophobia	Sensory/autonomic	3.41	1
+Stroke	Fatigue	General	3.38	1
+Stroke	Stress	General	0.21	0
+Stroke	Weight loss	General	2.66	1
+Stroke	Weight gain	General	3.11	1
+Stroke	Sleep disturbance	General	2.35	1
+Stroke	Anxiety	General	0.59	0
+Stroke	Depression	General	1.39	0
+Stroke	Memory loss	General	0.44	0
+Stroke	Confusion	General	0.65	0
+Stroke	Apathy	General	1.04	0
+Stroke	Irritability	General	3.46	0
+Stroke	Headache	General	1.97	0
+Stroke	Dizziness	General	2.77	1
+Stroke	Nausea	General	1.09	0
+Stroke	Bradykinesia	Motor	2.57	0
+Stroke	Tremor	Motor	1.32	0
+Stroke	Muscle weakness	Motor	0.84	0
+Stroke	Spasticity	Motor	1.33	0
+Stroke	Ataxia	Motor	3.37	0
+Stroke	Dyskinesia	Motor	1.8	0
+Stroke	Rigidity	Motor	3.69	0
+Stroke	Gait disturbance	Motor	2.65	0
+Stroke	Falls	Motor	2.21	1
+Stroke	Dystonia	Motor	0.9	0
+Stroke	Myoclonus	Motor	0.66	0
+Stroke	Fasciculations	Motor	3.79	1
+Stroke	Hypokinesia	Motor	2.5	0
+Stroke	Hyperreflexia	Motor	3.95	1
+Stroke	Constipation	Sensory/autonomic	0.77	0
+Stroke	Hearing problem	Sensory/autonomic	0.6	0
+Stroke	Visual impairment	Sensory/autonomic	0.29	0
+Stroke	Pain	Sensory/autonomic	0.3	0
+Stroke	Numbness	Sensory/autonomic	0.85	0
+Stroke	Tingling	Sensory/autonomic	3.29	0
+Stroke	Bladder dysfunction	Sensory/autonomic	3.4	1
+Stroke	Sweating	Sensory/autonomic	2.2	0
+Stroke	Dry mouth	Sensory/autonomic	2.13	0
+Stroke	Loss of smell	Sensory/autonomic	2.73	1
+Stroke	Loss of taste	Sensory/autonomic	2.65	1
+Stroke	Photophobia	Sensory/autonomic	1.85	0
+Schizophrenia	Fatigue	General	0.49	0
+Schizophrenia	Stress	General	2.8	0
+Schizophrenia	Weight loss	General	1.44	0
+Schizophrenia	Weight gain	General	1.39	0
+Schizophrenia	Sleep disturbance	General	1.21	0
+Schizophrenia	Anxiety	General	0.3	0
+Schizophrenia	Depression	General	0.76	0
+Schizophrenia	Memory loss	General	3.46	1
+Schizophrenia	Confusion	General	2.12	0
+Schizophrenia	Apathy	General	0.23	0
+Schizophrenia	Irritability	General	1.78	0
+Schizophrenia	Headache	General	1.93	0
+Schizophrenia	Dizziness	General	2.71	1
+Schizophrenia	Nausea	General	1.11	0
+Schizophrenia	Bradykinesia	Motor	2.82	0
+Schizophrenia	Tremor	Motor	3.35	1
+Schizophrenia	Muscle weakness	Motor	4.42	0
+Schizophrenia	Spasticity	Motor	3.71	1
+Schizophrenia	Ataxia	Motor	0.35	0
+Schizophrenia	Dyskinesia	Motor	3.79	1
+Schizophrenia	Rigidity	Motor	3.11	0
+Schizophrenia	Gait disturbance	Motor	1.79	0
+Schizophrenia	Falls	Motor	3.59	1
+Schizophrenia	Dystonia	Motor	0.8	0
+Schizophrenia	Myoclonus	Motor	3.22	0
+Schizophrenia	Fasciculations	Motor	2.78	0
+Schizophrenia	Hypokinesia	Motor	3.71	0
+Schizophrenia	Hyperreflexia	Motor	0.28	0
+Schizophrenia	Constipation	Sensory/autonomic	0.36	0
+Schizophrenia	Hearing problem	Sensory/autonomic	3.75	1
+Schizophrenia	Visual impairment	Sensory/autonomic	2.51	0
+Schizophrenia	Pain	Sensory/autonomic	2.86	1
+Schizophrenia	Numbness	Sensory/autonomic	1.55	0
+Schizophrenia	Tingling	Sensory/autonomic	2.35	0
+Schizophrenia	Bladder dysfunction	Sensory/autonomic	0.14	0
+Schizophrenia	Sweating	Sensory/autonomic	3.13	0
+Schizophrenia	Dry mouth	Sensory/autonomic	0.61	0
+Schizophrenia	Loss of smell	Sensory/autonomic	1.63	0
+Schizophrenia	Loss of taste	Sensory/autonomic	0.96	0
+Schizophrenia	Photophobia	Sensory/autonomic	2.26	1
+Bipolar disorder	Fatigue	General	0.77	0
+Bipolar disorder	Stress	General	1.08	0
+Bipolar disorder	Weight loss	General	2.17	0
+Bipolar disorder	Weight gain	General	2.33	0
+Bipolar disorder	Sleep disturbance	General	2.62	1
+Bipolar disorder	Anxiety	General	0.67	0
+Bipolar disorder	Depression	General	0.99	0
+Bipolar disorder	Memory loss	General	2.9	1
+Bipolar disorder	Confusion	General	1.44	0
+Bipolar disorder	Apathy	General	3.1	0
+Bipolar disorder	Irritability	General	1.08	0
+Bipolar disorder	Headache	General	3.15	1
+Bipolar disorder	Dizziness	General	3.25	0
+Bipolar disorder	Nausea	General	2.76	1
+Bipolar disorder	Bradykinesia	Motor	3.23	1
+Bipolar disorder	Tremor	Motor	4.26	0
+Bipolar disorder	Muscle weakness	Motor	2.13	0
+Bipolar disorder	Spasticity	Motor	0.42	0
+Bipolar disorder	Ataxia	Motor	1.85	0
+Bipolar disorder	Dyskinesia	Motor	0.19	0
+Bipolar disorder	Rigidity	Motor	3.27	1
+Bipolar disorder	Gait disturbance	Motor	2.58	0
+Bipolar disorder	Falls	Motor	2.5	1
+Bipolar disorder	Dystonia	Motor	3.25	1
+Bipolar disorder	Myoclonus	Motor	0.84	0
+Bipolar disorder	Fasciculations	Motor	2.85	1
+Bipolar disorder	Hypokinesia	Motor	2	0
+Bipolar disorder	Hyperreflexia	Motor	0.9	0
+Bipolar disorder	Constipation	Sensory/autonomic	0.22	0
+Bipolar disorder	Hearing problem	Sensory/autonomic	2.87	1
+Bipolar disorder	Visual impairment	Sensory/autonomic	1.79	0
+Bipolar disorder	Pain	Sensory/autonomic	3.58	0
+Bipolar disorder	Numbness	Sensory/autonomic	0.84	0
+Bipolar disorder	Tingling	Sensory/autonomic	3.3	0
+Bipolar disorder	Bladder dysfunction	Sensory/autonomic	2.39	1
+Bipolar disorder	Sweating	Sensory/autonomic	0.91	0
+Bipolar disorder	Dry mouth	Sensory/autonomic	1.89	0
+Bipolar disorder	Loss of smell	Sensory/autonomic	3.31	0
+Bipolar disorder	Loss of taste	Sensory/autonomic	2.71	0
+Bipolar disorder	Photophobia	Sensory/autonomic	1.43	0
+Major depressive disorder	Fatigue	General	1.71	0
+Major depressive disorder	Stress	General	2.28	1
+Major depressive disorder	Weight loss	General	2.81	1
+Major depressive disorder	Weight gain	General	0.35	0
+Major depressive disorder	Sleep disturbance	General	2.67	1
+Major depressive disorder	Anxiety	General	0.91	0
+Major depressive disorder	Depression	General	3.29	0
+Major depressive disorder	Memory loss	General	0.43	0
+Major depressive disorder	Confusion	General	1.03	0
+Major depressive disorder	Apathy	General	3.35	1
+Major depressive disorder	Irritability	General	2.61	1
+Major depressive disorder	Headache	General	1.55	0
+Major depressive disorder	Dizziness	General	2.6	0
+Major depressive disorder	Nausea	General	0.61	0
+Major depressive disorder	Bradykinesia	Motor	0.64	0
+Major depressive disorder	Tremor	Motor	0.95	0
+Major depressive disorder	Muscle weakness	Motor	1.85	0
+Major depressive disorder	Spasticity	Motor	1.47	0
+Major depressive disorder	Ataxia	Motor	0.52	0
+Major depressive disorder	Dyskinesia	Motor	4.41	0
+Major depressive disorder	Rigidity	Motor	1.09	0
+Major depressive disorder	Gait disturbance	Motor	1.88	0
+Major depressive disorder	Falls	Motor	3.9	0
+Major depressive disorder	Dystonia	Motor	0.86	0
+Major depressive disorder	Myoclonus	Motor	0.66	0
+Major depressive disorder	Fasciculations	Motor	0.93	0
+Major depressive disorder	Hypokinesia	Motor	3.17	1
+Major depressive disorder	Hyperreflexia	Motor	1.72	0
+Major depressive disorder	Constipation	Sensory/autonomic	1.92	0
+Major depressive disorder	Hearing problem	Sensory/autonomic	1.8	0
+Major depressive disorder	Visual impairment	Sensory/autonomic	2.39	0
+Major depressive disorder	Pain	Sensory/autonomic	3.02	0
+Major depressive disorder	Numbness	Sensory/autonomic	1.9	0
+Major depressive disorder	Tingling	Sensory/autonomic	0.37	0
+Major depressive disorder	Bladder dysfunction	Sensory/autonomic	1.09	0
+Major depressive disorder	Sweating	Sensory/autonomic	1.7	0
+Major depressive disorder	Dry mouth	Sensory/autonomic	3.43	1
+Major depressive disorder	Loss of smell	Sensory/autonomic	1.58	0
+Major depressive disorder	Loss of taste	Sensory/autonomic	1.71	0
+Major depressive disorder	Photophobia	Sensory/autonomic	1.34	0
+Anxiety disorder	Fatigue	General	1.78	0
+Anxiety disorder	Stress	General	0.44	0
+Anxiety disorder	Weight loss	General	3.4	0
+Anxiety disorder	Weight gain	General	2	0
+Anxiety disorder	Sleep disturbance	General	2.39	0
+Anxiety disorder	Anxiety	General	3.31	1
+Anxiety disorder	Depression	General	1.52	0
+Anxiety disorder	Memory loss	General	1.78	0
+Anxiety disorder	Confusion	General	1.82	0
+Anxiety disorder	Apathy	General	3.47	1
+Anxiety disorder	Irritability	General	1.72	0
+Anxiety disorder	Headache	General	2.07	0
+Anxiety disorder	Dizziness	General	1.5	0
+Anxiety disorder	Nausea	General	2.84	1
+Anxiety disorder	Bradykinesia	Motor	4.15	0
+Anxiety disorder	Tremor	Motor	0.36	0
+Anxiety disorder	Muscle weakness	Motor	2.6	0
+Anxiety disorder	Spasticity	Motor	0.39	0
+Anxiety disorder	Ataxia	Motor	3.8	0
+Anxiety disorder	Dyskinesia	Motor	4.03	1
+Anxiety disorder	Rigidity	Motor	2.24	0
+Anxiety disorder	Gait disturbance	Motor	1.6	0
+Anxiety disorder	Falls	Motor	4.06	1
+Anxiety disorder	Dystonia	Motor	0.68	0
+Anxiety disorder	Myoclonus	Motor	0.99	0
+Anxiety disorder	Fasciculations	Motor	4.21	0
+Anxiety disorder	Hypokinesia	Motor	3.69	0
+Anxiety disorder	Hyperreflexia	Motor	1.53	0
+Anxiety disorder	Constipation	Sensory/autonomic	1.65	0
+Anxiety disorder	Hearing problem	Sensory/autonomic	1.13	0
+Anxiety disorder	Visual impairment	Sensory/autonomic	1.01	0
+Anxiety disorder	Pain	Sensory/autonomic	3.22	1
+Anxiety disorder	Numbness	Sensory/autonomic	0.91	0
+Anxiety disorder	Tingling	Sensory/autonomic	0.19	0
+Anxiety disorder	Bladder dysfunction	Sensory/autonomic	0.77	0
+Anxiety disorder	Sweating	Sensory/autonomic	1.16	0
+Anxiety disorder	Dry mouth	Sensory/autonomic	0.51	0
+Anxiety disorder	Loss of smell	Sensory/autonomic	0.23	0
+Anxiety disorder	Loss of taste	Sensory/autonomic	1.38	0
+Anxiety disorder	Photophobia	Sensory/autonomic	3.74	0
+Autism spectrum disorder	Fatigue	General	3.24	1
+Autism spectrum disorder	Stress	General	2.56	1
+Autism spectrum disorder	Weight loss	General	0.66	0
+Autism spectrum disorder	Weight gain	General	0.77	0
+Autism spectrum disorder	Sleep disturbance	General	1.53	0
+Autism spectrum disorder	Anxiety	General	3.04	0
+Autism spectrum disorder	Depression	General	2.55	1
+Autism spectrum disorder	Memory loss	General	0.25	0
+Autism spectrum disorder	Confusion	General	2.87	0
+Autism spectrum disorder	Apathy	General	2.84	1
+Autism spectrum disorder	Irritability	General	1.78	0
+Autism spectrum disorder	Headache	General	1.01	0
+Autism spectrum disorder	Dizziness	General	0.31	0
+Autism spectrum disorder	Nausea	General	2.22	0
+Autism spectrum disorder	Bradykinesia	Motor	0.15	0
+Autism spectrum disorder	Tremor	Motor	3.48	1
+Autism spectrum disorder	Muscle weakness	Motor	2.56	1
+Autism spectrum disorder	Spasticity	Motor	1.24	0
+Autism spectrum disorder	Ataxia	Motor	1.36	0
+Autism spectrum disorder	Dyskinesia	Motor	2.88	0
+Autism spectrum disorder	Rigidity	Motor	2.36	0
+Autism spectrum disorder	Gait disturbance	Motor	4.02	1
+Autism spectrum disorder	Falls	Motor	2.4	1
+Autism spectrum disorder	Dystonia	Motor	2.05	0
+Autism spectrum disorder	Myoclonus	Motor	1.32	0
+Autism spectrum disorder	Fasciculations	Motor	0.56	0
+Autism spectrum disorder	Hypokinesia	Motor	1.19	0
+Autism spectrum disorder	Hyperreflexia	Motor	2.01	0
+Autism spectrum disorder	Constipation	Sensory/autonomic	1.32	0
+Autism spectrum disorder	Hearing problem	Sensory/autonomic	1.14	0
+Autism spectrum disorder	Visual impairment	Sensory/autonomic	3.59	0
+Autism spectrum disorder	Pain	Sensory/autonomic	3.57	1
+Autism spectrum disorder	Numbness	Sensory/autonomic	2.91	0
+Autism spectrum disorder	Tingling	Sensory/autonomic	1.86	0
+Autism spectrum disorder	Bladder dysfunction	Sensory/autonomic	0.95	0
+Autism spectrum disorder	Sweating	Sensory/autonomic	0.66	0
+Autism spectrum disorder	Dry mouth	Sensory/autonomic	1.52	0
+Autism spectrum disorder	Loss of smell	Sensory/autonomic	0.38	0
+Autism spectrum disorder	Loss of taste	Sensory/autonomic	1.91	0
+Autism spectrum disorder	Photophobia	Sensory/autonomic	3.58	1
+ADHD	Fatigue	General	0.73	0
+ADHD	Stress	General	1.86	0
+ADHD	Weight loss	General	1.79	0
+ADHD	Weight gain	General	1.01	0
+ADHD	Sleep disturbance	General	1.68	0
+ADHD	Anxiety	General	2.05	0
+ADHD	Depression	General	3.17	0
+ADHD	Memory loss	General	3.02	0
+ADHD	Confusion	General	1.37	0
+ADHD	Apathy	General	1.71	0
+ADHD	Irritability	General	3.48	0
+ADHD	Headache	General	0.92	0
+ADHD	Dizziness	General	2.76	0
+ADHD	Nausea	General	1.88	0
+ADHD	Bradykinesia	Motor	0.32	0
+ADHD	Tremor	Motor	0.92	0
+ADHD	Muscle weakness	Motor	1.29	0
+ADHD	Spasticity	Motor	1.93	0
+ADHD	Ataxia	Motor	4.19	1
+ADHD	Dyskinesia	Motor	3.09	1
+ADHD	Rigidity	Motor	4.35	1
+ADHD	Gait disturbance	Motor	4.38	0
+ADHD	Falls	Motor	1.4	0
+ADHD	Dystonia	Motor	1.64	0
+ADHD	Myoclonus	Motor	0.96	0
+ADHD	Fasciculations	Motor	1.61	0
+ADHD	Hypokinesia	Motor	3.29	0
+ADHD	Hyperreflexia	Motor	2.44	1
+ADHD	Constipation	Sensory/autonomic	2.43	1
+ADHD	Hearing problem	Sensory/autonomic	1.29	0
+ADHD	Visual impairment	Sensory/autonomic	2.47	1
+ADHD	Pain	Sensory/autonomic	1.22	0
+ADHD	Numbness	Sensory/autonomic	2.77	0
+ADHD	Tingling	Sensory/autonomic	3.61	1
+ADHD	Bladder dysfunction	Sensory/autonomic	2.59	1
+ADHD	Sweating	Sensory/autonomic	3.41	0
+ADHD	Dry mouth	Sensory/autonomic	1.15	0
+ADHD	Loss of smell	Sensory/autonomic	2.41	1
+ADHD	Loss of taste	Sensory/autonomic	0.15	0
+ADHD	Photophobia	Sensory/autonomic	3.77	1
+PTSD	Fatigue	General	2.96	1
+PTSD	Stress	General	2.61	1
+PTSD	Weight loss	General	1.44	0
+PTSD	Weight gain	General	2.15	0
+PTSD	Sleep disturbance	General	3.44	1
+PTSD	Anxiety	General	2.65	0
+PTSD	Depression	General	1.8	0
+PTSD	Memory loss	General	0.99	0
+PTSD	Confusion	General	0.56	0
+PTSD	Apathy	General	2.03	0
+PTSD	Irritability	General	1.37	0
+PTSD	Headache	General	1.9	0
+PTSD	Dizziness	General	2.04	0
+PTSD	Nausea	General	1.99	0
+PTSD	Bradykinesia	Motor	3.3	0
+PTSD	Tremor	Motor	2.09	0
+PTSD	Muscle weakness	Motor	3.23	1
+PTSD	Spasticity	Motor	2.37	1
+PTSD	Ataxia	Motor	2.41	0
+PTSD	Dyskinesia	Motor	4.19	1
+PTSD	Rigidity	Motor	1.5	0
+PTSD	Gait disturbance	Motor	2.59	0
+PTSD	Falls	Motor	2.83	1
+PTSD	Dystonia	Motor	3.56	0
+PTSD	Myoclonus	Motor	0.85	0
+PTSD	Fasciculations	Motor	3.7	0
+PTSD	Hypokinesia	Motor	1.71	0
+PTSD	Hyperreflexia	Motor	4.22	1
+PTSD	Constipation	Sensory/autonomic	2.51	0
+PTSD	Hearing problem	Sensory/autonomic	2.65	1
+PTSD	Visual impairment	Sensory/autonomic	2.84	0
+PTSD	Pain	Sensory/autonomic	1.89	0
+PTSD	Numbness	Sensory/autonomic	0.42	0
+PTSD	Tingling	Sensory/autonomic	2.77	1
+PTSD	Bladder dysfunction	Sensory/autonomic	0.19	0
+PTSD	Sweating	Sensory/autonomic	3.14	0
+PTSD	Dry mouth	Sensory/autonomic	0.96	0
+PTSD	Loss of smell	Sensory/autonomic	1.63	0
+PTSD	Loss of taste	Sensory/autonomic	2.39	1
+PTSD	Photophobia	Sensory/autonomic	3.21	1

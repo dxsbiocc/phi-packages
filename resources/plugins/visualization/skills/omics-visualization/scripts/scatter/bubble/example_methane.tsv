@@ -1,0 +1,89 @@
+code	diff_share	invent_share	emission_share	country_group	show_label
+USA	15.5	22	6.5	Developed countries	1
+CHN	-4.2	14	18.2	Emerging economies	1
+JPN	13	13.5	0.5	Developed countries	1
+IND	-8	0.8	8.8	Emerging economies	1
+BRA	-5.5	1.2	6.7	Emerging economies	1
+DEU	7.45	7.5	0.05	Developed countries	1
+FRA	6.45	6.5	0.05	Developed countries	1
+KOR	5.95	6	0.05	Developed countries	0
+RUS	-3	1.5	4.5	Emerging economies	1
+CAN	4.45	4.5	0.05	Developed countries	0
+AUS	3.75	3.8	0.05	Developed countries	0
+ITA	3.45	3.5	0.05	Developed countries	0
+ESP	2.95	3	0.05	Developed countries	0
+GBR	3.95	4	0.05	Developed countries	0
+MEX	-1.5	0.6	2.1	Other developing countries	0
+IDN	-2.8	0.4	3.2	Other developing countries	0
+TUR	-1.2	0.5	1.7	Other developing countries	0
+SAU	0.95	1	0.05	Other developing countries	0
+ZAF	-2	0.3	2.3	Other developing countries	0
+ARG	-1.8	0.4	2.2	Other developing countries	0
+POL	1.75	1.8	0.05	Developed countries	0
+NLD	2.15	2.2	0.05	Developed countries	0
+BEL	1.55	1.6	0.05	Developed countries	0
+CHE	1.05	1.1	0.05	Developed countries	0
+AUT	0.95	1	0.05	Developed countries	0
+DNK	0.95	1	0.05	Developed countries	0
+SWE	0.85	0.9	0.05	Developed countries	0
+FIN	0.8	0.85	0.05	Developed countries	0
+PAK	-2.2	0.3	2.5	Other developing countries	0
+NGA	-2.5	0.25	2.75	Other developing countries	0
+IRN	-1.8	0.4	2.2	Other developing countries	0
+ETH	-0.8	0.05	0.85	Least developed countries	0
+MMR	-0.7	0.04	0.74	Least developed countries	0
+THA	-0.9	0.08	0.98	Other developing countries	0
+BGD	-0.6	0.06	0.66	Least developed countries	0
+VNM	-1	0.1	1.1	Other developing countries	0
+EGY	-1.5	0.15	1.65	Other developing countries	0
+UKR	-0.5	0.2	0.7	Other developing countries	0
+MYS	-1.2	0.12	1.32	Other developing countries	0
+PHL	-1.4	0.1	1.5	Other developing countries	0
+D1	3.32979772907242	3.81880095457942	0.489003225506998	Developed countries	0
+D2	0.54258265422212	1.10341563589901	0.560832981676893	Developed countries	0
+D3	0.944565991651633	1.19840617208355	0.253840180431914	Developed countries	0
+D4	1.17016563909056	1.51151858950871	0.341352950418154	Developed countries	0
+D5	0.723461327104413	1.10403496755858	0.380573640454162	Developed countries	0
+D6	0.742176043817514	1.02558863856037	0.283412594742855	Developed countries	0
+D7	2.09851147223244	2.44187167247774	0.343360200245304	Developed countries	0
+D8	1.40643581929028	1.58085371984365	0.174417900553372	Developed countries	0
+D9	1.62212610102579	1.73318206616572	0.111055965139928	Developed countries	0
+D10	3.2519824858635	3.36864362296108	0.116661137097577	Developed countries	0
+D11	1.78558898426322	1.96156652578396	0.175977541520741	Developed countries	0
+D12	3.67340142650458	3.81232320212947	0.13892177562489	Developed countries	0
+E1	-2.69668081805487	0.01	0.695201029367709	Emerging economies	0
+E2	-1.4250315575326	0.01	0.841079469314312	Emerging economies	0
+E3	-1.91147769778453	0.01	0.860426459295782	Emerging economies	0
+E4	-2.06277341437736	0.01	0.681577635133447	Emerging economies	0
+E5	-2.3363923674736	0.01	1.17337185145738	Emerging economies	0
+E6	-2.44970070102821	0.01	0.62190864527277	Emerging economies	0
+E7	-1.20198924419576	1.07583297648569	2.27782222068144	Emerging economies	0
+E8	-2.88410404705061	0.01	0.328436206518942	Emerging economies	0
+E9	-2.11383026461967	0.01	1.52021258430716	Emerging economies	0
+E10	-1.74800407608967	0.01	0.462121880000188	Emerging economies	0
+L1	-0.215171161033666	0.01	0.111166359666007	Least developed countries	0
+L2	-1.8542945953802	0.01	0.322259658618344	Least developed countries	0
+L3	-0.345399773215338	0.01	0.0818361128695749	Least developed countries	0
+L4	-0.46720683945812	0.01	0.132429239686286	Least developed countries	0
+L5	-1.31992610370254	0.01	0.119289867429028	Least developed countries	0
+L6	-0.538902820911541	0.01	0.304523338943358	Least developed countries	0
+L7	-0.472675777389818	0.01	0.115775212854563	Least developed countries	0
+L8	-0.165060652232241	0.104458705679444	0.269519357911685	Least developed countries	0
+L9	-0.0361541179095622	0.0838793970059089	0.120033514915471	Least developed countries	0
+L10	-0.344824685954312	0.01	0.259299257386014	Least developed countries	0
+L11	0.287399831176845	0.341853639533791	0.054453808356946	Least developed countries	0
+L12	0.0153233557256899	0.172913531964746	0.157590176239056	Least developed countries	0
+L13	0.322778939823149	0.586084711157281	0.263305771334132	Least developed countries	0
+L14	0.40854680214475	0.884416449309493	0.475869647164743	Least developed countries	0
+O1	0.108635547557273	0.267763796471466	0.159128248914193	Other developing countries	0
+O2	-1.71633877890752	0.01	0.947437037340214	Other developing countries	0
+O3	-0.704806264970128	0.325626489052371	1.0304327540225	Other developing countries	0
+O4	-1.01088512127894	0.0953958574751561	1.1062809787541	Other developing countries	0
+O5	-0.522799280998685	0.01	0.130510998110843	Other developing countries	0
+O6	-1.65891659107975	0.01	0.261438688894078	Other developing countries	0
+O7	-0.305605436803062	0.55258153790192	0.858186974704982	Other developing countries	0
+O8	-2.43200090554642	0.01	0.266503049581015	Other developing countries	0
+O9	-1.55049911944007	0.01	0.800619328668344	Other developing countries	0
+O10	-1.32053837671716	0.01	0.113769386836532	Other developing countries	0
+O11	-0.784753307781637	0.01	0.466249378884832	Other developing countries	0
+O12	-0.729968236078487	0.01	0.371522739576074	Other developing countries	0

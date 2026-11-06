@@ -26,12 +26,22 @@ templates:
     aliases:
       - "环形图"
       - "甜甜圈图"
+      - "箭头环形图"
+      - "循环示意图"
     source: "scripts/pie/doughnut/plot.R"
     examples:
       - "scripts/pie/doughnut/example.tsv"
+      - "scripts/pie/doughnut/example_chevron.tsv"
     preview: "scripts/pie/doughnut/preview.png"
+    variants:
+      - image: "scripts/pie/doughnut/preview_chevron.png"
+        example: "scripts/pie/doughnut/example_chevron.tsv"
+        config: "segment_shape = \"chevron\", palette = \"Qualitative.Pastel2\", center_label"
+        shows: "Interlocking arrow segments with labels along the ring and a centre title."
     use_when: >
       Show part-to-whole composition as a ring with a hollow center.
+      segment_shape = "chevron" draws clockwise arrow segments with
+      in-ring labels; equal values give a cycle / process schematic.
     avoid_when: >
       Do not use a solid pie, a nested two-ring pie, or a circos
       doughnut with outer bars (pie-doughnut-bar). Use
@@ -86,7 +96,9 @@ templates:
       Do not use a plain doughnut (pie-doughnut), a nested two-ring pie
       (pie-nest / pie-combine), a Nightingale rose (pie-nightingale),
       or grouped radial bars without an inner composition ring
-      (bar-radial-groups). A supplied UMAP in the hole with cell-type
+      (bar-radial-groups). Stacked radial bars around a doughnut of a
+      different table (e.g. eGenes by sharing count) are
+      bar-radial-donut. A supplied UMAP in the hole with cell-type
       sectors is scatter-umap-circos, not this id. Do not add an id
       per sector-width or label variant.
     input_shape: "one row per group-by-part; group, item, and value"
@@ -155,17 +167,26 @@ templates:
     source: "scripts/pie/nightingale/plot.R"
     examples:
       - "scripts/pie/nightingale/example.tsv"
+      - "scripts/pie/nightingale/example_petal.tsv"
     preview: "scripts/pie/nightingale/preview.png"
+    variants:
+      - image: "scripts/pie/nightingale/preview_petal.png"
+        example: "scripts/pie/nightingale/example_petal.tsv"
+        config: "shape = \"petal\"; petal$palette = \"Qualitative.Vivid / 10\", min_frac, border, name_size, value_size, start"
+        shows: "Petal pie: equal-angle wedges from the centre, length = value / max, each ending in a semicircular cap, names along the radius and values at the tip, no legend."
     use_when: >
       Encode value as radius of equal-angle polar bars, with rounded
       caps and an optional inner hole. Corner radius, hole, and
-      value labels stay in CONFIG.
+      value labels stay in CONFIG. Wedges from the centre ending in
+      semicircular caps (petal pie) are shape = "petal", not a new id.
     avoid_when: >
       Do not use a standard pie, or bar-polar-sector unless that bar
       geometry is requested. Do not use pie-doughnut-round (angle
       encodes share of a whole). Do not use a circos doughnut with
-      outer bars (pie-doughnut-bar). Rounded vs sharp is not a
-      second id.
+      outer bars (pie-doughnut-bar). A hierarchical taxonomy of
+      equal-angle capsules is sunburst-petal. A 5+ set flower / Venn
+      around a shared core is bar-flower. Rounded vs sharp, and
+      petal caps, are not a second id.
     input_shape: "one row per category; category plus numeric value"
     language: "r"
     status: "stable"

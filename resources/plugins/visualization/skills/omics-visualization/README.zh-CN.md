@@ -10,11 +10,13 @@
 
 ## 能做什么
 
-- 用两级目录（家族 → 模板）推荐图形，依据 `use_when` / `avoid_when`，而不是猜文件名。
-- 预览模式和常见结果表先走轻量契约路由，快速得到候选模板，避免每次都翻完整目录。
-- 先检查分布和数据契约，再推荐模板。
+- 用两级目录（家族 → 模板）推荐图形，依据 `use_when` / `avoid_when`，而不是猜文件名。选模板是 Agent 的事；工具只负责查找、计数、复制和运行。
+- 用户只想看示例时，用 `viz_catalog` 按别名或家族查找已安装的 `preview.png`，不模拟数据，也不重新绘制。
+- 修改已有图时，编辑项目里的脚本并用原输入重绘。用户给参考图时，先看图再选模板。
+- 选图前用 `viz_profile` 计数：列类型、缺失、范围、标识符重叠。
+- 用 `viz_catalog` 查一个家族或精确名称。它不排名，也不猜测。
 - 多个候选会改变科学读法时展示匹配的 `preview.png`。候选以编号列表呈现，便于对比。
-- 把选中的 `plot.R` **复制到你的项目**，改列名、改样式，输出 PDF / PNG / SVG。
+- 用 `viz_prepare` 把选中的 `plot.R` **复制到你的项目**，改列名、改样式，再用 `viz_render` 输出 PDF / PNG / SVG。
 - 使用 OmicsAgent ColorPicker 里的具名配色，不编造 hex。
 - 多张图要支撑同一主张时，按多面板规则拼图，并做版式核查。
 - 当目录和数据形态明确指向一个模板时直接推进；只有候选会改变科学读法时才展示备选。
@@ -35,13 +37,13 @@
 
 默认风格是紧凑、证据驱动的：视觉词汇尽量少，次要标记保持安静，单位和变换写清楚，不用装饰背景，不用彩虹色板，也不依赖只有放大才能读清的标签。具体投稿规则仍以目标期刊为准；本技能提供的是设计姿态。
 
-### 先契约快筛，再查目录
+### Agent 选图，工具查找
 
-Agent 不得凭训练数据推荐模板。预览模式和常见数据形态可以先运行无依赖的 [scripts/route_template.py](scripts/route_template.py)，它读取 [references/template_contracts.json](references/template_contracts.json)，用 focal entity、target entity、feature、category、association、significance 等通用角色做快筛。规则不得只限定基因；基因名只是组学实体列名的一种。
+Agent 不得凭训练数据推荐模板，脚本也不得按列名或关键词给模板打分。Agent 读目的、`viz_profile` 给出的事实，以及 `viz_catalog` 里的一个家族，再比较 `use_when`、`avoid_when` 和 `input_shape`。`viz_catalog` 按家族、精确 id 或精确别名（含中文）查找，不做评分或快筛。
 
-契约维护用 [scripts/validate_template_contracts.py](scripts/validate_template_contracts.py) 校验，它会把模板 id、source 路径和 preview 路径同 catalog 对齐。文本报告还会按 family 输出 contract 覆盖率和未覆盖模板，因此后续扩剩下的长尾模板时，可以按缺口优先级推进，不必每次人工翻完 149 个模板。
+[references/template_contracts.json](references/template_contracts.json) 列出每个模板需要的输入角色。`viz_prepare` 用这些角色检查 Agent 提供的 `role=column` 映射，不负责选模板。目录维护用 [scripts/validate_template_contracts.py](scripts/validate_template_contracts.py) 校验模板 id、source 路径、preview 路径和角色名。
 
-高置信推荐可以跳过无关家族目录，但仍要检查命中的 catalog 条目和 `plot.R`。低置信、新形态或投稿级图形，仍按 [references/plots.yaml](references/plots.yaml) → 对应家族 catalog 的完整路线，比较 `preview`、`use_when`、`avoid_when` 和 `input_shape`。别名（含中文）用来理解需求，不足以单独定稿。
+用户点名某种图时，用 `alias` 查找。新图按 [references/plots.yaml](references/plots.yaml) → 对应家族 catalog 选择。别名用来理解需求；多个模板会改变读法时，不足以单独定稿。
 
 ### 预览用于消歧
 
@@ -68,43 +70,48 @@ Agent 不得凭训练数据推荐模板。预览模式和常见数据形态可�
 ## 选图流程
 
 ```text
+无数据、只要示例
+    → viz_catalog（别名或家族）
+    → 已安装的 preview.png
+    → 用户选择
+
 数据 + 主张
-    → 目的 + 分布快照
-    → route_template.py      （预览/常见形态快筛）
+    → 目的
+    → viz_profile             （给表计数）
     → plots.yaml              （选定一个家族）
-    → catalog/<family>.yaml
+    → viz_catalog family      （读 use_when / avoid_when / input_shape）
     → preview.png 列表        （仅对实质候选展示）
     → palettes.yaml           （只用具名 hex）
-    → 复制 plot.R 到项目
+    → viz_prepare             （复制 plot.R；检查 role=column）
     → source 安装目录 helper
     → nature-style pass       （需要时做最终尺寸润色）
-    → 渲染，运行 qa_single_plot.py，并检查成品
+    → viz_render，检查成品
 ```
 
 若是多面板需求，先写整图主张和每块图的证据角色，再把每一块必要的图走同一套目录。
 
 ## 模板库
 
-约 **149** 个单图模板，分 **12** 个家族，另有少量拼图版式：
+**211** 个单图模板，分 **12** 个家族，另有少量拼图版式。部分模板还带 `preview_<name>.png` 的 CONFIG 变体：
 
 | 家族       | 典型用途                                                   |
 | ---------- | ---------------------------------------------------------- |
-| `scatter`  | 坐标、降维、UMAP 环图、泰森多边形、火山图 / 放大插图火山图 / MA、哑铃图、蜂群图、SVG 点、差值/环形棒棒糖、三元相图、相关散点矩阵 |
-| `heatmap`  | 矩阵、聚类、cutree 分块得分、相关、关联点阵 / 气泡热图 / 对角线分割热图、Mantel 类展示、DE 热图对齐通路富集、通路×分组富集热图、饱和突变能量与平均 ΔΔG 折线、基因×样本 oncoprint、分组环状热图 |
-| `bar`      | 大小比较、堆叠、排行富集柱 / 富集点图、分类 SVG 标记、UpSet 组合矩阵、2～4 组韦恩图、患者泳道图 |
-| `boxplot`  | 分布、小提琴、雨云图、配对比较                             |
-| `line`     | 时间、排序、堆积面积、生存曲线、脊线图                     |
-| `pie`      | 构成比、环形、南丁格尔图、外环柱的环状比例图               |
-| `radar`    | 少量命名数值轴                                             |
-| `graph`    | 点线网络（给定坐标，或 `graph-stress` 算法布局）、流量弦图 |
-| `sankey`   | 守恒流量、平行集合图                                       |
-| `sunburst` | 环形层级，**圆心角**编码大小                               |
-| `tree`     | 点线树、hclust 树、treemap / 圆堆积 / 冰柱、通路富集环图   |
-| `ideogram` | 基因结构、染色体 G 带、感兴趣基因定位、沿染色体的密度填充、基因组窗口覆盖度、蛋白突变棒棒糖、密位点蒲公英图、多轨道基因组 Circos、两基因组共线性、基因组环状热图、嵌套缩放环图 |
+| `scatter`  | 坐标、降维、UMAP 图谱 / 环图 / 标记基因点图、泰森多边形、火山图 / 多组 / 条形码 / 双侧 GO / MA、曼哈顿图 / QQ、一维直方图 / 密度、二维密度、残差、双边误差、放大插图、哑铃图、无箱线蜂群、SVG 点、棒棒糖、三元相图、相关散点矩阵、分组拟合、通路分面、Zi–Pi、潜变量分面 |
+| `heatmap`  | 矩阵、聚类、cutree 分块得分、相关、关联点阵 / 气泡 / 对角线分割 / 观察点阵、Mantel 类展示、DE 热图对齐通路富集、通路×分组富集、Circos 注释 / 队列 / 分割环、癌种变异频率、饱和突变能量、oncoprint |
+| `bar`      | 大小比较、堆叠、堆叠加甜甜圈、排行富集柱 / 聚类 / 棒棒糖、细胞通讯进出柱、径向甜甜圈 / 径向折线、多轴折柱、Circos 连线、分类 SVG 标记、UpSet、韦恩图、花瓣集合图、泳道图 |
+| `boxplot`  | 分布、带箱线蜂群 / 缺口 / 队列箱线、小提琴、雨云图、letter-value 箱线、配对和蝴蝶对比 |
+| `line`     | 时间、排序、堆积面积、生存曲线、脊线图、GSEA、差值色带、ROC、螺旋图 |
+| `pie`      | 构成比、环形、南丁格尔 / 花瓣饼图、外环柱的环状比例图       |
+| `radar`    | 少量命名数值轴，含显著性标记                               |
+| `graph`    | 点线网络（给定坐标，或 `graph-stress` 算法布局）、TF–靶点调控网、多组学符号网络、模块共现联图、流量 / 二分弦图 |
+| `sankey`   | 守恒流量、平行集合图、等宽蛋白–性状冲积图、富集流向加排行柱 |
+| `sunburst` | 环形层级，**圆心角**编码大小，含分类花瓣旭日               |
+| `tree`     | 点线树、hclust 树、treemap / 圆堆积 / 冰柱、通路富集环图、环形细胞注释树、daylight / 系统发育环 |
+| `ideogram` | 基因结构、染色体 G 带、位点 / 多性状位点、密度填充、基因组窗口覆盖度、蛋白突变棒棒糖、蒲公英图、Circos / 共线性 / 线性 riparian / 亚基因组 Circos、嵌套缩放环图 |
 
 `circular` 以及 `outer = "bar"` / `"point"` 只改 CONFIG，不另开模板。`scatter-svg` / `bar-svg-icon` 的 SVG 文件也是 CONFIG。`graph-force` 使用已有 x/y（`layout = "manual"`）。由边表计算布局用 `graph-stress`。
 
-每个模板带 `plot.R`、示例数据和 `preview.png`。用户只想看示例、尚无数据表时，用 `viz_examples` 直接展示内置的 `preview.png`，不模拟数据，也不重新绘制。catalog 记录 `id`、别名、语言、状态，以及脚本期望的输入形态。
+每个模板带 `plot.R`、示例数据和 `preview.png`。会改变图形的 CONFIG 选项另存为 `preview_<name>.png`，并写在 catalog 的 `variants` 里。`viz_catalog` 按 `ids` 查询时会把这些图作为额外的 `preview_markdown` 返回。用户只想看示例、尚无数据表时，用 `viz_catalog` 按别名或家族查找内置预览，不模拟数据，也不重新绘制。catalog 记录 `id`、别名、语言、状态，以及脚本期望的输入形态。
 
 修改已生成的图时，读取项目中的原绘图脚本和输入数据并直接修订；用户给参考图要求新绘制时，先查看参考图，再以用户数据选择合适模板。
 
@@ -116,7 +123,7 @@ Agent 不得凭训练数据推荐模板。预览模式和常见数据形态可�
 SKILL.md                         给 Agent 的契约
 README.md / README.zh-CN.md      本说明
 references/
-  template_contracts.json       常见形态的快速路由契约
+  template_contracts.json        每个模板需要的输入角色
   plots.yaml                     家族索引
   palettes.yaml                  生成的推荐配色
   palettes/colors.json           生成的完整 hex
@@ -126,9 +133,12 @@ references/
   nature-figure-principles.md
   rendered-layout-qa.md
 scripts/
-  route_template.py              无依赖预览路由器
+  viz.py                         catalog / profile / prepare / render
+  viz_catalog.py                 精确目录查找
+  viz_profile.py                 表计数和列检查
+  viz_templates.py               复制并解析 plot.R
   qa_single_plot.py              单图成品轻量 QA
-  validate_template_contracts.py 契约与目录一致性检查
+  validate_template_contracts.py 目录与角色一致性检查
   lib/common.R                   共用读写与保存
   <family>/<template>/plot.R
   layouts/<layout>/compose.R
@@ -136,7 +146,7 @@ scripts/
 
 ## 怎么用
 
-在兼容 Agent Skill 的环境中，当你已有结果表或矩阵、需要科研图时，调用 **omics-visualization**。带上数据（或清楚的列约定）。Agent 应先声明展示目的、检查分布；当一个模板明显匹配时直接推进；只有可行候选会讲出实质不同的科学故事时，才出示预览让你选。
+在兼容 Agent Skill 的环境中，当你已有结果表或矩阵、需要科研图时，调用 **omics-visualization**。带上数据（或清楚的列约定）。Agent 应先声明展示目的，用 `viz_profile` 给表计数，用 `viz_catalog` 查一个家族；当一个模板明显匹配时直接推进；只有可行候选会讲出实质不同的科学故事时，才出示预览让你选。
 
 自己跑某个模板：
 

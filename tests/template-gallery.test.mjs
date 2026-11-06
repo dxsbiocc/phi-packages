@@ -22,7 +22,7 @@ test('template gallery matches the omics-visualization catalogs', () => {
   assert.ok(Array.isArray(gallery.families))
 
   const templates = gallery.families.flatMap((family) => family.templates)
-  assert.equal(templates.length, 153)
+  assert.equal(templates.length, 211)
   const ids = new Set(templates.map((template) => template.id))
   assert.equal(ids.size, templates.length)
   for (const template of templates) {
@@ -31,5 +31,5 @@ test('template gallery matches the omics-visualization catalogs', () => {
   }
 
   const manifest = readFileSync(join(root, 'resources/plugins/visualization/phi-package.yaml'), 'utf8')
-  assert.match(manifest, /^version: 1\.1\.1$/m)
+  assert.match(manifest, /^version: 1\.2\.0$/m)
 })

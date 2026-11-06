@@ -1,0 +1,119 @@
+chr	start	end	locus	band	organ	trait
+chr1	26000000	26050000	L1	1p36.11	Abdominal	Pancreas PDFF
+chr1	26000000	26050000	L1	1p36.11	Abdominal	Liver volume
+chr1	26000000	26050000	L1	1p36.11	Cardiac	Chamber volumes
+chr1	26000000	26050000	L1	1p36.11	Cardiac	Myocardial wall thickness
+chr1	26000000	26050000	L1	1p36.11	Brain	Corona radiata tract
+chr1	26000000	26050000	L1	1p36.11	Brain	Corpus callosum tract
+chr1	26000000	26050000	L1	1p36.11	Brain	Regional grey matter volume
+chr1	28500000	28550000	L2	1p36.11	Abdominal	Visceral fat volume
+chr1	28500000	28550000	L2	1p36.11	Brain	Posterior thalamic radiation tract
+chr1	57000000	57050000	L3	1p32.2	Abdominal	Subcutaneous fat volume
+chr1	57000000	57050000	L3	1p32.2	Abdominal	Liver PDFF
+chr1	57000000	57050000	L3	1p32.2	Cardiac	Longitudinal strain
+chr1	155000000	155050000	L4	1q22	Abdominal	Subcutaneous fat volume
+chr2	37000000	37050000	L5	2p22.2	Abdominal	Subcutaneous fat volume
+chr2	45000000	45050000	L6	2p21	Abdominal	Liver PDFF
+chr2	45000000	45050000	L6	2p21	Cardiac	Myocardial wall thickness
+chr2	45000000	45050000	L6	2p21	Brain	Other white matter tracts
+chr2	45000000	45050000	L6	2p21	Brain	Posterior thalamic radiation tract
+chr2	115000000	115050000	L7	2q14.1	Abdominal	Subcutaneous fat volume
+chr3	47000000	47050000	L8	3p21.31	Abdominal	Pancreas volume
+chr3	47000000	47050000	L8	3p21.31	Cardiac	Myocardial wall thickness
+chr3	47000000	47050000	L8	3p21.31	Brain	Posterior thalamic radiation tract
+chr3	77000000	77050000	L9	3p12.3	Abdominal	Pancreas volume
+chr3	77000000	77050000	L9	3p12.3	Abdominal	Pancreas PDFF
+chr3	77000000	77050000	L9	3p12.3	Cardiac	Chamber volumes
+chr3	77000000	77050000	L9	3p12.3	Brain	Corona radiata tract
+chr3	77000000	77050000	L9	3p12.3	Brain	Corpus callosum tract
+chr3	109000000	109050000	L10	3q13.13	Abdominal	Subcutaneous fat volume
+chr3	109000000	109050000	L10	3q13.13	Brain	Uncinate fasciculus tract
+chr3	172000000	172050000	L11	3q26.31	Abdominal	Visceral fat volume
+chr5	132000000	132050000	L12	5q31.1	Abdominal	Pancreas volume
+chr5	132000000	132050000	L12	5q31.1	Brain	Posterior thalamic radiation tract
+chr6	1000000	1050000	L13	6p25.3	Abdominal	Pancreas PDFF
+chr6	1000000	1050000	L13	6p25.3	Brain	White matter hyperintensities volume
+chr6	1000000	1050000	L13	6p25.3	Brain	Other white matter tracts
+chr6	72000000	72050000	L14	6q13	Abdominal	Visceral fat volume
+chr6	72000000	72050000	L14	6q13	Abdominal	Pancreas PDFF
+chr6	72000000	72050000	L14	6q13	Cardiac	Longitudinal strain
+chr6	72000000	72050000	L14	6q13	Brain	Corpus callosum tract
+chr6	122000000	122050000	L15	6q22.31	Cardiac	Longitudinal strain
+chr6	122000000	122050000	L15	6q22.31	Brain	Cingulum cingulate gyrus tract
+chr6	128000000	128050000	L16	6q22.33	Abdominal	Liver PDFF
+chr6	128000000	128050000	L16	6q22.33	Abdominal	Subcutaneous fat volume
+chr6	128000000	128050000	L16	6q22.33	Abdominal	Pancreas PDFF
+chr6	128000000	128050000	L16	6q22.33	Cardiac	Myocardial wall thickness
+chr6	128000000	128050000	L16	6q22.33	Cardiac	Chamber volumes
+chr6	128000000	128050000	L16	6q22.33	Brain	Fornix cres+stria terminalis tract
+chr6	128000000	128050000	L16	6q22.33	Brain	Uncinate fasciculus tract
+chr6	128000000	128050000	L16	6q22.33	Brain	Corpus callosum tract
+chr6	144000000	144050000	L17	6q24.2	Cardiac	Longitudinal strain
+chr7	10000000	10050000	L18	7p21.3	Abdominal	Subcutaneous fat volume
+chr7	10000000	10050000	L18	7p21.3	Abdominal	Pancreas volume
+chr7	10000000	10050000	L18	7p21.3	Cardiac	Longitudinal strain
+chr7	10000000	10050000	L18	7p21.3	Brain	Posterior thalamic radiation tract
+chr8	9000000	9050000	L19	8p23.1	Abdominal	Liver volume
+chr8	9000000	9050000	L19	8p23.1	Brain	Global grey matter volume
+chr8	11500000	11550000	L20	8p23.1	Abdominal	Liver PDFF
+chr8	11500000	11550000	L20	8p23.1	Cardiac	Myocardial wall thickness
+chr8	125000000	125050000	L21	8q24.13	Abdominal	Liver volume
+chr8	125000000	125050000	L21	8q24.13	Abdominal	Visceral fat volume
+chr8	125000000	125050000	L21	8q24.13	Abdominal	Liver PDFF
+chr8	125000000	125050000	L21	8q24.13	Cardiac	Chamber volumes
+chr8	125000000	125050000	L21	8q24.13	Brain	Global grey matter volume
+chr8	125000000	125050000	L21	8q24.13	Brain	Regional grey matter volume
+chr9	99000000	99050000	L22	9q22.33	Abdominal	Pancreas volume
+chr9	127000000	127050000	L23	9q33.3	Abdominal	Subcutaneous fat volume
+chr9	127000000	127050000	L23	9q33.3	Abdominal	Pancreas PDFF
+chr9	127000000	127050000	L23	9q33.3	Cardiac	Chamber volumes
+chr9	132000000	132050000	L24	9q34.13	Abdominal	Liver volume
+chr9	132000000	132050000	L24	9q34.13	Abdominal	Pancreas PDFF
+chr9	132000000	132050000	L24	9q34.13	Cardiac	Chamber volumes
+chr9	132000000	132050000	L24	9q34.13	Brain	Posterior thalamic radiation tract
+chr9	134000000	134050000	L25	9q34.2	Abdominal	Visceral fat volume
+chr10	67000000	67050000	L26	10q21.3	Abdominal	Liver volume
+chr10	67000000	67050000	L26	10q21.3	Cardiac	Myocardial wall thickness
+chr10	67000000	67050000	L26	10q21.3	Brain	Corona radiata tract
+chr11	45000000	45050000	L27	11p11.2	Cardiac	Chamber volumes
+chr11	45000000	45050000	L27	11p11.2	Brain	Global grey matter volume
+chr11	47500000	47550000	L28	11p11.2	Abdominal	Visceral fat volume
+chr11	47500000	47550000	L28	11p11.2	Abdominal	Subcutaneous fat volume
+chr12	110000000	110050000	L29	12q24.11	Abdominal	Liver PDFF
+chr12	110000000	110050000	L29	12q24.11	Brain	Corpus callosum tract
+chr12	112000000	112050000	L30	12q24.13	Abdominal	Subcutaneous fat volume
+chr13	98000000	98050000	L31	13q32.2	Abdominal	Pancreas PDFF
+chr13	98000000	98050000	L31	13q32.2	Abdominal	Liver volume
+chr13	98000000	98050000	L31	13q32.2	Cardiac	Longitudinal strain
+chr15	56000000	56050000	L32	15q21.3	Cardiac	Chamber volumes
+chr15	56000000	56050000	L32	15q21.3	Brain	Regional grey matter volume
+chr15	56000000	56050000	L32	15q21.3	Brain	Cingulum cingulate gyrus tract
+chr15	91000000	91050000	L33	15q26.1	Abdominal	Visceral fat volume
+chr15	91000000	91050000	L33	15q26.1	Abdominal	Liver volume
+chr15	91000000	91050000	L33	15q26.1	Cardiac	Myocardial wall thickness
+chr15	91000000	91050000	L33	15q26.1	Brain	Regional grey matter volume
+chr15	91000000	91050000	L33	15q26.1	Brain	Posterior thalamic radiation tract
+chr16	89000000	89050000	L34	16q24.3	Abdominal	Visceral fat volume
+chr16	89000000	89050000	L34	16q24.3	Cardiac	Longitudinal strain
+chr17	7000000	7050000	L35	17p13.1	Abdominal	Liver volume
+chr17	44000000	44050000	L36	17q21.31	Abdominal	Pancreas PDFF
+chr17	44000000	44050000	L36	17q21.31	Abdominal	Pancreas volume
+chr17	44000000	44050000	L36	17q21.31	Abdominal	Visceral fat volume
+chr17	44000000	44050000	L36	17q21.31	Cardiac	Longitudinal strain
+chr17	44000000	44050000	L36	17q21.31	Cardiac	Chamber volumes
+chr17	44000000	44050000	L36	17q21.31	Brain	Corpus callosum tract
+chr17	44000000	44050000	L36	17q21.31	Brain	Global grey matter volume
+chr17	44000000	44050000	L36	17q21.31	Brain	Cingulum cingulate gyrus tract
+chr17	46000000	46050000	L37	17q21.31	Abdominal	Pancreas volume
+chr17	46000000	46050000	L37	17q21.31	Abdominal	Pancreas PDFF
+chr17	46000000	46050000	L37	17q21.31	Abdominal	Liver PDFF
+chr17	46000000	46050000	L37	17q21.31	Abdominal	Liver volume
+chr17	46000000	46050000	L37	17q21.31	Cardiac	Myocardial wall thickness
+chr17	46000000	46050000	L37	17q21.31	Cardiac	Longitudinal strain
+chr17	46000000	46050000	L37	17q21.31	Brain	Posterior thalamic radiation tract
+chr17	46000000	46050000	L37	17q21.31	Brain	Global grey matter volume
+chr17	64000000	64050000	L38	17q24.1	Abdominal	Pancreas PDFF
+chr17	64000000	64050000	L38	17q24.1	Abdominal	Liver volume
+chr17	64000000	64050000	L38	17q24.1	Brain	White matter hyperintensities volume
+chr19	45000000	45050000	L39	19q13.32	Cardiac	Myocardial wall thickness
+chr19	45000000	45050000	L39	19q13.32	Brain	Cingulum cingulate gyrus tract

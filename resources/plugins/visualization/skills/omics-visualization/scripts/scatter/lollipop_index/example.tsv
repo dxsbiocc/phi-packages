@@ -1,0 +1,81 @@
+cell	treatment	metric	value
+Myeloid	Nab-PTX	Predictive Index	0.22
+CD56+ NK	Nab-PTX	Predictive Index	0.12
+pDC	Nab-PTX	Predictive Index	-0.05
+Mast	Nab-PTX	Predictive Index	-0.28
+CD4+ T	Nab-PTX	Predictive Index	0.48
+CD16+ NK	Nab-PTX	Predictive Index	0.04
+Plasma	Nab-PTX	Predictive Index	0.15
+CD20+ B	Nab-PTX	Predictive Index	0.28
+Bfoc	Nab-PTX	Predictive Index	0.02
+CD8+ T	Nab-PTX	Predictive Index	0.38
+Myeloid	Nab-PTX + ATZ	Predictive Index	0.18
+CD56+ NK	Nab-PTX + ATZ	Predictive Index	0.1
+pDC	Nab-PTX + ATZ	Predictive Index	-0.08
+Mast	Nab-PTX + ATZ	Predictive Index	-0.12
+CD4+ T	Nab-PTX + ATZ	Predictive Index	0.42
+CD16+ NK	Nab-PTX + ATZ	Predictive Index	0.06
+Plasma	Nab-PTX + ATZ	Predictive Index	0.2
+CD20+ B	Nab-PTX + ATZ	Predictive Index	0.32
+Bfoc	Nab-PTX + ATZ	Predictive Index	0.05
+CD8+ T	Nab-PTX + ATZ	Predictive Index	0.45
+Myeloid	PTX + ATZ	Predictive Index	0.08
+CD56+ NK	PTX + ATZ	Predictive Index	0.05
+pDC	PTX + ATZ	Predictive Index	-0.02
+Mast	PTX + ATZ	Predictive Index	-0.18
+CD4+ T	PTX + ATZ	Predictive Index	0.22
+CD16+ NK	PTX + ATZ	Predictive Index	0.03
+Plasma	PTX + ATZ	Predictive Index	0.12
+CD20+ B	PTX + ATZ	Predictive Index	0.15
+Bfoc	PTX + ATZ	Predictive Index	0.01
+CD8+ T	PTX + ATZ	Predictive Index	0.28
+Myeloid	PTX	Predictive Index	0.12
+CD56+ NK	PTX	Predictive Index	0.08
+pDC	PTX	Predictive Index	-0.04
+Mast	PTX	Predictive Index	-0.22
+CD4+ T	PTX	Predictive Index	0.35
+CD16+ NK	PTX	Predictive Index	0.05
+Plasma	PTX	Predictive Index	0.18
+CD20+ B	PTX	Predictive Index	0.25
+Bfoc	PTX	Predictive Index	0.03
+CD8+ T	PTX	Predictive Index	0.4
+Myeloid	Nab-PTX	Therapeutic Index	0.35
+CD56+ NK	Nab-PTX	Therapeutic Index	0.08
+pDC	Nab-PTX	Therapeutic Index	-0.1
+Mast	Nab-PTX	Therapeutic Index	-0.55
+CD4+ T	Nab-PTX	Therapeutic Index	0.28
+CD16+ NK	Nab-PTX	Therapeutic Index	0.02
+Plasma	Nab-PTX	Therapeutic Index	0.12
+CD20+ B	Nab-PTX	Therapeutic Index	0.18
+Bfoc	Nab-PTX	Therapeutic Index	0
+CD8+ T	Nab-PTX	Therapeutic Index	0.42
+Myeloid	Nab-PTX + ATZ	Therapeutic Index	0.25
+CD56+ NK	Nab-PTX + ATZ	Therapeutic Index	0.06
+pDC	Nab-PTX + ATZ	Therapeutic Index	-0.15
+Mast	Nab-PTX + ATZ	Therapeutic Index	-0.35
+CD4+ T	Nab-PTX + ATZ	Therapeutic Index	0.2
+CD16+ NK	Nab-PTX + ATZ	Therapeutic Index	0.04
+Plasma	Nab-PTX + ATZ	Therapeutic Index	0.1
+CD20+ B	Nab-PTX + ATZ	Therapeutic Index	0.15
+Bfoc	Nab-PTX + ATZ	Therapeutic Index	-0.02
+CD8+ T	Nab-PTX + ATZ	Therapeutic Index	0.38
+Myeloid	PTX + ATZ	Therapeutic Index	0.05
+CD56+ NK	PTX + ATZ	Therapeutic Index	0.02
+pDC	PTX + ATZ	Therapeutic Index	-0.08
+Mast	PTX + ATZ	Therapeutic Index	-0.62
+CD4+ T	PTX + ATZ	Therapeutic Index	0.08
+CD16+ NK	PTX + ATZ	Therapeutic Index	0.01
+Plasma	PTX + ATZ	Therapeutic Index	0.04
+CD20+ B	PTX + ATZ	Therapeutic Index	0.06
+Bfoc	PTX + ATZ	Therapeutic Index	-0.05
+CD8+ T	PTX + ATZ	Therapeutic Index	0.12
+Myeloid	PTX	Therapeutic Index	0.1
+CD56+ NK	PTX	Therapeutic Index	0.04
+pDC	PTX	Therapeutic Index	-0.12
+Mast	PTX	Therapeutic Index	-0.48
+CD4+ T	PTX	Therapeutic Index	0.15
+CD16+ NK	PTX	Therapeutic Index	0.02
+Plasma	PTX	Therapeutic Index	0.08
+CD20+ B	PTX	Therapeutic Index	0.1
+Bfoc	PTX	Therapeutic Index	-0.03
+CD8+ T	PTX	Therapeutic Index	0.22

@@ -1,0 +1,11 @@
+cell_type	cells
+CD4 T	2380
+CD8 T	1640
+NK	720
+B	1180
+Plasma	340
+CD14 Mono	1920
+CD16 Mono	460
+cDC	220
+pDC	120
+Platelet	160

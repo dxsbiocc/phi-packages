@@ -1,0 +1,28 @@
+from_disease	from_gene	to_disease	to_gene
+Type 2 diabetes	APOE	Premature mortality	APOE
+Premature mortality	APOE	Heart failure	APOE
+Heart failure	APOE	Multimorbidity	APOE
+Prostate cancer	BRCA2	Lung cancer	BRCA2
+Lung cancer	BRCA2	Breast cancer	BRCA2
+Colon cancer	CDH1	Breast cancer	CDH1
+Premature mortality	CDKN2B	Renal disease	CDKN2B
+Renal disease	CDKN2B	Heart failure	CDKN2B
+Heart failure	CDKN2B	Multimorbidity	CDKN2B
+Premature mortality	CHRNA5	COPD	CHRNA5
+COPD	CHRNA5	Lung cancer	CHRNA5
+Premature mortality	FOXO3	Multimorbidity	FOXO3
+Type 2 diabetes	FTO	Heart failure	FTO
+Heart failure	FTO	Multimorbidity	FTO
+Type 2 diabetes	HNF1B	Prostate cancer	HNF1B
+Premature mortality	LPA	Renal disease	LPA
+Renal disease	LPA	Heart failure	LPA
+Heart failure	LPA	Multimorbidity	LPA
+Prostate cancer	MYC	Lung cancer	MYC
+Lung cancer	MYC	Colon cancer	MYC
+Colon cancer	MYC	Breast cancer	MYC
+Breast cancer	MYC	Multimorbidity	MYC
+Prostate cancer	TERT	Premature mortality	TERT
+Premature mortality	TERT	Lung cancer	TERT
+Lung cancer	TERT	Colon cancer	TERT
+Colon cancer	TERT	Breast cancer	TERT
+Breast cancer	TERT	Multimorbidity	TERT

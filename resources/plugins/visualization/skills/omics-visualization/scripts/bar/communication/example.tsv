@@ -1,0 +1,79 @@
+cell	tissue	direction	strength
+Fibroblast	N	outgoing	8.20
+Fibroblast	N	incoming	6.40
+Fibroblast	T_NM	outgoing	9.10
+Fibroblast	T_NM	incoming	7.00
+Fibroblast	T_M	outgoing	7.40
+Fibroblast	T_M	incoming	5.50
+Pericyte	N	outgoing	3.46
+Pericyte	N	incoming	0.34
+Pericyte	T_NM	outgoing	16.12
+Pericyte	T_NM	incoming	5.38
+Pericyte	T_M	outgoing	18.98
+Pericyte	T_M	incoming	7.35
+Endothelial cell	N	outgoing	6.10
+Endothelial cell	N	incoming	4.80
+Endothelial cell	T_NM	outgoing	7.40
+Endothelial cell	T_NM	incoming	8.20
+Endothelial cell	T_M	outgoing	11.50
+Endothelial cell	T_M	incoming	9.60
+Epithelial cell	N	outgoing	12.40
+Epithelial cell	N	incoming	9.20
+Epithelial cell	T_NM	outgoing	10.10
+Epithelial cell	T_NM	incoming	8.40
+Epithelial cell	T_M	outgoing	6.80
+Epithelial cell	T_M	incoming	5.10
+Plasma cell	N	outgoing	4.20
+Plasma cell	N	incoming	7.60
+Plasma cell	T_NM	outgoing	5.00
+Plasma cell	T_NM	incoming	9.40
+Plasma cell	T_M	outgoing	4.60
+Plasma cell	T_M	incoming	11.20
+Neutrophil	N	outgoing	5.50
+Neutrophil	N	incoming	3.20
+Neutrophil	T_NM	outgoing	8.80
+Neutrophil	T_NM	incoming	4.10
+Neutrophil	T_M	outgoing	6.20
+Neutrophil	T_M	incoming	2.40
+Mast cell	N	outgoing	2.80
+Mast cell	N	incoming	3.60
+Mast cell	T_NM	outgoing	3.40
+Mast cell	T_NM	incoming	4.80
+Mast cell	T_M	outgoing	2.20
+Mast cell	T_M	incoming	6.50
+CD4+ T cell	N	outgoing	9.60
+CD4+ T cell	N	incoming	11.40
+CD4+ T cell	T_NM	outgoing	8.20
+CD4+ T cell	T_NM	incoming	10.10
+CD4+ T cell	T_M	outgoing	7.10
+CD4+ T cell	T_M	incoming	12.80
+B cell	N	outgoing	4.80
+B cell	N	incoming	6.90
+B cell	T_NM	outgoing	5.60
+B cell	T_NM	incoming	5.20
+B cell	T_M	outgoing	3.90
+B cell	T_M	incoming	4.40
+Dendritic cell	N	outgoing	3.20
+Dendritic cell	N	incoming	4.10
+Dendritic cell	T_NM	outgoing	4.40
+Dendritic cell	T_NM	incoming	5.60
+Dendritic cell	T_M	outgoing	6.80
+Dendritic cell	T_M	incoming	7.20
+Monocyte	N	outgoing	7.70
+Monocyte	N	incoming	8.50
+Monocyte	T_NM	outgoing	6.40
+Monocyte	T_NM	incoming	9.80
+Monocyte	T_M	outgoing	5.10
+Monocyte	T_M	incoming	6.60
+Macrophage	N	outgoing	10.20
+Macrophage	N	incoming	12.60
+Macrophage	T_NM	outgoing	11.80
+Macrophage	T_NM	incoming	14.20
+Macrophage	T_M	outgoing	9.40
+Macrophage	T_M	incoming	10.10
+CD8+ T cell	N	outgoing	6.60
+CD8+ T cell	N	incoming	8.80
+CD8+ T cell	T_NM	outgoing	7.90
+CD8+ T cell	T_NM	incoming	9.50
+CD8+ T cell	T_M	outgoing	8.40
+CD8+ T cell	T_M	incoming	13.60

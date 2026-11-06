@@ -1,0 +1,62 @@
+term	side	grade	percent
+Diarrhea	TRAE	Grade 1	8.7
+Diarrhea	TRAE	Grade 2	3.9
+Diarrhea	TRAE	Grade 3	2.9
+Diarrhea	AE	Grade 1	12.4
+Diarrhea	AE	Grade 2	5.5
+Diarrhea	AE	Grade 3	3.6
+Nausea	TRAE	Grade 1	7.1
+Nausea	TRAE	Grade 2	3.6
+Nausea	TRAE	Grade 3	2.4
+Nausea	AE	Grade 1	8.1
+Nausea	AE	Grade 2	4.8
+Nausea	AE	Grade 3	2.6
+Fatigue	TRAE	Grade 1	6.5
+Fatigue	TRAE	Grade 2	3.2
+Fatigue	TRAE	Grade 3	2.2
+Fatigue	AE	Grade 1	10.7
+Fatigue	AE	Grade 2	6
+Fatigue	AE	Grade 3	3.6
+AST increased	TRAE	Grade 1	5.6
+AST increased	TRAE	Grade 2	3.2
+AST increased	TRAE	Grade 3	1.9
+AST increased	AE	Grade 1	8.3
+AST increased	AE	Grade 2	3.8
+AST increased	AE	Grade 3	2.2
+ALT increased	TRAE	Grade 1	4.7
+ALT increased	TRAE	Grade 2	3.2
+ALT increased	TRAE	Grade 3	1.6
+ALT increased	TRAE	Grade 4	1.2
+ALT increased	AE	Grade 1	7.9
+ALT increased	AE	Grade 2	3.1
+ALT increased	AE	Grade 3	2.1
+Decreased appetite	TRAE	Grade 1	4.8
+Decreased appetite	TRAE	Grade 2	3.1
+Decreased appetite	TRAE	Grade 3	1.6
+Decreased appetite	AE	Grade 1	6.7
+Decreased appetite	AE	Grade 2	3.1
+Decreased appetite	AE	Grade 3	2.1
+Rashᵇ	TRAE	Grade 1	4.7
+Rashᵇ	TRAE	Grade 2	2.1
+Rashᵇ	TRAE	Grade 3	1.5
+Rashᵇ	AE	Grade 1	5
+Rashᵇ	AE	Grade 2	2.9
+Rashᵇ	AE	Grade 3	1.6
+Vomiting	TRAE	Grade 1	4.6
+Vomiting	TRAE	Grade 2	2.3
+Vomiting	TRAE	Grade 3	1.4
+Vomiting	AE	Grade 1	5.2
+Vomiting	AE	Grade 2	2.5
+Vomiting	AE	Grade 3	1.8
+Blood bilirubin increased	TRAE	Grade 1	3.6
+Blood bilirubin increased	TRAE	Grade 2	2.1
+Blood bilirubin increased	TRAE	Grade 3	1.4
+Blood bilirubin increased	AE	Grade 1	5.5
+Blood bilirubin increased	AE	Grade 2	2.5
+Blood bilirubin increased	AE	Grade 3	1.5
+Pruritusᶜ	TRAE	Grade 1	4
+Pruritusᶜ	TRAE	Grade 2	1.8
+Pruritusᶜ	TRAE	Grade 3	1.3
+Pruritusᶜ	AE	Grade 1	4.4
+Pruritusᶜ	AE	Grade 2	2.4
+Pruritusᶜ	AE	Grade 3	1.5

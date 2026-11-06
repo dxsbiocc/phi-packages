@@ -15,7 +15,14 @@
 #     - type: histogram / scatter / line
 #   Sidecars beside the input (same directory):
 #     - cytoband.tsv: chr, start, end, band, stain
-#     - links.tsv: chr1, start1, end1, chr2, start2, end2
+#     - links.tsv: chr1, start1, end1, chr2, start2, end2; optional group
+#
+# Options:
+#   chromosomes subsets / orders sectors. sector_style = "plain" draws
+#   bordered empty sectors instead of cytoband banding. histogram_fill
+#   paints the histogram as a solid colour (no gradient legend). Links
+#   can be coloured by an optional group column (example_ribbons.tsv +
+#   links_ribbons.tsv + cytoband_ribbons.tsv).
 #
 # Output:
 #   A PDF, PNG, or SVG multi-track genomic Circos figure.
@@ -89,11 +96,24 @@ config <- list(
         end1 = "end1",
         chrom2 = "chr2",
         start2 = "start2",
-        end2 = "end2"
+        end2 = "end2",
+        group = "group"          # optional; colours ribbons by group
     ),
     show_links = TRUE,
     show_ideogram = TRUE,
+    # "ideogram": cytoband banding. "plain": empty bordered sectors
+    sector_style = "ideogram",
+    # NULL: keep cytoband file order. Else a character vector of chr ids
+    chromosomes = NULL,
+    start_degree = 90,
+    gap_degree = 2,
     track_height = 0.16,
+    # NULL: colour histogram by value. Else a solid fill hex / name
+    histogram_fill = NULL,
+    link_palette = "Qualitative.Pastel",
+    link_alpha = 0.55,
+    link_lwd = 1.1,
+    background = "transparent", # e.g. "white" for a paper-style figure
     palettes = list(
         histogram = "Quantitative.BluGrn",
         scatter = "Diverging.TealRose",
@@ -153,6 +173,16 @@ cyto[[config$cyto$start]] <- as.numeric(cyto[[config$cyto$start]])
 cyto[[config$cyto$end]] <- as.numeric(cyto[[config$cyto$end]])
 
 keep <- unique(cyto[[config$cyto$chrom]])
+if (!is.null(config$chromosomes)) {
+    wanted <- as.character(config$chromosomes)
+    missing <- setdiff(wanted, keep)
+    if (length(missing)) {
+        stop(paste("Unknown chromosomes:", paste(missing, collapse = ", ")),
+            call. = FALSE)
+    }
+    keep <- wanted
+    cyto <- cyto[cyto[[config$cyto$chrom]] %in% keep, , drop = FALSE]
+}
 n_drop <- sum(!df[[c_chr]] %in% keep)
 df <- df[df[[c_chr]] %in% keep, , drop = FALSE]
 if (n_drop) {
@@ -179,9 +209,10 @@ for (tn in track_names) {
 
 link_path <- file.path(dirname(io$input), config$sidecars$links)
 links <- NULL
+g_col <- NULL
 if (isTRUE(config$show_links) && file.exists(link_path)) {
     links <- as.data.frame(read_table_auto(link_path), stringsAsFactors = FALSE)
-    require_columns(links, config$link)
+    require_columns(links, config$link[c("chrom1", "start1", "end1", "chrom2", "start2", "end2")])
     for (nm in c("chrom1", "start1", "end1", "chrom2", "start2", "end2")) {
         col <- config$link[[nm]]
         if (startsWith(nm, "chrom")) {
@@ -189,6 +220,13 @@ if (isTRUE(config$show_links) && file.exists(link_path)) {
         } else {
             links[[col]] <- as.numeric(links[[col]])
         }
+    }
+    g_col <- config$link$group
+    if (!is.null(g_col) && g_col %in% names(links)) {
+        links[[g_col]] <- as.character(links[[g_col]])
+        links[[g_col]][is.na(links[[g_col]]) | !nzchar(links[[g_col]])] <- "other"
+    } else {
+        g_col <- NULL
     }
     keep_link <- links[[config$link$chrom1]] %in% keep &
         links[[config$link$chrom2]] %in% keep
@@ -233,13 +271,17 @@ band <- data.frame(
 # -----------------------------------------------------------------------------
 # PLOT
 # -----------------------------------------------------------------------------
+need_legend_space <- any(vapply(track_names, function(tn) {
+    typ <- df[[c_ty]][df[[c_tr]] == tn][[1]]
+    identical(typ, "scatter") || (identical(typ, "histogram") && is.null(config$histogram_fill))
+}, logical(1)))
 draw_circos <- function() {
     circlize::circos.par(
-        start.degree = 90,
-        gap.after = 2,
+        start.degree = config$start_degree,
+        gap.after = config$gap_degree,
         cell.padding = c(0.002, 0, 0.002, 0),
         track.margin = c(0.004, 0.004),
-        circle.margin = c(0.02, 0.02, 0.28, 0.02),
+        circle.margin = c(0.02, 0.02, if (need_legend_space) 0.28 else 0.04, 0.02),
         points.overflow.warning = FALSE
     )
     circlize::circos.initializeWithIdeogram(
@@ -247,7 +289,21 @@ draw_circos <- function() {
         plotType = NULL,
         chromosome.index = keep
     )
-    if (isTRUE(config$show_ideogram)) {
+    if (identical(config$sector_style, "plain")) {
+        circlize::circos.track(
+            ylim = c(0, 1),
+            track.height = 0.05,
+            bg.border = NA,
+            cell.padding = c(0, 0, 0, 0),
+            panel.fun = function(x, y) {
+                circlize::circos.rect(
+                    circlize::CELL_META$xlim[[1]], 0,
+                    circlize::CELL_META$xlim[[2]], 1,
+                    col = "#f5f7fa", border = outline, lwd = 0.7
+                )
+            }
+        )
+    } else if (isTRUE(config$show_ideogram)) {
         circlize::circos.genomicIdeogram(band, track.height = 0.07)
     }
     circlize::circos.track(
@@ -282,35 +338,56 @@ draw_circos <- function() {
             if (!is.finite(vmax) || vmax <= 0) {
                 vmax <- 1
             }
-            col_fun <- ramp_from_palette(hist_pal, c(0, vmax))
-            circlize::circos.genomicTrack(
-                bed,
-                ylim = c(0, vmax),
-                track.height = config$track_height,
-                bg.border = outline,
-                bg.lwd = 0.3,
-                panel.fun = function(region, value, ...) {
-                    circlize::circos.genomicRect(
-                        region, value,
-                        ytop.column = 1,
-                        ybottom = 0,
-                        col = col_fun(value[[1]]),
-                        border = NA
-                    )
-                }
-            )
-            legends[[length(legends) + 1L]] <- ComplexHeatmap::Legend(
-                title = if (nzchar(config$labels$histogram)) {
-                    config$labels$histogram
-                } else {
-                    tn
-                },
-                col_fun = col_fun,
-                title_gp = grid::gpar(fontsize = 8),
-                labels_gp = grid::gpar(fontsize = 7),
-                title_position = "leftcenter-rot",
-                background = NA
-            )
+            solid <- config$histogram_fill
+            if (!is.null(solid) && nzchar(solid)) {
+                fill_col <- solid
+                circlize::circos.genomicTrack(
+                    bed,
+                    ylim = c(0, vmax),
+                    track.height = config$track_height,
+                    bg.border = outline,
+                    bg.lwd = 0.3,
+                    panel.fun = function(region, value, ...) {
+                        circlize::circos.genomicRect(
+                            region, value,
+                            ytop.column = 1,
+                            ybottom = 0,
+                            col = fill_col,
+                            border = NA
+                        )
+                    }
+                )
+            } else {
+                col_fun <- ramp_from_palette(hist_pal, c(0, vmax))
+                circlize::circos.genomicTrack(
+                    bed,
+                    ylim = c(0, vmax),
+                    track.height = config$track_height,
+                    bg.border = outline,
+                    bg.lwd = 0.3,
+                    panel.fun = function(region, value, ...) {
+                        circlize::circos.genomicRect(
+                            region, value,
+                            ytop.column = 1,
+                            ybottom = 0,
+                            col = col_fun(value[[1]]),
+                            border = NA
+                        )
+                    }
+                )
+                legends[[length(legends) + 1L]] <- ComplexHeatmap::Legend(
+                    title = if (nzchar(config$labels$histogram)) {
+                        config$labels$histogram
+                    } else {
+                        tn
+                    },
+                    col_fun = col_fun,
+                    title_gp = grid::gpar(fontsize = 8),
+                    labels_gp = grid::gpar(fontsize = 7),
+                    title_position = "leftcenter-rot",
+                    background = NA
+                )
+            }
         } else if (identical(typ, "scatter")) {
             lim <- max(abs(bed$value), na.rm = TRUE)
             if (!is.finite(lim) || lim == 0) {
@@ -392,15 +469,20 @@ draw_circos <- function() {
             end = links[[config$link$end2]],
             stringsAsFactors = FALSE
         )
-        link_col <- grDevices::adjustcolor(
-            unname(chr_cols[bed1$chr]),
-            alpha.f = 0.55
-        )
+        if (!is.null(g_col)) {
+            groups <- unique(links[[g_col]])
+            g_cols <- palette_colors(config$link_palette, n = length(groups))
+            names(g_cols) <- groups
+            base_col <- unname(g_cols[links[[g_col]]])
+        } else {
+            base_col <- unname(chr_cols[bed1$chr])
+        }
+        link_col <- grDevices::adjustcolor(base_col, alpha.f = config$link_alpha)
         circlize::circos.genomicLink(
             bed1, bed2,
             col = link_col,
             border = NA,
-            lwd = 1.1
+            lwd = config$link_lwd
         )
     }
     circlize::circos.clear()
@@ -433,17 +515,18 @@ if (!dir.exists(out_dir)) {
 }
 width <- config$size$width
 height <- config$size$height
+bg <- config$background
 if (identical(fmt, "png")) {
     grDevices::png(
         out_path, width = width, height = height, units = "in",
-        res = 300, bg = "transparent"
+        res = 300, bg = bg
     )
 } else if (identical(fmt, "pdf")) {
     grDevices::pdf(out_path, width = width, height = height)
 } else {
-    grDevices::svg(out_path, width = width, height = height, bg = "transparent")
+    grDevices::svg(out_path, width = width, height = height, bg = bg)
 }
-graphics::par(mar = c(0.15, 0.15, 0.15, 0.15), bg = "transparent")
+graphics::par(mar = c(0.15, 0.15, 0.15, 0.15), bg = bg)
 tryCatch(
     draw_circos(),
     finally = grDevices::dev.off()

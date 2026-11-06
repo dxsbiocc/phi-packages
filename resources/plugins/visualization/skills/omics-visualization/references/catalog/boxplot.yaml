@@ -7,15 +7,66 @@ templates:
     aliases:
       - "箱线图"
       - "盒须图"
+      - "蜂群箱线图"
+      - "beeswarm boxplot"
+      - "outline boxplot"
+      - "缺口箱线图"
+      - "notched boxplot"
+      - "Cut&Run箱线图"
+      - "cohort timepoint boxplot"
+      - "H3K27me3 boxplot"
     source: "scripts/boxplot/basic/plot.R"
     examples:
       - "scripts/boxplot/basic/example.tsv"
+      - "scripts/boxplot/basic/example_beeswarm.tsv"
+      - "scripts/boxplot/basic/example_notch.tsv"
+      - "scripts/boxplot/basic/example_cutrun.tsv"
+      - "scripts/boxplot/basic/labels.tsv"
+      - "scripts/boxplot/basic/brackets.tsv"
+      - "scripts/boxplot/basic/brackets_cutrun.tsv"
     preview: "scripts/boxplot/basic/preview.png"
+    variants:
+      - image: "scripts/boxplot/basic/preview_beeswarm.png"
+        example: "scripts/boxplot/basic/example_beeswarm.tsv"
+        config: "style = \"beeswarm\", columns x/y = group/value, beeswarm$palette = \"Qualitative.Pastel\", beeswarm$y_trans = \"log10\", labels.tsv + brackets.tsv"
+        shows: "White-panel outline boxes with a bold median, quasirandom points coloured by group from a catalog pastel palette, multi-line construct labels with N, log10 luminescence axis, and supplied fold / P brackets stacked above the groups."
+      - image: "scripts/boxplot/basic/preview_notch.png"
+        example: "scripts/boxplot/basic/example_notch.tsv"
+        config: "style = \"notch\", notch$orientation = \"h\", notch$notch = TRUE, columns x/y = cell_type/ratio, group_order, palettes Qualitative.Bold"
+        shows: "Horizontal notched boxes with white fill, category-coloured outlines and jittered points, white classic panel (e.g. immune-cell frequencies)."
+      - image: "scripts/boxplot/basic/preview_cutrun.png"
+        example: "scripts/boxplot/basic/example_cutrun.tsv"
+        config: >
+          style = "cohort"; columns treatment/day/y = treatment/day/reads;
+          day_colours D0/D4/D28; y_trans = "log10"; brackets_cutrun.tsv
+          with keys "treatment|day"
+        shows: >
+          Cut&Run H3K27me3-style cohort boxes: treatment blocks
+          (PBT / PBT+IFNa2a / IFNa2a) each with D0/D4/D28, day-coloured
+          translucent boxes and jitter, dotted cohort dividers,
+          underlined treatment labels, log10 reads axis, and supplied
+          significance brackets.
     use_when: >
-      Summarize a numeric distribution across categories as boxes and whiskers.
+      Summarize a numeric distribution across categories as boxes and
+      whiskers. With style = "beeswarm", draw outline boxes, a
+      quasirandom swarm, optional log10 y, multi-line x labels, and
+      supplied comparison brackets on a white panel. With style =
+      "notch", draw notched boxes (optional horizontal) with coloured
+      outlines and jittered points. With style = "cohort", draw
+      treatment × day boxes with day colours, cohort dividers, and
+      underlined treatment labels (e.g. Cut&Run time-course).
     avoid_when: >
-      Do not use when grouping, pairing, violins, or rainclouds are requested.
-    input_shape: "one row per observation; category plus numeric value"
+      Do not use when pairing, violins, or rainclouds are requested.
+      A swarm without boxes, or mean±SEM ELISA-style, is
+      scatter-beeswarm. 1D histograms and kernel densities are
+      scatter-hist / scatter-density1d, not this family. Do not
+      compute fold-change or p-values in the
+      script; bracket labels are supplied. Do not add an id for notch
+      or cohort alone, or per assay / treatment panel.
+    input_shape: >
+      one row per observation; category plus numeric value (basic /
+      beeswarm / notch), or treatment + day + value (cohort); optional
+      labels.tsv / brackets.tsv
     language: "r"
     status: "stable"
 
@@ -42,14 +93,84 @@ templates:
     source: "scripts/boxplot/violin/plot.R"
     examples:
       - "scripts/boxplot/violin/example.tsv"
+      - "scripts/boxplot/violin/example_jitter.tsv"
     preview: "scripts/boxplot/violin/preview.png"
+    variants:
+      - image: "scripts/boxplot/violin/preview_jitter.png"
+        example: "scripts/boxplot/violin/example_jitter.tsv"
+        config: "style = \"jitter\", columns x/y = group/value, group_order, palettes$group, jitter$annotation$label"
+        shows: "Filled violins with nested thin boxes and jittered points coloured by category from a catalog palette, optional supplied n/P corner note, white classic panel, and rotated Year|Scenario x labels."
     use_when: >
       Show full distribution shape per category, not only quartiles.
+      With style = "jitter", overlay a thin box and jittered points,
+      colour by category, and place a supplied n / P annotation.
     avoid_when: >
       Do not use when only a box summary is needed, when a raincloud
       (half-violin plus points) is requested, or when stacked density
-      ridges / RidgePlot are requested (line-ridge).
+      ridges / RidgePlot are requested (line-ridge). Two scores per
+      group mirrored around centre labels is boxplot-violin-butterfly.
+      Do not compute n or P in the script; annotation text is supplied.
     input_shape: "one row per observation; category plus numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "boxplot-letter-value"
+    title: "Letter-value (boxen) plot"
+    aliases:
+      - "增强箱线图"
+      - "boxen图"
+      - "letter-value plot"
+      - "boxenplot"
+      - "lvplot"
+      - "层叠箱线图"
+    source: "scripts/boxplot/letter_value/plot.R"
+    examples:
+      - "scripts/boxplot/letter_value/example.tsv"
+    preview: "scripts/boxplot/letter_value/preview.png"
+    use_when: >
+      Show large-n distributions per category as nested quantile boxes
+      (quartiles, octiles, sixteenths, ...) that narrow and lighten
+      outward, with a median line and diamond outliers, so tails stay
+      readable. Level rule (Tukey or fixed), palette, reversed y
+      (e.g. cortical depth), order and outlier shape are CONFIG.
+    avoid_when: >
+      Do not use a single quartile box (boxplot-basic), a density
+      outline (boxplot-violin), half-violin plus points
+      (boxplot-raincloud), or ridgelines (line-ridge). Do not run a
+      test in the script. Do not add an id for reversed y.
+    input_shape: "one row per observation; category plus numeric value"
+    language: "r"
+    status: "stable"
+
+  - id: "boxplot-violin-butterfly"
+    title: "Butterfly (mirrored) violin plot"
+    aliases:
+      - "蝴蝶小提琴图"
+      - "镜像小提琴图"
+      - "双侧小提琴图"
+      - "M1 M2 评分"
+      - "butterfly violin"
+      - "mirrored violin"
+    source: "scripts/boxplot/violin_butterfly/plot.R"
+    examples:
+      - "scripts/boxplot/violin_butterfly/example.tsv"
+      - "scripts/boxplot/violin_butterfly/groups.tsv"
+    preview: "scripts/boxplot/violin_butterfly/preview.png"
+    use_when: >
+      Compare two supplied scores per group (e.g. M1 vs M2 feature
+      score per macrophage subset) as horizontal violins mirrored
+      left / right of a shared centre column of group names coloured
+      by a supplied class, with nested boxes (optional notch) and a
+      dashed reference per side. Which side is left, side titles,
+      reference values, shared x range, row order, box / notch and
+      colours are CONFIG.
+    avoid_when: >
+      Do not use one score per category (boxplot-violin), two matched
+      bar series (bar-butterfly), stacked density ridges (line-ridge),
+      or rainclouds (boxplot-raincloud). Do not compute module /
+      M1 / M2 scores in the script. Do not add an id per side pair
+      or for notch alone.
+    input_shape: "one row per observation (group, side, score) with exactly two side levels; optional groups.tsv (group, class) for label colour"
     language: "r"
     status: "stable"
 

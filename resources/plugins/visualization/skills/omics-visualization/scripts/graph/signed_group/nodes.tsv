@@ -1,0 +1,122 @@
+id	layer	class	size
+Micro_1_01	Microbiome	Firmicutes	60.1
+Micro_1_02	Microbiome	Actinobacteria	280.9
+Metab_1_01	Metabolome	Lipid	250.8
+Metab_1_02	Metabolome	Amino acid	199
+Trans_1_01	Transcriptome	Kinase	41.2
+Trans_1_02	Transcriptome	TF	51.3
+Trans_1_03	Transcriptome	TF	174.3
+Trans_1_04	Transcriptome	TF	116.8
+Micro_2_01	Microbiome	Actinobacteria	235
+Micro_2_02	Microbiome	Proteobacteria	15.1
+Micro_2_03	Microbiome	Actinobacteria	141.3
+Metab_2_01	Metabolome	Lipid	121.2
+Metab_2_02	Metabolome	Lipid	297.2
+Trans_2_01	Transcriptome	Enzyme	150.2
+Trans_2_02	Transcriptome	TF	128.5
+Trans_2_03	Transcriptome	Kinase	38.6
+Micro_3_01	Microbiome	Firmicutes	278
+Micro_3_02	Microbiome	Proteobacteria	205.7
+Micro_3_03	Microbiome	Proteobacteria	67.3
+Micro_3_04	Microbiome	Firmicutes	237.7
+Metab_3_01	Metabolome	Lipid	152.4
+Metab_3_02	Metabolome	Amino acid	243
+Trans_3_01	Transcriptome	Enzyme	148.5
+Trans_3_02	Transcriptome	Enzyme	34.9
+Trans_3_03	Transcriptome	Kinase	12.8
+Trans_3_04	Transcriptome	Kinase	77.8
+Trans_3_05	Transcriptome	Enzyme	233.5
+Micro_4_01	Microbiome	Proteobacteria	261.1
+Micro_4_02	Microbiome	Proteobacteria	14
+Micro_4_03	Microbiome	Actinobacteria	294.1
+Metab_4_01	Metabolome	Lipid	231
+Metab_4_02	Metabolome	Lipid	250.7
+Metab_4_03	Metabolome	Carbohydrate	114.8
+Metab_4_04	Metabolome	Carbohydrate	13.6
+Trans_4_01	Transcriptome	Enzyme	112.9
+Trans_4_02	Transcriptome	Enzyme	285.9
+Trans_4_03	Transcriptome	Enzyme	222.7
+Trans_4_04	Transcriptome	TF	19.3
+Micro_5_01	Microbiome	Firmicutes	105.5
+Micro_5_02	Microbiome	Actinobacteria	150.8
+Micro_5_03	Microbiome	Proteobacteria	277.3
+Micro_5_04	Microbiome	Firmicutes	206.9
+Micro_5_05	Microbiome	Proteobacteria	46.3
+Metab_5_01	Metabolome	Lipid	80
+Metab_5_02	Metabolome	Carbohydrate	170.5
+Metab_5_03	Metabolome	Amino acid	114
+Trans_5_01	Transcriptome	TF	16
+Trans_5_02	Transcriptome	Kinase	199.4
+Trans_5_03	Transcriptome	Kinase	151.4
+Trans_5_04	Transcriptome	Kinase	222.8
+Trans_5_05	Transcriptome	Enzyme	99.4
+Micro_6_01	Microbiome	Proteobacteria	277.9
+Micro_6_02	Microbiome	Actinobacteria	256.2
+Micro_6_03	Microbiome	Actinobacteria	206.6
+Metab_6_01	Metabolome	Lipid	205.7
+Metab_6_02	Metabolome	Amino acid	122.1
+Metab_6_03	Metabolome	Amino acid	81.8
+Metab_6_04	Metabolome	Amino acid	229
+Metab_6_05	Metabolome	Amino acid	164.3
+Trans_6_01	Transcriptome	Enzyme	164.8
+Trans_6_02	Transcriptome	Enzyme	161.7
+Trans_6_03	Transcriptome	TF	241.9
+Trans_6_04	Transcriptome	Kinase	122
+Micro_7_01	Microbiome	Actinobacteria	31.7
+Micro_7_02	Microbiome	Firmicutes	207
+Metab_7_01	Metabolome	Carbohydrate	78.3
+Metab_7_02	Metabolome	Lipid	142.8
+Trans_7_01	Transcriptome	Kinase	122.6
+Trans_7_02	Transcriptome	Enzyme	296.8
+Micro_8_01	Microbiome	Firmicutes	63.3
+Micro_8_02	Microbiome	Firmicutes	291.1
+Micro_8_03	Microbiome	Actinobacteria	233.7
+Micro_8_04	Microbiome	Firmicutes	227.6
+Metab_8_01	Metabolome	Carbohydrate	136.7
+Metab_8_02	Metabolome	Lipid	89
+Metab_8_03	Metabolome	Lipid	183.7
+Metab_8_04	Metabolome	Lipid	177.3
+Metab_8_05	Metabolome	Lipid	246.1
+Trans_8_01	Transcriptome	Kinase	15.6
+Trans_8_02	Transcriptome	TF	196.4
+Trans_8_03	Transcriptome	TF	162.2
+Trans_8_04	Transcriptome	TF	114
+Trans_8_05	Transcriptome	TF	252
+Micro_9_01	Microbiome	Actinobacteria	80.5
+Micro_9_02	Microbiome	Proteobacteria	57.8
+Metab_9_01	Metabolome	Carbohydrate	128.7
+Metab_9_02	Metabolome	Lipid	88.3
+Metab_9_03	Metabolome	Lipid	285.4
+Metab_9_04	Metabolome	Amino acid	13.6
+Trans_9_01	Transcriptome	Kinase	58.4
+Trans_9_02	Transcriptome	Kinase	94.4
+Trans_9_03	Transcriptome	TF	100.9
+Micro_10_01	Microbiome	Proteobacteria	276.4
+Micro_10_02	Microbiome	Proteobacteria	173.6
+Micro_10_03	Microbiome	Actinobacteria	262.9
+Micro_10_04	Microbiome	Actinobacteria	153
+Metab_10_01	Metabolome	Amino acid	277.1
+Metab_10_02	Metabolome	Lipid	263.2
+Metab_10_03	Metabolome	Carbohydrate	225.9
+Trans_10_01	Transcriptome	Kinase	32.3
+Trans_10_02	Transcriptome	TF	170.6
+Micro_11_01	Microbiome	Proteobacteria	277.1
+Micro_11_02	Microbiome	Actinobacteria	22.6
+Metab_11_01	Metabolome	Lipid	128.7
+Metab_11_02	Metabolome	Amino acid	265.2
+Metab_11_03	Metabolome	Amino acid	222.7
+Metab_11_04	Metabolome	Lipid	12.9
+Metab_11_05	Metabolome	Amino acid	279.6
+Trans_11_01	Transcriptome	Kinase	99.3
+Trans_11_02	Transcriptome	TF	244.2
+Trans_11_03	Transcriptome	TF	28.1
+Micro_12_01	Microbiome	Firmicutes	260.1
+Micro_12_02	Microbiome	Proteobacteria	182.9
+Micro_12_03	Microbiome	Proteobacteria	276.2
+Micro_12_04	Microbiome	Actinobacteria	25.7
+Micro_12_05	Microbiome	Proteobacteria	273.8
+Metab_12_01	Metabolome	Carbohydrate	103.3
+Metab_12_02	Metabolome	Amino acid	11.7
+Trans_12_01	Transcriptome	Enzyme	110.3
+Trans_12_02	Transcriptome	Kinase	11.3
+Trans_12_03	Transcriptome	TF	73.8

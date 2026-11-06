@@ -11,7 +11,8 @@
     "purpose",
     "inputs",
     "run",
-    "dependencies"
+    "dependencies",
+    "r_packages"
   ],
   "properties": {
     "template_id": {
@@ -58,6 +59,91 @@
       "items": {
         "type": "string",
         "minLength": 1
+      }
+    },
+    "r_packages": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checked",
+        "missing"
+      ],
+      "properties": {
+        "checked": {
+          "type": "boolean"
+        },
+        "missing": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "column_check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ok",
+        "mapped",
+        "problems"
+      ],
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "mapped": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "role",
+              "column",
+              "expects",
+              "tables"
+            ],
+            "properties": {
+              "role": {
+                "type": "string",
+                "minLength": 1
+              },
+              "column": {
+                "type": "string",
+                "minLength": 1
+              },
+              "expects": {
+                "enum": [
+                  "number",
+                  "numbers",
+                  "any",
+                  "table"
+                ]
+              },
+              "tables": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "problems": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "not_checked": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
       }
     },
     "adaptation": {

@@ -1,0 +1,26 @@
+sets	count	percent	group
+Deep splice variants	150	8	T1
+Deep splice variants,Recurrent splice variants	34	2	T1
+Recurrent splice variants	112	6	T1
+Deep splice variants,Recurrent splice variants,pLI > 0.9	30	2	T1
+ES-RF	470	25	T2
+ES-RF,pLI > 0.9	350	19	T2
+ES-VE	754	41	T3
+ES-VE,pLI > 0.9	563	30	T3
+Non-productive splicing	724	39	T4
+Non-productive splicing,pLI > 0.9	121	7	T4
+Non-productive splicing,%LoF > 20%	66	4	T4
+Non-productive splicing,AD	53	3	T4
+uAUG	512	28	T5
+uAUG,pLI > 0.9	117	6	T5
+uAUG,%LoF > 20%	67	4	T5
+uAUG,AD	49	3	T5
+3'UTR ARE	547	29	T6
+3'UTR ARE,pLI > 0.9	141	8	T6
+3'UTR ARE,%LoF > 20%	77	4	T6
+3'UTR ARE,AD	62	3	T6
+Regulatory lncRNA	1155	62	T7
+Regulatory lncRNA,pLI > 0.9	253	14	T7
+Regulatory lncRNA,%LoF > 20%	135	7	T7
+Regulatory lncRNA,AD	101	5	T7
+Targetable HPO phenotype	711	38	Other

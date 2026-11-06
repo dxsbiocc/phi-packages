@@ -22,6 +22,10 @@
 #
 # Agent adaptation:
 #   For a new table, edit only CONFIG (columns, inner hole, corner
+#   shape = "petal" (example_petal.tsv) is the petal-pie variant:
+#   equal-angle wedges from the centre, radius = value / max, each
+#   ending in a semicircular cap, names along the radius, values at
+#   the tip. Not a new id.
 #   radius, value labels). Rounded caps vs a sharp rose, and the
 #   inner hole, stay on this id. That is not pie-doughnut-round
 #   (angle encodes share of a whole). Edit DATA PREPARATION to
@@ -67,6 +71,19 @@ config <- list(
     inner_frac = 0.28,
     label_frac = 0.28,
     show_value_labels = TRUE,
+    # "rounded" (default polar bars with rounded corners) or "petal":
+    # equal-angle wedges meeting at the centre, radius by value, each
+    # ending in a semicircular cap; names along the radius, values at
+    # the tip, no legend.
+    shape = "rounded",
+    petal = list(
+        palette = "Qualitative.Vivid / 10",
+        min_frac = 0.2,          # floor for wedge length (radius = value / max)
+        border = "white",
+        name_size = 4.2,
+        value_size = 4.4,
+        start = 90               # degrees; first row starts here, clockwise
+    ),
     labels = list(
         title = "",
         x = "",
@@ -132,6 +149,65 @@ if (n_fill <= length(rose_seq)) {
 }
 ink <- palette_colors("Brand.Emma")[[1]]
 seg <- palette_colors("Qualitative.Safe")[[12]]
+
+if (identical(config$shape, "petal")) {
+    pc <- config$petal
+    n <- nrow(df)
+    v <- df[[y_col]]
+    r_side <- pmax(v / max(v), pc$min_frac)
+    slot <- 2 * pi / n
+    a0 <- pc$start / 180 * pi - (seq_len(n) - 1) * slot
+    a1 <- a0 - slot
+    polys <- do.call(rbind, lapply(seq_len(n), function(i) {
+        r <- r_side[[i]]
+        p0 <- r * c(cos(a0[[i]]), sin(a0[[i]]))
+        p1 <- r * c(cos(a1[[i]]), sin(a1[[i]]))
+        m <- (p0 + p1) / 2
+        rc <- sqrt(sum((p0 - m)^2))
+        mid <- (a0[[i]] + a1[[i]]) / 2
+        ang0 <- atan2(p0[[2]] - m[[2]], p0[[1]] - m[[1]])
+        cap <- seq(ang0, ang0 - pi, length.out = 60)
+        cx <- m[[1]] + rc * cos(cap)
+        cy <- m[[2]] + rc * sin(cap)
+        # keep the cap bulging outward
+        if (sum((c(mean(cx), mean(cy)) - m) * c(cos(mid), sin(mid))) < 0) {
+            cap <- seq(ang0, ang0 + pi, length.out = 60)
+            cx <- m[[1]] + rc * cos(cap)
+            cy <- m[[2]] + rc * sin(cap)
+        }
+        data.frame(id = i, x = c(0, cx, 0), y = c(0, cy, 0))
+    }))
+    mid <- (a0 + a1) / 2
+    deg <- mid * 180 / pi
+    left <- cos(mid) < -1e-9
+    reach <- r_side * cos(slot / 2) + r_side * sin(slot / 2)
+    lab <- data.frame(
+        id = seq_len(n),
+        name = as.character(df[[x_col]]), value = v,
+        nx = 0.55 * r_side * cos(mid), ny = 0.55 * r_side * sin(mid),
+        vx = (reach - 0.12) * cos(mid), vy = (reach - 0.12) * sin(mid),
+        nrot = ifelse(left, deg + 180, deg),
+        vrot = deg - 90
+    )
+    cols <- palette_colors(pc$palette, n = n)
+    p <- ggplot() +
+        geom_polygon(data = polys, aes(x = x, y = y, group = id,
+            fill = factor(id)), colour = pc$border, linewidth = 0.6) +
+        geom_text(data = lab, aes(x = nx, y = ny, label = name, angle = nrot),
+            colour = "white", size = pc$name_size) +
+        scale_fill_manual(values = cols, guide = "none") +
+        coord_fixed(clip = "off") +
+        labs(title = config$labels$title) +
+        theme_void() +
+        theme(plot.background = element_blank(),
+            plot.title = element_text(hjust = 0.5, face = "bold"))
+    if (isTRUE(config$show_value_labels)) {
+        p <- p + geom_text(data = lab, aes(x = vx, y = vy, label = value,
+            angle = vrot), colour = "white", size = pc$value_size)
+    }
+    save_ggplot(p, io$output, width = 7, height = 7)
+    quit(save = "no", status = 0)
+}
 
 # -----------------------------------------------------------------------------
 # PLOT

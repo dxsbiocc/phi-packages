@@ -24,6 +24,10 @@
 #
 # Agent adaptation:
 #   For a new table, edit only CONFIG (column names and labels).
+#   layout = "parliament" (example_parliament.tsv) is the hemicycle
+#   variant: one dot per `unit` counts on concentric arcs, categories
+#   filling angular sectors in file order; arc 360 gives a full ring.
+#   It needs only columns$fill and columns$values (ggforce).
 #   Edit DATA PREPARATION to change category order or count rounding.
 #   Edit PLOT only when the chart geometry or styling must change.
 #
@@ -67,10 +71,91 @@ config <- list(
         title = "Gene mutaion in Pancancer",
         x = "",
         y = ""
+    ),
+    # "grid" (default faceted waffle) or "parliament": one dot per unit
+    # on concentric arcs, categories filling angular sectors in order.
+    # Parliament needs only columns$fill and columns$values.
+    layout = "grid",
+    parliament = list(
+        unit = 1,                    # one dot = this many counts (rounded)
+        arc = 180,                   # 180 = hemicycle, 360 = full ring
+        rows = NULL,                 # NULL = fewest rows that fit
+        inner = 0.4,                 # inner radius / outer radius
+        dot_fill = 0.84,             # dot diameter / row spacing
+        palette = "Qualitative.Paired / 12",
+        border = "black",
+        legend_title = NULL,
+        size = c(width = 9, height = 5.6)
     )
 )
 
 load_packages(c("ggplot2", "readr"))
+
+if (identical(config$layout, "parliament")) {
+    pc <- config$parliament
+    load_packages("ggforce")
+    pdf <- read_table_auto(io$input)
+    require_columns(pdf, config$columns[c("fill", "values")])
+    cat_lv <- unique(as.character(pdf[[config$columns$fill]]))
+    seats <- round(as.numeric(pdf[[config$columns$values]]) / pc$unit)
+    if (any(!is.finite(seats) | seats < 0)) {
+        stop("values must be finite and non-negative.", call. = FALSE)
+    }
+    n <- sum(seats)
+    if (n < 1) stop("No seats to draw.", call. = FALSE)
+    th <- pc$arc / 180 * pi
+    fit <- function(r) {
+        if (r == 1) return(floor(th / (1 - pc$inner)) + 1)
+        d <- (1 - pc$inner) / (r - 1)
+        rad <- pc$inner + (seq_len(r) - 1) * d
+        sum(floor(th * rad / d) + 1)
+    }
+    r <- if (is.null(pc$rows)) {
+        k <- 1L
+        while (fit(k) < n) k <- k + 1L
+        k
+    } else {
+        as.integer(pc$rows)
+    }
+    rad <- if (r == 1) 1 else seq(pc$inner, 1, length.out = r)
+    d <- if (r == 1) 1 - pc$inner else diff(rad)[[1]]
+    share <- n * rad / sum(rad)
+    per <- floor(share)
+    left <- n - sum(per)
+    if (left > 0) {
+        add <- order(share - per, decreasing = TRUE)[seq_len(left)]
+        per[add] <- per[add] + 1
+    }
+    pos <- do.call(rbind, lapply(seq_len(r), function(i) {
+        if (per[[i]] < 1) return(NULL)
+        a <- if (per[[i]] == 1) th / 2 else
+            seq(0, th, length.out = per[[i]])
+        if (pc$arc >= 360) a <- seq(0, th, length.out = per[[i]] + 1)[
+            seq_len(per[[i]])]
+        data.frame(a = a, rad = rad[[i]])
+    }))
+    pos <- pos[order(pos$a, -pos$rad), , drop = FALSE]
+    pos$cat <- factor(rep(cat_lv, seats), levels = cat_lv)
+    pos$x <- pos$rad * cos(pos$a)
+    pos$y <- pos$rad * sin(pos$a)
+    cols <- stats::setNames(palette_colors(pc$palette, n = length(cat_lv)),
+        cat_lv)
+    p <- ggplot(pos) +
+        ggforce::geom_circle(aes(x0 = x, y0 = y, r = d * pc$dot_fill / 2,
+            fill = cat), colour = pc$border, linewidth = 0.4) +
+        scale_fill_manual(values = cols, name = if (is.null(pc$legend_title))
+            config$columns$fill else pc$legend_title) +
+        coord_fixed(clip = "off") +
+        labs(title = if (nzchar(config$labels$title)) config$labels$title
+            else NULL) +
+        theme_void(base_size = 12) +
+        theme(plot.title = element_text(hjust = 0.5, face = "bold"),
+            plot.background = element_blank(),
+            legend.key.size = unit(6, "mm"))
+    save_ggplot(p, io$output, width = pc$size[["width"]],
+        height = pc$size[["height"]])
+    quit(save = "no", status = 0)
+}
 
 # -----------------------------------------------------------------------------
 # DATA PREPARATION

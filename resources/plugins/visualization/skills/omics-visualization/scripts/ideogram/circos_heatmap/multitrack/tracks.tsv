@@ -1,0 +1,408 @@
+chr	start	end	value	track	type
+chr1	17416950	17436950	1.956	Variant score	scatter
+chr1	27148882	27168882	2.328	Variant score	scatter
+chr1	36880815	36900815	1.408	Variant score	scatter
+chr1	46612748	46632748	2.639	Variant score	scatter
+chr1	56344681	56364681	0.78	Variant score	scatter
+chr1	66076614	66096614	2.788	Variant score	scatter
+chr1	75808547	75828547	0.287	Variant score	scatter
+chr1	85540480	85560480	2.766	Variant score	scatter
+chr1	95272412	95292412	0.949	Variant score	scatter
+chr1	105004345	105024345	2.573	Variant score	scatter
+chr1	114736278	114756278	1.56	Variant score	scatter
+chr1	124468211	124488211	2.222	Variant score	scatter
+chr1	134200144	134220144	2.081	Variant score	scatter
+chr1	143932077	143952077	1.738	Variant score	scatter
+chr1	153664010	153684010	2.477	Variant score	scatter
+chr1	163395942	163415942	1.151	Variant score	scatter
+chr1	173127875	173147875	2.722	Variant score	scatter
+chr1	182859808	182879808	0.501	Variant score	scatter
+chr1	192591741	192611741	2.8	Variant score	scatter
+chr1	202323674	202343674	0.569	Variant score	scatter
+chr1	212055607	212075607	2.705	Variant score	scatter
+chr1	221787540	221807540	1.215	Variant score	scatter
+chr1	231519472	231539472	2.443	Variant score	scatter
+chr2	16943547	16963547	0.308	Variant score	scatter
+chr2	26861949	26881949	2.79	Variant score	scatter
+chr2	36780350	36800350	0.759	Variant score	scatter
+chr2	46698752	46718752	2.646	Variant score	scatter
+chr2	56617154	56637154	1.39	Variant score	scatter
+chr2	66535555	66555555	2.339	Variant score	scatter
+chr2	76453957	76473957	1.941	Variant score	scatter
+chr2	86372359	86392359	1.891	Variant score	scatter
+chr2	96290760	96310760	2.377	Variant score	scatter
+chr2	106209162	106229162	1.33	Variant score	scatter
+chr2	116127564	116147564	2.668	Variant score	scatter
+chr2	126045965	126065965	0.694	Variant score	scatter
+chr2	135964367	135984367	2.795	Variant score	scatter
+chr2	145882769	145902769	0.375	Variant score	scatter
+chr2	155801170	155821170	2.75	Variant score	scatter
+chr2	165719572	165739572	1.032	Variant score	scatter
+chr2	175637974	175657974	2.536	Variant score	scatter
+chr2	185556375	185576375	1.634	Variant score	scatter
+chr2	195474777	195494777	2.166	Variant score	scatter
+chr2	205393179	205413179	2.14	Variant score	scatter
+chr2	215311580	215331580	1.666	Variant score	scatter
+chr2	225229982	225249982	2.518	Variant score	scatter
+chr3	13870689	13890689	1.791	Variant score	scatter
+chr3	23902112	23922112	2.034	Variant score	scatter
+chr3	33933534	33953534	2.264	Variant score	scatter
+chr3	43964956	43984956	1.503	Variant score	scatter
+chr3	53996379	54016379	2.599	Variant score	scatter
+chr3	64027801	64047801	0.884	Variant score	scatter
+chr3	74059224	74079224	2.776	Variant score	scatter
+chr3	84090646	84110646	0.221	Variant score	scatter
+chr3	94122068	94142068	2.781	Variant score	scatter
+chr3	104153491	104173491	0.844	Variant score	scatter
+chr3	114184913	114204913	2.615	Variant score	scatter
+chr3	124216335	124236335	1.467	Variant score	scatter
+chr3	134247758	134267758	2.288	Variant score	scatter
+chr3	144279180	144299180	2.005	Variant score	scatter
+chr3	154310603	154330603	1.823	Variant score	scatter
+chr3	164342025	164362025	2.423	Variant score	scatter
+chr3	174373447	174393447	1.25	Variant score	scatter
+chr3	184404870	184424870	2.694	Variant score	scatter
+chr4	13305019	13325019	2.742	Variant score	scatter
+chr4	23529051	23549051	0.416	Variant score	scatter
+chr4	33753084	33773084	2.797	Variant score	scatter
+chr4	43977116	43997116	0.653	Variant score	scatter
+chr4	54201148	54221148	2.68	Variant score	scatter
+chr4	64425181	64445181	1.292	Variant score	scatter
+chr4	74649213	74669213	2.399	Variant score	scatter
+chr4	84873245	84893245	1.859	Variant score	scatter
+chr4	95097278	95117278	1.971	Variant score	scatter
+chr4	105321310	105341310	2.316	Variant score	scatter
+chr4	115545342	115565342	1.426	Variant score	scatter
+chr4	125769374	125789374	2.632	Variant score	scatter
+chr4	135993407	136013407	0.8	Variant score	scatter
+chr4	146217439	146237439	2.786	Variant score	scatter
+chr4	156441471	156461471	0.267	Variant score	scatter
+chr4	166665504	166685504	2.769	Variant score	scatter
+chr4	176889536	176909536	0.929	Variant score	scatter
+chr5	12697678	12717678	2.497	Variant score	scatter
+chr5	22455360	22475360	1.704	Variant score	scatter
+chr5	32213041	32233041	2.109	Variant score	scatter
+chr5	41970722	41990722	2.196	Variant score	scatter
+chr5	51728404	51748404	1.595	Variant score	scatter
+chr5	61486085	61506085	2.555	Variant score	scatter
+chr5	71243767	71263767	0.988	Variant score	scatter
+chr5	81001448	81021448	2.759	Variant score	scatter
+chr5	90759130	90779130	0.329	Variant score	scatter
+chr5	100516811	100536811	2.792	Variant score	scatter
+chr5	110274492	110294492	0.739	Variant score	scatter
+chr5	120032174	120052174	2.653	Variant score	scatter
+chr5	129789855	129809855	1.371	Variant score	scatter
+chr5	139547537	139567537	2.351	Variant score	scatter
+chr5	149305218	149325218	1.925	Variant score	scatter
+chr5	159062899	159082899	1.906	Variant score	scatter
+chr5	168820581	168840581	2.365	Variant score	scatter
+chr6	11946419	11966419	1.172	Variant score	scatter
+chr6	21739295	21759295	2.717	Variant score	scatter
+chr6	31532171	31552171	0.524	Variant score	scatter
+chr6	41325047	41345047	2.8	Variant score	scatter
+chr6	51117923	51137923	0.546	Variant score	scatter
+chr6	60910799	60930799	2.711	Variant score	scatter
+chr6	70703675	70723675	1.193	Variant score	scatter
+chr6	80496551	80516551	2.455	Variant score	scatter
+chr6	90289428	90309428	1.774	Variant score	scatter
+chr6	100082304	100102304	2.049	Variant score	scatter
+chr6	109875180	109895180	2.251	Variant score	scatter
+chr6	119668056	119688056	1.521	Variant score	scatter
+chr6	129460932	129480932	2.591	Variant score	scatter
+chr6	139253808	139273808	0.904	Variant score	scatter
+chr6	149046684	149066684	2.773	Variant score	scatter
+chr6	158839560	158859560	0.241	Variant score	scatter
+chr7	11144218	11164218	1.01	Variant score	scatter
+chr7	21685567	21705567	2.546	Variant score	scatter
+chr7	32226916	32246916	1.614	Variant score	scatter
+chr7	42768265	42788265	2.181	Variant score	scatter
+chr7	53309614	53329614	2.125	Variant score	scatter
+chr7	63850963	63870963	1.685	Variant score	scatter
+chr7	74392312	74412312	2.508	Variant score	scatter
+chr7	84933661	84953661	1.09	Variant score	scatter
+chr7	95475010	95495010	2.737	Variant score	scatter
+chr7	106016359	106036359	0.437	Variant score	scatter
+chr7	116557708	116577708	2.798	Variant score	scatter
+chr7	127099057	127119057	0.633	Variant score	scatter
+chr7	137640406	137660406	2.687	Variant score	scatter
+chr7	148181755	148201755	1.274	Variant score	scatter
+chr8	10149705	10169705	2.411	Variant score	scatter
+chr8	20551307	20571307	1.272	Variant score	scatter
+chr8	30952909	30972909	2.687	Variant score	scatter
+chr8	41354511	41374511	0.631	Variant score	scatter
+chr8	51756114	51776114	2.798	Variant score	scatter
+chr8	62157716	62177716	0.439	Variant score	scatter
+chr8	72559318	72579318	2.737	Variant score	scatter
+chr8	82960920	82980920	1.093	Variant score	scatter
+chr8	93362522	93382522	2.507	Variant score	scatter
+chr8	103764125	103784125	1.687	Variant score	scatter
+chr8	114165727	114185727	2.123	Variant score	scatter
+chr8	124567329	124587329	2.183	Variant score	scatter
+chr8	134968931	134988931	1.613	Variant score	scatter
+chr9	9677630	9697630	2.772	Variant score	scatter
+chr9	19595918	19615918	0.907	Variant score	scatter
+chr9	29514206	29534206	2.59	Variant score	scatter
+chr9	39432494	39452494	1.523	Variant score	scatter
+chr9	49350782	49370782	2.249	Variant score	scatter
+chr9	59269070	59289070	2.051	Variant score	scatter
+chr9	69187358	69207358	1.773	Variant score	scatter
+chr9	79105647	79125647	2.456	Variant score	scatter
+chr9	89023935	89043935	1.191	Variant score	scatter
+chr9	98942223	98962223	2.711	Variant score	scatter
+chr9	108860511	108880511	0.544	Variant score	scatter
+chr9	118778799	118798799	2.8	Variant score	scatter
+chr9	128697087	128717087	0.526	Variant score	scatter
+chr10	9355820	9375820	1.924	Variant score	scatter
+chr10	19816345	19836345	2.352	Variant score	scatter
+chr10	30276871	30296871	1.369	Variant score	scatter
+chr10	40737397	40757397	2.654	Variant score	scatter
+chr10	51197922	51217922	0.737	Variant score	scatter
+chr10	61658448	61678448	2.792	Variant score	scatter
+chr10	72118974	72138974	0.331	Variant score	scatter
+chr10	82579500	82599500	2.758	Variant score	scatter
+chr10	93040025	93060025	0.99	Variant score	scatter
+chr10	103500551	103520551	2.555	Variant score	scatter
+chr10	113961077	113981077	1.597	Variant score	scatter
+chr10	124421602	124441602	2.195	Variant score	scatter
+chr11	9446064	9466064	0.264	Variant score	scatter
+chr11	20007381	20027381	2.786	Variant score	scatter
+chr11	30568699	30588699	0.802	Variant score	scatter
+chr11	41130017	41150017	2.631	Variant score	scatter
+chr11	51691334	51711334	1.428	Variant score	scatter
+chr11	62252652	62272652	2.314	Variant score	scatter
+chr11	72813970	72833970	1.973	Variant score	scatter
+chr11	83375288	83395288	1.857	Variant score	scatter
+chr11	93936605	93956605	2.4	Variant score	scatter
+chr11	104497923	104517923	1.29	Variant score	scatter
+chr11	115059241	115079241	2.681	Variant score	scatter
+chr11	125620558	125640558	0.651	Variant score	scatter
+chr12	9319272	9339272	1.825	Variant score	scatter
+chr12	19738978	19758978	2.003	Variant score	scatter
+chr12	30158684	30178684	2.29	Variant score	scatter
+chr12	40578390	40598390	1.465	Variant score	scatter
+chr12	50998096	51018096	2.616	Variant score	scatter
+chr12	61417802	61437802	0.842	Variant score	scatter
+chr12	71837507	71857507	2.781	Variant score	scatter
+chr12	82257213	82277213	0.223	Variant score	scatter
+chr12	92676919	92696919	2.775	Variant score	scatter
+chr12	103096625	103116625	0.887	Variant score	scatter
+chr12	113516331	113536331	2.598	Variant score	scatter
+chr12	123936037	123956037	1.505	Variant score	scatter
+chr13	7995503	8015503	2.75	Variant score	scatter
+chr13	18923650	18943650	0.372	Variant score	scatter
+chr13	29851797	29871797	2.795	Variant score	scatter
+chr13	40779944	40799944	0.696	Variant score	scatter
+chr13	51708091	51728091	2.667	Variant score	scatter
+chr13	62636237	62656237	1.332	Variant score	scatter
+chr13	73564384	73584384	2.375	Variant score	scatter
+chr13	84492531	84512531	1.893	Variant score	scatter
+chr13	95420678	95440678	1.939	Variant score	scatter
+chr13	106348825	106368825	2.341	Variant score	scatter
+chr14	7483060	7503060	2.476	Variant score	scatter
+chr14	17711682	17731682	1.739	Variant score	scatter
+chr14	27940304	27960304	2.079	Variant score	scatter
+chr14	38168926	38188926	2.224	Variant score	scatter
+chr14	48397548	48417548	1.558	Variant score	scatter
+chr14	58626170	58646170	2.574	Variant score	scatter
+chr14	68854792	68874792	0.946	Variant score	scatter
+chr14	79083414	79103414	2.766	Variant score	scatter
+chr14	89312036	89332036	0.285	Variant score	scatter
+chr14	99540658	99560658	2.788	Variant score	scatter
+chr15	7129383	7149383	1.131	Variant score	scatter
+chr15	18093436	18113436	2.727	Variant score	scatter
+chr15	29057489	29077489	0.48	Variant score	scatter
+chr15	40021542	40041542	2.799	Variant score	scatter
+chr15	50985594	51005594	0.59	Variant score	scatter
+chr15	61949647	61969647	2.699	Variant score	scatter
+chr15	72913700	72933700	1.234	Variant score	scatter
+chr15	83877753	83897753	2.433	Variant score	scatter
+chr15	94841806	94861806	1.809	Variant score	scatter
+chr16	6313684	6333684	1.051	Variant score	scatter
+chr16	17412395	17432395	2.526	Variant score	scatter
+chr16	28511106	28531106	1.651	Variant score	scatter
+chr16	39609817	39629817	2.153	Variant score	scatter
+chr16	50708528	50728528	2.154	Variant score	scatter
+chr16	61807239	61827239	1.649	Variant score	scatter
+chr16	72905950	72925950	2.527	Variant score	scatter
+chr16	84004661	84024661	1.049	Variant score	scatter
+chr17	5818021	5838021	2.434	Variant score	scatter
+chr17	16046792	16066792	1.232	Variant score	scatter
+chr17	26275564	26295564	2.7	Variant score	scatter
+chr17	36504335	36524335	0.587	Variant score	scatter
+chr17	46733106	46753106	2.799	Variant score	scatter
+chr17	56961877	56981877	0.482	Variant score	scatter
+chr17	67190649	67210649	2.727	Variant score	scatter
+chr17	77419420	77439420	1.134	Variant score	scatter
+chr18	5616130	5636130	2.766	Variant score	scatter
+chr18	17136301	17156301	0.949	Variant score	scatter
+chr18	28656472	28676472	2.573	Variant score	scatter
+chr18	40176642	40196642	1.56	Variant score	scatter
+chr18	51696813	51716813	2.222	Variant score	scatter
+chr18	63216984	63236984	2.081	Variant score	scatter
+chr18	74737155	74757155	1.738	Variant score	scatter
+chr19	4093233	4113233	1.891	Variant score	scatter
+chr19	16696021	16716021	2.377	Variant score	scatter
+chr19	29298808	29318808	1.33	Variant score	scatter
+chr19	41901595	41921595	2.668	Variant score	scatter
+chr19	54504383	54524383	0.694	Variant score	scatter
+chr20	4501092	4521092	0.221	Variant score	scatter
+chr20	15585488	15605488	2.781	Variant score	scatter
+chr20	26669885	26689885	0.844	Variant score	scatter
+chr20	37754282	37774282	2.615	Variant score	scatter
+chr20	48838679	48858679	1.467	Variant score	scatter
+chr20	59923075	59943075	2.288	Variant score	scatter
+chr21	3259699	3279699	1.859	Variant score	scatter
+chr21	16649894	16669894	1.971	Variant score	scatter
+chr21	30040089	30060089	2.316	Variant score	scatter
+chr21	43430284	43450284	1.426	Variant score	scatter
+chr22	3547293	3567293	2.759	Variant score	scatter
+chr22	14473263	14493263	0.329	Variant score	scatter
+chr22	25399234	25419234	2.792	Variant score	scatter
+chr22	36325205	36345205	0.739	Variant score	scatter
+chr22	47251175	47271175	2.653	Variant score	scatter
+chrX	10912863	10932863	2.455	Variant score	scatter
+chrX	21235568	21255568	1.774	Variant score	scatter
+chrX	31558273	31578273	2.049	Variant score	scatter
+chrX	41880979	41900979	2.251	Variant score	scatter
+chrX	52203684	52223684	1.521	Variant score	scatter
+chrX	62526389	62546389	2.591	Variant score	scatter
+chrX	72849095	72869095	0.904	Variant score	scatter
+chrX	83171800	83191800	2.773	Variant score	scatter
+chrX	93494506	93514506	0.241	Variant score	scatter
+chrX	103817211	103837211	2.783	Variant score	scatter
+chrX	114139916	114159916	0.824	Variant score	scatter
+chrX	124462622	124482622	2.622	Variant score	scatter
+chrX	134785327	134805327	1.449	Variant score	scatter
+chrX	145108032	145128032	2.301	Variant score	scatter
+chrY	3995919	4015919	1.09	Variant score	scatter
+chrY	16299813	16319813	2.737	Variant score	scatter
+chrY	28603708	28623708	0.437	Variant score	scatter
+chrY	40907602	40927602	2.798	Variant score	scatter
+chrY	53211496	53231496	0.633	Variant score	scatter
+chr1	20414426	29376858	0.539	CNV log2 ratio	histogram
+chr1	42543886	51506318	-0.856	CNV log2 ratio	histogram
+chr1	64673346	73635778	0.015	CNV log2 ratio	histogram
+chr1	86802805	95765237	0.847	CNV log2 ratio	histogram
+chr1	108932265	117894697	-0.563	CNV log2 ratio	histogram
+chr1	131061725	140024157	-0.483	CNV log2 ratio	histogram
+chr1	153191185	162153617	0.875	CNV log2 ratio	histogram
+chr1	175320644	184283076	-0.083	CNV log2 ratio	histogram
+chr1	197450104	206412536	-0.821	CNV log2 ratio	histogram
+chr1	219579564	228541996	0.614	CNV log2 ratio	histogram
+chr2	19859869	28578837	0.037	CNV log2 ratio	histogram
+chr2	41388183	50107151	-0.863	CNV log2 ratio	histogram
+chr2	62916496	71635464	0.521	CNV log2 ratio	histogram
+chr2	84444810	93163778	0.526	CNV log2 ratio	histogram
+chr2	105973124	114692092	-0.861	CNV log2 ratio	histogram
+chr2	127501437	136220405	0.03	CNV log2 ratio	histogram
+chr2	149029751	157748719	0.841	CNV log2 ratio	histogram
+chr2	170558065	179277033	-0.574	CNV log2 ratio	histogram
+chr2	192086378	200805346	-0.47	CNV log2 ratio	histogram
+chr2	213614692	222333660	0.878	CNV log2 ratio	histogram
+chr3	16260236	23398876	-0.477	CNV log2 ratio	histogram
+chr3	38922586	46061226	-0.568	CNV log2 ratio	histogram
+chr3	61584935	68723575	0.844	CNV log2 ratio	histogram
+chr3	84247285	91385925	0.022	CNV log2 ratio	histogram
+chr3	106909634	114048274	-0.859	CNV log2 ratio	histogram
+chr3	129571984	136710624	0.533	CNV log2 ratio	histogram
+chr3	152234334	159372974	0.514	CNV log2 ratio	histogram
+chr3	174896683	182035323	-0.865	CNV log2 ratio	histogram
+chr4	15597594	22445318	-0.825	CNV log2 ratio	histogram
+chr4	37336400	44184124	-0.075	CNV log2 ratio	histogram
+chr4	59075206	65922930	0.873	CNV log2 ratio	histogram
+chr4	80814012	87661736	-0.49	CNV log2 ratio	histogram
+chr4	102552819	109400543	-0.556	CNV log2 ratio	histogram
+chr4	124291625	131139349	0.849	CNV log2 ratio	histogram
+chr4	146030431	152878155	0.007	CNV log2 ratio	histogram
+chr4	167769238	174616962	-0.854	CNV log2 ratio	histogram
+chr5	14886137	21421515	-0.884	CNV log2 ratio	histogram
+chr5	39091238	45626616	0.445	CNV log2 ratio	histogram
+chr5	63296339	69831717	0.597	CNV log2 ratio	histogram
+chr5	87501441	94036819	-0.83	CNV log2 ratio	histogram
+chr5	111706542	118241920	-0.06	CNV log2 ratio	histogram
+chr5	135911643	142447021	0.869	CNV log2 ratio	histogram
+chr5	160116744	166652122	-0.502	CNV log2 ratio	histogram
+chr6	14006090	20155106	-0.635	CNV log2 ratio	histogram
+chr6	36780220	42929236	0.809	CNV log2 ratio	histogram
+chr6	59554351	65703367	0.112	CNV log2 ratio	histogram
+chr6	82328482	88477498	-0.881	CNV log2 ratio	histogram
+chr6	105102612	111251628	0.458	CNV log2 ratio	histogram
+chr6	127876743	134025759	0.585	CNV log2 ratio	histogram
+chr6	150650873	156799889	-0.836	CNV log2 ratio	histogram
+chr7	13066369	18802825	-0.164	CNV log2 ratio	histogram
+chr7	38561725	44298181	0.89	CNV log2 ratio	histogram
+chr7	64057081	69793537	-0.412	CNV log2 ratio	histogram
+chr7	89552436	95288892	-0.624	CNV log2 ratio	histogram
+chr7	115047792	120784248	0.815	CNV log2 ratio	histogram
+chr7	140543148	146279604	0.097	CNV log2 ratio	histogram
+chr8	11901369	17126359	0.364	CNV log2 ratio	histogram
+chr8	35123550	40348540	0.661	CNV log2 ratio	histogram
+chr8	58345732	63570722	-0.792	CNV log2 ratio	histogram
+chr8	81567914	86792904	-0.149	CNV log2 ratio	histogram
+chr8	104790096	110015086	0.888	CNV log2 ratio	histogram
+chr8	128012277	133237267	-0.425	CNV log2 ratio	histogram
+chr9	11348367	16330577	0.765	CNV log2 ratio	histogram
+chr9	33491521	38473731	0.201	CNV log2 ratio	histogram
+chr9	55634676	60616886	-0.895	CNV log2 ratio	histogram
+chr9	77777831	82760041	0.378	CNV log2 ratio	histogram
+chr9	99920986	104903196	0.651	CNV log2 ratio	histogram
+chr9	122064140	127046350	-0.799	CNV log2 ratio	histogram
+chr10	10971388	15788096	0.899	CNV log2 ratio	histogram
+chr10	37730873	42547581	-0.33	CNV log2 ratio	histogram
+chr10	64490357	69307065	-0.686	CNV log2 ratio	histogram
+chr10	91249841	96066549	0.773	CNV log2 ratio	histogram
+chr10	118009326	122826034	0.186	CNV log2 ratio	histogram
+chr11	11077103	15940221	0.719	CNV log2 ratio	histogram
+chr11	38094428	42957546	-0.745	CNV log2 ratio	histogram
+chr11	65111752	69974870	-0.237	CNV log2 ratio	histogram
+chr11	92129076	96992194	0.898	CNV log2 ratio	histogram
+chr11	119146401	124009519	-0.344	CNV log2 ratio	histogram
+chr12	10928575	15726487	0.287	CNV log2 ratio	histogram
+chr12	37583637	42381549	-0.9	CNV log2 ratio	histogram
+chr12	64238698	69036610	0.295	CNV log2 ratio	histogram
+chr12	90893760	95691672	0.709	CNV log2 ratio	histogram
+chr12	117548822	122346734	-0.753	CNV log2 ratio	histogram
+chr13	9377875	13494991	-0.245	CNV log2 ratio	histogram
+chr13	32250740	36367856	-0.741	CNV log2 ratio	histogram
+chr13	55123606	59240722	0.723	CNV log2 ratio	histogram
+chr13	77996472	82113588	0.273	CNV log2 ratio	histogram
+chr13	100869337	104986453	-0.9	CNV log2 ratio	histogram
+chr14	8777585	12631159	-0.691	CNV log2 ratio	histogram
+chr14	37322576	41176150	-0.322	CNV log2 ratio	histogram
+chr14	65867568	69721142	0.899	CNV log2 ratio	histogram
+chr14	94412559	98266133	-0.259	CNV log2 ratio	histogram
+chr15	8363278	12034960	-0.896	CNV log2 ratio	histogram
+chr15	35560928	39232610	0.208	CNV log2 ratio	histogram
+chr15	62758579	66430261	0.761	CNV log2 ratio	histogram
+chr15	89956229	93627911	-0.701	CNV log2 ratio	histogram
+chr16	7407744	10659924	-0.788	CNV log2 ratio	histogram
+chr16	31497970	34750150	0.666	CNV log2 ratio	histogram
+chr16	55588195	58840375	0.357	CNV log2 ratio	histogram
+chr16	79678420	82930600	-0.897	CNV log2 ratio	histogram
+chr17	6827110	9824378	-0.405	CNV log2 ratio	histogram
+chr17	40130086	43127354	0.892	CNV log2 ratio	histogram
+chr17	73433063	76430331	-0.172	CNV log2 ratio	histogram
+chr18	6590609	9484047	0.12	CNV log2 ratio	histogram
+chr18	38739923	41633361	0.805	CNV log2 ratio	histogram
+chr18	70889237	73782675	-0.641	CNV log2 ratio	histogram
+chr19	4806645	6916879	0.603	CNV log2 ratio	histogram
+chr19	28253691	30363925	0.438	CNV log2 ratio	histogram
+chr19	51700737	53810971	-0.886	CNV log2 ratio	histogram
+chr20	5284422	7604412	0.875	CNV log2 ratio	histogram
+chr20	31062089	33382079	-0.083	CNV log2 ratio	histogram
+chr20	56839755	59159745	-0.821	CNV log2 ratio	histogram
+chr21	3830218	5511778	0.841	CNV log2 ratio	histogram
+chr21	22514212	24195772	-0.574	CNV log2 ratio	histogram
+chr21	41198205	42879765	-0.47	CNV log2 ratio	histogram
+chr22	4167115	5996579	0.514	CNV log2 ratio	histogram
+chr22	24494502	26323966	-0.865	CNV log2 ratio	histogram
+chr22	44821889	46651353	0.045	CNV log2 ratio	histogram
+chrX	12795354	18412826	0.007	CNV log2 ratio	histogram
+chrX	37761897	43379369	-0.854	CNV log2 ratio	histogram
+chrX	62728440	68345912	0.545	CNV log2 ratio	histogram
+chrX	87694983	93312455	0.502	CNV log2 ratio	histogram
+chrX	112661526	118278998	-0.869	CNV log2 ratio	histogram
+chrX	137628070	143245542	0.06	CNV log2 ratio	histogram
+chrY	4692649	6752835	-0.502	CNV log2 ratio	histogram
+chrY	27583615	29643801	-0.544	CNV log2 ratio	histogram
+chrY	50474581	52534767	0.854	CNV log2 ratio	histogram

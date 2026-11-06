@@ -24,16 +24,32 @@ templates:
     title: "Grouped line chart"
     aliases:
       - "分组折线图"
+      - "肿瘤生长曲线"
+      - "tumour growth curve"
+      - "均值误差折线图"
+      - "mean error line plot"
     source: "scripts/line/group/plot.R"
     examples:
       - "scripts/line/group/example.tsv"
+      - "scripts/line/group/example_growth.tsv"
+      - "scripts/line/group/brackets.tsv"
     preview: "scripts/line/group/preview.png"
+    variants:
+      - image: "scripts/line/group/preview_growth.png"
+        example: "scripts/line/group/example_growth.tsv"
+        config: "style = \"growth\", columns y = \"volume\" / colour = \"group\", growth$error = \"sem\", labels$y_expr = \"Tumour~volume~(mm^3)\", growth$brackets_file = \"brackets.tsv\""
+        shows: "Tumour growth curve: mean +/- SEM per group and day from replicate mice, translucent points on thin lines, a group that stops early (Control), legend inside the top-left, 45 degree day labels and a supplied ** bracket between two groups at the last day."
     use_when: >
-      Overlay several series on a shared ordered axis.
+      Overlay several series on a shared ordered axis. With style =
+      "growth", show group mean +/- SD / SEM over time points (tumour
+      volume, body weight, longitudinal assays) from replicate rows or a
+      supplied error column, with optional supplied significance
+      brackets at chosen time points.
     avoid_when: >
       Do not use when series should stack (line-stack) or occupy
-      independent panels (line-independent).
-    input_shape: "one row per x-by-group; ordered x, group, and numeric y"
+      independent panels (line-independent). Do not run t-tests or
+      ANOVA in the script; bracket labels are supplied.
+    input_shape: "one row per x-by-group (or per subject-by-x-by-group for growth); ordered x, group, and numeric y"
     language: "r"
     status: "stable"
 
@@ -99,9 +115,38 @@ templates:
       Draw two series on one panel with opposite visual directions
       (flow from the bottom, rainfall hanging from the top).
     avoid_when: >
-      Do not use independent stacked panels (line-independent) or a
-      shared-scale overlay (line-group).
+      Do not use independent stacked panels (line-independent), a
+      shared-scale overlay (line-group), or difference ribbons coloured
+      by which series is higher (line-ribbon-diff). Three or more
+      series, or bars plus lines, on stacked y axes are
+      bar-line-multiaxis.
     input_shape: "one row per time point with two numeric series"
+    language: "r"
+    status: "stable"
+
+  - id: "line-ribbon-diff"
+    title: "Two-series difference ribbon"
+    aliases:
+      - "差值色带折线"
+      - "交叉面积折线"
+      - "difference ribbon"
+      - "crossing ribbon"
+      - "谁高谁填色"
+    source: "scripts/line/ribbon_diff/plot.R"
+    examples:
+      - "scripts/line/ribbon_diff/example.tsv"
+    preview: "scripts/line/ribbon_diff/preview.png"
+    use_when: >
+      Overlay two series on one shared scale and fill the band between
+      them with one colour when A > B and another when B > A
+      (economics pce / unemploy style). Series scaling (e.g. value01)
+      is upstream.
+    avoid_when: >
+      Do not use dual-axis hydrographs (line-double), plain multi-series
+      overlays (line-group), stacked areas (line-stack), or independent
+      panels (line-independent). Do not rescale or test the series in
+      the script.
+    input_shape: "one row per ordered x with two numeric columns"
     language: "r"
     status: "stable"
 
@@ -128,16 +173,57 @@ templates:
     aliases:
       - "生存曲线"
       - "Kaplan-Meier"
+      - "多分组KM"
+      - "multi-group KM"
+      - "risk table survival"
     source: "scripts/line/survival/plot.R"
     examples:
       - "scripts/line/survival/example.tsv"
+      - "scripts/line/survival/example_multi.tsv"
+      - "scripts/line/survival/pairwise_multi.tsv"
     preview: "scripts/line/survival/preview.png"
+    variants:
+      - image: "scripts/line/survival/preview_multi.png"
+        example: "scripts/line/survival/example_multi.tsv"
+        config: "style = \"multi\", columns time/event/group, group_order, labels, pval_label, multi$conf_int + pval_pos (left) + pairwise_file = \"pairwise_multi.tsv\" + pairwise_alpha = 0.05 + pairwise_box (right), risk_table = FALSE, palettes Qualitative.Bold"
+        shows: "Multi-group Kaplan-Meier with CI ribbons, right-side Molecular risk legend, theme_prism white panel without grid, overall P in the left blank, and a supplied pairwise log-rank table (significant contrasts only) in the right blank."
     use_when: >
-      Plot survival probability over time, optionally by group.
+      Plot survival probability over time by group. With style =
+      "multi", overlay three or more strata with confidence ribbons,
+      a right legend, theme_prism, and an optional supplied pairwise
+      P table inset (optional risk table via CONFIG).
     avoid_when: >
       Do not use a generic line chart for censored survival data, or
-      patient-level treatment lanes (bar-swimmer).
-    input_shape: "survival fit table or time, survival, and optional group columns"
+      patient-level treatment lanes (bar-swimmer). Do not add an id
+      for multi-group alone; extra strata stay CONFIG on this template.
+      Do not compute pairwise P in the script; pairwise labels are supplied.
+    input_shape: "one row per subject; time, event status, and group; optional pairwise comparison.tsv"
+    language: "r"
+    status: "stable"
+
+  - id: "line-roc"
+    title: "ROC curve with confidence bands"
+    aliases:
+      - "ROC曲线"
+      - "受试者工作特征"
+      - "AUC曲线"
+      - "ROC"
+      - "receiver operating characteristic"
+    source: "scripts/line/roc/plot.R"
+    examples:
+      - "scripts/line/roc/example.tsv"
+      - "scripts/line/roc/auc.tsv"
+    preview: "scripts/line/roc/preview.png"
+    use_when: >
+      Compare classification performance as ROC curves (1 − specificity
+      vs sensitivity) for one or more supplied contrasts, with optional
+      confidence ribbons, a chance diagonal, and AUC text in the
+      legend. Step vs path, palette, and caption are CONFIG.
+    avoid_when: >
+      Do not compute ROC coordinates, AUC, or CIs in the script; those
+      are supplied. Do not use a Kaplan-Meier survival curve
+      (line-survival) or a generic multi-series line (line-group).
+    input_shape: "one row per curve point; group, fpr, tpr; optional ci_lo/ci_hi; optional auc.tsv"
     language: "r"
     status: "stable"
 
@@ -149,22 +235,129 @@ templates:
       - "joyplot"
       - "RidgePlot"
       - "ggridges"
+      - "FACS山脊图"
+      - "PSI MFI ridge"
+      - "T cell ridge"
+      - "T_MEM T_RAC T_EFF"
     source: "scripts/line/ridge/plot.R"
     examples:
       - "scripts/line/ridge/example.tsv"
+      - "scripts/line/ridge/example_facs.tsv"
+      - "scripts/line/ridge/example_tcell.tsv"
+      - "scripts/line/ridge/annotations.tsv"
     preview: "scripts/line/ridge/preview.png"
+    variants:
+      - image: "scripts/line/ridge/preview_facs.png"
+        example: "scripts/line/ridge/example_facs.tsv"
+        config: "RIDGE_EXAMPLE=facs; second input annotations.tsv (psi, mfi); x_log10, density ridges, Diverging.PiYG fills, supplied R label"
+        shows: "Log10 GFP:mCherry density ridges with per-gene PSI/MFI labels and a supplied R annotation."
+      - image: "scripts/line/ridge/preview_tcell.png"
+        example: "scripts/line/ridge/example_tcell.tsv"
+        config: "RIDGE_EXAMPLE=tcell; facet by marker, free_x; T_MEM/T_RAC/T_EFF fills; full-width baselines; y expand bottom 0"
+        shows: "Four-gene Expression Level ridges across T_MEM, T_RAC, and T_EFF with plotmath subset labels."
     use_when: >
-      Stack 1D kernel densities as ridgelines along a categorical y
-      (cluster, sample, condition), optionally faceted by feature.
-      A vertical tick is a display quantile of the supplied values.
-      Left group bars and marker facets stay in CONFIG.
+      Stack 1D kernel densities or histogram ridges along a categorical
+      y (cluster, sample, gene), optionally faceted by feature. A
+      vertical tick is a display quantile of the supplied values when
+      set. Optional annotations.tsv supplies per-group metrics (e.g.
+      PSI, MFI) drawn at the right; R is a supplied display string.
+      Left group bars, marker facets, log10 x, and binline vs density
+      stay in CONFIG (RIDGE_EXAMPLE=facs or tcell for presets).
     avoid_when: >
       Do not use a mirrored violin (boxplot-violin) or a raincloud
       (half-violin plus points). Do not use 2D scatter density
       (scatter-contour, scatter-hex). Genome-coordinate coverage is
-      ideogram-coverage, not a ridgeline. Do not cluster cells or
-      pool an All-cells row in the script; that group is supplied.
-      Facet count and group bars are not a second id.
-    input_shape: "one row per observation; numeric value, ridgeline group, optional facet and row-group"
+      ideogram-coverage, not a ridgeline. Do not cluster cells, pool
+      an All-cells row, or compute PSI / MFI / R in the script; those
+      are supplied. Facet count and group bars are not a second id.
+    input_shape: >
+      one row per observation; numeric value, ridgeline group, optional
+      facet and row-group. Optional annotations table: group key plus
+      metric columns (e.g. gene, psi, mfi).
+    language: "r"
+    status: "stable"
+
+  - id: "line-gsea"
+    title: "GSEA running enrichment plot"
+    aliases:
+      - "GSEA图"
+      - "GSEA富集分析图"
+      - "富集得分曲线"
+      - "gseaplot"
+      - "gseaplot2"
+      - "running enrichment score"
+      - "enrichment plot"
+    source: "scripts/line/gsea/plot.R"
+    examples:
+      - "scripts/line/gsea/ranked.tsv"
+      - "scripts/line/gsea/genesets.tsv"
+      - "scripts/line/gsea/running.tsv"
+      - "scripts/line/gsea/set_stats.tsv"
+    preview: "scripts/line/gsea/preview.png"
+    variants:
+      - image: "scripts/line/gsea/preview_single.png"
+        example: "scripts/line/gsea/ranked.tsv"
+        config: "sets = one set, palette = \"Qualitative.Bold:2\", rank_strip = TRUE, leading_edge = TRUE, annotate_stats = TRUE"
+        shows: "Classic single-set GSEA: one curve, black hit barcode, red-blue rank strip, dashed leading-edge line at the peak and supplied NES / FDR in the corner."
+    use_when: >
+      Show supplied GSEA results for one or several gene sets as
+      running enrichment-score curves, a hit-barcode row per set and
+      the ranked list metric, stacked on a shared rank axis. Set list,
+      single-set classic view (rank strip, leading edge, NES / FDR),
+      metric panel on/off, panel heights and palette are CONFIG.
+      running = "compute" redraws the deterministic running sum from
+      the ranked list when no running.tsv is supplied.
+    avoid_when: >
+      Do not use a volcano with gene-set barcodes (scatter-volcano-
+      barcode), enrichment bars / dots of many terms (bar-enrich*), or
+      a ridgeline of densities (line-ridge). Do not run GSEA,
+      permutations, NES, p or FDR in the script. Do not add an id per
+      set count or for the classic single-set view.
+    input_shape: "ranked list (gene, metric) plus genesets.tsv (set, gene), running.tsv (set, rank, score) and optional set_stats.tsv (set, NES, padj) beside it"
+    language: "r"
+    status: "stable"
+
+  - id: "line-spiral"
+    title: "Spiral plot of a periodic series"
+    aliases:
+      - "螺旋图"
+      - "螺旋柱状图"
+      - "螺旋热图"
+      - "螺旋面积图"
+      - "spiral plot"
+      - "spiral heatmap"
+      - "周期螺旋"
+    source: "scripts/line/spiral/plot.R"
+    examples:
+      - "scripts/line/spiral/example.tsv"
+      - "scripts/line/spiral/daily.tsv"
+    preview: "scripts/line/spiral/preview.png"
+    variants:
+      - image: "scripts/line/spiral/preview_bar.png"
+        example: "scripts/line/spiral/example.tsv"
+        config: "geom = \"bar\" (height from columns$height, else value; height_range)"
+        shows: "Rising parallelogram bars along the spiral, one per month, filled by value."
+      - image: "scripts/line/spiral/preview_heatmap.png"
+        example: "scripts/line/spiral/example.tsv"
+        config: "geom = \"heatmap\""
+        shows: "Full-height spiral heatmap: each month a tile spanning one turn, coloured by value."
+      - image: "scripts/line/spiral/preview_area.png"
+        example: "scripts/line/spiral/daily.tsv"
+        config: "geom = \"area\", gradient = TRUE, steps_per_cycle = 365, columns step = \"day\", value = \"cases\", height = NULL, month-start step_breaks (gradient = FALSE = solid ribbon)"
+        shows: "Daily values as a spiral area band, each day coloured by value, one turn per year."
+    use_when: >
+      Show a long periodic series (months / days over several cycles)
+      on an Archimedean spiral: one turn per cycle, angle = step within
+      the cycle, turns joined end to start. Line, point, rising bar,
+      full-height heatmap and area (solid or value-coloured) are
+      CONFIG geoms; steps per cycle, labels, heights, inner hole and
+      palette are CONFIG.
+    avoid_when: >
+      Do not use a plain time-series line (line-basic / line-group),
+      a calendar of cycles without continuity (heatmap-basic), radial
+      bars of categories (bar-radial*), or a polar boxplot
+      (boxplot-polar). Do not aggregate in the script; supply one row
+      per cycle x step. Do not add an id per geom.
+    input_shape: "one row per cycle x step; cycle (e.g. year), step (1..steps_per_cycle), value, optional height column"
     language: "r"
     status: "stable"

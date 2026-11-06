@@ -1,0 +1,716 @@
+label	track	category	value
+Tetragenococcus	Average BGC count per genome	NRPS	0.032
+Tetragenococcus	Average BGC count per genome	T3PKS	0.203
+Tetragenococcus	Average BGC count per genome	Terpene	0.142
+Tetragenococcus	Average BGC count per genome	RiPPs	0.644
+Tetragenococcus	Average BGC count per genome	Others	0.105
+Tetragenococcus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.291
+Tetragenococcus	Average RiPP count per genome	lanthipeptide	0.969
+Tetragenococcus	Average RiPP count per genome	LAP	0.047
+Tetragenococcus	Average RiPP count per genome	lassopeptide	0.081
+Tetragenococcus	Average RiPP count per genome	RiPP-like	3.446
+Tetragenococcus	Average RiPP count per genome	RRE-containing	0.082
+Tetragenococcus	Average RiPP count per genome	rSAM-Modified	0.502
+Tetragenococcus	Average RiPP count per genome	Others	0.052
+Enterococcus F	Average BGC count per genome	NRPS	0.12
+Enterococcus F	Average BGC count per genome	T3PKS	0.29
+Enterococcus F	Average BGC count per genome	Terpene	0.255
+Enterococcus F	Average BGC count per genome	RiPPs	2.347
+Enterococcus F	Average BGC count per genome	Others	0.027
+Enterococcus F	Average RiPP count per genome	cyclic-lactone-autoinducer	0.508
+Enterococcus F	Average RiPP count per genome	lanthipeptide	0.329
+Enterococcus F	Average RiPP count per genome	LAP	0.04
+Enterococcus F	Average RiPP count per genome	lassopeptide	0.023
+Enterococcus F	Average RiPP count per genome	RiPP-like	0.546
+Enterococcus F	Average RiPP count per genome	RRE-containing	0.054
+Enterococcus F	Average RiPP count per genome	rSAM-Modified	0.041
+Enterococcus F	Average RiPP count per genome	Others	0.111
+Enterococcus I	Average BGC count per genome	NRPS	0.083
+Enterococcus I	Average BGC count per genome	T3PKS	0.574
+Enterococcus I	Average BGC count per genome	Terpene	0.138
+Enterococcus I	Average BGC count per genome	RiPPs	0.418
+Enterococcus I	Average BGC count per genome	Others	0.037
+Enterococcus I	Average RiPP count per genome	cyclic-lactone-autoinducer	0.275
+Enterococcus I	Average RiPP count per genome	lanthipeptide	0.116
+Enterococcus I	Average RiPP count per genome	LAP	0.167
+Enterococcus I	Average RiPP count per genome	lassopeptide	0.008
+Enterococcus I	Average RiPP count per genome	RiPP-like	0.896
+Enterococcus I	Average RiPP count per genome	RRE-containing	0.015
+Enterococcus I	Average RiPP count per genome	rSAM-Modified	0.708
+Enterococcus I	Average RiPP count per genome	Others	0.014
+Enterococcus E	Average BGC count per genome	NRPS	0.165
+Enterococcus E	Average BGC count per genome	T3PKS	0.556
+Enterococcus E	Average BGC count per genome	Terpene	0.325
+Enterococcus E	Average BGC count per genome	RiPPs	1.701
+Enterococcus E	Average BGC count per genome	Others	0.478
+Enterococcus E	Average RiPP count per genome	cyclic-lactone-autoinducer	0.288
+Enterococcus E	Average RiPP count per genome	lanthipeptide	0.027
+Enterococcus E	Average RiPP count per genome	LAP	0.104
+Enterococcus E	Average RiPP count per genome	lassopeptide	0.016
+Enterococcus E	Average RiPP count per genome	RiPP-like	0.608
+Enterococcus E	Average RiPP count per genome	RRE-containing	0.033
+Enterococcus E	Average RiPP count per genome	rSAM-Modified	0.082
+Enterococcus E	Average RiPP count per genome	Others	0.022
+Enterococcus G	Average BGC count per genome	NRPS	0.116
+Enterococcus G	Average BGC count per genome	T3PKS	0.272
+Enterococcus G	Average BGC count per genome	Terpene	0.407
+Enterococcus G	Average BGC count per genome	RiPPs	1.028
+Enterococcus G	Average BGC count per genome	Others	0.079
+Enterococcus G	Average RiPP count per genome	cyclic-lactone-autoinducer	0.03
+Enterococcus G	Average RiPP count per genome	lanthipeptide	0.526
+Enterococcus G	Average RiPP count per genome	LAP	0.091
+Enterococcus G	Average RiPP count per genome	lassopeptide	0.093
+Enterococcus G	Average RiPP count per genome	RiPP-like	0.169
+Enterococcus G	Average RiPP count per genome	RRE-containing	0.087
+Enterococcus G	Average RiPP count per genome	rSAM-Modified	0.012
+Enterococcus G	Average RiPP count per genome	Others	0.016
+Enterococcus D	Average BGC count per genome	NRPS	0.173
+Enterococcus D	Average BGC count per genome	T3PKS	0.696
+Enterococcus D	Average BGC count per genome	Terpene	0.028
+Enterococcus D	Average BGC count per genome	RiPPs	0.15
+Enterococcus D	Average BGC count per genome	Others	0.04
+Enterococcus D	Average RiPP count per genome	cyclic-lactone-autoinducer	0.085
+Enterococcus D	Average RiPP count per genome	lanthipeptide	0.272
+Enterococcus D	Average RiPP count per genome	LAP	0.036
+Enterococcus D	Average RiPP count per genome	lassopeptide	0.239
+Enterococcus D	Average RiPP count per genome	RiPP-like	1.63
+Enterococcus D	Average RiPP count per genome	RRE-containing	0.095
+Enterococcus D	Average RiPP count per genome	rSAM-Modified	0.013
+Enterococcus D	Average RiPP count per genome	Others	0.059
+Enterococcus	Average BGC count per genome	NRPS	0.58
+Enterococcus	Average BGC count per genome	T3PKS	0.938
+Enterococcus	Average BGC count per genome	Terpene	0.062
+Enterococcus	Average BGC count per genome	RiPPs	1.615
+Enterococcus	Average BGC count per genome	Others	0.326
+Enterococcus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.169
+Enterococcus	Average RiPP count per genome	lanthipeptide	0.358
+Enterococcus	Average RiPP count per genome	LAP	0.019
+Enterococcus	Average RiPP count per genome	lassopeptide	0.049
+Enterococcus	Average RiPP count per genome	RiPP-like	0.397
+Enterococcus	Average RiPP count per genome	RRE-containing	0.186
+Enterococcus	Average RiPP count per genome	rSAM-Modified	0.095
+Enterococcus	Average RiPP count per genome	Others	0.023
+Enterococcus B	Average BGC count per genome	NRPS	0.023
+Enterococcus B	Average BGC count per genome	T3PKS	0.646
+Enterococcus B	Average BGC count per genome	Terpene	0.072
+Enterococcus B	Average BGC count per genome	RiPPs	0.663
+Enterococcus B	Average BGC count per genome	Others	0.255
+Enterococcus B	Average RiPP count per genome	cyclic-lactone-autoinducer	0.119
+Enterococcus B	Average RiPP count per genome	lanthipeptide	1.153
+Enterococcus B	Average RiPP count per genome	LAP	0.24
+Enterococcus B	Average RiPP count per genome	lassopeptide	0.078
+Enterococcus B	Average RiPP count per genome	RiPP-like	0.11
+Enterococcus B	Average RiPP count per genome	RRE-containing	0.09
+Enterococcus B	Average RiPP count per genome	rSAM-Modified	0.068
+Enterococcus B	Average RiPP count per genome	Others	0.034
+Enterococcus A	Average BGC count per genome	NRPS	0.042
+Enterococcus A	Average BGC count per genome	T3PKS	0.596
+Enterococcus A	Average BGC count per genome	Terpene	0.343
+Enterococcus A	Average BGC count per genome	RiPPs	0.206
+Enterococcus A	Average BGC count per genome	Others	0.059
+Enterococcus A	Average RiPP count per genome	cyclic-lactone-autoinducer	0.031
+Enterococcus A	Average RiPP count per genome	lanthipeptide	0.142
+Enterococcus A	Average RiPP count per genome	LAP	0.151
+Enterococcus A	Average RiPP count per genome	lassopeptide	0.004
+Enterococcus A	Average RiPP count per genome	RiPP-like	2.221
+Enterococcus A	Average RiPP count per genome	RRE-containing	0.023
+Enterococcus A	Average RiPP count per genome	rSAM-Modified	0.059
+Enterococcus A	Average RiPP count per genome	Others	0.073
+Enterococcus J	Average BGC count per genome	NRPS	0.334
+Enterococcus J	Average BGC count per genome	T3PKS	3.102
+Enterococcus J	Average BGC count per genome	Terpene	0.014
+Enterococcus J	Average BGC count per genome	RiPPs	0.043
+Enterococcus J	Average BGC count per genome	Others	0.135
+Enterococcus J	Average RiPP count per genome	cyclic-lactone-autoinducer	0.299
+Enterococcus J	Average RiPP count per genome	lanthipeptide	0.05
+Enterococcus J	Average RiPP count per genome	LAP	0.015
+Enterococcus J	Average RiPP count per genome	lassopeptide	0.056
+Enterococcus J	Average RiPP count per genome	RiPP-like	0.522
+Enterococcus J	Average RiPP count per genome	RRE-containing	0.018
+Enterococcus J	Average RiPP count per genome	rSAM-Modified	0.001
+Enterococcus J	Average RiPP count per genome	Others	0.071
+Enterococcus H	Average BGC count per genome	NRPS	0.05
+Enterococcus H	Average BGC count per genome	T3PKS	0.372
+Enterococcus H	Average BGC count per genome	Terpene	0.012
+Enterococcus H	Average BGC count per genome	RiPPs	1.253
+Enterococcus H	Average BGC count per genome	Others	0.062
+Enterococcus H	Average RiPP count per genome	cyclic-lactone-autoinducer	0.081
+Enterococcus H	Average RiPP count per genome	lanthipeptide	0.199
+Enterococcus H	Average RiPP count per genome	LAP	0.052
+Enterococcus H	Average RiPP count per genome	lassopeptide	0.187
+Enterococcus H	Average RiPP count per genome	RiPP-like	1.652
+Enterococcus H	Average RiPP count per genome	RRE-containing	0.57
+Enterococcus H	Average RiPP count per genome	rSAM-Modified	0.013
+Enterococcus H	Average RiPP count per genome	Others	0.07
+Vagococcus D	Average BGC count per genome	NRPS	0.123
+Vagococcus D	Average BGC count per genome	T3PKS	0.062
+Vagococcus D	Average BGC count per genome	Terpene	0.051
+Vagococcus D	Average BGC count per genome	RiPPs	0.589
+Vagococcus D	Average BGC count per genome	Others	0.128
+Vagococcus D	Average RiPP count per genome	cyclic-lactone-autoinducer	0.196
+Vagococcus D	Average RiPP count per genome	lanthipeptide	0.545
+Vagococcus D	Average RiPP count per genome	LAP	0.097
+Vagococcus D	Average RiPP count per genome	lassopeptide	0.052
+Vagococcus D	Average RiPP count per genome	RiPP-like	0.671
+Vagococcus D	Average RiPP count per genome	RRE-containing	0.061
+Vagococcus D	Average RiPP count per genome	rSAM-Modified	0.161
+Vagococcus D	Average RiPP count per genome	Others	0.117
+Vagococcus A	Average BGC count per genome	NRPS	0.24
+Vagococcus A	Average BGC count per genome	T3PKS	0.335
+Vagococcus A	Average BGC count per genome	Terpene	0.298
+Vagococcus A	Average BGC count per genome	RiPPs	0.57
+Vagococcus A	Average BGC count per genome	Others	0.181
+Vagococcus A	Average RiPP count per genome	cyclic-lactone-autoinducer	0.381
+Vagococcus A	Average RiPP count per genome	lanthipeptide	0.043
+Vagococcus A	Average RiPP count per genome	LAP	0.053
+Vagococcus A	Average RiPP count per genome	lassopeptide	0.058
+Vagococcus A	Average RiPP count per genome	RiPP-like	1.083
+Vagococcus A	Average RiPP count per genome	RRE-containing	0.015
+Vagococcus A	Average RiPP count per genome	rSAM-Modified	0.01
+Vagococcus A	Average RiPP count per genome	Others	0.133
+Vagococcus C	Average BGC count per genome	NRPS	0.004
+Vagococcus C	Average BGC count per genome	T3PKS	1.068
+Vagococcus C	Average BGC count per genome	Terpene	0.026
+Vagococcus C	Average BGC count per genome	RiPPs	1.335
+Vagococcus C	Average BGC count per genome	Others	0.034
+Vagococcus C	Average RiPP count per genome	cyclic-lactone-autoinducer	1.664
+Vagococcus C	Average RiPP count per genome	lanthipeptide	0.302
+Vagococcus C	Average RiPP count per genome	LAP	0.055
+Vagococcus C	Average RiPP count per genome	lassopeptide	0.026
+Vagococcus C	Average RiPP count per genome	RiPP-like	1.503
+Vagococcus C	Average RiPP count per genome	RRE-containing	0.313
+Vagococcus C	Average RiPP count per genome	rSAM-Modified	0.047
+Vagococcus C	Average RiPP count per genome	Others	0.055
+Vagococcus	Average BGC count per genome	NRPS	0.036
+Vagococcus	Average BGC count per genome	T3PKS	0.181
+Vagococcus	Average BGC count per genome	Terpene	0.433
+Vagococcus	Average BGC count per genome	RiPPs	1.835
+Vagococcus	Average BGC count per genome	Others	0.015
+Vagococcus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.055
+Vagococcus	Average RiPP count per genome	lanthipeptide	0.178
+Vagococcus	Average RiPP count per genome	LAP	0.119
+Vagococcus	Average RiPP count per genome	lassopeptide	0.022
+Vagococcus	Average RiPP count per genome	RiPP-like	0.941
+Vagococcus	Average RiPP count per genome	RRE-containing	0.181
+Vagococcus	Average RiPP count per genome	rSAM-Modified	0.012
+Vagococcus	Average RiPP count per genome	Others	0.046
+Vagococcus B	Average BGC count per genome	NRPS	0.184
+Vagococcus B	Average BGC count per genome	T3PKS	0.164
+Vagococcus B	Average BGC count per genome	Terpene	0.071
+Vagococcus B	Average BGC count per genome	RiPPs	0.272
+Vagococcus B	Average BGC count per genome	Others	0.738
+Vagococcus B	Average RiPP count per genome	cyclic-lactone-autoinducer	0.002
+Vagococcus B	Average RiPP count per genome	lanthipeptide	0.313
+Vagococcus B	Average RiPP count per genome	LAP	0.007
+Vagococcus B	Average RiPP count per genome	lassopeptide	0.089
+Vagococcus B	Average RiPP count per genome	RiPP-like	1.023
+Vagococcus B	Average RiPP count per genome	RRE-containing	0.042
+Vagococcus B	Average RiPP count per genome	rSAM-Modified	0.129
+Vagococcus B	Average RiPP count per genome	Others	0.136
+Vagococcus E	Average BGC count per genome	NRPS	0.111
+Vagococcus E	Average BGC count per genome	T3PKS	0.115
+Vagococcus E	Average BGC count per genome	Terpene	0.106
+Vagococcus E	Average BGC count per genome	RiPPs	0.128
+Vagococcus E	Average BGC count per genome	Others	0.28
+Vagococcus E	Average RiPP count per genome	cyclic-lactone-autoinducer	0.552
+Vagococcus E	Average RiPP count per genome	lanthipeptide	0.52
+Vagococcus E	Average RiPP count per genome	LAP	0.025
+Vagococcus E	Average RiPP count per genome	lassopeptide	0.025
+Vagococcus E	Average RiPP count per genome	RiPP-like	0.285
+Vagococcus E	Average RiPP count per genome	RRE-containing	0.193
+Vagococcus E	Average RiPP count per genome	rSAM-Modified	0.406
+Vagococcus E	Average RiPP count per genome	Others	0.001
+Lactococcus	Average BGC count per genome	NRPS	0.648
+Lactococcus	Average BGC count per genome	T3PKS	0.203
+Lactococcus	Average BGC count per genome	Terpene	0.083
+Lactococcus	Average BGC count per genome	RiPPs	2.29
+Lactococcus	Average BGC count per genome	Others	0.029
+Lactococcus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.171
+Lactococcus	Average RiPP count per genome	lanthipeptide	0.269
+Lactococcus	Average RiPP count per genome	LAP	0.036
+Lactococcus	Average RiPP count per genome	lassopeptide	0.103
+Lactococcus	Average RiPP count per genome	RiPP-like	0.018
+Lactococcus	Average RiPP count per genome	RRE-containing	0.473
+Lactococcus	Average RiPP count per genome	rSAM-Modified	0.652
+Lactococcus	Average RiPP count per genome	Others	0.027
+Lactococcus A	Average BGC count per genome	NRPS	0.294
+Lactococcus A	Average BGC count per genome	T3PKS	1.538
+Lactococcus A	Average BGC count per genome	Terpene	0.236
+Lactococcus A	Average BGC count per genome	RiPPs	0.15
+Lactococcus A	Average BGC count per genome	Others	0.188
+Lactococcus A	Average RiPP count per genome	cyclic-lactone-autoinducer	0.503
+Lactococcus A	Average RiPP count per genome	lanthipeptide	0.199
+Lactococcus A	Average RiPP count per genome	LAP	0.139
+Lactococcus A	Average RiPP count per genome	lassopeptide	0.04
+Lactococcus A	Average RiPP count per genome	RiPP-like	0.632
+Lactococcus A	Average RiPP count per genome	RRE-containing	0.198
+Lactococcus A	Average RiPP count per genome	rSAM-Modified	0.152
+Lactococcus A	Average RiPP count per genome	Others	0.032
+Streptococcus	Average BGC count per genome	NRPS	0.041
+Streptococcus	Average BGC count per genome	T3PKS	1.263
+Streptococcus	Average BGC count per genome	Terpene	0.171
+Streptococcus	Average BGC count per genome	RiPPs	2.216
+Streptococcus	Average BGC count per genome	Others	0.004
+Streptococcus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.116
+Streptococcus	Average RiPP count per genome	lanthipeptide	0.088
+Streptococcus	Average RiPP count per genome	LAP	0.142
+Streptococcus	Average RiPP count per genome	lassopeptide	0.033
+Streptococcus	Average RiPP count per genome	RiPP-like	0.086
+Streptococcus	Average RiPP count per genome	RRE-containing	0.095
+Streptococcus	Average RiPP count per genome	rSAM-Modified	0.062
+Streptococcus	Average RiPP count per genome	Others	0.126
+Aerococcus	Average BGC count per genome	NRPS	0.118
+Aerococcus	Average BGC count per genome	T3PKS	0.01
+Aerococcus	Average BGC count per genome	Terpene	0.63
+Aerococcus	Average BGC count per genome	RiPPs	0.996
+Aerococcus	Average BGC count per genome	Others	0.185
+Aerococcus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.078
+Aerococcus	Average RiPP count per genome	lanthipeptide	0.891
+Aerococcus	Average RiPP count per genome	LAP	0.117
+Aerococcus	Average RiPP count per genome	lassopeptide	0.037
+Aerococcus	Average RiPP count per genome	RiPP-like	1.888
+Aerococcus	Average RiPP count per genome	RRE-containing	0.39
+Aerococcus	Average RiPP count per genome	rSAM-Modified	0.29
+Aerococcus	Average RiPP count per genome	Others	0.018
+Alloiococcus	Average BGC count per genome	NRPS	0.011
+Alloiococcus	Average BGC count per genome	T3PKS	0.432
+Alloiococcus	Average BGC count per genome	Terpene	0.029
+Alloiococcus	Average BGC count per genome	RiPPs	0.513
+Alloiococcus	Average BGC count per genome	Others	0.42
+Alloiococcus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.106
+Alloiococcus	Average RiPP count per genome	lanthipeptide	0.383
+Alloiococcus	Average RiPP count per genome	LAP	0.06
+Alloiococcus	Average RiPP count per genome	lassopeptide	0.008
+Alloiococcus	Average RiPP count per genome	RiPP-like	0.044
+Alloiococcus	Average RiPP count per genome	RRE-containing	0.211
+Alloiococcus	Average RiPP count per genome	rSAM-Modified	0.116
+Alloiococcus	Average RiPP count per genome	Others	0.003
+Dolosigranulum	Average BGC count per genome	NRPS	0.14
+Dolosigranulum	Average BGC count per genome	T3PKS	1.022
+Dolosigranulum	Average BGC count per genome	Terpene	0.234
+Dolosigranulum	Average BGC count per genome	RiPPs	0.684
+Dolosigranulum	Average BGC count per genome	Others	0.33
+Dolosigranulum	Average RiPP count per genome	cyclic-lactone-autoinducer	0.025
+Dolosigranulum	Average RiPP count per genome	lanthipeptide	0.233
+Dolosigranulum	Average RiPP count per genome	LAP	0.016
+Dolosigranulum	Average RiPP count per genome	lassopeptide	0.022
+Dolosigranulum	Average RiPP count per genome	RiPP-like	1.217
+Dolosigranulum	Average RiPP count per genome	RRE-containing	0.053
+Dolosigranulum	Average RiPP count per genome	rSAM-Modified	0.001
+Dolosigranulum	Average RiPP count per genome	Others	0.077
+Carnobacterium A	Average BGC count per genome	NRPS	0.368
+Carnobacterium A	Average BGC count per genome	T3PKS	0.06
+Carnobacterium A	Average BGC count per genome	Terpene	0.181
+Carnobacterium A	Average BGC count per genome	RiPPs	7.653
+Carnobacterium A	Average BGC count per genome	Others	0.301
+Carnobacterium A	Average RiPP count per genome	cyclic-lactone-autoinducer	0.131
+Carnobacterium A	Average RiPP count per genome	lanthipeptide	0.075
+Carnobacterium A	Average RiPP count per genome	LAP	0.035
+Carnobacterium A	Average RiPP count per genome	lassopeptide	0.025
+Carnobacterium A	Average RiPP count per genome	RiPP-like	0.069
+Carnobacterium A	Average RiPP count per genome	RRE-containing	0.394
+Carnobacterium A	Average RiPP count per genome	rSAM-Modified	0.134
+Carnobacterium A	Average RiPP count per genome	Others	0.088
+Carnobacterium	Average BGC count per genome	NRPS	0.193
+Carnobacterium	Average BGC count per genome	T3PKS	0.186
+Carnobacterium	Average BGC count per genome	Terpene	0.229
+Carnobacterium	Average BGC count per genome	RiPPs	2.309
+Carnobacterium	Average BGC count per genome	Others	0.338
+Carnobacterium	Average RiPP count per genome	cyclic-lactone-autoinducer	0.284
+Carnobacterium	Average RiPP count per genome	lanthipeptide	0.144
+Carnobacterium	Average RiPP count per genome	LAP	0.016
+Carnobacterium	Average RiPP count per genome	lassopeptide	0.038
+Carnobacterium	Average RiPP count per genome	RiPP-like	0.582
+Carnobacterium	Average RiPP count per genome	RRE-containing	0.245
+Carnobacterium	Average RiPP count per genome	rSAM-Modified	0.238
+Carnobacterium	Average RiPP count per genome	Others	0.168
+Lactobacillus	Average BGC count per genome	NRPS	0.336
+Lactobacillus	Average BGC count per genome	T3PKS	0.911
+Lactobacillus	Average BGC count per genome	Terpene	0.404
+Lactobacillus	Average BGC count per genome	RiPPs	0.81
+Lactobacillus	Average BGC count per genome	Others	0.045
+Lactobacillus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.647
+Lactobacillus	Average RiPP count per genome	lanthipeptide	0.126
+Lactobacillus	Average RiPP count per genome	LAP	0.059
+Lactobacillus	Average RiPP count per genome	lassopeptide	0.001
+Lactobacillus	Average RiPP count per genome	RiPP-like	1.119
+Lactobacillus	Average RiPP count per genome	RRE-containing	0.027
+Lactobacillus	Average RiPP count per genome	rSAM-Modified	0.156
+Lactobacillus	Average RiPP count per genome	Others	0.075
+Amylolactobacillus	Average BGC count per genome	NRPS	0.183
+Amylolactobacillus	Average BGC count per genome	T3PKS	0.226
+Amylolactobacillus	Average BGC count per genome	Terpene	0.109
+Amylolactobacillus	Average BGC count per genome	RiPPs	0.061
+Amylolactobacillus	Average BGC count per genome	Others	0.235
+Amylolactobacillus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.033
+Amylolactobacillus	Average RiPP count per genome	lanthipeptide	0.18
+Amylolactobacillus	Average RiPP count per genome	LAP	0.012
+Amylolactobacillus	Average RiPP count per genome	lassopeptide	0.01
+Amylolactobacillus	Average RiPP count per genome	RiPP-like	0.125
+Amylolactobacillus	Average RiPP count per genome	RRE-containing	0.021
+Amylolactobacillus	Average RiPP count per genome	rSAM-Modified	0.167
+Amylolactobacillus	Average RiPP count per genome	Others	0.192
+Holzapfela	Average BGC count per genome	NRPS	0.332
+Holzapfela	Average BGC count per genome	T3PKS	0.709
+Holzapfela	Average BGC count per genome	Terpene	0.342
+Holzapfela	Average BGC count per genome	RiPPs	0.655
+Holzapfela	Average BGC count per genome	Others	0.021
+Holzapfela	Average RiPP count per genome	cyclic-lactone-autoinducer	0.416
+Holzapfela	Average RiPP count per genome	lanthipeptide	0.277
+Holzapfela	Average RiPP count per genome	LAP	0.218
+Holzapfela	Average RiPP count per genome	lassopeptide	0.022
+Holzapfela	Average RiPP count per genome	RiPP-like	2.17
+Holzapfela	Average RiPP count per genome	RRE-containing	0.022
+Holzapfela	Average RiPP count per genome	rSAM-Modified	0.008
+Holzapfela	Average RiPP count per genome	Others	0.006
+Companilactobacillus	Average BGC count per genome	NRPS	0.05
+Companilactobacillus	Average BGC count per genome	T3PKS	0.121
+Companilactobacillus	Average BGC count per genome	Terpene	0.001
+Companilactobacillus	Average BGC count per genome	RiPPs	1.344
+Companilactobacillus	Average BGC count per genome	Others	0.386
+Companilactobacillus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.297
+Companilactobacillus	Average RiPP count per genome	lanthipeptide	1.41
+Companilactobacillus	Average RiPP count per genome	LAP	0.047
+Companilactobacillus	Average RiPP count per genome	lassopeptide	0.014
+Companilactobacillus	Average RiPP count per genome	RiPP-like	0.028
+Companilactobacillus	Average RiPP count per genome	RRE-containing	0.651
+Companilactobacillus	Average RiPP count per genome	rSAM-Modified	0.167
+Companilactobacillus	Average RiPP count per genome	Others	0.003
+Bombilactobacillus	Average BGC count per genome	NRPS	0.404
+Bombilactobacillus	Average BGC count per genome	T3PKS	0.076
+Bombilactobacillus	Average BGC count per genome	Terpene	0.164
+Bombilactobacillus	Average BGC count per genome	RiPPs	0.193
+Bombilactobacillus	Average BGC count per genome	Others	0.056
+Bombilactobacillus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.166
+Bombilactobacillus	Average RiPP count per genome	lanthipeptide	0.119
+Bombilactobacillus	Average RiPP count per genome	LAP	0.113
+Bombilactobacillus	Average RiPP count per genome	lassopeptide	0.083
+Bombilactobacillus	Average RiPP count per genome	RiPP-like	0.301
+Bombilactobacillus	Average RiPP count per genome	RRE-containing	0.167
+Bombilactobacillus	Average RiPP count per genome	rSAM-Modified	0.089
+Bombilactobacillus	Average RiPP count per genome	Others	0.028
+Lapidilactobacillus	Average BGC count per genome	NRPS	0.056
+Lapidilactobacillus	Average BGC count per genome	T3PKS	0.652
+Lapidilactobacillus	Average BGC count per genome	Terpene	0.351
+Lapidilactobacillus	Average BGC count per genome	RiPPs	0.227
+Lapidilactobacillus	Average BGC count per genome	Others	0.058
+Lapidilactobacillus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.189
+Lapidilactobacillus	Average RiPP count per genome	lanthipeptide	0.451
+Lapidilactobacillus	Average RiPP count per genome	LAP	0.063
+Lapidilactobacillus	Average RiPP count per genome	lassopeptide	0.153
+Lapidilactobacillus	Average RiPP count per genome	RiPP-like	0.202
+Lapidilactobacillus	Average RiPP count per genome	RRE-containing	0.282
+Lapidilactobacillus	Average RiPP count per genome	rSAM-Modified	0.008
+Lapidilactobacillus	Average RiPP count per genome	Others	0.02
+Schleiferilactobacillus	Average BGC count per genome	NRPS	0.11
+Schleiferilactobacillus	Average BGC count per genome	T3PKS	0.73
+Schleiferilactobacillus	Average BGC count per genome	Terpene	0.031
+Schleiferilactobacillus	Average BGC count per genome	RiPPs	0.84
+Schleiferilactobacillus	Average BGC count per genome	Others	0.258
+Schleiferilactobacillus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.065
+Schleiferilactobacillus	Average RiPP count per genome	lanthipeptide	0.25
+Schleiferilactobacillus	Average RiPP count per genome	LAP	0.066
+Schleiferilactobacillus	Average RiPP count per genome	lassopeptide	0.046
+Schleiferilactobacillus	Average RiPP count per genome	RiPP-like	3.072
+Schleiferilactobacillus	Average RiPP count per genome	RRE-containing	0.749
+Schleiferilactobacillus	Average RiPP count per genome	rSAM-Modified	0.025
+Schleiferilactobacillus	Average RiPP count per genome	Others	0.124
+Agrilactobacillus	Average BGC count per genome	NRPS	0.345
+Agrilactobacillus	Average BGC count per genome	T3PKS	0.212
+Agrilactobacillus	Average BGC count per genome	Terpene	0.023
+Agrilactobacillus	Average BGC count per genome	RiPPs	0.513
+Agrilactobacillus	Average BGC count per genome	Others	0.374
+Agrilactobacillus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.008
+Agrilactobacillus	Average RiPP count per genome	lanthipeptide	0.269
+Agrilactobacillus	Average RiPP count per genome	LAP	0.04
+Agrilactobacillus	Average RiPP count per genome	lassopeptide	0.047
+Agrilactobacillus	Average RiPP count per genome	RiPP-like	2.867
+Agrilactobacillus	Average RiPP count per genome	RRE-containing	0.007
+Agrilactobacillus	Average RiPP count per genome	rSAM-Modified	0.156
+Agrilactobacillus	Average RiPP count per genome	Others	0.009
+Lacticaseibacillus	Average BGC count per genome	NRPS	0.644
+Lacticaseibacillus	Average BGC count per genome	T3PKS	0.176
+Lacticaseibacillus	Average BGC count per genome	Terpene	0.905
+Lacticaseibacillus	Average BGC count per genome	RiPPs	3.967
+Lacticaseibacillus	Average BGC count per genome	Others	0.047
+Lacticaseibacillus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.12
+Lacticaseibacillus	Average RiPP count per genome	lanthipeptide	0.06
+Lacticaseibacillus	Average RiPP count per genome	LAP	0.013
+Lacticaseibacillus	Average RiPP count per genome	lassopeptide	0.153
+Lacticaseibacillus	Average RiPP count per genome	RiPP-like	0.223
+Lacticaseibacillus	Average RiPP count per genome	RRE-containing	0.011
+Lacticaseibacillus	Average RiPP count per genome	rSAM-Modified	0.011
+Lacticaseibacillus	Average RiPP count per genome	Others	0.063
+Paralactobacillus	Average BGC count per genome	NRPS	0.005
+Paralactobacillus	Average BGC count per genome	T3PKS	0.088
+Paralactobacillus	Average BGC count per genome	Terpene	0.104
+Paralactobacillus	Average BGC count per genome	RiPPs	1.755
+Paralactobacillus	Average BGC count per genome	Others	0.179
+Paralactobacillus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.004
+Paralactobacillus	Average RiPP count per genome	lanthipeptide	0.548
+Paralactobacillus	Average RiPP count per genome	LAP	0.098
+Paralactobacillus	Average RiPP count per genome	lassopeptide	0.049
+Paralactobacillus	Average RiPP count per genome	RiPP-like	0.801
+Paralactobacillus	Average RiPP count per genome	RRE-containing	0.164
+Paralactobacillus	Average RiPP count per genome	rSAM-Modified	0.135
+Paralactobacillus	Average RiPP count per genome	Others	0.005
+Latilactobacillus	Average BGC count per genome	NRPS	0.017
+Latilactobacillus	Average BGC count per genome	T3PKS	0.232
+Latilactobacillus	Average BGC count per genome	Terpene	0.127
+Latilactobacillus	Average BGC count per genome	RiPPs	0.278
+Latilactobacillus	Average BGC count per genome	Others	0.078
+Latilactobacillus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.57
+Latilactobacillus	Average RiPP count per genome	lanthipeptide	0.83
+Latilactobacillus	Average RiPP count per genome	LAP	0.19
+Latilactobacillus	Average RiPP count per genome	lassopeptide	0.034
+Latilactobacillus	Average RiPP count per genome	RiPP-like	1.361
+Latilactobacillus	Average RiPP count per genome	RRE-containing	0.032
+Latilactobacillus	Average RiPP count per genome	rSAM-Modified	0.104
+Latilactobacillus	Average RiPP count per genome	Others	0.134
+Liquorilactobacillus	Average BGC count per genome	NRPS	0.031
+Liquorilactobacillus	Average BGC count per genome	T3PKS	0.657
+Liquorilactobacillus	Average BGC count per genome	Terpene	0.048
+Liquorilactobacillus	Average BGC count per genome	RiPPs	0.099
+Liquorilactobacillus	Average BGC count per genome	Others	0.372
+Liquorilactobacillus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.365
+Liquorilactobacillus	Average RiPP count per genome	lanthipeptide	0.769
+Liquorilactobacillus	Average RiPP count per genome	LAP	0.344
+Liquorilactobacillus	Average RiPP count per genome	lassopeptide	0.039
+Liquorilactobacillus	Average RiPP count per genome	RiPP-like	0.27
+Liquorilactobacillus	Average RiPP count per genome	RRE-containing	0.05
+Liquorilactobacillus	Average RiPP count per genome	rSAM-Modified	0.326
+Liquorilactobacillus	Average RiPP count per genome	Others	0.177
+Ligilactobacillus	Average BGC count per genome	NRPS	0.482
+Ligilactobacillus	Average BGC count per genome	T3PKS	0.29
+Ligilactobacillus	Average BGC count per genome	Terpene	0.376
+Ligilactobacillus	Average BGC count per genome	RiPPs	0.171
+Ligilactobacillus	Average BGC count per genome	Others	0.016
+Ligilactobacillus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.464
+Ligilactobacillus	Average RiPP count per genome	lanthipeptide	0.266
+Ligilactobacillus	Average RiPP count per genome	LAP	0.013
+Ligilactobacillus	Average RiPP count per genome	lassopeptide	0.006
+Ligilactobacillus	Average RiPP count per genome	RiPP-like	0.102
+Ligilactobacillus	Average RiPP count per genome	RRE-containing	0.107
+Ligilactobacillus	Average RiPP count per genome	rSAM-Modified	0.163
+Ligilactobacillus	Average RiPP count per genome	Others	0.042
+Loigolactobacillus	Average BGC count per genome	NRPS	0.217
+Loigolactobacillus	Average BGC count per genome	T3PKS	1.387
+Loigolactobacillus	Average BGC count per genome	Terpene	0.116
+Loigolactobacillus	Average BGC count per genome	RiPPs	0.182
+Loigolactobacillus	Average BGC count per genome	Others	0.227
+Loigolactobacillus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.41
+Loigolactobacillus	Average RiPP count per genome	lanthipeptide	0.716
+Loigolactobacillus	Average RiPP count per genome	LAP	0.019
+Loigolactobacillus	Average RiPP count per genome	lassopeptide	0.078
+Loigolactobacillus	Average RiPP count per genome	RiPP-like	3.802
+Loigolactobacillus	Average RiPP count per genome	RRE-containing	0.233
+Loigolactobacillus	Average RiPP count per genome	rSAM-Modified	0.258
+Loigolactobacillus	Average RiPP count per genome	Others	0.007
+Delliaglia	Average BGC count per genome	NRPS	0.335
+Delliaglia	Average BGC count per genome	T3PKS	0.027
+Delliaglia	Average BGC count per genome	Terpene	0.085
+Delliaglia	Average BGC count per genome	RiPPs	2.146
+Delliaglia	Average BGC count per genome	Others	0.656
+Delliaglia	Average RiPP count per genome	cyclic-lactone-autoinducer	0.183
+Delliaglia	Average RiPP count per genome	lanthipeptide	0.067
+Delliaglia	Average RiPP count per genome	LAP	0.022
+Delliaglia	Average RiPP count per genome	lassopeptide	0.133
+Delliaglia	Average RiPP count per genome	RiPP-like	1.334
+Delliaglia	Average RiPP count per genome	RRE-containing	0.393
+Delliaglia	Average RiPP count per genome	rSAM-Modified	0.028
+Delliaglia	Average RiPP count per genome	Others	0.176
+Fructilactobacillus	Average BGC count per genome	NRPS	0.098
+Fructilactobacillus	Average BGC count per genome	T3PKS	0.306
+Fructilactobacillus	Average BGC count per genome	Terpene	0.012
+Fructilactobacillus	Average BGC count per genome	RiPPs	1.185
+Fructilactobacillus	Average BGC count per genome	Others	0.057
+Fructilactobacillus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.519
+Fructilactobacillus	Average RiPP count per genome	lanthipeptide	0.931
+Fructilactobacillus	Average RiPP count per genome	LAP	0.001
+Fructilactobacillus	Average RiPP count per genome	lassopeptide	0.066
+Fructilactobacillus	Average RiPP count per genome	RiPP-like	1.111
+Fructilactobacillus	Average RiPP count per genome	RRE-containing	0.237
+Fructilactobacillus	Average RiPP count per genome	rSAM-Modified	0.019
+Fructilactobacillus	Average RiPP count per genome	Others	0.016
+Apilactobacillus	Average BGC count per genome	NRPS	0.024
+Apilactobacillus	Average BGC count per genome	T3PKS	0.787
+Apilactobacillus	Average BGC count per genome	Terpene	0.298
+Apilactobacillus	Average BGC count per genome	RiPPs	0.767
+Apilactobacillus	Average BGC count per genome	Others	0.078
+Apilactobacillus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.376
+Apilactobacillus	Average RiPP count per genome	lanthipeptide	0.044
+Apilactobacillus	Average RiPP count per genome	LAP	0.021
+Apilactobacillus	Average RiPP count per genome	lassopeptide	0.062
+Apilactobacillus	Average RiPP count per genome	RiPP-like	0.577
+Apilactobacillus	Average RiPP count per genome	RRE-containing	0.088
+Apilactobacillus	Average RiPP count per genome	rSAM-Modified	0.046
+Apilactobacillus	Average RiPP count per genome	Others	0.053
+Acetilactobacillus	Average BGC count per genome	NRPS	0.169
+Acetilactobacillus	Average BGC count per genome	T3PKS	0.126
+Acetilactobacillus	Average BGC count per genome	Terpene	0.288
+Acetilactobacillus	Average BGC count per genome	RiPPs	2.204
+Acetilactobacillus	Average BGC count per genome	Others	0.043
+Acetilactobacillus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.054
+Acetilactobacillus	Average RiPP count per genome	lanthipeptide	0.179
+Acetilactobacillus	Average RiPP count per genome	LAP	0.035
+Acetilactobacillus	Average RiPP count per genome	lassopeptide	0.021
+Acetilactobacillus	Average RiPP count per genome	RiPP-like	1.108
+Acetilactobacillus	Average RiPP count per genome	RRE-containing	0.33
+Acetilactobacillus	Average RiPP count per genome	rSAM-Modified	0.219
+Acetilactobacillus	Average RiPP count per genome	Others	0.165
+Lentilactobacillus	Average BGC count per genome	NRPS	0.038
+Lentilactobacillus	Average BGC count per genome	T3PKS	0.007
+Lentilactobacillus	Average BGC count per genome	Terpene	0.11
+Lentilactobacillus	Average BGC count per genome	RiPPs	0.903
+Lentilactobacillus	Average BGC count per genome	Others	0.065
+Lentilactobacillus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.236
+Lentilactobacillus	Average RiPP count per genome	lanthipeptide	0.114
+Lentilactobacillus	Average RiPP count per genome	LAP	0.339
+Lentilactobacillus	Average RiPP count per genome	lassopeptide	0.036
+Lentilactobacillus	Average RiPP count per genome	RiPP-like	0.697
+Lentilactobacillus	Average RiPP count per genome	RRE-containing	0.579
+Lentilactobacillus	Average RiPP count per genome	rSAM-Modified	0.205
+Lentilactobacillus	Average RiPP count per genome	Others	0.068
+Levilactobacillus	Average BGC count per genome	NRPS	0.011
+Levilactobacillus	Average BGC count per genome	T3PKS	0.19
+Levilactobacillus	Average BGC count per genome	Terpene	0.367
+Levilactobacillus	Average BGC count per genome	RiPPs	0.117
+Levilactobacillus	Average BGC count per genome	Others	0.153
+Levilactobacillus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.413
+Levilactobacillus	Average RiPP count per genome	lanthipeptide	0.451
+Levilactobacillus	Average RiPP count per genome	LAP	0.058
+Levilactobacillus	Average RiPP count per genome	lassopeptide	0.085
+Levilactobacillus	Average RiPP count per genome	RiPP-like	0.378
+Levilactobacillus	Average RiPP count per genome	RRE-containing	0.088
+Levilactobacillus	Average RiPP count per genome	rSAM-Modified	0.25
+Levilactobacillus	Average RiPP count per genome	Others	0.102
+Secundilactobacillus	Average BGC count per genome	NRPS	0.098
+Secundilactobacillus	Average BGC count per genome	T3PKS	0.102
+Secundilactobacillus	Average BGC count per genome	Terpene	0.241
+Secundilactobacillus	Average BGC count per genome	RiPPs	2.426
+Secundilactobacillus	Average BGC count per genome	Others	0.04
+Secundilactobacillus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.135
+Secundilactobacillus	Average RiPP count per genome	lanthipeptide	0.689
+Secundilactobacillus	Average RiPP count per genome	LAP	0.104
+Secundilactobacillus	Average RiPP count per genome	lassopeptide	0.021
+Secundilactobacillus	Average RiPP count per genome	RiPP-like	1.364
+Secundilactobacillus	Average RiPP count per genome	RRE-containing	0.031
+Secundilactobacillus	Average RiPP count per genome	rSAM-Modified	0.109
+Secundilactobacillus	Average RiPP count per genome	Others	0.384
+Pediococcus	Average BGC count per genome	NRPS	0.528
+Pediococcus	Average BGC count per genome	T3PKS	0.291
+Pediococcus	Average BGC count per genome	Terpene	0.373
+Pediococcus	Average BGC count per genome	RiPPs	3.81
+Pediococcus	Average BGC count per genome	Others	0.014
+Pediococcus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.371
+Pediococcus	Average RiPP count per genome	lanthipeptide	0.044
+Pediococcus	Average RiPP count per genome	LAP	0.047
+Pediococcus	Average RiPP count per genome	lassopeptide	0.013
+Pediococcus	Average RiPP count per genome	RiPP-like	0.532
+Pediococcus	Average RiPP count per genome	RRE-containing	0.153
+Pediococcus	Average RiPP count per genome	rSAM-Modified	0.421
+Pediococcus	Average RiPP count per genome	Others	0.098
+Lactiplantibacillus	Average BGC count per genome	NRPS	0.219
+Lactiplantibacillus	Average BGC count per genome	T3PKS	0.317
+Lactiplantibacillus	Average BGC count per genome	Terpene	0.382
+Lactiplantibacillus	Average BGC count per genome	RiPPs	0.205
+Lactiplantibacillus	Average BGC count per genome	Others	0.006
+Lactiplantibacillus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.141
+Lactiplantibacillus	Average RiPP count per genome	lanthipeptide	0.488
+Lactiplantibacillus	Average RiPP count per genome	LAP	0.077
+Lactiplantibacillus	Average RiPP count per genome	lassopeptide	0.121
+Lactiplantibacillus	Average RiPP count per genome	RiPP-like	1.765
+Lactiplantibacillus	Average RiPP count per genome	RRE-containing	0.238
+Lactiplantibacillus	Average RiPP count per genome	rSAM-Modified	0.353
+Lactiplantibacillus	Average RiPP count per genome	Others	0.02
+Leuconostoc	Average BGC count per genome	NRPS	0.248
+Leuconostoc	Average BGC count per genome	T3PKS	0.264
+Leuconostoc	Average BGC count per genome	Terpene	0.027
+Leuconostoc	Average BGC count per genome	RiPPs	0.453
+Leuconostoc	Average BGC count per genome	Others	0.067
+Leuconostoc	Average RiPP count per genome	cyclic-lactone-autoinducer	0.334
+Leuconostoc	Average RiPP count per genome	lanthipeptide	0.45
+Leuconostoc	Average RiPP count per genome	LAP	0.084
+Leuconostoc	Average RiPP count per genome	lassopeptide	0.001
+Leuconostoc	Average RiPP count per genome	RiPP-like	1.785
+Leuconostoc	Average RiPP count per genome	RRE-containing	0.63
+Leuconostoc	Average RiPP count per genome	rSAM-Modified	0.071
+Leuconostoc	Average RiPP count per genome	Others	0.025
+Oenococcus	Average BGC count per genome	NRPS	0.054
+Oenococcus	Average BGC count per genome	T3PKS	1.492
+Oenococcus	Average BGC count per genome	Terpene	0.375
+Oenococcus	Average BGC count per genome	RiPPs	0.855
+Oenococcus	Average BGC count per genome	Others	0.191
+Oenococcus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.003
+Oenococcus	Average RiPP count per genome	lanthipeptide	0.132
+Oenococcus	Average RiPP count per genome	LAP	0.418
+Oenococcus	Average RiPP count per genome	lassopeptide	0.047
+Oenococcus	Average RiPP count per genome	RiPP-like	0.843
+Oenococcus	Average RiPP count per genome	RRE-containing	0.122
+Oenococcus	Average RiPP count per genome	rSAM-Modified	0.259
+Oenococcus	Average RiPP count per genome	Others	0.018
+Weissella	Average BGC count per genome	NRPS	0.068
+Weissella	Average BGC count per genome	T3PKS	0.129
+Weissella	Average BGC count per genome	Terpene	0.251
+Weissella	Average BGC count per genome	RiPPs	4.01
+Weissella	Average BGC count per genome	Others	0.273
+Weissella	Average RiPP count per genome	cyclic-lactone-autoinducer	0.227
+Weissella	Average RiPP count per genome	lanthipeptide	0.013
+Weissella	Average RiPP count per genome	LAP	0.014
+Weissella	Average RiPP count per genome	lassopeptide	0.045
+Weissella	Average RiPP count per genome	RiPP-like	1.814
+Weissella	Average RiPP count per genome	RRE-containing	0.245
+Weissella	Average RiPP count per genome	rSAM-Modified	0.804
+Weissella	Average RiPP count per genome	Others	0.01
+Weissella A	Average BGC count per genome	NRPS	0.748
+Weissella A	Average BGC count per genome	T3PKS	2.979
+Weissella A	Average BGC count per genome	Terpene	0.515
+Weissella A	Average BGC count per genome	RiPPs	0.077
+Weissella A	Average BGC count per genome	Others	0.077
+Weissella A	Average RiPP count per genome	cyclic-lactone-autoinducer	0.067
+Weissella A	Average RiPP count per genome	lanthipeptide	0.299
+Weissella A	Average RiPP count per genome	LAP	0.024
+Weissella A	Average RiPP count per genome	lassopeptide	0.082
+Weissella A	Average RiPP count per genome	RiPP-like	0.641
+Weissella A	Average RiPP count per genome	RRE-containing	0.156
+Weissella A	Average RiPP count per genome	rSAM-Modified	0.074
+Weissella A	Average RiPP count per genome	Others	0.003
+Furfurilactobacillus	Average BGC count per genome	NRPS	0.042
+Furfurilactobacillus	Average BGC count per genome	T3PKS	0.645
+Furfurilactobacillus	Average BGC count per genome	Terpene	0.228
+Furfurilactobacillus	Average BGC count per genome	RiPPs	2.697
+Furfurilactobacillus	Average BGC count per genome	Others	0.143
+Furfurilactobacillus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.405
+Furfurilactobacillus	Average RiPP count per genome	lanthipeptide	0.458
+Furfurilactobacillus	Average RiPP count per genome	LAP	0.037
+Furfurilactobacillus	Average RiPP count per genome	lassopeptide	0.022
+Furfurilactobacillus	Average RiPP count per genome	RiPP-like	0.946
+Furfurilactobacillus	Average RiPP count per genome	RRE-containing	0.054
+Furfurilactobacillus	Average RiPP count per genome	rSAM-Modified	0.181
+Furfurilactobacillus	Average RiPP count per genome	Others	0.018
+Limosilactobacillus	Average BGC count per genome	NRPS	0.258
+Limosilactobacillus	Average BGC count per genome	T3PKS	0.087
+Limosilactobacillus	Average BGC count per genome	Terpene	0.352
+Limosilactobacillus	Average BGC count per genome	RiPPs	0.769
+Limosilactobacillus	Average BGC count per genome	Others	0.372
+Limosilactobacillus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.15
+Limosilactobacillus	Average RiPP count per genome	lanthipeptide	0.508
+Limosilactobacillus	Average RiPP count per genome	LAP	0.137
+Limosilactobacillus	Average RiPP count per genome	lassopeptide	0.075
+Limosilactobacillus	Average RiPP count per genome	RiPP-like	0.232
+Limosilactobacillus	Average RiPP count per genome	RRE-containing	0.243
+Limosilactobacillus	Average RiPP count per genome	rSAM-Modified	0.134
+Limosilactobacillus	Average RiPP count per genome	Others	0.024
+Paucilactobacillus	Average BGC count per genome	NRPS	0.101
+Paucilactobacillus	Average BGC count per genome	T3PKS	1.473
+Paucilactobacillus	Average BGC count per genome	Terpene	0.182
+Paucilactobacillus	Average BGC count per genome	RiPPs	0.26
+Paucilactobacillus	Average BGC count per genome	Others	0.001
+Paucilactobacillus	Average RiPP count per genome	cyclic-lactone-autoinducer	0.033
+Paucilactobacillus	Average RiPP count per genome	lanthipeptide	0.331
+Paucilactobacillus	Average RiPP count per genome	LAP	0.315
+Paucilactobacillus	Average RiPP count per genome	lassopeptide	0.016
+Paucilactobacillus	Average RiPP count per genome	RiPP-like	0.493
+Paucilactobacillus	Average RiPP count per genome	RRE-containing	0.038
+Paucilactobacillus	Average RiPP count per genome	rSAM-Modified	0.214
+Paucilactobacillus	Average RiPP count per genome	Others	0.083

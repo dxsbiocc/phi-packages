@@ -1,0 +1,27 @@
+cohort	group
+GBM	CNS
+LGG	CNS
+MB	CNS
+UVM	Eye
+HNSC	Head & Neck
+THCA	Head & Neck
+ESCA	Gastrointestinal
+STAD	Gastrointestinal
+COAD	Gastrointestinal
+READ	Gastrointestinal
+BRCA LumA	Gynecologic
+BRCA LumB	Gynecologic
+BRCA Her2	Gynecologic
+BRCA Basal	Gynecologic
+OV	Gynecologic
+UCEC	Gynecologic
+CESC	Gynecologic
+PRAD	Genitourinary
+BLCA	Genitourinary
+KIRC	Genitourinary
+KIRP	Genitourinary
+LUAD	Thoracic
+LUSC	Thoracic
+MESO	Thoracic
+SKCM	Skin
+ACC	Skin

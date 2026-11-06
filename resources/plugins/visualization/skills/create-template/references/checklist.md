@@ -47,28 +47,15 @@ In `references/template_contracts.json` (keep JSON valid):
 ```json
 {
   "id": "family-slug",
-  "family": "family",
-  "title": "Human title",
-  "source": "scripts/family/slug/plot.R",
-  "preview": "scripts/family/slug/preview.png",
-  "preferred_shapes": ["paired_distribution"],
   "roles": {
     "required": ["pair_id", "category", "numeric_y"],
     "optional": ["target_entity"]
-  },
-  "intent_keywords": [
-    "family-slug",
-    "bezier paired boxplot",
-    "贝塞尔连线箱线图"
-  ],
-  "use_when": "...",
-  "avoid_when": "..."
+  }
 }
 ```
 
-Only use role names accepted by `scripts/validate_template_contracts.py`
-(via `ROLE_HINTS` in `scripts/route_template.py`), both in the
-omics-visualization skill. Common ones:
+Only use role names listed in `references/template_contracts.json`
+`role_types`. Common ones:
 
 `source_entity`, `target_entity`, `category`, `numeric_y`, `numeric_x`,
 `pair_id`, `weight`, `magnitude`, `signed_association`, `axis_entity`,
@@ -107,7 +94,7 @@ When fixing honesty (e.g. require `pair_id`):
 1. Edit `plot.R` CONFIG + DATA PREPARATION
 2. Update example tables
 3. Refresh preview
-4. Align catalog `input_shape` / `use_when` and contract `roles` / `use_when`
+4. Align catalog `input_shape` / `use_when` and contract `roles`
 5. Re-validate contracts from the omics-visualization skill root
 
 Do not mint a new id for a schema honesty fix.

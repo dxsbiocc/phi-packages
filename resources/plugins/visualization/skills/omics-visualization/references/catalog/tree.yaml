@@ -11,15 +11,27 @@ templates:
     source: "scripts/tree/basic/plot.R"
     examples:
       - "scripts/tree/basic/example.tsv"
+      - "scripts/tree/basic/example_regulon.tsv"
     preview: "scripts/tree/basic/preview.png"
+    variants:
+      - image: "scripts/tree/basic/preview_circular.png"
+        example: "scripts/tree/basic/example_regulon.tsv"
+        config: "layout = \"circular\"; circular$branch_colors per depth-1 branch (\"Family.Name:index\"), depth_shapes, depth_sizes, leaf_size_range, depth_names, size_note; title / subtitle"
+        shows: "Radial TF-regulon hierarchy: hidden root, regulatory-axis circles, TF triangles and target-gene leaves sized by supplied DE signal, coloured by axis, radial labels and an encoding / node-meaning key."
     use_when: >
       Draw a single rooted hierarchy top-down from supplied parent/path
       edges, with internal labels above nodes and rotated labels on leaves.
+      A radial dendrogram (hidden root, branch colours, depth shapes,
+      leaf size by value), e.g. regulatory axis -> TF -> target gene
+      regulons, is layout = "circular", not a new id.
     avoid_when: >
       Do not use a clustering tree from a numeric matrix
       (tree-dendrogram), a classification tree with an outer enrichment
       track (tree-enrichment-ring), a forest of several roots
-      (tree-group), a sunburst, or a Sankey of flows.
+      (tree-group), an unrooted daylight tip-bubble phylogeny
+      (tree-daylight), a sunburst, or a Sankey of flows. Do not run
+      DoRothEA, decoupleR or DE in the script; regulon edges and leaf
+      values are supplied.
     input_shape: "hierarchical table with parent, name, path, and optional value"
     language: "r"
     status: "stable"
@@ -45,7 +57,8 @@ templates:
     avoid_when: >
       Do not use a named parent/path hierarchy (tree-basic), a
       classification tree with an outer enrichment track
-      (tree-enrichment-ring), a heatmap that already shows both
+      (tree-enrichment-ring), a supplied Newick daylight tip-bubble
+      tree (tree-daylight), a heatmap that already shows both
       dendrograms, a treemap, or a sunburst. Do not treat the tree as a
       phylogenetic reconstruction unless the input is a phylogenetic
       distance.
@@ -162,8 +175,101 @@ templates:
       (heatmap-enrichment-terms), a DE heatmap with enrichment zoom
       panels (heatmap-enrichment-zoom),
       a sunburst (angle encoding size), a circular clustering
-      dendrogram (tree-dendrogram), or a radial bar with no interior
-      tree. Do not treat circular order as a statistical ranking.
+      dendrogram (tree-dendrogram), an equal-angle cell tree with
+      diverging assay tracks (tree-cell-ring), or a radial bar with no
+      interior tree. Do not treat circular order as a statistical ranking.
     input_shape: "one row per term; class (from), term (to), Count, and pvalue"
+    language: "r"
+    status: "stable"
+
+  - id: "tree-cell-ring"
+    title: "Circular cell annotation tree"
+    aliases:
+      - "环形细胞注释树"
+      - "细胞注释环"
+      - "circular cell tree"
+      - "Fig 1E"
+    source: "scripts/tree/cell_ring/plot.R"
+    examples:
+      - "scripts/tree/cell_ring/example.tsv"
+    preview: "scripts/tree/cell_ring/preview.png"
+    use_when: >
+      Place supplied cell subtypes at equal angles around a lineage
+      tree (l1, l2, l3 capsules, numbered tips), with concentric
+      diverging tracks such as Sex/Age by ATAC/RNA and outer labels
+      of cell name plus a supplied proportion.
+    avoid_when: >
+      Do not use a class-to-term enrichment ring (tree-enrichment-ring),
+      a sunburst whose angle encodes size, or a clustering dendrogram
+      (tree-dendrogram).       Do not cluster cells or estimate proportions
+      in the script. Track list and radii stay in CONFIG. An unrooted
+      daylight phylogeny with tip bubbles is tree-daylight. A
+      branch-length phylogeny with heatmap / stacked-bar rings is
+      tree-phylo-rings.
+    input_shape: >
+      one row per cell in circular order; id, l1, l2, l3, cell_type,
+      percent, plus score and optional star columns named in CONFIG
+    language: "r"
+    status: "stable"
+
+  - id: "tree-daylight"
+    title: "Daylight phylogenetic tip-bubble tree"
+    aliases:
+      - "daylight树"
+      - "无根进化树"
+      - "叶气泡进化树"
+      - "daylight phylogeny"
+    source: "scripts/tree/daylight/plot.R"
+    examples:
+      - "scripts/tree/daylight/tree.nwk"
+      - "scripts/tree/daylight/tips.tsv"
+    preview: "scripts/tree/daylight/preview.png"
+    use_when: >
+      Show a supplied Newick phylogeny in an unrooted daylight layout
+      with tip points coloured by group and sized by a supplied
+      magnitude. Branch lengths are ignored for spacing
+      (branch.length = none).
+    avoid_when: >
+      Do not use a vertical parent/path tree (tree-basic), a clustering
+      dendrogram from a numeric matrix (tree-dendrogram), a circular
+      enrichment or cell-annotation ring (tree-enrichment-ring,
+      tree-cell-ring), or RedeR / TreeAndLeaf interactive relaxation.
+      Do not build or root the tree in the script.
+    input_shape: "Newick tree plus tip table label, group, size"
+    language: "r"
+    status: "stable"
+
+  - id: "tree-phylo-rings"
+    title: "iTOL-style phylogeny with annotation rings"
+    aliases:
+      - "iTOL进化树"
+      - "多环进化树"
+      - "环形进化树注释"
+      - "系统发育树热图柱状图"
+      - "iTOL style tree"
+    source: "scripts/tree/phylo_rings/plot.R"
+    examples:
+      - "scripts/tree/phylo_rings/tree.nwk"
+      - "scripts/tree/phylo_rings/tips.tsv"
+      - "scripts/tree/phylo_rings/bars.tsv"
+    preview: "scripts/tree/phylo_rings/preview.png"
+    use_when: >
+      Show a supplied Newick phylogeny with branch lengths in an open
+      fan, with clade background colour by a supplied tip group (e.g.
+      family), tip labels, heatmap rings of supplied tip values (e.g.
+      genome / BGC counts with a log2 display transform) and stacked-
+      bar rings of supplied per-tip category values with dotted
+      gridlines and tick labels in the opening. Ring list, transforms,
+      palettes, open angle and widths are CONFIG.
+    avoid_when: >
+      Do not use an unrooted daylight tree with tip bubbles
+      (tree-daylight), equal-angle cell lineage capsules with diverging
+      tracks (tree-cell-ring), a class-to-term enrichment ring
+      (tree-enrichment-ring), or a clustering dendrogram from a matrix
+      (tree-dendrogram). Do not build, root or prune the tree, or count
+      genomes / BGCs in the script.
+    input_shape: >
+      Newick tree plus tips table (label, group, heatmap columns) and a
+      long bars table (label, track, category, value; header-only = none)
     language: "r"
     status: "stable"

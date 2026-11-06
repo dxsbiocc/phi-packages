@@ -1,0 +1,31 @@
+cluster	dose	Description	p.adjust
+Cluster 1	Low Klf4 dose	Cytoplasmic translation	1.000000e-28
+Cluster 1	Low Klf4 dose	Ossification	3.162278e-12
+Cluster 1	Low Klf4 dose	Skeletal system morphogenesis	6.309573e-11
+Cluster 1	Low Klf4 dose	Reg. of cellular response to heat	1.584893e-09
+Cluster 1	Low Klf4 dose	Chondrocyte differentiation	1.000000e-08
+Cluster 1	Low Klf4 dose	Reg. of cellular response to stress	6.309573e-08
+Cluster 1	Low Klf4 dose	Cartilage development	3.162278e-07
+Cluster 1	Low Klf4 dose	Response to unfolded protein	1.584893e-06
+Cluster 1	Low Klf4 dose	Reg. of response to endoplasmic reticulum stress	6.309573e-06
+Cluster 1	Low Klf4 dose	Chondrocyte development	2.511886e-05
+Cluster 2	Mid Klf4 dose	Reg. of cellular component size	1.000000e-14
+Cluster 2	Mid Klf4 dose	Cell-substrate adhesion	6.309573e-14
+Cluster 2	Mid Klf4 dose	Cell-matrix adhesion	1.584893e-13
+Cluster 2	Mid Klf4 dose	Reg. of cell morphogenesis	3.162278e-13
+Cluster 2	Mid Klf4 dose	Reg. of cell morphogenesis involved in differentiation	6.309573e-13
+Cluster 2	Mid Klf4 dose	Reg. of small GTPase mediated signal transduction	1.000000e-12
+Cluster 2	Mid Klf4 dose	Reg. of cell projection organization	2.511886e-12
+Cluster 2	Mid Klf4 dose	Reg. of cell projection assembly	6.309573e-12
+Cluster 2	Mid Klf4 dose	Reg. of neuron projection development	1.584893e-11
+Cluster 2	Mid Klf4 dose	Reg. of plasma membrane bounded cell projection assembly	3.981072e-11
+Cluster 3	High Klf4 dose	Reg. of supramolecular fiber organization	6.309573e-07
+Cluster 3	High Klf4 dose	Face development	1.258925e-06
+Cluster 3	High Klf4 dose	Embryonic morphogenesis	2.511886e-06
+Cluster 3	High Klf4 dose	Reg. of actin filament-based process	3.981072e-06
+Cluster 3	High Klf4 dose	Reg. of actin filament organization	6.309573e-06
+Cluster 3	High Klf4 dose	Reg. of actin cytoskeleton organization	1.000000e-05
+Cluster 3	High Klf4 dose	Embryonic organ morphogenesis	1.584893e-05
+Cluster 3	High Klf4 dose	Embryonic organ development	2.511886e-05
+Cluster 3	High Klf4 dose	Embryonic skeletal system morphogenesis	3.981072e-05
+Cluster 3	High Klf4 dose	Embryonic skeletal system development	6.309573e-05

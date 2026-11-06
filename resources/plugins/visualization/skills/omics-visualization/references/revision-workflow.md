@@ -14,7 +14,7 @@ script is the source of truth. Keep the original template and data mapping.
    `references/palettes/colors.json`. Edit the smallest relevant lines in the
    project copy. Preserve data preparation, thresholds, group classification,
    labels, geometry, and export size unless the user also asked to change them.
-3. Do not call `viz_route`, `viz_examples`, or `viz_prepare` for this local
+3. Do not call `viz_catalog` or `viz_prepare` for this local
    revision. Use `viz_render` on the edited script with the same input tables
    and the requested output destination. Inspect the rendered image and report
    the exact source and output paths, palette choice, and QA result.

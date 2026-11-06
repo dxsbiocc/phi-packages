@@ -1,0 +1,676 @@
+cell	umap_1	umap_2	celltype
+T_cell_1	1.2885	1.1518	T cell
+T_cell_2	-0.7545	-0.2085	T cell
+T_cell_3	-0.0026	-0.0126	T cell
+T_cell_4	0.7690	0.1812	T cell
+T_cell_5	0.5895	-0.4451	T cell
+T_cell_6	-1.6301	-1.7047	T cell
+T_cell_7	-2.1905	1.6162	T cell
+T_cell_8	0.9141	-0.6278	T cell
+T_cell_9	1.0443	0.5662	T cell
+T_cell_10	0.3951	1.1701	T cell
+T_cell_11	-0.6925	0.8849	T cell
+T_cell_12	1.0419	0.2428	T cell
+T_cell_13	-1.1421	0.3730	T cell
+T_cell_14	-0.6141	0.2393	T cell
+T_cell_15	-0.5160	-0.6941	T cell
+T_cell_16	-2.0015	-0.3144	T cell
+T_cell_17	-1.0054	2.6599	T cell
+T_cell_18	-1.3694	0.8092	T cell
+T_cell_19	-0.0095	0.0192	T cell
+T_cell_20	-0.1078	-1.2699	T cell
+T_cell_21	-0.9363	1.3877	T cell
+T_cell_22	-0.7978	-0.5192	T cell
+T_cell_23	0.9808	-0.3775	T cell
+T_cell_24	1.4149	0.5655	T cell
+T_cell_25	2.4494	-0.0787	T cell
+T_cell_26	-0.9728	0.9554	T cell
+T_cell_27	-0.3625	0.1413	T cell
+T_cell_28	2.1481	0.6051	T cell
+T_cell_29	0.3322	0.9733	T cell
+T_cell_30	0.8534	0.5177	T cell
+T_cell_31	1.8963	-1.2095	T cell
+T_cell_32	-0.4566	0.9966	T cell
+T_cell_33	2.4752	-1.6354	T cell
+T_cell_34	0.6886	0.6352	T cell
+T_cell_35	-1.2120	0.1230	T cell
+T_cell_36	1.5129	0.0262	T cell
+T_cell_37	-2.2862	-0.9790	T cell
+T_cell_38	-1.8320	-0.1317	T cell
+T_cell_39	2.0799	0.6974	T cell
+T_cell_40	1.2047	-1.2398	T cell
+T_cell_41	-0.1180	0.2710	T cell
+T_cell_42	0.7120	0.1392	T cell
+T_cell_43	0.8639	0.7593	T cell
+T_cell_44	0.9736	0.0008	T cell
+T_cell_45	0.1439	0.1679	T cell
+T_cell_46	-0.7367	-0.3642	T cell
+T_cell_47	-0.3137	0.7614	T cell
+T_cell_48	2.4279	-2.5070	T cell
+T_cell_49	-0.1698	0.0420	T cell
+T_cell_50	-0.1808	0.6404	T cell
+T_cell_51	-0.1137	0.1794	T cell
+T_cell_52	-0.8824	-0.0972	T cell
+T_cell_53	1.7041	0.2026	T cell
+T_cell_54	0.9149	-1.1423	T cell
+T_cell_55	-0.1503	0.4391	T cell
+T_cell_56	-2.2016	-0.3454	T cell
+T_cell_57	0.6692	1.7602	T cell
+T_cell_58	1.0070	-1.4150	T cell
+T_cell_59	-0.2974	-0.6996	T cell
+T_cell_60	0.1433	0.1868	T cell
+T_cell_61	0.1513	0.7443	T cell
+T_cell_62	0.9607	-0.2872	T cell
+T_cell_63	2.6109	-0.1828	T cell
+T_cell_64	0.4672	0.6891	T cell
+T_cell_65	0.7699	1.3115	T cell
+T_cell_66	0.4622	-0.9415	T cell
+T_cell_67	-0.0964	-0.3916	T cell
+T_cell_68	1.4490	-0.9166	T cell
+T_cell_69	-0.9593	0.0843	T cell
+T_cell_70	-1.2688	1.5252	T cell
+T_cell_71	-1.1693	0.6028	T cell
+T_cell_72	-0.3557	-0.5893	T cell
+T_cell_73	1.7665	1.7243	T cell
+T_cell_74	1.0617	1.4539	T cell
+T_cell_75	-0.8328	-0.7582	T cell
+T_cell_76	0.4475	0.1214	T cell
+T_cell_77	-1.0740	-0.9657	T cell
+T_cell_78	-2.3770	0.8004	T cell
+T_cell_79	-0.0327	0.7224	T cell
+T_cell_80	0.4058	1.2967	T cell
+T_cell_81	-0.2174	0.2524	T cell
+T_cell_82	-1.0176	0.8601	T cell
+T_cell_83	1.3058	-0.5778	T cell
+T_cell_84	-1.6617	-0.0125	T cell
+T_cell_85	1.5451	0.1235	T cell
+T_cell_86	2.3750	0.0433	T cell
+T_cell_87	-1.5078	0.2605	T cell
+T_cell_88	-0.3237	1.0494	T cell
+T_cell_89	0.4314	-0.4523	T cell
+T_cell_90	0.3238	0.7871	T cell
+T_cell_91	-1.7204	-0.0608	T cell
+T_cell_92	0.8161	-0.5528	T cell
+T_cell_93	-1.0620	-0.0409	T cell
+T_cell_94	-1.6015	0.3560	T cell
+T_cell_95	1.9785	-0.5445	T cell
+T_cell_96	0.5884	-0.2693	T cell
+T_cell_97	2.3782	-0.6530	T cell
+T_cell_98	1.2120	0.7307	T cell
+T_cell_99	0.3413	0.3803	T cell
+T_cell_100	0.2739	-2.0371	T cell
+T_cell_101	-0.0420	-1.4039	T cell
+T_cell_102	2.5463	-1.7186	T cell
+T_cell_103	1.4228	-0.2897	T cell
+T_cell_104	2.4843	-0.1175	T cell
+T_cell_105	-0.9434	0.4909	T cell
+T_cell_106	0.6517	0.8068	T cell
+T_cell_107	1.2056	0.1517	T cell
+T_cell_108	1.3404	0.0995	T cell
+T_cell_109	-0.1030	-0.0274	T cell
+T_cell_110	0.4880	-2.5346	T cell
+T_cell_111	0.2831	0.2765	T cell
+T_cell_112	-0.3226	0.5107	T cell
+T_cell_113	2.1203	-0.9548	T cell
+T_cell_114	1.8394	1.7686	T cell
+T_cell_115	0.1624	-0.4028	T cell
+T_cell_116	-0.1433	-0.9523	T cell
+T_cell_117	1.8256	-0.5238	T cell
+T_cell_118	1.7136	0.9669	T cell
+T_cell_119	1.1380	-0.8162	T cell
+T_cell_120	-2.1691	-0.7313	T cell
+T_cell_121	1.2832	0.8678	T cell
+T_cell_122	0.8423	0.3682	T cell
+T_cell_123	0.6118	0.8068	T cell
+T_cell_124	0.3718	-0.8075	T cell
+T_cell_125	0.7797	0.8114	T cell
+T_cell_126	0.3144	0.1719	T cell
+T_cell_127	-0.9524	-0.1998	T cell
+T_cell_128	0.8148	-0.1850	T cell
+T_cell_129	-1.4690	0.4723	T cell
+T_cell_130	-1.3151	0.7232	T cell
+T_cell_131	0.8021	-0.0986	T cell
+T_cell_132	-0.6841	-1.3386	T cell
+T_cell_133	0.0937	0.2674	T cell
+T_cell_134	2.0214	0.6906	T cell
+T_cell_135	0.5655	0.3512	T cell
+T_cell_136	0.9323	-1.0585	T cell
+T_cell_137	0.3618	0.8131	T cell
+T_cell_138	1.0008	0.8878	T cell
+T_cell_139	3.3114	-0.6236	T cell
+T_cell_140	0.4192	2.5368	T cell
+T_cell_141	0.2820	0.0354	T cell
+T_cell_142	-1.0272	0.1833	T cell
+T_cell_143	0.2005	-0.0029	T cell
+T_cell_144	1.2966	0.5277	T cell
+T_cell_145	1.2848	0.1173	T cell
+T_cell_146	-0.8973	-0.6145	T cell
+T_cell_147	-1.2464	-1.2965	T cell
+T_cell_148	-1.0303	0.5556	T cell
+T_cell_149	0.8449	1.2661	T cell
+T_cell_150	2.4170	0.5044	T cell
+T_cell_151	-1.5486	-1.1410	T cell
+T_cell_152	0.6526	0.9141	T cell
+T_cell_153	1.3723	-1.5209	T cell
+T_cell_154	-2.3443	-1.0411	T cell
+T_cell_155	-0.5348	-0.6623	T cell
+T_cell_156	1.0441	0.6862	T cell
+T_cell_157	1.0701	-1.0726	T cell
+T_cell_158	-0.9042	-1.0524	T cell
+T_cell_159	2.3704	0.0364	T cell
+T_cell_160	-1.6683	-0.0226	T cell
+T_cell_161	1.4745	0.6440	T cell
+T_cell_162	1.1215	0.3463	T cell
+T_cell_163	0.2790	1.5410	T cell
+T_cell_164	-1.3735	0.0365	T cell
+T_cell_165	-0.4793	-1.5257	T cell
+T_cell_166	0.0268	-0.3068	T cell
+T_cell_167	0.2681	1.6114	T cell
+T_cell_168	0.1491	-0.0640	T cell
+T_cell_169	0.1129	1.4494	T cell
+T_cell_170	-0.6741	-0.7237	T cell
+T_cell_171	-0.9422	0.2412	T cell
+T_cell_172	0.9168	-0.4037	T cell
+T_cell_173	-0.0460	-0.0716	T cell
+T_cell_174	1.5986	-2.3225	T cell
+T_cell_175	0.2227	0.6663	T cell
+T_cell_176	0.1259	1.2510	T cell
+T_cell_177	-2.4938	-0.3638	T cell
+T_cell_178	0.9005	-1.0539	T cell
+T_cell_179	-0.4861	-0.6789	T cell
+T_cell_180	-0.5019	0.0191	T cell
+T_cell_181	-0.9422	0.0558	T cell
+T_cell_182	0.9844	0.6941	T cell
+T_cell_183	0.3515	-0.0487	T cell
+T_cell_184	0.0639	-0.4189	T cell
+T_cell_185	-0.8152	-2.0483	T cell
+T_cell_186	-0.4831	0.7025	T cell
+T_cell_187	-1.1665	-0.4914	T cell
+T_cell_188	0.2581	0.3036	T cell
+T_cell_189	0.7935	-0.6909	T cell
+T_cell_190	-0.2412	0.7683	T cell
+T_cell_191	0.7253	0.8784	T cell
+T_cell_192	1.3256	-1.1880	T cell
+T_cell_193	2.6540	-1.2025	T cell
+T_cell_194	0.2454	-0.3057	T cell
+T_cell_195	-2.0764	0.4965	T cell
+T_cell_196	0.2328	0.3018	T cell
+T_cell_197	0.6608	0.7927	T cell
+T_cell_198	-0.2423	1.5306	T cell
+T_cell_199	-0.3523	1.4251	T cell
+T_cell_200	-0.7628	-0.3450	T cell
+T_cell_201	0.7288	0.5671	T cell
+T_cell_202	-1.0556	0.0127	T cell
+T_cell_203	1.0121	-0.0237	T cell
+T_cell_204	0.4926	0.3987	T cell
+T_cell_205	1.0297	0.3914	T cell
+T_cell_206	-1.8615	-0.8651	T cell
+T_cell_207	-1.2596	0.5264	T cell
+T_cell_208	-0.4325	0.6206	T cell
+T_cell_209	-0.2033	2.5229	T cell
+T_cell_210	-1.3055	-0.0294	T cell
+T_cell_211	-0.0509	0.7595	T cell
+T_cell_212	-0.6948	0.6256	T cell
+T_cell_213	1.1123	-1.6158	T cell
+T_cell_214	2.0863	0.3093	T cell
+T_cell_215	-1.7532	0.2174	T cell
+T_cell_216	-1.7273	1.4084	T cell
+T_cell_217	1.6492	-2.0633	T cell
+T_cell_218	0.8307	0.3582	T cell
+T_cell_219	-0.8192	-2.1201	T cell
+T_cell_220	-1.4213	-1.3290	T cell
+Monocyte_1	7.2322	0.5194	Monocyte
+Monocyte_2	7.2128	2.5935	Monocyte
+Monocyte_3	7.3328	1.0406	Monocyte
+Monocyte_4	6.4495	-0.4442	Monocyte
+Monocyte_5	8.6721	1.0655	Monocyte
+Monocyte_6	6.9452	1.0106	Monocyte
+Monocyte_7	8.4026	0.6497	Monocyte
+Monocyte_8	8.9753	0.2725	Monocyte
+Monocyte_9	6.1961	0.7009	Monocyte
+Monocyte_10	9.1049	0.2586	Monocyte
+Monocyte_11	8.7367	0.7431	Monocyte
+Monocyte_12	6.2453	0.9315	Monocyte
+Monocyte_13	7.6263	0.3100	Monocyte
+Monocyte_14	6.9386	1.3933	Monocyte
+Monocyte_15	7.5560	2.1099	Monocyte
+Monocyte_16	6.2437	0.5815	Monocyte
+Monocyte_17	6.2197	2.1301	Monocyte
+Monocyte_18	7.8318	2.0846	Monocyte
+Monocyte_19	8.6881	0.2893	Monocyte
+Monocyte_20	7.6970	1.5142	Monocyte
+Monocyte_21	7.5154	0.4411	Monocyte
+Monocyte_22	8.1699	2.9477	Monocyte
+Monocyte_23	7.8654	0.7006	Monocyte
+Monocyte_24	9.2619	-0.5051	Monocyte
+Monocyte_25	9.3867	0.5679	Monocyte
+Monocyte_26	8.4852	2.5226	Monocyte
+Monocyte_27	8.4756	0.8625	Monocyte
+Monocyte_28	6.8531	1.1705	Monocyte
+Monocyte_29	8.3656	0.6130	Monocyte
+Monocyte_30	8.0337	0.4735	Monocyte
+Monocyte_31	7.2158	1.4084	Monocyte
+Monocyte_32	7.4436	-0.2544	Monocyte
+Monocyte_33	6.5150	0.7430	Monocyte
+Monocyte_34	7.3052	1.3956	Monocyte
+Monocyte_35	8.0155	0.7736	Monocyte
+Monocyte_36	6.9866	0.3443	Monocyte
+Monocyte_37	9.6952	1.3687	Monocyte
+Monocyte_38	7.4767	-1.3090	Monocyte
+Monocyte_39	7.1460	2.8226	Monocyte
+Monocyte_40	7.3876	2.0132	Monocyte
+Monocyte_41	7.5004	0.6766	Monocyte
+Monocyte_42	8.2433	-0.0341	Monocyte
+Monocyte_43	7.7125	0.6989	Monocyte
+Monocyte_44	10.0244	0.0061	Monocyte
+Monocyte_45	7.5077	1.5462	Monocyte
+Monocyte_46	8.1155	0.3523	Monocyte
+Monocyte_47	6.8138	-1.0559	Monocyte
+Monocyte_48	6.2237	0.1036	Monocyte
+Monocyte_49	6.3299	1.7891	Monocyte
+Monocyte_50	8.0857	2.0113	Monocyte
+Monocyte_51	7.7681	0.6927	Monocyte
+Monocyte_52	6.1670	2.8226	Monocyte
+Monocyte_53	7.7763	0.5465	Monocyte
+Monocyte_54	8.5290	1.1971	Monocyte
+Monocyte_55	6.2302	0.8133	Monocyte
+Monocyte_56	6.3709	-0.3168	Monocyte
+Monocyte_57	7.8431	-0.4815	Monocyte
+Monocyte_58	7.9883	-0.0263	Monocyte
+Monocyte_59	6.3153	1.6461	Monocyte
+Monocyte_60	7.5277	1.2696	Monocyte
+Monocyte_61	8.5452	-0.1802	Monocyte
+Monocyte_62	4.9080	2.2951	Monocyte
+Monocyte_63	7.7378	2.2115	Monocyte
+Monocyte_64	7.4421	0.5764	Monocyte
+Monocyte_65	8.3614	-0.9516	Monocyte
+Monocyte_66	7.8026	0.7867	Monocyte
+Monocyte_67	8.5607	2.8276	Monocyte
+Monocyte_68	8.4323	0.2342	Monocyte
+Monocyte_69	6.1816	0.8177	Monocyte
+Monocyte_70	7.4229	0.4588	Monocyte
+Monocyte_71	6.9786	0.1721	Monocyte
+Monocyte_72	7.9624	1.0678	Monocyte
+Monocyte_73	6.2781	-0.1580	Monocyte
+Monocyte_74	8.4475	0.6568	Monocyte
+Monocyte_75	7.3150	1.3089	Monocyte
+Monocyte_76	7.8864	-0.4796	Monocyte
+Monocyte_77	8.3616	1.1325	Monocyte
+Monocyte_78	7.2206	0.3006	Monocyte
+Monocyte_79	7.1523	-0.2631	Monocyte
+Monocyte_80	6.5951	2.6655	Monocyte
+Monocyte_81	6.6129	0.2594	Monocyte
+Monocyte_82	9.8448	-1.6678	Monocyte
+Monocyte_83	8.0669	1.9617	Monocyte
+Monocyte_84	9.7748	0.6710	Monocyte
+Monocyte_85	7.9737	-0.2236	Monocyte
+Monocyte_86	6.3484	0.7293	Monocyte
+Monocyte_87	6.0908	0.1936	Monocyte
+Monocyte_88	8.1967	1.2608	Monocyte
+Monocyte_89	6.9256	0.5859	Monocyte
+Monocyte_90	5.1432	0.3304	Monocyte
+Monocyte_91	5.6203	0.6961	Monocyte
+Monocyte_92	7.1325	1.0393	Monocyte
+Monocyte_93	8.1464	0.4432	Monocyte
+Monocyte_94	8.4454	0.2043	Monocyte
+Monocyte_95	5.5298	-0.5425	Monocyte
+Monocyte_96	7.6811	-0.0166	Monocyte
+Monocyte_97	8.6384	-0.7797	Monocyte
+Monocyte_98	7.7260	1.4837	Monocyte
+Monocyte_99	7.1146	0.9055	Monocyte
+Monocyte_100	7.1629	-1.2805	Monocyte
+Monocyte_101	5.8815	0.0265	Monocyte
+Monocyte_102	7.7916	0.2202	Monocyte
+Monocyte_103	6.1126	0.2123	Monocyte
+Monocyte_104	6.2983	1.1679	Monocyte
+Monocyte_105	6.8958	-0.2162	Monocyte
+Monocyte_106	8.9578	0.7814	Monocyte
+Monocyte_107	7.6800	2.1092	Monocyte
+Monocyte_108	6.3169	0.7455	Monocyte
+Monocyte_109	7.9456	0.8916	Monocyte
+Monocyte_110	8.4660	1.1253	Monocyte
+Monocyte_111	8.9599	0.9217	Monocyte
+Monocyte_112	7.3264	-0.9393	Monocyte
+Monocyte_113	8.6867	0.9534	Monocyte
+Monocyte_114	8.0563	0.4533	Monocyte
+Monocyte_115	8.6587	0.5647	Monocyte
+Monocyte_116	7.9840	2.9688	Monocyte
+Monocyte_117	9.7660	0.0654	Monocyte
+Monocyte_118	8.0942	-1.4019	Monocyte
+Monocyte_119	6.4701	1.8081	Monocyte
+Monocyte_120	8.1853	0.1668	Monocyte
+Monocyte_121	7.7239	1.4272	Monocyte
+Monocyte_122	7.1673	1.2733	Monocyte
+Monocyte_123	7.3940	0.8218	Monocyte
+Monocyte_124	8.8196	2.3775	Monocyte
+Monocyte_125	7.4604	0.2685	Monocyte
+Monocyte_126	7.9234	1.3264	Monocyte
+Monocyte_127	6.1577	1.9985	Monocyte
+Monocyte_128	5.6110	-0.2903	Monocyte
+Monocyte_129	8.9938	0.5443	Monocyte
+Monocyte_130	7.7580	-0.0688	Monocyte
+Monocyte_131	6.0775	0.2059	Monocyte
+Monocyte_132	6.3427	0.7975	Monocyte
+Monocyte_133	8.8102	1.0937	Monocyte
+Monocyte_134	5.5783	-1.3706	Monocyte
+Monocyte_135	7.0458	-0.0620	Monocyte
+Monocyte_136	8.0988	0.7070	Monocyte
+Monocyte_137	6.3684	1.0420	Monocyte
+Monocyte_138	7.4641	1.0727	Monocyte
+Monocyte_139	7.0302	0.6090	Monocyte
+Monocyte_140	8.2897	1.1199	Monocyte
+Monocyte_141	6.3034	0.0032	Monocyte
+Monocyte_142	6.6666	-0.1115	Monocyte
+Monocyte_143	8.2381	0.3413	Monocyte
+Monocyte_144	8.7491	1.3207	Monocyte
+Monocyte_145	7.1687	-0.2866	Monocyte
+Monocyte_146	9.0221	0.6927	Monocyte
+Monocyte_147	6.6235	1.6384	Monocyte
+Monocyte_148	9.0912	0.0416	Monocyte
+Monocyte_149	7.7739	0.4474	Monocyte
+Monocyte_150	6.8725	0.9662	Monocyte
+Monocyte_151	7.5449	0.4616	Monocyte
+Monocyte_152	8.0571	0.4206	Monocyte
+Monocyte_153	6.5433	-0.0667	Monocyte
+Monocyte_154	7.7673	0.0903	Monocyte
+Monocyte_155	7.4122	0.8675	Monocyte
+Monocyte_156	7.2974	-0.7847	Monocyte
+Monocyte_157	8.4858	-0.6236	Monocyte
+Monocyte_158	7.4553	-0.3783	Monocyte
+Monocyte_159	8.1174	0.9987	Monocyte
+Monocyte_160	6.6206	1.8761	Monocyte
+B_cell_1	-5.0892	4.4589	B cell
+B_cell_2	-6.1433	5.1436	B cell
+B_cell_3	-6.5053	5.3174	B cell
+B_cell_4	-4.7047	5.2902	B cell
+B_cell_5	-5.1879	5.4536	B cell
+B_cell_6	-5.3636	3.6628	B cell
+B_cell_7	-6.6582	6.7180	B cell
+B_cell_8	-5.1588	6.9731	B cell
+B_cell_9	-5.7270	4.3993	B cell
+B_cell_10	-7.4417	5.6634	B cell
+B_cell_11	-5.2750	4.7955	B cell
+B_cell_12	-6.5040	5.1350	B cell
+B_cell_13	-5.5305	5.1975	B cell
+B_cell_14	-5.7229	5.5331	B cell
+B_cell_15	-4.5799	5.1131	B cell
+B_cell_16	-5.0411	5.4378	B cell
+B_cell_17	-6.7206	4.5677	B cell
+B_cell_18	-4.8048	5.7877	B cell
+B_cell_19	-4.6371	4.1816	B cell
+B_cell_20	-4.2798	5.9852	B cell
+B_cell_21	-5.4649	5.2821	B cell
+B_cell_22	-5.1134	5.5237	B cell
+B_cell_23	-5.3871	4.4522	B cell
+B_cell_24	-6.3190	4.9626	B cell
+B_cell_25	-4.1165	6.1014	B cell
+B_cell_26	-5.6606	6.0882	B cell
+B_cell_27	-5.3142	5.9883	B cell
+B_cell_28	-6.3500	5.8687	B cell
+B_cell_29	-7.5043	5.3669	B cell
+B_cell_30	-4.4243	5.5442	B cell
+B_cell_31	-5.1719	4.7402	B cell
+B_cell_32	-6.4221	5.2810	B cell
+B_cell_33	-4.5211	6.1230	B cell
+B_cell_34	-4.7139	5.4040	B cell
+B_cell_35	-5.7663	5.3906	B cell
+B_cell_36	-6.8002	5.4690	B cell
+B_cell_37	-6.0696	5.4227	B cell
+B_cell_38	-5.9805	7.1302	B cell
+B_cell_39	-4.9952	6.4929	B cell
+B_cell_40	-4.3528	6.0548	B cell
+B_cell_41	-4.9750	4.3148	B cell
+B_cell_42	-6.3980	4.9123	B cell
+B_cell_43	-6.6946	6.3342	B cell
+B_cell_44	-5.1383	5.2948	B cell
+B_cell_45	-5.4365	6.9492	B cell
+B_cell_46	-6.5658	6.4313	B cell
+B_cell_47	-6.3004	5.6164	B cell
+B_cell_48	-5.8220	4.3585	B cell
+B_cell_49	-5.5138	5.7720	B cell
+B_cell_50	-6.5790	4.3875	B cell
+B_cell_51	-6.6428	5.8671	B cell
+B_cell_52	-4.6202	5.9726	B cell
+B_cell_53	-5.8030	5.8698	B cell
+B_cell_54	-5.7599	4.0679	B cell
+B_cell_55	-4.9279	5.8526	B cell
+B_cell_56	-5.7836	5.3406	B cell
+B_cell_57	-4.4246	7.2228	B cell
+B_cell_58	-4.0983	6.5047	B cell
+B_cell_59	-7.1085	6.7798	B cell
+B_cell_60	-5.9402	4.6323	B cell
+B_cell_61	-5.5465	5.1381	B cell
+B_cell_62	-5.4556	5.5225	B cell
+B_cell_63	-4.9520	4.3256	B cell
+B_cell_64	-5.9237	4.8043	B cell
+B_cell_65	-5.9734	4.9537	B cell
+B_cell_66	-5.0901	4.9814	B cell
+B_cell_67	-5.2900	4.6445	B cell
+B_cell_68	-5.5890	3.9346	B cell
+B_cell_69	-6.3581	4.0555	B cell
+B_cell_70	-6.4340	4.7828	B cell
+B_cell_71	-5.5521	5.1634	B cell
+B_cell_72	-5.0136	4.2817	B cell
+B_cell_73	-5.2853	6.1584	B cell
+B_cell_74	-5.9149	4.8872	B cell
+B_cell_75	-5.3556	5.2049	B cell
+B_cell_76	-5.6965	4.6944	B cell
+B_cell_77	-5.0509	5.3680	B cell
+B_cell_78	-4.4969	6.4680	B cell
+B_cell_79	-6.2346	5.3598	B cell
+B_cell_80	-6.5915	5.1072	B cell
+B_cell_81	-6.3090	4.3578	B cell
+B_cell_82	-7.0324	6.3380	B cell
+B_cell_83	-5.6252	4.7391	B cell
+B_cell_84	-4.0822	6.8501	B cell
+B_cell_85	-4.6469	5.6015	B cell
+B_cell_86	-4.4029	5.4628	B cell
+B_cell_87	-5.5380	4.7621	B cell
+B_cell_88	-5.0613	6.5731	B cell
+B_cell_89	-6.4339	5.3140	B cell
+B_cell_90	-6.3017	5.7132	B cell
+B_cell_91	-5.0274	4.1025	B cell
+B_cell_92	-6.3568	5.5788	B cell
+B_cell_93	-4.5120	5.2482	B cell
+B_cell_94	-4.6301	4.1923	B cell
+B_cell_95	-5.5797	6.2757	B cell
+B_cell_96	-4.8854	4.8152	B cell
+B_cell_97	-5.9352	6.0977	B cell
+B_cell_98	-5.7724	5.6075	B cell
+B_cell_99	-5.4068	4.8221	B cell
+B_cell_100	-5.5957	6.1823	B cell
+B_cell_101	-6.0962	4.5947	B cell
+B_cell_102	-3.7808	4.7858	B cell
+B_cell_103	-4.4163	4.0139	B cell
+B_cell_104	-4.8259	6.4525	B cell
+B_cell_105	-5.1564	5.4103	B cell
+B_cell_106	-6.2042	4.9449	B cell
+B_cell_107	-4.8980	5.8118	B cell
+B_cell_108	-6.1237	5.7418	B cell
+B_cell_109	-5.7116	4.9769	B cell
+B_cell_110	-6.9965	4.6070	B cell
+NK_1	2.1934	-6.8943	NK
+NK_2	1.5291	-5.2736	NK
+NK_3	1.6741	-6.8841	NK
+NK_4	0.6020	-6.3695	NK
+NK_5	2.2751	-5.6294	NK
+NK_6	1.3050	-6.1269	NK
+NK_7	0.7810	-6.1909	NK
+NK_8	2.5915	-6.1493	NK
+NK_9	0.6900	-6.5613	NK
+NK_10	0.6026	-5.7302	NK
+NK_11	2.1052	-5.7859	NK
+NK_12	2.7273	-6.0441	NK
+NK_13	1.7655	-6.4383	NK
+NK_14	0.2933	-6.2490	NK
+NK_15	2.3217	-5.9855	NK
+NK_16	0.9267	-5.1234	NK
+NK_17	0.8109	-6.0760	NK
+NK_18	1.3508	-5.5392	NK
+NK_19	0.3909	-6.5975	NK
+NK_20	2.0729	-6.7725	NK
+NK_21	1.5939	-5.4495	NK
+NK_22	0.4050	-7.1325	NK
+NK_23	1.4562	-5.7095	NK
+NK_24	0.8453	-7.0366	NK
+NK_25	1.4482	-7.5080	NK
+NK_26	2.3183	-6.0344	NK
+NK_27	2.3383	-4.8633	NK
+NK_28	0.9922	-7.1420	NK
+NK_29	0.3620	-6.7702	NK
+NK_30	1.3812	-7.0104	NK
+NK_31	1.4146	-5.2807	NK
+NK_32	1.7426	-6.4938	NK
+NK_33	2.9747	-5.9466	NK
+NK_34	0.7532	-6.7074	NK
+NK_35	1.3743	-6.9978	NK
+NK_36	1.4629	-5.5681	NK
+NK_37	0.7407	-5.8146	NK
+NK_38	2.0694	-5.9223	NK
+NK_39	2.7187	-5.4104	NK
+NK_40	2.4264	-6.5392	NK
+NK_41	0.9528	-5.6442	NK
+NK_42	2.0008	-6.2872	NK
+NK_43	2.5795	-5.6516	NK
+NK_44	1.7918	-6.1080	NK
+NK_45	1.5606	-6.4970	NK
+NK_46	2.4425	-5.5233	NK
+NK_47	2.9032	-6.0867	NK
+NK_48	1.6652	-6.6085	NK
+NK_49	1.8933	-7.1966	NK
+NK_50	1.1150	-6.4654	NK
+NK_51	1.5039	-6.8852	NK
+NK_52	1.1057	-4.5546	NK
+NK_53	1.2839	-6.1921	NK
+NK_54	1.2805	-6.4369	NK
+NK_55	1.6568	-6.5809	NK
+NK_56	0.8926	-6.1808	NK
+NK_57	0.9967	-6.5109	NK
+NK_58	1.9770	-5.3004	NK
+NK_59	1.0665	-6.9097	NK
+NK_60	0.7227	-5.4633	NK
+NK_61	1.3644	-7.0052	NK
+NK_62	3.5955	-5.5597	NK
+NK_63	1.4699	-6.7063	NK
+NK_64	3.1157	-6.3698	NK
+NK_65	1.4294	-5.5708	NK
+NK_66	0.3407	-5.5222	NK
+NK_67	2.7966	-6.9028	NK
+NK_68	2.3010	-6.1947	NK
+NK_69	0.5345	-6.8075	NK
+NK_70	2.5247	-5.8831	NK
+NK_71	1.8112	-6.8152	NK
+NK_72	2.5228	-7.1305	NK
+NK_73	1.7481	-6.5035	NK
+NK_74	0.4503	-6.5769	NK
+NK_75	1.7170	-7.6771	NK
+NK_76	0.8316	-6.7970	NK
+NK_77	1.8699	-5.7292	NK
+NK_78	1.3704	-6.8833	NK
+NK_79	2.1640	-7.2279	NK
+NK_80	0.3119	-6.8517	NK
+NK_81	0.3096	-6.2993	NK
+NK_82	1.8979	-5.8134	NK
+NK_83	1.4995	-6.7769	NK
+NK_84	0.9745	-5.7576	NK
+NK_85	4.1819	-5.5966	NK
+NK_86	2.5492	-5.6420	NK
+NK_87	1.7174	-5.4854	NK
+NK_88	1.5632	-6.2159	NK
+NK_89	3.2162	-6.2770	NK
+NK_90	1.1822	-6.4034	NK
+DC_1	6.7492	7.1999	DC
+DC_2	8.8559	5.3094	DC
+DC_3	9.1382	6.6872	DC
+DC_4	8.8969	6.6897	DC
+DC_5	9.2099	6.1558	DC
+DC_6	8.3548	6.4921	DC
+DC_7	8.4524	6.7678	DC
+DC_8	8.1171	7.3116	DC
+DC_9	9.6465	6.3776	DC
+DC_10	8.3515	6.7039	DC
+DC_11	8.6146	6.5796	DC
+DC_12	8.6927	7.1143	DC
+DC_13	9.1775	6.0059	DC
+DC_14	8.9466	5.7537	DC
+DC_15	8.9343	6.5829	DC
+DC_16	8.7629	5.2924	DC
+DC_17	7.8925	7.3048	DC
+DC_18	8.6085	6.9006	DC
+DC_19	9.2445	7.0452	DC
+DC_20	8.7412	6.9063	DC
+DC_21	9.1849	6.6695	DC
+DC_22	10.1668	6.8841	DC
+DC_23	9.9094	6.1529	DC
+DC_24	8.6070	7.0630	DC
+DC_25	9.8412	6.1405	DC
+DC_26	8.1491	6.7485	DC
+DC_27	7.2498	6.7093	DC
+DC_28	8.7544	6.7858	DC
+DC_29	7.8118	6.4983	DC
+DC_30	8.0861	7.1662	DC
+DC_31	8.5506	7.6477	DC
+DC_32	9.0880	7.1583	DC
+DC_33	8.9776	6.4445	DC
+DC_34	9.4480	7.0102	DC
+DC_35	8.3339	7.2108	DC
+DC_36	8.6936	6.9703	DC
+DC_37	11.0110	6.4898	DC
+DC_38	8.5945	6.8628	DC
+DC_39	9.1341	6.9144	DC
+DC_40	8.8308	6.5867	DC
+DC_41	7.9619	6.8554	DC
+DC_42	9.1077	6.0126	DC
+DC_43	7.3990	7.0820	DC
+DC_44	8.3957	6.4695	DC
+DC_45	8.8463	5.7359	DC
+DC_46	8.9593	6.7129	DC
+DC_47	8.1952	6.6126	DC
+DC_48	7.9394	6.0374	DC
+DC_49	7.7760	6.4151	DC
+DC_50	8.6428	6.0375	DC
+DC_51	9.2698	6.9436	DC
+DC_52	9.4245	5.6745	DC
+DC_53	10.1354	6.7175	DC
+DC_54	9.0698	6.2869	DC
+DC_55	9.0201	6.1395	DC
+Platelet_1	-7.3951	-3.9450	Platelet
+Platelet_2	-7.4779	-4.4631	Platelet
+Platelet_3	-6.2530	-3.8906	Platelet
+Platelet_4	-7.1239	-4.7077	Platelet
+Platelet_5	-8.1193	-3.8711	Platelet
+Platelet_6	-5.9331	-5.2317	Platelet
+Platelet_7	-7.5590	-4.4480	Platelet
+Platelet_8	-5.4578	-4.2414	Platelet
+Platelet_9	-6.7795	-4.2017	Platelet
+Platelet_10	-6.8293	-4.5054	Platelet
+Platelet_11	-6.9992	-4.6923	Platelet
+Platelet_12	-7.4699	-4.7583	Platelet
+Platelet_13	-6.9601	-4.6083	Platelet
+Platelet_14	-7.4793	-4.5391	Platelet
+Platelet_15	-7.5328	-4.3778	Platelet
+Platelet_16	-6.4810	-4.0691	Platelet
+Platelet_17	-7.8010	-4.9066	Platelet
+Platelet_18	-7.7025	-4.7423	Platelet
+Platelet_19	-6.2895	-5.3779	Platelet
+Platelet_20	-7.8088	-3.9714	Platelet
+Platelet_21	-7.9230	-3.7212	Platelet
+Platelet_22	-7.6604	-4.1056	Platelet
+Platelet_23	-8.3105	-3.8809	Platelet
+Platelet_24	-6.5825	-4.8475	Platelet
+Platelet_25	-6.8183	-4.2137	Platelet
+Platelet_26	-7.0635	-4.5420	Platelet
+Platelet_27	-7.2370	-4.7296	Platelet
+Platelet_28	-6.3537	-4.1900	Platelet
+Platelet_29	-6.5862	-4.3666	Platelet
+Platelet_30	-7.2301	-5.4838	Platelet
+Platelet_31	-6.4693	-5.3045	Platelet
+Platelet_32	-6.6754	-4.2565	Platelet
+Platelet_33	-7.0761	-4.7365	Platelet
+Platelet_34	-6.2035	-4.6980	Platelet
+Platelet_35	-7.4668	-4.4634	Platelet
+Platelet_36	-7.5547	-4.0119	Platelet
+Platelet_37	-6.3477	-3.9690	Platelet
+Platelet_38	-7.8782	-4.4320	Platelet
+Platelet_39	-7.1897	-4.4559	Platelet
+Platelet_40	-6.5740	-4.1136	Platelet

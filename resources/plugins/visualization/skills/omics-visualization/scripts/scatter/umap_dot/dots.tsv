@@ -1,0 +1,79 @@
+celltype	gene	group	pct	avg
+T cell	IL7R	T cell	82	3.2
+Monocyte	IL7R	T cell	8	0.25
+B cell	IL7R	T cell	8	0.25
+NK	IL7R	T cell	8	0.25
+DC	IL7R	T cell	8	0.25
+Platelet	IL7R	T cell	8	0.25
+T cell	CCR7	T cell	82	3.2
+Monocyte	CCR7	T cell	8	0.25
+B cell	CCR7	T cell	8	0.25
+NK	CCR7	T cell	8	0.25
+DC	CCR7	T cell	8	0.25
+Platelet	CCR7	T cell	8	0.25
+T cell	CD8A	T cell	82	3.2
+Monocyte	CD8A	T cell	8	0.25
+B cell	CD8A	T cell	8	0.25
+NK	CD8A	T cell	42	1.6
+DC	CD8A	T cell	8	0.25
+Platelet	CD8A	T cell	8	0.25
+T cell	CD14	Monocyte	8	0.25
+Monocyte	CD14	Monocyte	82	3.2
+B cell	CD14	Monocyte	8	0.25
+NK	CD14	Monocyte	8	0.25
+DC	CD14	Monocyte	8	0.25
+Platelet	CD14	Monocyte	8	0.25
+T cell	LYZ	Monocyte	8	0.25
+Monocyte	LYZ	Monocyte	82	3.2
+B cell	LYZ	Monocyte	8	0.25
+NK	LYZ	Monocyte	8	0.25
+DC	LYZ	Monocyte	35	1.2
+Platelet	LYZ	Monocyte	8	0.25
+T cell	FCGR3A	Monocyte	8	0.25
+Monocyte	FCGR3A	Monocyte	82	3.2
+B cell	FCGR3A	Monocyte	8	0.25
+NK	FCGR3A	Monocyte	8	0.25
+DC	FCGR3A	Monocyte	8	0.25
+Platelet	FCGR3A	Monocyte	8	0.25
+T cell	MS4A1	B cell	8	0.25
+Monocyte	MS4A1	B cell	8	0.25
+B cell	MS4A1	B cell	82	3.2
+NK	MS4A1	B cell	8	0.25
+DC	MS4A1	B cell	8	0.25
+Platelet	MS4A1	B cell	8	0.25
+T cell	CD79A	B cell	8	0.25
+Monocyte	CD79A	B cell	8	0.25
+B cell	CD79A	B cell	82	3.2
+NK	CD79A	B cell	8	0.25
+DC	CD79A	B cell	8	0.25
+Platelet	CD79A	B cell	8	0.25
+T cell	GNLY	NK	8	0.25
+Monocyte	GNLY	NK	8	0.25
+B cell	GNLY	NK	8	0.25
+NK	GNLY	NK	82	3.2
+DC	GNLY	NK	8	0.25
+Platelet	GNLY	NK	8	0.25
+T cell	NKG7	NK	8	0.25
+Monocyte	NKG7	NK	8	0.25
+B cell	NKG7	NK	8	0.25
+NK	NKG7	NK	82	3.2
+DC	NKG7	NK	8	0.25
+Platelet	NKG7	NK	8	0.25
+T cell	FCER1A	DC	8	0.25
+Monocyte	FCER1A	DC	8	0.25
+B cell	FCER1A	DC	8	0.25
+NK	FCER1A	DC	8	0.25
+DC	FCER1A	DC	82	3.2
+Platelet	FCER1A	DC	8	0.25
+T cell	CST3	DC	8	0.25
+Monocyte	CST3	DC	38	1.4
+B cell	CST3	DC	8	0.25
+NK	CST3	DC	8	0.25
+DC	CST3	DC	82	3.2
+Platelet	CST3	DC	8	0.25
+T cell	PPBP	Platelet	8	0.25
+Monocyte	PPBP	Platelet	8	0.25
+B cell	PPBP	Platelet	8	0.25
+NK	PPBP	Platelet	8	0.25
+DC	PPBP	Platelet	8	0.25
+Platelet	PPBP	Platelet	82	3.2

@@ -17,7 +17,6 @@ sys.dont_write_bytecode = True
 
 SKILL_ROOT = os.path.realpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 COMMON_R = os.path.join(SKILL_ROOT, "scripts", "lib", "common.R")
-ROUTER = os.path.join(SKILL_ROOT, "scripts", "route_template.py")
 QA_SCRIPT = os.path.join(SKILL_ROOT, "scripts", "qa_single_plot.py")
 
 MAX_CAPTURE_CHARS = 200_000
@@ -63,24 +62,6 @@ def json_number(value: object, default: int | float = 0) -> int | float:
     if isinstance(value, float) and value.is_integer():
         return int(value)
     return value
-
-
-def as_string(value: object, default: str = "") -> str:
-    if value is None:
-        return default
-    return str(value)
-
-
-def strings(value: object) -> list[str]:
-    if not isinstance(value, list):
-        return []
-    return [item for item in value if isinstance(item, str)]
-
-
-def string_map(value: object) -> dict[str, str]:
-    if not isinstance(value, dict):
-        return {}
-    return {key: item for key, item in value.items() if isinstance(item, str)}
 
 
 def one_line(value: str) -> str:
