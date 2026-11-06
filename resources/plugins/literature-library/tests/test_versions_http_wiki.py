@@ -12,9 +12,8 @@ from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
 FX = ROOT / "tests" / "fixtures" / "providers"
-sys.path.insert(0, str(ROOT / "skills" / "lit-db" / "scripts"))
-sys.path.insert(0, str(ROOT / "skills" / "lit-search" / "scripts"))
-sys.path.insert(0, str(ROOT / "skills" / "lit-wiki-lib" / "scripts"))
+sys.path.insert(0, str(ROOT / "skills" / "literature-library" / "scripts"))
+sys.path.insert(0, str(ROOT / "skills" / "lit-wiki" / "scripts"))
 
 from db import (  # noqa: E402
     apply_version_detection,
@@ -268,7 +267,7 @@ class CliMockHttpTests(unittest.TestCase):
             out = subprocess.check_output(
                 [
                     sys.executable,
-                    str(ROOT / "skills/lit-versions/scripts/versions.py"),
+                    str(ROOT / "skills/literature-library/scripts/versions.py"),
                     "--project_root",
                     str(root),
                     "--action",

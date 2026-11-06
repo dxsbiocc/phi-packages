@@ -11,7 +11,7 @@
     "standaloneSkills": 17,
     "connectors": 27,
     "plugins": 2,
-    "pluginSkills": 23,
+    "pluginSkills": 4,
     "wrapperAdapters": 652,
     "importedFiles": 7885,
     "importedBytes": 85272892
@@ -49,7 +49,8 @@
     "Visualization plugin 1.1.0 adds skills/create-template so the Visualization agent can author and register catalog templates. Ordinary user-data plotting stays on skills/omics-visualization. counts.pluginSkills is 2; initialImportCounts.pluginSkills stays 1.",
     "Visualization plugin 1.1.1 adds skills/omics-visualization/references/template_gallery.json so the installed plugin page can show every catalog plot template. The index is generated from the catalogs; layout audit images are not templates.",
     "Visualization plugin 1.2.0 expands omics-visualization to 211 catalog templates with preview_* variants, and replaces heuristic viz_route ranking with agent choice plus deterministic viz_catalog/viz_profile lookup.",
-    "literature-library 0.6.0 is the second bundled plugin (toolPrefix lit, 21 skills including lit-institutional). First package landing promoted from local 0.6.0-draft; demo trees excluded; research-evidence is not merged. counts.plugins is 2; counts.pluginSkills is 23 (visualization 2 + literature-library 21). initialImportCounts stay at the original snapshot."
+    "literature-library 0.6.0 was the second bundled plugin (toolPrefix lit, then 21 one-script skills including lit-institutional). First package landing promoted from local 0.6.0-draft; demo trees excluded; research-evidence is not merged. counts.plugins is 2. initialImportCounts stay at the original snapshot.",
+    "literature-library 0.6.1 regroups those 21 skills into 2 capability skills (literature-library and lit-wiki). Script CLIs and lit_* tool ids are unchanged. counts.pluginSkills is 4 (visualization 2 + literature-library 2)."
   ],
   "initialImportCounts": {
     "standaloneSkills": 14,
@@ -252,8 +253,8 @@
     {
       "path": "resources/plugins/literature-library/",
       "kind": "plugin",
-      "origin": "First packaged landing of literature-library 0.6.0, promoted from local 0.6.0-draft with demo trees excluded. Project-scoped literature library: HTTP search by default, optional MCP client, no in-plugin MCP server, PDF extract/OCR soft-fail, own-account institutional access, path-watch rebind, schema v6. No commercial gateways, embeddings, or plugin API keys. research-evidence is not merged.",
-      "packageVersion": "0.6.0"
+      "origin": "First packaged landing of literature-library 0.6.0, promoted from local 0.6.0-draft with demo trees excluded. Project-scoped literature library: HTTP search by default, optional MCP client, no in-plugin MCP server, PDF extract/OCR soft-fail, own-account institutional access, path-watch rebind, schema v6. No commercial gateways, embeddings, or plugin API keys. research-evidence is not merged. 0.6.1 regroups the 21 one-script skills into literature-library and lit-wiki; tool ids stay lit_*.",
+      "packageVersion": "0.6.1"
     }
   ],
   "iconMigration": {

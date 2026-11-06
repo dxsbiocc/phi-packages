@@ -11,7 +11,7 @@ rm -rf "$DEMO"
 mkdir -p "$DEMO"
 
 echo "== create collection (default wiki-init) =="
-COL=$("$PY" "$ROOT/skills/lit-collection/scripts/collection.py" \
+COL=$("$PY" "$ROOT/skills/literature-library/scripts/collection.py" \
   --action create --project_root "$DEMO" --name "Wiki Demo" --description "v2 smoke")
 echo "$COL" | "$PY" -c 'import json,sys; o=json.load(sys.stdin); assert o["ok"] and o.get("wiki_vault"), o; print(o["collection_id"]); open("'"$OUT"'/vault.txt","w").write(o["wiki_vault"])'
 CID=$(echo "$COL" | "$PY" -c 'import json,sys; print(json.load(sys.stdin)["collection_id"])')
@@ -28,7 +28,7 @@ echo "== unit: test_wiki_llm =="
 echo "== unit: compile_extract heuristics (fallback path) =="
 "$PY" - << PY
 import sys
-sys.path.insert(0, "$ROOT/skills/lit-wiki-lib/scripts")
+sys.path.insert(0, "$ROOT/skills/lit-wiki/scripts")
 from wiki_lib import compile_extract, condense_summary
 title = "Landscape of Infiltrating T Cells in Liver Cancer Revealed by Single-Cell Sequencing"
 abstract = (
@@ -59,19 +59,19 @@ echo "== complementary DOI+PMID merge (shells then joint) =="
 "$PY" "$ROOT/tests/test_merge_smoke.py" --project_root "$DEMO" --collection_id "$CID"
 
 echo "== ingest bib into sqlite =="
-ING=$("$PY" "$ROOT/skills/lit-ingest/scripts/ingest.py" \
+ING=$("$PY" "$ROOT/skills/literature-library/scripts/ingest.py" \
   --project_root "$DEMO" --collection_id "$CID" \
   --input_path "$FIX/sample.bib" --format bib)
 echo "$ING" | "$PY" -c 'import json,sys; o=json.load(sys.stdin); assert o["ok"], o; print(o["counts"])'
 
 echo "== resolve Zheng publication id =="
-PID=$("$PY" "$ROOT/skills/lit-query/scripts/query.py" \
+PID=$("$PY" "$ROOT/skills/literature-library/scripts/query.py" \
   --project_root "$DEMO" --collection_id "$CID" --q "Landscape" --limit 5 \
   | "$PY" -c 'import json,sys; o=json.load(sys.stdin); assert o["n"]>=1, o; print(o["publications"][0]["id"])')
 echo "publication_id=$PID"
 
 echo "== wiki-ingest (mock LLM compile; no API key) =="
-WI=$("$PY" "$ROOT/skills/lit-wiki-ingest/scripts/wiki_ingest.py" \
+WI=$("$PY" "$ROOT/skills/lit-wiki/scripts/wiki_ingest.py" \
   --project_root "$DEMO" --collection_id "$CID" \
   --publication_id "$PID" --compile mock)
 echo "$WI" | "$PY" -c 'import json,sys; o=json.load(sys.stdin); assert o["ok"] and o["source_page"].startswith("wiki/sources/"), o; assert o.get("n_claims",0)>=1, o; assert o.get("concept_pages_created") or o.get("entity_pages_created"), o; assert o.get("tags_persisted") is True, o; assert "placeholder" not in (o.get("summary_preview") or "").lower(), o; assert o.get("compile_backend")=="mock" or str(o.get("compile","")).startswith("mock"), o; print(o["safe_id"], "claims", o["n_claims"], "compile", o.get("compile"), "concepts+", len(o.get("concept_pages_created") or []), "entities+", len(o.get("entity_pages_created") or []), "tags", o.get("effective_tags"))'
@@ -96,7 +96,7 @@ test -f "$VAULT/wiki/entities/layn.md"
 
 echo "== agent compile request → apply (fixture; no API key) =="
 set +e
-REQ_OUT=$("$PY" "$ROOT/skills/lit-wiki-ingest/scripts/wiki_compile_request.py" \
+REQ_OUT=$("$PY" "$ROOT/skills/lit-wiki/scripts/wiki_compile_request.py" \
   --project_root "$DEMO" --collection_id "$CID" --publication_id "$PID" --ensure_vault)
 REQ_RC=$?
 set -e
@@ -128,7 +128,7 @@ resp = {
 Path("$RESP_PATH").write_text(json.dumps(resp, ensure_ascii=False, indent=2), encoding="utf-8")
 print("wrote", "$RESP_PATH")
 PY
-APPLY=$("$PY" "$ROOT/skills/lit-wiki-ingest/scripts/wiki_compile_apply.py" \
+APPLY=$("$PY" "$ROOT/skills/lit-wiki/scripts/wiki_compile_apply.py" \
   --project_root "$DEMO" --collection_id "$CID" --publication_id "$PID" \
   --response "$RESP_PATH")
 echo "$APPLY" | "$PY" -c 'import json,sys; o=json.load(sys.stdin); assert o.get("ok"), o; assert o.get("compile_backend")=="agent" or str(o.get("compile","")).startswith("agent"), o; print("applied", o.get("compile"), "backend", o.get("compile_backend"))'
@@ -145,38 +145,38 @@ db.close()
 PY
 
 echo "== wiki-query exhaustion / LAYN =="
-WQ=$("$PY" "$ROOT/skills/lit-wiki-query/scripts/wiki_query.py" \
+WQ=$("$PY" "$ROOT/skills/lit-wiki/scripts/wiki_query.py" \
   --project_root "$DEMO" --collection_id "$CID" --q "exhaustion" --limit 20)
 echo "$WQ" | "$PY" -c 'import json,sys; o=json.load(sys.stdin); assert o["ok"] and o["embeddings"] is False, o; assert o["n_wiki"]>=1 or o["n_publications"]>=1, o; print("exhaustion wiki", o["n_wiki"], "pubs", o["n_publications"])'
-WQ2=$("$PY" "$ROOT/skills/lit-wiki-query/scripts/wiki_query.py" \
+WQ2=$("$PY" "$ROOT/skills/lit-wiki/scripts/wiki_query.py" \
   --project_root "$DEMO" --collection_id "$CID" --q "LAYN" --limit 20)
 echo "$WQ2" | "$PY" -c 'import json,sys; o=json.load(sys.stdin); assert o["ok"], o; assert o["n_wiki"]>=1 or o["n_publications"]>=1, o; print("LAYN wiki", o["n_wiki"], "pubs", o["n_publications"])'
 
 echo "== suggest-tree (no manual tags — should use auto tags) =="
-SUG=$("$PY" "$ROOT/skills/lit-wiki-suggest-tree/scripts/wiki_suggest_tree.py" \
+SUG=$("$PY" "$ROOT/skills/lit-wiki/scripts/wiki_suggest_tree.py" \
   --project_root "$DEMO" --collection_id "$CID" \
   --out_path "$OUT/proposals.json" --max_branches 8)
 echo "$SUG" | "$PY" -c 'import json,sys; o=json.load(sys.stdin); assert o["ok"] and o["wrote"] is False and o["n_proposals"]>=1, o; print("proposals", o["n_proposals"])'
 test -f "$OUT/proposals.json"
 
 echo "== apply-tree dry-run (no --confirm) =="
-DRY=$("$PY" "$ROOT/skills/lit-wiki-apply-tree/scripts/wiki_apply_tree.py" \
+DRY=$("$PY" "$ROOT/skills/lit-wiki/scripts/wiki_apply_tree.py" \
   --project_root "$DEMO" --collection_id "$CID" --proposals_path "$OUT/proposals.json")
 echo "$DRY" | "$PY" -c 'import json,sys; o=json.load(sys.stdin); assert o["ok"] and o["wrote"] is False, o'
 
 echo "== apply-tree --confirm =="
-APP=$("$PY" "$ROOT/skills/lit-wiki-apply-tree/scripts/wiki_apply_tree.py" \
+APP=$("$PY" "$ROOT/skills/lit-wiki/scripts/wiki_apply_tree.py" \
   --project_root "$DEMO" --collection_id "$CID" --proposals_path "$OUT/proposals.json" --confirm)
 echo "$APP" | "$PY" -c 'import json,sys; o=json.load(sys.stdin); assert o["ok"] and o["wrote"] is True and o["n_applied"]>=1, o; print("applied", o["n_applied"])'
 grep -q "### " "$VAULT/wiki/index.md"
 
 echo "== wiki-lint =="
-LINT=$("$PY" "$ROOT/skills/lit-wiki-lint/scripts/wiki_lint.py" \
+LINT=$("$PY" "$ROOT/skills/lit-wiki/scripts/wiki_lint.py" \
   --project_root "$DEMO" --collection_id "$CID")
 echo "$LINT" | "$PY" -c 'import json,sys; o=json.load(sys.stdin); assert o["ok"], o; assert o["n_errors"]==0, o; ph=[i for i in o["issues"] if i.get("code")=="placeholder_summary"]; assert not ph, ph; print("issues", o["n_issues"], "errors", o["n_errors"], "sources", o["n_sources"])'
 
 echo "== idempotent wiki-init =="
-WI2=$("$PY" "$ROOT/skills/lit-wiki-init/scripts/wiki_init.py" \
+WI2=$("$PY" "$ROOT/skills/lit-wiki/scripts/wiki_init.py" \
   --project_root "$DEMO" --collection_id "$CID")
 echo "$WI2" | "$PY" -c 'import json,sys; o=json.load(sys.stdin); assert o["ok"], o'
 

@@ -1,8 +1,8 @@
-# Packaged release 0.6.0 — first landing in phi-packages (promoted from 0.6.0-draft).
+# 0.6.1 — two capability skills (library lifecycle + wiki). Tool ids unchanged from 0.6.0.
 schemaVersion: 1
 id: literature-library
 type: plugin
-version: 0.6.0
+version: 0.6.1
 title: Literature Library
 summary: >-
   Project-scoped literature library: HTTP search by default, optional MCP
@@ -14,25 +14,6 @@ components:
   agents:
     - agents/LiteratureLibrary.md
   skills:
-    - skills/lit-db
-    - skills/lit-collection
-    - skills/lit-run-config
-    - skills/lit-search
-    - skills/lit-ingest
-    - skills/lit-institutional
-    - skills/lit-enrich
-    - skills/lit-query
-    - skills/lit-export
-    - skills/lit-expand
-    - skills/lit-wiki-lib
-    - skills/lit-wiki-init
-    - skills/lit-wiki-ingest
-    - skills/lit-wiki-lint
-    - skills/lit-wiki-query
-    - skills/lit-wiki-suggest-tree
-    - skills/lit-wiki-apply-tree
-    - skills/lit-versions
-    - skills/lit-coverage
-    - skills/lit-run-close
-    - skills/lit-review-queue
+    - skills/literature-library
+    - skills/lit-wiki
 # No environments: skills use phi:python@1.

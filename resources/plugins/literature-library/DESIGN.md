@@ -49,16 +49,18 @@ SQLite 仍管 **文献身份 / 去重 / runs**。Wiki 是并列的**编译知识
 
 ### Skills（Wiki）
 
-| Skill | 行为 |
-|--|--|
-| `lit-wiki-init` | 建 vault 骨架 |
-| `lit-wiki-ingest` | raw 快照 + **确定性编译** sources（Summary/claims/methods）+ concepts/entities + 空 tags 自动回写 SQLite + index/log |
-| `lit-wiki-lint` | 孤儿页 / 缺 index / 断链 / needs_review 横幅 |
-| `lit-wiki-query` | wiki 关键词 + SQLite FTS（无向量） |
-| `lit-wiki-suggest-tree` | 提案 JSON only |
-| `lit-wiki-apply-tree` | 仅 `--confirm` 时写入 |
+0.6.1：下表是 `lit-wiki` 技能里的工具行为，不再是各自一个 skill 目录。共享实现在 `skills/lit-wiki/scripts/wiki_lib.py` 与 `wiki_llm.py`。检索 / 入库 / 去重 / coverage / 版本链在技能 `literature-library`。
 
-`lit-collection create` **默认**调用 wiki-init（`--no_wiki` 可关）。
+| 工具（原 skill 名） | 行为 |
+|--|--|
+| `lit_wiki_init` | 建 vault 骨架 |
+| `lit_wiki_ingest` | raw 快照 + agent/mock/heuristic 编译 sources（Summary/claims/methods）+ concepts/entities + 空 tags 自动回写 SQLite + index/log |
+| `lit_wiki_lint` | 孤儿页 / 缺 index / 断链 / needs_review 横幅 |
+| `lit_wiki_query` | wiki 关键词 + SQLite FTS（无向量） |
+| `lit_wiki_suggest_tree` | 提案 JSON only |
+| `lit_wiki_apply_tree` | 仅 `--confirm` 时写入 |
+
+`lit_collection` create **默认**调用 wiki-init（`no_wiki` 可关）。
 
 ## 边界
 

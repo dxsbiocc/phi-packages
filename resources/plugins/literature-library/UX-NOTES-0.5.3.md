@@ -6,7 +6,7 @@ Problem → fix mapping from real acceptance friction (Zheng / live v052 run).
 |--|--|--|
 | P0.1 | Concept merge wrote `[nsclc](nsclc.md)` while page was `non-small-cell-lung-cancer.md` → lint `broken_link` | `resolve_related_concepts` (exact / slugify / aliases / light fuzzy); only link existing `wiki/concepts/*.md`; unresolved → `related_unresolved` in apply JSON |
 | P0.2 | Agents/users typed `--query` but CLI only had `--q` | `lit-query` + `lit-wiki-query` accept `--query` alias; SKILL one-liners show `--query` |
-| P0.3 | Local PDF `file_path` drifts after moves; identity is hash not path | `skills/lit-ingest/scripts/rebind_files.py` scan_dir → match `content_hash` → update path; dry-run default, `--confirm` writes |
+| P0.3 | Local PDF `file_path` drifts after moves; identity is hash not path | `skills/literature-library/scripts/rebind_files.py` scan_dir → match `content_hash` → update path; dry-run default, `--confirm` writes |
 | P1.4 | Hard to see “what wiki work is left” | `wiki_agent_status.py`: missing enriched sources + pending merges + suggested commands; `--emit_requests` batches compile_request.json |
 | P1.5 | Gold recall 2/7 on search-only looked like a silent failure | coverage `hints[]` when recall &lt; 1.0 / shells / uncontacted / OOW leak — honest, no fake recall |
 | P1.6 | README buried agent-compile; demos leaned on mock | Top 「最短真实工作流」; explicit: mock = offline CI only |

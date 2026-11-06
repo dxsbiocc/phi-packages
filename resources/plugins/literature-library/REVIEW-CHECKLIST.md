@@ -1,6 +1,6 @@
 # literature-library 进仓检查清单
 
-首次打包落地：`resources/plugins/literature-library/`，版本 **0.6.0**（已去掉 `-draft`）。Live `demo-*` 目录不在本包内。
+首次打包落地：`resources/plugins/literature-library/`，版本 **0.6.0**（已去掉 `-draft`）。**0.6.1** 只改技能打包：21 个一对一 skill 收成 `literature-library` 与 `lit-wiki`。Live `demo-*` 目录不在本包内。
 
 ## 评审门禁
 
@@ -17,8 +17,8 @@
 
 - [x] `id: literature-library`，`toolPrefix: lit`，`type: plugin`
 - [x] 无私有 `environments:`；技能用 `phi:python@1`
-- [x] `components.skills` 列全 skill 目录（含 `lit-institutional` 与全部 wiki-*）
-- [x] semver：`0.6.0`
+- [x] `components.skills` 只列 `skills/literature-library` 与 `skills/lit-wiki`（`lit_institutional_access` 与全部 wiki 工具仍在）
+- [x] semver：`0.6.1`（打包变更；`lit_*` 工具 id 与 CLI 行为不变）
 - [x] `toolPrefix: lit` 与本仓库另一插件 `viz` 及独立 skill 前缀不冲突
 
 ## Agent / Skills
@@ -31,8 +31,8 @@
 - [x] collection create 默认 wiki-init（`--no_wiki` 可关）
 - [x] 可选 MCP *client*（`providers_mcp` / `--backend mcp`）；HTTP 仍默认；宿主需提供 `LIT_MCP_CMD`
 - [x] research-evidence `literature-search` 可 `--delegate_lit` / `--hits_jsonl`（插件不合并）
-- [x] `lit-ingest` 含 `watch_rebind.py` 与 `pdf_extract.py`（OCR soft-fail）
-- [x] `lit-institutional`：本人账号脚手架
+- [x] `literature-library` 含 `watch_rebind.py` 与 `pdf_extract.py`（OCR soft-fail）
+- [x] `lit_institutional_access`：本人账号脚手架（脚本在 `literature-library`）
 
 ## 测试
 
@@ -71,5 +71,5 @@
 | --- | --- |
 | 插件 id | literature-library |
 | toolPrefix | lit |
-| 版本 | 0.6.0 |
+| 版本 | 0.6.1 |
 | 知识层 | SQLite + LLM Wiki（无 embedding） |

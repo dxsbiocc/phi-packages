@@ -4,9 +4,9 @@ Implements the five deferred items from UX-NOTES-0.5.3.
 
 | # | Item | Landed |
 |--|--|--|
-| 1 | Background path-watch auto-rebind | `skills/lit-ingest/scripts/watch_rebind.py` (stdlib poll; `--once` / `--interval`; dry-run / `--confirm`; reuses `rebind_pub_files`) |
+| 1 | Background path-watch auto-rebind | `skills/literature-library/scripts/watch_rebind.py` (stdlib poll; `--once` / `--interval`; dry-run / `--confirm`; reuses `rebind_pub_files`) |
 | 2 | PDF binary text + optional OCR | `pdf_extract.py` + ingest path: **pdftotext** default; tesseract / `LIT_PDF_OCR_CMD` soft-fail; TextIn **not** required / not KB |
-| 3 | Campus / SSO authorized full-text | `skills/lit-institutional/` — `--institutional_access` gate; methods `vpn_proxy` \| `session_reuse` \| `saml_browser` \| `user_provided_file`; `LIT_INSTITUTIONAL_PROXY`; credentials stay in user vault |
+| 3 | Campus / SSO authorized full-text | `skills/literature-library/scripts/institutional_access.py` — `--institutional_access` gate; methods `vpn_proxy` \| `session_reuse` \| `saml_browser` \| `user_provided_file`; `LIT_INSTITUTIONAL_PROXY`; credentials stay in user vault |
 | 4 | Optional MCP client + reev consumer | `providers_mcp.py`; `--backend mcp` / `LIT_SEARCH_BACKEND`; `--mcp_mock_fixture`; HTTP remains default. research-evidence `literature-search` can `--delegate_lit` / `--hits_jsonl` |
 | 5 | Packaging | version **0.6.0** landed in phi-packages (first package landing; `-draft` dropped); schema **v6**; `demo-*` trees excluded |
 

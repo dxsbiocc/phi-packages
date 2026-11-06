@@ -9,7 +9,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "skills" / "lit-wiki-lib" / "scripts"))
+sys.path.insert(0, str(ROOT / "skills" / "lit-wiki" / "scripts"))
 
 from wiki_llm import (  # noqa: E402
     CompileRequestNeeded,

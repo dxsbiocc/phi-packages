@@ -11,17 +11,15 @@ from pathlib import Path
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "skills" / "lit-search" / "scripts"))
-sys.path.insert(0, str(ROOT / "skills" / "lit-expand" / "scripts"))
-sys.path.insert(0, str(ROOT / "skills" / "lit-db" / "scripts"))
+sys.path.insert(0, str(ROOT / "skills" / "literature-library" / "scripts"))
 
 import providers_http as ph  # noqa: E402
 import expand as expand_mod  # noqa: E402
 from db import init_db, open_db  # noqa: E402
 
 FX = ROOT / "tests" / "fixtures" / "providers"
-EXPAND_PY = ROOT / "skills" / "lit-expand" / "scripts" / "expand.py"
-COLLECTION_PY = ROOT / "skills" / "lit-collection" / "scripts" / "collection.py"
+EXPAND_PY = ROOT / "skills" / "literature-library" / "scripts" / "expand.py"
+COLLECTION_PY = ROOT / "skills" / "literature-library" / "scripts" / "collection.py"
 
 
 class FakeHTTPResponse:

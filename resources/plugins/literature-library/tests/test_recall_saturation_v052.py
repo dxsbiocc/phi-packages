@@ -10,8 +10,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "skills" / "lit-db" / "scripts"))
-sys.path.insert(0, str(ROOT / "skills" / "lit-expand" / "scripts"))
+sys.path.insert(0, str(ROOT / "skills" / "literature-library" / "scripts"))
 
 from db import (  # noqa: E402
     PROTOCOL_VERSION,
@@ -55,7 +54,7 @@ class ProtocolGoldFieldsTests(unittest.TestCase):
             out, rc = _run(
                 [
                     sys.executable,
-                    str(ROOT / "skills/lit-run-config/scripts/run_config.py"),
+                    str(ROOT / "skills/literature-library/scripts/run_config.py"),
                     "--project_root",
                     str(root),
                     "--collection_id",
@@ -309,7 +308,7 @@ class SaturationTests(unittest.TestCase):
             out1, rc1 = _run(
                 [
                     sys.executable,
-                    str(ROOT / "skills/lit-expand/scripts/expand.py"),
+                    str(ROOT / "skills/literature-library/scripts/expand.py"),
                     "--project_root",
                     str(root),
                     "--collection_id",
@@ -330,7 +329,7 @@ class SaturationTests(unittest.TestCase):
             out2, rc2 = _run(
                 [
                     sys.executable,
-                    str(ROOT / "skills/lit-expand/scripts/expand.py"),
+                    str(ROOT / "skills/literature-library/scripts/expand.py"),
                     "--project_root",
                     str(root),
                     "--collection_id",
