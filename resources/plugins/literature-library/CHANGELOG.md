@@ -44,6 +44,15 @@ Restructured around tasks instead of scripts. **Tool names changed; there are no
 - Entity pages: genes and proteins are now ordinary concepts. Existing `entities/` pages are still
   linted.
 
+### Papers without an identifier
+
+- A PDF with no DOI, PMID or arXiv id is identified by its content hash (`tmp:<sha256 prefix>`)
+  instead of a random id, so re-importing it, or a renamed copy, no longer creates a second record
+  or a review flag. A file already in the library resolves to its record even after that record
+  was merged into a DOI.
+- Chinese front matter: the title stops before the author, date and 摘要 heading, and the abstract
+  is read from under 摘要.
+
 ### Compatibility
 
 `library.sqlite` moves from schema v6 to v7: one added column, `publications.enriched_at`

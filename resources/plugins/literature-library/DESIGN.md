@@ -58,5 +58,5 @@ DOAJ, DataCite, Zenodo) were dropped; add one back only with a concrete need.
 ## Known limits
 
 - Live HTTP paths are covered by fixtures, not by CI against the real services.
-- A PDF with no identifier in its text or name gets a temporary `tmp:` id and cannot be deduplicated.
+- A PDF with no identifier (a thesis, a proposal, a report) is identified by its content hash, `tmp:<sha256 prefix>`: the same file imported again, or under another name, is the same record. Two differently typeset copies of one paper are not detected as duplicates unless a registry id or title match joins them.
 - Wiki quality depends on the abstract; `with_fulltext` adds up to the first N characters of a saved PDF.

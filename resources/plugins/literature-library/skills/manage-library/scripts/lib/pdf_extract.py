@@ -326,16 +326,42 @@ _ABSTRACT_RE = re.compile(
     r"(?=\n\s*(?:keywords?|key words|introduction|1[.\s]+introduction|background)\b|\Z)",
     re.I | re.S,
 )
+# Chinese: "摘 要" heading, ended by 关键词 or the first numbered section ("1 研究背景").
+_ABSTRACT_ZH_RE = re.compile(
+    r"摘\s*要[\s:：]*(?P<body>.{60,3000}?)"
+    r"(?=\n\s*(?:关键词|关键字|keywords?)|\n\s*\d+[.\s]+\S|\Z)",
+    re.S,
+)
+_CJK = re.compile(r"[\u3400-\u9fff]")
+
+
+def _join_lines(text: str) -> str:
+    """Join wrapped lines; no space is added next to Chinese characters."""
+    out = ""
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line:
+            continue
+        if out and not (_CJK.search(out[-1]) or _CJK.search(line[0])):
+            out += " "
+        out += line
+    return out
 
 
 def guess_abstract(text: str) -> Optional[str]:
-    """The paragraph after an 'Abstract' heading in the first pages, or None."""
+    """The paragraph after an 'Abstract' (or 摘要) heading in the first pages, or None."""
     head = (text or "")[:15000]
     m = _ABSTRACT_RE.search(head)
-    if not m:
-        return None
-    body = re.sub(r"\s*\n\s*", " ", m.group("body")).strip()
-    return body if len(body) >= 200 else None
+    if m:
+        body = re.sub(r"\s*\n\s*", " ", m.group("body")).strip()
+        if len(body) >= 200:
+            return body
+    m = _ABSTRACT_ZH_RE.search(head)
+    if m:
+        body = _join_lines(m.group("body"))
+        if len(body) >= 60:
+            return body
+    return None
 
 
 def front_matter_text(path: Path, *, pages: int = 2, pdftotext_bin: Optional[str] = None) -> str:
@@ -366,12 +392,16 @@ _HEADER_JUNK = re.compile(
 _AUTHOR_LINE = re.compile(r"[A-Za-z]\d(?:,\d)*\*?,|\*,|,.*,.*,")
 
 
+_TITLE_STOP = re.compile(r"^\s*(?:摘\s*要|abstract|目\s*录)\s*$|\d{4}\s*年|^\s*(?:作者|姓名|导师|佚名)", re.I)
+
+
 def _title_like(line: str) -> bool:
     words = line.split()
     letters = [c for c in line if c.isalpha()]
+    long_enough = (len(words) >= 3 and len(line) >= 15) or len(_CJK.findall(line)) >= 8
     return (
-        len(words) >= 3
-        and len(line) >= 15
+        long_enough
+        and not _TITLE_STOP.search(line)
         and not _HEADER_JUNK.search(line)
         and not (letters and all(c.isupper() for c in letters))
     )
@@ -389,11 +419,14 @@ def guess_title(text: str) -> Optional[str]:
             continue
         parts = [line]
         for nxt in lines[i + 1 : i + 5]:
-            if not nxt or _AUTHOR_LINE.search(nxt) or _HEADER_JUNK.search(nxt):
+            if not nxt or _AUTHOR_LINE.search(nxt) or _HEADER_JUNK.search(nxt) or _TITLE_STOP.search(nxt):
                 break
             if parts[-1].endswith((".", "?")) or len(nxt.split()) > 12:
                 break
+            if _CJK.search(nxt) and len(nxt) <= 6:
+                break  # a short Chinese line after the title is an author name
             parts.append(nxt)
-        title = re.sub(r"\s+", " ", " ".join(parts)).strip()
-        return title[:300] if len(title.split()) >= 4 else None
+        title = re.sub(r"\s+", " ", _join_lines("\n".join(parts))).strip()
+        enough = len(title.split()) >= 4 or len(_CJK.findall(title)) >= 8
+        return title[:300] if enough else None
     return None

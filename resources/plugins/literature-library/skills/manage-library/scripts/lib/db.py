@@ -164,7 +164,10 @@ def canonical_id_from_ids(
     arxiv: Optional[str] = None,
     openalex: Optional[str] = None,
     soft: Optional[str] = None,
+    content_key: Optional[str] = None,
 ) -> str:
+    """Primary key for a paper. With no identifier at all, a file's content hash (when given) keeps
+    the id stable, so importing the same file twice finds the same record."""
     if doi:
         return f"doi:{doi}"
     if pmid:
@@ -177,6 +180,8 @@ def canonical_id_from_ids(
         return f"openalex:{openalex}"
     if soft:
         return f"soft:{soft}"
+    if content_key:
+        return f"tmp:{content_key[:16]}"
     return f"tmp:{uuid.uuid4().hex[:12]}"
 
 
@@ -810,6 +815,7 @@ def resolve_or_create(conn: sqlite3.Connection, publication_draft: dict[str, Any
     canon = canonical_id_from_ids(
         doi=ids["doi"], pmid=ids["pmid"], pmcid=ids["pmcid"],
         arxiv=ids["arxiv"], openalex=ids["openalex"], soft=soft,
+        content_key=publication_draft.get("content_hash"),
     )
     if conn.execute("SELECT 1 FROM publications WHERE id=?", (canon,)).fetchone():
         # Extremely rare collision on soft/tmp — merge into existing id

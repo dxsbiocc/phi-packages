@@ -13,12 +13,14 @@
 - With an id found, the title, abstract, year and authors are looked up from PubMed, Europe PMC
   or Crossref. The PDF's text is not stored as the abstract; read it with
   `lit_get with_fulltext`.
-- A PDF with no recognisable id is saved under a temporary id (`tmp:...`) with a title guessed
-  from the PDF metadata or first page. Enrichment then looks that title up in Crossref and
-  accepts it only when the match is near-identical; the `tmp:` record is merged into the found
-  paper (`matched_by_title` in the result: tell the user which papers were identified this way).
-  If nothing matches, tell the user which files stay unidentified and ask for the DOI or PMID.
-  Never guess one.
+- A PDF with no recognisable id (a thesis, a proposal, an internal report, a Chinese document) is
+  a normal library entry, not an error. Its id is `tmp:` plus a prefix of the file's SHA-256, so
+  importing the same bytes again, under any name, finds the same record. Title and abstract are
+  read from the PDF itself (English "Abstract" or Chinese 摘要). When the title is real and there
+  is no abstract, enrichment tries a near-identical Crossref title match and merges the `tmp:`
+  record into the paper it finds (`matched_by_title`: tell the user which papers were identified
+  this way). Do not ask the user for a DOI for such files, and never invent one; give a DOI only
+  when the user has one.
 - `no_enrich` skips the metadata lookup (use it offline).
 - `verify_oa` checks whether open-access links serve a PDF. Without a link in the record it asks
   OpenAlex for one by DOI. A link is never treated as an owned file.

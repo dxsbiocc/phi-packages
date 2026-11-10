@@ -458,6 +458,33 @@ def file_content_hash(path: Path) -> str:
     return h.hexdigest()
 
 
+def _with_file_identity(conn: Any, rec: dict[str, Any]) -> dict[str, Any]:
+    """Give a paper that has no identifier an identity from its file's bytes.
+
+    A file already in the library resolves to its record (also after that record found a DOI);
+    a new one gets a stable ``tmp:<hash>`` id, so re-importing never duplicates it.
+    """
+    local = rec.get("_local_file") or rec.get("file_path")
+    if not local or Path(str(local)).suffix.lower() in _METADATA_ONLY_SUFFIXES:
+        return rec
+    if any(rec.get(k) for k in ("doi", "pmid", "pmcid", "arxiv", "openalex")):
+        return rec
+    path = Path(str(local))
+    try:
+        digest = file_content_hash(path) if path.is_file() else ""
+    except OSError:
+        digest = ""
+    if not digest:
+        return rec
+    out = {**rec, "content_hash": digest}
+    row = conn.execute(
+        "SELECT publication_id FROM pub_files WHERE content_hash = ? LIMIT 1", (digest,)
+    ).fetchone()
+    if row:
+        out["_known_publication_id"] = row["publication_id"]
+    return out
+
+
 def _merge_extracted_ids(draft: dict[str, Any], extracted: dict[str, Any]) -> dict[str, Any]:
     out = dict(draft)
     for k in ("doi", "pmid", "pmcid", "arxiv", "openalex"):
@@ -759,7 +786,12 @@ def ingest_records(
                         dedupe_action="skipped",
                     )
                 continue
-            result = resolve_or_create(conn, rec)
+            rec = _with_file_identity(conn, rec)
+            known = rec.pop("_known_publication_id", None)
+            if known:
+                result = {"publication_id": known, "action": "merged", "matched_via": ["content_hash"]}
+            else:
+                result = resolve_or_create(conn, rec)
             action = result["action"]
             counts[action] = counts.get(action, 0) + 1
             pub_id = result["publication_id"]
