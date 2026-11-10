@@ -355,3 +355,45 @@ def front_matter_text(path: Path, *, pages: int = 2, pdftotext_bin: Optional[str
     except (OSError, subprocess.TimeoutExpired):
         return ""
     return proc.stdout.decode("utf-8", errors="replace")
+
+
+_HEADER_JUNK = re.compile(
+    r"\||doi|https?:|www\.|©|preprint|copyright|journal|volume|issn|research article|review article|"
+    r"original article|contents lists|available online|downloaded from|accepted|received|published|"
+    r"license|available under|cc-by|\(\d{4}\)|\bvol\.|\bpp\.",
+    re.I,
+)
+_AUTHOR_LINE = re.compile(r"[A-Za-z]\d(?:,\d)*\*?,|\*,|,.*,.*,")
+
+
+def _title_like(line: str) -> bool:
+    words = line.split()
+    letters = [c for c in line if c.isalpha()]
+    return (
+        len(words) >= 3
+        and len(line) >= 15
+        and not _HEADER_JUNK.search(line)
+        and not (letters and all(c.isupper() for c in letters))
+    )
+
+
+def guess_title(text: str) -> Optional[str]:
+    """Best-effort paper title from first-page reading-order text, or None.
+
+    Skips journal headers, ALL-CAPS section labels, citation and copyright lines, joins a title
+    that wraps over up to four lines, and stops at the author line. Treat it as a guess.
+    """
+    lines = [ln.replace("\u00ad", "").strip() for ln in (text or "").splitlines()[:60]]
+    for i, line in enumerate(lines):
+        if not _title_like(line) or _AUTHOR_LINE.search(line):
+            continue
+        parts = [line]
+        for nxt in lines[i + 1 : i + 5]:
+            if not nxt or _AUTHOR_LINE.search(nxt) or _HEADER_JUNK.search(nxt):
+                break
+            if parts[-1].endswith((".", "?")) or len(nxt.split()) > 12:
+                break
+            parts.append(nxt)
+        title = re.sub(r"\s+", " ", " ".join(parts)).strip()
+        return title[:300] if len(title.split()) >= 4 else None
+    return None

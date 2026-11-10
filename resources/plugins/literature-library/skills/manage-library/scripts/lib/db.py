@@ -30,7 +30,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
-SCHEMA_VERSION = 6
+SCHEMA_VERSION = 7
 
 STRONG_ID_KEYS = ("doi", "pmid", "pmcid", "arxiv", "openalex")
 
@@ -316,6 +316,7 @@ def init_db(path: str | Path) -> dict[str, Any]:
         _ensure_runs_gate_columns(conn)
         _ensure_pub_files(conn)
         _ensure_oa_columns(conn)
+        _ensure_enriched_at(conn)
         conn.execute(
             "INSERT OR REPLACE INTO meta(key, value) VALUES ('schema_version', ?)",
             (str(SCHEMA_VERSION),),
@@ -445,6 +446,17 @@ def _ensure_pub_files_access_columns(conn: sqlite3.Connection) -> None:
         conn.execute("ALTER TABLE pub_files ADD COLUMN access_method TEXT")
 
 
+def _ensure_enriched_at(conn: sqlite3.Connection) -> None:
+    """Idempotent publications.enriched_at: when metadata lookup last ran (success or not)."""
+    cols = {r[1] for r in conn.execute("PRAGMA table_info(publications)").fetchall()}
+    if "enriched_at" not in cols:
+        conn.execute("ALTER TABLE publications ADD COLUMN enriched_at TEXT")
+
+
+def mark_enriched(conn: sqlite3.Connection, publication_id: str) -> None:
+    conn.execute("UPDATE publications SET enriched_at=? WHERE id=?", (utc_now(), publication_id))
+
+
 def _ensure_oa_columns(conn: sqlite3.Connection) -> None:
     """Idempotent publications.oa_status / oa_json for candidate URL verification."""
     cols = {r[1] for r in conn.execute("PRAGMA table_info(publications)").fetchall()}
@@ -554,6 +566,8 @@ def _migrate_schema(conn: sqlite3.Connection) -> None:
     if current < 6:
         _ensure_pub_files(conn)  # creates table if missing
         _ensure_pub_files_access_columns(conn)
+    if current < 7:
+        _ensure_enriched_at(conn)
     if current < SCHEMA_VERSION:
         conn.execute(
             "INSERT OR REPLACE INTO meta(key, value) VALUES ('schema_version', ?)",

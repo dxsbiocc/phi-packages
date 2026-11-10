@@ -17,7 +17,7 @@ from wiki import concepts_needing_definition, safe_id, sources_written, vault_ro
 def _collection_status(conn, col) -> dict:
     cid = col["id"]
     pubs = [dict(r) for r in conn.execute(
-        "SELECT p.id, p.title, p.abstract, p.needs_review FROM publications p "
+        "SELECT p.id, p.title, p.abstract, p.needs_review, p.enriched_at FROM publications p "
         "JOIN collection_pubs cp ON cp.publication_id = p.id WHERE cp.collection_id = ?", (cid,))]
     ids = [p["id"] for p in pubs]
     files = {}
@@ -28,6 +28,8 @@ def _collection_status(conn, col) -> dict:
             files.setdefault(r["publication_id"], []).append(r["file_path"])
     n_missing_files = sum(1 for fs in files.values() for f in fs if not Path(f).is_file())
     no_abstract = [p for p in pubs if not (p["abstract"] or "").strip()]
+    unresolved = [p for p in no_abstract if not p["enriched_at"]]
+    looked_up = len(no_abstract) - len(unresolved)
     pending_links = conn.execute(
         "SELECT COUNT(*) FROM publication_versions WHERE needs_confirm = 1"
     ).fetchone()[0]
@@ -45,8 +47,13 @@ def _collection_status(conn, col) -> dict:
         next_steps.append("Empty collection: run lit_search or lit_import.")
     if n_review:
         next_steps.append(f"{n_review} paper(s) need an identity decision: lit_curate action=queue.")
-    if no_abstract:
-        next_steps.append(f"{len(no_abstract)} paper(s) have no abstract: lit_curate action=enrich.")
+    if unresolved:
+        next_steps.append(f"{len(unresolved)} paper(s) have no abstract: lit_curate action=enrich.")
+    if looked_up:
+        next_steps.append(
+            f"{looked_up} paper(s) have no abstract in any registry; they will not be looked up again "
+            "(read the saved PDF with lit_get with_fulltext)."
+        )
     if pending_links:
         next_steps.append(f"{pending_links} preprint/journal link(s) await confirmation: lit_curate action=versions.")
     if n_missing_files:

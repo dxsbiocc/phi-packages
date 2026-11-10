@@ -41,11 +41,11 @@ def _col(root: Path, cid: str = "col-v60") -> str:
 
 class SchemaV6Tests(unittest.TestCase):
     def test_schema_v6_access_columns(self):
-        self.assertEqual(SCHEMA_VERSION, 6)
+        self.assertEqual(SCHEMA_VERSION, 7)
         with tempfile.TemporaryDirectory() as td:
             db = Path(td) / "library.sqlite"
             info = init_db(db)
-            self.assertEqual(info["schema_version"], 6)
+            self.assertEqual(info["schema_version"], 7)
             conn = open_db(db)
             try:
                 cols = {r[1] for r in conn.execute("PRAGMA table_info(pub_files)")}
@@ -96,9 +96,11 @@ class SchemaV6Tests(unittest.TestCase):
                 row = conn2.execute(
                     "SELECT value FROM meta WHERE key='schema_version'"
                 ).fetchone()
-                self.assertEqual(row["value"], "6")
+                self.assertEqual(row["value"], "7")
                 cols = {r[1] for r in conn2.execute("PRAGMA table_info(pub_files)")}
                 self.assertIn("access_origin", cols)
+                pub_cols = {r[1] for r in conn2.execute("PRAGMA table_info(publications)")}
+                self.assertIn("enriched_at", pub_cols)
             finally:
                 conn2.close()
 

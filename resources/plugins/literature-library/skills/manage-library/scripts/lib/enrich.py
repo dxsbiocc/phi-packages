@@ -15,12 +15,21 @@ from typing import Any, Optional
 
 from db import (  # noqa: E402
     _is_shell_title,
+    mark_enriched,
+    merge_publication_cluster,
     open_db,
     resolve_or_create,
     set_publication_oa,
 )
 from oa_verify import verify_record_oa  # noqa: E402
-from providers_http import fetch_by_doi, fetch_by_pmid  # noqa: E402
+from providers_http import (  # noqa: E402
+    TITLE_MATCH_MIN,
+    fetch_by_arxiv,
+    fetch_by_doi,
+    fetch_by_pmid,
+    find_by_title,
+    title_similarity,
+)
 
 DEFAULT_MOCK = (
     Path(__file__).resolve().parents[4] / "tests" / "fixtures" / "enrich_mock_zheng.json"
@@ -28,13 +37,20 @@ DEFAULT_MOCK = (
 
 
 def needs_enrich(row: dict[str, Any]) -> bool:
-    """True when publication looks like an ID-only shell needing metadata."""
+    """True when a paper lacks what a registry lookup could supply."""
+    if row.get("enriched_at"):
+        return False  # already looked up; use force to try again
     abstract = (row.get("abstract") or "").strip()
-    if _is_shell_title(row) or not (row.get("title") or "").strip():
-        return bool(row.get("doi") or row.get("pmid") or not abstract)
-    # A paper with a DOI/PMID but no abstract (typical for a local PDF) can be completed
-    # from the registries even when its title looks real.
-    return bool((row.get("doi") or row.get("pmid")) and not abstract)
+    has_id = bool(row.get("doi") or row.get("pmid") or row.get("arxiv"))
+    title = (row.get("title") or "").strip()
+    if _is_shell_title(row) or not title:
+        return has_id or not abstract
+    if has_id:
+        # A local PDF carries no author list; registry records always do.
+        has_authors = (row.get("authors_json") or "[]") not in ("[]", "null", "")
+        return not abstract or not has_authors
+    # No identifier: a real, multi-word title and no abstract can still be matched by title.
+    return not abstract and len(title.split()) >= 4
 
 
 def _load_mock(path: Path) -> dict[str, dict[str, Any]]:
@@ -48,6 +64,8 @@ def fetch_metadata(
     *,
     pmid: Optional[str],
     doi: Optional[str],
+    arxiv: Optional[str] = None,
+    title: Optional[str] = None,
     mock: bool = False,
     mock_fixture: Optional[Path] = None,
 ) -> tuple[Optional[dict[str, Any]], dict[str, Any]]:
@@ -79,6 +97,21 @@ def fetch_metadata(
         if hit and (hit.get("title") or hit.get("abstract")):
             return hit, meta
         errors.append(f"doi:{meta.get('message') or 'miss'}")
+    if arxiv:
+        hit, meta = fetch_by_arxiv(str(arxiv))
+        if hit and (hit.get("title") or hit.get("abstract")):
+            return hit, meta
+        errors.append(f"arxiv:{meta.get('message') or 'miss'}")
+    if not (pmid or doi or arxiv) and title:
+        # No identifier at all (e.g. a PDF without a DOI): accept only a near-identical title.
+        hit, meta = find_by_title(title)
+        if hit:
+            if hit.get("doi"):
+                full, fmeta = fetch_by_doi(hit["doi"])  # richer record (abstract) when indexed
+                if full and full.get("title") and title_similarity(title, full["title"]) >= TITLE_MATCH_MIN:
+                    hit, meta = full, {**fmeta, **{k: meta[k] for k in ("title_similarity",) if k in meta}, "via": "title_then_doi"}
+            return hit, meta
+        errors.append(f"title:{meta.get('message') or 'miss'}")
     return None, {"provider": "error", "message": "; ".join(errors) or "no strong id"}
 
 
@@ -138,11 +171,15 @@ def enrich_publications(
             hit, meta = fetch_metadata(
                 pmid=row.get("pmid"),
                 doi=row.get("doi"),
+                arxiv=row.get("arxiv"),
+                title=None if _is_shell_title(row) else row.get("title"),
                 mock=mock,
                 mock_fixture=mock_fixture,
             )
             if not hit:
                 n_failed += 1
+                if not dry_run and "no near-identical title" in str(meta.get("message")):
+                    mark_enriched(conn, pid)  # a definite "not found", not a network error
                 details.append(
                     {
                         "publication_id": pid,
@@ -156,6 +193,7 @@ def enrich_publications(
                 "doi": hit.get("doi") or row.get("doi"),
                 "pmid": hit.get("pmid") or row.get("pmid"),
                 "pmcid": hit.get("pmcid") or row.get("pmcid"),
+                "arxiv": hit.get("arxiv") or row.get("arxiv"),
                 "title": hit.get("title"),
                 "abstract": hit.get("abstract"),
                 "authors": hit.get("authors"),
@@ -179,6 +217,19 @@ def enrich_publications(
             result = resolve_or_create(conn, draft)
             entry["merge_action"] = result.get("action")
             entry["canonical_id"] = result.get("publication_id")
+            if meta.get("title_similarity") is not None:
+                entry["matched_by_title"] = meta["title_similarity"]
+            canonical = result.get("publication_id")
+            if not dry_run and canonical and canonical != pid and pid.startswith("tmp:"):
+                # The temporary record found its identity: fold it into the canonical one.
+                merged = merge_publication_cluster(conn, [pid, canonical], preferred_id=canonical, clear_review=True)
+                entry["merged_tmp_into"] = merged.get("publication_id") or canonical
+            if not dry_run:
+                # Found in a registry: do not look this paper up again just because the
+                # registry has no abstract for it. Failed lookups stay retriable.
+                for mid in {pid, result.get("publication_id")}:
+                    if mid:
+                        mark_enriched(conn, mid)
             if verify_oa and not dry_run:
                 oa_res = verify_record_oa(draft, mock_map=oa_mock_map)
                 set_publication_oa(conn, result["publication_id"], oa_res)

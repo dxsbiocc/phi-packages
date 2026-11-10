@@ -51,7 +51,7 @@ class NeedsEnrichTests(unittest.TestCase):
             needs_enrich({"title": "10.1016/j.cell.2017.05.035", "doi": "10.1016/j.cell.2017.05.035", "abstract": ""})
         )
         self.assertFalse(
-            needs_enrich({"title": "Real Title", "abstract": "x" * 50, "doi": "10.1/x"})
+            needs_enrich({"title": "Real Title", "abstract": "x" * 50, "doi": "10.1/x", "authors_json": '["A, B"]'})
         )
 
 

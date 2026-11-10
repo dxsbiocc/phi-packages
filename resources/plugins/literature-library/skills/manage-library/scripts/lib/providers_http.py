@@ -21,10 +21,12 @@ import os
 import re
 import ssl
 import time
+import unicodedata
 import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import date, timedelta
+from difflib import SequenceMatcher
 from typing import Any, Optional
 from xml.etree import ElementTree as ET
 
@@ -969,6 +971,60 @@ def fetch_by_doi(doi: str) -> tuple[Optional[dict[str, Any]], dict[str, Any]]:
         "source": "doi",
         "message": pubmed_err or meta.get("message") or "no hit for doi",
     }
+
+
+def fetch_by_arxiv(arxiv_id: str) -> tuple[Optional[dict[str, Any]], dict[str, Any]]:
+    """One arXiv entry by id (e.g. 2205.12454). Returns (hit_or_None, meta)."""
+    aid = re.sub(r"^arxiv:", "", (arxiv_id or "").strip(), flags=re.I)
+    if not aid:
+        return None, {"provider": "error", "source": "arxiv", "message": "empty arxiv id"}
+    url = "https://export.arxiv.org/api/query?" + urllib.parse.urlencode({"id_list": aid, "max_results": "1"})
+    try:
+        root = ET.fromstring(_get(url))
+    except (urllib.error.URLError, TimeoutError, ET.ParseError, OSError) as e:
+        return None, {"provider": "error", "source": "arxiv", "message": str(e)}
+    for entry in root.findall("atom:entry", ATOM_NS):
+        h = _hit_from_arxiv_entry(entry)
+        if h and h.get("title"):
+            return h, {"provider": "http", "source": "arxiv", "via": "arxiv_id"}
+    return None, {"provider": "http", "source": "arxiv", "message": "no hit"}
+
+
+def _norm_title(text: str) -> str:
+    return re.sub(r"[^a-z0-9]+", " ", unicodedata.normalize("NFKD", text or "").lower()).strip()
+
+
+def title_similarity(a: str, b: str) -> float:
+    return SequenceMatcher(None, _norm_title(a), _norm_title(b)).ratio()
+
+
+TITLE_MATCH_MIN = 0.95
+
+
+def find_by_title(title: str) -> tuple[Optional[dict[str, Any]], dict[str, Any]]:
+    """Find a paper by its exact title in Crossref. Only a near-identical title is accepted."""
+    t = re.sub(r"\s+", " ", title or "").strip()
+    if len(t.split()) < 4:
+        return None, {"provider": "error", "source": "crossref", "message": "title too short to match"}
+    try:
+        body = _get_json(_crossref_url("works", {"query.bibliographic": t, "rows": "10"}))
+    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError, OSError) as e:
+        return None, {"provider": "error", "source": "crossref", "message": str(e)}
+    best, best_score, best_cited = None, 0.0, -1
+    for row in ((body.get("message") or {}).get("items") or []):
+        row = row if isinstance(row, dict) else {}
+        h = _hit_from_crossref(row)
+        if not h or not h.get("title"):
+            continue
+        score = title_similarity(t, h["title"])
+        cited = int(row.get("is-referenced-by-count") or 0)
+        # Conference abstracts often reuse a paper's exact title: on a (near) tie, the
+        # version that others cite is the article.
+        if score > best_score + 0.01 or (abs(score - best_score) <= 0.01 and cited > best_cited):
+            best, best_score, best_cited = h, max(score, best_score), cited
+    if best and best_score >= TITLE_MATCH_MIN:
+        return best, {"provider": "http", "source": "crossref", "via": "title_crossref", "title_similarity": round(best_score, 3)}
+    return None, {"provider": "http", "source": "crossref", "message": "no near-identical title", "best_similarity": round(best_score, 3)}
 
 
 # ---------------------------------------------------------------------------

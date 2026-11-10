@@ -47,6 +47,7 @@ def main() -> int:
     p.add_argument("--collection_id", default="")
     p.add_argument("--publication_id", default="", help="enrich: only this paper")
     p.add_argument("--limit", type=int, default=100, help="queue: max items")
+    p.add_argument("--force", action="store_true", help="enrich: look up papers again even if already looked up")
     p.add_argument("--versions_action", default="detect", choices=("detect", "apply", "propose", "confirm"))
     p.add_argument("--from_id", default="", help="versions propose: preprint id")
     p.add_argument("--to_id", default="", help="versions propose: journal id")
@@ -80,6 +81,8 @@ def main() -> int:
             argv += ["--publication_id", args.publication_id]
         if args.mock:
             argv.append("--mock")
+        if args.force:
+            argv.append("--force")
         return _run("enrich.py", argv)
     if args.action == "versions":
         argv = [*root, *scope, "--action", args.versions_action]

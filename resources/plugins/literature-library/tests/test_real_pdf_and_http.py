@@ -36,11 +36,66 @@ class EnrichGateTests(unittest.TestCase):
     def test_paper_with_doi_but_no_abstract_is_enriched(self):
         self.assertTrue(needs_enrich({"title": "A real title here", "doi": "10.1/x", "abstract": ""}))
 
-    def test_paper_with_abstract_is_left_alone(self):
-        self.assertFalse(needs_enrich({"title": "T title", "doi": "10.1/x", "abstract": "abs", "year": None}))
+    def test_already_looked_up_paper_is_not_retried(self):
+        row = {"title": "A real title here", "doi": "10.1/x", "abstract": "", "enriched_at": "2026-01-01T00:00:00Z"}
+        self.assertFalse(needs_enrich(row))
 
-    def test_no_id_and_real_title_is_not_enriched(self):
-        self.assertFalse(needs_enrich({"title": "A real title here", "abstract": "", "year": None}))
+    def test_paper_with_abstract_is_left_alone(self):
+        row = {"title": "T title", "doi": "10.1/x", "abstract": "abs", "authors_json": '["A, B"]'}
+        self.assertFalse(needs_enrich(row))
+
+    def test_pdf_record_without_authors_is_enriched_even_with_an_abstract(self):
+        self.assertTrue(needs_enrich({"title": "GraphGPS", "arxiv": "2205.12454", "abstract": "guessed", "authors_json": None}))
+
+    def test_no_id_but_a_real_title_is_matched_by_title(self):
+        self.assertTrue(needs_enrich({"title": "Causal machine learning for single-cell genomics", "abstract": ""}))
+
+    def test_no_id_and_a_short_title_is_not_looked_up(self):
+        self.assertFalse(needs_enrich({"title": "GraphGPS", "abstract": ""}))
+
+    def test_arxiv_only_paper_is_enriched(self):
+        self.assertTrue(needs_enrich({"title": "GraphGPS", "arxiv": "2205.12454", "abstract": ""}))
+
+
+class OaGateTests(unittest.TestCase):
+    def test_live_classification_downgrades_html_on_pdf_url(self):
+        class Resp:
+            status = 200
+            headers = {"Content-Type": "text/html; charset=utf-8"}
+            def getcode(self): return 200
+            def geturl(self): return "https://x.org/a.pdf"
+            def __enter__(self): return self
+            def __exit__(self, *a): return False
+        out = oa_verify.verify_oa_url("https://x.org/a.pdf", opener=lambda req, timeout: Resp())
+        self.assertEqual(out["oa_status"], "unknown")
+        self.assertIn("browser", out["message"])
+
+    def test_html_landing_page_is_still_not_pdf(self):
+        class Resp:
+            status = 200
+            headers = {"Content-Type": "text/html"}
+            def getcode(self): return 200
+            def geturl(self): return "https://x.org/article/123"
+            def __enter__(self): return self
+            def __exit__(self, *a): return False
+        out = oa_verify.verify_oa_url("https://x.org/article/123", opener=lambda req, timeout: Resp())
+        self.assertEqual(out["oa_status"], "not_pdf")
+
+
+class TitleMatchTests(unittest.TestCase):
+    def test_near_identical_title_is_accepted_and_different_one_rejected(self):
+        item = {"DOI": "10.1038/s41588-025-02124-2", "title": ["Causal machine learning for single-cell genomics"], "issued": {"date-parts": [[2025]]}}
+        with mock.patch.object(providers_http, "_get_json", return_value={"message": {"items": [item]}}):
+            hit, meta = providers_http.find_by_title("Causal Machine Learning for Single-Cell Genomics.")
+            self.assertEqual(hit["doi"], "10.1038/s41588-025-02124-2")
+            hit, meta = providers_http.find_by_title("A completely different paper about liver regeneration")
+            self.assertIsNone(hit)
+
+    def test_short_title_is_not_searched(self):
+        with mock.patch.object(providers_http, "_get_json") as get:
+            hit, _ = providers_http.find_by_title("GraphGPS")
+        self.assertIsNone(hit)
+        get.assert_not_called()
 
 
 class HttpTests(unittest.TestCase):

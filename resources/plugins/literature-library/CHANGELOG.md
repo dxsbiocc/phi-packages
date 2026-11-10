@@ -46,5 +46,7 @@ Restructured around tasks instead of scripts. **Tool names changed; there are no
 
 ### Compatibility
 
-`library.sqlite` schema is unchanged (v6) and old databases open as before. Old wiki vaults still
-lint; `wiki/concepts/_contrib/` files are no longer read.
+`library.sqlite` moves from schema v6 to v7: one added column, `publications.enriched_at`
+(when metadata was last looked up, so papers with no registry abstract are not re-queried). Old
+databases are migrated on open; nothing is removed. Old wiki vaults still lint;
+`wiki/concepts/_contrib/` files are no longer read.

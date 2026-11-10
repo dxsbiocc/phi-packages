@@ -228,6 +228,11 @@ def verify_oa_url(
         content_type=content_type,
         content_disp=content_disp,
     )
+    if oa_status == "not_pdf" and (final_url or url).lower().split("?")[0].endswith(".pdf"):
+        # A link that ends in .pdf but answers with HTML is usually a cookie/bot gate that only
+        # a real browser passes (e.g. nature.com), so this is not evidence that no PDF exists.
+        oa_status = "unknown"
+        err_msg = "the server returned an HTML page for a .pdf link (likely a bot or cookie gate); open the link in a browser to check"
     return {
         "ok": True,
         "url": url,

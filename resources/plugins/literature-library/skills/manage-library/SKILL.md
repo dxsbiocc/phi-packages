@@ -250,7 +250,7 @@ phi:
     - name: curate
       description: >-
         Maintain what is saved. action=queue lists papers needing a human
-        decision; enrich fills titles and abstracts of ID-only papers;
+        decision; enrich fills title, abstract, year and authors from the DOI, PMID, arXiv id or, failing those, an exact title match;
         versions finds or confirms preprint-journal links; merge_ids merges
         duplicates that share complementary IDs (dry run unless apply);
         rebind re-attaches files that moved, matched by content hash.
@@ -296,6 +296,9 @@ phi:
           confirm:
             type: boolean
             description: rebind - write the new paths
+          force:
+            type: boolean
+            description: enrich - look papers up again even if already looked up
         required: [project_root, action]
       approval: write
       timeoutSeconds: 300

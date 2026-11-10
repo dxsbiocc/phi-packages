@@ -571,6 +571,7 @@ def _parse_pdf_binary(
         first_nonzero_title_line,
         front_matter_text,
         guess_abstract,
+        guess_title,
         pdf_info_title,
     )
 
@@ -606,7 +607,10 @@ def _parse_pdf_binary(
     has_strong_id = any(merged_ids.get(k) for k in ("doi", "pmid", "pmcid", "arxiv"))
     title = pdf_info_title(path)
     if not title:
-        guessed = first_nonzero_title_line(text, fallback=path.stem) if text.strip() else path.stem
+        guessed = (
+            guess_title(front_matter)
+            or (first_nonzero_title_line(text, fallback=path.stem) if text.strip() else path.stem)
+        )
         # A header line is a poor title. With a strong id keep the file stem as a placeholder
         # so auto-enrich replaces it with the real title; without one, the guess is all we have.
         title = path.stem if has_strong_id else guessed
@@ -910,17 +914,12 @@ def _should_auto_enrich(path: Path, fmt: Optional[str], records: list[dict[str, 
         )
     if not localish or not records:
         return False
-    strong = ("doi", "pmid", "pmcid", "arxiv", "openalex")
-    for r in records:
-        if not any(r.get(k) for k in strong):
-            continue
-        # Same rule as enrich.needs_enrich: an id the registries can resolve and no abstract yet.
-        # A file-name-like title also counts as missing.
-        title = (r.get("title") or "").strip()
-        placeholder_title = not title or (" " not in title and "_" in title)
-        if (r.get("doi") or r.get("pmid")) and (placeholder_title or not (r.get("abstract") or "").strip()):
-            return True
-    return False
+    from enrich import needs_enrich  # noqa: WPS433 - one rule for "does a registry lookup help?"
+
+    return any(
+        needs_enrich({**{k: r.get(k) for k in ("title", "abstract", "doi", "pmid", "arxiv")}, "authors_json": json.dumps(r.get("authors") or [])})
+        for r in records
+    )
 
 
 _DIR_SUFFIXES = {".pdf", ".bib", ".ris", ".jsonl"}
