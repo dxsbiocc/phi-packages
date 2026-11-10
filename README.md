@@ -67,7 +67,8 @@ Phi 官方共享环境和应用级色板由主程序提供，本仓库不复制�
 - `resources/skills/create-wrapper/` 留在 Phi：它属于引擎内置创作技能。
 - 保留已导入文件原有的许可证、引用、作者和上游来源记录。本仓库包含 nf-core 等上游内容；
   导入不改变其原有许可条件。
-- 本仓库目前未声明统一的开源许可证。
+- 本仓库中由本项目原创的内容采用 [MIT 许可证](LICENSE)。上述导入的第三方内容不在其内，
+  仍按各自原有的许可证和 [SOURCE.json](SOURCE.json) 记录的来源使用。
 
 完整边界见 [SOURCE.json](SOURCE.json)，初始快照的检查结果见 [VALIDATION.md](VALIDATION.md)。
 
