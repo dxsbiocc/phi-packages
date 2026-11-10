@@ -1,13 +1,13 @@
 schemaVersion: 1
 id: pubmed
 type: mcp
-version: 1.0.1
+version: 1.0.2
 title: PubMed
-summary: 检索生物医学文献、摘要和可获取的 PMC 全文
+summary: 检索生物医学文献、摘要与开放全文
 connector:
   transport: http
   publisher: Anthropic
   category: 健康与生命科学
-  homepage: https://claude.com/marketplace/connectors/pubmed
+  homepage: https://pubmed.ncbi.nlm.nih.gov
   url: https://pubmed.mcp.claude.com/mcp
   auth: none

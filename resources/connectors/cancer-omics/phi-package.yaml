@@ -1,9 +1,9 @@
 schemaVersion: 1
 id: cancer-omics
 type: mcp
-version: 1.0.0
+version: 1.0.1
 title: Cancer omics
-summary: 检索 GDC、cBioPortal 公共 REST 与 PDC 的开放癌症组学元数据
+summary: 检索 GDC、cBioPortal 和 PDC 的癌症组学数据
 connector:
   transport: http
   publisher: Phi Packages

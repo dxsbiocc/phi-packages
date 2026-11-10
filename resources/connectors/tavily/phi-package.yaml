@@ -1,9 +1,9 @@
 schemaVersion: 1
 id: tavily
 type: mcp
-version: 1.0.1
+version: 1.0.2
 title: Tavily
-summary: 联网搜索、提取网页内容并发现网站页面
+summary: 联网搜索并提取网页内容
 connector:
   transport: http
   publisher: Tavily

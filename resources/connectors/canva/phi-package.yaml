@@ -1,13 +1,13 @@
 schemaVersion: 1
 id: canva
 type: mcp
-version: 1.0.1
+version: 1.0.2
 title: Canva
-summary: 搜索、创建和导出设计
+summary: 在线搜索、创建设计并导出成品
 connector:
   transport: http
   publisher: Canva
   category: 设计创作
-  homepage: https://claude.com/marketplace/connectors/canva
+  homepage: https://www.canva.com
   url: https://mcp.canva.com/mcp
   auth: oauth

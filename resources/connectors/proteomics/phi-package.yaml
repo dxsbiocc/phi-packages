@@ -1,9 +1,9 @@
 schemaVersion: 1
 id: proteomics
 type: mcp
-version: 1.0.0
+version: 1.0.1
 title: Proteomics
-summary: 检索 PRIDE 与 Human Protein Atlas 的开放蛋白质组元数据
+summary: 检索 PRIDE 与 HPA 蛋白质组数据
 connector:
   transport: http
   publisher: Phi Packages

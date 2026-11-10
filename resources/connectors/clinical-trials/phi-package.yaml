@@ -1,13 +1,13 @@
 schemaVersion: 1
 id: clinical-trials
 type: mcp
-version: 1.0.1
+version: 1.0.2
 title: Clinical Trials
-summary: 检索 ClinicalTrials.gov 临床试验
+summary: 检索 ClinicalTrials.gov 临床试验注册信息
 connector:
   transport: http
   publisher: Anthropic
   category: 健康与生命科学
-  homepage: https://claude.com/marketplace/connectors/clinical-trials
+  homepage: https://clinicaltrials.gov
   url: https://hcls.mcp.claude.com/clinical_trials/mcp
   auth: none

@@ -1,9 +1,9 @@
 schemaVersion: 1
 id: transcriptomics-single-cell
 type: mcp
-version: 1.0.0
+version: 1.0.1
 title: Transcriptomics and single-cell
-summary: 检索 GTEx、CELLxGENE、HCA 与 HuBMAP 的开放组学元数据
+summary: 检索 GTEx、CELLxGENE 等单细胞组学数据
 connector:
   transport: http
   publisher: Phi Packages

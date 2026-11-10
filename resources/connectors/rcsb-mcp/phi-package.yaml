@@ -1,9 +1,9 @@
 schemaVersion: 1
 id: rcsb-mcp
 type: mcp
-version: 1.0.0
+version: 1.0.1
 title: RCSB PDB
-summary: 检索 PDB 结构、条目、配体和序列坐标。当前为 beta 端点
+summary: 检索 PDB 结构、配体与序列数据
 connector:
   transport: http
   publisher: RCSB PDB

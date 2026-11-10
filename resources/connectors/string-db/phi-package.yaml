@@ -1,9 +1,9 @@
 schemaVersion: 1
 id: string-db
 type: mcp
-version: 1.0.0
+version: 1.0.1
 title: STRING
-summary: 检索蛋白质相互作用、同源物和功能富集
+summary: 检索蛋白质互作、同源物与功能富集
 connector:
   transport: http
   publisher: STRING

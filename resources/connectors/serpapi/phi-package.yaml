@@ -1,9 +1,9 @@
 schemaVersion: 1
 id: serpapi
 type: mcp
-version: 1.0.1
+version: 1.0.2
 title: SerpApi
-summary: 检索多个搜索引擎的实时结构化结果
+summary: 获取多个搜索引擎的实时结构化结果
 connector:
   transport: http
   publisher: SerpApi

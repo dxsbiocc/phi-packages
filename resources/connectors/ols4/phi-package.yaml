@@ -1,9 +1,9 @@
 schemaVersion: 1
 id: ols4
 type: mcp
-version: 1.0.0
+version: 1.0.1
 title: OLS4
-summary: 检索本体论术语、层级和语义相似类
+summary: 检索本体术语、层级与语义相似类
 connector:
   transport: http
   publisher: EMBL-EBI

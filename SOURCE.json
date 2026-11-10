@@ -9,7 +9,7 @@
   ],
   "counts": {
     "standaloneSkills": 17,
-    "connectors": 27,
+    "connectors": 24,
     "plugins": 2,
     "pluginSkills": 23,
     "wrapperAdapters": 652,
@@ -262,8 +262,8 @@
     "sourceDirectory": "src/renderer/src/features/mcp/assets/",
     "sourcePackageVersion": "1.0.0",
     "packageVersion": "1.0.1",
-    "assetCount": 18,
-    "assetBytes": 167830,
+    "assetCount": 15,
+    "assetBytes": 162153,
     "files": [
       {
         "id": "biorender",

@@ -1,9 +1,9 @@
 schemaVersion: 1
 id: metabolomics
 type: mcp
-version: 1.0.0
+version: 1.0.1
 title: Metabolomics
-summary: 检索 MetaboLights 的开放代谢组学研究与文件元数据
+summary: 检索 MetaboLights 代谢组学研究数据
 connector:
   transport: http
   publisher: Phi Packages
