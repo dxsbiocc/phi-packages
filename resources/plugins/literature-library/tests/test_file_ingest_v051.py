@@ -9,13 +9,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 FX = ROOT / "tests" / "fixtures"
-sys_path_db = ROOT / "skills" / "lit-db" / "scripts"
-sys_path_ingest = ROOT / "skills" / "lit-ingest" / "scripts"
 
 import sys
 
-sys.path.insert(0, str(sys_path_db))
-sys.path.insert(0, str(sys_path_ingest))
 
 from db import (  # noqa: E402
     SCHEMA_VERSION,
@@ -221,7 +217,7 @@ class AutoEnrichLocalShellTests(unittest.TestCase):
             ids.write_text("doi:10.1016/j.cell.2017.05.035\n", encoding="utf-8")
             cmd = [
                 sys.executable,
-                str(ROOT / "skills/lit-ingest/scripts/ingest.py"),
+                str(ROOT / "skills/manage-library/scripts/ingest.py"),
                 "--project_root",
                 str(root),
                 "--collection_id",

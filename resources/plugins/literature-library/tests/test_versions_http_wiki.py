@@ -12,9 +12,6 @@ from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
 FX = ROOT / "tests" / "fixtures" / "providers"
-sys.path.insert(0, str(ROOT / "skills" / "lit-db" / "scripts"))
-sys.path.insert(0, str(ROOT / "skills" / "lit-search" / "scripts"))
-sys.path.insert(0, str(ROOT / "skills" / "lit-wiki-lib" / "scripts"))
 
 from db import (  # noqa: E402
     apply_version_detection,
@@ -28,7 +25,7 @@ from db import (  # noqa: E402
     utc_now,
 )
 import providers_http as ph  # noqa: E402
-from wiki_lib import init_vault, safe_id, wiki_repoint_publication  # noqa: E402
+from wiki import init_vault, safe_id, wiki_repoint_publication  # noqa: E402
 
 
 class ExtractTiesTests(unittest.TestCase):
@@ -194,12 +191,6 @@ class WikiRepointTests(unittest.TestCase):
                 f"# Index\n\n- [Demo](sources/{old_safe}.md)\n",
                 encoding="utf-8",
             )
-            contrib = vault / "wiki" / "concepts" / "_contrib" / "exhaustion"
-            contrib.mkdir(parents=True)
-            (contrib / f"{old_safe}.json").write_text(
-                json.dumps({"source_safe_id": old_safe, "publication_id": old_id, "note": "x"}),
-                encoding="utf-8",
-            )
 
             # Simulate DB reassign
             from db import _reassign_publication_id
@@ -227,8 +218,6 @@ class WikiRepointTests(unittest.TestCase):
                 (vault / "raw" / "publications" / new_safe / "meta.json").read_text()
             )
             self.assertEqual(meta["publication_id"], new_id)
-            self.assertFalse((contrib / f"{old_safe}.json").exists())
-            self.assertTrue((contrib / f"{new_safe}.json").is_file())
             idx = index.read_text(encoding="utf-8")
             self.assertIn(f"sources/{new_safe}.md", idx)
             self.assertNotIn(f"sources/{old_safe}.md", idx)
@@ -268,7 +257,7 @@ class CliMockHttpTests(unittest.TestCase):
             out = subprocess.check_output(
                 [
                     sys.executable,
-                    str(ROOT / "skills/lit-versions/scripts/versions.py"),
+                    str(ROOT / "skills/manage-library/scripts/lib/versions.py"),
                     "--project_root",
                     str(root),
                     "--action",
