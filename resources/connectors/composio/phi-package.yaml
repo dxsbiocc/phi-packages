@@ -1,9 +1,9 @@
 schemaVersion: 1
 id: composio
 type: mcp
-version: 1.0.1
+version: 1.0.2
 title: Composio Connect
-summary: 通过一个连接入口使用已授权的第三方应用
+summary: 一个入口接入 1000+ 款应用（Gmail、Slack、GitHub、Notion、Google Drive、Linear、HubSpot 等），登录 Composio 后按需授权各应用。免费 Hobby 版每月 10 万次工具调用，无需信用卡，额度以 Composio 官网为准
 connector:
   transport: http
   publisher: Composio

@@ -329,20 +329,6 @@
         "size": 8927
       },
       {
-        "id": "gmail",
-        "path": "resources/connectors/gmail/icon.svg",
-        "sourcePath": "src/renderer/src/features/mcp/assets/gmail.svg",
-        "sha256": "8ae53aecbb00adfecbefb557e10234e44183bd2d826a756f10393e29c0cb2691",
-        "size": 2418
-      },
-      {
-        "id": "google-drive",
-        "path": "resources/connectors/google-drive/icon.svg",
-        "sourcePath": "src/renderer/src/features/mcp/assets/google-drive.svg",
-        "sha256": "373f7efb45157b05017318550023f7e807519ae12e767a40f107326d85187e8b",
-        "size": 1521
-      },
-      {
         "id": "linear",
         "path": "resources/connectors/linear/icon.svg",
         "sourcePath": "src/renderer/src/features/mcp/assets/linear.svg",
@@ -376,13 +362,6 @@
         "sourcePath": "src/renderer/src/features/mcp/assets/serpapi.svg",
         "sha256": "53656f8526033e4323a0d6c502cf1caf3f4ab17be72c2f83be37bd0cec9163e8",
         "size": 1848
-      },
-      {
-        "id": "slack",
-        "path": "resources/connectors/slack/icon.svg",
-        "sourcePath": "src/renderer/src/features/mcp/assets/slack.svg",
-        "sha256": "fd9e7be2ea0056bcbab54e03b027c5be9b1d1c2d157821c06de2d563982c05fb",
-        "size": 1738
       },
       {
         "id": "tavily",
