@@ -30,9 +30,11 @@ DEFAULT_MOCK = (
 def needs_enrich(row: dict[str, Any]) -> bool:
     """True when publication looks like an ID-only shell needing metadata."""
     abstract = (row.get("abstract") or "").strip()
-    if abstract:
-        return False
-    return _is_shell_title(row) or not (row.get("title") or "").strip()
+    if _is_shell_title(row) or not (row.get("title") or "").strip():
+        return bool(row.get("doi") or row.get("pmid") or not abstract)
+    # A paper with a DOI/PMID but no abstract (typical for a local PDF) can be completed
+    # from the registries even when its title looks real.
+    return bool((row.get("doi") or row.get("pmid")) and not abstract)
 
 
 def _load_mock(path: Path) -> dict[str, dict[str, Any]]:

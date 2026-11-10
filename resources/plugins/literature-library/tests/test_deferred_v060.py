@@ -121,7 +121,8 @@ class PdfExtractTests(unittest.TestCase):
         self.assertEqual(r.get("doi"), "10.1000/tiny.pdf.001")
         self.assertEqual(r.get("pmid"), "7770001")
         self.assertEqual(r.get("extract_method"), "pdftotext")
-        self.assertTrue((r.get("abstract") or "").strip())
+        # The PDF body is not an abstract; tiny.pdf has no Abstract heading.
+        self.assertFalse((r.get("abstract") or "").strip())
 
     def test_ocr_soft_fail_when_missing(self):
         # Force empty digital text via a shim that prints nothing

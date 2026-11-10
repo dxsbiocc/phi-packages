@@ -397,6 +397,8 @@ def extract_ids_from_text(text: str) -> dict[str, Any]:
     out: dict[str, Any] = {}
     if not text:
         return out
+    # PDF text wraps long DOIs right after the slash: "10.1038/\ns41575-020-0342-4".
+    text = re.sub(r"(\b10\.\d{4,9}/)[ \t]*\n[ \t]*(?=\S)", r"\1", text)
     m = _DOI_RE.search(text)
     if m:
         doi = _clean_doi_token(m.group(1))
@@ -564,7 +566,13 @@ def _parse_pdf_binary(
     Path-mounts via pub_files + content_hash; does NOT store PDF bytes in DB.
     Missing OCR tools → JSON warnings on the draft, never a hard parse failure.
     """
-    from pdf_extract import extract_pdf_text, first_nonzero_title_line  # local sibling
+    from pdf_extract import (  # local sibling
+        extract_pdf_text,
+        first_nonzero_title_line,
+        front_matter_text,
+        guess_abstract,
+        pdf_info_title,
+    )
 
     sidecar_txt = path.with_suffix(".txt")
     sidecar_json = path.with_suffix(".json")
@@ -589,9 +597,22 @@ def _parse_pdf_binary(
         tesseract_bin=tesseract_bin,
     )
     text = extract.get("text") or ""
-    text_ids = extract_ids_from_text(text) if text else {}
-    title = first_nonzero_title_line(text, fallback=path.stem) if text.strip() else path.stem
-    abstract = text.strip()[:20000] if text.strip() else None
+    # Only the first two pages: later pages hold the reference list, whose DOIs are other papers.
+    front_matter = front_matter_text(path, pdftotext_bin=pdftotext_bin)
+    if extract.get("method") != "pdftotext":
+        front_matter = "\f".join(text.split("\f")[:2])  # OCR text has no reading-order variant
+    text_ids = extract_ids_from_text(front_matter[:12000]) if text else {}
+    merged_ids = {**ids, **text_ids}
+    has_strong_id = any(merged_ids.get(k) for k in ("doi", "pmid", "pmcid", "arxiv"))
+    title = pdf_info_title(path)
+    if not title:
+        guessed = first_nonzero_title_line(text, fallback=path.stem) if text.strip() else path.stem
+        # A header line is a poor title. With a strong id keep the file stem as a placeholder
+        # so auto-enrich replaces it with the real title; without one, the guess is all we have.
+        title = path.stem if has_strong_id else guessed
+    # The abstract is only the text under an "Abstract" heading, never the page body
+    # (the body is read from the saved file by lit_get/--with_fulltext).
+    abstract = guess_abstract(text)
     draft: dict[str, Any] = {
         "source": "local_pdf",
         "title": title,
@@ -893,16 +914,11 @@ def _should_auto_enrich(path: Path, fmt: Optional[str], records: list[dict[str, 
     for r in records:
         if not any(r.get(k) for k in strong):
             continue
-        abstract = (r.get("abstract") or "").strip()
+        # Same rule as enrich.needs_enrich: an id the registries can resolve and no abstract yet.
+        # A file-name-like title also counts as missing.
         title = (r.get("title") or "").strip()
-        title_is_shell = (not title) or any(
-            title.lower() == str(r.get(k) or "").lower()
-            or title.lower() == f"{k}:{r.get(k)}".lower()
-            or title == Path(str(r.get("_local_file") or path)).stem
-            for k in strong
-            if r.get(k)
-        )
-        if (not abstract) and title_is_shell:
+        placeholder_title = not title or (" " not in title and "_" in title)
+        if (r.get("doi") or r.get("pmid")) and (placeholder_title or not (r.get("abstract") or "").strip()):
             return True
     return False
 

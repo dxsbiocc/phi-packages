@@ -251,6 +251,11 @@ def verify_record_oa(
 ) -> dict[str, Any]:
     """Verify first candidate URL on a record; return aggregated result."""
     urls = candidate_oa_urls(record)
+    if not urls and record.get("doi") and not mock_map:
+        # A local PDF or id list gives no links; ask OpenAlex where an open copy lives.
+        from providers_http import openalex_oa_urls  # noqa: WPS433
+
+        urls = openalex_oa_urls(str(record["doi"]))
     if not urls:
         return {
             "ok": True,

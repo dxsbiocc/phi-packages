@@ -7,16 +7,19 @@
 | `.bib`, `.ris` | Each entry becomes a paper. IDs in the entry are used for deduplication. |
 | A text file of DOIs / PMIDs / PMCIDs / arXiv ids | One paper per id; the title and abstract are then looked up automatically. |
 | `.jsonl` of hits | Same format `lit_search` writes. |
-| `.pdf` | Text is read with `pdftotext` (OCR only if installed and the PDF has no text layer). A DOI, PMID, PMCID or arXiv id found in the text or file name identifies the paper. The path and content hash are recorded; the PDF is not copied into SQLite. |
+| `.pdf` | Text is read with `pdftotext`; a PDF with no text layer is rasterized with `pdftoppm` and read with `tesseract` (first 40 pages) when both are installed. The paper's own DOI, PMID, PMCID or arXiv id is taken from the first two pages (never the reference list) or the file name. The path and content hash are recorded; the PDF is not copied into SQLite. |
 | A folder | Every `.pdf`, `.bib`, `.ris` and `.jsonl` inside, recursively. |
 
-- A PDF with no recognisable id is saved under a temporary id (`tmp:...`) with a title taken
-  from its first line and the start of its text as the abstract. It cannot be matched to other
-  records by id, and `enrich` cannot fill it. Tell the user which files, and ask for the DOI
-  or PMID rather than guessing one.
+- With an id found, the title, abstract, year and authors are looked up from PubMed, Europe PMC
+  or Crossref. The PDF's text is not stored as the abstract; read it with
+  `lit_get with_fulltext`.
+- A PDF with no recognisable id is saved under a temporary id (`tmp:...`). Its title comes from
+  the PDF metadata or its first line and it has no abstract, so it cannot be matched to other
+  records and `enrich` cannot fill it. Tell the user which files, then either ask for the DOI
+  or PMID or find it with `lit_search` on the title. Never guess one.
 - `no_enrich` skips the metadata lookup (use it offline).
-- `verify_oa` checks whether candidate open-access links serve a PDF. A link is never treated
-  as an owned file.
+- `verify_oa` checks whether open-access links serve a PDF. Without a link in the record it asks
+  OpenAlex for one by DOI. A link is never treated as an owned file.
 - `access_origin` is a free label such as `institutional` or `author` for files the user
   obtained themselves. It is stored with the file; it does not fetch anything.
 - Saved files stay where they are. If they move, use `lit_curate action=rebind`.

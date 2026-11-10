@@ -1032,6 +1032,8 @@ def _is_shell_title(row: dict[str, Any]) -> bool:
             return True
     if low.startswith("doi:") or low.startswith("pmid:") or low.startswith("pmcid:"):
         return True
+    if " " not in title and "_" in title:
+        return True  # a file name such as Chou_2007_Spot14_receptor, not a real title
     return False
 
 

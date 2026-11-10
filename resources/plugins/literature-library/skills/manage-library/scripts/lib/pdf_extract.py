@@ -8,6 +8,7 @@ parser and is NOT the KB backbone.
 from __future__ import annotations
 
 import os
+import re
 import shutil
 import subprocess
 import tempfile
@@ -16,6 +17,8 @@ from typing import Any, Optional
 
 
 MIN_USEFUL_CHARS = 40
+OCR_DPI = 200
+MAX_OCR_PAGES = 40
 
 
 def which_pdftotext() -> Optional[str]:
@@ -90,42 +93,57 @@ def extract_with_tesseract(
                 "LIT_PDF_OCR_CMD / --ocr_cmd for an external OCR hook."
             ),
         }
-    # tesseract can OCR PDF on many builds; if not, soft-fail
+    # tesseract reads images, not PDFs: rasterize pages with pdftoppm (poppler) first.
+    pdftoppm = shutil.which("pdftoppm")
+    if not pdftoppm:
+        return {
+            "ok": False,
+            "text": "",
+            "tool": bin_path,
+            "warning": "pdftoppm_missing",
+            "message": "pdftoppm (poppler) not on PATH; cannot rasterize the PDF for OCR.",
+        }
     with tempfile.TemporaryDirectory() as td:
-        out_base = Path(td) / "ocr"
         try:
             proc = subprocess.run(
-                [bin_path, str(path), str(out_base), "-l", lang],
+                [pdftoppm, "-r", str(OCR_DPI), "-l", str(MAX_OCR_PAGES), "-gray", "-png", str(path), str(Path(td) / "p")],
                 capture_output=True,
                 timeout=180,
                 check=False,
             )
         except (OSError, subprocess.TimeoutExpired) as e:
-            return {
-                "ok": False,
-                "text": "",
-                "tool": bin_path,
-                "warning": "tesseract_failed",
-                "message": str(e),
-            }
-        txt_path = Path(str(out_base) + ".txt")
-        if not txt_path.is_file():
-            err = (proc.stderr or b"").decode("utf-8", errors="replace")[:500]
-            return {
-                "ok": False,
-                "text": "",
-                "tool": bin_path,
-                "warning": "tesseract_no_output",
-                "message": err or f"exit {proc.returncode}",
-            }
-        text = txt_path.read_text(encoding="utf-8", errors="replace")
-        return {
+            return {"ok": False, "text": "", "tool": pdftoppm, "warning": "pdftoppm_failed", "message": str(e)}
+        pages = sorted(Path(td).glob("p-*.png"))
+        if not pages:
+            err = (proc.stderr or b"").decode("utf-8", errors="replace")[:300]
+            return {"ok": False, "text": "", "tool": pdftoppm, "warning": "pdftoppm_no_pages", "message": err or f"exit {proc.returncode}"}
+        chunks: list[str] = []
+        for img in pages:
+            try:
+                r = subprocess.run(
+                    [bin_path, str(img), "stdout", "-l", lang],
+                    capture_output=True,
+                    timeout=120,
+                    check=False,
+                )
+            except (OSError, subprocess.TimeoutExpired) as e:
+                return {"ok": False, "text": "\n\n".join(chunks), "tool": bin_path, "warning": "tesseract_failed", "message": str(e)}
+            if r.returncode == 0:
+                chunks.append(r.stdout.decode("utf-8", errors="replace").strip())
+        text = "\n\n".join(c for c in chunks if c)
+        if not text.strip():
+            return {"ok": False, "text": "", "tool": bin_path, "warning": "tesseract_no_output", "message": f"{len(pages)} page(s) rendered, no text recognised"}
+        out = {
             "ok": True,
             "text": text,
             "tool": bin_path,
             "n_chars": len(text),
+            "n_pages_ocr": len(pages),
             "useful": len(text.strip()) >= MIN_USEFUL_CHARS,
         }
+        if len(pages) >= MAX_OCR_PAGES:
+            out["message"] = f"OCR limited to the first {MAX_OCR_PAGES} pages"
+        return out
 
 
 def extract_with_ocr_cmd(path: Path, ocr_cmd: str) -> dict[str, Any]:
@@ -281,3 +299,59 @@ def first_nonzero_title_line(text: str, *, fallback: str) -> str:
             continue
         return s[:500]
     return fallback
+
+
+_JUNK_TITLE = re.compile(r"^(microsoft word|untitled|document\d*|\w+\.(docx?|pdf|tex)$)", re.I)
+
+
+def pdf_info_title(path: Path, *, pdfinfo_bin: Optional[str] = None) -> Optional[str]:
+    """Title from the PDF's own metadata (pdfinfo), or None when absent or not a real title."""
+    bin_path = pdfinfo_bin or shutil.which("pdfinfo")
+    if not bin_path:
+        return None
+    try:
+        proc = subprocess.run([bin_path, str(path)], capture_output=True, timeout=30, check=False)
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    for line in proc.stdout.decode("utf-8", errors="replace").splitlines():
+        if line.lower().startswith("title:"):
+            title = re.sub(r"\s+", " ", line.split(":", 1)[1]).strip()
+            if len(title) >= 20 and not _JUNK_TITLE.match(title) and len(title.split()) >= 5:
+                return title[:500]
+    return None
+
+
+_ABSTRACT_RE = re.compile(
+    r"\babstract\b[\s:.|—–-]*(?P<body>.{200,3500}?)"
+    r"(?=\n\s*(?:keywords?|key words|introduction|1[.\s]+introduction|background)\b|\Z)",
+    re.I | re.S,
+)
+
+
+def guess_abstract(text: str) -> Optional[str]:
+    """The paragraph after an 'Abstract' heading in the first pages, or None."""
+    head = (text or "")[:15000]
+    m = _ABSTRACT_RE.search(head)
+    if not m:
+        return None
+    body = re.sub(r"\s*\n\s*", " ", m.group("body")).strip()
+    return body if len(body) >= 200 else None
+
+
+def front_matter_text(path: Path, *, pages: int = 2, pdftotext_bin: Optional[str] = None) -> str:
+    """Reading-order text of the first pages, for finding the paper's own identifiers.
+
+    Unlike the -layout text used for the body, two-column pages are not interleaved, so
+    wrapped DOIs such as "10.1038/" + "s41575-020-0342-4" stay intact. Empty when unavailable.
+    """
+    bin_path = pdftotext_bin or which_pdftotext()
+    if not bin_path:
+        return ""
+    try:
+        proc = subprocess.run(
+            [bin_path, "-f", "1", "-l", str(pages), "-enc", "UTF-8", str(path), "-"],
+            capture_output=True, timeout=60, check=False,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return ""
+    return proc.stdout.decode("utf-8", errors="replace")

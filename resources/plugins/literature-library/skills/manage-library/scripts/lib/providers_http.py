@@ -14,6 +14,8 @@ OpenCitations as a DOI fallback.
 """
 from __future__ import annotations
 
+import gzip
+import http.client
 import json
 import os
 import re
@@ -49,14 +51,65 @@ def _contact_email() -> Optional[str]:
     return None
 
 
+NCBI_HOST = "eutils.ncbi.nlm.nih.gov"
+_last_ncbi_call = 0.0
+
+
+def _ncbi_url(url: str) -> str:
+    """Add the identification NCBI asks for (tool, email) and the optional NCBI_API_KEY."""
+    extra = {"tool": "phi-literature-library"}
+    email = _contact_email()
+    if email:
+        extra["email"] = email
+    key = (os.environ.get("NCBI_API_KEY") or "").strip()
+    if key:
+        extra["api_key"] = key
+    parts = urllib.parse.urlsplit(url)
+    have = urllib.parse.parse_qs(parts.query)
+    add = urllib.parse.urlencode({k: v for k, v in extra.items() if k not in have})
+    return urllib.parse.urlunsplit(parts._replace(query=f"{parts.query}&{add}" if add else parts.query))
+
+
+def _throttle_ncbi() -> None:
+    """NCBI allows 3 requests/s without a key and 10/s with one."""
+    global _last_ncbi_call
+    gap = 0.11 if os.environ.get("NCBI_API_KEY") else 0.35
+    wait = _last_ncbi_call + gap - time.monotonic()
+    if wait > 0:
+        time.sleep(wait)
+    _last_ncbi_call = time.monotonic()
+
+
 def _get(url: str, *, headers: Optional[dict[str, str]] = None) -> bytes:
-    hdrs = {"User-Agent": USER_AGENT, "Accept": "*/*"}
+    hdrs = {"User-Agent": USER_AGENT, "Accept": "*/*", "Accept-Encoding": "gzip"}
     if headers:
         hdrs.update(headers)
+    is_ncbi = urllib.parse.urlsplit(url).netloc == NCBI_HOST
+    if is_ncbi:
+        url = _ncbi_url(url)
     req = urllib.request.Request(url, headers=hdrs)
     ctx = ssl.create_default_context()
-    with urllib.request.urlopen(req, timeout=TIMEOUT, context=ctx) as resp:
-        return resp.read()
+    last: Exception | None = None
+    for attempt in range(3):
+        if is_ncbi:
+            _throttle_ncbi()
+        try:
+            with urllib.request.urlopen(req, timeout=TIMEOUT, context=ctx) as resp:
+                body = resp.read()
+                if resp.headers.get("Content-Encoding", "").lower() == "gzip":
+                    body = gzip.decompress(body)
+                return body
+        except urllib.error.HTTPError as e:
+            if e.code in (429, 503) and attempt < 2:
+                time.sleep(1.5 * (attempt + 1))
+                continue
+            raise
+        except (http.client.HTTPException, EOFError, gzip.BadGzipFile) as e:
+            # Large responses are sometimes cut off mid-body; retry up to three times, then report as OSError
+            # so callers' network soft-fail handling applies.
+            last = e
+            time.sleep(0.5)
+    raise OSError(f"incomplete response from {urllib.parse.urlsplit(url).netloc}: {last}")
 
 
 def _get_json(url: str, *, headers: Optional[dict[str, str]] = None) -> Any:
@@ -143,7 +196,7 @@ def search_pubmed(
     esearch = (
         "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?"
         + urllib.parse.urlencode(
-            {"db": "pubmed", "retmode": "json", "retmax": str(limit), "term": term, "sort": "pub+date"}
+            {"db": "pubmed", "retmode": "json", "retmax": str(limit), "term": term}
         )
     )
     data = json.loads(_get(esearch).decode("utf-8"))
@@ -217,6 +270,35 @@ def _openalex_url(path: str, params: dict[str, str]) -> str:
         sep = "&" if "?" in url else "?"
         url = f"{url}{sep}mailto={urllib.parse.quote(email)}"
     return url
+
+
+def openalex_oa_urls(doi: str) -> list[str]:
+    """Open-access PDF/landing URLs OpenAlex knows for a DOI (best location first). [] on any failure."""
+    d = _doi_norm(doi)
+    if not d:
+        return []
+    try:
+        work = _get_json(_openalex_url(f"works/doi:{urllib.parse.quote(d)}", {"select": "open_access,best_oa_location,locations"}))
+    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError, OSError):
+        return []
+    urls: list[str] = []
+
+    def add(loc: Any) -> None:
+        if isinstance(loc, dict):
+            for key in ("pdf_url", "landing_page_url"):
+                u = loc.get(key)
+                if isinstance(u, str) and u.startswith("http") and u not in urls:
+                    urls.append(u)
+
+    add(work.get("best_oa_location"))
+    oa = work.get("open_access") or {}
+    u = oa.get("oa_url")
+    if isinstance(u, str) and u.startswith("http") and u not in urls:
+        urls.append(u)
+    for loc in work.get("locations") or []:
+        if isinstance(loc, dict) and loc.get("is_oa"):
+            add(loc)
+    return urls[:5]
 
 
 def _hit_from_openalex(work: dict[str, Any]) -> Optional[dict[str, Any]]:
@@ -877,6 +959,11 @@ def fetch_by_doi(doi: str) -> tuple[Optional[dict[str, Any]], dict[str, Any]]:
                 return h, {**meta, "via": "doi_europepmc"}
     if hits:
         return hits[0], {**meta, "via": "doi_europepmc_first"}
+    # Journals outside PubMed / Europe PMC (e.g. many Elsevier titles): Crossref knows the DOI.
+    work, cmeta = get_crossref_work(doi)
+    hit = _hit_from_crossref(work) if work else None
+    if hit and hit.get("title"):
+        return hit, {**cmeta, "via": "doi_crossref"}
     return None, {
         "provider": "error",
         "source": "doi",
@@ -1148,7 +1235,8 @@ def opencitations_dois(doi: str, kind: str) -> tuple[list[str], dict[str, Any]]:
         return [], {"provider": "error", "source": "opencitations", "message": f"bad kind {kind}"}
     path = "citations" if kind == "citations" else "references"
     field = "citing" if kind == "citations" else "cited"
-    url = f"https://opencitations.net/index/api/v1/{path}/doi:{urllib.parse.quote(d)}"
+    # The index API moved to api.opencitations.net and takes a bare DOI (no "doi:" prefix).
+    url = f"https://api.opencitations.net/index/v1/{path}/{urllib.parse.quote(d)}"
     try:
         body = _get_json(url)
     except urllib.error.HTTPError as e:
