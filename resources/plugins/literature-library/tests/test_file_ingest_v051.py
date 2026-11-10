@@ -153,7 +153,8 @@ class RisLocalIngestTests(unittest.TestCase):
             )
             self.assertTrue(out["ok"])
             self.assertGreaterEqual(out["counts"]["inserted"] + out["counts"].get("merged", 0), 1)
-            self.assertGreaterEqual(out["n_files_recorded"], 1)
+            # A .ris list describes papers; it is not a paper's file.
+            self.assertEqual(out["n_files_recorded"], 0)
 
 
 class PdfBinaryStubTests(unittest.TestCase):
@@ -313,7 +314,7 @@ class SampleBibStillWorks(unittest.TestCase):
                 records=records,
             )
             self.assertTrue(out["ok"])
-            self.assertGreaterEqual(out["n_files_recorded"], 1)
+            self.assertEqual(out["n_files_recorded"], 0)  # .bib is metadata, not a paper file
 
 
 if __name__ == "__main__":

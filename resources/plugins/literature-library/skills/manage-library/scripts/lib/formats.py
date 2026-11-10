@@ -13,6 +13,43 @@ FORMATS = ("bibtex", "ris", "csl-json", "csv")
 _BIBTEX_ESCAPES = {"\\": r"\textbackslash{}", "&": r"\&", "%": r"\%", "$": r"\$", "#": r"\#", "_": r"\_"}
 
 
+_LATEX_LETTERS = {
+    "aa": "å", "AA": "Å", "ae": "æ", "AE": "Æ", "oe": "œ", "OE": "Œ",
+    "o": "ø", "O": "Ø", "l": "ł", "L": "Ł", "ss": "ß", "i": "ı", "j": "ȷ",
+}
+_LATEX_ACCENTS = {
+    "`": "\u0300", "'": "\u0301", "^": "\u0302", "~": "\u0303", "=": "\u0304",
+    "u": "\u0306", ".": "\u0307", '"': "\u0308", "r": "\u030a", "H": "\u030b",
+    "v": "\u030c", "c": "\u0327", "k": "\u0328",
+}
+
+
+def latex_to_unicode(text: str) -> str:
+    """Turn BibTeX accents like St{\\aa}hl or Gr\\"{u}newald into plain Unicode; drop case braces."""
+    s = text or ""
+    # \aa, {\aa}, \ss{} ... (a letter macro must not run into following letters)
+    s = re.sub(
+        r"\\(aa|AA|ae|AE|oe|OE|ss|o|O|l|L|i|j)(?![A-Za-z])\s*(?:\{\})?",
+        lambda m: _LATEX_LETTERS[m.group(1)],
+        s,
+    )
+    # \'e, \'{e}, \"{u}, \v{c}, {\'e}
+    s = re.sub(
+        r"\\([`'^~=.\"]|[uvrHck](?![A-Za-z]))\s*\{?\s*(\\?[^\W\d_])\s*\}?",
+        lambda m: unicodedata.normalize(
+            "NFC",
+            m.group(2).lstrip("\\").replace("ı", "i").replace("ȷ", "j") + _LATEX_ACCENTS[m.group(1)],
+        ),
+        s,
+    )
+    return re.sub(r"[{}]", "", s).strip()
+
+
+def _is_initials(token: str) -> bool:
+    """True for 1-4 capital letters, optionally dotted (H, TGP, M.)."""
+    return bool(re.fullmatch(r"(?:[A-Z]\.?){1,4}", token))
+
+
 def parse_authors(raw: Any) -> list[dict[str, str]]:
     """Return [{"family","given"}] from authors_json (a JSON list of names, or a plain list)."""
     if isinstance(raw, str):
@@ -33,7 +70,13 @@ def parse_authors(raw: Any) -> list[dict[str, str]]:
                 family, given = [x.strip() for x in name.split(",", 1)]
             else:
                 parts = name.split()
-                family, given = (parts[-1], " ".join(parts[:-1])) if len(parts) > 1 else (name, "")
+                if len(parts) > 1 and _is_initials(parts[-1]):
+                    # "Luo H" / "Grünewald TGP": family name first, then initials.
+                    family, given = " ".join(parts[:-1]), parts[-1].replace(".", "")
+                elif len(parts) > 1:
+                    family, given = parts[-1], " ".join(parts[:-1])
+                else:
+                    family, given = name, ""
         if family:
             out.append({"family": family, "given": given})
     return out

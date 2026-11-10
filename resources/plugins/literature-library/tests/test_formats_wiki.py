@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import unittest
 
-from formats import cite_keys, parse_authors, to_bibtex, to_csl_json, to_ris
+from formats import cite_keys, latex_to_unicode, parse_authors, to_bibtex, to_csl_json, to_ris
 from wiki import slugify, validate_compile_payload
 
 PUBS = [
@@ -24,6 +24,19 @@ class FormatTests(unittest.TestCase):
         self.assertEqual(a[0], {"family": "Zheng", "given": "Chunhong"})
         self.assertEqual(a[1], {"family": "Public", "given": "Jane Q"})
         self.assertEqual(a[2], {"family": "Plato", "given": ""})
+
+    def test_europepmc_family_then_initials(self):
+        a = parse_authors(["Luo H", "Grünewald TGP", "Gerstung M.", "Van Der Berg J"])
+        self.assertEqual(a[0], {"family": "Luo", "given": "H"})
+        self.assertEqual(a[1], {"family": "Grünewald", "given": "TGP"})
+        self.assertEqual(a[2], {"family": "Gerstung", "given": "M"})
+        self.assertEqual(a[3], {"family": "Van Der Berg", "given": "J"})
+
+    def test_latex_accents_are_decoded(self):
+        self.assertEqual(latex_to_unicode("St{\\aa}hl, Patrik L"), "Ståhl, Patrik L")
+        self.assertEqual(latex_to_unicode('Gr\\"{u}newald'), "Grünewald")
+        self.assertEqual(latex_to_unicode("Garc\\'{\\i}a"), "García")
+        self.assertEqual(latex_to_unicode("{DNA} and {RNA} \\v{S}ebesta"), "DNA and RNA Šebesta")
 
     def test_cite_keys_are_unique_and_ascii(self):
         keys = cite_keys(PUBS)

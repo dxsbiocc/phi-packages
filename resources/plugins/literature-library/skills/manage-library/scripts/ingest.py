@@ -29,7 +29,11 @@ from db import (  # noqa: E402
     set_publication_oa,
     utc_now,
 )
+from formats import latex_to_unicode  # noqa: E402
 from oa_verify import verify_record_oa  # noqa: E402
+
+
+_METADATA_ONLY_SUFFIXES = {".bib", ".ris", ".jsonl", ".ids", ".csv"}
 
 
 def _parse_bibtex(text: str) -> list[dict[str, Any]]:
@@ -61,7 +65,9 @@ def _parse_bibtex(text: str) -> list[dict[str, Any]]:
             fields[k] = raw.strip()
         authors = []
         if "author" in fields:
-            authors = [a.strip() for a in re.split(r"\s+and\s+", fields["author"]) if a.strip()]
+            authors = [
+                latex_to_unicode(a) for a in re.split(r"\s+and\s+", fields["author"]) if a.strip()
+            ]
         year = None
         if "year" in fields:
             ym = re.search(r"\d{4}", fields["year"])
@@ -70,7 +76,7 @@ def _parse_bibtex(text: str) -> list[dict[str, Any]]:
             {
                 "source": "bibtex",
                 "type": etype.lower(),
-                "title": fields.get("title", "").replace("\n", " ").strip(),
+                "title": latex_to_unicode(fields.get("title", "").replace("\n", " ")),
                 "abstract": fields.get("abstract"),
                 "authors": authors,
                 "year": year,
@@ -743,7 +749,12 @@ def ingest_records(
                     dedupe_action=action,
                 )
             local_path = rec.get("_local_file") or rec.get("file_path")
-            if local_path and str(rec.get("ingest_origin") or "") in ("local_file", "pdf_text", "local_pdf", ""):
+            # Reference lists (.bib/.ris/.jsonl/...) describe papers; they are not a paper's file.
+            if (
+                local_path
+                and Path(str(local_path)).suffix.lower() not in _METADATA_ONLY_SUFFIXES
+                and str(rec.get("ingest_origin") or "") in ("local_file", "pdf_text", "local_pdf", "")
+            ):
                 p = Path(str(local_path))
                 content_hash = None
                 if p.is_file():
