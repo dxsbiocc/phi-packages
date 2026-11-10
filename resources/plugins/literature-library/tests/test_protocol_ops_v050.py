@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline tests for 0.5.0: protocol freeze, coverage gate, dig queue, preview_fetch."""
+"""Offline tests: runs schema columns and preview_fetch of the opposite preprint/journal record."""
 from __future__ import annotations
 
 import json
@@ -11,15 +11,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 FX = ROOT / "tests" / "fixtures" / "providers"
-sys.path.insert(0, str(ROOT / "skills" / "lit-db" / "scripts"))
 
 from db import (  # noqa: E402
     SCHEMA_VERSION,
-    close_run,
-    evaluate_coverage_gate,
     init_db,
     link_to_collection,
-    list_human_queue,
     open_db,
     preview_fetch_opposite,
     resolve_or_create,
@@ -53,227 +49,10 @@ class SchemaV4Tests(unittest.TestCase):
                 conn.close()
 
 
-class ProtocolFreezeCliTests(unittest.TestCase):
-    def test_run_config_freezes_protocol_fields(self):
-        with tempfile.TemporaryDirectory() as td:
-            root = Path(td)
-            db = root / "library.sqlite"
-            init_db(db)
-            conn = open_db(db)
-            col_path = root / "collections" / "col-x"
-            col_path.mkdir(parents=True)
-            conn.execute(
-                "INSERT INTO collections(id,name,description,created_at,path) VALUES (?,?,?,?,?)",
-                ("col-x", "X", "", utc_now(), str(col_path)),
-            )
-            conn.commit()
-            conn.close()
-            out, rc = _run(
-                [
-                    sys.executable,
-                    str(ROOT / "skills/lit-run-config/scripts/run_config.py"),
-                    "--project_root",
-                    str(root),
-                    "--collection_id",
-                    "col-x",
-                    "--query",
-                    "T cell exhaustion",
-                    "--sources",
-                    "pubmed,openalex",
-                    "--limit",
-                    "7",
-                    "--date_from",
-                    "2018-01-01",
-                    "--run_id",
-                    "run-proto1",
-                ]
-            )
-            self.assertEqual(rc, 0)
-            self.assertTrue(out["ok"])
-            self.assertTrue(out["protocol_frozen"])
-            cfg = out["config"]
-            self.assertEqual(cfg["protocol_version"], "0.5.2")
-            self.assertEqual(cfg["limit_per_source"], 7)
-            self.assertIn("provider_notes", cfg)
-            self.assertIn("pubmed", cfg["provider_notes"])
-            self.assertTrue(cfg["frozen_at"])
-            disk = json.loads((col_path / "runs/run-proto1/run.json").read_text())
-            self.assertEqual(disk["sources"], ["pubmed", "openalex"])
-            self.assertEqual(disk["date_from"], "2018-01-01")
-
-            # mock search writes hits.jsonl + hits.meta.json
-            out2, rc2 = _run(
-                [
-                    sys.executable,
-                    str(ROOT / "skills/lit-search/scripts/search.py"),
-                    "--project_root",
-                    str(root),
-                    "--collection_id",
-                    "col-x",
-                    "--run_id",
-                    "run-proto1",
-                    "--mock",
-                    "--close_run",
-                    "--min_unique_pubs",
-                    "1",
-                ]
-            )
-            self.assertEqual(rc2, 0)
-            self.assertEqual(out2["n_hits"], 2)
-            hits = col_path / "runs/run-proto1/hits.jsonl"
-            meta = col_path / "runs/run-proto1/hits.meta.json"
-            cov = col_path / "runs/run-proto1/coverage.json"
-            self.assertTrue(hits.is_file())
-            self.assertTrue(meta.is_file())
-            self.assertTrue(cov.is_file())
-            self.assertEqual(out2["run_status"], "passed")
-            run_row_cfg = json.loads((col_path / "runs/run-proto1/run.json").read_text())
-            self.assertEqual(run_row_cfg["status"], "passed")
 
 
-class CoverageGateTests(unittest.TestCase):
-    def test_evaluate_and_close_run_fail(self):
-        with tempfile.TemporaryDirectory() as td:
-            root = Path(td)
-            db = root / "library.sqlite"
-            init_db(db)
-            conn = open_db(db)
-            col_path = root / "collections" / "col-g"
-            run_dir = col_path / "runs" / "run-g"
-            run_dir.mkdir(parents=True)
-            now = utc_now()
-            conn.execute(
-                "INSERT INTO collections(id,name,description,created_at,path) VALUES (?,?,?,?,?)",
-                ("col-g", "G", "", now, str(col_path)),
-            )
-            cfg = {"run_id": "run-g", "query": "q", "sources": ["pubmed"], "limit": 5}
-            (run_dir / "run.json").write_text(json.dumps(cfg), encoding="utf-8")
-            (run_dir / "hits.jsonl").write_text("", encoding="utf-8")
-            conn.execute(
-                """
-                INSERT INTO runs(id,collection_id,query,sources_json,config_json,started_at,hits_path,status)
-                VALUES (?,?,?,?,?,?,?,?)
-                """,
-                (
-                    "run-g",
-                    "col-g",
-                    "q",
-                    '["pubmed"]',
-                    json.dumps(cfg),
-                    now,
-                    str(run_dir / "hits.jsonl"),
-                    "searched",
-                ),
-            )
-            conn.commit()
-            gate = evaluate_coverage_gate(
-                {"ok": True, "hits": {"n": 0, "unique_publication_ids": 0}, "collection": {"n_needs_review": 0, "n_version_links_pending": 0, "n_unenriched_shells": 0}},
-                min_unique_pubs=3,
-                fail_under_coverage=True,
-            )
-            self.assertFalse(gate["passed"])
-            self.assertTrue(gate["should_fail_cli"])
-            out = close_run(
-                conn,
-                "run-g",
-                min_unique_pubs=3,
-                fail_under_coverage=True,
-            )
-            conn.commit()
-            self.assertEqual(out["status"], "needs_attention")
-            self.assertTrue(out["should_fail_cli"])
-            self.assertTrue(Path(out["coverage_json"]).is_file())
-            status = conn.execute("SELECT status FROM runs WHERE id='run-g'").fetchone()["status"]
-            self.assertEqual(status, "needs_attention")
-            conn.close()
-
-            out_cli, rc = _run(
-                [
-                    sys.executable,
-                    str(ROOT / "skills/lit-run-close/scripts/run_close.py"),
-                    "--project_root",
-                    str(root),
-                    "--run_id",
-                    "run-g",
-                    "--min_unique_pubs",
-                    "3",
-                    "--fail_under_coverage",
-                ]
-            )
-            self.assertEqual(rc, 2)
-            self.assertEqual(out_cli["status"], "needs_attention")
 
 
-class DigQueueTests(unittest.TestCase):
-    def test_dig_silent_when_empty(self):
-        with tempfile.TemporaryDirectory() as td:
-            root = Path(td)
-            db = root / "library.sqlite"
-            init_db(db)
-            out, rc = _run(
-                [
-                    sys.executable,
-                    str(ROOT / "skills/lit-review-queue/scripts/review_queue.py"),
-                    "--project_root",
-                    str(root),
-                    "--dig",
-                ]
-            )
-            self.assertEqual(rc, 0)
-            self.assertTrue(out["silent"])
-            self.assertEqual(out["n"], 0)
-            self.assertEqual(out["items"], [])
-
-    def test_dig_with_items_and_write_report(self):
-        with tempfile.TemporaryDirectory() as td:
-            root = Path(td)
-            db = root / "library.sqlite"
-            init_db(db)
-            conn = open_db(db)
-            now = utc_now()
-            conn.execute(
-                "INSERT INTO collections(id,name,description,created_at,path) VALUES (?,?,?,?,?)",
-                ("col-d", "D", "", now, str(root / "collections/col-d")),
-            )
-            r = resolve_or_create(
-                conn,
-                {
-                    "doi": "10.1000/shell.only",
-                    "title": "[shell] doi:10.1000/shell.only",
-                    "abstract": "",
-                },
-            )
-            link_to_collection(conn, "col-d", r["publication_id"])
-            # force needs_review soft
-            conn.execute(
-                "UPDATE publications SET needs_review=1, review_reasons_json=? WHERE id=?",
-                (json.dumps(["soft_fingerprint_conflict"]), r["publication_id"]),
-            )
-            conn.commit()
-            q = list_human_queue(conn, collection_id="col-d")
-            self.assertGreater(q["n"], 0)
-            self.assertTrue(q["items"][0].get("suggested_next_action"))
-            conn.close()
-
-            report = root / "dig.md"
-            out, rc = _run(
-                [
-                    sys.executable,
-                    str(ROOT / "skills/lit-review-queue/scripts/review_queue.py"),
-                    "--project_root",
-                    str(root),
-                    "--collection_id",
-                    "col-d",
-                    "--dig",
-                    "--write_report",
-                    str(report),
-                ]
-            )
-            self.assertEqual(rc, 0)
-            self.assertFalse(out.get("silent"))
-            self.assertGreater(out["n"], 0)
-            self.assertTrue(report.is_file())
-            self.assertIn("suggested_next_action", out["items"][0])
 
 
 class PreviewFetchTests(unittest.TestCase):
@@ -366,7 +145,7 @@ class PreviewFetchTests(unittest.TestCase):
             out, rc = _run(
                 [
                     sys.executable,
-                    str(ROOT / "skills/lit-versions/scripts/versions.py"),
+                    str(ROOT / "skills/manage-library/scripts/lib/versions.py"),
                     "--project_root",
                     str(root),
                     "--collection_id",

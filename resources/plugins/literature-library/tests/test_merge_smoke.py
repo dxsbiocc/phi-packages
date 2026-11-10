@@ -26,7 +26,7 @@ def main() -> int:
     subprocess.check_call(
         [
             py,
-            str(ROOT / "skills/lit-ingest/scripts/ingest.py"),
+            str(ROOT / "skills/manage-library/scripts/ingest.py"),
             "--project_root",
             str(demo),
             "--collection_id",
@@ -59,7 +59,7 @@ def main() -> int:
     out = subprocess.check_output(
         [
             py,
-            str(ROOT / "skills/lit-ingest/scripts/ingest.py"),
+            str(ROOT / "skills/manage-library/scripts/ingest.py"),
             "--project_root",
             str(demo),
             "--collection_id",
@@ -90,7 +90,7 @@ def main() -> int:
     assert rows[0][2] == "28622514" and rows[0][3] == 0 and rows[0][4] > 20, rows
 
     plan = subprocess.check_output(
-        [py, str(ROOT / "skills/lit-db/scripts/merge_ids_cli.py"), "--project_root", str(demo)],
+        [py, str(ROOT / "skills/manage-library/scripts/lib/merge_ids.py"), "--project_root", str(demo)],
         text=True,
     )
     pobj = json.loads(plan)

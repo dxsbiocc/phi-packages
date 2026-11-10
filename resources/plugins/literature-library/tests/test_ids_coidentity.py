@@ -9,9 +9,6 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "skills" / "lit-ingest" / "scripts"))
-sys.path.insert(0, str(ROOT / "skills" / "lit-db" / "scripts"))
-sys.path.insert(0, str(ROOT / "skills" / "lit-collection" / "scripts"))
 
 from ingest import _parse_id_list, ingest_records  # noqa: E402
 from db import init_db, open_db  # noqa: E402

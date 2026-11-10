@@ -11,7 +11,6 @@ from pathlib import Path
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "skills" / "lit-search" / "scripts"))
 
 import providers_http as ph  # noqa: E402
 
@@ -59,11 +58,10 @@ class ParseHelpersTests(unittest.TestCase):
         self.assertIsNone(ph._doi_norm("not-a-doi"))
 
     def test_normalize_source_aliases(self):
-        self.assertEqual(ph.normalize_source("S2"), "semantic_scholar")
-        self.assertEqual(ph.normalize_source("semantic_scholar"), "semantic_scholar")
         self.assertEqual(ph.normalize_source("epmc"), "europepmc")
-        self.assertEqual(ph.normalize_source("pubmed_central"), "pmc")
-        self.assertEqual(ph.normalize_source("data-cite"), "datacite")
+        self.assertEqual(ph.normalize_source("Europe_PMC"), "europepmc")
+        self.assertEqual(ph.normalize_source("pubmed"), "pubmed")
+        self.assertNotIn("semantic_scholar", ph.SUPPORTED_SOURCES)
 
 
 class OpenAlexTests(unittest.TestCase):
@@ -129,26 +127,6 @@ class BiorxivTests(unittest.TestCase):
         self.assertIn("EPMC bioRxiv", hits[0]["title"])
 
 
-class SemanticScholarTests(unittest.TestCase):
-    def test_s2_alias_and_parse(self):
-        payload = (FX / "s2_search.json").read_bytes()
-        with _patch_get({"api.semanticscholar.org/graph/v1/paper/search": payload}):
-            hits, meta = ph.search_source("S2", "single-cell", limit=5)
-        self.assertEqual(meta["provider"], "http")
-        self.assertEqual(meta["source"], "semantic_scholar")
-        self.assertEqual(len(hits), 1)
-        self.assertEqual(hits[0]["title"], "Semantic Scholar fixture paper")
-        self.assertEqual(hits[0]["doi"], "10.1000/s2.fixture")
-
-    def test_s2_soft_fail_401(self):
-        def boom(url, *, headers=None):  # noqa: ARG001
-            raise urllib.error.HTTPError(url, 401, "Unauthorized", hdrs=None, fp=None)
-
-        with mock.patch.object(ph, "_get", side_effect=boom):
-            hits, meta = ph.search_source("semantic_scholar", "anything", limit=3)
-        self.assertEqual(hits, [])
-        self.assertEqual(meta["provider"], "error")
-        self.assertIn("S2_API_KEY", meta["message"])
 
 
 class DispatcherUnknownTests(unittest.TestCase):
@@ -177,94 +155,12 @@ class HitFromParsersUnit(unittest.TestCase):
 
 
 
-class PmcTests(unittest.TestCase):
-    def test_search_pmc_fixture(self):
-        esearch = (FX / "pmc_esearch.json").read_bytes()
-        esummary = (FX / "pmc_esummary.json").read_bytes()
-        with _patch_get(
-            {
-                "eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi": esearch,
-                "eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi": esummary,
-            }
-        ):
-            hits, meta = ph.search_source("pmc", "infiltrating T cells liver", limit=5)
-        self.assertEqual(meta["provider"], "http")
-        self.assertEqual(meta["source"], "pmc")
-        self.assertEqual(len(hits), 1)
-        self.assertEqual(hits[0]["pmcid"], "PMC5508784")
-        self.assertEqual(hits[0]["pmid"], "28622514")
-        self.assertEqual(hits[0]["doi"], "10.1016/j.cell.2017.05.035")
-        self.assertEqual(hits[0]["source"], "pmc")
-        self.assertIn("Infiltrating T Cells", hits[0]["title"])
-
-    def test_hit_from_pmc_unit(self):
-        data = json.loads((FX / "pmc_esummary.json").read_text())
-        row = data["result"]["5508784"]
-        h = ph._hit_from_pmc_esummary("5508784", row)
-        self.assertEqual(h["pmcid"], "PMC5508784")
-        self.assertEqual(h["year"], "2017")
 
 
-class DoajTests(unittest.TestCase):
-    def test_search_doaj_fixture(self):
-        payload = (FX / "doaj_articles.json").read_bytes()
-        with _patch_get({"doaj.org/api/search/articles": payload}):
-            hits, meta = ph.search_source("doaj", "infiltrating", limit=5)
-        self.assertEqual(meta["provider"], "http")
-        self.assertEqual(len(hits), 1)
-        self.assertEqual(hits[0]["source"], "doaj")
-        self.assertTrue(hits[0]["doi"])
-        self.assertTrue(hits[0]["title"])
-        self.assertEqual(hits[0]["type"], "journal-article")
-
-    def test_doaj_soft_fail_shape(self):
-        def boom(url, *, headers=None):  # noqa: ARG001
-            raise urllib.error.HTTPError(url, 500, "Server Error", hdrs=None, fp=None)
-
-        with mock.patch.object(ph, "_get", side_effect=boom):
-            hits, meta = ph.search_source("doaj", "x", limit=1)
-        self.assertEqual(hits, [])
-        self.assertEqual(meta["provider"], "error")
-        self.assertEqual(meta["source"], "doaj")
 
 
-class DataciteTests(unittest.TestCase):
-    def test_search_datacite_fixture(self):
-        payload = (FX / "datacite_dois.json").read_bytes()
-        with _patch_get({"api.datacite.org/dois": payload}):
-            hits, meta = ph.search_source("datacite", "hepatocellular", limit=5)
-        self.assertEqual(meta["provider"], "http")
-        self.assertEqual(len(hits), 1)
-        self.assertEqual(hits[0]["source"], "datacite")
-        self.assertTrue(hits[0]["doi"])
-        self.assertTrue(hits[0]["title"])
-
-    def test_datacite_unit(self):
-        data = json.loads((FX / "datacite_dois.json").read_text())
-        h = ph._hit_from_datacite(data["data"][0])
-        self.assertIsNotNone(h)
-        self.assertEqual(h["source"], "datacite")
 
 
-class ZenodoTests(unittest.TestCase):
-    def test_search_zenodo_fixture(self):
-        payload = (FX / "zenodo_records.json").read_bytes()
-        with _patch_get({"zenodo.org/api/records": payload}):
-            hits, meta = ph.search_source("zenodo", "hepatocellular", limit=5)
-        self.assertEqual(meta["provider"], "http")
-        self.assertEqual(len(hits), 1)
-        self.assertEqual(hits[0]["source"], "zenodo")
-        self.assertIn("10.5281/zenodo", hits[0]["doi"] or "")
-        self.assertIn("Hepatocellular", hits[0]["title"])
-
-    def test_zenodo_soft_fail(self):
-        def boom(url, *, headers=None):  # noqa: ARG001
-            raise urllib.error.URLError("timed out")
-
-        with mock.patch.object(ph, "_get", side_effect=boom):
-            hits, meta = ph.search_source("zenodo", "x", limit=1)
-        self.assertEqual(hits, [])
-        self.assertEqual(meta["provider"], "error")
 
 
 

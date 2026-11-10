@@ -11,17 +11,14 @@ from pathlib import Path
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "skills" / "lit-search" / "scripts"))
-sys.path.insert(0, str(ROOT / "skills" / "lit-expand" / "scripts"))
-sys.path.insert(0, str(ROOT / "skills" / "lit-db" / "scripts"))
 
 import providers_http as ph  # noqa: E402
 import expand as expand_mod  # noqa: E402
 from db import init_db, open_db  # noqa: E402
 
 FX = ROOT / "tests" / "fixtures" / "providers"
-EXPAND_PY = ROOT / "skills" / "lit-expand" / "scripts" / "expand.py"
-COLLECTION_PY = ROOT / "skills" / "lit-collection" / "scripts" / "collection.py"
+EXPAND_PY = ROOT / "skills" / "manage-library" / "scripts" / "expand.py"
+COLLECTION_PY = ROOT / "skills" / "manage-library" / "scripts" / "collection.py"
 
 
 class FakeHTTPResponse:
@@ -250,29 +247,6 @@ class ExpandCliTests(unittest.TestCase):
             finally:
                 conn.close()
             self.assertGreaterEqual(n, 2)
-
-    def test_dry_run_blocks_confirm(self):
-        with tempfile.TemporaryDirectory() as td:
-            tmp = Path(td)
-            cid = self._make_project(tmp)
-            out = subprocess.check_output(
-                [
-                    sys.executable,
-                    str(EXPAND_PY),
-                    "--project_root",
-                    str(tmp),
-                    "--collection_id",
-                    cid,
-                    "--seed_id",
-                    "28622514",
-                    "--mock",
-                    "--confirm_write",
-                    "--dry-run",
-                ],
-                text=True,
-            )
-            data = json.loads(out)
-            self.assertFalse(data["wrote"])
 
     def test_parse_seed_variants(self):
         self.assertEqual(expand_mod._parse_seed_string("PMID:28622514")["pmid"], "28622514")

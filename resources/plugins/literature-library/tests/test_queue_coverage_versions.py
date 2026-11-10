@@ -10,13 +10,11 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "skills" / "lit-db" / "scripts"))
 
 from db import (  # noqa: E402
     SCHEMA_VERSION,
     apply_version_detection,
     confirm_version_link,
-    coverage_report,
     detect_version_candidates,
     init_db,
     link_to_collection,
@@ -210,80 +208,6 @@ class HumanQueueTests(unittest.TestCase):
         self.assertIn("conflicting_strong_ids", row["review_reasons_json"])
 
 
-class CoverageTests(unittest.TestCase):
-    def setUp(self):
-        self.tmp = tempfile.TemporaryDirectory()
-        self.db = Path(self.tmp.name) / "library.sqlite"
-        init_db(self.db)
-        self.conn = open_db(self.db)
-        now = utc_now()
-        self.conn.execute(
-            "INSERT INTO collections(id,name,description,created_at,path) VALUES (?,?,?,?,?)",
-            ("col-c", "C", "", now, "collections/col-c"),
-        )
-        self.conn.execute(
-            "INSERT INTO runs(id,collection_id,query,sources_json,started_at,finished_at) VALUES (?,?,?,?,?,?)",
-            ("run-1", "col-c", "exhaustion", '["pubmed"]', now, now),
-        )
-        self.conn.commit()
-
-    def tearDown(self):
-        self.conn.close()
-        self.tmp.cleanup()
-
-    def test_coverage_counts(self):
-        a = resolve_or_create(
-            self.conn,
-            {
-                "doi": "10.1000/cov.1",
-                "title": "Coverage Paper One",
-                "abstract": "Has abstract",
-                "year": 2020,
-                "authors": ["A"],
-            },
-        )
-        b = resolve_or_create(
-            self.conn,
-            {"doi": "10.1000/cov.shell", "title": "10.1000/cov.shell"},
-        )
-        self.conn.commit()
-        link_to_collection(self.conn, "col-c", a["publication_id"], source_run_id="run-1")
-        link_to_collection(self.conn, "col-c", b["publication_id"], source_run_id="run-1")
-        record_run_hit(
-            self.conn,
-            run_id="run-1",
-            publication_id=a["publication_id"],
-            raw={"doi": "10.1000/cov.1"},
-            source="pubmed",
-            dedupe_action="inserted",
-        )
-        record_run_hit(
-            self.conn,
-            run_id="run-1",
-            publication_id=a["publication_id"],
-            raw={"doi": "10.1000/cov.1"},
-            source="europepmc",
-            dedupe_action="merged",
-        )
-        record_run_hit(
-            self.conn,
-            run_id="run-1",
-            publication_id=b["publication_id"],
-            raw={"doi": "10.1000/cov.shell"},
-            source="pubmed",
-            dedupe_action="inserted",
-        )
-        self.conn.commit()
-
-        rep = coverage_report(self.conn, run_id="run-1")
-        self.assertTrue(rep["ok"])
-        self.assertEqual(rep["hits"]["n"], 3)
-        self.assertEqual(rep["hits"]["unique_publication_ids"], 2)
-        self.assertEqual(rep["hits"]["dedupe_action_counts"]["inserted"], 2)
-        self.assertEqual(rep["hits"]["dedupe_action_counts"]["merged"], 1)
-        self.assertEqual(rep["collection"]["n_publications"], 2)
-        self.assertGreaterEqual(rep["collection"]["n_unenriched_shells"], 1)
-        self.assertGreaterEqual(rep["collection"]["n_missing_abstract"], 1)
 
 
 class VersionChainTests(unittest.TestCase):
@@ -447,7 +371,7 @@ class CliSmokeTests(unittest.TestCase):
             rq = subprocess.check_output(
                 [
                     py,
-                    str(ROOT / "skills/lit-review-queue/scripts/review_queue.py"),
+                    str(ROOT / "skills/manage-library/scripts/lib/review_queue.py"),
                     "--project_root",
                     str(root),
                     "--collection_id",
@@ -457,25 +381,10 @@ class CliSmokeTests(unittest.TestCase):
             )
             self.assertTrue(json.loads(rq)["ok"])
 
-            cov = subprocess.check_output(
-                [
-                    py,
-                    str(ROOT / "skills/lit-coverage/scripts/coverage.py"),
-                    "--project_root",
-                    str(root),
-                    "--run_id",
-                    "run-cli",
-                ],
-                text=True,
-            )
-            cov_j = json.loads(cov)
-            self.assertTrue(cov_j["ok"])
-            self.assertEqual(cov_j["hits"]["n"], 1)
-
             ver = subprocess.check_output(
                 [
                     py,
-                    str(ROOT / "skills/lit-versions/scripts/versions.py"),
+                    str(ROOT / "skills/manage-library/scripts/lib/versions.py"),
                     "--project_root",
                     str(root),
                     "--action",
