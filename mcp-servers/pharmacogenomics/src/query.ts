@@ -1,6 +1,3 @@
-import { existsSync } from "node:fs";
-import path from "node:path";
-import { DuckDBInstance, type DuckDBConnection, type DuckDBValue } from "@duckdb/node-api";
 import { curie, type ToolResult } from "phi-omics-schemas";
 import {
   drugResponse,
@@ -11,15 +8,27 @@ import {
   makePage,
   safeMap,
   sample,
-  sourceOf,
   variant,
 } from "phi-omics-runtime";
+import {
+  bounds,
+  dataDir,
+  dataSource,
+  geneKey,
+  modelCurie,
+  num,
+  rows,
+  tablePath,
+  taxon,
+  text,
+  tissueFilter,
+  unavailable,
+  unknownTissue,
+  type DuckDBValue,
+} from "./common.js";
 
-const dataSource = sourceOf(
-  "pharmacogenomics",
-  "Pharmacogenomics",
-  "https://github.com/dxsbiocc/phi-packages",
-);
+export { dataDir };
+
 const usage = {
   summary: "",
   url: "https://depmap.org/portal/about/",
@@ -34,85 +43,6 @@ export const USAGE_SUMMARY = [
   "ORCESTRA PharmacoSets are frozen Zenodo records. CTRPv2.1 (10.5281/zenodo.21794049), gCSI 2019 (10.5281/zenodo.4737437), UHNBreast 2019 (10.5281/zenodo.3601415), and CCLE 2019 (10.5281/zenodo.18759113) are CC BY 4.0. FIMM (10.5281/zenodo.3905448) and GRAY 2017 (10.5281/zenodo.3905458) are CC0.",
   "DepMap expression values are log2(TPM+1). CRISPR values are Chronos gene-effect scores. GDSC LN_IC50 is the natural log of micromolar IC50, and a lower AUC or LN_IC50 means a stronger response.",
 ].join(" ");
-
-let cached: { dir: string; connection: DuckDBConnection } | undefined;
-
-export function dataDir(): string | null {
-  const configured = process.env.PHI_PGX_DATA_DIR;
-  if (!configured) return null;
-  const resolved = path.resolve(configured);
-  return existsSync(resolved) ? resolved : null;
-}
-
-async function database(dir: string): Promise<DuckDBConnection> {
-  if (cached?.dir === dir) return cached.connection;
-  const instance = await DuckDBInstance.create(":memory:");
-  const connection = await instance.connect();
-  cached = { dir, connection };
-  return connection;
-}
-
-function tablePath(dir: string, table: string, partitioned: boolean): string | null {
-  if (!/^[a-z_]+$/.test(table)) throw new InputError(`unknown table ${table}`);
-  const root = path.resolve(dir, table);
-  if (!root.startsWith(path.resolve(dir) + path.sep)) throw new InputError("invalid data path");
-  const file = partitioned ? path.join(root, "**", "*.parquet") : path.join(root, "part.parquet");
-  if (!existsSync(root)) return null;
-  return file;
-}
-
-async function rows(dir: string, sql: string, params: DuckDBValue[]): Promise<Record<string, unknown>[]> {
-  const connection = await database(dir);
-  const reader = await connection.runAndReadAll(sql, params);
-  return reader.getRowObjectsJson() as Record<string, unknown>[];
-}
-
-function text(value: unknown): string | null {
-  if (typeof value === "string" && value.trim()) return value;
-  if (typeof value === "number" && Number.isFinite(value)) return String(value);
-  return null;
-}
-
-function num(value: unknown): number | null {
-  if (typeof value === "number" && Number.isFinite(value)) return value;
-  if (typeof value === "bigint") return Number(value);
-  if (typeof value === "string" && value.trim() && Number.isFinite(Number(value))) return Number(value);
-  return null;
-}
-
-function taxon(species: string | null): string | null {
-  if (!species) return null;
-  if (species.toLowerCase() === "homo sapiens") return "NCBITaxon:9606";
-  return null;
-}
-
-function modelCurie(cvcl: string | null, sourceModelId: string): string {
-  if (cvcl) return curie("cellosaurus", cvcl);
-  if (sourceModelId.startsWith("ACH-")) return curie("depmap", sourceModelId);
-  if (sourceModelId.startsWith("SIDM")) return curie("sanger.model", sourceModelId);
-  return curie("pgx.model", sourceModelId);
-}
-
-function bounds(args: Record<string, unknown>): { offset: number; limit: number } {
-  const offset = args.offset == null ? 0 : Number(args.offset);
-  const limit = args.limit == null ? 20 : Number(args.limit);
-  if (!Number.isInteger(offset) || offset < 0 || !Number.isInteger(limit) || limit < 1 || limit > 50) {
-    throw new InputError("offset must be an integer >= 0 and limit an integer from 1 to 50");
-  }
-  return { offset, limit };
-}
-
-function geneKey(value: string): { id: string | null; symbol: string | null } {
-  const textValue = value.trim();
-  const curieMatch = textValue.match(/^ncbigene:(\d+)$/i);
-  if (curieMatch) return { id: curieMatch[1] ?? null, symbol: null };
-  if (/^\d+$/.test(textValue)) return { id: textValue, symbol: null };
-  return { id: null, symbol: textValue };
-}
-
-function unavailable(message: string): ToolResult {
-  return failure(dataSource, "unavailable", message, false);
-}
 
 export async function usageTerms(): Promise<ToolResult> {
   const dir = dataDir();
@@ -213,10 +143,13 @@ export async function geneDependency(args: Record<string, unknown>): Promise<Too
   if (!geneArg) throw new InputError("gene is required");
   const key = geneKey(geneArg);
   const dataset = text(args.dataset);
+  const tissue = text(args.tissue);
   const { offset, limit } = bounds(args);
+  const tissueClause = await tissueFilter(dir, tissue);
+  if (tissue && tissueClause.unknown) return unknownTissue(tissue);
   const where = `WHERE ((? IS NOT NULL AND ncbi_gene_id = ?) OR (? IS NOT NULL AND lower(symbol) = lower(?)))
-                  AND (? IS NULL OR dataset = ?)`;
-  const params = [key.id, key.id, key.symbol, key.symbol, dataset, dataset];
+                  AND (? IS NULL OR dataset = ?) ${tissueClause.sql}`;
+  const params = [key.id, key.id, key.symbol, key.symbol, dataset, dataset, ...tissueClause.params];
   const total = num((await rows(dir, `SELECT count(*)::INTEGER AS n FROM read_parquet(?, hive_partitioning=true) ${where}`, [table, ...params]))[0]?.n);
   const found = await rows(
     dir,
@@ -306,23 +239,10 @@ function concentrationsOf(value: unknown): number[] {
   return textValue.split(";").map((part) => Number(part)).filter((part) => Number.isFinite(part));
 }
 
-export async function compoundResponse(args: Record<string, unknown>): Promise<ToolResult> {
-  const dir = dataDir();
-  if (!dir) return unavailable("Set PHI_PGX_DATA_DIR to the processed pharmacogenomics parquet directory.");
-  const compounds = tablePath(dir, "compound_xref", false);
-  const responses = tablePath(dir, "drug_response", true);
-  if (!compounds || !responses) return unavailable("compound_xref or drug_response parquet is not in PHI_PGX_DATA_DIR.");
-  const query = text(args.compound);
-  if (!query) throw new InputError("compound is required");
-  const mode = text(args.combinations) ?? "exclude";
-  if (mode !== "exclude" && mode !== "include" && mode !== "only") {
-    throw new InputError("combinations must be exclude, include, or only");
-  }
-  const dataset = text(args.dataset);
-  const metric = text(args.metric);
-  const { offset, limit } = bounds(args);
+/** Single-agent compound rows whose name, id, synonym, or cross-reference equals `query`. */
+export async function matchSingleCompounds(dir: string, compoundTable: string, query: string): Promise<Record<string, unknown>[]> {
   const bare = query.replace(/^pubchem:/i, "");
-  const matched = await rows(
+  return rows(
     dir,
     `SELECT source, source_compound_id, name, pubchem_cid, chembl_id, inchikey, brd_id, gdsc_drug_id, status, match_method
      FROM read_parquet(?)
@@ -337,8 +257,30 @@ export async function compoundResponse(args: Record<string, unknown>): Promise<T
          OR lower(coalesce(inchikey, '')) = lower(?)
          OR list_contains(string_split(lower(coalesce(synonyms, '')), ';'), lower(?))
        )`,
-    [compounds, query, query, query, query, bare, query, query, query],
+    [compoundTable, query, query, query, query, bare, query, query, query],
   );
+}
+
+export async function compoundResponse(args: Record<string, unknown>): Promise<ToolResult> {
+  const dir = dataDir();
+  if (!dir) return unavailable("Set PHI_PGX_DATA_DIR to the processed pharmacogenomics parquet directory.");
+  const compounds = tablePath(dir, "compound_xref", false);
+  const responses = tablePath(dir, "drug_response", true);
+  if (!compounds || !responses) return unavailable("compound_xref or drug_response parquet is not in PHI_PGX_DATA_DIR.");
+  const query = text(args.compound);
+  if (!query) throw new InputError("compound is required");
+  const mode = text(args.combinations) ?? "exclude";
+  if (mode !== "exclude" && mode !== "include" && mode !== "only") {
+    throw new InputError("combinations must be exclude, include, or only");
+  }
+  const dataset = text(args.dataset);
+  const metric = text(args.metric);
+  const tissue = text(args.tissue);
+  const { offset, limit } = bounds(args);
+  const tissueClause = await tissueFilter(dir, tissue);
+  if (tissue && tissueClause.unknown) return unknownTissue(tissue);
+  const bare = query.replace(/^pubchem:/i, "");
+  const matched = await matchSingleCompounds(dir, compounds, query);
   const combinationFile = tablePath(dir, "combination_xref", false);
   const matchedCombinations = combinationFile
     ? await rows(
@@ -387,11 +329,11 @@ export async function compoundResponse(args: Record<string, unknown>): Promise<T
   const where = `WHERE ${classWhere}
                   AND (? IS NULL OR dataset = ?)
                   AND (? IS NULL OR metric = ?)
-                  AND coalesce(qc, '') = ''`;
+                  AND coalesce(qc, '') = '' ${tissueClause.sql}`;
   const classParams: DuckDBValue[] = hasClass
     ? [singleIds.join(",") || "__none__", combinationIds.join(",") || "__none__"]
     : [singleIds.join(",") || "__none__"];
-  const params: DuckDBValue[] = [...classParams, dataset, dataset, metric, metric];
+  const params: DuckDBValue[] = [...classParams, dataset, dataset, metric, metric, ...tissueClause.params];
   const total = num((await rows(dir, `SELECT count(*)::INTEGER AS n FROM read_parquet(?, hive_partitioning=true) ${where}`, [responses, ...params]))[0]?.n);
   const found = await rows(
     dir,

@@ -95,13 +95,18 @@ test("pharmacogenomics tools read fixture parquet", async () => {
   process.env.PHI_PGX_DATA_DIR = dir;
   try {
     await writeFixture(dir);
-    assert.equal(tools.length, 5);
+    assert.equal(tools.length, 10);
     const calls: Record<string, Record<string, unknown>> = {
       usage_terms: {},
       resolve_cell_line: { query: "Alpha" },
       gene_dependency: { gene: "TP53", limit: 5 },
       compound_response: { compound: "pubchem:11433190", metric: "LN_IC50", limit: 5 },
       model_summary: { model: "ACH-000001", gene: "ncbigene:7157" },
+      list_tissues: {},
+      gene_expression: { gene: "TP53" },
+      gene_copy_number: { gene: "TP53" },
+      gene_mutations: { gene: "TP53", include_silent: true },
+      biomarker_association: { compound: "1047", gene: "TP53", feature: "mutation" },
     };
     for (const tool of tools) {
       const result = ToolResultSchema.parse(await tool.call(client, calls[tool.name] ?? {}));
