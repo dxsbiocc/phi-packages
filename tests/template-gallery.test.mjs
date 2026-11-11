@@ -31,5 +31,5 @@ test('template gallery matches the omics-visualization catalogs', () => {
   }
 
   const manifest = readFileSync(join(root, 'resources/plugins/visualization/phi-package.yaml'), 'utf8')
-  assert.match(manifest, /^version: 1\.2\.0$/m)
+  assert.match(manifest, /^version: 1\.2\.2$/m)
 })

@@ -84,7 +84,11 @@ config <- list(
             palette = "Qualitative.Prism")
     ),
     underscore_to_space = TRUE,  # Newick writes spaces as "_"
-    open_angle = 90,             # leave first quadrant empty for the legend
+    # Empty sector between first and last tip, in degrees. ggtree's own
+    # open.angle uses ylim=c(0, N*360/(360-open)), which makes the tip
+    # gap ~open+(360-open)/N (~95° when open=90, N=55); we re-lock
+    # ylim below so the visual gap is exactly this value.
+    open_angle = 90,
     rotate = 90,                 # shift the open sector into Q1 (top-right)
     label_size = 2.4,
     label_band = 0.55,           # tip-label band, fraction of tree depth
@@ -104,7 +108,7 @@ config <- list(
 )
 
 load_packages(c("ggplot2", "readr", "ape", "ggtree", "ggnewscale",
-    "ComplexHeatmap", "circlize", "grid"))
+    "ComplexHeatmap", "circlize", "grid", "scales"))
 
 # -----------------------------------------------------------------------------
 # DATA PREPARATION
@@ -266,13 +270,29 @@ for (i in seq_along(bar_df)) {
             label = format(bd$ticks$lab), size = 2.6, angle = 0)
 }
 
-# Keep fan open.angle; only rotate the polar origin so the empty
-# sector lands in the first quadrant (top-right). Tip-label angles
-# track the same offset so text stays radial.
+# Lock ylim so the empty sector between tip 1 and tip N is exactly
+# open_angle degrees (ggtree's native open.angle is only approximate;
+# see CONFIG comment). Half-tip pad (0.5) matches tile height ≈ 1.
+# Rotate the polar origin so the empty sector lands in Q1 (top-right);
+# tip-label angles track the same offset so text stays radial.
+open_deg <- as.numeric(config$open_angle)[[1]]
+if (!is.finite(open_deg) || open_deg <= 0 || open_deg >= 360) {
+    open_deg <- 90
+}
+y_min <- 0.5
+y_max <- y_min + (n_tip - 1) * 360 / (360 - open_deg)
 p$data$angle <- p$data$angle + config$rotate
 p <- p +
-    ggplot2::coord_polar(theta = "y",
-        start = (-90 + config$rotate) / 180 * pi, direction = -1) +
+    ggplot2::scale_y_continuous(
+        limits = c(y_min, y_max),
+        expand = c(0, 0),
+        oob = scales::oob_keep
+    ) +
+    ggplot2::coord_polar(
+        theta = "y",
+        start = (-90 + config$rotate) / 180 * pi,
+        direction = -1
+    ) +
     theme(
         legend.position = "none",
         plot.background = element_rect(fill = "white", colour = NA),
