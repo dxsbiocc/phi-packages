@@ -225,16 +225,21 @@ sources:
         live: false
 
   - id: cellosaurus
-    version: "56.0"
+    version: "57.0"
     enabled: true
     batch: 1
     homepage: https://www.cellosaurus.org/
     license: CC BY 4.0
-    citation: "Bairoch A. The Cellosaurus, a cell-line knowledge resource. J Biomol Tech. 2018. Release 56.0, 25 June 2026."
+    citation: "Bairoch A. The Cellosaurus, a cell-line knowledge resource. J Biomol Tech. 2018. Release 57.0, 22 October 2026."
+    notes: >
+      Expasy serves only the latest release at this URL and keeps no archive, so the
+      pin stops downloading when the next release replaces it (release 56.0, sha256
+      b225da54..., was replaced on 2026-10-22). Keep the downloaded file with the
+      processed data so a run can be reproduced.
     files:
       - name: cellosaurus.txt
         url: https://ftp.expasy.org/databases/cellosaurus/cellosaurus.txt
-        sha256: b225da548b65e8db10597759bc152c78b1b9d23e123494744510d7569cf4ab3b
+        sha256: 3b5a9fc56b49854230ae90fb7cee57a3bf9f961df98be215a634203526f476ef
         role: cellosaurus
         live: false
 

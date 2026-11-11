@@ -26,7 +26,7 @@ PHI_PGX_DATA_DIR=processed phi-omics-pharmacogenomics
 | GDSC² combinations | Jaaks 2022 | Anchored combination screens, separate from GDSC1/GDSC2. Glossary, validation screen, and original screen from the Sanger Figshare records. The original screen is `live: true`. The license is internal research and education, not CC BY. |
 | Cell Model Passports | model list | `model_list_latest.csv` for SIDM, BROAD/ACH, COSMIC, and RRID |
 | HGNC | complete set | Approved symbols, previous symbols, aliases, Entrez ids, and Ensembl ids |
-| Cellosaurus | release 56.0 | Accession, name, synonym, and problematic-cell-line comments |
+| Cellosaurus | release 57.0 (22 October 2026) | Accession, name, synonym, and problematic-cell-line comments |
 
 DepMap's catalogue endpoints `https://depmap.org/portal/api/download/files` and `https://depmap.org/portal/api/no-captcha/download/files` returned an HTTP 200 Cloudflare HTML page from the network used to build this pipeline. Figshare article records answered, so `sources.yaml` stores those download URLs. Each DepMap and PRISM source also lists resolvers. `phi-pgx download --resolve-urls` tries the portal catalogue first and, if that body is HTML or has no URL, uses the Figshare article. A file's `url` is the reproducible default.
 
@@ -92,7 +92,7 @@ Gene headers were read from DepMap 24Q2 without downloading the matrices. Before
 
 Examples of updated symbols: `AATK (9625)` to `LMTK1`, `BVES (11149)` to `POPDC1`. Unmatched CRISPR labels are LOC genes whose Entrez id is not an approved HGNC id, such as `LOC730098 (730098)`. `RSC1A1 (6248)` is ambiguous because that Entrez id is not the current id for the gene HGNC now calls `DDI2`.
 
-Cell lines, primary rows, before Cellosaurus (Cell Model Passports crosswalk only) and after Cellosaurus 56.0. Problematic lines stay mapped and are counted in the flag columns.
+Cell lines, primary rows, before Cellosaurus (Cell Model Passports crosswalk only) and after Cellosaurus 56.0 (the coverage tables below were computed on 56.0 and have not been recomputed on 57.0). Problematic lines stay mapped and are counted in the flag columns.
 
 | Source | Rows | Before mapped / ambiguous / unmatched | After mapped / ambiguous / unmatched | Misidentified | Contaminated | Problematic |
 | --- | ---: | --- | --- | ---: | ---: | ---: |
@@ -203,7 +203,7 @@ ORCESTRA lists NCI60_2026, but no public Zenodo file with that name was found. T
 
 ### Coverage
 
-Counts use Cellosaurus 56.0 and the files downloaded on 2026-10-14. NSC coverage uses the 2026-09-27 PubChem SID-Map and `CID-Synonym-filtered.gz`. gCSI, GRAY, UHNBreast, CCLE, and FIMM have no sensitivity rows here because their RDS files were not extracted. CTRP recomputed profiles were downloaded and are loaded only together with `sensitivity.tsv`, which was not retrieved, so this run's CTRP response rows are the v2.1 AUC table.
+Counts use Cellosaurus 56.0 (the pin is now 57.0; Expasy keeps no older release, so these counts are not recomputed) and the files downloaded on 2026-10-14. NSC coverage uses the 2026-09-27 PubChem SID-Map and `CID-Synonym-filtered.gz`. gCSI, GRAY, UHNBreast, CCLE, and FIMM have no sensitivity rows here because their RDS files were not extracted. CTRP recomputed profiles were downloaded and are loaded only together with `sensitivity.tsv`, which was not retrieved, so this run's CTRP response rows are the v2.1 AUC table.
 
 | Dataset | Cell lines | Mapped | Ambiguous | Unmatched | Compounds | Mapped | Ambiguous | Unmatched |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
