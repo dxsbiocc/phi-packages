@@ -225,6 +225,33 @@ test("biomarker_association rejects bad input and reports unknown compounds and 
   if (missing.entity_type === "error") assert.equal(missing.code, "unavailable");
 });
 
+test("list_response_metrics lists datasets and metrics with their direction", async () => {
+  await withFixture(async () => {
+    const result = page(await run("list_response_metrics", {}));
+    assert.equal(result.page.total, 1);
+    const extra = result.items[0]?.source_extra as Record<string, unknown>;
+    assert.equal(extra.dataset, "gdsc1");
+    assert.equal(extra.metric, "LN_IC50");
+    assert.equal(extra.response_class, "single");
+    assert.equal(extra.models, 12);
+    assert.equal(extra.compounds, 1);
+    assert.equal(extra.direction, "lower_is_stronger");
+    const none = page(await run("list_response_metrics", { dataset: "nci60" }));
+    assert.equal(none.page.total, 0);
+  });
+});
+
+test("biomarker_association says which group or feature level is more sensitive", async () => {
+  await withFixture(async () => {
+    const mutation = page(await run("biomarker_association", { compound: "1047", gene: "TP53", feature: "mutation" }));
+    const mutationStats = mutation.items[0]?.source_extra as Record<string, unknown>;
+    assert.equal(mutationStats.more_sensitive_group, "wild_type", "mutant models have larger LN_IC50, so they respond less");
+    const expressionResult = page(await run("biomarker_association", { compound: "1047", gene: "TP53", feature: "expression" }));
+    const expressionStats = expressionResult.items[0]?.source_extra as Record<string, unknown>;
+    assert.equal(expressionStats.higher_feature_more_sensitive, true, "rho is negative and lower LN_IC50 is stronger");
+  });
+});
+
 test("compound_response accepts a tissue filter", async () => {
   await withFixture(async () => {
     assert.equal(page(await run("compound_response", { compound: "1047", limit: 10 })).page.total, 12);

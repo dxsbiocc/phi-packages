@@ -2,6 +2,7 @@ import type { OmicsTool, ServerModule } from "phi-omics-runtime";
 import { z } from "zod";
 import { biomarkerAssociation } from "./biomarker.js";
 import { geneCopyNumber, geneExpression, geneMutations, listTissues } from "./omics.js";
+import { listResponseMetrics } from "./responses.js";
 import { compoundResponse, dataDir, geneDependency, modelSummary, resolveCellLine, usageTerms } from "./query.js";
 
 const pageArgs = {
@@ -37,7 +38,7 @@ export const tools: OmicsTool[] = [
   {
     name: "compound_response",
     title: "Compound response profile",
-    description: "Drug-response rows for a compound or a drug combination. Accepts a PubChem CID, ChEMBL id, InChIKey, BRD id, GDSC drug id, NSC id, combination id, or name. Omit dataset to compare the compound across every loaded dataset. Single-agent rows are the default. combinations=include adds combination rows, and combinations=only returns those rows. A combination id or an 'Anchor + Library' name returns combination rows either way. Optional tissue limits the models. Rows are ordered by value ascending.",
+    description: "Drug-response rows for a compound or a drug combination. Accepts a PubChem CID, ChEMBL id, InChIKey, BRD id, GDSC drug id, NSC id, combination id, or name. Omit dataset to compare the compound across every loaded dataset. Single-agent rows are the default. combinations=include adds combination rows, and combinations=only returns those rows. A combination id or an 'Anchor + Library' name returns combination rows either way. Rows are grouped by dataset and metric and ordered by value within each group, because values are only comparable within one dataset and metric. Each row carries direction (whether lower or higher is stronger, or unknown) and the page lists metric_groups. Set dataset and metric to compare models. Optional tissue limits the models.",
     inputSchema: z.object({
       compound: z.string().min(1),
       dataset: z.string().optional(),
@@ -54,6 +55,13 @@ export const tools: OmicsTool[] = [
     description: "Tissue values of the mapped cell-line models with the number of models in each. Use a value as the tissue filter of the other tools.",
     inputSchema: z.object({ ...pageArgs }),
     call: async (_client, args) => listTissues(args),
+  },
+  {
+    name: "list_response_metrics",
+    title: "List drug-response datasets and metrics",
+    description: "Every dataset and metric in the drug-response table with row, model and compound counts, and whether a lower or higher value is a stronger response (unknown where the source does not document it). The same metric name can mean different things in different datasets.",
+    inputSchema: z.object({ dataset: z.string().optional(), ...pageArgs }),
+    call: async (_client, args) => listResponseMetrics(args),
   },
   {
     name: "gene_expression",

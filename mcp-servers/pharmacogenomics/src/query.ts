@@ -26,6 +26,7 @@ import {
   unknownTissue,
   type DuckDBValue,
 } from "./common.js";
+import { metricInfo } from "./metrics.js";
 
 export { dataDir };
 
@@ -42,6 +43,7 @@ export const USAGE_SUMMARY = [
   "NCI-60 growth-inhibition data are a US National Cancer Institute DTP release. Credit the National Cancer Institute. They are not CC BY. The pinned files are the October 2026 wiki attachments.",
   "ORCESTRA PharmacoSets are frozen Zenodo records. CTRPv2.1 (10.5281/zenodo.21794049), gCSI 2019 (10.5281/zenodo.4737437), UHNBreast 2019 (10.5281/zenodo.3601415), and CCLE 2019 (10.5281/zenodo.18759113) are CC BY 4.0. FIMM (10.5281/zenodo.3905448) and GRAY 2017 (10.5281/zenodo.3905458) are CC0.",
   "DepMap expression values are log2(TPM+1). CRISPR values are Chronos gene-effect scores. GDSC LN_IC50 is the natural log of micromolar IC50, and a lower AUC or LN_IC50 means a stronger response.",
+  "A metric name can mean different things in different datasets, so compare values only within one dataset and metric. list_response_metrics says which direction is stronger where the source documents it.",
 ].join(" ");
 
 export async function usageTerms(): Promise<ToolResult> {
@@ -339,10 +341,28 @@ export async function compoundResponse(args: Record<string, unknown>): Promise<T
     dir,
     `SELECT dataset, source_model_id, model_cvcl, source_compound_id, pubchem_cid, compound_name, metric, value, unit, dose, screen_id, ${classSelect}
      FROM read_parquet(?, hive_partitioning=true) ${where}
-     ORDER BY value ASC NULLS LAST
+     ORDER BY dataset, metric, dose NULLS FIRST, value ASC NULLS LAST, model_cvcl, source_model_id
      LIMIT ? OFFSET ?`,
     [responses, ...params, limit, offset],
   );
+  const groups = await rows(
+    dir,
+    `SELECT dataset, metric, count(*)::BIGINT AS n, count(DISTINCT model_cvcl)::BIGINT AS models,
+            median(value) AS median, min(value) AS min, max(value) AS max
+     FROM read_parquet(?, hive_partitioning=true) ${where}
+     GROUP BY 1, 2 ORDER BY 1, 2`,
+    [responses, ...params],
+  );
+  const metricGroups = groups.map((row) => ({
+    dataset: text(row.dataset),
+    metric: text(row.metric),
+    rows: num(row.n),
+    models: num(row.models),
+    median: num(row.median),
+    min: num(row.min),
+    max: num(row.max),
+    direction: metricInfo(text(row.dataset), text(row.metric)).direction,
+  }));
   const combinationById = new Map(matchedCombinations.map((row) => [text(row.combination_id), row]));
   const items = safeMap(found, (row) => {
     const responseClass = text(row.response_class) === "combination" || text(row.combination_id) ? "combination" : "single";
@@ -382,6 +402,7 @@ export async function compoundResponse(args: Record<string, unknown>): Promise<T
         screen_id: text(row.screen_id),
         source_model_id: text(row.source_model_id),
         ambiguous_compound: responseClass === "single" && cids.length > 1,
+        direction: metricInfo(datasetName, metricName).direction,
         components: combination
           ? [
             ...roleComponents("anchor", text(combination.anchor_drug_id), text(combination.anchor_name), text(combination.anchor_pubchem_cid), text(combination.anchor_chembl_id), anchorConc == null ? concentrationsOf(combination.anchor_concentrations) : [anchorConc], text(combination.concentration_unit)),
@@ -407,9 +428,9 @@ export async function compoundResponse(args: Record<string, unknown>): Promise<T
       ? "Combination responses are separate from single-agent responses. Each component keeps its own PubChem or ChEMBL id. Delta metrics are the screened synergy values."
       : cids.length > 1
         ? "This alias matches more than one PubChem CID. Responses are returned for every matched source id and none was chosen automatically."
-        : "Drug-response rows ordered by value ascending. Omitting dataset returns every loaded dataset for this compound. Lower GDSC AUC and LN_IC50 mean a stronger response. Combination rows are omitted unless the query is a combination or combinations is include or only.",
+        : `Drug-response rows grouped by dataset and metric, then ordered by value ascending within each group. Omitting dataset returns every loaded dataset for this compound. direction on each row says whether a lower or higher value is a stronger response, and is unknown where the source does not document it. Combination rows are omitted unless the query is a combination or combinations is include or only.${metricGroups.length > 1 ? ` These rows mix ${metricGroups.length} dataset and metric combinations whose values are not comparable with each other. Set dataset and metric to compare models, and see metric_groups for the per-group summary.` : ""}`,
     url: "https://www.cancerrxgene.org/",
-  }, { pubchem_cids: cids, match_count: matched.length, combinations: combinationSummary });
+  }, { pubchem_cids: cids, match_count: matched.length, combinations: combinationSummary, metric_groups: metricGroups });
 }
 
 export async function modelSummary(args: Record<string, unknown>): Promise<ToolResult> {
