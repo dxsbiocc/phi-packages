@@ -276,7 +276,7 @@ def _wrap(body: str, xref_file: str, dataset: str) -> str:
       NULL::DOUBLE AS library_conc
     FROM base
     {_model_join(xref_file, dataset)}
-    WHERE base.value IS NOT NULL
+    WHERE isfinite(base.value)
       AND base.source_model_id IS NOT NULL
       AND base.source_compound_id IS NOT NULL
     """
@@ -306,13 +306,19 @@ def melted_profile_sql(dataset: str) -> str:
           THEN '{dataset}:' || regexp_replace(CAST(source_compound_id AS VARCHAR), '\\.0$', '')
           ELSE CAST(source_compound_id AS VARCHAR)
         END AS source_compound_id,
-        metric,
+        {_metric_name_sql()} AS metric,
         try_cast(value AS DOUBLE) AS value,
         unit,
         NULL::DOUBLE AS dose,
         NULL::VARCHAR AS screen_id
       FROM read_csv(?, header=true, all_varchar=true)
     """
+
+
+def _metric_name_sql() -> str:
+    """Map the extractor's lower-case column names (aac_recomputed) to the stored metric names."""
+    whens = " ".join(f"WHEN '{name}' THEN '{metric}'" for name, (metric, _unit) in PROFILE_METRICS.items())
+    return f"CASE lower(metric) {whens} ELSE metric END"
 
 
 def long_profile_sql(dataset: str, columns: list[str]) -> tuple[str, list[str]]:

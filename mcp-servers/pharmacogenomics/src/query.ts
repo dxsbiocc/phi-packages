@@ -327,6 +327,8 @@ export async function compoundResponse(args: Record<string, unknown>): Promise<T
          OR (list_contains(string_split(?, ','), combination_id) AND coalesce(response_class, 'single') = 'combination')
        )`
     : "list_contains(string_split(?, ','), source_compound_id)";
+  const standardized = columns.has("sensitivity_percentile") && columns.has("compound_percentile");
+  const standardizedSelect = standardized ? ", sensitivity_percentile, compound_percentile" : "";
   const cids = [...new Set(matched.map((row) => text(row.pubchem_cid)).filter((item): item is string => item != null))];
   const where = `WHERE ${classWhere}
                   AND (? IS NULL OR dataset = ?)
@@ -339,7 +341,7 @@ export async function compoundResponse(args: Record<string, unknown>): Promise<T
   const total = num((await rows(dir, `SELECT count(*)::INTEGER AS n FROM read_parquet(?, hive_partitioning=true) ${where}`, [responses, ...params]))[0]?.n);
   const found = await rows(
     dir,
-    `SELECT dataset, source_model_id, model_cvcl, source_compound_id, pubchem_cid, compound_name, metric, value, unit, dose, screen_id, ${classSelect}
+    `SELECT dataset, source_model_id, model_cvcl, source_compound_id, pubchem_cid, compound_name, metric, value, unit, dose, screen_id, ${classSelect}${standardizedSelect}
      FROM read_parquet(?, hive_partitioning=true) ${where}
      ORDER BY dataset, metric, dose NULLS FIRST, value ASC NULLS LAST, model_cvcl, source_model_id
      LIMIT ? OFFSET ?`,
@@ -403,6 +405,8 @@ export async function compoundResponse(args: Record<string, unknown>): Promise<T
         source_model_id: text(row.source_model_id),
         ambiguous_compound: responseClass === "single" && cids.length > 1,
         direction: metricInfo(datasetName, metricName).direction,
+        sensitivity_percentile: standardized ? num(row.sensitivity_percentile) : null,
+        compound_percentile: standardized ? num(row.compound_percentile) : null,
         components: combination
           ? [
             ...roleComponents("anchor", text(combination.anchor_drug_id), text(combination.anchor_name), text(combination.anchor_pubchem_cid), text(combination.anchor_chembl_id), anchorConc == null ? concentrationsOf(combination.anchor_concentrations) : [anchorConc], text(combination.concentration_unit)),

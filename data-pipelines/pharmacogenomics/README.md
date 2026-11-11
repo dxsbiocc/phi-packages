@@ -71,6 +71,14 @@ Processed output:
 
 `drug_response.metric` is the published statistic: GDSC single-agent `AUC` and `LN_IC50` (natural log of micromolar; lower means a stronger response), GDSC² combination deltas (`SYNERGY_DELTA_AUC` and the other delta columns above), PRISM secondary `AUC`, `IC50`, and `EC50`, and PRISM primary / 24Q2 `LFC`. Combination rows are a separate response class from single-agent rows. Expression is `log2_tpm_plus_1` from the DepMap `TPMLogp1` matrix, not raw TPM. Copy number is the relative gene-level value in `OmicsCNGene.csv`. Mutations are the DepMap hg38 calls.
 
+After the partitions are written, `pgx.standardize` adds three columns to every `drug_response` file so a reader does not need to know which way each metric points:
+
+- `response_direction`: `lower_is_stronger`, `higher_is_stronger` or `unknown`, from `pgx.metrics` (a mirror of the MCP server's `metrics.ts`; a test keeps the two in step).
+- `sensitivity_percentile`: 0 (least sensitive) to 1 (most sensitive) among all rows of the same dataset, metric, response class and dose. It orders compounds against each other.
+- `compound_percentile`: the same, but only among rows for one compound, so it orders cell lines for one drug. It is null when the compound has fewer than 10 rows in the group.
+
+Both percentiles are null where the direction is `unknown`, which includes every PharmacoSet `AUC` until its direction is verified against the PSet. Ties share the lowest rank and replicate rows count as rows. The percentiles are within-dataset and descriptive. They do not make values comparable across datasets, and the raw `value` is unchanged.
+
 `validate` checks required columns and writes mapping coverage. The Nutlin-3a check expects a lower median GDSC `LN_IC50` and `AUC` in TP53 wild-type lines than in lines with a non-silent `ncbigene:7157` mutation. Groups smaller than 3 models are skipped. Lines absent from the mutation table are excluded. A failed check exits non-zero.
 
 ## Coverage on 2026-10-14
@@ -183,7 +191,7 @@ phi-pgx check-updates --fail-on-updates     # exit 1 on newer_available or any u
 
 CTRPv2.1 already publishes the tables an R extract would emit. Those TSVs are the loaded path. A PharmacoSet CID is `match_method=pset_pubchem`. Two different CIDs on the same drug stay `ambiguous`. Numeric ids are prefixed with the dataset id.
 
-RDS files are converted by `r/extract_pset.R` through `Rscript` (PharmacoGx for an S4 PharmacoSet, or a plain list for tests). This environment does not have R. The image that carries the dependency is `data-pipelines/pharmacogenomics/Dockerfile` (`rocker/r-ver:4.4.2` plus Bioconductor PharmacoGx):
+RDS files are converted by `r/extract_pset.R` through `Rscript`. It reads a PharmacoSet saved before PharmacoGx 3 (slots `cell`, `drug`, `sensitivity`) straight from those slots, so that case needs no PharmacoGx. A PharmacoSet saved by PharmacoGx 3 goes through `sampleInfo()`, `treatmentInfo()` and the sensitivity accessors. A plain list is accepted for tests. Experiments are joined to their profiles by row name; an `experiment_id` column in `sensitivityInfo` is never used as the key (CTRPv2 stores the replicate number there). The raw dose-response array is melted to `VIABILITY` rows (`percent`); set `PGX_PSET_RAW=0` to skip it for a very large PharmacoSet. This was run on the 2025 builds of `PSet_FIMM.rds` and `PSet_CTRPv2.rds` with PharmacoGx 3.13.2: CTRPv2 gives 393,515 profiles, 6.17 million raw dose rows and 7.19 million `drug_response` rows (about 120 MB of parquet). Those PharmacoSets carry `aac_recomputed`, `ic50_recomputed` and `EC50`, and no AUC, so their response metrics are `AAC` (higher is stronger), `IC50` and `EC50`. Profile metrics are stored under the standard names (`AAC`, `IC50`, `EC50`, `AUC`), and a value that is `Inf`, `NaN` or `NA` is not stored. Finite but implausible potency values are kept as they are: the CTRPv2 `IC50` column reaches 4e256, so rank on it rather than averaging. A machine without R can use the image that carries the dependency: `data-pipelines/pharmacogenomics/Dockerfile` (`rocker/r-ver:4.4.2` plus Bioconductor PharmacoGx):
 
 ```bash
 docker build -t phi-pgx:batch2 data-pipelines/pharmacogenomics
