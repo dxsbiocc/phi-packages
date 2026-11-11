@@ -9,6 +9,7 @@ phi-pgx download          # small metadata and crosswalks
 phi-pgx download --live   # CRISPR, expression, mutations, copy number, dose-response matrices
 phi-pgx process
 phi-pgx validate
+phi-pgx check-updates     # compare sources.yaml with the ORCESTRA registry (reads only)
 PHI_PGX_DATA_DIR=processed phi-omics-pharmacogenomics
 ```
 
@@ -144,6 +145,30 @@ Downloaded on 2026-10-14, not behind `--live`:
 `curated/nci60_cell_lines.csv` is the version-controlled DTP name to Cellosaurus accession table. It covers the standard NCI-60 panel, including DTP spellings that Cellosaurus lists as synonyms (`HT29`, `786-0`, `A549/ATCC`, `HCT-116/P`), and historical lines whose identity is a single Cellosaurus record. The eight names that the canonical key maps to more than one accession are fixed there: `A-204` `CVCL_1058`, `COLO 205` `CVCL_0218`, `HT29` `CVCL_0320`, `M14` `CVCL_1395`, `NB4` `CVCL_0005`, `ND-1` `CVCL_4781`, `PC-3` `CVCL_0035`, `TK-10` `CVCL_1773`. `M14` itself is not flagged. `MDA-MB-435` (`CVCL_0417`, ICLAC-00235) and `ND-1` (`CVCL_4781`, ICLAC-00244) stay flagged from the Cellosaurus comment. The `source` column cites Cellosaurus 56.0 NCI-60 entries and cross-references. CellMiner was not downloaded as its own file; standard rows also cite the DTP cell list that CellMiner uses. Engineered derivatives that are not a Cellosaurus synonym of a panel line are left out of the table.
 
 NSC numbers are joined to PubChem from the DTP/NCI depositor in `Substance/Extras/SID-Map.gz` (FTP snapshot used here: 3,587,138,784 bytes, sha256 `06080403f39428558e96705f720bcdae7836d1f53f36fc7379b810100de0fb16`, dated 2026-09-27). A row is `SID`, source name, registry id, and the standardized CID when PubChem has one. Only source name `DTP/NCI` is kept. `pgx.nsc_pubchem.scan_sid_map` writes `raw/pubchem/dtp_nci.tsv` (`nsc`, `sid`, `cid`). That file is not committed. PUG-REST `substance/sourceid/DTP/NCI` returns HTTP 400 for this depositor name, so the bulk map is the path that is used. Registry ids `740`, `NSC740`, `NSC 740`, and `NSC-740` are the same NSC. A missing CID stays unmatched for the synonym file. More than one CID stays ambiguous.
+
+### Checking for newer PharmacoSets
+
+`phi-pgx check-updates` reads the public ORCESTRA registry (`https://www.orcestra.ca/api/pset/available`) and compares it with the `orcestra_*` sources in `sources.yaml`. It prints a JSON report and changes nothing: no download, no edit of `sources.yaml`.
+
+| Status | Meaning |
+| --- | --- |
+| `current` | The pinned Zenodo record is in the registry and no later entry of the same dataset exists. |
+| `newer_available` | The pinned record is in the registry and a later entry of the same dataset exists (listed under `newer`). |
+| `record_not_listed` | The pinned record is not in the registry. Several pinned records are original deposits and ORCESTRA now lists a re-deposit under another id. The registry entries of that dataset are listed as `candidates`. The check does not say they are newer, so compare them by hand. |
+| `family_not_listed` | The registry has no entry for this dataset. |
+| `planned` | A source under `planned:`. The registry entries of that dataset are listed as `candidates`. |
+
+`untracked` lists registry entries of datasets that are not in `sources.yaml` and not served by another source. `covered_elsewhere` lists registry entries whose dataset is served by a non-ORCESTRA source (GDSC, PRISM, NCI-60 DTP, GDSC² combinations), so a newer ORCESTRA deposit of those is visible but is not reported as a gap. Variants (`unfiltered`, `u133a`, `oldarray`) are cuts of a dataset, not newer versions, and are left out.
+
+Registry dates are only used to order entries of one dataset. Some are placeholders (several entries share one time of day, one is dated 1970), so treat `newer_available` as a prompt to look.
+
+```bash
+phi-pgx check-updates --since 2025-06-01    # only untracked entries created on or after the date
+phi-pgx check-updates --registry-file saved.json
+phi-pgx check-updates --fail-on-updates     # exit 1 on newer_available or any untracked entry
+```
+
+`record_not_listed` does not count for `--fail-on-updates`, because it is the normal state of the original deposits. Exit code 2 means the registry could not be read.
 
 ### ORCESTRA PharmacoSets
 
