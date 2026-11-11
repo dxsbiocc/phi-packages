@@ -23,8 +23,8 @@ async function writeFixture(dir: string, standardized: boolean): Promise<void> {
     ) AS t(source, source_compound_id, name, synonyms, brd_id, gdsc_drug_id, pubchem_cid, chembl_id, inchikey, smiles, match_method, status, evidence)`,
     path.join(dir, "compound_xref", "part.parquet"),
   );
-  const extra = standardized ? ", 'lower_is_stronger', 1.0, 0.75" : "";
-  const extraNames = standardized ? ", response_direction, sensitivity_percentile, compound_percentile" : "";
+  const extra = standardized ? ", 'lower_is_stronger', 1.0, 0.75, TRUE" : "";
+  const extraNames = standardized ? ", response_direction, sensitivity_percentile, compound_percentile, beyond_tested_range" : "";
   await copy(
     `SELECT * FROM (VALUES
       ('ACH-000001','CVCL_0001','1047','11433190','Nutlin-3a (-)', 'LN_IC50', 0.2, 'ln_uM', NULL::DOUBLE, NULL::VARCHAR, NULL::VARCHAR, NULL::VARCHAR, 'single', NULL::DOUBLE, NULL::DOUBLE${extra})
@@ -54,6 +54,7 @@ test("compound_response returns the standardized percentiles when the pipeline w
   assert.equal(extra.sensitivity_percentile, 1);
   assert.equal(extra.compound_percentile, 0.75);
   assert.equal(extra.direction, "lower_is_stronger");
+  assert.equal(extra.beyond_tested_range, true);
 });
 
 test("compound_response still works on parquet written before the percentile columns existed", async () => {

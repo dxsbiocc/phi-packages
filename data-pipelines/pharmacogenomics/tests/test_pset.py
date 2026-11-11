@@ -1,5 +1,6 @@
 import csv
 import math
+import os
 import shutil
 
 import pytest
@@ -7,6 +8,15 @@ import pytest
 from pgx.normalize.cell_lines import CellosaurusIndex
 from pgx.process import _write_rows, connect
 from pgx.pset import collect_source, compound_key, extract_rds, load_source
+
+
+def require_rscript():
+    """Skip without Rscript, unless CI says R must be there (PGX_REQUIRE_R)."""
+    if shutil.which("Rscript") is not None:
+        return
+    if os.environ.get("PGX_REQUIRE_R"):
+        pytest.fail("Rscript is not installed but PGX_REQUIRE_R is set")
+    pytest.skip("Rscript is not installed")
 
 
 CELLOSAURUS = """ID   MCF7
@@ -139,8 +149,7 @@ def test_extract_csvs_load_without_r(tmp_path):
 
 
 def test_rds_list_roundtrip(tmp_path):
-    if shutil.which("Rscript") is None:
-        pytest.skip("Rscript is not installed")
+    require_rscript()
     rds = tmp_path / "toy.rds"
     script = r"""
     cells <- data.frame(cellid=c('MCF7'), cellosaurus=c('CVCL_0031'), tissueid=c('breast'), stringsAsFactors=FALSE)
@@ -165,7 +174,7 @@ def _write_cellosaurus(tmp_path):
 LEGACY_PSET = r"""
 cell <- data.frame(`Cell line`=c('MCF7','T47D'), cellid=c('MCF7','T47D'), tissueid=c('breast','breast'), check.names=FALSE, stringsAsFactors=FALSE)
 rownames(cell) <- cell$cellid
-drug <- data.frame(drugid=c('Taxol','Gefitinib'), cid=c('36314','123631'), stringsAsFactors=FALSE)
+drug <- data.frame(drugid=c('Taxol','Gefitinib'), `AnnotationDB.PubChem.CID`=c('36314','123631'), `AnnotationGx.PubChem.CID`=c('36314','999'), check.names=FALSE, stringsAsFactors=FALSE)
 rownames(drug) <- drug$drugid
 ids <- c('Taxol_MCF7','Taxol_T47D','Gefitinib_MCF7')
 # CTRPv2 keeps the replicate number in an experiment_id column; it is not the row key.
@@ -193,8 +202,7 @@ def _legacy_extract(tmp_path):
 
 
 def test_extractor_reads_a_pre_pharmacogx3_pharmacoset_without_pharmacogx(tmp_path):
-    if shutil.which("Rscript") is None:
-        pytest.skip("Rscript is not installed")
+    require_rscript()
     dest = _legacy_extract(tmp_path)
     profiles = (dest / "profiles.csv").read_text()
     assert "aac_recomputed" in profiles and "ic50_recomputed" in profiles and "ec50" in profiles
@@ -211,8 +219,7 @@ def test_extractor_reads_a_pre_pharmacogx3_pharmacoset_without_pharmacogx(tmp_pa
 
 
 def test_real_pharmacoset_columns_load_as_standard_metrics_and_drop_non_finite_values(tmp_path):
-    if shutil.which("Rscript") is None:
-        pytest.skip("Rscript is not installed")
+    require_rscript()
     dest = _legacy_extract(tmp_path)
     raw_root = tmp_path / "raw"
     extract = raw_root / "orcestra_gcsi" / "2019" / "extract"
@@ -221,7 +228,10 @@ def test_real_pharmacoset_columns_load_as_standard_metrics_and_drop_non_finite_v
     cellosaurus = CellosaurusIndex.load(_write_cellosaurus(tmp_path))
     source = {"id": "orcestra_gcsi", "version": "2019", "dataset": "gcsi", "enabled": True, "files": []}
     con = connect()
-    models, _compounds = collect_source(con, raw_root, source, cellosaurus)
+    models, compounds = collect_source(con, raw_root, source, cellosaurus)
+    by_id = {record.source_compound_id: record for record in compounds}
+    assert (by_id["Taxol"].status, by_id["Taxol"].pubchem_cid) == ("mapped", "36314"), "two equal CIDs are one CID"
+    assert by_id["Gefitinib"].status == "ambiguous", "two different CIDs are not silently reduced to one"
     xref = tmp_path / "model_xref"
     _write_rows(con, models, xref, list(models[0]))
     out = tmp_path / "drug_response"

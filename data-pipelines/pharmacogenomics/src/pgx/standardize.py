@@ -2,7 +2,7 @@
 
 Raw metric values are only comparable inside one dataset and metric, and even then "larger"
 means stronger for some metrics and weaker for others. After the partitions are written this
-step adds three columns so a reader does not have to know which way each metric points:
+step adds these columns so a reader does not have to know which way each metric points:
 
 ``response_direction``
     ``lower_is_stronger``, ``higher_is_stronger`` or ``unknown`` (see ``pgx.metrics``).
@@ -12,6 +12,12 @@ step adds three columns so a reader does not have to know which way each metric 
 ``compound_percentile``
     The same, but only among rows for the same compound, so it orders cell lines for one
     drug. It is null when the compound has fewer than ``MIN_GROUP`` rows in the group.
+
+``beyond_tested_range``
+    True when an IC50, EC50 or AC50 is larger than the highest dose tested for that model and
+    compound, so it was extrapolated from an incomplete curve rather than measured. False when
+    it lies inside the tested range; null when no raw doses were loaded or the metric is not one
+    of those. The value is never changed or capped, and the row is not hidden.
 
 Percentiles are null where the direction is unknown, so an unverified AUC is never silently
 ranked the wrong way round. Ties share the lowest rank, and replicate rows count as rows.
@@ -27,7 +33,9 @@ import duckdb
 from pgx.metrics import HIGHER_IS_STRONGER, LOWER_IS_STRONGER, direction
 
 MIN_GROUP = 10
-STANDARDIZED_COLUMNS = ("response_direction", "sensitivity_percentile", "compound_percentile")
+STANDARDIZED_COLUMNS = ("response_direction", "sensitivity_percentile", "compound_percentile", "beyond_tested_range")
+# Concentration-valued metrics reported in the same unit (uM) as the dose of the raw viability rows.
+RANGE_METRICS = ("IC50", "EC50", "AC50")
 _GROUP_COLUMNS = ("response_class", "dose", "anchor_conc", "library_conc")
 _COMPOUND_COLUMNS = ("source_compound_id", "combination_id")
 
@@ -69,15 +77,38 @@ def standardize_dataset(con: duckdb.DuckDBPyConnection, directory: Path) -> int:
         f"CASE std_direction.direction WHEN '{LOWER_IS_STRONGER}' THEN -rows.value "
         f"WHEN '{HIGHER_IS_STRONGER}' THEN rows.value END"
     )
+    keys = [name for name in ("source_model_id", "source_compound_id", "combination_id") if name in columns]
+    has_range = bool(keys) and {"dose", "source_model_id", "source_compound_id"} <= columns
+    key_list = ", ".join(f'"{name}"' for name in keys)
+    key_join = " AND ".join(f'rows."{name}" IS NOT DISTINCT FROM tested."{name}"' for name in keys)
+    metric_list = ", ".join(f"'{name}'" for name in RANGE_METRICS)
+    tested_join = (
+        f"""LEFT JOIN (
+              SELECT {key_list}, max(dose) AS max_dose
+              FROM std_rows WHERE metric = 'VIABILITY' AND dose IS NOT NULL GROUP BY {key_list}
+            ) tested ON {key_join}"""
+        if has_range
+        else ""
+    )
+    computed = (
+        f"CASE WHEN upper(rows.metric) IN ({metric_list}) AND isfinite(rows.value) AND tested.max_dose IS NOT NULL "
+        "THEN rows.value > tested.max_dose * (1 + 1e-9) END"
+        if has_range
+        else "NULL::BOOLEAN"
+    )
+    # Once the raw dose points are dropped a rerun cannot recompute the flag, so it keeps the stored one.
+    beyond = f"coalesce({computed}, rows.beyond_tested_range)" if "beyond_tested_range" in columns else computed
     con.execute(
         f"""
         CREATE OR REPLACE TEMP TABLE std_out AS
         WITH scored AS (
           SELECT rows.* {exclude},
                  coalesce(std_direction.direction, 'unknown') AS response_direction,
-                 {strength} AS strength
+                 {strength} AS strength,
+                 {beyond} AS beyond_tested_range
           FROM std_rows rows
           LEFT JOIN std_direction ON std_direction.metric = rows.metric
+          {tested_join}
         ), ranked AS (
           SELECT scored.*,
                  percent_rank() OVER (PARTITION BY {group} ORDER BY strength) AS dataset_rank,
@@ -101,6 +132,24 @@ def standardize_dataset(con: duckdb.DuckDBPyConnection, directory: Path) -> int:
         temporary.replace(file)
     count = con.execute("SELECT count(*) FROM std_out").fetchone()
     return int(count[0] if count else 0)
+
+
+RAW_DOSE_FILE = "raw.parquet"
+
+
+def drop_raw_dose_points(response_root: Path) -> int:
+    """Delete the PharmacoSet raw dose-response files, which the served data does not need.
+
+    ``extract_pset`` writes the per-dose viability points to ``raw.parquet`` next to the
+    curve-level ``profiles.parquet``. They are about three quarters of the rows. The one thing
+    read from them, the highest tested dose, is folded into ``beyond_tested_range`` by
+    ``standardize_responses``, so call this after it. Other datasets never write this file name. Returns the number of files removed.
+    """
+    removed = 0
+    for file in sorted(response_root.glob(f"dataset=*/{RAW_DOSE_FILE}")):
+        file.unlink()
+        removed += 1
+    return removed
 
 
 def standardize_responses(con: duckdb.DuckDBPyConnection, response_root: Path) -> dict[str, int]:

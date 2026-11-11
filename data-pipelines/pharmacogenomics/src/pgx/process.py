@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import os
 import shutil
 from pathlib import Path
 
@@ -18,7 +19,7 @@ from pgx.ids import (
 )
 from pgx.normalize.cell_lines import CellosaurusIndex
 from pgx.normalize.genes import HgncIndex, header_labels, resolve_labels
-from pgx.standardize import standardize_responses
+from pgx.standardize import drop_raw_dose_points, standardize_responses
 
 GENE_LABEL = r"^(.*) \(([0-9]+)\)$"
 
@@ -1127,4 +1128,6 @@ def process_all(document: dict, raw_root: Path, out: Path) -> dict[str, int]:
         attach_pubchem(con, response_root, out / "compound_xref")
         counts["drug_response"] = total_response
         counts["standardized_responses"] = sum(standardize_responses(con, response_root).values())
+        if os.environ.get("PGX_KEEP_RAW") != "1":
+            counts["dropped_raw_dose_files"] = drop_raw_dose_points(response_root)
     return counts
