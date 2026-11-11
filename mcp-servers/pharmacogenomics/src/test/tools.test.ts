@@ -95,7 +95,7 @@ test("pharmacogenomics tools read fixture parquet", async () => {
   process.env.PHI_PGX_DATA_DIR = dir;
   try {
     await writeFixture(dir);
-    assert.equal(tools.length, 10);
+    assert.equal(tools.length, 11);
     const calls: Record<string, Record<string, unknown>> = {
       usage_terms: {},
       resolve_cell_line: { query: "Alpha" },
@@ -103,6 +103,7 @@ test("pharmacogenomics tools read fixture parquet", async () => {
       compound_response: { compound: "pubchem:11433190", metric: "LN_IC50", limit: 5 },
       model_summary: { model: "ACH-000001", gene: "ncbigene:7157" },
       list_tissues: {},
+      list_response_metrics: {},
       gene_expression: { gene: "TP53" },
       gene_copy_number: { gene: "TP53" },
       gene_mutations: { gene: "TP53", include_silent: true },
@@ -141,8 +142,10 @@ test("pharmacogenomics tools read fixture parquet", async () => {
     assert.equal(included.entity_type, "page");
     if (included.entity_type === "page") {
       assert.equal(included.page.total, 2);
-      assert.equal(included.items[0]?.entity_type === "drug_response" ? included.items[0].combination_id : null, "gdsc.combination:1012:1003");
-      assert.equal(included.items[0]?.entity_type === "drug_response" ? included.items[0].compound_id : "set", null);
+      const combinationRow = included.items.find((item) => item.entity_type === "drug_response" && item.combination_id != null);
+      assert.equal(combinationRow?.entity_type === "drug_response" ? combinationRow.combination_id : null, "gdsc.combination:1012:1003");
+      assert.equal(combinationRow?.entity_type === "drug_response" ? combinationRow.compound_id : "set", null);
+      assert.equal(combinationRow?.source_extra.direction, "unknown", "a synergy delta has no single-agent direction");
     }
     const across = ToolResultSchema.parse(await tools[3]!.call(client, { compound: "pubchem:11433190", limit: 10 }));
     assert.equal(across.entity_type, "page");
@@ -151,6 +154,20 @@ test("pharmacogenomics tools read fixture parquet", async () => {
       assert.equal(datasets.includes("pgx.dataset:gdsc1"), true);
       assert.equal(datasets.includes("pgx.dataset:nci60"), true);
       assert.equal(across.page.total, 3);
+      const groups = across.source_extra.metric_groups as { dataset: string; metric: string; rows: number; direction: string }[];
+      assert.deepEqual(groups.map((group) => [group.dataset, group.metric, group.rows, group.direction]), [
+        ["gdsc1", "LN_IC50", 2, "lower_is_stronger"],
+        ["nci60", "GI50", 1, "lower_is_stronger"],
+      ]);
+      assert.match(across.usage.summary, /mix 2 dataset and metric combinations/);
+      assert.deepEqual(datasets, ["pgx.dataset:gdsc1", "pgx.dataset:gdsc1", "pgx.dataset:nci60"], "rows are grouped by dataset, not interleaved by value");
+      assert.equal(across.items[0]?.source_extra.direction, "lower_is_stronger");
+    }
+    const single = ToolResultSchema.parse(await tools[3]!.call(client, { compound: "pubchem:11433190", dataset: "gdsc1", metric: "LN_IC50", limit: 10 }));
+    assert.equal(single.entity_type, "page");
+    if (single.entity_type === "page") {
+      assert.equal((single.source_extra.metric_groups as unknown[]).length, 1);
+      assert.doesNotMatch(single.usage.summary, /mix/);
     }
     const nsc = ToolResultSchema.parse(await tools[3]!.call(client, { compound: "NSC740", limit: 5 }));
     assert.equal(nsc.entity_type, "page");

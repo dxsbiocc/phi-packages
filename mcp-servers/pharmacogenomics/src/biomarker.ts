@@ -16,6 +16,7 @@ import {
   type DuckDBValue,
 } from "./common.js";
 import { matchSingleCompounds } from "./query.js";
+import { metricInfo, moreSensitive } from "./metrics.js";
 import { mannWhitney, median, spearman } from "./stats.js";
 
 const FEATURES = ["mutation", "expression", "copy_number", "dependency"] as const;
@@ -32,7 +33,6 @@ const FEATURE_TABLE: Record<Feature, string> = {
 const MIN_PAIRED_MODELS = 10;
 const DEFAULT_MIN_GROUP = 3;
 const SILENT_SQL = SILENT_CONSEQUENCES.map((name) => `'${name}'`).join(", ");
-const LOWER_IS_STRONGER = /^(ln_ic50|ic50|auc|gi50|tgi|lc50|log_?fold_?change|viability)/i;
 
 const CAVEATS = "Descriptive screening statistics. Replicate and repeated screens are averaged per model. p-values are uncorrected for the many compound, metric, and dataset combinations, and cell lines are not independent draws from patients. Tissue confounds many associations, so repeat with tissue set before reading one as a biomarker.";
 
@@ -75,10 +75,6 @@ interface Skipped {
   reason: string;
 }
 
-function strongerDirection(metric: string): "lower_is_stronger" | "unknown" {
-  return LOWER_IS_STRONGER.test(metric) ? "lower_is_stronger" : "unknown";
-}
-
 function mutationAssociation(
   group: ResponseGroup,
   mutated: ReadonlySet<string>,
@@ -98,6 +94,9 @@ function mutationAssociation(
   const test = mannWhitney(mutant, wildType)!;
   const medianMutant = median(mutant)!;
   const medianWild = median(wildType)!;
+  const info = metricInfo(group.dataset, group.metric);
+  const sensitive = medianMutant === medianWild ? null : moreSensitive(info.direction, medianMutant > medianWild);
+  const sensitiveGroup = sensitive === "first" ? "mutant" : sensitive === "second" ? "wild_type" : null;
   return {
     ...base,
     p: test.p,
@@ -110,8 +109,10 @@ function mutationAssociation(
       median_difference: medianMutant - medianWild,
       rank_biserial: test.effect,
       p_value: test.p,
-      direction: strongerDirection(group.metric),
+      direction: info.direction,
+      more_sensitive_group: sensitiveGroup,
       reading: "A positive median_difference and rank_biserial mean larger response values in mutant models.",
+      note: info.note,
     },
   };
 }
@@ -129,6 +130,10 @@ function numericAssociation(group: ResponseGroup, feature: ReadonlyMap<string, n
   if (x.length < MIN_PAIRED_MODELS) return { ...base, reason: `needs at least ${MIN_PAIRED_MODELS} models with both measurements, found ${x.length}` };
   const result = spearman(x, y);
   if (!result) return { ...base, reason: "one of the two measurements is constant across the paired models" };
+  const info = metricInfo(group.dataset, group.metric);
+  // A rising response value means "first = higher feature" is the larger-value side.
+  const sensitive = result.rho === 0 ? null : moreSensitive(info.direction, result.rho > 0);
+  const higherFeatureMoreSensitive = sensitive === null ? null : sensitive === "first";
   return {
     ...base,
     p: result.p,
@@ -137,8 +142,10 @@ function numericAssociation(group: ResponseGroup, feature: ReadonlyMap<string, n
       n_models: result.n,
       rho: result.rho,
       p_value: result.p,
-      direction: strongerDirection(group.metric),
-      reading: "A positive rho means the response value rises with the feature. For metrics where lower is stronger, a negative rho means higher feature values go with a stronger response.",
+      direction: info.direction,
+      higher_feature_more_sensitive: higherFeatureMoreSensitive,
+      reading: "A positive rho means the response value rises with the feature.",
+      note: info.note,
     },
   };
 }
