@@ -1,5 +1,6 @@
 export { cacheDirFor, loadConfig, type RuntimeConfig } from "./config.js";
-export { InputError, UpstreamClient, UpstreamError, type JsonClient, type UpstreamRequest } from "./http.js";
+export { noteFetch, noteSkipped, oldestFetch, withCallContext, type CallContext } from "./context.js";
+export { InputError, sweepCache, UpstreamClient, UpstreamError, type JsonClient, type UpstreamRequest } from "./http.js";
 export {
   asArray,
   asRecord,
@@ -25,6 +26,7 @@ export {
   protein,
   publication,
   sample,
+  safeMap,
   sliceList,
   sourceOf,
   text,
@@ -39,6 +41,7 @@ export {
   startHttp,
   startStdio,
   toolResult,
+  withProvenance,
   type HttpMount,
   type OmicsTool,
   type ServerModule,

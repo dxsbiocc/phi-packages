@@ -1,6 +1,6 @@
 import type { OmicsTool, ServerModule } from "phi-omics-runtime";
 import { z } from "zod";
-import { compoundResponse, geneDependency, modelSummary, resolveCellLine, usageTerms } from "./query.js";
+import { compoundResponse, dataDir, geneDependency, modelSummary, resolveCellLine, usageTerms } from "./query.js";
 
 const pageArgs = {
   offset: z.number().int().nonnegative().optional(),
@@ -56,4 +56,5 @@ export const serverModule: ServerModule = {
   version: "1.0.0",
   mcpPath: "/mcp",
   tools,
+  ready: async () => dataDir() == null ? "PHI_PGX_DATA_DIR is not set to an existing processed parquet directory" : null,
 };

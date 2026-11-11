@@ -6,16 +6,17 @@ import {
   failure,
   gene,
   guard,
+  type JsonClient,
   locusOf,
   makePage,
   numberOrNull,
+  type OmicsTool,
   paging,
+  safeMap,
   sourceOf,
   text,
   tissue,
   variant,
-  type JsonClient,
-  type OmicsTool,
 } from "phi-omics-runtime";
 import { loadConfig } from "phi-omics-runtime";
 import { z } from "zod";
@@ -104,7 +105,7 @@ export const gtexTools: OmicsTool[] = [
         gencodeVersion: config.gtexGencode,
         genomeBuild: config.gtexGenome,
       }, offset, limit);
-      return makePage("gene", rows.map(mapGene), offset, limit, total, source(), usage);
+      return makePage("gene", safeMap(rows, mapGene), offset, limit, total, source(), usage);
     }),
   },
   {
@@ -115,7 +116,7 @@ export const gtexTools: OmicsTool[] = [
     call: (client, args) => guard(source(), async () => {
       const { offset, limit } = paging(args);
       const { rows } = await gtex(client, "dataset/tissueSiteDetail", { datasetId: loadConfig().gtexDataset });
-      const page = rows.slice(offset, offset + limit).map((row) => tissue({
+      const page = safeMap(rows.slice(offset, offset + limit), (row) => tissue({
         id: curie("gtex.tissue", text(row.tissueSiteDetailId) ?? "unknown"),
         name: text(row.tissueSiteDetail) ?? text(row.tissueSite),
         ontology_id: ontologyCurie(text(row.ontologyId)),
@@ -144,7 +145,7 @@ export const gtexTools: OmicsTool[] = [
       if (tissueId) params.tissueSiteDetailId = tissueId;
       const { rows, total } = await window(client, "expression/medianGeneExpression", params, offset, limit);
       const ensembl = ensemblGeneCurie(gencode);
-      const items = rows.map((row) => {
+      const items = safeMap(rows, (row) => {
         const tissueName = text(row.tissueSiteDetailId) ?? "unknown";
         return expression({
           id: curie("gtex.expression", `${ensembl.id.slice("ensembl:".length)}:${tissueName}:median`),
@@ -173,7 +174,7 @@ export const gtexTools: OmicsTool[] = [
       const tissueId = text(args.tissue);
       if (!tissueId) return failure(source(), "invalid_input", "tissue is required", false);
       const { rows, total } = await window(client, "association/egene", { tissueSiteDetailId: tissueId, datasetId: loadConfig().gtexDataset }, offset, limit);
-      const items = rows.map((row) => {
+      const items = safeMap(rows, (row) => {
         const gencode = text(row.gencodeId);
         const ensembl = gencode ? ensemblGeneCurie(gencode) : null;
         const tissueName = text(row.tissueSiteDetailId) ?? tissueId;
@@ -212,7 +213,7 @@ export const gtexTools: OmicsTool[] = [
         datasetId: loadConfig().gtexDataset,
       }, offset, limit);
       const ensembl = ensemblGeneCurie(gencode);
-      const items = rows.map((row) => {
+      const items = safeMap(rows, (row) => {
         const variantId = text(row.variantId) ?? "unknown";
         const snp = text(row.snpId);
         return variant({

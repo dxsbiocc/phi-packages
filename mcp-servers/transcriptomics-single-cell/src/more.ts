@@ -7,15 +7,16 @@ import {
   donor,
   failure,
   guard,
+  type JsonClient,
   loadConfig,
   makePage,
   numberOrNull,
+  type OmicsTool,
   paging,
+  safeMap,
   sample,
   sourceOf,
   text,
-  type JsonClient,
-  type OmicsTool,
 } from "phi-omics-runtime";
 import { z } from "zod";
 
@@ -114,7 +115,7 @@ export const hcaTools: OmicsTool[] = [
       const body = await hcaProjects(client, Object.keys(filters).length ? filters : null, offset + limit);
       const hits = asArray(body.hits).map(asRecord).slice(offset, offset + limit);
       const total = numberOrNull(asRecord(body.pagination).total);
-      return makePage("dataset", hits.map(mapProject), offset, limit, total, hca, hcaUsage);
+      return makePage("dataset", safeMap(hits, mapProject), offset, limit, total, hca, hcaUsage);
     }),
   },
   {
@@ -142,7 +143,7 @@ export const hubmapTools: OmicsTool[] = [
     call: (client, args) => guard(hubmap, async () => {
       const { offset, limit } = paging(args);
       const { rows, total } = await hubmapSearch(client, "Dataset", text(args.query), offset, limit);
-      const items = rows.map((row) => {
+      const items = safeMap(rows, (row) => {
         const access = hubmapAccess(row.data_access_level);
         const id = text(row.hubmap_id) ?? text(row.uuid) ?? "unknown";
         return dataset({
@@ -166,7 +167,7 @@ export const hubmapTools: OmicsTool[] = [
     call: (client, args) => guard(hubmap, async () => {
       const { offset, limit } = paging(args);
       const { rows, total } = await hubmapSearch(client, "Sample", text(args.query), offset, limit);
-      const items = rows.map((row) => sample({
+      const items = safeMap(rows, (row) => sample({
         id: curie("hubmap", text(row.hubmap_id) ?? text(row.uuid) ?? "unknown"),
         donor_id: text(asRecord(row.donor).hubmap_id) ? curie("hubmap", text(asRecord(row.donor).hubmap_id)!) : null,
         source_extra: { uuid: text(row.uuid), data_access_level: text(row.data_access_level) },
@@ -182,7 +183,7 @@ export const hubmapTools: OmicsTool[] = [
     call: (client, args) => guard(hubmap, async () => {
       const { offset, limit } = paging(args);
       const { rows, total } = await hubmapSearch(client, "Donor", text(args.query), offset, limit);
-      const items = rows.map((row) => donor({
+      const items = safeMap(rows, (row) => donor({
         id: curie("hubmap", text(row.hubmap_id) ?? text(row.uuid) ?? "unknown"),
         sex: sexOf(row.sex),
         source_extra: { uuid: text(row.uuid), data_access_level: text(row.data_access_level) },

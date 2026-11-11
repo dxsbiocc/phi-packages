@@ -7,6 +7,8 @@ export interface RuntimeConfig {
   rateLimitRps: number;
   cacheTtlMs: number;
   cacheDir: string;
+  /** Upper bound for the on-disk cache; older files are removed first. */
+  cacheMaxBytes?: number;
   userAgent: string;
   maxBodyBytes: number;
   gtexDataset: string;
@@ -40,6 +42,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): RuntimeConfig 
     rateLimitRps: integer(env, "PHI_OMICS_RATE_LIMIT_RPS", 4),
     cacheTtlMs: integer(env, "PHI_OMICS_CACHE_TTL_MS", 6 * 60 * 60 * 1000),
     cacheDir: cacheDirFor(process.platform, env, os.homedir()),
+    cacheMaxBytes: integer(env, "PHI_OMICS_CACHE_MAX_BYTES", 500_000_000),
     userAgent: env.PHI_OMICS_USER_AGENT || "phi-omics-mcp/1.0 (+https://github.com/dxsbiocc/phi-packages)",
     maxBodyBytes: integer(env, "PHI_OMICS_MAX_BODY_BYTES", 8_000_000),
     gtexDataset: env.GTEX_DATASET || "gtex_v10",

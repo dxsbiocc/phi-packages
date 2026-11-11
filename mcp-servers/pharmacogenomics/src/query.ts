@@ -3,12 +3,13 @@ import path from "node:path";
 import { DuckDBInstance, type DuckDBConnection, type DuckDBValue } from "@duckdb/node-api";
 import { curie, type ToolResult } from "phi-omics-schemas";
 import {
-  InputError,
   drugResponse,
   expression,
   failure,
   gene,
+  InputError,
   makePage,
+  safeMap,
   sample,
   sourceOf,
   variant,
@@ -122,7 +123,7 @@ export async function usageTerms(): Promise<ToolResult> {
     const releases = tablePath(dir, "releases", false);
     if (releases) {
       const found = await rows(dir, "SELECT source, version, citation FROM read_parquet(?) ORDER BY source", [releases]);
-      const lines = found.map((row) => `${text(row.source)} ${text(row.version)}: ${text(row.citation)}`);
+      const lines = safeMap(found, (row) => `${text(row.source)} ${text(row.version)}: ${text(row.citation)}`);
       if (lines.length) summary += ` Loaded releases: ${lines.join(" | ")}`;
     }
   }
@@ -164,7 +165,7 @@ export async function resolveCellLine(args: Record<string, unknown>): Promise<To
   }
   const models = [...byCvcl.values(), ...separate.map((group) => [group])];
   const pageRows = models.slice(offset, offset + limit);
-  const items = pageRows.map((groups) => {
+  const items = safeMap(pageRows, (groups) => {
     const group = groups.flat();
     const first = group[0]!;
     const cvcl = text(first.cvcl);
@@ -225,7 +226,7 @@ export async function geneDependency(args: Record<string, unknown>): Promise<Too
      LIMIT ? OFFSET ?`,
     [table, ...params, limit, offset],
   );
-  const items = found.map((row) => {
+  const items = safeMap(found, (row) => {
     const cvcl = text(row.model_cvcl);
     const sourceModelId = text(row.source_model_id) ?? "unknown";
     const geneId = text(row.ncbi_gene_id);
@@ -401,7 +402,7 @@ export async function compoundResponse(args: Record<string, unknown>): Promise<T
     [responses, ...params, limit, offset],
   );
   const combinationById = new Map(matchedCombinations.map((row) => [text(row.combination_id), row]));
-  const items = found.map((row) => {
+  const items = safeMap(found, (row) => {
     const responseClass = text(row.response_class) === "combination" || text(row.combination_id) ? "combination" : "single";
     const combinationId = text(row.combination_id);
     const combination = combinationId ? combinationById.get(combinationId) : undefined;

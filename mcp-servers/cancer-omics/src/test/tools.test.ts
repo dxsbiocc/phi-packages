@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { ToolResultSchema } from "phi-omics-schemas";
-import type { JsonClient } from "phi-omics-runtime";
+import { withCallContext, withProvenance, type JsonClient } from "phi-omics-runtime";
 import { tools } from "../server.js";
 
 function client(): JsonClient {
@@ -60,4 +60,23 @@ test("controlled GDC files do not include a download URL", async () => {
       assert.equal(item.url, null);
     }
   }
+});
+
+test("one malformed GDC case is skipped and reported instead of failing the page", async () => {
+  const fake: JsonClient = {
+    async getJson() {
+      return { data: { hits: [
+        { case_id: "6e3b6b72-142d-4b8d-a462-28a205796e41", submitter_id: "TCGA-44-3918" },
+        { case_id: "not a valid id", submitter_id: "TCGA-00-0000" },
+      ], pagination: { total: 2 } } };
+    },
+    async postJson() { return {}; },
+  };
+  const tool = tools.find((item) => item.name === "gdc_search_cases");
+  assert.ok(tool);
+  const { value, context } = await withCallContext(() => tool.call(fake, { limit: 5 }));
+  const result = withProvenance(value, context);
+  if (result.entity_type !== "page") throw new Error(`expected a page, got ${result.entity_type}`);
+  assert.equal(result.items.length, 1);
+  assert.equal(result.source_extra.skipped_rows, 1);
 });

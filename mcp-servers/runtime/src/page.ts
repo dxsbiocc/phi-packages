@@ -1,3 +1,4 @@
+import { noteSkipped } from "./context.js";
 import { UpstreamError } from "./http.js";
 import {
   CellTypeSchema,
@@ -341,6 +342,26 @@ export function variant(fields: Partial<Variant> & Pick<Variant, "id">): Variant
     source_extra: {},
     ...fields,
   });
+}
+
+/**
+ * Map upstream rows to entities, dropping any row that does not fit the shared schema instead of
+ * failing the whole page. Dropped rows are counted in the call context and reported by the MCP
+ * wrapper as `source_extra.skipped_rows`.
+ */
+export function safeMap<T, R>(rows: readonly T[], mapper: (row: T, index: number) => R): R[] {
+  const out: R[] = [];
+  let skipped = 0;
+  rows.forEach((row, index) => {
+    try {
+      out.push(mapper(row, index));
+    } catch (error) {
+      if (error instanceof UpstreamError) throw error;
+      skipped += 1;
+    }
+  });
+  if (skipped > 0) noteSkipped(skipped);
+  return out;
 }
 
 export function isRecord(value: unknown): value is Record<string, unknown> {

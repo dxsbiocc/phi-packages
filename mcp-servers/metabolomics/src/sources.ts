@@ -7,11 +7,12 @@ import {
   file,
   guard,
   makePage,
+  type OmicsTool,
   paging,
+  safeMap,
   sliceList,
   sourceOf,
   text,
-  type OmicsTool,
 } from "phi-omics-runtime";
 import { z } from "zod";
 
@@ -65,7 +66,7 @@ export const metabolomicsTools: OmicsTool[] = [
       const body = asRecord(await client.getJson("https://www.ebi.ac.uk/metabolights/ws/studies"));
       const ids = asArray(body.content).map(text).filter((item): item is string => item != null);
       const { rows, total } = sliceList(ids, offset, limit);
-      const items = rows.map((id) => dataset({ id: curie("mtbls", id), access: "open", url: `https://www.ebi.ac.uk/metabolights/${id}` }));
+      const items = safeMap(rows, (id) => dataset({ id: curie("mtbls", id), access: "open", url: `https://www.ebi.ac.uk/metabolights/${id}` }));
       return makePage("dataset", items, offset, limit, total, mtbls, mtblsUsage);
     }),
   },
@@ -94,7 +95,7 @@ export const metabolomicsTools: OmicsTool[] = [
       if (!id) return failure(mtbls, "invalid_input", "study_id is required", false);
       const body = asRecord(await client.getJson(`https://www.ebi.ac.uk/metabolights/ws/studies/${encodeURIComponent(id)}/files`));
       const { rows, total } = sliceList(asArray(body.study).map(asRecord).filter((row) => row.directory !== true), offset, limit);
-      return makePage("file", rows.map((row) => mapMtblsFile(row, id, body.private === true, null)), offset, limit, total, mtbls, mtblsUsage);
+      return makePage("file", safeMap(rows, (row) => mapMtblsFile(row, id, body.private === true, null)), offset, limit, total, mtbls, mtblsUsage);
     }),
   },
   {
@@ -108,7 +109,7 @@ export const metabolomicsTools: OmicsTool[] = [
       if (!id) return failure(mtbls, "invalid_input", "study_id is required", false);
       const body = asRecord(await client.getJson(`https://www.ebi.ac.uk/metabolights/ws/studies/${encodeURIComponent(id)}/assays`));
       const { rows, total } = sliceList(asArray(asRecord(body.data).assays).map(asRecord), offset, limit);
-      return makePage("file", rows.map((row) => mapMtblsFile(row, id, false, "assay")), offset, limit, total, mtbls, mtblsUsage);
+      return makePage("file", safeMap(rows, (row) => mapMtblsFile(row, id, false, "assay")), offset, limit, total, mtbls, mtblsUsage);
     }),
   },
 ];
