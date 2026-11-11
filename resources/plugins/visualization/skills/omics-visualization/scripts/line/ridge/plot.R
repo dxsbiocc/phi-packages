@@ -12,10 +12,8 @@
 #        - expression, cluster, marker, lineage
 #      FACS example (example_facs.tsv):
 #        - ratio, gene
-#   2. Optional annotations table (gene, psi, mfi, ...):
-#        Rscript plot.R points.tsv annotations.tsv output.pdf
-#      Without annotations:
-#        Rscript plot.R points.tsv output.pdf
+#   2. Optional annotations table (gene, psi, mfi, ...), passed after
+#      the observations and before the output file.
 #
 # Output:
 #   A PDF, PNG, or SVG ridgeline plot.
@@ -25,7 +23,7 @@
 #
 # Example:
 #   Rscript plot.R example.tsv output.pdf
-#   Rscript plot.R example_facs.tsv annotations.tsv output.pdf
+#   RIDGE_EXAMPLE=facs Rscript plot.R example_facs.tsv annotations.tsv output.pdf
 #   RIDGE_EXAMPLE=tcell Rscript plot.R example_tcell.tsv output.pdf
 #
 # Agent adaptation:

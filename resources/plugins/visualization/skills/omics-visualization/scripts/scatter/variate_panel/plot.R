@@ -33,7 +33,7 @@
 #
 # Real data:
 #   Rscript prepare.R X.tsv samples.tsv scores.tsv background.tsv
-#   Rscript plot.R scores.tsv background.tsv output.pdf
+#   then pass scores.tsv and background.tsv to plot.R as in the example.
 #
 # Agent adaptation:
 #   Edit only CONFIG (column names, time colours and shapes, strip

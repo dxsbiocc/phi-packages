@@ -20,8 +20,8 @@
 #
 # Example:
 #   Rscript plot.R example.tsv output.pdf
-#   Rscript plot.R example_units.tsv output.pdf   # with axis_scale = "per_axis"
-#   Rscript plot.R example_models.tsv output.pdf  # with r_min, shapes, per-axis band
+#   example_units.tsv needs axis_scale = "per_axis" in CONFIG.
+#   example_models.tsv needs r_min, shapes and a per-axis band in CONFIG.
 #
 # Agent adaptation:
 #   For a new table, edit only CONFIG. Switches:
