@@ -1,3 +1,5 @@
+import duckdb
+
 from pgx.download import load_sources
 from pgx.process import process_all
 from pgx.validate import validate
@@ -96,6 +98,13 @@ def test_process_harmonizes_and_nutlin_check_passes(tmp_path):
     counts = process_all(document, raw, tmp_path / "processed")
     assert counts["model_mapped"] >= 3
     assert counts["gene_effect"] == 5
+    assert counts["standardized_responses"] == counts["drug_response"]
+    con = duckdb.connect()
+    response = con.execute(
+        "SELECT DISTINCT response_direction, sensitivity_percentile IS NULL FROM read_parquet(?, hive_partitioning=false) WHERE metric = 'LN_IC50'",
+        [str(tmp_path / "processed/drug_response/dataset=gdsc1/*.parquet")],
+    ).fetchall()
+    assert response == [("lower_is_stronger", True)], "eight rows are below the minimum group size for a percentile"
     report = validate(tmp_path / "processed")
     depmap = report["coverage"]["models"]["depmap"]
     assert depmap["mapped"] == 6

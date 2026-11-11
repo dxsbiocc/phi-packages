@@ -18,6 +18,7 @@ from pgx.ids import (
 )
 from pgx.normalize.cell_lines import CellosaurusIndex
 from pgx.normalize.genes import HgncIndex, header_labels, resolve_labels
+from pgx.standardize import standardize_responses
 
 GENE_LABEL = r"^(.*) \(([0-9]+)\)$"
 
@@ -1125,4 +1126,5 @@ def process_all(document: dict, raw_root: Path, out: Path) -> dict[str, int]:
     if total_response:
         attach_pubchem(con, response_root, out / "compound_xref")
         counts["drug_response"] = total_response
+        counts["standardized_responses"] = sum(standardize_responses(con, response_root).values())
     return counts

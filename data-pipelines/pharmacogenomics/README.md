@@ -71,6 +71,14 @@ Processed output:
 
 `drug_response.metric` is the published statistic: GDSC single-agent `AUC` and `LN_IC50` (natural log of micromolar; lower means a stronger response), GDSC² combination deltas (`SYNERGY_DELTA_AUC` and the other delta columns above), PRISM secondary `AUC`, `IC50`, and `EC50`, and PRISM primary / 24Q2 `LFC`. Combination rows are a separate response class from single-agent rows. Expression is `log2_tpm_plus_1` from the DepMap `TPMLogp1` matrix, not raw TPM. Copy number is the relative gene-level value in `OmicsCNGene.csv`. Mutations are the DepMap hg38 calls.
 
+After the partitions are written, `pgx.standardize` adds three columns to every `drug_response` file so a reader does not need to know which way each metric points:
+
+- `response_direction`: `lower_is_stronger`, `higher_is_stronger` or `unknown`, from `pgx.metrics` (a mirror of the MCP server's `metrics.ts`; a test keeps the two in step).
+- `sensitivity_percentile`: 0 (least sensitive) to 1 (most sensitive) among all rows of the same dataset, metric, response class and dose. It orders compounds against each other.
+- `compound_percentile`: the same, but only among rows for one compound, so it orders cell lines for one drug. It is null when the compound has fewer than 10 rows in the group.
+
+Both percentiles are null where the direction is `unknown`, which includes every PharmacoSet `AUC` until its direction is verified against the PSet. Ties share the lowest rank and replicate rows count as rows. The percentiles are within-dataset and descriptive. They do not make values comparable across datasets, and the raw `value` is unchanged.
+
 `validate` checks required columns and writes mapping coverage. The Nutlin-3a check expects a lower median GDSC `LN_IC50` and `AUC` in TP53 wild-type lines than in lines with a non-silent `ncbigene:7157` mutation. Groups smaller than 3 models are skipped. Lines absent from the mutation table are excluded. A failed check exits non-zero.
 
 ## Coverage on 2026-10-14
