@@ -1,15 +1,18 @@
-"""phi-pgx download | process | validate | resolve-compounds"""
+"""phi-pgx download | process | validate | resolve-compounds | check-updates"""
 
 from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
+from urllib.error import URLError
 
-from pgx.download import download_all, live_enabled, load_sources
+from pgx.download import DownloadError, download_all, live_enabled, load_sources
 from pgx.ids import CompoundRecord, add_compound, compound_rows
 from pgx.process import _write_rows, connect, process_all, refresh_combination_components
 from pgx.pubchem import resolve_records
+from pgx.updates import compare, fetch_registry, load_registry_file
 from pgx.validate import validate
 
 
@@ -34,6 +37,11 @@ def main(argv: list[str] | None = None) -> None:
     resolve = sub.add_parser("resolve-compounds")
     resolve.add_argument("--limit", type=int, default=None, help="Maximum unmatched names to send to PubChem")
 
+    updates = sub.add_parser("check-updates", help="Compare sources.yaml with the ORCESTRA PharmacoSet registry")
+    updates.add_argument("--since", default=None, metavar="YYYY-MM-DD", help="Only list untracked PharmacoSets created on or after this date")
+    updates.add_argument("--registry-file", default=None, help="Read a saved registry JSON instead of calling ORCESTRA")
+    updates.add_argument("--fail-on-updates", action="store_true", help="Exit 1 when a newer or untracked PharmacoSet is found")
+
     args = parser.parse_args(argv)
     root = _root(args)
     sources_path = Path(args.sources) if args.sources else root / "sources.yaml"
@@ -53,6 +61,17 @@ def main(argv: list[str] | None = None) -> None:
     if args.command == "validate":
         report = validate(out)
         print(json.dumps(report, indent=2))
+        return
+    if args.command == "check-updates":
+        try:
+            entries = load_registry_file(Path(args.registry_file)) if args.registry_file else fetch_registry()
+        except (URLError, DownloadError, OSError, ValueError) as error:
+            print(f"check-updates: could not read the ORCESTRA registry: {error}", file=sys.stderr)
+            sys.exit(2)
+        report = compare(document, entries, args.since)
+        print(json.dumps(report, indent=2, ensure_ascii=False))
+        if args.fail_on_updates and report["summary"]["needs_attention"]:
+            sys.exit(1)
         return
     if args.command == "resolve-compounds":
         con = connect()
