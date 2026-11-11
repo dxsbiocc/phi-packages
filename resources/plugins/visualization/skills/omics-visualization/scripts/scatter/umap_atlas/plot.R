@@ -36,7 +36,9 @@ io <- if (class_subtype) {
     parse_io_args()
 }
 
+# -----------------------------------------------------------------------------
 # CONFIG：适配数据时修改此处；全部颜色来自项目调色板。
+# -----------------------------------------------------------------------------
 config <- list(
     columns = list(id = "cell_id", x = "umap_1", y = "umap_2",
                    cluster = "cluster", celltype = "Celltype"),
@@ -98,7 +100,9 @@ if (class_subtype) {
 
 load_packages(c("circlize", "MASS", "readr"))
 
+# -----------------------------------------------------------------------------
 # DATA PREPARATION：严格核对输入，既不抽样也不补齐未知细胞。
+# -----------------------------------------------------------------------------
 nonempty <- function(x, name) {
     x <- as.character(x)
     if (any(is.na(x) | !nzchar(trimws(x)))) stop(paste(name, "must be non-empty."), call. = FALSE)
@@ -275,7 +279,9 @@ ring_radii <- config$radii$ring_start + (seq_len(n_ring) - 1) *
 count_base <- tail(ring_radii, 1) + config$radii$ring_height + 0.012
 if (count_base + config$radii$count_height > 1.18) stop("Too many rings; reduce CONFIG ring heights/gaps.", call. = FALSE)
 
+# -----------------------------------------------------------------------------
 # PLOT HELPERS：全部环、树和小图都是可编辑的矢量元素。
+# -----------------------------------------------------------------------------
 polar <- function(theta, radius) cbind(cos(theta) * radius, sin(theta) * radius)
 annulus <- function(a, b, r0, r1, colour) {
     theta <- seq(a, b, length.out = max(3L, ceiling(abs(a - b) * 120)))
@@ -547,7 +553,9 @@ draw_atlas <- function() {
     for (i in seq_along(config$insets)) draw_inset(config$insets[[i]], positions[[i]])
 }
 
+# -----------------------------------------------------------------------------
 # SAVE：保留矢量 PDF/SVG，并输出 300 dpi 透明 PNG 预览。
+# -----------------------------------------------------------------------------
 fmt <- tolower(tools::file_ext(io$output))
 if (!fmt %in% c("png", "pdf", "svg")) stop("Output must be png, pdf or svg.", call. = FALSE)
 dir.create(dirname(io$output), recursive = TRUE, showWarnings = FALSE)
