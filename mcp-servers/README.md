@@ -153,7 +153,13 @@ ENCODE's edge blocks the `from` query parameter, so search tools request the lea
 
 ### Pharmacogenomics
 
-`usage_terms`, `resolve_cell_line`, `gene_dependency`, `compound_response`, `model_summary`. `compound_response` returns single-agent rows unless `combinations` is `include` or `only`, or the query is a combination id or an `Anchor + Library` name. Combination rows set `combination_id` and leave `compound_id` null.
+`usage_terms`, `resolve_cell_line`, `list_tissues`, `gene_dependency`, `gene_expression`, `gene_copy_number`, `gene_mutations`, `compound_response`, `biomarker_association`, `model_summary`.
+
+- **Tissue filter.** `gene_dependency`, `gene_expression`, `gene_copy_number`, `gene_mutations`, `compound_response` and `biomarker_association` accept `tissue`, matched case-insensitively against the tissue of mapped Cellosaurus models. `list_tissues` returns the values. An unknown tissue is a `not_found` error, never an unfiltered result.
+- **Gene tools.** `gene_expression` and `gene_copy_number` order rows by value (`order=asc|desc`) and put the distribution (n, median, quartiles, range) of every matching row in `source_extra.distribution`. `gene_mutations` leaves silent variants out unless `include_silent` is true, filters by `consequence` and `protein_change`, and reports `mutated_models`, `sequenced_models`, `frequency` and the top protein changes. A model counts as wild type only if it appears in the mutation table.
+- **`biomarker_association`.** For one single-agent compound and one gene, it tests mutation status (Mann-Whitney U, both groups at least `min_group` models, default 3) or expression, copy number, or CRISPR dependency (Spearman, at least 10 paired models), once per response dataset, metric and dose. Rows are sorted by p-value and carry medians or rho, n, and a rank-biserial effect size. Groups that are too small are listed in `source_extra.skipped_groups` with the reason. The statistics are descriptive: p-values are uncorrected for multiple testing, cell lines are not independent patients, and tissue confounds many hits, so repeat with `tissue` set.
+
+`compound_response` returns single-agent rows unless `combinations` is `include` or `only`, or the query is a combination id or an `Anchor + Library` name. Combination rows set `combination_id` and leave `compound_id` null.
 
 The server does not download releases. Build the tables with `data-pipelines/pharmacogenomics` and point `PHI_PGX_DATA_DIR` at the `processed/` directory. Without that directory the query tools return `unavailable`. `usage_terms` still returns the license text.
 
