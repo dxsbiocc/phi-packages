@@ -1,3 +1,5 @@
+import csv
+import math
 import shutil
 
 import pytest
@@ -133,7 +135,7 @@ def test_extract_csvs_load_without_r(tmp_path):
     dest = tmp_path / "drug_response"
     load_source(con, raw, source, xref, dest)
     metrics = {row[0] for row in con.execute("SELECT metric FROM read_parquet(?)", [str(dest / "dataset=gcsi" / "*.parquet")]).fetchall()}
-    assert metrics == {"auc", "VIABILITY"}
+    assert metrics == {"AUC", "VIABILITY"}, "extractor column names are stored as the standard metric names"
 
 
 def test_rds_list_roundtrip(tmp_path):
@@ -159,3 +161,77 @@ def _write_cellosaurus(tmp_path):
     path = tmp_path / "cellosaurus.txt"
     path.write_text(CELLOSAURUS)
     return path
+
+LEGACY_PSET = r"""
+cell <- data.frame(`Cell line`=c('MCF7','T47D'), cellid=c('MCF7','T47D'), tissueid=c('breast','breast'), check.names=FALSE, stringsAsFactors=FALSE)
+rownames(cell) <- cell$cellid
+drug <- data.frame(drugid=c('Taxol','Gefitinib'), cid=c('36314','123631'), stringsAsFactors=FALSE)
+rownames(drug) <- drug$drugid
+ids <- c('Taxol_MCF7','Taxol_T47D','Gefitinib_MCF7')
+# CTRPv2 keeps the replicate number in an experiment_id column; it is not the row key.
+info <- data.frame(drugid=c('Taxol','Taxol','Gefitinib'), cellid=c('MCF7','T47D','MCF7'), experiment_id=c('1','1','1'), stringsAsFactors=FALSE, row.names=ids)
+profiles <- data.frame(aac_recomputed=c(0.6, 0.2, NA), ic50_recomputed=c(1.5, Inf, 3), EC50=c(2, 3, 4), aac_published=c(0.5,0.1,0.3), row.names=ids)
+raw <- array(NA_real_, dim=c(3, 2, 2), dimnames=list(ids, c('doses1','doses2'), c('Dose','Viability')))
+raw[1, , 'Dose'] <- c(0.1, 1); raw[1, , 'Viability'] <- c(95, 40)
+raw[2, 1, 'Dose'] <- 0.1; raw[2, 1, 'Viability'] <- 99
+obj <- structure(list(), class='PharmacoSet')
+attr(obj, 'cell') <- cell
+attr(obj, 'drug') <- drug
+attr(obj, 'sensitivity') <- list(info=info, profiles=profiles, raw=raw, n=NULL)
+saveRDS(obj, {path!r})
+"""
+
+
+def _legacy_extract(tmp_path):
+    import subprocess
+
+    rds = tmp_path / "legacy.rds"
+    subprocess.run(["Rscript", "-e", LEGACY_PSET.format(path=str(rds))], check=True)
+    dest = tmp_path / "extract"
+    assert extract_rds(rds, dest) == "extracted"
+    return dest
+
+
+def test_extractor_reads_a_pre_pharmacogx3_pharmacoset_without_pharmacogx(tmp_path):
+    if shutil.which("Rscript") is None:
+        pytest.skip("Rscript is not installed")
+    dest = _legacy_extract(tmp_path)
+    profiles = (dest / "profiles.csv").read_text()
+    assert "aac_recomputed" in profiles and "ic50_recomputed" in profiles and "ec50" in profiles
+    assert "aac_published" not in profiles, "published values are not stored beside the recomputed ones"
+    with (dest / "raw.csv").open() as handle:
+        raw = list(csv.DictReader(handle))
+    assert sorted((row["source_model_id"], row["source_compound_id"], float(row["dose"]), float(row["value"])) for row in raw) == [
+        ("MCF7", "Taxol", 0.1, 95.0),
+        ("MCF7", "Taxol", 1.0, 40.0),
+        ("T47D", "Taxol", 0.1, 99.0),
+    ], "missing dose slots are not rows"
+    assert {row["metric"] for row in raw} == {"VIABILITY"}
+    assert "36314" in (dest / "drugs.csv").read_text()
+
+
+def test_real_pharmacoset_columns_load_as_standard_metrics_and_drop_non_finite_values(tmp_path):
+    if shutil.which("Rscript") is None:
+        pytest.skip("Rscript is not installed")
+    dest = _legacy_extract(tmp_path)
+    raw_root = tmp_path / "raw"
+    extract = raw_root / "orcestra_gcsi" / "2019" / "extract"
+    extract.parent.mkdir(parents=True)
+    dest.rename(extract)
+    cellosaurus = CellosaurusIndex.load(_write_cellosaurus(tmp_path))
+    source = {"id": "orcestra_gcsi", "version": "2019", "dataset": "gcsi", "enabled": True, "files": []}
+    con = connect()
+    models, _compounds = collect_source(con, raw_root, source, cellosaurus)
+    xref = tmp_path / "model_xref"
+    _write_rows(con, models, xref, list(models[0]))
+    out = tmp_path / "drug_response"
+    load_source(con, raw_root, source, xref, out)
+    rows = con.execute(
+        "SELECT metric, source_model_id, source_compound_id, value FROM read_parquet(?) ORDER BY 1, 2, 3",
+        [str(out / "dataset=gcsi" / "profiles.parquet")],
+    ).fetchall()
+    metrics = {row[0] for row in rows}
+    assert metrics == {"AAC", "IC50", "EC50"}
+    assert sorted(row[3] for row in rows if row[0] == "IC50") == [1.5, 3.0], "an IC50 of Inf is not a value"
+    assert sorted(row[3] for row in rows if row[0] == "AAC") == [0.2, 0.6], "an NA AAC is not a row either"
+    assert all(math.isfinite(row[3]) for row in rows)
