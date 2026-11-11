@@ -1,0 +1,37 @@
+name: Data pipelines
+
+on:
+  push:
+    branches: [main]
+    paths: ["data-pipelines/**", ".github/workflows/data-pipelines.yml"]
+  pull_request:
+    paths: ["data-pipelines/**", ".github/workflows/data-pipelines.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pharmacogenomics:
+    name: Pharmacogenomics tests (Python ${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12"]
+    defaults:
+      run:
+        working-directory: data-pipelines/pharmacogenomics
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: data-pipelines/pharmacogenomics/pyproject.toml
+      - name: Install
+        run: python -m pip install -e '.[test]'
+      # Tests use fixtures and never download the release files. The one test that runs
+      # r/extract_pset.R skips itself when Rscript is not installed.
+      - name: Test
+        run: python -m pytest -q -rs
