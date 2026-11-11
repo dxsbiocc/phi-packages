@@ -7,16 +7,17 @@ import {
   file,
   gene,
   guard,
+  type JsonClient,
   locusOf,
   makePage,
   numberOrNull,
+  type OmicsTool,
   paging,
   protein,
+  safeMap,
   sliceList,
   sourceOf,
   text,
-  type JsonClient,
-  type OmicsTool,
 } from "phi-omics-runtime";
 import { z } from "zod";
 
@@ -119,7 +120,7 @@ export const proteomicsTools: OmicsTool[] = [
       url.searchParams.set("page", String(Math.floor(offset / limit)));
       if (text(args.keyword)) url.searchParams.set("keyword", text(args.keyword)!);
       const rows = asArray(await client.getJson(url.toString())).map(asRecord);
-      return makePage("dataset", rows.map(mapPrideProject), offset, limit, rows.length < limit ? offset + rows.length : null, pride, prideUsage);
+      return makePage("dataset", safeMap(rows, mapPrideProject), offset, limit, rows.length < limit ? offset + rows.length : null, pride, prideUsage);
     }),
   },
   {
@@ -145,7 +146,7 @@ export const proteomicsTools: OmicsTool[] = [
       const accession = text(args.accession);
       if (!accession) return failure(pride, "invalid_input", "accession is required", false);
       const rows = await pridePage(client, `/pride/ws/archive/v2/projects/${encodeURIComponent(accession)}/files`, offset, limit);
-      return makePage("file", rows.map((row) => mapPrideFile(row, accession)), offset, limit, rows.length < limit ? offset + rows.length : null, pride, prideUsage);
+      return makePage("file", safeMap(rows, (row) => mapPrideFile(row, accession)), offset, limit, rows.length < limit ? offset + rows.length : null, pride, prideUsage);
     }),
   },
   {
@@ -163,7 +164,7 @@ export const proteomicsTools: OmicsTool[] = [
       url.searchParams.set("columns", "g,gs,eg,up");
       url.searchParams.set("compress", "no");
       const { rows, total } = sliceList(asArray(await client.getJson(url.toString())).map(asRecord), offset, limit);
-      return makePage("gene", rows.map(mapHpaGene), offset, limit, total, hpa, hpaUsage);
+      return makePage("gene", safeMap(rows, mapHpaGene), offset, limit, total, hpa, hpaUsage);
     }),
   },
   {
@@ -203,7 +204,7 @@ export const proteomicsTools: OmicsTool[] = [
       const row = asRecord(await client.getJson(`https://www.proteinatlas.org/${ensembl.id.slice("ensembl:".length)}.json`));
       const ids = asArray(row.Uniprot).map(text).filter((item): item is string => item != null);
       const { rows, total } = sliceList(ids, offset, limit);
-      const items = rows.map((id) => protein({
+      const items = safeMap(rows, (id) => protein({
         id: curie("uniprot", id),
         name: text(row["Gene description"]),
         gene_id: ensembl.id,

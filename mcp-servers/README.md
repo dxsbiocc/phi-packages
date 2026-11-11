@@ -77,7 +77,12 @@ Cache files go to `PHI_OMICS_CACHE_DIR`, or `$XDG_CACHE_HOME/phi-omics-mcp`, or 
 | `PHI_OMICS_RATE_LIMIT_RPS` | `4` | Per-host request spacing |
 | `PHI_OMICS_TIMEOUT_MS` | `30000` | Upstream timeout |
 | `PHI_OMICS_RETRIES` | `2` | Retries for network errors, 429, and 5xx |
-| `PHI_OMICS_MAX_BODY_BYTES` | `8000000` | Reject larger upstream bodies |
+| `PHI_OMICS_MAX_BODY_BYTES` | `8000000` | Reject larger upstream bodies while they stream, before they are fully buffered |
+| `PHI_OMICS_CACHE_MAX_BYTES` | `500000000` | Cache size cap. Expired files are removed first, then the oldest, at most every ten minutes |
+| `PHI_OMICS_INBOUND_RPM` | `0` (off) | HTTP mode: requests per minute allowed from one client on the MCP paths. Over the limit returns 429 with `Retry-After` |
+| `PHI_OMICS_TRUST_PROXY` | unset | Set to `1` behind a reverse proxy so the inbound limit keys on the first `X-Forwarded-For` address. Leave unset when clients can reach the process directly |
+| `PHI_OMICS_CORS_ORIGIN` | `*` | `Access-Control-Allow-Origin` value. Set the site origin when browsers are the only clients |
+| `PHI_OMICS_ACCESS_LOG` | on | Set to `0` to stop the one-line JSON request log written to stderr. Tool errors are always logged |
 | `GTEX_DATASET` | `gtex_v10` | GTEx dataset |
 | `GTEX_GENCODE` | `v39` | GTEx GENCODE version |
 | `GTEX_GENOME` | `GRCh38/hg38` | GTEx genome build argument |
@@ -100,7 +105,8 @@ docker compose up --build
 
 The image listens on port 8080:
 
-- `GET /health`
+- `GET /health` (liveness: the process is up)
+- `GET /ready` (readiness: the cache directory is writable; each server also reports whether it has what it needs, such as the pharmacogenomics data directory. A server missing its data is listed with a reason but does not fail the probe)
 - `POST /transcriptomics/mcp`
 - `POST /cancer/mcp`
 - `POST /epigenomics/mcp`
@@ -113,7 +119,7 @@ The image listens on port 8080:
 
 Mount the processed pharmacogenomics tables by setting `PHI_PGX_DATA_DIR` on the host to that directory. Compose maps it read-only to `/var/lib/phi-pgx`. The pipeline itself runs outside the image.
 
-Put TLS on a reverse proxy. `Caddyfile.example` proxies a hostname to `127.0.0.1:8080`. Caddy obtains and renews certificates. Nginx or another proxy is the same pattern: forward `POST`, `GET`, and `DELETE` to the Node process, preserve `Authorization` and `Mcp-Session-Id` if you add auth later, and do not buffer streaming responses. This process does not terminate TLS and does not authenticate clients. Bind it to localhost when the proxy is on the same machine.
+Put TLS on a reverse proxy. `Caddyfile.example` proxies a hostname to `127.0.0.1:8080`. Caddy obtains and renews certificates. Nginx or another proxy is the same pattern: forward `POST`, `GET`, and `DELETE` to the Node process, preserve `Authorization` and `Mcp-Session-Id` if you add auth later, and do not buffer streaming responses. This process does not terminate TLS and does not authenticate clients. It can limit request rates per client (`PHI_OMICS_INBOUND_RPM`), but a public deployment should also rate-limit at the proxy. Bind it to localhost when the proxy is on the same machine.
 
 ## Tools
 

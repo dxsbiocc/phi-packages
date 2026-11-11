@@ -6,14 +6,15 @@ import {
   failure,
   file,
   guard,
+  type JsonClient,
   makePage,
   numberOrNull,
+  type OmicsTool,
   paging,
+  safeMap,
   sample,
   sourceOf,
   text,
-  type JsonClient,
-  type OmicsTool,
 } from "phi-omics-runtime";
 import { z } from "zod";
 
@@ -122,7 +123,7 @@ export const encodeTools: OmicsTool[] = [
       if (text(args.search)) extra.searchTerm = text(args.search)!;
       if (text(args.assay_title)) extra.assay_title = text(args.assay_title)!;
       const { rows, total } = await search(client, "Experiment", extra, offset, limit, experimentFields);
-      return makePage("dataset", rows.map(mapExperiment), offset, limit, total, source, usage);
+      return makePage("dataset", safeMap(rows, mapExperiment), offset, limit, total, source, usage);
     }),
   },
   {
@@ -149,7 +150,7 @@ export const encodeTools: OmicsTool[] = [
       const extra: Record<string, string> = { "award.rfa": "Roadmap" };
       if (text(args.search)) extra.searchTerm = text(args.search)!;
       const { rows, total } = await search(client, "Experiment", extra, offset, limit, experimentFields);
-      return makePage("dataset", rows.map(mapExperiment), offset, limit, total, source, usage, { collection: "roadmap" });
+      return makePage("dataset", safeMap(rows, mapExperiment), offset, limit, total, source, usage, { collection: "roadmap" });
     }),
   },
   {
@@ -164,7 +165,7 @@ export const encodeTools: OmicsTool[] = [
       if (text(args.search)) extra.searchTerm = text(args.search)!;
       if (text(args.file_format)) extra.file_format = text(args.file_format)!;
       const { rows, total } = await search(client, "File", extra, offset, limit, fileFields);
-      return makePage("file", rows.map(mapFile), offset, limit, total, source, usage);
+      return makePage("file", safeMap(rows, mapFile), offset, limit, total, source, usage);
     }),
   },
   {
@@ -191,7 +192,7 @@ export const encodeTools: OmicsTool[] = [
       const extra: Record<string, string> = {};
       if (text(args.search)) extra.searchTerm = text(args.search)!;
       const { rows, total } = await search(client, "Biosample", extra, offset, limit, biosampleFields);
-      return makePage("sample", rows.map(mapBiosample), offset, limit, total, source, usage);
+      return makePage("sample", safeMap(rows, mapBiosample), offset, limit, total, source, usage);
     }),
   },
   {

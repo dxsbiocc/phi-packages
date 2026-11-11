@@ -5,15 +5,16 @@ import {
   dataset,
   failure,
   guard,
+  type JsonClient,
   labels,
   makePage,
   numberOrNull,
+  type OmicsTool,
   paging,
+  safeMap,
   sliceList,
   sourceOf,
   text,
-  type JsonClient,
-  type OmicsTool,
 } from "phi-omics-runtime";
 import { z } from "zod";
 
@@ -83,7 +84,7 @@ export const cellxgeneTools: OmicsTool[] = [
     call: (client, args) => guard(source, async () => {
       const { offset, limit } = paging(args);
       const { rows, total } = sliceList(await collections(client), offset, limit);
-      return makePage("dataset", rows.map(mapCollection), offset, limit, total, source, usage);
+      return makePage("dataset", safeMap(rows, mapCollection), offset, limit, total, source, usage);
     }),
   },
   {
@@ -110,7 +111,7 @@ export const cellxgeneTools: OmicsTool[] = [
       if (!id) return failure(source, "invalid_input", "collection_id is required", false);
       const row = asRecord(await client.getJson(`https://api.cellxgene.cziscience.com/curation/v1/collections/${encodeURIComponent(id)}`));
       const { rows, total } = sliceList(asArray(row.datasets).map(asRecord), offset, limit);
-      return makePage("dataset", rows.map((item) => mapDataset(item, id)), offset, limit, total, source, usage);
+      return makePage("dataset", safeMap(rows, (item) => mapDataset(item, id)), offset, limit, total, source, usage);
     }),
   },
   {

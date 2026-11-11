@@ -1,3 +1,4 @@
+import { access, constants, mkdir } from "node:fs/promises";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { createMcpHandler, McpServer } from "@modelcontextprotocol/server";
 import { toNodeHandler } from "@modelcontextprotocol/node";
@@ -5,6 +6,7 @@ import { serveStdio } from "@modelcontextprotocol/server/stdio";
 import { ToolResultSchema, type ToolResult } from "phi-omics-schemas";
 import type { ZodType } from "zod";
 import { loadConfig } from "./config.js";
+import { oldestFetch, withCallContext, type CallContext } from "./context.js";
 import { InputError, UpstreamClient, UpstreamError, type JsonClient } from "./http.js";
 import { failure, type ToolResult as Result } from "./page.js";
 
@@ -21,6 +23,8 @@ export interface ServerModule {
   version: string;
   mcpPath: string;
   tools: OmicsTool[];
+  /** Optional readiness probe: null when usable, otherwise the reason this server cannot answer. */
+  ready?: () => Promise<string | null>;
 }
 
 const serverSource = {
@@ -47,6 +51,24 @@ export function toolResult(result: ToolResult): {
   };
 }
 
+/**
+ * Give a result honest provenance. `retrieved_at` becomes the time of the oldest upstream response
+ * behind it (a cached response is older than the call; a call with no upstream fetch uses now), and
+ * rows dropped for not fitting the shared schema are counted in `source_extra.skipped_rows`.
+ */
+export function withProvenance(result: Result, context: CallContext, now = Date.now()): Result {
+  const retrievedAt = new Date(oldestFetch(context) ?? now).toISOString();
+  const source = { ...result.source, retrieved_at: retrievedAt };
+  const skipped = context.skipped;
+  const sourceExtra = skipped > 0 ? { ...result.source_extra, skipped_rows: skipped } : result.source_extra;
+  if (result.entity_type === "page") {
+    // Rows were skipped, so the next page starts after them as well, not right after what was returned.
+    const nextOffset = result.page.next_offset == null ? null : result.page.next_offset + skipped;
+    return { ...result, source, source_extra: sourceExtra, page: { ...result.page, next_offset: nextOffset } };
+  }
+  return { ...result, source, source_extra: sourceExtra };
+}
+
 export function createServerFromTools(mod: ServerModule, client: JsonClient): McpServer {
   const server = new McpServer({ name: mod.name, version: mod.version });
   for (const tool of mod.tools) {
@@ -58,8 +80,15 @@ export function createServerFromTools(mod: ServerModule, client: JsonClient): Mc
     }, async (args: unknown) => {
       try {
         const record = args && typeof args === "object" ? args as Record<string, unknown> : {};
-        return toolResult(await tool.call(client, record));
+        const started = Date.now();
+        const { value, context } = await withCallContext(() => tool.call(client, record));
+        const stamped = withProvenance(value, context);
+        if (stamped.entity_type === "error") {
+          log({ level: "warn", event: "tool_error", server: mod.name, tool: tool.name, code: stamped.code, retryable: stamped.retryable, ms: Date.now() - started });
+        }
+        return toolResult(stamped);
       } catch (error) {
+        log({ level: "warn", event: "tool_exception", server: mod.name, tool: tool.name, message: error instanceof Error ? error.message : "tool failed" });
         if (error instanceof InputError) {
           return toolResult(failure(serverSource, "invalid_input", error.message, false));
         }
@@ -92,35 +121,103 @@ function normalizeBase(basePath: string): string {
   return withSlash.replace(/\/$/, "");
 }
 
-function sendJson(res: ServerResponse, status: number, body: unknown): void {
+function corsOrigin(): string {
+  return process.env.PHI_OMICS_CORS_ORIGIN || "*";
+}
+
+function sendJson(res: ServerResponse, status: number, body: unknown, extra: Record<string, string> = {}): void {
   const payload = JSON.stringify(body);
   res.writeHead(status, {
     "content-type": "application/json",
     "content-length": Buffer.byteLength(payload),
-    "access-control-allow-origin": "*",
+    "access-control-allow-origin": corsOrigin(),
     "access-control-allow-headers": "content-type, accept, mcp-protocol-version, mcp-session-id",
     "access-control-allow-methods": "GET, POST, DELETE, OPTIONS",
+    ...extra,
   });
   res.end(payload);
 }
 
+function log(entry: Record<string, unknown>): void {
+  process.stderr.write(`${JSON.stringify({ level: "info", time: new Date().toISOString(), ...entry })}\n`);
+}
+
+/** Fixed-window request counter per client. A limit of 0 turns it off. */
+export class InboundLimiter {
+  private readonly windows = new Map<string, { start: number; count: number }>();
+  constructor(private readonly perMinute: number, private readonly windowMs = 60_000) {}
+
+  /** Returns null when the request may proceed, otherwise the seconds until the window resets. */
+  check(client: string, now = Date.now()): number | null {
+    if (this.perMinute <= 0) return null;
+    if (this.windows.size > 10_000) {
+      for (const [key, value] of this.windows) if (now - value.start >= this.windowMs) this.windows.delete(key);
+    }
+    const current = this.windows.get(client);
+    if (!current || now - current.start >= this.windowMs) {
+      this.windows.set(client, { start: now, count: 1 });
+      return null;
+    }
+    current.count += 1;
+    return current.count > this.perMinute ? Math.max(1, Math.ceil((current.start + this.windowMs - now) / 1000)) : null;
+  }
+}
+
+function clientOf(req: IncomingMessage): string {
+  if (process.env.PHI_OMICS_TRUST_PROXY === "1") {
+    const forwarded = req.headers["x-forwarded-for"];
+    const first = (Array.isArray(forwarded) ? forwarded[0] : forwarded)?.split(",")[0]?.trim();
+    if (first) return first;
+  }
+  return req.socket.remoteAddress ?? "unknown";
+}
+
+async function cacheWritable(dir: string): Promise<string | null> {
+  try {
+    await mkdir(dir, { recursive: true });
+    await access(dir, constants.W_OK);
+    return null;
+  } catch (error) {
+    return error instanceof Error ? error.message : "cache directory is not writable";
+  }
+}
+
 export function startHttp(mounts: HttpMount[], options: ListenOptions, client: JsonClient = new UpstreamClient(loadConfig())): Promise<{ port: number; close(): Promise<void> }> {
   const base = normalizeBase(options.basePath);
+  const config = loadConfig();
+  const limiter = new InboundLimiter(Number(process.env.PHI_OMICS_INBOUND_RPM || 0));
+  const accessLog = process.env.PHI_OMICS_ACCESS_LOG !== "0";
   const handlers = new Map(mounts.map((mount) => {
     const handler = createMcpHandler(() => createServerFromTools(mount.module, client));
     return [`${base}${mount.path}`, toNodeHandler(handler)] as const;
   }));
   const httpServer = createServer((req: IncomingMessage, res: ServerResponse) => {
+    const started = Date.now();
     const url = new URL(req.url ?? "/", `http://${req.headers.host ?? "localhost"}`);
+    if (accessLog) {
+      res.once("finish", () => log({ event: "request", method: req.method, path: url.pathname, status: res.statusCode, ms: Date.now() - started }));
+    }
     if (req.method === "OPTIONS") {
       sendJson(res, 204, {});
       return;
     }
-    if (req.method === "GET" && (url.pathname === `${base}/health` || url.pathname === `${base}/ready`)) {
+    if (req.method === "GET" && url.pathname === `${base}/health`) {
       sendJson(res, 200, {
         ok: true,
         servers: mounts.map((mount) => ({ name: mount.module.name, mcp_path: `${base}${mount.path}` })),
       });
+      return;
+    }
+    if (req.method === "GET" && url.pathname === `${base}/ready`) {
+      void (async () => {
+        const cache = await cacheWritable(config.cacheDir);
+        const servers = await Promise.all(mounts.map(async (mount) => {
+          const reason = mount.module.ready ? await mount.module.ready().catch((error: unknown) => error instanceof Error ? error.message : "readiness check failed") : null;
+          return { name: mount.module.name, mcp_path: `${base}${mount.path}`, ready: reason == null, reason };
+        }));
+        // A server that is missing its data is reported, but only an unusable cache fails the probe.
+        sendJson(res, cache == null ? 200 : 503, { ok: cache == null, cache: { writable: cache == null, reason: cache }, servers });
+      })();
       return;
     }
     const handler = handlers.get(url.pathname);
@@ -128,7 +225,13 @@ export function startHttp(mounts: HttpMount[], options: ListenOptions, client: J
       sendJson(res, 404, { ok: false, message: "not found" });
       return;
     }
+    const wait = limiter.check(clientOf(req));
+    if (wait != null) {
+      sendJson(res, 429, { ok: false, message: "too many requests" }, { "retry-after": String(wait) });
+      return;
+    }
     void handler(req, res).catch((error: unknown) => {
+      log({ level: "error", event: "mcp_error", path: url.pathname, message: error instanceof Error ? error.message : "mcp error" });
       if (!res.headersSent) sendJson(res, 500, { ok: false, message: error instanceof Error ? error.message : "mcp error" });
     });
   });

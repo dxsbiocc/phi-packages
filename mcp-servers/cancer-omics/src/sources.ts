@@ -8,16 +8,17 @@ import {
   file,
   gene,
   guard,
+  type JsonClient,
   locusOf,
   makePage,
   numberOrNull,
+  type OmicsTool,
   paging,
+  safeMap,
   sample,
   sourceOf,
   text,
   variant,
-  type JsonClient,
-  type OmicsTool,
 } from "phi-omics-runtime";
 import { z } from "zod";
 
@@ -156,7 +157,7 @@ export const cancerTools: OmicsTool[] = [
         params.filters = JSON.stringify({ op: "or", content: ["case_id", "submitter_id"].map((field) => ({ op: "=", content: { field, value: query } })) });
       }
       const { rows, total } = await gdcHits(client, "/cases", params);
-      return makePage("donor", rows.map(mapCase), offset, limit, total, gdc, gdcUsage);
+      return makePage("donor", safeMap(rows, mapCase), offset, limit, total, gdc, gdcUsage);
     }),
   },
   {
@@ -191,7 +192,7 @@ export const cancerTools: OmicsTool[] = [
       if (content.length === 1) params.filters = JSON.stringify(content[0]);
       if (content.length > 1) params.filters = JSON.stringify({ op: "and", content });
       const { rows, total } = await gdcHits(client, "/files", params);
-      return makePage("file", rows.map(mapGdcFile), offset, limit, total, gdc, gdcUsage);
+      return makePage("file", safeMap(rows, mapGdcFile), offset, limit, total, gdc, gdcUsage);
     }),
   },
   {
@@ -229,7 +230,7 @@ export const cancerTools: OmicsTool[] = [
       const geneQuery = text(args.gene)?.replace(/^ensembl:/i, "").replace(/\.\d+$/, "");
       if (geneQuery) params.filters = JSON.stringify({ op: "=", content: { field: "consequence.transcript.gene.gene_id", value: geneQuery } });
       const { rows, total } = await gdcHits(client, "/ssms", params);
-      const items = rows.map((row) => variant({
+      const items = safeMap(rows, (row) => variant({
         id: curie("gdc.ssm", text(row.ssm_id) ?? text(row.id) ?? "unknown"),
         gene_id: geneQuery && /^ENSG\d+$/i.test(geneQuery) ? ensemblGeneCurie(geneQuery).id : null,
         locus: locusOf({ genomeBuild: text(row.ncbi_build) ?? "GRCh38", chrom: humanChrom(text(row.chromosome)), start: numberOrNull(row.start_position), end: numberOrNull(row.end_position) }),
@@ -248,7 +249,7 @@ export const cancerTools: OmicsTool[] = [
       const { offset, limit } = paging(args);
       const start = Math.floor(offset / limit);
       const rows = asArray(await cbioGet(client, "/studies", { pageSize: limit, pageNumber: start })).map(asRecord);
-      const items = rows.slice(offset - start * limit, offset - start * limit + limit).map((row) => {
+      const items = safeMap(rows.slice(offset - start * limit, offset - start * limit + limit), (row) => {
         const access = row.publicStudy === false || row.readPermission === false ? "controlled" : "open";
         const id = text(row.studyId) ?? "unknown";
         return dataset({
@@ -296,7 +297,7 @@ export const cancerTools: OmicsTool[] = [
       const studyId = text(args.study_id);
       if (!studyId) return failure(cbio, "invalid_input", "study_id is required", false);
       const rows = asArray(await cbioGet(client, `/studies/${encodeURIComponent(studyId)}/samples`, { pageSize: limit, pageNumber: Math.floor(offset / limit) })).map(asRecord);
-      const items = rows.map((row) => sample({
+      const items = safeMap(rows, (row) => sample({
         id: curie("cbioportal.sample", `${studyId}:${text(row.sampleId) ?? "unknown"}`),
         name: text(row.sampleId),
         donor_id: text(row.patientId) ? curie("cbioportal.patient", `${studyId}:${text(row.patientId)}`) : null,
@@ -315,7 +316,7 @@ export const cancerTools: OmicsTool[] = [
       const studyId = text(args.study_id);
       if (!studyId) return failure(cbio, "invalid_input", "study_id is required", false);
       const rows = asArray(await cbioGet(client, `/studies/${encodeURIComponent(studyId)}/patients`, { pageSize: limit, pageNumber: Math.floor(offset / limit) })).map(asRecord);
-      const items = rows.map((row) => donor({
+      const items = safeMap(rows, (row) => donor({
         id: curie("cbioportal.patient", `${studyId}:${text(row.patientId) ?? "unknown"}`),
         source_extra: { study_id: studyId },
       }));
@@ -353,7 +354,7 @@ export const cancerTools: OmicsTool[] = [
       if ("entity_type" in asRecord(result)) return result as ReturnType<typeof failure>;
       const payload = asRecord(asRecord(asRecord(result).data).getPaginatedUIStudy);
       const rows = asArray(payload.uiStudies).map(asRecord);
-      return makePage("dataset", rows.map(mapPdc), offset, limit, numberOrNull(payload.total), pdc, pdcUsage);
+      return makePage("dataset", safeMap(rows, mapPdc), offset, limit, numberOrNull(payload.total), pdc, pdcUsage);
     }),
   },
   {

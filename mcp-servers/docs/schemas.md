@@ -99,3 +99,9 @@ Each entity has `entity_type`, `id`, `xrefs`, and `source_extra`, plus the field
 ```
 
 `code` is `upstream_http`, `not_found`, `invalid_input`, or `unavailable`.
+
+## Provenance
+
+`source.retrieved_at` is when the data was fetched from the upstream service. When a response came from the on-disk cache it is the time of the original fetch, so it can be hours older than the call; when a tool combined several upstream responses it is the oldest of them. A tool that reads only local files (pharmacogenomics) uses the call time.
+
+If a tool dropped rows that did not fit the shared entity (for example an identifier that is not a valid CURIE), the page still succeeds and `source_extra.skipped_rows` holds the number dropped. `page.returned` counts the rows kept, and `page.next_offset` already moves past the dropped rows, so the next page neither repeats nor skips anything.

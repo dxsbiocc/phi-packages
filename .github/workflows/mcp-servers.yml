@@ -1,0 +1,51 @@
+name: MCP servers
+
+on:
+  push:
+    branches: [main]
+    paths: ["mcp-servers/**", "package.json", "package-lock.json", ".github/workflows/mcp-servers.yml"]
+  pull_request:
+    paths: ["mcp-servers/**", "package.json", "package-lock.json", ".github/workflows/mcp-servers.yml"]
+  # A weekly run against the real services catches upstream API changes that offline tests cannot.
+  schedule:
+    - cron: "17 3 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline:
+    name: Build, lint and offline tests (Node ${{ matrix.node }})
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - run: npm run build:mcp
+      - run: npm run lint:mcp
+      - run: npm run test:mcp
+        env:
+          PHI_MCP_SKIP_LIVE: "1"
+
+  live:
+    name: Live checks against the real services
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build:mcp
+      - run: npm run test:mcp
