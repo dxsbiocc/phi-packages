@@ -33,7 +33,7 @@ pick_col <- function(df, candidates) {
 norm_cells <- function(df) {
   df <- as.data.frame(df, stringsAsFactors = FALSE)
   ids <- rownames(df)
-  source_model_id <- pick_col(df, c("source_model_id", "cellid", "sampleid"))
+  source_model_id <- pick_col(df, c("source_model_id", "cellid", "sampleid", "master_ccl_id"))
   if (is.null(source_model_id)) {
     source_model_id <- ids
   }
@@ -41,8 +41,8 @@ norm_cells <- function(df) {
   if (is.null(cell_name)) {
     cell_name <- source_model_id
   }
-  cellosaurus <- pick_col(df, c("cellosaurus", "Cellosaurus.Accession.id", "Cellosaurus.Accession"))
-  tissue <- pick_col(df, c("tissue", "tissueid"))
+  cellosaurus <- pick_col(df, c("cellosaurus", "Cellosaurus.Accession.id", "Cellosaurus.Accession", "AnnotationDB.Cellosaurus.Accession"))
+  tissue <- pick_col(df, c("tissue", "tissueid", "ccle_primary_site"))
   data.frame(
     source_model_id = as.character(source_model_id),
     cell_name = as.character(cell_name),
@@ -55,20 +55,27 @@ norm_cells <- function(df) {
 norm_drugs <- function(df) {
   df <- as.data.frame(df, stringsAsFactors = FALSE)
   ids <- rownames(df)
-  source_compound_id <- pick_col(df, c("source_compound_id", "drugid", "treatmentid"))
+  source_compound_id <- pick_col(df, c("source_compound_id", "drugid", "treatmentid", "master_cpd_id"))
   if (is.null(source_compound_id)) {
     source_compound_id <- ids
   }
-  name <- pick_col(df, c("name", "drug_name", "Drug.Name", "drugid"))
-  cid <- pick_col(df, c("pubchem_cid", "cid", "PubChem.CID"))
+  name <- pick_col(df, c("name", "drug_name", "Drug.Name", "Compound.Name", "drugid"))
+  cid <- pick_col(df, c("pubchem_cid", "cid", "PubChem.CID", "AnnotationDB.PubChem.CID"))
+  # CTRPv2.1 carries a second CID from AnnotationGx. Both are kept so that pgx.pset marks a
+  # drug whose two CIDs disagree as ambiguous instead of silently choosing one.
+  cid_alt <- pick_col(df, c("AnnotationGx.PubChem.CID"))
+  if (is.null(cid)) {
+    cid <- cid_alt
+    cid_alt <- NULL
+  }
   smiles <- pick_col(df, c("smiles", "SMILES", "smiles_cannonical"))
-  inchikey <- pick_col(df, c("inchikey", "InChIKey"))
-  brd <- pick_col(df, c("brd_id", "broad_id"))
+  inchikey <- pick_col(df, c("inchikey", "InChIKey", "AnnotationGx.InChIKey"))
+  brd <- pick_col(df, c("brd_id", "broad_id", "Broad.Compound.ID"))
   data.frame(
     source_compound_id = as.character(source_compound_id),
     name = if (is.null(name)) NA_character_ else as.character(name),
     pubchem_cid = if (is.null(cid)) NA_character_ else as.character(cid),
-    pubchem_cid_alt = NA_character_,
+    pubchem_cid_alt = if (is.null(cid_alt)) NA_character_ else as.character(cid_alt),
     smiles = if (is.null(smiles)) NA_character_ else as.character(smiles),
     inchikey = if (is.null(inchikey)) NA_character_ else as.character(inchikey),
     brd_id = if (is.null(brd)) NA_character_ else as.character(brd),
@@ -140,16 +147,71 @@ pset_tables <- function(obj) {
       raw = sensitivity$raw
     ))
   }
-  if (!requireNamespace("PharmacoGx", quietly = TRUE)) {
-    stop("This PharmacoSet needs PharmacoGx to be read. See the pipeline Dockerfile.")
+  if (!requireNamespace("PharmacoGx", quietly = TRUE) || !requireNamespace("CoreGx", quietly = TRUE)) {
+    stop("This PharmacoSet needs PharmacoGx and CoreGx to be read. See the pipeline Dockerfile.")
+  }
+  # CoreGx 2.10 averages every column of the profiles assay with data.table GForce, which
+  # fails on character columns, so sensitivityProfiles() and sensitivityRaw() cannot be used.
+  # The assays are read directly instead.
+  options(datatable.optimize = 1)
+  tre <- obj@treatmentResponse
+  read_assay <- function(name) {
+    as.data.frame(suppressWarnings(CoreGx::assay(tre, name, withDimnames = FALSE, summarize = FALSE)), stringsAsFactors = FALSE)
+  }
+  first_present <- function(candidates, available) {
+    hit <- candidates[candidates %in% available]
+    if (length(hit)) hit[[1]] else NA_character_
+  }
+  profiles <- read_assay("profiles")
+  row_data <- as.data.frame(CoreGx::rowData(tre), stringsAsFactors = FALSE)
+  col_data <- as.data.frame(CoreGx::colData(tre), stringsAsFactors = FALSE)
+  treatment_col <- first_present(c("treatmentid", "drugid", "master_cpd_id"), names(row_data))
+  sample_col <- first_present(c("sampleid", "cellid", "master_ccl_id"), names(col_data))
+  if (is.na(treatment_col) || is.na(sample_col)) {
+    stop("could not find the treatment and sample id columns of this PharmacoSet")
+  }
+  ids_for <- function(keys) {
+    data.frame(
+      sampleid = as.character(col_data[[sample_col]][keys$colKey]),
+      treatmentid = as.character(row_data[[treatment_col]][keys$rowKey]),
+      stringsAsFactors = FALSE
+    )
+  }
+  info <- ids_for(profiles)
+  rownames(info) <- rownames(profiles) <- as.character(seq_len(nrow(profiles)))
+  profiles <- profiles[, setdiff(names(profiles), c("rowKey", "colKey")), drop = FALSE]
+  raw <- NULL
+  if (!identical(Sys.getenv("PGX_PSET_RAW"), "0")) {
+    raw <- tryCatch(melt_dose_columns(read_assay("sensitivity"), ids_for), error = function(err) NULL)
   }
   list(
     cells = PharmacoGx::sampleInfo(obj),
     drugs = PharmacoGx::treatmentInfo(obj),
-    info = PharmacoGx::sensitivityInfo(obj),
-    profiles = PharmacoGx::sensitivityProfiles(obj),
-    raw = tryCatch(PharmacoGx::sensitivityRaw(obj), error = function(err) NULL)
+    info = info,
+    profiles = profiles,
+    raw = raw
   )
+}
+
+# The current layout stores raw doses as paired columns dose_umol_N and viability_N.
+melt_dose_columns <- function(sensitivity, ids_for) {
+  ids <- ids_for(sensitivity)
+  slots <- sort(as.integer(sub("^dose_umol_", "", grep("^dose_umol_[0-9]+$", names(sensitivity), value = TRUE))))
+  pieces <- lapply(slots, function(slot) {
+    dose <- suppressWarnings(as.numeric(sensitivity[[paste0("dose_umol_", slot)]]))
+    viability <- suppressWarnings(as.numeric(sensitivity[[paste0("viability_", slot)]]))
+    keep <- !is.na(dose) & !is.na(viability)
+    data.frame(
+      source_model_id = ids$sampleid[keep],
+      source_compound_id = ids$treatmentid[keep],
+      dose = dose[keep],
+      value = viability[keep],
+      metric = "VIABILITY",
+      unit = "percent",
+      stringsAsFactors = FALSE
+    )
+  })
+  do.call(rbind, pieces)
 }
 
 # sensitivityRaw is an array of experiment x dose slot x (Dose, Viability). Melt it to one

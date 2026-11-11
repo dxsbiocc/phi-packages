@@ -14,10 +14,10 @@ test("AAC is higher-is-stronger", () => {
 });
 
 test("AUC direction is only asserted for datasets that document it", () => {
-  for (const dataset of ["gdsc1", "gdsc2", "prism_secondary_19q4"]) {
+  for (const dataset of ["gdsc1", "gdsc2", "prism_secondary_19q4", "ctrpv2"]) {
     assert.equal(metricInfo(dataset, "AUC").direction, "lower_is_stronger", dataset);
   }
-  for (const dataset of ["ctrpv2", "gcsi", "ccle", "fimm", null]) {
+  for (const dataset of ["gcsi", "ccle", "fimm", null]) {
     const info = metricInfo(dataset, "AUC");
     assert.equal(info.direction, "unknown", String(dataset));
     assert.match(info.note ?? "", /not asserted/);

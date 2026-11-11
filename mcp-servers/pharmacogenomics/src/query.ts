@@ -328,7 +328,7 @@ export async function compoundResponse(args: Record<string, unknown>): Promise<T
        )`
     : "list_contains(string_split(?, ','), source_compound_id)";
   const standardized = columns.has("sensitivity_percentile") && columns.has("compound_percentile");
-  const standardizedSelect = standardized ? ", sensitivity_percentile, compound_percentile" : "";
+  const standardizedSelect = `${standardized ? ", sensitivity_percentile, compound_percentile" : ""}${columns.has("beyond_tested_range") ? ", beyond_tested_range" : ""}`;
   const cids = [...new Set(matched.map((row) => text(row.pubchem_cid)).filter((item): item is string => item != null))];
   const where = `WHERE ${classWhere}
                   AND (? IS NULL OR dataset = ?)
@@ -407,6 +407,7 @@ export async function compoundResponse(args: Record<string, unknown>): Promise<T
         direction: metricInfo(datasetName, metricName).direction,
         sensitivity_percentile: standardized ? num(row.sensitivity_percentile) : null,
         compound_percentile: standardized ? num(row.compound_percentile) : null,
+        beyond_tested_range: typeof row.beyond_tested_range === "boolean" ? row.beyond_tested_range : null,
         components: combination
           ? [
             ...roleComponents("anchor", text(combination.anchor_drug_id), text(combination.anchor_name), text(combination.anchor_pubchem_cid), text(combination.anchor_chembl_id), anchorConc == null ? concentrationsOf(combination.anchor_concentrations) : [anchorConc], text(combination.concentration_unit)),

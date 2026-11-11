@@ -14,8 +14,9 @@ UNKNOWN = "unknown"
 
 # Potency metrics are concentrations, so a lower value is a stronger response.
 POTENCY = frozenset({"LN_IC50", "IC50", "EC50", "AC50", "GI50", "TGI", "LC50"})
-# Datasets whose own AUC is the area under the viability curve.
-VIABILITY_AUC_DATASETS = frozenset({"gdsc1", "gdsc2", "prism_secondary_19q4"})
+# Datasets whose own AUC is the area under the viability curve. ctrpv2 is the CTRPv2.1
+# PharmacoSet, where auc_recomputed + aac_recomputed is 100 on all 395,263 profiles.
+VIABILITY_AUC_DATASETS = frozenset({"gdsc1", "gdsc2", "prism_secondary_19q4", "ctrpv2"})
 
 
 def direction(dataset: str | None, metric: str | None) -> str:
