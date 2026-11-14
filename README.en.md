@@ -9,7 +9,7 @@ Phi's independent public content repository, containing source files for install
 | Content | Count |
 | --- | ---: |
 | Standalone skills | 17 |
-| MCP connector definitions | 27 |
+| MCP connector definitions | 24 |
 | Composite Phi plugins | 2 |
 | Skills within plugins | 4 |
 | Wrapper adapters | 652 |
@@ -68,4 +68,4 @@ See [SOURCE.json](SOURCE.json) for the full scope and [VALIDATION.md](VALIDATION
 
 ## Omics MCP servers
 
-`mcp-servers/` holds six self-hosted read-only omics MCP servers (transcriptomics and single-cell, cancer omics, epigenomics, proteomics, metabolomics, and pharmacogenomics) plus a literature server. Five omics servers are live at `https://phi.omicsagent.cn/{transcriptomics,cancer,epigenomics,proteomics,metabolomics}/mcp`, with matching manifests under `resources/connectors/`. Pharmacogenomics reads Parquet produced by `data-pipelines/pharmacogenomics`. Literature is mounted at `/literature/mcp`. Neither path has a public HTTPS URL yet, so the connector count stays at 27. Local stdio/HTTP and Docker steps are in [mcp-servers/README.md](mcp-servers/README.md).
+`mcp-servers/` holds six self-hosted read-only omics MCP servers (transcriptomics and single-cell, cancer omics, epigenomics, proteomics, metabolomics, and pharmacogenomics) plus a literature server. Five omics servers are live at `https://phi.omicsagent.cn/{transcriptomics,cancer,epigenomics,proteomics,metabolomics}/mcp`, with matching manifests under `resources/connectors/`. Pharmacogenomics reads Parquet produced by `data-pipelines/pharmacogenomics`. Literature is mounted at `/literature/mcp`. Neither path has a public HTTPS URL yet, so the connector count stays at 24. Local stdio/HTTP and Docker steps are in [mcp-servers/README.md](mcp-servers/README.md).
