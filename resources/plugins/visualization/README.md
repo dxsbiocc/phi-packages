@@ -13,7 +13,7 @@
 
 ## 绘图模板画廊
 
-`skills/omics-visualization/references/template_gallery.json` 列出目录中的全部绘图模板及其 `preview.png`。查看已安装的科研绘图插件时，插件页读取这份清单，按图族展示模板画廊。预览图是透明 PNG，画廊用白底，避免把空白看成黑底。这些图是模板示例，不是用户数据的作图结果。`scripts/layouts/` 里的布局审核图不是绘图模板，不进入画廊。
+`skills/omics-visualization/references/template_gallery.json` 列出目录中的全部绘图模板、每张模板的 `preview.png`，以及同目录下的其他画法 `preview_<name>.png`。变体沿用同一模板 id，标题会带上变体名。查看已安装的科研绘图插件时，插件页读取这份清单，按图族展示模板画廊。预览图是透明 PNG，画廊用白底，避免把空白看成黑底。这些图是模板示例，不是用户数据的作图结果。`scripts/layouts/` 里的布局审核图不是绘图模板，不进入画廊；逃逸出模板目录的符号链接和无变体名的 `preview_.png` 会被跳过。
 
 新增或改名模板后，在 omics-visualization 技能根目录重新生成并校验：
 

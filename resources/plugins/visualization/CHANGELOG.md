@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.3 (2026-11-14)
+
+- 模板画廊同时列出每个模板目录下的 `preview_<name>.png` CONFIG 变体图（沿用同一模板 id，标题带变体名），插件页现在能看到已有的 82 张变体；`scripts/layouts/` 的布局审核图仍排除在外，逃逸出模板目录的符号链接和 `preview_.png` 一类无名文件会被跳过。
+- `create-template` 注册清单补充可选的变体图说明。
+
 ## 1.2.2 (2026-11-11)
 
 - `tree-phylo-rings` 把扇形开口锁成精确 90°（原先 ggtree `open.angle` 会多出约半个 tip）。
