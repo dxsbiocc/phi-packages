@@ -1,7 +1,7 @@
 # Phi 运行时基础设计：环境、执行、绑定与插件结构
 
 日期：2026-09-29
-更新：2026-10-07 — 可视化改用共享的 `phi-r` 环境。
+更新：2026-11-19 — 已启用插件的私有环境若自带 kernel 包，会同步出受管理的 notebook 内核（`plugin-<pluginId>-<envName>`）。
 英文版：[phi-runtime-foundation.md](phi-runtime-foundation.md)。
 状态：**已确认（2026-09-29，§9 的 6 条决策全部确认）。** 本文先于 [内容分发设计](phi-content-distribution-design.zh-CN.md) 和 [实施计划](../roadmap/content-distribution-implementation.zh-CN.md)：那两份文档里凡是涉及环境、执行、插件结构的内容，都以本文为准。
 
@@ -177,7 +177,7 @@ runInEnvironment(envRef, argv, { cwd, stdin, timeout, signal }) // 直接运行
 | 专家 / 插件 agent 的 `bash` | 本机 shell                                     | 会话绑定环境：Phi 扩展在 `tool_call` 事件中改写 bash 调用，把 `environmentVariables(agent 的环境)` 并入 bash 的 `env` 参数（omp 支持返回替换后的输入）。agent 写 `python x.py` 就会用环境里的 python                                            |
 | 领域工具（如 `viz_render`） | 写在引擎里的 TS 工具，在 `PATH` 上找 `Rscript` | 移出引擎，改为插件里的命令行程序，以脚本工具（§5.1）的形式注册；工具名不变                                                                                                                                                                      |
 | MCP stdio 服务              | —                                              | 用 `environmentVariables` 启动                                                                                                                                                                                                                  |
-| notebook 内核               | 本机 kernelspec                                | Jupyter 服务端在 `phi-jupyter` 中运行；默认内核来自受管理的分析环境（`phi-python` 里的 `ipykernel`、`phi-r` 里的 `irkernel`）；本机已有的内核同时列出，供用户显式选择（§5.2）                                                                   |
+| notebook 内核               | 本机 kernelspec                                | Jupyter 服务端在 `phi-jupyter` 中运行；默认内核来自受管理的分析环境（`phi-python` 里的 `ipykernel`、`phi-r` 里的 `irkernel`），以及已启用插件中自带 kernel 包的私有环境（`plugin-<pluginId>-<envName>`）；本机已有的内核同时列出，供用户显式选择（§5.2）                                                                   |
 | wrapper（Nextflow）         | 本机 `nextflow`，本机 conda                    | 默认用 `phi-nextflow` 环境中的 `nextflow` 和 Java；`-profile conda` 设置 `conda.useMicromamba = true`，指向内置 micromamba，`conda.cacheDir` 放在 `~/.phi/runtime` 下；用户可以显式指定本机 nextflow（§5.2）；Docker / Singularity 仍是宿主依赖 |
 | 环境面板                    | 探测本机工具                                   | 展示受管理的环境（状态、大小、引用方、宿主依赖）；本机探测只保留宿主依赖（Docker、Singularity、LibreOffice）和用户可显式选用的工具（nextflow、Jupyter 内核）                                                                                    |
 
@@ -230,7 +230,7 @@ agent 仍然可以在绑定了环境的会话里用 `bash` 直接运行这些程
 
 ### 5.2 显式选用本机版本
 
-- **notebook 内核**：内核列表同时列出受管理的内核和本机已有的内核（读取本机 kernelspec）。本机内核标注为"本机（不受管理）"，需要用户主动选择，不作为默认。
+- **notebook 内核**：内核列表同时列出受管理的内核和本机已有的内核（读取本机 kernelspec）。受管理内核包括基础的 `phi-python` / `phi-r`，以及每个已启用插件中自带 `ipykernel` 或 `r-irkernel` 的私有环境对应的 `plugin-<pluginId>-<envName>` 内核；插件内核在其环境构建完成后出现，插件被禁用或卸载时移除。本机内核标注为"本机（不受管理）"，需要用户主动选择，不作为默认。
 - **Nextflow**：沿用现有 `~/.phi/environment.json` 中的 `customPaths` 机制，用户在环境面板里指定本机 nextflow 路径。指定时检查版本是否满足 wrapper 的最低要求，不满足则拒绝；满足则标注为"本机（不受管理）"。这主要服务于 HPC 上使用站点自带 nextflow 的情况。
 - 本机版本不提供可复现保证；运行记录中写明使用的是本机版本及其路径。
 

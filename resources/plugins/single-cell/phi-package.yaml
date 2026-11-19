@@ -1,0 +1,22 @@
+schemaVersion: 1
+id: single-cell
+type: plugin
+version: 0.6.0
+title: 单细胞分析
+summary: >-
+  两套平行单细胞工具链，按用户倾向选路：R/Seurat 6（sc_）与 Python/scanpy 1.13
+  （sc_py_），各带私有锁定环境。片段库是唯一分析源，脚本与 notebook 共用；
+  质控/聚类/整合/marker/注释/pseudobulk 两路同构，Python 另含 PAGA/伪时间。
+  附分析原理与结果解读知识层、scNotebooks 13 模块对照。
+toolPrefix: sc
+components:
+  agents:
+    - agents/SingleCell.md
+  skills:
+    - skills/seurat-workflow
+    - skills/scanpy-workflow
+environments:
+  seurat:
+    spec: environments/seurat/environment.yml
+  scanpy:
+    spec: environments/scanpy/environment.yml

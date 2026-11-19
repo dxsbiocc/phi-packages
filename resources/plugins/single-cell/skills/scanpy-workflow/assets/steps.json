@@ -1,0 +1,119 @@
+{
+  "language": "python",
+  "skill": "scanpy-workflow",
+  "library_title": "scanpy fragment library",
+  "kernels": {
+    "python": { "name": "plugin-single-cell-scanpy", "display": "Python 3 (single-cell:scanpy)" }
+  },
+  "output_object_default": "analyzed.h5ad",
+  "footer": "## What this notebook did not do\n\nWhere a step needed a package or model this environment does not ship, the cell said so and continued. An existing message means that step did not run — do not read its absence as a clean result.\n\nNext steps that belong elsewhere:\n\n- **Raw reads to counts** — Cell Ranger and the alignment tools are wrappers, not notebook cells.\n- **Differential expression between conditions** — write the pseudobulk tables at the end, then run the `deseq2` wrapper on them.\n- **scVI integration, CellTypist reference models, Scanorama, enrichment (gseapy), spatial** — packages or runtime model downloads this environment omits; use a project environment for them.\n- **R/Seurat route** — the sibling seurat-workflow skill renders the same analysis on Seurat objects.",
+  "attribution": "Step order and explanations follow the NBIS workshop-scRNAseq scanpy labs (CC-BY-4.0 per the repository LICENSE, NBIS Sweden) — https://nbisweden.github.io/workshop-scRNAseq/. The code is original to this plugin and runs in the private plugin:scanpy environment (scanpy 1.13): no install cells, no Colab paths, and the config cell is the single place to tune parameters.",
+  "parameters": {
+    "min_genes": { "type": "int", "default": 200, "comment": "minimum genes per cell; lower it for shallow libraries" },
+    "max_genes": { "type": "int", "default": null, "comment": "maximum genes per cell; above this a cell is a likely doublet" },
+    "min_counts": { "type": "int", "default": null, "comment": "minimum UMIs per cell; below this a droplet is likely empty" },
+    "max_counts": { "type": "int", "default": 25000, "comment": "maximum UMIs per cell; above this a cell is a likely doublet" },
+    "mt_max": { "type": "number", "default": 10, "comment": "maximum mitochondrial percent; stressed cells exceed it" },
+    "mt_pattern": { "type": "string", "default": "^MT-", "comment": "mitochondrial gene regex; human ^MT-, mouse ^mt-" },
+    "ribo_pattern": { "type": "string", "default": "^RP[SL]", "comment": "ribosomal gene regex; fraction is context, not a gate" },
+    "hb_pattern": { "type": "string", "default": "^HB[ABDEGMQZ][0-9]*$", "comment": "hemoglobin gene regex; marks blood contamination" },
+    "quantiles": { "type": "list", "default": [0.01, 0.99], "comment": "distribution quantiles reported for each QC metric" },
+    "detect_doublets": { "type": "bool", "default": true, "comment": "run Scrublet; the filter cell removes flagged cells" },
+    "doublet_expected_rate": { "type": "number", "default": null, "comment": "expected doublet rate; null derives it from loaded cell count" },
+    "normalization": { "type": "string", "default": "lognormalize", "comment": "scanpy route normalizes by library size then log1p" },
+    "scale_factor": { "type": "number", "default": 10000, "comment": "counts per cell after normalize_total" },
+    "n_hvg": { "type": "int", "default": 2000, "comment": "number of variable genes to keep" },
+    "hvg_flavor": { "type": "string", "default": "seurat_v3", "comment": "HVG flavor on the counts layer; seurat_v3 needs scikit-misc, which this environment ships" },
+    "regress_vars": { "type": "list", "default": [], "comment": "obs covariates to regress out before scaling; empty by default" },
+    "n_pcs": { "type": "int", "default": 30, "comment": "principal components to compute" },
+    "dims": { "type": "int", "default": 30, "comment": "PCs used for neighbours and UMAP" },
+    "resolution": { "type": "list", "default": [0.8], "comment": "clustering granularity; a list sweeps several resolutions" },
+    "run_umap": { "type": "bool", "default": true, "comment": "compute the UMAP embedding" },
+    "run_tsne": { "type": "bool", "default": false, "comment": "also compute a t-SNE embedding" },
+    "seed": { "type": "int", "default": 42, "comment": "random seed, so clustering and embedding repeat exactly" },
+    "batch_key": { "type": "string", "default": "sample", "comment": "obs column naming the batch; integration skips when absent" },
+    "batch_method": { "type": "string", "default": "harmony", "comment": "integration method: harmony, combat or bbknn (bbknn needs a project environment)" },
+    "group_by": { "type": "string", "default": "leiden", "comment": "obs column defining the groups for markers and annotation" },
+    "test_use": { "type": "string", "default": "wilcoxon", "comment": "marker test: wilcoxon, t-test, t-test_overestim_var or logreg" },
+    "logfc_threshold": { "type": "number", "default": 0.25, "comment": "minimum absolute log2 fold change for a marker" },
+    "min_pct": { "type": "number", "default": 0.1, "comment": "minimum fraction of group cells expressing a marker" },
+    "only_positive": { "type": "bool", "default": true, "comment": "report only up-regulated markers" },
+    "top_n": { "type": "int", "default": 10, "comment": "markers printed and plotted per group" },
+    "plot_heatmap": { "type": "bool", "default": true, "comment": "draw the marker heatmap" },
+    "tables_dir": { "type": "string", "default": "markers", "comment": "directory for per-group marker tables" },
+    "panel_path": { "type": "string", "default": null, "comment": "marker panel JSON; null uses the built-in example panel" },
+    "mapping_path": { "type": "string", "default": null, "comment": "cluster -> label JSON overriding the panel scores" },
+    "label_column": { "type": "string", "default": "cell_type", "comment": "obs column written with the cell-type labels" },
+    "min_score": { "type": "number", "default": 0, "comment": "minimum panel score; below it a cluster stays unassigned" },
+    "annotation_method": { "type": "string", "default": "panel", "comment": "panel scoring or celltypist (needs a project environment)" },
+    "group_column": { "type": "string", "default": null, "comment": "condition column for pseudobulk units; null = one column per sample" },
+    "min_cells": { "type": "int", "default": 10, "comment": "minimum cells for a pseudobulk unit to be kept" },
+    "min_samples_per_group": { "type": "int", "default": 2, "comment": "warn when a condition has fewer samples than this" },
+    "min_count": { "type": "number", "default": 1, "comment": "count at which a gene counts as expressed in a pseudobulk column" },
+    "min_cells_expressing": { "type": "int", "default": 3, "comment": "pseudobulk columns expressing a gene needed to keep it" },
+    "counts_output": { "type": "string", "default": "pseudobulk/counts.tsv", "comment": "pseudobulk counts table for the deseq2 wrapper" },
+    "samples_output": { "type": "string", "default": "pseudobulk/samples.tsv", "comment": "pseudobulk sample sheet for the deseq2 wrapper" },
+    "root_cluster": { "type": "string", "default": null, "comment": "trajectory root; null takes the first cluster — choose from biology" },
+    "n_dcs": { "type": "int", "default": 10, "comment": "diffusion components used for pseudotime" },
+    "figures_dir": { "type": "string", "default": "figures", "comment": "directory for the PNG copies of every plot" },
+    "plot_tag": { "type": "string", "default": "before", "comment": "suffix for the QC plots; the filter pass re-tags them after" }
+  },
+  "steps": [
+    { "id": "setup", "title": "Setup", "requires": [] },
+    { "id": "load", "title": "Load the data", "requires": ["setup"] },
+    { "id": "qc-metrics", "title": "Quality control metrics", "requires": ["load"] },
+    { "id": "qc-plots", "title": "Look at the distributions", "requires": ["qc-metrics"] },
+    { "id": "doublets", "title": "Remove doublets", "requires": ["qc-metrics"] },
+    { "id": "filter", "title": "Filter low-quality cells", "requires": ["qc-metrics"] },
+    { "id": "normalize", "title": "Normalize", "requires": ["filter"] },
+    { "id": "hvg", "title": "Find variable genes", "requires": ["normalize"] },
+    { "id": "scale", "title": "Scale", "requires": ["hvg"] },
+    { "id": "pca", "title": "PCA", "requires": ["scale"] },
+    { "id": "integrate", "title": "Integrate batches", "requires": ["pca"] },
+    { "id": "batch-compare", "title": "Compare batches before and after", "requires": ["integrate"] },
+    { "id": "cluster", "title": "Cluster and embed", "requires": ["pca"] },
+    { "id": "markers", "title": "Find marker genes", "requires": ["cluster"] },
+    { "id": "annotate", "title": "Score clusters against a marker panel", "requires": ["markers"] },
+    { "id": "assign-labels", "title": "Assign cell types", "requires": ["annotate"] },
+    { "id": "trajectory", "title": "Trajectory inference", "requires": ["cluster"] },
+    { "id": "pseudobulk", "title": "Aggregate to pseudobulk", "requires": ["cluster"] },
+    { "id": "save", "title": "Save the object", "requires": ["load"] }
+  ],
+  "presets": {
+    "1": {
+      "title": "Lab 01 — Quality control",
+      "intro": "Quality control on raw counts: per-cell gene/UMI/mitochondrial distributions,\nScrublet doublet detection, and threshold filtering with a report of what each\nthreshold removed.\n\nStarts from a 10x matrix directory, a Cell Ranger .h5, or an .h5ad. Adapted from the\nNBIS workshop-scRNAseq scanpy labs (CC-BY-4.0); the code is original to this plugin.",
+      "steps": ["setup", "load", "qc-metrics", "qc-plots", "doublets", "filter", "save"]
+    },
+    "2": {
+      "title": "Lab 02 — Dimensionality reduction",
+      "intro": "The QC chain plus normalization, highly variable genes (seurat_v3 on counts),\nscaled PCA on the variable genes, Leiden clustering and UMAP — the scanpy\ncounterpart of the Seurat preprocess step.\n\nAdapted from the NBIS workshop-scRNAseq scanpy labs (CC-BY-4.0).",
+      "steps": ["setup", "load", "qc-metrics", "qc-plots", "doublets", "filter", "normalize", "hvg", "scale", "pca", "cluster", "save"]
+    },
+    "3": {
+      "title": "Lab 03 — Data integration",
+      "intro": "Multi-sample data: after PCA, Harmony (or ComBat) removes the batch axis, and\nbefore/after UMAPs colored by batch show whether integration mixed the samples\nwithout erasing biology. Without a batch column the integration cell says so and\nthe chain continues uncorrected.\n\nAdapted from the NBIS workshop-scRNAseq scanpy labs (CC-BY-4.0).",
+      "steps": ["setup", "load", "qc-metrics", "qc-plots", "doublets", "filter", "normalize", "hvg", "scale", "pca", "integrate", "batch-compare", "cluster", "save"]
+    },
+    "4": {
+      "title": "Lab 04 — Clustering and cluster markers",
+      "intro": "The integrated chain plus Leiden clustering at the configured resolution and\nper-cluster marker tables (Wilcoxon), the evidence a cell-type call must rest on.\n\nAdapted from the NBIS workshop-scRNAseq scanpy labs (CC-BY-4.0).",
+      "steps": ["setup", "load", "qc-metrics", "qc-plots", "doublets", "filter", "normalize", "hvg", "scale", "pca", "integrate", "batch-compare", "cluster", "markers", "save"]
+    },
+    "5": {
+      "title": "Lab 05 — Differential expression, sample-level",
+      "intro": "Cluster markers are exploratory: cells from one donor are not independent\nobservations. This chain adds pseudobulk aggregation per sample so a condition\ncontrast can be tested with the deseq2 wrapper on the written tables.\n\nAdapted from the NBIS workshop-scRNAseq scanpy labs (CC-BY-4.0).",
+      "steps": ["setup", "load", "qc-metrics", "qc-plots", "doublets", "filter", "normalize", "hvg", "scale", "pca", "integrate", "batch-compare", "cluster", "markers", "pseudobulk", "save"]
+    },
+    "6": {
+      "title": "Lab 06 — Cell type annotation",
+      "intro": "Score every cluster against a marker panel (panel mean minus the rest, so\npanel sizes stay comparable), inspect the margins and the dot plot, then write\nthe labels back. A cluster with no evidence stays unassigned.\n\nAdapted from the NBIS workshop-scRNAseq scanpy labs (CC-BY-4.0).",
+      "steps": ["setup", "load", "qc-metrics", "qc-plots", "doublets", "filter", "normalize", "hvg", "scale", "pca", "integrate", "batch-compare", "cluster", "markers", "annotate", "assign-labels", "save"]
+    },
+    "7": {
+      "title": "Lab 07 — Trajectory inference",
+      "intro": "The annotated chain plus PAGA and diffusion pseudotime: a coarse graph of\ncluster relationships and a pseudotime ordering rooted in the first cluster.\nEdit the root in the cell if biology says another cluster starts the process.\n\nAdapted from the NBIS workshop-scRNAseq scanpy labs (CC-BY-4.0).",
+      "steps": ["setup", "load", "qc-metrics", "qc-plots", "doublets", "filter", "normalize", "hvg", "scale", "pca", "integrate", "batch-compare", "cluster", "markers", "annotate", "assign-labels", "trajectory", "save"]
+    }
+  }
+}

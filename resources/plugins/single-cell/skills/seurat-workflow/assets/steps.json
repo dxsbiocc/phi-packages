@@ -1,0 +1,486 @@
+{
+  "language": "r",
+  "skill": "seurat-workflow",
+  "library_title": "Seurat fragment library",
+  "kernels": {
+    "r": {
+      "name": "plugin-single-cell-seurat",
+      "display": "R 4.5 (single-cell:seurat)"
+    },
+    "python": {
+      "name": "phi-python",
+      "display": "Python 3 (phi-python)"
+    }
+  },
+  "output_object_default": "analyzed.rds",
+  "footer": "## What this notebook did not do\n\nWhere a step needed a package this environment does not ship, the cell said so and continued. An existing message means that step did not run — do not read its absence as a clean result.\n\nNext steps that belong elsewhere:\n\n- **Raw reads to counts** — Cell Ranger and the alignment tools are wrappers, not notebook cells.\n- **Differential expression between conditions** — write the pseudobulk tables at the end, then run the `deseq2` wrapper on them.\n- **Trajectory, cell-cell communication, spatial, scATAC-seq** — these need packages the plugin environment omits (monocle3, liana, semla, ArchR).",
+  "attribution": "The fragment explanations follow the scNotebooks curriculum (CC BY 4.0, Rojas-Hidalgo et al., *Nat Genet*, 2026); the code runs in Phi's managed environment with no install cells and no hidden state between cells.",
+  "parameters": {
+    "min_genes": {
+      "type": "int",
+      "default": 200,
+      "comment": "minimum genes per cell; lower it for shallow libraries"
+    },
+    "max_counts": {
+      "type": "int",
+      "default": 25000,
+      "comment": "maximum UMIs per cell; above this a cell is a likely doublet"
+    },
+    "mt_max": {
+      "type": "number",
+      "default": 10,
+      "comment": "maximum mitochondrial percent; stressed cells exceed it"
+    },
+    "mt_pattern": {
+      "type": "string",
+      "default": "^MT-",
+      "comment": "mitochondrial gene regex; human ^MT-, mouse ^mt-"
+    },
+    "n_hvg": {
+      "type": "int",
+      "default": 2000,
+      "comment": "number of variable genes to keep"
+    },
+    "n_pcs": {
+      "type": "int",
+      "default": 30,
+      "comment": "principal components to compute"
+    },
+    "dims": {
+      "type": "int",
+      "default": 30,
+      "comment": "PCs used for neighbours and UMAP"
+    },
+    "resolution": {
+      "type": "list",
+      "default": [
+        0.8
+      ],
+      "comment": "clustering granularities to try; each gets its own metadata column"
+    },
+    "seed": {
+      "type": "int",
+      "default": 42,
+      "comment": "random seed, so clustering and embedding repeat exactly"
+    },
+    "max_genes": {
+      "type": "int",
+      "default": null,
+      "comment": "upper genes-per-cell bound; null skips the gate"
+    },
+    "min_counts": {
+      "type": "int",
+      "default": null,
+      "comment": "lower UMIs-per-cell bound; null skips the gate"
+    },
+    "ribo_pattern": {
+      "type": "string",
+      "default": "^RP[SL]",
+      "comment": "ribosomal gene regex"
+    },
+    "hb_pattern": {
+      "type": "string",
+      "default": "^HB[ABDEGMQZ][0-9]*$",
+      "comment": "hemoglobin gene regex"
+    },
+    "quantiles": {
+      "type": "list",
+      "default": [
+        0.01,
+        0.99
+      ],
+      "comment": "quantiles reported for each QC metric"
+    },
+    "detect_doublets": {
+      "type": "bool",
+      "default": true,
+      "comment": "run doublet detection; the script tools default this to false"
+    },
+    "doublet_expected_rate": {
+      "type": "number",
+      "default": null,
+      "comment": "expected doublet fraction; null estimates it from cell count"
+    },
+    "normalization": {
+      "type": "string",
+      "default": "lognormalize",
+      "comment": "lognormalize or sct (SCTransform replaces normalize+hvg+scale)"
+    },
+    "scale_factor": {
+      "type": "number",
+      "default": 10000,
+      "comment": "LogNormalize target sum per cell"
+    },
+    "selection_method": {
+      "type": "string",
+      "default": "vst",
+      "comment": "variable-feature selection method"
+    },
+    "regress_vars": {
+      "type": "list",
+      "default": [],
+      "comment": "metadata columns to regress out during scaling; use sparingly"
+    },
+    "cluster_algorithm": {
+      "type": "int",
+      "default": 1,
+      "comment": "1 Louvain, 4 Leiden"
+    },
+    "run_umap": {
+      "type": "bool",
+      "default": true,
+      "comment": "compute UMAP"
+    },
+    "run_tsne": {
+      "type": "bool",
+      "default": false,
+      "comment": "also compute t-SNE"
+    },
+    "group_by": {
+      "type": "string",
+      "default": "seurat_clusters",
+      "comment": "metadata column defining groups for markers/annotation"
+    },
+    "test_use": {
+      "type": "string",
+      "default": "wilcox",
+      "comment": "marker test: wilcox, t, MAST, ..."
+    },
+    "logfc_threshold": {
+      "type": "number",
+      "default": 0.25,
+      "comment": "minimum log2 fold change for a marker"
+    },
+    "min_pct": {
+      "type": "number",
+      "default": 0.1,
+      "comment": "minimum detection fraction in the group"
+    },
+    "only_positive": {
+      "type": "bool",
+      "default": true,
+      "comment": "report only enriched markers"
+    },
+    "top_n": {
+      "type": "int",
+      "default": 10,
+      "comment": "top markers printed and written per cluster"
+    },
+    "max_cells_per_ident": {
+      "type": "int",
+      "default": null,
+      "comment": "downsample per group for the marker test; null uses all cells"
+    },
+    "plot_heatmap": {
+      "type": "bool",
+      "default": true,
+      "comment": "draw the marker heatmap"
+    },
+    "tables_dir": {
+      "type": "string",
+      "default": "markers",
+      "comment": "directory for per-cluster marker CSVs"
+    },
+    "panel_path": {
+      "type": "string",
+      "default": null,
+      "comment": "marker panel JSON (cell type -> genes); null uses the example panel"
+    },
+    "mapping_path": {
+      "type": "string",
+      "default": null,
+      "comment": "explicit cluster -> label JSON; overrides panel scores"
+    },
+    "label_column": {
+      "type": "string",
+      "default": "cell_type",
+      "comment": "metadata column receiving the labels"
+    },
+    "min_score": {
+      "type": "number",
+      "default": 0,
+      "comment": "minimum panel score to accept a label"
+    },
+    "annotation_method": {
+      "type": "string",
+      "default": "panel",
+      "comment": "panel or singler (SingleR needs packages this env omits)"
+    },
+    "group_column": {
+      "type": "string",
+      "default": null,
+      "comment": "condition column; with it, units are sample x group"
+    },
+    "min_cells": {
+      "type": "int",
+      "default": 10,
+      "comment": "minimum cells for a pseudobulk unit to be kept"
+    },
+    "min_samples_per_group": {
+      "type": "int",
+      "default": 2,
+      "comment": "replicates a group needs for a two-group test"
+    },
+    "min_count": {
+      "type": "number",
+      "default": 1,
+      "comment": "expression filter: counts per unit at least this"
+    },
+    "min_cells_expressing": {
+      "type": "int",
+      "default": 3,
+      "comment": "expression filter: units expressing a gene at least this many"
+    },
+    "counts_output": {
+      "type": "string",
+      "default": "pseudobulk/counts.tsv",
+      "comment": "pseudobulk counts table path"
+    },
+    "samples_output": {
+      "type": "string",
+      "default": "pseudobulk/samples.tsv",
+      "comment": "pseudobulk sample sheet path"
+    },
+    "figures_dir": {
+      "type": "string",
+      "default": "figures",
+      "comment": "directory for PNG figures; null disables saving"
+    },
+    "plot_tag": {
+      "type": "string",
+      "default": "before",
+      "comment": "names the QC plot pass (before/after the filter)"
+    },
+    "assay": {
+      "type": "string",
+      "default": null,
+      "comment": "assay to work on; null keeps the default"
+    }
+  },
+  "steps": [
+    {
+      "id": "setup",
+      "title": "Setup",
+      "requires": []
+    },
+    {
+      "id": "load",
+      "title": "Load the data",
+      "requires": [
+        "setup"
+      ]
+    },
+    {
+      "id": "qc-metrics",
+      "title": "Quality control metrics",
+      "requires": [
+        "load"
+      ]
+    },
+    {
+      "id": "qc-plots",
+      "title": "Look at the distributions",
+      "requires": [
+        "qc-metrics"
+      ]
+    },
+    {
+      "id": "doublets",
+      "title": "Remove doublets",
+      "requires": [
+        "qc-metrics"
+      ]
+    },
+    {
+      "id": "filter",
+      "title": "Filter low-quality cells",
+      "requires": [
+        "qc-metrics"
+      ]
+    },
+    {
+      "id": "normalize",
+      "title": "Normalize",
+      "requires": [
+        "filter"
+      ]
+    },
+    {
+      "id": "hvg",
+      "title": "Find variable genes",
+      "requires": [
+        "normalize"
+      ]
+    },
+    {
+      "id": "scale",
+      "title": "Scale",
+      "requires": [
+        "hvg"
+      ]
+    },
+    {
+      "id": "pca",
+      "title": "PCA",
+      "requires": [
+        "scale"
+      ]
+    },
+    {
+      "id": "cluster",
+      "title": "Cluster and embed",
+      "requires": [
+        "pca"
+      ]
+    },
+    {
+      "id": "markers",
+      "title": "Find marker genes",
+      "requires": [
+        "cluster"
+      ]
+    },
+    {
+      "id": "annotate",
+      "title": "Score clusters against a marker panel",
+      "requires": [
+        "markers"
+      ]
+    },
+    {
+      "id": "assign-labels",
+      "title": "Assign cell types",
+      "requires": [
+        "annotate"
+      ]
+    },
+    {
+      "id": "pseudobulk",
+      "title": "Aggregate to pseudobulk",
+      "requires": [
+        "assign-labels"
+      ]
+    },
+    {
+      "id": "save",
+      "title": "Save the object",
+      "requires": [
+        "load"
+      ]
+    },
+    {
+      "id": "batch-compare",
+      "title": "Compare batches before and after",
+      "requires": [
+        "cluster"
+      ]
+    },
+    {
+      "id": "adt-assay",
+      "title": "Add a protein assay",
+      "requires": [
+        "load"
+      ]
+    },
+    {
+      "id": "clonotypes",
+      "title": "Join clonotype calls",
+      "requires": [
+        "cluster"
+      ]
+    }
+  ],
+  "presets": {
+    "4": {
+      "title": "Module 04 — Quality control, clustering, annotation and functional analysis",
+      "intro": "This notebook runs a Seurat scRNA-seq analysis end to end: quality control,\ndoublet removal, normalization, clustering, marker genes, cell-type annotation, and\naggregation to pseudobulk for a sample-level comparison.\n\nIt picks up where raw-read processing stops. Alignment and Cell Ranger belong to the\nwrapper tree; this starts from a count matrix (a Cell Ranger `filtered_feature_bc_matrix`\ndirectory) or a Seurat `.rds`.\n\nAdapted from the scNotebooks curriculum (CC BY 4.0, Rojas-Hidalgo et al., *Nat Genet*,\n2026) — https://github.com/integrativebioinformatics/scNotebooks. The explanations follow\nthe original module; the code is reworked to run in the plugin's private `plugin:seurat` environment (R 4.5 + Seurat 6),\nwhich means no install cells, no Colab paths, and no hidden state between cells.",
+      "steps": [
+        "setup",
+        "load",
+        "qc-metrics",
+        "qc-plots",
+        "doublets",
+        "filter",
+        "normalize",
+        "hvg",
+        "scale",
+        "pca",
+        "cluster",
+        "markers",
+        "annotate",
+        "assign-labels",
+        "pseudobulk",
+        "save"
+      ]
+    },
+    "5": {
+      "title": "Module 05 — Integrating single-cell transcriptomes from multiple samples",
+      "intro": "Batch effects appear when cells from different donors, protocols, or capture days\nare compared: the strongest split in the data reflects the batch, not the biology.\n\nThis notebook covers the preprocessing half of the module (normalize through clustering and\nembedding) and shows how to judge whether integration helped. Anchor-based integration needs\n`SeuratWrappers`/`SeuratData` and Harmony needs `harmony`; both are checked at the point of\nuse, so the notebook tells you what it cannot do instead of failing halfway.\n\nAdapted from the scNotebooks curriculum (CC BY 4.0).",
+      "steps": [
+        "setup",
+        "load",
+        "qc-metrics",
+        "qc-plots",
+        "doublets",
+        "filter",
+        "normalize",
+        "hvg",
+        "scale",
+        "pca",
+        "cluster",
+        "markers",
+        "annotate",
+        "assign-labels",
+        "pseudobulk",
+        "save",
+        "batch-compare"
+      ]
+    },
+    "8": {
+      "title": "Module 08 — Multimodal single-cell analysis (CITE-seq)",
+      "intro": "CITE-seq measures RNA and surface protein (ADT) in the same cell, so a cluster can be\nnailed down by protein evidence rather than inferred from transcripts alone.\n\nThis notebook runs the expression analysis, then adds the ADT route: a second assay,\nCLR normalization, and a scatter of protein against the RNA for the same gene.\n\nAdapted from the scNotebooks curriculum (CC BY 4.0).",
+      "steps": [
+        "setup",
+        "load",
+        "qc-metrics",
+        "qc-plots",
+        "doublets",
+        "filter",
+        "normalize",
+        "hvg",
+        "scale",
+        "pca",
+        "cluster",
+        "markers",
+        "annotate",
+        "assign-labels",
+        "pseudobulk",
+        "save",
+        "adt-assay"
+      ]
+    },
+    "9": {
+      "title": "Module 09 — TCR sequencing and clonotype analysis",
+      "intro": "Single-cell V(D)J sequencing adds the T-cell receptor sequence to each cell, so\nexpanded clones can be distinguished from single cells that merely share a state.\n\nThis notebook runs the expression analysis on the matching gene-expression matrix and shows\nhow to join Cell Ranger's contig annotations so clonotype structure can be read against the\nclusters. Contig calling itself is Cell Ranger's job, not this notebook's.\n\nAdapted from the scNotebooks curriculum (CC BY 4.0).",
+      "steps": [
+        "setup",
+        "load",
+        "qc-metrics",
+        "qc-plots",
+        "doublets",
+        "filter",
+        "normalize",
+        "hvg",
+        "scale",
+        "pca",
+        "cluster",
+        "markers",
+        "annotate",
+        "assign-labels",
+        "pseudobulk",
+        "save",
+        "clonotypes"
+      ]
+    }
+  }
+}

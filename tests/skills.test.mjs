@@ -76,6 +76,38 @@ test('README skill counts match standalone skill directories', () => {
   assert.match(readFileSync(join(root, 'README.en.md'), 'utf8'), new RegExp(`\\| Standalone skills \\| ${count} \\|`))
 })
 
+test('README plugin skill counts match plugin skill directories', () => {
+  const pluginRoot = join(root, 'resources/plugins')
+  let count = 0
+  for (const plugin of readdirSync(pluginRoot)) {
+    const skills = join(pluginRoot, plugin, 'skills')
+    if (!existsSync(skills)) continue
+    count += readdirSync(skills).filter(name => existsSync(join(skills, name, 'SKILL.md'))).length
+  }
+  assert.match(readFileSync(join(root, 'README.md'), 'utf8'), new RegExp(`\\| 插件内 skills \\| ${count} \\|`))
+  assert.match(readFileSync(join(root, 'README.en.md'), 'utf8'), new RegExp(`\\| Skills within plugins \\| ${count} \\|`))
+})
+
+test('single-cell keeps one byte-identical notebook renderer for both languages', () => {
+  const base = join(root, 'resources/plugins/single-cell/skills')
+  const seurat = readFileSync(join(base, 'seurat-workflow/scripts/build_notebook.py'))
+  const scanpy = readFileSync(join(base, 'scanpy-workflow/scripts/build_notebook.py'))
+  assert.deepEqual(seurat, scanpy)
+})
+
+test('single-cell skills keep code, presets and step notes in functional homes', () => {
+  const base = join(root, 'resources/plugins/single-cell/skills')
+  for (const [skill, ext] of [['seurat-workflow', 'R'], ['scanpy-workflow', 'py']]) {
+    const dir = join(base, skill)
+    const registry = JSON.parse(readFileSync(join(dir, 'assets/steps.json'), 'utf8'))
+    assert.equal(existsSync(join(dir, 'assets/fragments/steps.json')), false)
+    for (const step of registry.steps) {
+      assert.ok(existsSync(join(dir, 'assets/fragments', `${step.id}.${ext}`)), `${skill}: missing fragment ${step.id}`)
+      assert.ok(existsSync(join(dir, 'references/step-notes', `${step.id}.md`)), `${skill}: missing step note ${step.id}`)
+    }
+  }
+})
+
 test('find-skills searches the public skills ecosystem', () => {
   const text = readFileSync(join(skillRoot, 'find-skills/SKILL.md'), 'utf8')
   assert.match(text, /npx skills find/)

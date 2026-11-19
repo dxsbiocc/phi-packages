@@ -8,17 +8,17 @@ Phi 的独立公开内容仓库，保存可安装领域能力的源码。
 
 | 内容 | 数量 |
 | --- | ---: |
-| 独立 skills | 17 |
+| 独立 skills | 16 |
 | MCP connector 定义 | 27 |
-| Phi 复合插件 | 2 |
-| 插件内 skills | 4 |
+| Phi 复合插件 | 3 |
+| 插件内 skills | 6 |
 | Wrapper 适配器 | 652 |
 
 ```text
 resources/
   skills/                独立技能、参考资料和脚本
   connectors/            MCP 连接器声明
-  plugins/               Visualization 与 literature-library 插件及其组件
+  plugins/               Visualization、literature-library 与 single-cell 插件及其组件
   wrappers/              Nextflow module、subworkflow、workflow 和适配器
 docs/
   contracts/             Phi 内容契约参考快照
