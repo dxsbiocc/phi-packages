@@ -16,7 +16,7 @@
 # data here to verify those paths (../wrapper/main.nf always skips them).
 id: local/modules/differential-expression-deseq2
 name: DESeq2 differential expression
-summary: Test one contrast for differential expression with DESeq2, from a count matrix and a sample sheet.
+summary: Test one contrast for differential expression with DESeq2, from a count matrix and a sample sheet. Supports independent (default) and donor-paired designs, and emits a research_qc sidecar summarizing the primary results.
 
 params:
   counts:
@@ -58,22 +58,36 @@ params:
     kind: option
     type: string
     required: false
-    description: Advanced — full R design formula (e.g. '~ batch + condition' or '~ 0 + group'), overriding the simple contrast_variable/reference_level/target_level model. Requires comparison.
+    description: Advanced — full R design formula (e.g. '~ batch + condition' or '~ 0 + group'), overriding the simple contrast_variable/reference_level/target_level model. Requires comparison. Incompatible with study_design='paired'.
   comparison:
     kind: option
     type: string
     required: false
-    description: Advanced — required alongside formula. Either a resultsNames() coefficient (e.g. 'condition_treated_vs_control') or a limma-style contrast expression (e.g. 'groupKO - groupWT').
+    description: Advanced — required alongside formula. Either a resultsNames() coefficient (e.g. 'condition_treated_vs_control') or a limma-style contrast expression (e.g. 'groupKO - groupWT'). Incompatible with study_design='paired'.
+  study_design:
+    kind: option
+    type: string
+    required: true
+    enum: [independent, paired]
+    description: Confirm whether samples are independent biological replicates or paired donors. Use the plugin preflight when this is unknown.
+  donor_col:
+    kind: option
+    type: string
+    required: false
+    description: Samplesheet column identifying the biological donor (pairing unit). Required when study_design='paired'; must be a plain column identifier (letters, digits, '.', '_'). Ignored for independent designs.
   padj_threshold:
     kind: option
     type: number
     required: false
-    description: Adjusted p-value cutoff for calling a gene differentially expressed (padj < this). Default 0.05; also used as DESeq2's independent-filtering alpha.
+    minimum: 0
+    maximum: 1
+    description: Adjusted p-value cutoff for calling a gene differentially expressed (padj < this). Must be finite and in (0, 1]. Default 0.05; also used as DESeq2's independent-filtering alpha.
   log2fc_threshold:
     kind: option
     type: number
     required: false
-    description: Minimum absolute log2 fold change for a differentially expressed gene (|log2FoldChange| >= this). Default 1, i.e. a 2-fold change either way.
+    minimum: 0
+    description: Minimum absolute log2 fold change for a differentially expressed gene (|log2FoldChange| >= this). Must be finite and >= 0. Default 1, i.e. a 2-fold change either way.
   prefix:
     kind: option
     type: string
@@ -90,6 +104,13 @@ outputs:
     type: file
     path: '${outdir}/deseq2_differential/${prefix}.deseq2.results.tsv'
     primary: true
+  research_qc:
+    type: research_qc
+    path: '${outdir}/deseq2_differential/${prefix}.deseq2.qc.tsv'
+    primary: true
+  research_input:
+    type: research_input
+    path: '${outdir}/deseq2_differential/${prefix}.deseq2.input.json'
   normalised_counts:
     type: file
     path: '${outdir}/deseq2_differential/${prefix}.normalised_counts.tsv'

@@ -7,5 +7,7 @@
   "reference_level": "WT",
   "target_level": "KO",
   "prefix": "ko_vs_wt",
-  "outdir": "results"
+  "outdir": "results",
+  "padj_threshold": 0.05,
+  "log2fc_threshold": 1
 }
