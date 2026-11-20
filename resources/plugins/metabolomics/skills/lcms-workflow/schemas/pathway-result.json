@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["mode", "input", "n_input", "n_matched_input", "background", "n_pathways", "n_significant", "fdr_threshold", "top", "output_dir", "artifacts"],
+  "properties": {
+    "mode": { "type": "string", "enum": ["ids", "masses"] },
+    "input": { "type": "string" },
+    "n_input": { "type": "integer" },
+    "n_matched_input": { "type": "integer" },
+    "background": {
+      "type": "object",
+      "required": ["kind", "n"],
+      "properties": {
+        "kind": { "type": "string", "enum": ["compounds", "mz_values"] },
+        "n": { "type": "integer" }
+      }
+    },
+    "n_pathways": { "type": "integer" },
+    "n_significant": { "type": "integer" },
+    "fdr_threshold": { "type": "number" },
+    "n_unmatched_ids": { "type": "integer" },
+    "n_perm": { "type": "integer" },
+    "seed": { "type": "integer" },
+    "ion_mode": { "type": "string", "enum": ["pos", "neg"] },
+    "ppm": { "type": "number" },
+    "n_compound_db": { "type": "integer" },
+    "top": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["pathway", "overlap", "pvalue", "fdr"],
+        "properties": {
+          "pathway": { "type": "string" },
+          "overlap": { "type": "integer" },
+          "pvalue": { "type": "number" },
+          "fdr": { "type": "number" }
+        }
+      }
+    },
+    "output_dir": { "type": "string" },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
+  }
+}

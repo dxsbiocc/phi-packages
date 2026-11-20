@@ -1,0 +1,21 @@
+schemaVersion: 1
+id: metabolomics
+type: plugin
+version: 0.1.0
+title: 代谢组学分析
+summary: >-
+  非靶向 LC-MS 代谢组学下游：特征表识别、QC 样本 RSD/检出率过滤、缺失值填补与
+  归一化（TIC/中位数/PQN/内标）、PCA 与 PLS-DA（VIP、置换检验）、单变量差异
+  （Welch/Wilcoxon + BH FDR）、加合物/同位素分组注释、MSP/MGF 谱库余弦匹配、
+  通路富集（ID 与 mummichog 式 m/z 模式）与聚类热图。上游峰提取/对齐与格式转换
+  不在本插件，知识层指路；私有 Python 环境，脚本只做确定性下游统计。
+  附 metaRbolomics book（CC-BY-4.0）对照的知识层。
+toolPrefix: mb
+components:
+  agents:
+    - agents/Metabolomics.md
+  skills:
+    - skills/lcms-workflow
+environments:
+  metabolomics:
+    spec: environments/metabolomics/environment.yml

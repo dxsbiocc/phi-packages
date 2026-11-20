@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["input", "kind", "n_features_shown", "n_samples", "trans", "cluster", "output_dir", "artifacts"],
+  "properties": {
+    "input": { "type": "string" },
+    "kind": { "type": "string", "enum": ["heatmap"] },
+    "n_features_shown": { "type": "integer" },
+    "n_samples": { "type": "integer" },
+    "trans": { "type": "string", "enum": ["none", "log10"] },
+    "cluster": { "type": "string", "enum": ["none", "rows", "cols", "both"] },
+    "output_dir": { "type": "string" },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
+  }
+}

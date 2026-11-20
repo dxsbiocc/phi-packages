@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["input", "files"],
+  "properties": {
+    "input": { "type": "string" },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "kind"],
+        "properties": {
+          "path": { "type": "string" },
+          "kind": {
+            "type": "string",
+            "enum": ["feature_table", "metadata", "msp_library", "mgf_spectra", "pathway_mapping", "compound_db", "mass_list", "id_list", "unknown"]
+          },
+          "format": { "type": "string", "enum": ["xcms", "mzmine", "msdial", "metaboanalyst", "generic"] },
+          "orientation": { "type": "string", "enum": ["features-as-rows", "samples-as-rows"] },
+          "n_features": { "type": "integer" },
+          "n_samples": { "type": "integer" },
+          "samples": { "type": "array", "items": { "type": "string" } },
+          "has_mz": { "type": "boolean" },
+          "has_rt": { "type": "boolean" },
+          "rt_unit": { "type": "string", "enum": ["min", "sec", "unknown"] },
+          "missing_rate": { "type": "number" },
+          "zero_rate": { "type": "number" },
+          "qc_samples": { "type": "array", "items": { "type": "string" } },
+          "blank_samples": { "type": "array", "items": { "type": "string" } },
+          "ready_steps": { "type": "array", "items": { "type": "string" } },
+          "n_spectra": { "type": "integer" },
+          "n_entries": { "type": "integer" },
+          "n_rows": { "type": "integer" },
+          "n_values": { "type": "integer" },
+          "columns": { "type": "array", "items": { "type": "string" } },
+          "note": { "type": "string" }
+        }
+      }
+    }
+  }
+}

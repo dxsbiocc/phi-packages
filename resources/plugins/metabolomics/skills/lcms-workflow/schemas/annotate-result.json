@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["input", "mode", "ppm", "rt_tol", "rt_unit", "has_rt", "n_features", "n_relationships", "relationships_by_type", "n_pseudospectra", "caveat", "output_dir", "artifacts"],
+  "properties": {
+    "input": { "type": "string" },
+    "mode": { "type": "string", "enum": ["pos", "neg"] },
+    "ppm": { "type": "number" },
+    "rt_tol": { "type": "number" },
+    "rt_unit": { "type": "string", "enum": ["min", "sec"] },
+    "has_rt": { "type": "boolean" },
+    "n_features": { "type": "integer" },
+    "n_relationships": { "type": "integer" },
+    "relationships_by_type": { "type": "object", "additionalProperties": { "type": "integer" } },
+    "n_pseudospectra": { "type": "integer" },
+    "caveat": { "type": "string" },
+    "output_dir": { "type": "string" },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
+  }
+}

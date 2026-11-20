@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["input", "n_samples", "n_features", "groups", "scaling", "n_components", "cv_scheme", "pca", "plsda", "vip_top", "output_dir", "artifacts"],
+  "properties": {
+    "input": { "type": "string" },
+    "n_samples": { "type": "integer" },
+    "n_features": { "type": "integer" },
+    "groups": { "type": "object", "additionalProperties": { "type": "integer" } },
+    "scaling": { "type": "string", "enum": ["none", "uv", "pareto"] },
+    "n_components": { "type": "integer" },
+    "n_components_clamped": { "type": "boolean" },
+    "cv_scheme": { "type": "string", "enum": ["loo", "7-fold"] },
+    "pca": {
+      "type": "object",
+      "required": ["explained_variance_ratio"],
+      "properties": {
+        "explained_variance_ratio": { "type": "array", "items": { "type": "number" } }
+      }
+    },
+    "plsda": {
+      "type": "object",
+      "required": ["r2y_cum", "q2_cum", "permutation"],
+      "properties": {
+        "r2y_cum": { "type": "array", "items": { "type": "number" } },
+        "q2_cum": { "type": "array", "items": { "type": ["number", "null"] } },
+        "permutation": {
+          "type": "object",
+          "required": ["n_perm"],
+          "properties": {
+            "n_perm": { "type": "integer" },
+            "q2_null_mean": { "type": ["number", "null"] },
+            "r2y_null_mean": { "type": ["number", "null"] },
+            "q2_p": { "type": "number" },
+            "r2y_p": { "type": "number" }
+          }
+        }
+      }
+    },
+    "vip_top": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["feature", "vip"],
+        "properties": {
+          "feature": { "type": "string" },
+          "vip": { "type": "number" }
+        }
+      }
+    },
+    "output_dir": { "type": "string" },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
+  }
+}
