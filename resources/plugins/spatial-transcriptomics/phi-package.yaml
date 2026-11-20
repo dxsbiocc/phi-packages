@@ -1,0 +1,20 @@
+schemaVersion: 1
+id: spatial-transcriptomics
+type: plugin
+version: 0.1.0
+title: 空间转录组分析
+summary: >-
+  空间转录组分析工具链（Python/scanpy + squidpy + spatialdata，st_py_），私有锁定环境。
+  覆盖 10x Visium（含 HD bin/seg）与华大 Stereo-seq（GEM/GEF、square bin 与 cellbin）：
+  读取与分 bin、质控、归一化/PCA/聚类/UMAP、组织坐标空间图、marker 与注释、空间可变基因
+  （SVG）、邻域富集/共现、deconvolution（需 scRNA 参考）、细胞通讯与跨样本差异空间模式。
+  片段库是唯一分析源，脚本与 notebook 共用；附 OSTA 蒸馏的分析原理与结果解读知识层。
+toolPrefix: st
+components:
+  agents:
+    - agents/SpatialTranscriptomics.md
+  skills:
+    - skills/spatial-workflow
+environments:
+  spatial:
+    spec: environments/spatial/environment.yml

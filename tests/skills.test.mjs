@@ -15,6 +15,27 @@ function skillNames() {
     .sort()
 }
 
+function pluginSkills() {
+  const pluginRoot = join(root, 'resources/plugins')
+  const skills = []
+  for (const plugin of readdirSync(pluginRoot).sort()) {
+    const skillsDir = join(pluginRoot, plugin, 'skills')
+    if (!existsSync(skillsDir)) continue
+    for (const name of readdirSync(skillsDir).sort()) {
+      const dir = join(skillsDir, name)
+      if (existsSync(join(dir, 'SKILL.md'))) skills.push({ name, dir, label: `${plugin}/${name}` })
+    }
+  }
+  return skills
+}
+
+function contractSkills() {
+  return [
+    ...skillNames().map(name => ({ name, dir: join(skillRoot, name), label: name, inPlugin: false })),
+    ...pluginSkills().map(skill => ({ ...skill, inPlugin: true })),
+  ]
+}
+
 function frontmatter(text, file) {
   assert.equal(text.startsWith('---\n'), true, `${file} must start with YAML frontmatter`)
   const end = text.indexOf('\n---\n', 4)
@@ -116,9 +137,8 @@ test('find-skills searches the public skills ecosystem', () => {
   assert.match(readFileSync(join(skillRoot, 'skill-creator/SKILL.md'), 'utf8'), /references\/phi\.md/)
 })
 
-for (const name of skillNames()) {
-  test(`${name} follows the skill contract`, () => {
-    const dir = join(skillRoot, name)
+for (const { name, dir, label, inPlugin } of contractSkills()) {
+  test(`${label} follows the skill contract`, () => {
     const file = join(dir, 'SKILL.md')
     const text = readFileSync(file, 'utf8')
     const fm = frontmatter(text, relative(root, file))
@@ -139,6 +159,14 @@ for (const name of skillNames()) {
       for (const value of Object.values(parsed)) assert.equal(typeof value, 'string')
     }
 
+    if (inPlugin) {
+      assert.equal(
+        /^[ ]+toolPrefix:\s*\S+/m.test(fm),
+        false,
+        'a skill inside a plugin must not declare toolPrefix; the plugin toolPrefix is used'
+      )
+    }
+
     const environmentDeclared = /^[ ]+environment:\s+\S+/m.test(fm)
     assert.equal(
       environmentDeclared,
@@ -150,7 +178,7 @@ for (const name of skillNames()) {
 
     for (const target of relativeLinks(text)) {
       const resolved = resolve(dir, target)
-      assert.equal(existsSync(resolved), true, `${name} links to missing ${target}`)
+      assert.equal(existsSync(resolved), true, `${label} links to missing ${target}`)
     }
   })
 }
