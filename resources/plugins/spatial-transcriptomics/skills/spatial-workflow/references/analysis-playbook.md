@@ -8,6 +8,10 @@ split, one reading for both paths, counts/lognorm layers) live in SKILL.md
 `Rules`; the learner-facing short version lives in `references/step-notes/`
 (one note per step). Sources and licenses are at the end.
 
+Quick reference: [`red-line-cheatsheet.md`](red-line-cheatsheet.md) tabulates the
+hard red lines and common misreadings for §1–§10; this playbook remains the full
+Call/Read/Decide procedure.
+
 Every number here is a **starting point for Visium/Stereo-seq data, not a
 default to accept**. Read the distributions first, adapt, and say in your answer
 which value you chose and why. Quote the tool's JSON numbers instead of

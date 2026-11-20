@@ -7,6 +7,8 @@
 - [`analysis-playbook.md`](analysis-playbook.md) — 操作手册。每个阶段是一个决策过程：
   **调用**哪个工具、**读**哪些 JSON 字段与图、从读到的数**决定**参数、遵守**红线**。
   阈值起点针对 Visium/Stereo-seq 数据，不是默认值；先读分布再适配。
+- [`red-line-cheatsheet.md`](red-line-cheatsheet.md) — §1–§10 硬红线 × 常见误读速查表，
+  运行时对照用；完整决策过程仍以 analysis-playbook.md 为准。
 - [`step-notes/`](step-notes/) — 每步一篇短笔记（目的/原理/解读/陷阱），按 step id 命名，
   与 `assets/fragments/<step>.py` 配对。这些就是 notebook 渲染器嵌入的教学 Markdown 格。
 
