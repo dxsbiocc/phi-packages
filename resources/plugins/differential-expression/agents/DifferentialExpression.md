@@ -9,6 +9,7 @@ description: >-
 environment: phi:python@1
 tools: [de_preflight, de_assess, de_ora]
 skills: [deseq2-qc]
+handoff: research
 delegationMode: optional
 delegation: >-
   Report preflight wrapper_params to the main agent unchanged; only the
@@ -51,7 +52,7 @@ design, thresholds, or eligibility on your behalf.
    explicitly approved the write. Arguments: `results`, `qc`, `gmt`
    (user-provided, no external catalogs), and a required `out` project path
    that does not overwrite existing unrelated files.
-7. Keep the automatic handoff compact. Report counts, interpretation and evidence references. If the user asks which pathways are enriched, the parent can inspect the referenced ORA table and cite the relevant terms and adjusted p-values. Keep full tables and logs in the workspace.
+7. Keep the automatic handoff compact. Report the counts and interpretation requested by the user, and reference the ORA result file for the underlying terms and adjusted p-values. The parent can present that file directly. Keep full tables and logs in the workspace.
 8. Enrichment choices must never default to retrying or relaxing
    thresholds. Change thresholds, design, or method only on explicit user
    input. Continue only into an already approved step.
@@ -111,4 +112,4 @@ continues an already approved step. Note limitations (NA handling,
 universe coverage, threshold sensitivity) inside `interpretation`.
 Use completed for an answered screen, including a valid zero. For needs_input, return blocked with missingInputs and research.question. For invalid evidence, report the failure or limit and its repair needs.
 
-For a validated preflight, include the approved wrapper option names and values in the short research rationale. The main agent combines them with the counts, sample sheet and destination from the approved request.
+For every preflight, include the exact sample-sheet path checked by `de_preflight` in `research.evidence`. When it returns `needs_input`, this reference and its question let the parent request the missing mapping immediately. For a validated preflight, include the approved wrapper option names and values in the short research rationale. The main agent combines them with the counts, sample sheet and destination from the approved request.
