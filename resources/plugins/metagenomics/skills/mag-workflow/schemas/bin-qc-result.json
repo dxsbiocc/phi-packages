@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["tool", "source", "n_bins", "tier_counts", "thresholds", "outputs", "caveat"],
+  "properties": {
+    "tool": { "type": "string", "const": "mg_bin_qc" },
+    "source": { "type": "string", "enum": ["checkm", "checkm2"] },
+    "n_bins": { "type": "integer" },
+    "tier_counts": {
+      "type": "object",
+      "required": ["HQ", "MQ", "LQ"],
+      "properties": {
+        "HQ": { "type": "integer" },
+        "MQ": { "type": "integer" },
+        "LQ": { "type": "integer" }
+      }
+    },
+    "thresholds": {
+      "type": "object",
+      "properties": {
+        "hq": { "type": "object" },
+        "mq": { "type": "object" }
+      }
+    },
+    "outputs": {
+      "type": "object",
+      "required": ["table", "figure"],
+      "properties": {
+        "table": { "type": "string" },
+        "figure": { "type": "string" }
+      }
+    },
+    "caveat": { "type": "string" }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["tool", "n_bins", "joined", "n_classified", "outputs"],
+  "properties": {
+    "tool": { "type": "string", "const": "mg_mag_table" },
+    "n_bins": { "type": "integer" },
+    "joined": { "type": "array", "items": { "type": "string" } },
+    "n_classified": { "type": "integer" },
+    "n_in_drep_clusters": { "type": ["integer", "null"] },
+    "outputs": {
+      "type": "object",
+      "required": ["table"],
+      "properties": {
+        "table": { "type": "string" },
+        "figure": { "type": "string" }
+      }
+    }
+  }
+}

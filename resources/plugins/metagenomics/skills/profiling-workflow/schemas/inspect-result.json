@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["input", "input_type", "n_files", "files", "ready_steps"],
+  "properties": {
+    "input": { "type": "string" },
+    "input_type": { "type": "string" },
+    "n_files": { "type": "integer" },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "kind", "sample"],
+        "properties": {
+          "path": { "type": "string" },
+          "kind": { "type": "string" },
+          "sample": { "type": "string" }
+        }
+      }
+    },
+    "samples": { "type": "array", "items": { "type": "string" } },
+    "ready_steps": { "type": "array", "items": { "type": "string" } },
+    "notes": { "type": "array", "items": { "type": "string" } }
+  }
+}

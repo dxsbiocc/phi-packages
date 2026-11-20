@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["metric", "iterations", "seed", "samples", "library_sizes", "min_library_size", "max_depth", "not_plateaued", "output", "artifacts"],
+  "properties": {
+    "metric": { "type": "string", "enum": ["observed"] },
+    "iterations": { "type": "integer", "minimum": 1 },
+    "seed": { "type": "integer" },
+    "samples": { "type": "array", "items": { "type": "string" } },
+    "library_sizes": { "type": "object", "additionalProperties": { "type": "integer" } },
+    "min_library_size": { "type": "integer" },
+    "max_depth": { "type": "integer" },
+    "not_plateaued": { "type": "array", "items": { "type": "string" } },
+    "output": { "type": "string" },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
+  }
+}

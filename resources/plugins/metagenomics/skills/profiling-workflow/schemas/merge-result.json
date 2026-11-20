@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["kind", "rank", "value_kind", "samples", "taxa_before", "taxa_after", "output", "artifacts"],
+  "properties": {
+    "kind": { "type": "string", "enum": ["kraken2", "bracken", "metaphlan", "mpa"] },
+    "rank": { "type": "string" },
+    "value_kind": { "type": "string", "enum": ["counts", "relative"] },
+    "samples": { "type": "array", "items": { "type": "string" } },
+    "taxa_before": { "type": "integer" },
+    "taxa_after": { "type": "integer" },
+    "output": { "type": "string" },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
+  }
+}
