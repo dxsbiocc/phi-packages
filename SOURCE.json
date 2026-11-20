@@ -10,8 +10,8 @@
   "counts": {
     "standaloneSkills": 16,
     "connectors": 24,
-    "plugins": 7,
-    "pluginSkills": 11,
+    "plugins": 6,
+    "pluginSkills": 10,
     "wrapperAdapters": 652,
     "importedFiles": 7885,
     "importedBytes": 85272892

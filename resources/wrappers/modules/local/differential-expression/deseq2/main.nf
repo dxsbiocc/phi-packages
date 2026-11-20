@@ -15,7 +15,6 @@ process DESEQ2_DIFFERENTIAL {
 
     output:
     tuple val(meta), path("*.deseq2.results.tsv")              , emit: results
-    tuple val(meta), path("*.deseq2.qc.tsv")                   , emit: research_qc
     tuple val(meta), path("*.deseq2.dispersion.png")           , emit: dispersion_plot_png
     tuple val(meta), path("*.deseq2.dispersion.pdf")           , emit: dispersion_plot_pdf
     tuple val(meta), path("*.dds.rld.rds")                     , emit: rdata
@@ -38,13 +37,10 @@ process DESEQ2_DIFFERENTIAL {
 
     stub:
     """
-    # Header-only results: no evaluable rows, so the QC sidecar is 'invalid'
-    # with evaluated=hits=0 and the MD5 of these exact stub bytes.
-    results_file=${meta.id}.deseq2.results.tsv
-    printf '${meta.gene_id_col ?: 'gene_id'}\\tbaseMean\\tlog2FoldChange\\tlfcSE\\tstat\\tpvalue\\tpadj\\n' > \$results_file
-    for suffix in de_genes_filtered de_genes_filtered_up de_genes_filtered_down; do
-        printf '${meta.gene_id_col ?: 'gene_id'}\\tbaseMean\\tlog2FoldChange\\tlfcSE\\tstat\\tpvalue\\tpadj\\n' > ${meta.id}.deseq2.\$suffix.tsv
-    done
+    touch ${meta.id}.deseq2.results.tsv
+    touch ${meta.id}.deseq2.de_genes_filtered.tsv
+    touch ${meta.id}.deseq2.de_genes_filtered_up.tsv
+    touch ${meta.id}.deseq2.de_genes_filtered_down.tsv
     touch ${meta.id}.deseq2.dispersion.png
     touch ${meta.id}.deseq2.dispersion.pdf
     touch ${meta.id}.dds.rld.rds
@@ -53,10 +49,6 @@ process DESEQ2_DIFFERENTIAL {
     touch ${meta.id}.rlog.tsv
     touch ${meta.id}.deseq2.model.txt
     touch ${meta.id}.R_sessionInfo.log
-
-    result_md5=\$(Rscript -e "cat(unname(tools::md5sum('\$results_file')))")
-    printf 'schemaVersion\\tdisposition\\tcontrast\\tgeneIdColumn\\tpadjThreshold\\tlog2fcThreshold\\tevaluated\\thits\\tresultMd5\\n' > ${meta.id}.deseq2.qc.tsv
-    printf '1\\tinvalid\\t%s\\t%s\\t%s\\t%s\\t0\\t0\\t%s\\n' '${meta.contrast ?: 'stub'}' '${meta.gene_id_col ?: 'gene_id'}' '${meta.padj_threshold != null ? meta.padj_threshold : 0.05}' '${meta.log2fc_threshold != null ? meta.log2fc_threshold : 1}' "\$result_md5" >> ${meta.id}.deseq2.qc.tsv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

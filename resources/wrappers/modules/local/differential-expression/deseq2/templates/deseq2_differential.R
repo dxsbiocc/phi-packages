@@ -47,7 +47,7 @@ parse_args <- function(x){
 #'
 #' @return output Data frame
 
-read_delim_flexible <- function(file, header = TRUE, row.names = NULL, check.names = TRUE, colClasses = NA){
+read_delim_flexible <- function(file, header = TRUE, row.names = NULL, check.names = TRUE){
 
   ext <- tolower(tail(strsplit(basename(file), split = "\\\\.")[[1]], 1))
 
@@ -64,8 +64,7 @@ read_delim_flexible <- function(file, header = TRUE, row.names = NULL, check.nam
     sep = separator,
     header = header,
     row.names = row.names,
-    check.names = check.names,
-    colClasses = colClasses
+    check.names = check.names
   )
 }
 
@@ -142,8 +141,6 @@ opt <- list(
   contrast_string    = "$comparison",             # Optional full (complex) contrast expression comparison
   formula            = "$formula",              # User-specified formula
   blocking_variables = NULL,
-  study_design = 'independent',
-  donor_col = NULL,
   control_genes_file = '$control_genes_file',
   transcript_lengths_file = '$transcript_lengths_file',
   sizefactors_from_controls = FALSE,
@@ -197,35 +194,11 @@ if ( ! is.null(opt\$round_digits)){
 }
 
 # If there is no option supplied, convert string "null" to NULL
-keys <- c("formula", "contrast_string", "contrast_variable", "reference_level", "target_level", "seed", "blocking_variable", "transcript_lengths_file", "donor_col")
+keys <- c("formula", "contrast_string", "contrast_variable", "reference_level", "target_level", "seed", "blocking_variable", "transcript_lengths_file")
 opt[keys] <- lapply(opt[keys], nullify)
 
 if ( ! is.null(opt\$seed)){
   set.seed(opt\$seed)
-}
-
-# Validate design mode and threshold ranges (also enforced by the wrapper
-# preflight; repeated here so bypassing the wrapper still fails safely).
-if (! opt\$study_design %in% c('independent', 'paired')) {
-  stop(paste0("study_design must be 'independent' or 'paired' (got '", opt\$study_design, "')"), call. = FALSE)
-}
-if (! is.finite(opt\$alpha) || opt\$alpha <= 0 || opt\$alpha > 1) {
-  stop(paste0("padj_threshold (alpha) must be finite and in (0, 1] (got '", opt\$alpha, "')"), call. = FALSE)
-}
-if (! is.finite(opt\$log2fc_threshold) || opt\$log2fc_threshold < 0) {
-  stop(paste0("log2fc_threshold must be finite and >= 0 (got '", opt\$log2fc_threshold, "')"), call. = FALSE)
-}
-
-if (opt\$study_design == 'paired') {
-  if (is_valid_string(opt\$formula) || is_valid_string(opt\$contrast_string)) {
-    stop("study_design='paired' supports only the simple contrast_variable/reference_level/target_level model; remove formula/comparison or set study_design='independent'", call. = FALSE)
-  }
-  if (! is_valid_string(opt\$donor_col)) {
-    stop("study_design='paired' requires donor_col naming the biological-donor column of the sample sheet; there is no implicit sample-as-donor mapping", call. = FALSE)
-  }
-  if (! grepl('^[A-Za-z.][A-Za-z0-9._]*\$', opt\$donor_col)) {
-    stop(paste0("donor_col must be a plain column identifier (letters, digits, '.', '_'; got '", opt\$donor_col, "')"), call. = FALSE)
-  }
 }
 
 # Check if required parameters have been provided
@@ -273,15 +246,9 @@ count.table <-
     file = opt\$count_file,
     header = TRUE,
     row.names = opt\$gene_id_col,
-    colClasses = setNames("character", opt\$gene_id_col),
     check.names = FALSE
   )
-# Keep identifiers such as 001 distinct from 1, including donor and group labels.
-id_columns <- opt\$sample_id_col
-if (!is_valid_string(opt\$formula)) id_columns <- c(id_columns, opt\$contrast_variable)
-if (opt\$study_design == 'paired') id_columns <- c(id_columns, opt\$donor_col)
-sample.sheet <- read_delim_flexible(file = opt\$sample_file,
-  colClasses = setNames(rep("character", length(id_columns)), id_columns))
+sample.sheet <- read_delim_flexible(file = opt\$sample_file)
 
 # Deal with spaces that may be in sample column
 opt\$sample_id_col <- make.names(opt\$sample_id_col)
@@ -291,18 +258,7 @@ if (! opt\$sample_id_col %in% colnames(sample.sheet)){
 }
 
 # Sample sheet can have duplicate rows for multiple sequencing runs, so uniqify
-# before assigning row names. Paired designs instead require unique sample ids.
-
-if (opt\$study_design == 'paired') {
-  paired_ids <- sample.sheet[[opt\$sample_id_col]]
-  if (any(is.na(paired_ids) | !nzchar(trimws(as.character(paired_ids))))) {
-    stop(paste0("Paired design requires a non-empty sample id in every sample sheet row (column '", opt\$sample_id_col, "')"), call. = FALSE)
-  }
-  paired_dups <- unique(paired_ids[duplicated(paired_ids)])
-  if (length(paired_dups) > 0) {
-    stop(paste0("Paired design requires unique sample ids; duplicated: ", paste(paired_dups, collapse = ', ')), call. = FALSE)
-  }
-}
+# before assigning row names
 
 sample.sheet <- sample.sheet[! duplicated(sample.sheet[[opt\$sample_id_col]]), ]
 rownames(sample.sheet) <- sample.sheet[[opt\$sample_id_col]]
@@ -392,45 +348,6 @@ if ((is_valid_string(opt\$exclude_samples_col)) && (is_valid_string(opt\$exclude
   sample.sheet <- sample.sheet[selected_samples, ]
 }
 
-# Paired design: validate the donor mapping before any DESeq2 fitting and block
-# on donor. Runs after subsetting/exclusion so the checks see the final samples.
-if (opt\$study_design == 'paired') {
-  donor_col <- make.names(opt\$donor_col)
-  if (! donor_col %in% colnames(sample.sheet)) {
-    stop(paste0("donor_col '", opt\$donor_col, "' is not a column of the sample sheet"), call. = FALSE)
-  }
-  if (donor_col == contrast_variable) {
-    stop("donor_col must differ from contrast_variable", call. = FALSE)
-  }
-
-  # The paired contrast uses only the two contrast groups.
-  paired_selector <- sample.sheet[[contrast_variable]] %in% c(opt\$reference_level, opt\$target_level)
-  sample.sheet <- sample.sheet[paired_selector, , drop = FALSE]
-  count.table <- count.table[, rownames(sample.sheet), drop = FALSE]
-
-  donor_values <- trimws(as.character(sample.sheet[[donor_col]]))
-  if (any(is.na(donor_values) | !nzchar(donor_values) | tolower(donor_values) %in% c('na', 'null'))) {
-    stop(paste0("Incomplete donor mapping: every contrast sample needs a donor value in '", opt\$donor_col, "'"), call. = FALSE)
-  }
-  pair_table <- table(donor_values, as.character(sample.sheet[[contrast_variable]]))
-  if (! all(c(opt\$reference_level, opt\$target_level) %in% colnames(pair_table))) {
-    stop(paste0("Paired design needs samples in both the '", opt\$reference_level, "' and '", opt\$target_level, "' groups"), call. = FALSE)
-  }
-  if (any(pair_table != 1)) {
-    bad_donors <- rownames(pair_table)[apply(pair_table, 1, function(r) any(r != 1))]
-    stop(paste0(
-      "Paired design requires exactly one distinct biological sample per donor per group, with every donor in both groups; unbalanced donors: ",
-      paste(bad_donors, collapse = ', ')
-    ), call. = FALSE)
-  }
-  if (nrow(pair_table) < 2) {
-    stop(paste0("Paired design requires at least two donors (found ", nrow(pair_table), ")"), call. = FALSE)
-  }
-
-  sample.sheet[[donor_col]] <- donor_values
-  blocking.vars <- unique(c(donor_col, blocking.vars))
-}
-
 # Now specify the model. Use cell-means style so we can be explicit with the
 # contrasts
 
@@ -438,27 +355,22 @@ if (is_valid_string(opt\$formula)) {
   message("Using user-specified formula: ", opt\$formula)
   model  <- opt\$formula
 }  else {
+  model <- '~ 0'
+
+  if (is_valid_string(opt\$blocking_variables)) {
+    model <- paste(model, paste(blocking.vars, collapse = ' + '), sep=' + ')
+  }
+
   # Make sure all the appropriate variables are factors
 
   for (v in c(blocking.vars, contrast_variable)) {
     sample.sheet[[v]] <- as.factor(sample.sheet[[v]])
   }
 
-  if (opt\$study_design == 'paired') {
-    # Estimate the between-condition change within donors.
-    model <- paste('~', paste(c(blocking.vars, contrast_variable), collapse = ' + '))
-  } else {
-    model <- '~ 0'
+  # Variable of interest goes last, see
+  # https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#multi-factor-designs
 
-    if (is_valid_string(opt\$blocking_variables)) {
-      model <- paste(model, paste(blocking.vars, collapse = ' + '), sep=' + ')
-    }
-
-    # Variable of interest goes last, see
-    # https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#multi-factor-designs
-
-    model <- paste(model, contrast_variable, sep = ' + ')
-  }
+  model <- paste(model, contrast_variable, sep = ' + ')
 }
 message("Final design formula: ", model)
 
@@ -518,7 +430,7 @@ if (!is.null(opt\$contrast_string)) {
     # Direct coefficient name
     comp.results <- run_results(name = opt\$contrast_string)
     if (opt\$shrink_lfc) {
-      comp.results <- run_shrink(res = comp.results, coef = opt\$contrast_string)
+      comp.results <- run_shrink(coef = opt\$contrast_string)
     }
   } else {
     # Parse as limma-style contrast expression
@@ -531,7 +443,7 @@ if (!is.null(opt\$contrast_string)) {
     # Run DESeq2 results with numeric contrast
     comp.results <- run_results(contrast = numeric_contrast)
     if (opt\$shrink_lfc) {
-      comp.results <- run_shrink(res = comp.results, contrast = numeric_contrast)
+      comp.results <- run_shrink(contrast = numeric_contrast)
     }
   }
 } else {
@@ -541,7 +453,7 @@ if (!is.null(opt\$contrast_string)) {
 
   comp.results <- run_results(contrast = contrast_var_tg_ref)
   if (opt\$shrink_lfc) {
-    comp.results <- run_shrink(res = comp.results, contrast = contrast_var_tg_ref)
+    comp.results <- run_shrink(contrast = contrast_var_tg_ref)
   }
 }
 
@@ -581,28 +493,9 @@ comp.results <- `colnames<-`(
   c(opt\$gene_id_col, colnames(comp.results))  # Setting all column names
 )
 
-# QC contract: reject malformed/NA identifiers, duplicates, and non-NA invalid
-# numeric values before anything is published.
-qc_gene_ids <- as.character(comp.results[[opt\$gene_id_col]])
-if (any(is.na(qc_gene_ids)) || any(!nzchar(trimws(qc_gene_ids))) || any(grepl('[\t\r\n]', qc_gene_ids))) {
-  stop("Results contain missing, empty, or multi-line/tab-containing gene identifiers", call. = FALSE)
-}
-if (anyDuplicated(qc_gene_ids)) {
-  stop("Results contain duplicated gene identifiers", call. = FALSE)
-}
-qc_padj <- comp.results[['padj']]
-qc_log2fc <- comp.results[['log2FoldChange']]
-if (any(!is.na(qc_padj) & (!is.finite(qc_padj) | qc_padj < 0 | qc_padj > 1))) {
-  stop("Results contain non-NA padj values outside [0, 1] or non-finite", call. = FALSE)
-}
-if (any(!is.na(qc_log2fc) & !is.finite(qc_log2fc))) {
-  stop("Results contain non-NA log2FoldChange values that are not finite", call. = FALSE)
-}
-
-results_file <- paste(opt\$output_prefix, 'deseq2.results.tsv', sep = '.')
 write.table(
   comp.results,
-  file = results_file,
+  file = paste(opt\$output_prefix, 'deseq2.results.tsv', sep = '.'),
   col.names = TRUE,
   row.names = FALSE,
   sep = '\t',
@@ -612,10 +505,8 @@ write.table(
 # Differentially expressed genes: |log2FoldChange| >= log2fc_threshold and padj < alpha.
 # Rows with NA fold change or padj are dropped. Up/down split on the sign of
 # log2FoldChange (exact zeros stay only in the combined table).
-# Compute the screen from exactly the values readers will see in the TSV.
-published <- read.delim(results_file, check.names = FALSE, quote = "", colClasses = "character")
-log2fc <- as.numeric(published[['log2FoldChange']])
-padj <- as.numeric(published[['padj']])
+log2fc <- comp.results[['log2FoldChange']]
+padj <- comp.results[['padj']]
 de_mask <- !is.na(log2fc) & !is.na(padj) & abs(log2fc) >= opt\$log2fc_threshold & padj < opt\$alpha
 de_genes <- comp.results[de_mask, , drop = FALSE]
 filtered_tables <- list(
@@ -633,49 +524,6 @@ for (de_table in filtered_tables) {
     quote = FALSE
   )
 }
-
-# QC sidecar: one header + one record, counts against the published rows with
-# the exact thresholds used above. Only rows with finite (non-NA) padj and
-# log2FoldChange are evaluable; all-NA results are 'invalid'.
-qc_evaluated <- sum(!is.na(padj) & !is.na(log2fc))
-qc_hits <- sum(de_mask)
-qc_disposition <- if (qc_evaluated == 0) 'invalid' else if (qc_hits > 0) 'eligible' else 'skip'
-
-if (is_valid_string(opt\$formula)) {
-  qc_contrast <- paste(opt\$formula, opt\$contrast_string, sep = ' | ')
-} else {
-  qc_contrast <- paste(opt\$target_level, opt\$reference_level, sep = ' vs ')
-}
-# Single-line, tab-free, bounded strings for the sidecar.
-qc_field <- function(x, max_chars = 200) {
-  if (length(x) != 1 || is.na(x) || !nzchar(trimws(x)) || nchar(x) > max_chars || grepl('[[:cntrl:]]', x)) {
-    stop("Contrast or gene identifier column cannot be represented by the QC contract.")
-  }
-  as.character(x)
-}
-
-qc_df <- data.frame(
-  schemaVersion = 1L,
-  disposition = qc_disposition,
-  contrast = qc_field(qc_contrast),
-  geneIdColumn = qc_field(opt\$gene_id_col),
-  padjThreshold = sprintf("%.17g", opt\$alpha),
-  log2fcThreshold = sprintf("%.17g", opt\$log2fc_threshold),
-  evaluated = qc_evaluated,
-  hits = qc_hits,
-  resultMd5 = unname(tools::md5sum(results_file)),
-  check.names = FALSE,
-  stringsAsFactors = FALSE
-)
-write.table(
-  qc_df,
-  file = paste(opt\$output_prefix, 'deseq2.qc.tsv', sep = '.'),
-  col.names = TRUE,
-  row.names = FALSE,
-  sep = '\t',
-  quote = FALSE,
-  fileEncoding = 'UTF-8'
-)
 
 # Dispersion plot
 
