@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from _common import emit, fail, read_table, sample_stem
+from _common import emit, fail, read_table, sample_stem, write_artifact
 
 RANK_MARKER = {
     "D": "d__", "K": "k__", "P": "p__", "C": "c__", "O": "o__",
@@ -22,7 +22,7 @@ def parse_kraken2(path, rank):
                 continue
             taxid, name = f[4].strip(), f[5].strip()
             rows[f"{name} [{taxid}]"] = float(f[2])
-    return rows, "counts"
+    return rows, "counts", {}
 
 
 def parse_bracken(path, rank):
@@ -44,7 +44,7 @@ def parse_bracken(path, rank):
             taxid = f[taxid_i].strip() if taxid_i is not None else ""
             key = f"{name} [{taxid}]" if taxid else name
             rows[key] = float(f[reads_i])
-    return rows, "counts"
+    return rows, "counts", {}
 
 
 def parse_metaphlan(path, rank):
@@ -54,6 +54,7 @@ def parse_metaphlan(path, rank):
     deeper = [m for m in RANK_MARKER.values() if m != marker and
               list(RANK_MARKER.values()).index(m) > list(RANK_MARKER.values()).index(marker)]
     rows = {}
+    sgb_species = {}
     with open(path, encoding="utf-8") as fh:
         for line in fh:
             if line.startswith("#"):
@@ -66,12 +67,17 @@ def parse_metaphlan(path, rank):
                 continue
             name = clade.split(marker)[-1]
             rows[name] = float(f[2])
-    return rows, "relative"
+            if marker == "t__":
+                for part in clade.split("|t__")[0].split("|"):
+                    if part.startswith("s__") and part[3:]:
+                        sgb_species[name] = part[3:]
+    return rows, "relative", {"sgb_species": sgb_species}
 
 
 def parse_mpa(path, rank):
     marker = RANK_MARKER.get(rank.upper(), rank)
     rows = {}
+    sgb_species = {}
     with open(path, encoding="utf-8") as fh:
         for line in fh:
             if line.startswith("#"):
@@ -83,8 +89,13 @@ def parse_mpa(path, rank):
             parts = clade.split("|")
             if not parts[-1].startswith(marker):
                 continue
-            rows[parts[-1][len(marker):]] = float(f[-1])
-    return rows, "counts"
+            name = parts[-1][len(marker):]
+            rows[name] = float(f[-1])
+            if marker == "t__":
+                for part in parts[:-1]:
+                    if part.startswith("s__") and part[3:]:
+                        sgb_species[name] = part[3:]
+    return rows, "counts", {"sgb_species": sgb_species}
 
 
 PARSERS = {
@@ -99,7 +110,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--inputs", nargs="+", required=True)
     ap.add_argument("--kind", required=True, choices=list(PARSERS))
-    ap.add_argument("--rank", default="S")
+    ap.add_argument("--rank", default="S",
+                    help="rank code D/K/P/C/O/F/G/S/T (T = SGB/strain level, MetaPhlAn/MPA only)")
     ap.add_argument("--output", required=True)
     ap.add_argument("--metadata")
     ap.add_argument("--min_abundance", type=float)
@@ -108,14 +120,17 @@ def main():
 
     series = {}
     value_kind = None
+    sgb_species = {}
     for path in args.inputs:
         if not Path(path).is_file():
             fail(f"not a file: {path}")
-        rows, kind = PARSERS[args.kind](path, args.rank)
+        rows, kind, extra = PARSERS[args.kind](path, args.rank)
         if value_kind is None:
             value_kind = kind
         elif value_kind != kind:
             fail(f"mixed value kinds across inputs: {value_kind} vs {kind}")
+        for sgb, sp in extra.get("sgb_species", {}).items():
+            sgb_species.setdefault(sgb, sp)
         sample = sample_stem(path)
         if sample in series:
             fail(f"duplicate sample name {sample}; rename files or pass distinct inputs")
@@ -141,6 +156,13 @@ def main():
             fail(f"metadata missing samples: {missing}")
 
     matrix.to_csv(args.output, sep="\t")
+    artifact = write_artifact(
+        args.output, "mg_merge",
+        f"Taxa x sample matrix ({args.kind}, rank {args.rank})",
+        skill="profiling-workflow", inputs=args.inputs,
+        parameters={"kind": args.kind, "rank": args.rank, "value_kind": value_kind},
+        shape=matrix.shape,
+    )
     emit({
         "kind": args.kind,
         "rank": args.rank,
@@ -149,7 +171,8 @@ def main():
         "taxa_before": taxa_before,
         "taxa_after": int(len(matrix)),
         "output": args.output,
-        "artifacts": [args.output],
+        "artifacts": [artifact],
+        **({"sgb_species": sgb_species} if sgb_species else {}),
     })
 
 

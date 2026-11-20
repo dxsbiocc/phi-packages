@@ -6,7 +6,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from _common import emit, fail, read_matrix, read_metadata, setup_matplotlib
+from _common import emit, fail, read_matrix, read_metadata, setup_matplotlib, write_artifact
 
 
 def subsample_richness(counts, depth, rng):
@@ -127,6 +127,16 @@ def main():
     fig.savefig(fig_path, dpi=150)
     plt.close(fig)
 
+    params = {"points": args.points, "iterations": args.iterations, "seed": args.seed}
+    inputs = [args.input] + ([args.metadata] if args.metadata else [])
+    artifacts = [
+        write_artifact(table_path, "mg_rarefaction", "Rarefaction curve table",
+                       skill="profiling-workflow", inputs=inputs, parameters=params,
+                       shape=table.shape),
+        write_artifact(fig_path, "mg_rarefaction",
+                       f"Rarefaction curves (observed richness, seed {args.seed})",
+                       skill="profiling-workflow", inputs=inputs, parameters=params),
+    ]
     emit({
         "metric": "observed",
         "iterations": args.iterations,
@@ -137,7 +147,7 @@ def main():
         "max_depth": max_depth,
         "not_plateaued": not_plateaued,
         "output": str(table_path),
-        "artifacts": [str(table_path), str(fig_path)],
+        "artifacts": artifacts,
     })
 
 

@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
-from _common import bh_fdr, emit, fail, read_matrix, read_metadata, setup_matplotlib
+from _common import bh_fdr, emit, fail, read_matrix, read_metadata, setup_matplotlib, write_artifact
 
 
 def wilcoxon_z(a, b):
@@ -99,7 +99,12 @@ def main():
     df.to_csv(table_path, sep="\t")
 
     plt = setup_matplotlib()
-    artifacts = [str(table_path)]
+    inputs = [args.input, args.metadata]
+    params = {"values": args.values, "fdr": args.fdr, "fc_threshold": args.fc_threshold,
+              "case": args.case, "control": args.control, "group_col": args.group_col}
+    artifacts = [write_artifact(table_path, "mg_differential", "Differential abundance table",
+                                skill="profiling-workflow", inputs=inputs, parameters=params,
+                                shape=df.shape)]
     if two_group:
         fig, ax = plt.subplots(figsize=(6, 5))
         sig = df["significant"].to_numpy()
@@ -117,7 +122,8 @@ def main():
         p = outdir / "volcano.png"
         fig.savefig(p, dpi=150)
         plt.close(fig)
-        artifacts.append(str(p))
+        artifacts.append(write_artifact(p, "mg_differential", "Volcano plot (log2FC vs -log10 FDR)",
+                                        skill="profiling-workflow", inputs=inputs, parameters=params))
 
     emit({
         "test": "mannwhitneyu" if two_group else "kruskal",

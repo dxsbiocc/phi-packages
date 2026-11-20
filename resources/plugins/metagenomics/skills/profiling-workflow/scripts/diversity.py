@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 from scipy.spatial.distance import pdist, squareform
 
-from _common import emit, fail, read_matrix, read_metadata, setup_matplotlib
+from _common import emit, fail, read_matrix, read_metadata, setup_matplotlib, write_artifact
 
 
 def alpha_indices(counts, values):
@@ -130,7 +130,19 @@ def main():
     perm = permanova(dist, labels, args.permutations, args.seed) if labels is not None else None
 
     plt = setup_matplotlib()
-    artifacts = [str(alpha_path), str(dist_path), str(pcoa_path)]
+    inputs = [args.input] + ([args.metadata] if args.metadata else [])
+    params = {"values": args.values, "permutations": args.permutations, "seed": args.seed}
+    artifacts = [
+        write_artifact(alpha_path, "mg_diversity", "Alpha diversity indices",
+                       skill="profiling-workflow", inputs=inputs, parameters=params,
+                       shape=alpha_df.shape),
+        write_artifact(dist_path, "mg_diversity", "Bray-Curtis distance matrix",
+                       skill="profiling-workflow", inputs=inputs, parameters=params,
+                       shape=dist_df.shape),
+        write_artifact(pcoa_path, "mg_diversity", "PCoA coordinates",
+                       skill="profiling-workflow", inputs=inputs, parameters=params,
+                       shape=pcoa_df.shape),
+    ]
 
     fig, ax = plt.subplots(figsize=(max(6, len(samples) * 0.5), 4))
     indices = [c for c in alpha_df.columns if alpha_df[c].notna().any()]
@@ -142,7 +154,8 @@ def main():
     p = outdir / "alpha-boxplot.png"
     fig.savefig(p, dpi=150)
     plt.close(fig)
-    artifacts.append(str(p))
+    artifacts.append(write_artifact(p, "mg_diversity", f"Alpha diversity boxplot ({args.values})",
+                                    skill="profiling-workflow", inputs=inputs, parameters=params))
 
     if coords.shape[1] >= 2:
         fig, ax = plt.subplots(figsize=(6, 5))
@@ -162,7 +175,8 @@ def main():
         p = outdir / "pcoa.png"
         fig.savefig(p, dpi=150)
         plt.close(fig)
-        artifacts.append(str(p))
+        artifacts.append(write_artifact(p, "mg_diversity", "PCoA ordination (Bray-Curtis)",
+                                        skill="profiling-workflow", inputs=inputs, parameters=params))
 
     notes = []
     if args.values == "relative":

@@ -5,8 +5,12 @@
 **Principle.** Detection is header- and shape-based: Kraken2 reports have six
 tab columns with a rank code in column 4; Bracken adds `new_est_reads` /
 `taxonomy_lvl`; MetaPhlAn profiles carry `clade_name` + `relative_abundance`
-with `k__|p__|...|s__` lineages; HUMAnN tables start with `# Gene Family` or
-pathway IDs and may be stratified (`gene|bug`).
+with `k__|p__|...|s__` lineages (ranks include `t` when SGB rows exist);
+HUMAnN tables start with `# Gene Family` or pathway IDs and may be
+stratified (`gene|bug`). MAG-route files are recognized too: QUAST reports,
+bin quality tables, prokka `.txt`/`.tsv`, prodigal `.faa` (also `.gz`),
+eggNOG `.emapper.annotations` (`#query` header), and Newick trees
+(`phylo_tree`) — `ready_steps` points at the matching mag-workflow tools.
 
 **Interpretation.** `ready_steps` lists what the input supports. `sample`
 comes from the file stem — rename files to real sample names before merging

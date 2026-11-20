@@ -13,6 +13,10 @@ the mapping is data you supply, not something the tool infers.
 (CPM) — cross-sample comparison is now depth-independent. `UNMAPPED` /
 `UNINTEGRATED` rows are real fractions of the community (reads without
 annotation); a large UNMAPPED fraction limits functional conclusions.
+Normalized/regrouped tables are ordinary feature × sample matrices:
+`mg_differential` (`values: relative`) tests functional groups between
+conditions, `mg_diversity` gives functional beta-diversity, `mg_plot`
+draws them.
 
 **Pitfalls.** This normalize is plain column renormalization; HUMAnN's
 renorm handles stratification differently — use the humann3 wrapper for

@@ -4,7 +4,7 @@ import argparse
 
 import pandas as pd
 
-from _common import emit, fail, read_table
+from _common import emit, fail, read_table, write_artifact
 
 
 def main():
@@ -49,6 +49,11 @@ def main():
     if df.empty:
         fail(f"action {args.action} left no rows")
     df.to_csv(args.output, sep="\t")
+    inputs = [args.input] + ([args.mapping] if args.mapping else [])
+    artifact = write_artifact(args.output, "mg_function", f"Functional table ({args.action})",
+                              skill="profiling-workflow", inputs=inputs,
+                              parameters={"action": args.action, "unit": args.unit},
+                              shape=df.shape)
     emit({
         "action": args.action,
         "unit": args.unit if args.action == "normalize" else None,
@@ -57,7 +62,7 @@ def main():
         "columns": df.columns.tolist(),
         "notes": notes,
         "output": args.output,
-        "artifacts": [args.output],
+        "artifacts": [artifact],
     })
 
 

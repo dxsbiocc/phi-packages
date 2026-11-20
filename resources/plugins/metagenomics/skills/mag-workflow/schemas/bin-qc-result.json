@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "required": ["tool", "source", "n_bins", "tier_counts", "thresholds", "outputs", "caveat"],
+  "required": ["tool", "source", "n_bins", "tier_counts", "thresholds", "outputs", "artifacts", "caveat"],
   "properties": {
     "tool": { "type": "string", "const": "mg_bin_qc" },
     "source": { "type": "string", "enum": ["checkm", "checkm2"] },
@@ -30,6 +30,7 @@
         "figure": { "type": "string" }
       }
     },
-    "caveat": { "type": "string" }
+    "caveat": { "type": "string" },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
   }
 }

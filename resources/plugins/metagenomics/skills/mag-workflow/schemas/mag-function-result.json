@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["tool", "n_bins", "sources", "mimag_structural", "outputs", "artifacts"],
+  "properties": {
+    "tool": { "type": "string", "const": "mg_mag_function" },
+    "n_bins": { "type": "integer" },
+    "sources": { "type": "array", "items": { "type": "string", "enum": ["prokka", "prodigal", "eggnog"] } },
+    "n_kos": { "type": "integer" },
+    "n_cog_categories": { "type": "integer" },
+    "n_annotated_queries": { "type": "integer" },
+    "mimag_structural": {
+      "type": "object",
+      "required": ["pass", "fail", "unknown"],
+      "properties": {
+        "pass": { "type": "integer" },
+        "fail": { "type": "integer" },
+        "unknown": { "type": "integer" }
+      }
+    },
+    "outputs": {
+      "type": "object",
+      "required": ["gene_counts"],
+      "properties": {
+        "gene_counts": { "type": "string" },
+        "ko_matrix": { "type": "string" },
+        "cog_matrix": { "type": "string" },
+        "cog_figure": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "caveat": { "type": "string" }
+  }
+}

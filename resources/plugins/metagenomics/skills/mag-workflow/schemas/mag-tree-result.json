@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["tool", "tree", "n_tips", "n_user_tips", "n_reference_tips", "user_identification", "outputs", "artifacts"],
+  "properties": {
+    "tool": { "type": "string", "const": "mg_mag_tree" },
+    "tree": { "type": "string" },
+    "n_tips": { "type": "integer" },
+    "n_user_tips": { "type": "integer" },
+    "n_reference_tips": { "type": "integer" },
+    "user_identification": { "type": "string", "enum": ["summary", "heuristic"] },
+    "outputs": {
+      "type": "object",
+      "required": ["distance_matrix"],
+      "properties": {
+        "distance_matrix": { "type": "string" },
+        "nearest_reference": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "caveat": { "type": "string" }
+  }
+}

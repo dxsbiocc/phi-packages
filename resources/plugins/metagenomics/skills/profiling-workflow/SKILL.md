@@ -43,7 +43,9 @@ phi:
         Merge per-sample taxonomic profiles into one taxa x sample TSV matrix
         at a chosen rank. Kraken2 uses clade-assigned reads, Bracken uses
         re-estimated reads (both counts); MetaPhlAn uses relative abundance
-        (0-100). Sample names come from file stems unless metadata maps them.
+        (0-100). Rank T keeps MetaPhlAn/MPA SGB (strain-level) rows and
+        returns an sgb_species mapping where the profile names the species.
+        Sample names come from file stems unless metadata maps them.
         Pass the returned value_kind to mg_diversity and mg_differential.
       run: [python, ./scripts/merge_profiles.py]
       args:
@@ -63,7 +65,7 @@ phi:
             description: Report format of all inputs.
           rank:
             type: string
-            description: Taxonomic rank code to keep (default S; D/K/P/C/O/F/G/S/T).
+            description: Taxonomic rank code (default S; D/K/P/C/O/F/G/S/T; T = SGB/strain, MetaPhlAn/MPA only).
           output:
             type: string
             format: project-path
@@ -170,11 +172,12 @@ phi:
       timeoutSeconds: 1800
     - name: differential
       description: >-
-        Differential abundance between groups: two-sided Mann-Whitney U with
-        tie correction for two groups (log2 fold change + effect size r),
-        Kruskal-Wallis for more, Benjamini-Hochberg FDR across taxa. Writes a
-        ranked table and a volcano plot. For LEfSe-style LDA/cladograms use
-        the lefse and graphlan wrappers on the same matrix.
+        Differential abundance between groups on any feature x sample matrix
+        (taxa from mg_merge, or functional groups from mg_function): two-sided
+        Mann-Whitney U with tie correction for two groups (log2 fold change +
+        effect size r), Kruskal-Wallis for more, Benjamini-Hochberg FDR across
+        features. Writes a ranked table and a volcano plot. For LEfSe-style
+        LDA/cladograms use the lefse and graphlan wrappers on the same matrix.
       run: [python, ./scripts/differential.py]
       args:
         type: object
@@ -184,7 +187,7 @@ phi:
           input:
             type: string
             format: input-path
-            description: Taxa x sample matrix TSV.
+            description: Feature x sample matrix TSV (taxa or functional groups).
           metadata:
             type: string
             format: input-path
@@ -221,8 +224,9 @@ phi:
         (genefamilies, pathabundance, or any feature x sample table):
         normalize columns to relative abundance or CPM, regroup features via
         a two-column mapping TSV (e.g. UniRef90 -> KO), or keep only
-        stratified / unstratified rows. Plain column renormalization, not
-        HUMAnN's stratification-aware renorm.
+        stratified / unstratified rows. Normalized/regrouped tables feed
+        mg_differential (values=relative), mg_diversity and mg_plot. Plain
+        column renormalization, not HUMAnN's stratification-aware renorm.
       run: [python, ./scripts/function_table.py]
       args:
         type: object
@@ -332,7 +336,10 @@ reports ──mg_merge──▶ matrix ──┬─ mg_rarefaction  (depth adequ
                                ├─ mg_differential (Wilcoxon/KW + BH FDR, volcano)
                                ├─ mg_plot         (barplot / heatmap, optional clustering)
                                └─ (via lefse + graphlan wrappers for cladograms)
-HUMAnN tables ──mg_function──▶ normalized / regrouped / unstratified ── mg_plot
+HUMAnN tables ──mg_function──▶ normalized / regrouped / unstratified
+                               ──┬─ mg_differential (values=relative)
+                                 ├─ mg_diversity / mg_plot
+MetaPhlAn rank T ──mg_merge──▶ SGB matrix + sgb_species (strain-level view)
 ```
 
 ## Rules

@@ -1,7 +1,7 @@
 # Source map (maintainers) — mag-workflow
 
 Shared provenance for both metagenomics skills lives in
-[../../profiling-workflow/references/maintainers/source-map.md](../../profiling-workflow/references/maintainers/source-map.md)
+[../../../profiling-workflow/references/maintainers/source-map.md](../../../profiling-workflow/references/maintainers/source-map.md)
 (EasyMetagenome, Snakemake Workflow repo, sib-swiss GPL-3.0 ideas-only,
 cambiotraining CC BY 4.0 attribution, tool citations). This file records
 what is specific to the assembly/MAG route.

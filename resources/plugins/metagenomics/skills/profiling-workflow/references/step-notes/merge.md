@@ -14,6 +14,10 @@ estimator: do not mix with k-mer counts in one matrix.
 across lineages; the suffix keeps them distinct.
 
 **Pitfalls.** Bracken needs the correct read length and a database built for
-the same Kraken2 library. MetaPhlAn `t__` (strain) rows are excluded at S
-rank by design. Missing taxa become 0 — true absence vs below-detection is
-not distinguishable; say so when interpreting.
+the same Kraken2 library. MetaPhlAn `t__` (SGB/strain) rows are excluded at S
+rank by design; `--rank T` keeps them instead (MetaPhlAn/MPA only —
+Kraken2/Bracken fail loudly) and the JSON adds `sgb_species` where the
+profile names the species. SGB ids are the matrix keys so samples stay
+aligned even when one profile lacks the species name. Missing taxa become
+0 — true absence vs below-detection is not distinguishable; say so when
+interpreting.

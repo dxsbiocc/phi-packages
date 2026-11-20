@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from _common import bin_stem, emit, fail, read_tsv
+from _common import bin_stem, emit, fail, read_tsv, write_artifact
 
 EXTS = {".fa", ".fasta", ".fna", ".fsa"}
 
@@ -65,7 +65,11 @@ def main():
     manifest = pd.DataFrame(rows, columns=["bin", "file", "completeness", "contamination"])
     manifest_path = outdir / "manifest.tsv"
     manifest.to_csv(manifest_path, sep="\t", index=False)
-
+    artifact = write_artifact(manifest_path, "mg_bin_filter", "Filtered bin manifest",
+                              skill="mag-workflow", inputs=[a.quality, a.bins_dir],
+                              parameters={"min_completeness": a.min_completeness,
+                                          "max_contamination": a.max_contamination},
+                              shape=manifest.shape)
     emit({
         "tool": "mg_bin_filter",
         "bins_dir": str(bins_dir),
@@ -75,6 +79,7 @@ def main():
         "thresholds": {"min_completeness": a.min_completeness,
                        "max_contamination": a.max_contamination},
         "outputs": {"dir": str(outdir), "manifest": str(manifest_path)},
+        "artifacts": [artifact],
     })
 
 

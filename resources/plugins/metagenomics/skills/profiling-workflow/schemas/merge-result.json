@@ -10,6 +10,7 @@
     "taxa_before": { "type": "integer" },
     "taxa_after": { "type": "integer" },
     "output": { "type": "string" },
+    "sgb_species": { "type": "object", "additionalProperties": { "type": "string" } },
     "artifacts": { "type": "array", "items": { "type": "string" } }
   }
 }

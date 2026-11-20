@@ -1,17 +1,21 @@
 ---
 name: mag-workflow
 description: >-
-  Downstream analysis of metagenome assembly and MAGs: summarize QUAST
-  assembly statistics (N50/L50/total length), grade bin quality from
-  CheckM/CheckM2 with MIMAG tiers, filter bins by completeness/contamination
-  into a clean set, and join quality + GTDB-Tk taxonomy + CoverM abundance +
-  dRep clusters into one MAG table with a phylum figure. Use for MAG,
-  metagenome-assembled genome, 分箱, binning, assembly, 组装, N50, QUAST,
-  CheckM, CheckM2, GTDB-Tk, dRep, CoverM, MIMAG, or when bin FASTAs and
-  quality tables need grading, filtering and reporting. Running assemblers
-  and binners (megahit/spades/metabat2/maxbin2/concoct/dastool/checkm2/
-  gtdbtk) or the whole nf-core/mag pipeline is done with wrappers, not here.
-  The read-based counterpart is profiling-workflow.
+  Downstream analysis of metagenome assembly and MAGs: QUAST assembly
+  statistics (N50/L50), grade bin quality from CheckM/CheckM2 with MIMAG
+  tiers, filter bins into a clean set, join quality + GTDB-Tk taxonomy +
+  CoverM abundance + dRep clusters into one MAG table (with
+  coverage-reliability masking and optional relative-abundance
+  normalization), summarize prokka/prodigal/eggNOG annotation (gene counts,
+  MIMAG rRNA/tRNA evidence, KO/COG matrices), and compute GTDB-tree
+  patristic distances between MAGs and to nearest references. Use for MAG, metagenome-assembled genome, 分箱, binning,
+  assembly, 组装, N50, QUAST, CheckM, CheckM2, GTDB-Tk, dRep, CoverM, MIMAG,
+  prokka, prodigal, eggNOG, KO/COG, or when bin FASTAs and quality tables
+  need grading, filtering and reporting. Running assemblers, binners and
+  annotators (megahit/spades/metabat2/maxbin2/concoct/dastool/
+  checkm2/gtdbtk/prokka/prodigal/eggnogmapper) or the whole nf-core/mag
+  pipeline is done with wrappers, not here. The read-based counterpart is
+  profiling-workflow.
 phi:
   environment: plugin:metagenomics
   attachTo:
@@ -113,8 +117,12 @@ phi:
         (user_genome/classification, split into d__/p__/.../s__ columns),
         CoverM genome abundance table, and dRep Cdb.csv clusters into one
         mag-table.tsv; draws a MAGs-per-phylum barplot when taxonomy is
-        present. Missing optional inputs are reported in the joined list,
-        never silently filled.
+        present. CoverM Mean values with Covered_fraction below
+        coverm_min_fraction (default 0.3) are masked to NaN and counted;
+        --normalize adds per-sample rel_abund_<sample> columns (genome-size
+        weighted when the quality table carries genome_size, else plain mean
+        share). Handles single- and multi-sample CoverM columns. Missing
+        optional inputs are reported in the joined list, never silently filled.
       run: [python, ./scripts/mag_table.py]
       args:
         type: object
@@ -137,6 +145,15 @@ phi:
             type: string
             format: input-path
             description: dRep Cdb.csv (genome + secondary_cluster).
+          coverm_min_fraction:
+            type: number
+            description: Mask Mean when Covered_fraction is below this (default 0.3).
+          coverm_sample:
+            type: string
+            description: Sample name for bare Mean/Covered_fraction columns (default sample).
+          normalize:
+            type: boolean
+            description: Add per-sample relative-abundance columns from CoverM Means.
           output_dir:
             type: string
             format: project-path
@@ -144,6 +161,76 @@ phi:
       approval: write
       output: ./schemas/mag-table-result.json
       timeoutSeconds: 600
+    - name: mag_function
+      description: >-
+        Summarize MAG gene prediction and functional annotation from prokka
+        per-bin directories (.txt counts + .tsv features: 5S/16S/23S rRNA and
+        tRNA>=18 give the MIMAG structural evidence CheckM tables lack),
+        prodigal .faa/.gff (optionally .gz) gene counts, and eggNOG-mapper
+        .emapper.annotations (bin x KO and bin x COG matrices + COG stacked
+        barplot). Bin attribution: prokka subdirectory name; prodigal/eggnog
+        file stem cleaned of _prodigal/assembler prefixes; --bin_map overrides.
+        Annotation itself runs in wrappers, never here.
+      run: [python, ./scripts/mag_function.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [output_dir]
+        properties:
+          prokka_dir:
+            type: string
+            format: input-path
+            description: Directory of per-bin prokka outputs (subdirs with .txt/.tsv).
+          prodigal:
+            type: array
+            items:
+              type: string
+            description: Prodigal .faa/.gff files (optionally .gz), one per bin.
+          eggnog:
+            type: array
+            items:
+              type: string
+            description: eggNOG-mapper .emapper.annotations TSV files.
+          bin_map:
+            type: string
+            format: input-path
+            description: Optional TSV/CSV with file,bin columns overriding attribution.
+          output_dir:
+            type: string
+            format: project-path
+            description: Directory for gene counts, KO/COG matrices and COG figure.
+      approval: write
+      output: ./schemas/mag-function-result.json
+      timeoutSeconds: 1200
+    - name: mag_tree
+      description: >-
+        Parse a GTDB-Tk classify.tree (Newick) without phylogenetic libraries:
+        patristic distance matrix between the user MAG tips and each MAG's
+        nearest GTDB reference tip with distance. User tips come from
+        --summary (user_genome column) when given, else a reference-pattern
+        heuristic. Distances are backbone-tree placements, not ANI; tree
+        rendering is out of scope.
+      run: [python, ./scripts/mag_tree.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [tree, output_dir]
+        properties:
+          tree:
+            type: string
+            format: input-path
+            description: GTDB-Tk gtdbtk.*.classify.tree Newick file.
+          summary:
+            type: string
+            format: input-path
+            description: GTDB-Tk summary TSV identifying user genomes (recommended).
+          output_dir:
+            type: string
+            format: project-path
+            description: Directory for the distance matrix and nearest-reference table.
+      approval: write
+      output: ./schemas/mag-tree-result.json
+      timeoutSeconds: 1200
 ---
 
 # Assembly / MAG route — downstream chain
@@ -172,13 +259,18 @@ bin quality  ──mg_bin_qc──────────▶ tiers + scatter �
 bin FASTAs + quality ──mg_bin_filter──▶ clean set + manifest
    clean set ──(dRep / GTDB-Tk / CoverM wrappers)──▶ summaries
 quality + gtdb + coverm + drep ──mg_mag_table──▶ mag-table.tsv + phylum plot
+   clean set ──(prokka / prodigal / eggnogmapper wrappers)──▶ annotations
+prokka + prodigal + eggnog ──mg_mag_function──▶ gene counts + KO/COG matrices
+GTDB classify.tree (+ summary) ──mg_mag_tree──▶ patristic distances + nearest refs
 ```
 
 ## Rules
 
 - MIMAG tiers from completeness/contamination alone are **not** full MIMAG
   HQ: the strict standard also needs 5S/16S/23S rRNA and ≥18 tRNAs. Say so
-  in every report; the JSON caveat carries this.
+  in every report; the JSON caveat carries this. `mg_mag_function` reads
+  prokka's predicted rRNA/tRNA evidence (`mimag_structural_pass`) — a
+  prediction-level check, not barrnap/tRNAscan-SE confirmation.
 - Thresholds are decisions: MQ floor (50/10) is a default, HQ (90/5) is the
   standard; EasyMetagenome-style dRep dereplication uses ANI 0.95 with
   `-comp 50 -con 10` — pass them explicitly to the dRep wrapper.
@@ -187,9 +279,11 @@ quality + gtdb + coverm + drep ──mg_mag_table──▶ mag-table.tsv + phylu
   that fetches them.
 - Every JSON return is the audit record — cite tier counts and pass/reject
   numbers from it, do not recompute.
-- Gaps to report honestly: gene annotation (prokka/prodigal wrappers), AMR
-  screening (abricate/rgi/hamronization wrappers), viral identification
-  (genomad/checkv wrappers) are separate steps, not implemented here.
+- Gaps to report honestly: annotation itself (prokka/prodigal/eggnogmapper
+  wrappers — this skill only parses their outputs), AMR screening
+  (abricate/rgi/hamronization wrappers), viral identification
+  (genomad/checkv wrappers), tree rendering (no phylogenetics library here;
+  mg_mag_tree gives distances, not figures) are separate steps.
 
 ## Sources
 

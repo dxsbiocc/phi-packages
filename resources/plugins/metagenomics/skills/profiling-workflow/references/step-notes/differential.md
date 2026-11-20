@@ -1,7 +1,7 @@
 # Differential abundance
 
-**Purpose.** Which taxa differ between groups, with effect sizes and
-multiple-testing control.
+**Purpose.** Which features (taxa or functional groups) differ between
+groups, with effect sizes and multiple-testing control.
 
 **Principle.** Mann-Whitney U (two groups) tests whether one group's
 abundances tend to exceed the other's — rank-based, robust to the
@@ -17,5 +17,7 @@ both columns. The volcano's dashed lines are your thresholds, not truth.
 **Pitfalls.** Compositionality: one bloom mechanically depresses everything
 else; Wilcoxon on relative abundances cannot distinguish bloom from
 depletion — consider count-based tools or ANCOM-BC (project environment) for
-strong claims. LEfSe's LDA effect size and cladogram are a different method
+strong claims. The same applies to functional tables from mg_function
+(pass `values: relative`); regroup sparse gene families to KO before
+testing. LEfSe's LDA effect size and cladogram are a different method
 (lefse + graphlan wrappers); this tool deliberately does not imitate them.

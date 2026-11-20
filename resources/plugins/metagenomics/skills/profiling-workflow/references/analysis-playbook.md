@@ -46,7 +46,12 @@ Typical chains (all via `wrapper_search` → `wrapper_inspect` →
 - Call with all per-sample reports of one kind, `kind`, and a rank.
 - Rank choice: species (S) for composition/differential questions; genus (G)
   or phylum (P) when species-level noise dominates (sib-swiss course works at
-  phylum for ordination and warns species plots get messy).
+  phylum for ordination and warns species plots get messy). T keeps SGB
+  (strain-level) rows from MetaPhlAn/MPA — the JSON adds `sgb_species` where
+  the profile names the species; Kraken2/Bracken have no T rank and fail
+  loudly. SGB matrices from MetaPhlAn are relative (diversity `values:
+  relative`); from MPA count tables they are counts (rarefaction allowed).
+  SGB profiling is not StrainPhlAn SNP tracking — that stays a wrapper gap.
 - Read `taxa_before`/`taxa_after`. A rank with near-zero taxa means the wrong
   rank code or a database without that resolution — stop and check.
 - Filters: `min_abundance` removes rare noise; `top` is for figures, not for
@@ -87,6 +92,9 @@ Typical chains (all via `wrapper_search` → `wrapper_inspect` →
 
 - Call with matrix + metadata; name `case`/`control` explicitly for two-group
   contrasts; >2 groups gives Kruskal-Wallis (omnibus; post-hoc is your job).
+  The matrix can be taxonomic (mg_merge) or functional (mg_function output,
+  `values: relative`) — the test is feature-agnostic; say which level you
+  tested in the report.
 - Read `n_significant`, top taxa, volcano. Defaults FDR 0.05, |log2FC| ≥ 1
   are starting points — justify any change.
 - Decide: significant taxa drive the biological story; check they are not
@@ -106,6 +114,11 @@ Typical chains (all via `wrapper_search` → `wrapper_inspect` →
 - `normalize` (relative/CPM) before cross-sample comparison; `regroup` with
   a feature→group mapping (e.g. UniRef90→KO, EC→pathway) to change the
   functional level. EasyMetagenome §2.4 regroups to KO then draws GraphLan.
+- Downstream chain: normalized or regrouped tables are feature × sample
+  matrices — feed them to `mg_differential` (`values: relative`) for
+  group-level functional differences, to `mg_diversity` for functional
+  beta-diversity, and to `mg_plot` for figures. Regroup to KO before
+  differential when gene-family-level tests are too sparse.
 - Red line: this is plain column renormalization, not HUMAnN's
   stratification-aware renorm — for exact HUMAnN semantics use the humann3
   wrapper utilities. Do not compare stratified sums to unstratified totals

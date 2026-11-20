@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from _common import bin_stem, emit, fail, read_tsv, setup_matplotlib
+from _common import bin_stem, emit, fail, read_tsv, setup_matplotlib, write_artifact
 
 
 def load_quality(path):
@@ -86,6 +86,14 @@ def main():
     plt.close(fig)
 
     counts = q["tier"].value_counts().to_dict()
+    params = {"hq_completeness": a.hq_completeness, "hq_contamination": a.hq_contamination,
+              "mq_completeness": a.mq_completeness, "mq_contamination": a.mq_contamination}
+    artifacts = [
+        write_artifact(table_path, "mg_bin_qc", f"Bin quality tiers ({source})",
+                       skill="mag-workflow", inputs=[a.input], parameters=params, shape=q.shape),
+        write_artifact(fig_path, "mg_bin_qc", "Completeness vs contamination (MIMAG tiers)",
+                       skill="mag-workflow", inputs=[a.input], parameters=params),
+    ]
     emit({
         "tool": "mg_bin_qc",
         "source": source,
@@ -96,6 +104,7 @@ def main():
             "mq": {"completeness": a.mq_completeness, "contamination": a.mq_contamination},
         },
         "outputs": {"table": str(table_path), "figure": str(fig_path)},
+        "artifacts": artifacts,
         "caveat": "MIMAG high-quality also requires 5S/16S/23S rRNA and >=18 tRNAs; "
                   "CheckM/CheckM2 tables do not report these, so HQ here means "
                   "completeness/contamination HQ only.",

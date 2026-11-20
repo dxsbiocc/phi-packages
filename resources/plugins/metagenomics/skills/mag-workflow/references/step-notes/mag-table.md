@@ -16,9 +16,16 @@ may simply be below the gate, not novel. dRep `secondary_cluster` at ANI
 bin per cluster, so abundance should be summed per cluster, not per bin,
 when reporting species-level profiles.
 
-**Pitfalls.** CoverM mean coverage is depth, not abundance: divide by
-genome length (or use covered fraction with a stated minimum) before
-cross-genome comparison. Bins from different samples in one dRep run are
+**Pitfalls.** CoverM mean coverage is depth, not abundance: Mean values
+with Covered_fraction below `coverm_min_fraction` (default 0.3) are masked
+to NaN and counted (`n_masked_mean`) — a partially covered genome's depth
+is not a reliable abundance proxy. `--normalize` adds per-sample
+`rel_abund_<sample>` shares, genome-size weighted when the quality table
+carries genome_size (mg_bin_qc output does; raw CheckM2 keeps Genome_Size
+and is also recognized), else plain mean shares — within-sample relative,
+not absolute. Multi-sample CoverM columns (`<sample> Mean` /
+`<sample> Covered_fraction`) are detected automatically; bare columns take
+`--coverm_sample`. Bins from different samples in one dRep run are
 dereplicated together — the same species from two samples collapses to one
 cluster; keep per-sample abundance via CoverM, not bin counts. GTDB
 taxonomy names change between releases — record the database release

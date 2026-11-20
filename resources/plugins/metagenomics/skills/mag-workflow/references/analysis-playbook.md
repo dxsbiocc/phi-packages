@@ -75,9 +75,10 @@ scripts. Read each wrapper's `wrapper.yaml` before planning.
   CheckM and CheckM2 values differ systematically (different marker models)
   — do not mix tables from both in one comparison.
 - **Red line:** MIMAG HQ strictly requires 5S/16S/23S rRNA + ≥18 tRNAs;
-  these tables cannot show that. Report "HQ by completeness/contamination"
-  and, if full MIMAG is claimed, run rRNA/tRNA checks separately (barrnap/
-  tRNAscan-SE — not in this environment; say so).
+  these tables cannot show that. Report "HQ by completeness/contamination".
+  If prokka ran (mag runs it by default), `mg_mag_function` reads its
+  predicted rRNA/tRNA evidence (`mimag_structural_pass`) — prediction-level,
+  not barrnap/tRNAscan-SE confirmation; say which level you claim.
 
 ## 4. Filter — mg_bin_filter
 
@@ -99,11 +100,43 @@ scripts. Read each wrapper's `wrapper.yaml` before planning.
   mean coverage / covered fraction — relative abundance proxy. Covered
   fraction < ~0.3–0.5 of a genome means the abundance estimate is unreliable.
 - **GTDB-Tk** if skipped in mag: classify_wf on the clean set; same database
-  warning as step 1.
+  warning as step 1. Its `classify.tree` (Newick, published with the
+  classify directory) feeds `mg_mag_tree`.
+- **eggNOG-mapper** on the clean set's proteins (prodigal .faa from mag, or
+  prokka .faa): functional annotation — `*.emapper.annotations` feeds
+  `mg_mag_function`. mag 5.5.0 runs prodigal and prokka but NOT
+  eggnog-mapper; run it as a separate wrapper when KO/COG-level function is
+  the question.
 
-## 6. Report — mg_mag_table
+## 6. Annotation and tree — mg_mag_function / mg_mag_tree
 
-- **Call** with quality + whatever of gtdb/coverm/drep exists.
+- **mg_mag_function**: call with whatever of `--prokka_dir` (per-bin
+  subdirectories with .txt/.tsv), `--prodigal` (.faa/.gff, .gz ok),
+  `--eggnog` (.emapper.annotations) exists. Read `mimag_structural`
+  (pass/fail/unknown), gene counts, KO/COG matrix sizes. Bin attribution is
+  deterministic: prokka subdirectory name; prodigal/eggnog file stem minus
+  `_prodigal`/assembler prefixes; override with `--bin_map` (file,bin) when
+  names were renamed. KO/COG values are annotation hit counts — functional
+  potential, not expression or abundance.
+- **mg_mag_tree**: call with the GTDB `classify.tree` and `--summary`
+  (recommended: identifies user tips exactly; without it a reference-pattern
+  heuristic is used and reported). Read the patristic distance matrix and
+  nearest-reference table. Distances are marker-gene divergence on the GTDB
+  backbone — not ANI, and placement of incomplete bins is uncertain. No
+  tree figure is rendered (no phylogenetics library in this environment).
+- **Red line:** do not present KO hit counts as abundance, or patristic
+  distance as ANI; both JSONs carry the caveat — quote it.
+
+## 7. Report — mg_mag_table
+
+- **Call** with quality + whatever of gtdb/coverm/drep exists. With CoverM,
+  Mean values whose Covered_fraction is below `coverm_min_fraction`
+  (default 0.3) are masked to NaN and counted in `n_masked_mean`; pass
+  `--normalize` to add per-sample `rel_abund_<sample>` columns (genome-size
+  weighted when the quality table carries genome_size — feed mg_bin_qc
+  output, not raw CheckM2, to get the weighting). Multi-sample CoverM
+  columns (`<sample> Mean`) are handled; bare `Mean` columns take
+  `--coverm_sample` as their name.
 - **Read** `joined` and `n_classified`: unclassified MAGs are novel-lineage
   candidates, not errors — but GTDB-Tk only classifies bins passing its
   completeness/contamination gate, so check the gate before calling
@@ -112,7 +145,9 @@ scripts. Read each wrapper's `wrapper.yaml` before planning.
   abundance, cluster), phylum barplot, and the JSON audit numbers.
 - **Red lines:** do not equate dRep clusters with species without stating
   the ANI threshold; do not present CoverM mean coverage as absolute
-  abundance without a spike-in or genome-length normalization discussion.
+  abundance — masked cells are unreliable estimates, and `rel_abund_*` is
+  a within-sample share of coverage (genome-size weighted when available),
+  not spike-in-calibrated absolute abundance.
 
 ## Overall red lines
 
@@ -122,8 +157,9 @@ scripts. Read each wrapper's `wrapper.yaml` before planning.
   CheckM2 several GB, BUSCO lineages hundreds of MB).
 - No silent threshold changes; every filter/classification gate appears in
   the report.
-- Annotation (prokka/prodigal), AMR (abricate/rgi/hamronization), viruses
-  (genomad/checkv) are follow-up wrapper steps — report them as next steps,
-  do not improvise them here.
+- Annotation runs in wrappers (prokka/prodigal/eggnogmapper); this skill
+  parses their outputs (mg_mag_function). AMR (abricate/rgi/hamronization)
+  and viruses (genomad/checkv) are follow-up wrapper steps — report them as
+  next steps, do not improvise them here.
 
 Sources: [maintainers/source-map.md](maintainers/source-map.md).

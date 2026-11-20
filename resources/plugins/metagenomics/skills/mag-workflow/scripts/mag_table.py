@@ -1,12 +1,30 @@
 """Join bin quality, GTDB-Tk taxonomy, CoverM abundance and dRep clusters."""
 import argparse
+import re
 from pathlib import Path
 
 import pandas as pd
 
-from _common import bin_stem, emit, fail, read_tsv, setup_matplotlib
+from _common import bin_stem, emit, fail, read_tsv, setup_matplotlib, write_artifact
 
 RANKS = ["d", "p", "c", "o", "f", "g", "s"]
+
+
+def coverm_sample_columns(cols, default_sample):
+    """Map sample -> (Mean column, Covered_fraction column or None)."""
+    means, fracs = {}, {}
+    if "Mean" in cols:
+        means[default_sample] = "Mean"
+    if "Covered_fraction" in cols:
+        fracs[default_sample] = "Covered_fraction"
+    for col in cols:
+        m = re.match(r"^(.*) Mean$", col)
+        if m:
+            means[m.group(1) or default_sample] = col
+        m = re.match(r"^(.*) Covered_fraction$", col)
+        if m:
+            fracs[m.group(1) or default_sample] = col
+    return {s: (mc, fracs.get(s)) for s, mc in means.items()}
 
 
 def load_quality(path):
@@ -44,6 +62,9 @@ def main():
     ap.add_argument("--gtdb_summary")
     ap.add_argument("--coverm")
     ap.add_argument("--drep_clusters")
+    ap.add_argument("--coverm_min_fraction", type=float, default=0.3)
+    ap.add_argument("--coverm_sample", default="sample")
+    ap.add_argument("--normalize", action="store_true")
     ap.add_argument("--output_dir", required=True)
     a = ap.parse_args()
 
@@ -63,10 +84,27 @@ def main():
         table = pd.concat([table, ranks], axis=1)
         joined.append("gtdbtk")
 
+    coverm_info = None
     if a.coverm:
         c = read_tsv(a.coverm)
         if "Genome" not in c.columns:
             fail("CoverM table lacks a Genome column (coverm genome output?)")
+        pairs = coverm_sample_columns(c.columns, a.coverm_sample)
+        if not pairs:
+            fail("CoverM table has no Mean columns (coverm genome output?)")
+        n_masked = 0
+        unmasked = []
+        for s, (mc, fc) in pairs.items():
+            if fc is None:
+                unmasked.append(s)
+                continue
+            mean = pd.to_numeric(c[mc], errors="coerce")
+            frac = pd.to_numeric(c[fc], errors="coerce")
+            bad = frac < a.coverm_min_fraction
+            n_masked += int(bad.sum())
+            c[mc] = mean.mask(bad)
+        coverm_info = {"samples": sorted(pairs), "n_masked_mean": n_masked,
+                       "unmasked_samples": unmasked}
         c = c.rename(columns={"Genome": "bin"})
         c["bin"] = c["bin"].astype(str).map(bin_stem)
         table = table.merge(c, on="bin", how="left")
@@ -84,6 +122,20 @@ def main():
         d["bin"] = d["bin"].astype(str).map(bin_stem)
         table = table.merge(d, on="bin", how="left")
         joined.append("drep")
+
+    normalized = False
+    basis = None
+    if a.normalize:
+        if coverm_info is None:
+            fail("--normalize requires --coverm")
+        size_col = next((c for c in ("genome_size", "Genome_Size") if c in table.columns), None)
+        basis = "genome_size_weighted" if size_col else "mean"
+        for s, (mc, _fc) in coverm_sample_columns(table.columns, a.coverm_sample).items():
+            vals = pd.to_numeric(table[mc], errors="coerce")
+            w = vals * pd.to_numeric(table[size_col], errors="coerce") if size_col else vals
+            total = w.sum()
+            table[f"rel_abund_{s}"] = w / total if total > 0 else float("nan")
+        normalized = True
 
     outdir = Path(a.output_dir)
     outdir.mkdir(parents=True, exist_ok=True)
@@ -105,14 +157,31 @@ def main():
         fig.savefig(figure, dpi=200)
         plt.close(fig)
 
+    inputs = [a.quality] + [p for p in (a.gtdb_summary, a.coverm, a.drep_clusters) if p]
+    params = {"joined": joined, "coverm_min_fraction": a.coverm_min_fraction,
+              "normalize": a.normalize}
+    artifacts = [write_artifact(table_path, "mg_mag_table",
+                                "Joined MAG table (quality + taxonomy + abundance)",
+                                skill="mag-workflow", inputs=inputs,
+                                parameters=params, shape=table.shape)]
+    if figure:
+        artifacts.append(write_artifact(figure, "mg_mag_table", "MAGs per phylum (GTDB-Tk)",
+                                        skill="mag-workflow", inputs=inputs,
+                                        parameters=params))
     emit({
         "tool": "mg_mag_table",
         "n_bins": int(len(table)),
         "joined": joined,
         "n_classified": int(table["classification"].notna().sum()) if "classification" in table else 0,
         "n_in_drep_clusters": int(table["drep_cluster"].notna().sum()) if "drep_cluster" in table else None,
+        "coverm_samples": coverm_info["samples"] if coverm_info else [],
+        "n_masked_mean": coverm_info["n_masked_mean"] if coverm_info else 0,
+        "unmasked_samples": coverm_info["unmasked_samples"] if coverm_info else [],
+        "normalized": normalized,
+        "normalization_basis": basis,
         "outputs": {"table": str(table_path),
                     **({"figure": str(figure)} if figure else {})},
+        "artifacts": artifacts,
     })
 
 

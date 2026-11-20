@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "required": ["tool", "bins_dir", "n_bins_total", "n_passed", "n_rejected", "thresholds", "outputs"],
+  "required": ["tool", "bins_dir", "n_bins_total", "n_passed", "n_rejected", "thresholds", "outputs", "artifacts"],
   "properties": {
     "tool": { "type": "string", "const": "mg_bin_filter" },
     "bins_dir": { "type": "string" },
@@ -23,6 +23,7 @@
         "dir": { "type": "string" },
         "manifest": { "type": "string" }
       }
-    }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
   }
 }

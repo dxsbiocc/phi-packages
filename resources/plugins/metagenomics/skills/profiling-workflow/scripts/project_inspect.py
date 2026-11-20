@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """mg_inspect: identify metagenomics profiling inputs and report what they support."""
 import argparse
+import gzip
 import re
 from pathlib import Path
 
@@ -14,7 +15,8 @@ MPA_RANKS = ["d__", "k__", "p__", "c__", "o__", "f__", "g__", "s__", "t__"]
 def classify(path):
     """Return (kind, detail) for one file, using headers and row shape only."""
     try:
-        with open(path, encoding="utf-8", errors="replace") as fh:
+        opener = gzip.open if str(path).endswith(".gz") else open
+        with opener(path, "rt", encoding="utf-8", errors="replace") as fh:
             lines = []
             for i, line in enumerate(fh):
                 lines.append(line.rstrip("\n"))
@@ -73,6 +75,21 @@ def classify(path):
         r"^(N50|L50|Total length|# contigs)", fields[0]
     ):
         return "quast_report", {"note": "belongs to the mag-workflow route"}
+
+    if low.startswith("#query") and ("kegg_ko" in low or "cog_category" in low):
+        return "eggnog_annotations", {"note": "belongs to the mag-workflow route"}
+
+    if low.startswith("locus_tag\tftype"):
+        return "prokka_features", {"note": "belongs to the mag-workflow route"}
+
+    if any(l.startswith("organism:") for l in lines) and any(l.startswith("CDS:") for l in lines):
+        return "prokka_summary", {"note": "belongs to the mag-workflow route"}
+
+    if head.startswith(">") and " # " in head and re.search(r"ID=\d+_\d+", head):
+        return "prodigal_faa", {"note": "belongs to the mag-workflow route"}
+
+    if head.lstrip().startswith("(") and head.rstrip().endswith(";"):
+        return "phylo_tree", {"note": "Newick; belongs to the mag-workflow route"}
 
     if len(fields) == 6 and fields[3].strip()[:1] in RANK_CODES:
         try:
@@ -160,6 +177,12 @@ def main():
         ready += ["mg_bin_qc (mag-workflow)", "mg_mag_table (mag-workflow)"]
     if "quast_report" in kinds:
         ready += ["mg_assembly_stats (mag-workflow)"]
+    if kinds & {"eggnog_annotations", "prokka_summary", "prokka_features", "prodigal_faa"}:
+        ready += ["mg_mag_function (mag-workflow)"]
+    if "phylo_tree" in kinds:
+        ready += ["mg_mag_tree (mag-workflow)"]
+    if any(f["kind"] == "metaphlan_profile" and "t" in f.get("ranks", []) for f in files):
+        ready += ["mg_merge (rank T: SGB/strain level)"]
     emit({
         "input": str(root),
         "input_type": sorted(kinds)[0] if len(kinds) == 1 else "mixed",

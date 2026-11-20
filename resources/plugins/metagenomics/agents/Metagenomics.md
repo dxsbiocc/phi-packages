@@ -5,7 +5,8 @@ description: >-
   谱（kraken2/bracken 或 MetaPhlAn/HUMAnN 报告 → 丰度矩阵 → 稀释曲线、α/β
   多样性、PCoA、差异丰度、功能表归一化与绘图）与组装/MAG 路线（nf-core/mag 或
   逐步分箱模块 →
-  组装统计、CheckM/CheckM2 质量分级、GTDB 分类与 CoverM 丰度整合、dRep 去冗余）。
+  组装统计、CheckM/CheckM2 质量分级、GTDB 分类与 CoverM 丰度整合、dRep 去冗余、
+  prokka/prodigal/eggNOG 注释汇总与 GTDB 树距离）。
   上游重计算工具通过 wrapper 编排，插件脚本只做确定性下游统计。也能讲清
   EasyMetagenome、Snakemake Meta、cambiotraining 与 SIB 课程里每个模块在 Phi 里
   怎么跑。不做 16S 扩增子（走 ampliseq wrapper）、病毒组专用流程与泛基因组
@@ -59,7 +60,7 @@ fallback:
 | 路线 | 技能 | 回答的问题 | 上游（wrapper） | 下游（插件脚本，`mg_` 前缀） |
 | --- | --- | --- | --- | --- |
 | read-based 谱 | `profiling-workflow` | 谁在那里、在做什么、组间差异 | fastp/kneaddata → kraken2+bracken 或 metaphlan(+humann3) | 合并、稀释曲线、多样性、差异、功能表、绘图（含聚类热图） |
-| 组装 / MAG | `mag-workflow` | 回收基因组、新物种、菌株水平 | nf-core/mag 整流程，或 megahit/spades → binner → dastool → checkm2 等模块；drep/coverm/gtdbtk 后置 | 组装统计、质量分级、bin 过滤、MAG 总表 |
+| 组装 / MAG | `mag-workflow` | 回收基因组、新物种、菌株水平 | nf-core/mag 整流程，或 megahit/spades → binner → dastool → checkm2 等模块；drep/coverm/gtdbtk/eggnogmapper 后置 | 组装统计、质量分级、bin 过滤、MAG 总表（含 CoverM 掩码与相对丰度）、注释汇总（KO/COG + MIMAG 结构证据）、GTDB 树距离 |
 
 两条路线互补，不是二选一：同一份数据可以先跑 read-based 谱快速看组成，再跑
 组装/MAG 回收基因组。用户只问组成/差异时不要默认启动组装（耗时以天计）。

@@ -7,7 +7,7 @@ import numpy as np
 from scipy.cluster.hierarchy import leaves_list, linkage
 from scipy.spatial.distance import pdist
 
-from _common import emit, fail, read_matrix, read_metadata, setup_matplotlib
+from _common import emit, fail, read_matrix, read_metadata, setup_matplotlib, write_artifact
 
 
 def cluster_order(vals):
@@ -49,6 +49,8 @@ def main():
     plt = setup_matplotlib()
     artifacts = []
     applied = []
+    inputs = [args.input] + ([args.metadata] if args.metadata else [])
+    params = {"kind": args.kind, "top": args.top, "trans": args.trans, "cluster": args.cluster}
 
     if args.kind == "barplot":
         fig, ax = plt.subplots(figsize=(max(7, len(plotted.columns) * 0.6), 5))
@@ -69,7 +71,8 @@ def main():
         p = outdir / "composition-barplot.png"
         fig.savefig(p, dpi=150, bbox_inches="tight")
         plt.close(fig)
-        artifacts.append(str(p))
+        artifacts.append(write_artifact(p, "mg_plot", f"Composition barplot (top {args.top} taxa)",
+                                        skill="profiling-workflow", inputs=inputs, parameters=params))
 
         if args.metadata:
             meta = read_metadata(args.metadata, matrix.columns.tolist())
@@ -93,7 +96,8 @@ def main():
             p = outdir / "composition-barplot-groups.png"
             fig.savefig(p, dpi=150, bbox_inches="tight")
             plt.close(fig)
-            artifacts.append(str(p))
+            artifacts.append(write_artifact(p, "mg_plot", f"Composition by {args.group_col} (group means)",
+                                            skill="profiling-workflow", inputs=inputs, parameters=params))
     else:
         vals = plotted.to_numpy()
         if args.trans == "log10":
@@ -120,7 +124,9 @@ def main():
         p = outdir / "taxa-heatmap.png"
         fig.savefig(p, dpi=150, bbox_inches="tight")
         plt.close(fig)
-        artifacts.append(str(p))
+        artifacts.append(write_artifact(p, "mg_plot",
+                                        f"Taxa heatmap (top {args.top}{', clustered' if applied else ''})",
+                                        skill="profiling-workflow", inputs=inputs, parameters=params))
 
     emit({
         "kind": args.kind,
