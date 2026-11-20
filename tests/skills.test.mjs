@@ -15,6 +15,27 @@ function skillNames() {
     .sort()
 }
 
+function pluginSkills() {
+  const pluginRoot = join(root, 'resources/plugins')
+  const skills = []
+  for (const plugin of readdirSync(pluginRoot).sort()) {
+    const skillsDir = join(pluginRoot, plugin, 'skills')
+    if (!existsSync(skillsDir)) continue
+    for (const name of readdirSync(skillsDir).sort()) {
+      const dir = join(skillsDir, name)
+      if (existsSync(join(dir, 'SKILL.md'))) skills.push({ name, dir, label: `${plugin}/${name}` })
+    }
+  }
+  return skills
+}
+
+function contractSkills() {
+  return [
+    ...skillNames().map(name => ({ name, dir: join(skillRoot, name), label: name, inPlugin: false })),
+    ...pluginSkills().map(skill => ({ ...skill, inPlugin: true })),
+  ]
+}
+
 function frontmatter(text, file) {
   assert.equal(text.startsWith('---\n'), true, `${file} must start with YAML frontmatter`)
   const end = text.indexOf('\n---\n', 4)
@@ -76,6 +97,38 @@ test('README skill counts match standalone skill directories', () => {
   assert.match(readFileSync(join(root, 'README.en.md'), 'utf8'), new RegExp(`\\| Standalone skills \\| ${count} \\|`))
 })
 
+test('README plugin skill counts match plugin skill directories', () => {
+  const pluginRoot = join(root, 'resources/plugins')
+  let count = 0
+  for (const plugin of readdirSync(pluginRoot)) {
+    const skills = join(pluginRoot, plugin, 'skills')
+    if (!existsSync(skills)) continue
+    count += readdirSync(skills).filter(name => existsSync(join(skills, name, 'SKILL.md'))).length
+  }
+  assert.match(readFileSync(join(root, 'README.md'), 'utf8'), new RegExp(`\\| 插件内 skills \\| ${count} \\|`))
+  assert.match(readFileSync(join(root, 'README.en.md'), 'utf8'), new RegExp(`\\| Skills within plugins \\| ${count} \\|`))
+})
+
+test('single-cell keeps one byte-identical notebook renderer for both languages', () => {
+  const base = join(root, 'resources/plugins/single-cell/skills')
+  const seurat = readFileSync(join(base, 'seurat-workflow/scripts/build_notebook.py'))
+  const scanpy = readFileSync(join(base, 'scanpy-workflow/scripts/build_notebook.py'))
+  assert.deepEqual(seurat, scanpy)
+})
+
+test('single-cell skills keep code, presets and step notes in functional homes', () => {
+  const base = join(root, 'resources/plugins/single-cell/skills')
+  for (const [skill, ext] of [['seurat-workflow', 'R'], ['scanpy-workflow', 'py']]) {
+    const dir = join(base, skill)
+    const registry = JSON.parse(readFileSync(join(dir, 'assets/steps.json'), 'utf8'))
+    assert.equal(existsSync(join(dir, 'assets/fragments/steps.json')), false)
+    for (const step of registry.steps) {
+      assert.ok(existsSync(join(dir, 'assets/fragments', `${step.id}.${ext}`)), `${skill}: missing fragment ${step.id}`)
+      assert.ok(existsSync(join(dir, 'references/step-notes', `${step.id}.md`)), `${skill}: missing step note ${step.id}`)
+    }
+  }
+})
+
 test('find-skills searches the public skills ecosystem', () => {
   const text = readFileSync(join(skillRoot, 'find-skills/SKILL.md'), 'utf8')
   assert.match(text, /npx skills find/)
@@ -84,9 +137,8 @@ test('find-skills searches the public skills ecosystem', () => {
   assert.match(readFileSync(join(skillRoot, 'skill-creator/SKILL.md'), 'utf8'), /references\/phi\.md/)
 })
 
-for (const name of skillNames()) {
-  test(`${name} follows the skill contract`, () => {
-    const dir = join(skillRoot, name)
+for (const { name, dir, label, inPlugin } of contractSkills()) {
+  test(`${label} follows the skill contract`, () => {
     const file = join(dir, 'SKILL.md')
     const text = readFileSync(file, 'utf8')
     const fm = frontmatter(text, relative(root, file))
@@ -107,6 +159,14 @@ for (const name of skillNames()) {
       for (const value of Object.values(parsed)) assert.equal(typeof value, 'string')
     }
 
+    if (inPlugin) {
+      assert.equal(
+        /^[ ]+toolPrefix:\s*\S+/m.test(fm),
+        false,
+        'a skill inside a plugin must not declare toolPrefix; the plugin toolPrefix is used'
+      )
+    }
+
     const environmentDeclared = /^[ ]+environment:\s+\S+/m.test(fm)
     assert.equal(
       environmentDeclared,
@@ -118,7 +178,7 @@ for (const name of skillNames()) {
 
     for (const target of relativeLinks(text)) {
       const resolved = resolve(dir, target)
-      assert.equal(existsSync(resolved), true, `${name} links to missing ${target}`)
+      assert.equal(existsSync(resolved), true, `${label} links to missing ${target}`)
     }
   })
 }

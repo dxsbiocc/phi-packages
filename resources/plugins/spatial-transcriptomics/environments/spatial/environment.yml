@@ -1,0 +1,51 @@
+name: spatial
+description: >-
+  空间转录组插件私有环境：Python 3.12 + scanpy 1.12 + squidpy 1.8 + spatialdata 0.8 +
+  ipykernel，脚本链与 notebook 共用。纯 conda（锁定环境不支持 pip/python 源码包）。
+# 仅 conda-forge：本栈所有包（含 squidpy/spatialdata/omnipath/scikit-misc/leidenalg）都在
+# conda-forge。锁定求解用 strict channel priority，若再挂 bioconda，其旧版 anndata/scanpy
+# 会遮蔽 conda-forge 的新版导致不可解（实测去掉 bioconda 后零冲突）。bioconda 仅在需要
+# scrublet/harmonypy 等生物包时才加（见 single-cell），空间栈用不到。
+channels:
+  - conda-forge
+dependencies:
+  # scanpy 1.12 要求 python>=3.12；1.13 要求>=3.13。选 3.12 让 GDAL/geopandas 等
+  # 编译型地理依赖落在成熟 build 上（squidpy 强制 spatialdata，甩不掉 GDAL 栈）。
+  - python=3.12
+  - scanpy=1.12
+  - anndata
+  - ipykernel
+
+  # 空间分析核心。conda-forge 的 squidpy 1.8.2 是修补过依赖的版本：feedstock 已剔除
+  # pip-only 的 centrosome/cp-measure/scverse-misc，实际 depends 全部 conda 可得。
+  # squidpy 核心依赖 spatialdata>=0.7.1 与 spatialdata-plot，故地理栈随之锁定。
+  - squidpy
+  - spatialdata
+  - spatialdata-io
+  # squidpy gr.ligrec 的依赖；运行时默认从 OmniPath 在线取交互库，本插件预置
+  # ligand-receptor 资源并以 interactions DataFrame 传入，离线运行（见 assets）。
+  - omnipath
+
+  # 聚类与高变基因。
+  - leidenalg
+  - python-igraph
+  # seurat_v3 flavor 的高变基因选择需要 scikit-misc。
+  - scikit-misc
+
+  # deconvolution 用 scipy.optimize.nnls 在插件内自实现（无 torch、无 pip）；
+  # cell2location/tangram/stereopy 是 pip-only，进不了纯 conda 锁定环境，列为项目环境缺口。
+  - scipy
+  # Stereo-seq GEF(HDF5) 自研 reader 用 h5py；GEM(TSV) 用 pandas/numpy。
+  - h5py
+
+  - scikit-learn
+  - seaborn
+  - matplotlib-base
+  - pandas
+  - numpy
+  - numba
+
+# 锁定环境机制（Phi lock-env.ts）只支持 conda 依赖 + R 源码包（sourcePackages.language='r'）；
+# refusePipDependencies 对任何 pip 依赖抛错，sourcePackages 对非 R 语言抛错。
+# 因此本环境不含 pip 段，也不含 python sourcePackages。pip-only 的能力（cell2location、
+# stereopy、liana 核心、scvi-tools 的 torch 栈）由 st_py_env_probe 报告为缺口，走项目环境。

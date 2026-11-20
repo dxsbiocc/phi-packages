@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["tool", "n_bins", "joined", "n_classified", "outputs", "artifacts"],
+  "properties": {
+    "tool": { "type": "string", "const": "mg_mag_table" },
+    "n_bins": { "type": "integer" },
+    "joined": { "type": "array", "items": { "type": "string" } },
+    "n_classified": { "type": "integer" },
+    "n_in_drep_clusters": { "type": ["integer", "null"] },
+    "coverm_samples": { "type": "array", "items": { "type": "string" } },
+    "n_masked_mean": { "type": "integer" },
+    "unmasked_samples": { "type": "array", "items": { "type": "string" } },
+    "normalized": { "type": "boolean" },
+    "normalization_basis": { "type": ["string", "null"], "enum": ["genome_size_weighted", "mean", null] },
+    "outputs": {
+      "type": "object",
+      "required": ["table"],
+      "properties": {
+        "table": { "type": "string" },
+        "figure": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,0 +1,30 @@
+name: scanpy
+description: 单细胞插件私有环境：Python 3.13 + scanpy 1.13 + ipykernel，脚本链与 notebook 共用。
+channels:
+  - conda-forge
+  # scrublet/bbknn/harmonypy 在 bioconda，不在 conda-forge。
+  - bioconda
+dependencies:
+  # scanpy 1.13 要求 python >=3.13。
+  - python=3.13
+  # 当前稳定线 1.13.x（conda-forge latest）；lock 钉到具体 build。
+  - scanpy=1.13
+  - anndata
+  - ipykernel
+
+  # NBIS scanpy 实验用到的核心算法包。
+  - leidenalg
+  - python-igraph
+  - harmonypy
+  # bbknn 在 bioconda 没有 py313 build，与 scanpy 1.13 要求的 python >=3.13 冲突；
+  # 整合走 harmonypy/combat，bbknn 作为缺口在 env_probe 里报告。
+  - scrublet
+  # seurat_v3 flavor 的高变基因选择需要 scikit-misc。
+  - scikit-misc
+
+  - scikit-learn
+  - seaborn
+  - matplotlib-base
+  - pandas
+  - numpy
+  - scipy

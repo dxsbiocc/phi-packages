@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["test", "groups", "n_taxa", "n_significant", "fdr_threshold", "artifacts"],
+  "properties": {
+    "test": { "type": "string", "enum": ["mannwhitneyu", "kruskal"] },
+    "groups": { "type": "array", "items": { "type": "string" } },
+    "values": { "type": "string", "enum": ["counts", "relative"] },
+    "n_taxa": { "type": "integer" },
+    "n_significant": { "type": "integer" },
+    "fdr_threshold": { "type": "number" },
+    "fc_threshold": { "type": ["number", "null"] },
+    "top_taxa": { "type": "array", "items": { "type": "object" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
+  }
+}

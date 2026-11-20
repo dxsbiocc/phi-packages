@@ -1,0 +1,10 @@
+name: metabolomics
+description: 代谢组学插件私有环境：Python 3.13 + pandas/numpy/scipy/matplotlib，非靶向 LC-MS 特征表下游统计脚本共用。
+channels:
+  - conda-forge
+dependencies:
+  - python=3.13
+  - pandas
+  - numpy
+  - scipy
+  - matplotlib-base

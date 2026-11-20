@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["samples", "values", "alpha", "beta_method", "pcoa_variance_explained", "artifacts"],
+  "properties": {
+    "samples": { "type": "array", "items": { "type": "string" } },
+    "values": { "type": "string", "enum": ["counts", "relative"] },
+    "alpha": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "observed": { "type": ["number", "null"] },
+          "chao1": { "type": ["number", "null"] },
+          "shannon": { "type": ["number", "null"] },
+          "simpson": { "type": ["number", "null"] },
+          "invsimpson": { "type": ["number", "null"] }
+        }
+      }
+    },
+    "beta_method": { "type": "string" },
+    "pcoa_variance_explained": { "type": "array", "items": { "type": "number" } },
+    "permanova": {
+      "type": ["object", "null"],
+      "properties": {
+        "pseudo_f": { "type": "number" },
+        "p_value": { "type": "number" },
+        "permutations": { "type": "integer" },
+        "groups": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "notes": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
+  }
+}

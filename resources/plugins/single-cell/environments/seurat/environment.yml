@@ -1,0 +1,86 @@
+name: seurat
+description: 单细胞插件私有环境：R 4.5 + Seurat 6.0.0 + IRkernel，脚本链与 notebook 共用。
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  # build_notebook.py 只用标准库；python 随环境提供，不依赖宿主。
+  - python=3.12
+  # r-seuratobject 5.4.0 的 conda build 只到 r45，故 pin 4.5 而非最新 4.6。
+  - r-base=4.5
+  - r-irkernel
+  # Seurat 6 含 C++ 源码，sourcePackages 编译需要环境自带编译器。
+  - compilers
+
+  - r-seuratobject=5.4.0
+  - r-tidyverse
+  - bioconductor-singlecellexperiment
+  - bioconductor-complexheatmap
+  - r-ragg
+
+  # Seurat 6.0.0 的 Imports 与 LinkingTo。R CMD INSTALL 不联网取依赖，
+  # 每一项都必须在此显式声明或列入 sourcePackages（base R 自带的除外）。
+  - r-cluster
+  - r-cowplot
+  - r-fastdummies
+  - r-future
+  - r-future.apply
+  - r-generics
+  - r-ggplot2
+  - r-ggrepel
+  - r-ggridges
+  - r-httr
+  - r-ica
+  - r-igraph
+  - r-irlba
+  - r-jsonlite
+  - r-kernsmooth
+  - r-lifecycle
+  - r-mass
+  - r-matrix
+  - r-matrixstats
+  - r-parallelly
+  - r-patchwork
+  - r-pbapply
+  - r-pls
+  - r-png
+  - r-progressr
+  - r-rann
+  - r-rcolorbrewer
+  - r-rcpp
+  - r-rcppannoy
+  - r-rcppeigen
+  - r-rcpphnsw
+  - r-rcppprogress
+  - r-rlang
+  - r-rspectra
+  - r-rtsne
+  - r-scales
+  - r-scattermore
+  - r-sctransform
+  - r-sp
+  - r-uwot
+
+sourcePackages:
+  # bioconda 的 GenomeInfoDbData 不带数据、post-link 下载在只读 prefix 里失败，
+  # 沿用 phi-r 的 GitHub 镜像 pin（SingleCellExperiment 经 GenomicRanges 需要它）。
+  - language: r
+    name: GenomeInfoDbData
+    source: github
+    repo: Bioconductor/GenomeInfoDbData
+    ref: b5339e03cc0c9c188e773a7ec2b80a146601595a
+    sha256: 1eccebf119d4de560b4f601eddb863436889630fdee3d0185f89e32ca4e14125
+
+  # conda 的 r-rcppthread build 止于 r41；Seurat 6 的 LinkingTo 需要它，源码 pin。
+  - language: r
+    name: RcppThread
+    source: cran
+    ref: 2.4.0
+    sha256: 29e8955a0e1cad0775bcb6f29bde76f34cc2e1fa9c5f5d5d8d4962b91c3feaeb
+
+  # conda-forge 的 r-seurat 最高 5.5.1；6.0.0（CRAN 2026-11-07）只能源码 pin。
+  - language: r
+    name: Seurat
+    source: cran
+    ref: 6.0.0
+    sha256: a2273d1828059ae1ec19e84c25838facbec4b6e97c17a6ca4e6cb6b5d5a8387a

@@ -1,7 +1,7 @@
 # Phi Runtime Foundation: Environments, Execution, Binding, and Plugin Structure
 
 Date: 2026-09-29
-Updated: 2026-10-07 — visualization uses the shared `phi-r` environment.
+Updated: 2026-11-19 — enabled plugins' private environments that ship a kernel package contribute managed notebook kernels (`plugin-<pluginId>-<envName>`).
 Chinese version: [phi-runtime-foundation.zh-CN.md](phi-runtime-foundation.zh-CN.md).
 Status: **Confirmed (2026-09-29; all six decisions in §9 accepted).** This
 document precedes the [content distribution design](phi-content-distribution-design.md)
@@ -250,7 +250,7 @@ when the host has the same tool.
 | specialist / plugin agent `bash` | host shell                                                | the session is bound to an environment: a Phi extension rewrites bash calls in the `tool_call` event and merges `environmentVariables(agent environment)` into the bash `env` parameter (omp supports returning replacement input). `python x.py` then uses the environment's python |
 | domain tools (e.g. `viz_render`) | TypeScript tools inside the engine, `Rscript` from `PATH` | leave the engine; become command-line programs in the plugin, registered as script tools (§5.1); tool names unchanged                                                                                                                                                                |
 | MCP stdio servers                | —                                                         | started with `environmentVariables`                                                                                                                                                                                                                                                  |
-| notebook kernels                 | host kernelspecs                                          | Jupyter server in `phi-jupyter`; default kernels from managed analysis environments (`ipykernel` in `phi-python`, `irkernel` in `phi-r`); existing host kernels listed for explicit selection (§5.2)                                                                                 |
+| notebook kernels                 | host kernelspecs                                          | Jupyter server in `phi-jupyter`; default kernels from managed analysis environments (`ipykernel` in `phi-python`, `irkernel` in `phi-r`) and from enabled plugins' private environments that ship a kernel package (`plugin-<pluginId>-<envName>`); existing host kernels listed for explicit selection (§5.2)                                                                                 |
 | wrappers (Nextflow)              | host `nextflow`, host conda                               | default `nextflow` and Java from `phi-nextflow`; `-profile conda` sets `conda.useMicromamba = true` with the bundled micromamba and `conda.cacheDir` under `~/.phi/runtime`; the user may explicitly point at a host nextflow (§5.2); Docker / Singularity remain host dependencies  |
 | environment panel                | probes host tools                                         | shows managed environments (status, size, referrers, host dependencies); host probing kept only for host dependencies (Docker, Singularity, LibreOffice) and tools the user may explicitly choose (nextflow, Jupyter kernels)                                                        |
 
@@ -314,8 +314,12 @@ paths, and graded approvals.
 ### 5.2 Explicitly choosing host versions
 
 - **Notebook kernels**: the kernel list shows managed kernels and existing host
-  kernels (from host kernelspecs). Host kernels are labelled "host
-  (unmanaged)" and must be chosen explicitly; they are never the default.
+  kernels (from host kernelspecs). Managed kernels are the base `phi-python` /
+  `phi-r` plus one `plugin-<pluginId>-<envName>` kernel for each enabled plugin
+  environment that ships `ipykernel` or `r-irkernel`; a plugin kernel appears once
+  its environment is built and is removed when the plugin is disabled or
+  uninstalled. Host kernels are labelled "host (unmanaged)" and must be chosen
+  explicitly; they are never the default.
 - **Nextflow**: reuse the existing `customPaths` in `~/.phi/environment.json`;
   the user sets a host nextflow path in the environment panel. The version is
   checked against wrapper minimums and rejected if too old; otherwise it is

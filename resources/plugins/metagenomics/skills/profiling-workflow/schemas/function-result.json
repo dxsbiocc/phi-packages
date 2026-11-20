@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["action", "rows_in", "rows_out", "columns", "output", "artifacts"],
+  "properties": {
+    "action": { "type": "string", "enum": ["normalize", "regroup", "stratified", "unstratified"] },
+    "unit": { "type": ["string", "null"], "enum": ["relative", "cpm", null] },
+    "rows_in": { "type": "integer" },
+    "rows_out": { "type": "integer" },
+    "columns": { "type": "array", "items": { "type": "string" } },
+    "notes": { "type": "array", "items": { "type": "string" } },
+    "output": { "type": "string" },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["input", "output", "impute", "normalize", "transform", "n_features", "n_samples", "n_imputed", "n_missing_remaining", "factors", "artifacts"],
+  "properties": {
+    "input": { "type": "string" },
+    "output": { "type": "string" },
+    "impute": { "type": "string", "enum": ["none", "half_min", "min", "zero"] },
+    "normalize": { "type": "string", "enum": ["none", "tic", "median", "pqn", "is"] },
+    "transform": { "type": "string", "enum": ["none", "log2", "log10"] },
+    "n_features": { "type": "integer" },
+    "n_samples": { "type": "integer" },
+    "n_imputed": { "type": "integer" },
+    "n_missing_remaining": { "type": "integer" },
+    "dropped_columns": { "type": "array", "items": { "type": "string" } },
+    "factors": { "type": "object", "additionalProperties": { "type": "number" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
+  }
+}

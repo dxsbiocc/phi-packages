@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["input", "qc_samples", "n_qc_samples", "n_biological_samples", "rsd_threshold", "detection_rate", "n_features_before", "n_features_after", "removed_by_rsd", "removed_by_detection", "output", "artifacts"],
+  "properties": {
+    "input": { "type": "string" },
+    "qc_samples": { "type": "array", "items": { "type": "string" } },
+    "n_qc_samples": { "type": "integer" },
+    "n_biological_samples": { "type": "integer" },
+    "blank_samples": { "type": "array", "items": { "type": "string" } },
+    "rsd_threshold": { "type": "number" },
+    "detection_rate": { "type": "number" },
+    "n_features_before": { "type": "integer" },
+    "n_features_after": { "type": "integer" },
+    "removed_by_rsd": { "type": "integer" },
+    "removed_by_detection": { "type": "integer" },
+    "median_qc_rsd_pct": { "type": ["number", "null"] },
+    "output": { "type": "string" },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["input", "test", "groups", "logged", "n_features", "n_tested", "n_significant", "fdr_threshold", "fc_threshold", "top", "output_dir", "artifacts"],
+  "properties": {
+    "input": { "type": "string" },
+    "test": { "type": "string", "enum": ["welch", "wilcoxon", "kruskal"] },
+    "case": { "type": ["string", "null"] },
+    "control": { "type": ["string", "null"] },
+    "groups": { "type": "object", "additionalProperties": { "type": "integer" } },
+    "logged": { "type": "boolean" },
+    "n_features": { "type": "integer" },
+    "n_tested": { "type": "integer" },
+    "n_significant": { "type": "integer" },
+    "fdr_threshold": { "type": "number" },
+    "fc_threshold": { "type": "number" },
+    "top": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["feature", "pvalue", "fdr"],
+        "properties": {
+          "feature": { "type": "string" },
+          "pvalue": { "type": ["number", "null"] },
+          "fdr": { "type": ["number", "null"] },
+          "log2_fold_change": { "type": ["number", "null"] }
+        }
+      }
+    },
+    "output_dir": { "type": "string" },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
+  }
+}

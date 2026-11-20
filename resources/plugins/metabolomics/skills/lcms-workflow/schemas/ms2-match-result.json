@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["query", "library", "n_query_spectra", "n_library_spectra", "n_queries_with_hits", "n_hits", "ppm", "fragment_tol", "min_score", "caveat", "output_dir", "artifacts"],
+  "properties": {
+    "query": { "type": "string" },
+    "library": { "type": "string" },
+    "n_query_spectra": { "type": "integer" },
+    "n_library_spectra": { "type": "integer" },
+    "n_library_without_precursor": { "type": "integer" },
+    "n_query_skipped_no_precursor": { "type": "integer" },
+    "n_queries_with_hits": { "type": "integer" },
+    "n_hits": { "type": "integer" },
+    "ppm": { "type": "number" },
+    "fragment_tol": { "type": "number" },
+    "min_score": { "type": "number" },
+    "caveat": { "type": "string" },
+    "output_dir": { "type": "string" },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
+  }
+}

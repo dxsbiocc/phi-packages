@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["kind", "top", "samples", "taxa_plotted", "cluster", "artifacts"],
+  "properties": {
+    "kind": { "type": "string", "enum": ["barplot", "heatmap"] },
+    "top": { "type": "integer" },
+    "samples": { "type": "array", "items": { "type": "string" } },
+    "taxa_plotted": { "type": "integer" },
+    "cluster": {
+      "type": "object",
+      "required": ["mode", "method", "metric", "applied"],
+      "properties": {
+        "mode": { "type": "string", "enum": ["none", "rows", "cols", "both"] },
+        "method": { "type": "string" },
+        "metric": { "type": "string" },
+        "applied": { "type": "array", "items": { "type": "string", "enum": ["rows", "cols"] } }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "language": "python",
+  "skill": "spatial-workflow",
+  "library_title": "spatial fragment library",
+  "analysis_title": "Spatial transcriptomics analysis",
+  "renderer_id": "spatial-transcriptomics/build_notebook.py",
+  "kernels": {
+    "python": { "name": "plugin-spatial-transcriptomics-spatial", "display": "Python 3 (spatial-transcriptomics:spatial)" }
+  },
+  "output_object_default": "spatial.h5ad",
+  "footer": "## What this notebook did not do\n\nWhere a step needed a package, model or reference this environment does not ship, the cell said so and continued. An existing message means that step did not run — do not read its absence as a clean result.\n\nNext steps that belong elsewhere:\n\n- **Raw reads to counts** — Space Ranger (Visium) and SAW (Stereo-seq) produce the matrix/GEF/GEM; they are wrappers, not notebook cells. Cell segmentation for Stereo-seq cellbin is done upstream by SAW cellCut.\n- **cell2location / tangram-sc / stereopy / liana core** — pip-only (torch or compiled deps) and cannot enter a pure-conda locked environment. Deconvolution here uses scipy NNLS against a single-cell reference; cell-cell communication uses squidpy ligrec with a shipped ligand-receptor resource. Use a project environment for the model-based tools.\n- **R / Bioconductor route** — OSTA's native SpatialExperiment/Seurat route is a future sibling skill; this plugin is the Python route.",
+  "attribution": "Analysis structure and teaching text are an original distillation of OSTA — Orchestrating Spatial Transcriptomics Analysis with Bioconductor (Crowell et al., CC BY 4.0) — https://github.com/lmweber/OSTA/, with single-cell best practices (Apache 2.0). The code is original to this plugin and runs in the private plugin:spatial environment (scanpy 1.12 + squidpy 1.8 + spatialdata 0.8): no install cells, no Colab paths, and the config cell is the single place to tune parameters.",
+  "parameters": {
+    "platform": { "type": "string", "default": "auto", "comment": "auto detects from the input; or visium, visium-hd, stereoseq" },
+    "bin_size": { "type": "int", "default": null, "comment": "Stereo-seq square bin / Visium HD bin side in DNB or µm units; null reads the bin the file already carries. Choosing a bin is a biological decision, not a default" },
+    "cellbin": { "type": "bool", "default": false, "comment": "read Stereo-seq cellbin (segmented cells) instead of square bins; segmentation is done upstream by SAW" },
+    "min_genes": { "type": "int", "default": 100, "comment": "minimum genes per spot/bin/cell; lower than single-cell because spatial units are shallower" },
+    "min_counts": { "type": "int", "default": null, "comment": "minimum UMIs per spatial unit; below this a unit is likely empty" },
+    "max_counts": { "type": "int", "default": null, "comment": "maximum UMIs per spatial unit; null disables the upper gate" },
+    "mt_max": { "type": "number", "default": 20, "comment": "maximum mitochondrial percent; spatial tissue tolerates more than dissociated cells" },
+    "mt_pattern": { "type": "string", "default": "^MT-", "comment": "mitochondrial gene regex; human ^MT-, mouse ^mt-" },
+    "ribo_pattern": { "type": "string", "default": "^RP[SL]", "comment": "ribosomal gene regex; fraction is context, not a gate" },
+    "hb_pattern": { "type": "string", "default": "^HB[ABDEGMQZ][0-9]*$", "comment": "hemoglobin gene regex; marks blood contamination" },
+    "quantiles": { "type": "list", "default": [0.01, 0.99], "comment": "distribution quantiles reported for each QC metric" },
+    "normalization": { "type": "string", "default": "lognormalize", "comment": "normalize by library size then log1p" },
+    "scale_factor": { "type": "number", "default": 10000, "comment": "counts per spatial unit after normalize_total" },
+    "n_hvg": { "type": "int", "default": 2000, "comment": "number of variable genes to keep for PCA/clustering" },
+    "hvg_flavor": { "type": "string", "default": "seurat_v3", "comment": "HVG flavor on the counts layer; seurat_v3 needs scikit-misc, which this environment ships" },
+    "n_pcs": { "type": "int", "default": 30, "comment": "principal components to compute" },
+    "dims": { "type": "int", "default": 30, "comment": "PCs used for neighbours and UMAP" },
+    "resolution": { "type": "list", "default": [0.8], "comment": "Leiden clustering granularity; a list sweeps several resolutions" },
+    "run_umap": { "type": "bool", "default": true, "comment": "compute the UMAP embedding (expression space, not spatial)" },
+    "seed": { "type": "int", "default": 42, "comment": "random seed, so clustering and embedding repeat exactly" },
+    "neighbor_method": { "type": "string", "default": "knn", "comment": "spatial adjacency: knn, radius, delaunay or grid; Visium hex grid suits grid/delaunay, Stereo-seq bins suit knn/radius" },
+    "n_neighs": { "type": "int", "default": 6, "comment": "neighbours for knn adjacency; 6 matches the Visium hexagonal spot layout" },
+    "radius": { "type": "number", "default": null, "comment": "radius for radius adjacency, in coordinate units; null derives it from spacing" },
+    "coord_key": { "type": "string", "default": "spatial", "comment": "obsm key holding the spatial coordinates" },
+    "group_by": { "type": "string", "default": "leiden", "comment": "obs column defining the groups for markers, annotation and spatial statistics" },
+    "test_use": { "type": "string", "default": "wilcoxon", "comment": "marker test: wilcoxon, t-test, t-test_overestim_var or logreg" },
+    "logfc_threshold": { "type": "number", "default": 0.25, "comment": "minimum absolute log2 fold change for a marker" },
+    "min_pct": { "type": "number", "default": 0.1, "comment": "minimum fraction of group units expressing a marker" },
+    "only_positive": { "type": "bool", "default": true, "comment": "report only up-regulated markers" },
+    "top_n": { "type": "int", "default": 10, "comment": "markers printed and plotted per group" },
+    "tables_dir": { "type": "string", "default": "markers", "comment": "directory for per-group marker tables" },
+    "panel_path": { "type": "string", "default": null, "comment": "marker panel JSON; null uses the built-in example panel" },
+    "mapping_path": { "type": "string", "default": null, "comment": "cluster -> label JSON overriding the panel scores" },
+    "label_column": { "type": "string", "default": "cell_type", "comment": "obs column written with the cell-type labels" },
+    "min_score": { "type": "number", "default": 0, "comment": "minimum panel score; below it a cluster stays unassigned" },
+    "svg_method": { "type": "string", "default": "moran", "comment": "spatially variable gene statistic: moran (Moran's I) or geary (Geary's C)" },
+    "svg_corr_method": { "type": "string", "default": "fdr_bh", "comment": "multiple-testing correction for SVG p-values; a statsmodels method name (fdr_bh, bonferroni, holm). benjamini-hochberg is accepted as an alias for fdr_bh" },
+    "n_perms": { "type": "int", "default": 1000, "comment": "permutations for neighbourhood enrichment and ligand-receptor significance" },
+    "cooc_interval": { "type": "int", "default": 50, "comment": "number of distance intervals for the co-occurrence probability" },
+    "reference_path": { "type": "string", "default": null, "comment": "single-cell reference .h5ad for deconvolution; null skips deconvolution with a message" },
+    "reference_cell_type_key": { "type": "string", "default": "cell_type", "comment": "obs column in the reference naming cell types" },
+    "deconv_method": { "type": "string", "default": "nnls", "comment": "deconvolution solver: nnls (scipy, in-plugin); cell2location needs a project environment" },
+    "interactions_path": { "type": "string", "default": null, "comment": "ligand-receptor table for CCC; null uses the shipped resource so ligrec runs offline" },
+    "ccc_threshold": { "type": "number", "default": 0.01, "comment": "p-value threshold for significant ligand-receptor interactions" },
+    "group_column": { "type": "string", "default": null, "comment": "condition/sample column for cross-sample spatial differential; null = one group per sample" },
+    "min_units": { "type": "int", "default": 10, "comment": "minimum spatial units for a group to enter a spatial differential contrast" },
+    "figures_dir": { "type": "string", "default": "figures", "comment": "directory for the PNG copies of every plot" },
+    "plot_tag": { "type": "string", "default": "before", "comment": "suffix for the QC plots; the filter pass re-tags them after" }
+  },
+  "steps": [
+    { "id": "setup", "title": "Setup", "requires": [] },
+    { "id": "load", "title": "Load the spatial data", "requires": ["setup"] },
+    { "id": "qc-metrics", "title": "Quality control metrics", "requires": ["load"] },
+    { "id": "qc-plots", "title": "Look at the distributions", "requires": ["qc-metrics"] },
+    { "id": "filter", "title": "Filter low-quality spatial units", "requires": ["qc-metrics"] },
+    { "id": "normalize", "title": "Normalize", "requires": ["filter"] },
+    { "id": "hvg", "title": "Find variable genes", "requires": ["normalize"] },
+    { "id": "scale", "title": "Scale", "requires": ["hvg"] },
+    { "id": "pca", "title": "PCA", "requires": ["scale"] },
+    { "id": "cluster", "title": "Cluster and embed", "requires": ["pca"] },
+    { "id": "spatial-neighbors", "title": "Build the spatial adjacency graph", "requires": ["load"] },
+    { "id": "spatial-plots", "title": "Map clusters and genes in space", "requires": ["cluster", "spatial-neighbors"] },
+    { "id": "markers", "title": "Find marker genes", "requires": ["cluster"] },
+    { "id": "annotate", "title": "Score clusters against a marker panel", "requires": ["markers"] },
+    { "id": "assign-labels", "title": "Assign cell types", "requires": ["annotate"] },
+    { "id": "svg", "title": "Spatially variable genes", "requires": ["spatial-neighbors", "normalize"] },
+    { "id": "nhood", "title": "Neighbourhood enrichment and co-occurrence", "requires": ["spatial-neighbors", "cluster"] },
+    { "id": "deconvolve", "title": "Deconvolve cell-type proportions", "requires": ["spatial-neighbors", "normalize"] },
+    { "id": "communication", "title": "Cell-cell communication", "requires": ["spatial-neighbors", "cluster"] },
+    { "id": "spatial-diff", "title": "Cross-sample differential spatial patterns", "requires": ["spatial-neighbors", "cluster"] },
+    { "id": "save", "title": "Save the object", "requires": ["load"] }
+  ],
+  "presets": {
+    "1": {
+      "title": "Module 01 — Spatial QC",
+      "intro": "Quality control on raw spatial counts: per-unit gene/UMI/mitochondrial distributions\nand threshold filtering with a report of what each threshold removed. Reads a Visium\nmatrix directory or .h5, a Stereo-seq GEF/GEM, or an .h5ad with spatial coordinates.\n\nOriginal distillation of OSTA (CC BY 4.0); the code is original to this plugin.",
+      "steps": ["setup", "load", "qc-metrics", "qc-plots", "filter", "save"]
+    },
+    "2": {
+      "title": "Module 02 — Preprocess and cluster",
+      "intro": "The QC chain plus normalization, highly variable genes (seurat_v3 on counts),\nscaled PCA, Leiden clustering and a UMAP in expression space. Spatial coordinates are\nkept in obsm['spatial'] throughout so every later step can map results back to tissue.\n\nOriginal distillation of OSTA (CC BY 4.0).",
+      "steps": ["setup", "load", "qc-metrics", "qc-plots", "filter", "normalize", "hvg", "scale", "pca", "cluster", "save"]
+    },
+    "3": {
+      "title": "Module 03 — Spatial domains and markers",
+      "intro": "The clustered chain plus the spatial adjacency graph, cluster/gene maps in tissue\nspace, per-cluster marker tables (Wilcoxon) and marker-panel annotation. The adjacency\ngraph is the prerequisite for every spatial statistic that follows.\n\nOriginal distillation of OSTA (CC BY 4.0).",
+      "steps": ["setup", "load", "qc-metrics", "qc-plots", "filter", "normalize", "hvg", "scale", "pca", "cluster", "spatial-neighbors", "spatial-plots", "markers", "annotate", "assign-labels", "save"]
+    },
+    "4": {
+      "title": "Module 04 — Spatially variable genes and neighbourhoods",
+      "intro": "The annotated chain plus Moran's I spatially variable genes and neighbourhood\nenrichment / co-occurrence of clusters: which genes carry spatial structure and which\ncell types sit next to each other more than chance.\n\nOriginal distillation of OSTA (CC BY 4.0).",
+      "steps": ["setup", "load", "qc-metrics", "qc-plots", "filter", "normalize", "hvg", "scale", "pca", "cluster", "spatial-neighbors", "spatial-plots", "markers", "annotate", "assign-labels", "svg", "nhood", "save"]
+    },
+    "5": {
+      "title": "Module 05 — Deconvolution and communication",
+      "intro": "The annotated chain plus cell-type proportion deconvolution (scipy NNLS against a\nsingle-cell reference) and ligand-receptor cell-cell communication (squidpy ligrec with\na shipped offline resource). Deconvolution needs a reference .h5ad; without one the cell\nsays so and continues.\n\nOriginal distillation of OSTA (CC BY 4.0).",
+      "steps": ["setup", "load", "qc-metrics", "qc-plots", "filter", "normalize", "hvg", "scale", "pca", "cluster", "spatial-neighbors", "spatial-plots", "markers", "annotate", "assign-labels", "deconvolve", "communication", "save"]
+    },
+    "6": {
+      "title": "Module 06 — Full spatial chain",
+      "intro": "Every capability in order: QC, preprocess, cluster, spatial maps, markers,\nannotation, SVG, neighbourhoods, deconvolution, communication and cross-sample\ndifferential spatial patterns. Steps that need a missing reference or package report\nthe gap and continue.\n\nOriginal distillation of OSTA (CC BY 4.0).",
+      "steps": ["setup", "load", "qc-metrics", "qc-plots", "filter", "normalize", "hvg", "scale", "pca", "cluster", "spatial-neighbors", "spatial-plots", "markers", "annotate", "assign-labels", "svg", "nhood", "deconvolve", "communication", "spatial-diff", "save"]
+    }
+  }
+}
