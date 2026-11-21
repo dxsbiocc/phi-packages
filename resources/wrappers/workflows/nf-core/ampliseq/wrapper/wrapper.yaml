@@ -1,0 +1,100 @@
+# Agent-facing wrapper adapter for the vendored nf-core/ampliseq pipeline at ../.
+# Follows docs/contracts/wrapper.md. Params are a starter subset of
+# nextflow_schema.json; REVIEW and curate before publishing.
+id: nf-core/workflows/ampliseq
+name: nf-core/ampliseq
+summary: Amplicon sequencing analysis workflow using DADA2 and QIIME2
+params:
+  input:
+    kind: input
+    type: csv
+    required: true
+    description: Path to tab-separated sample sheet
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for all pipeline results.
+  report_template:
+    kind: option
+    type: string
+    required: false
+    description: Path to Markdown file (Rmd)
+  report_css:
+    kind: option
+    type: string
+    required: false
+    description: Path to style file (css)
+  report_logo:
+    kind: option
+    type: string
+    required: false
+    description: Path to logo file (png)
+  config_profile_name:
+    kind: option
+    type: string
+    required: false
+    description: Institutional config name.
+  config_profile_description:
+    kind: option
+    type: string
+    required: false
+    description: Institutional config description.
+  dada_ref_taxonomy:
+    kind: option
+    type: string
+    required: false
+    description: Name of supported database, and optionally also version number
+  qiime_ref_taxonomy:
+    kind: option
+    type: string
+    required: false
+    description: Name of supported database, and optionally also version number
+  decontam:
+    kind: option
+    type: string
+    required: false
+    description: Choose whether decontamination with `decontam` is applied to features.
+  filter_ssu:
+    kind: option
+    type: string
+    required: false
+    description: Enable SSU filtering. Comma separated list of kingdoms (domains) in Barrnap, a combination
+      (or one) of "bac", "arc", "mito", and "euk". ASVs that have their lowest evalue in that kingdoms
+      are kept.
+  metadata_category_barplot:
+    kind: option
+    type: string
+    required: false
+    description: Comma separated list of metadata column headers for plotting average relative abundance
+      barplots.
+  qiime_adonis_formula:
+    kind: option
+    type: string
+    required: false
+    description: Formula for QIIME2 ADONIS metadata feature importance test for beta diversity distances
+  ancombc_formula:
+    kind: option
+    type: string
+    required: false
+    description: Formula to perform differential abundance analysis with ANCOMBC
+  ancombc_formula_reflvl:
+    kind: option
+    type: string
+    required: false
+    description: Reference level for `--ancombc_formula`
+  ancombc2_formula:
+    kind: option
+    type: string
+    required: false
+    description: Formula to perform differential abundance analysis with ANCOMBC2
+  ancombc2_formula_reflvl:
+    kind: option
+    type: string
+    required: false
+    description: Reference level for `--ancombc2_formula`
+outputs:
+  results:
+    type: directory
+    path: ${outdir}
+    primary: true

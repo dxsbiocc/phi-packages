@@ -1,0 +1,21 @@
+{
+  "outdir": "results",
+  "report_template": "assets/report_template.Rmd",
+  "report_css": "assets/nf-core_style.css",
+  "report_logo": "assets/nf-core-ampliseq_logo_light_long.png",
+  "config_profile_name": "Test profile",
+  "config_profile_description": "Minimal test dataset to check pipeline function",
+  "FW_primer": "GTGYCAGCMGCCGCGGTAA",
+  "RV_primer": "GGACTACNVGGGTWTCTAAT",
+  "dada_ref_taxonomy": "gtdb=R07-RS207",
+  "qiime_ref_taxonomy": "greengenes85",
+  "decontam": "decontaminate",
+  "filter_ssu": "bac",
+  "metadata_category_barplot": "treatment1",
+  "qiime_adonis_formula": "treatment1,mix8",
+  "ancombc_formula": "treatment1",
+  "ancombc_formula_reflvl": "treatment1::b",
+  "ancombc2_formula": "treatment1",
+  "ancombc2_formula_reflvl": "treatment1::b",
+  "input": null
+}
