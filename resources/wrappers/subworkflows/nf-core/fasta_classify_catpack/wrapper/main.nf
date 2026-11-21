@@ -15,15 +15,19 @@ params.bin_suffix = null
 params.outdir = "results"
 
 workflow {
+    if (!params.db && !params.db_id) {
+        error "fasta-classify-catpack: provide either 'db' (pre-built CAT database) or 'db_id' (database to download)."
+    }
+    if (params.db && params.db_id) {
+        error "fasta-classify-catpack: provide only one of 'db' and 'db_id'."
+    }
+
     fasta_ch = Channel
         .fromPath(params.fasta, checkIfExists: true)
         .map { f -> [[id: f.simpleName], f] }
-    fasta_2_ch = Channel
-        .fromPath(params.fasta_2, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
-    db_ch = Channel
-        .fromPath(params.db, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
+    fasta_2_ch = params.fasta_2 ? Channel.fromPath(params.fasta_2, checkIfExists: true).map { f -> [[id: f.simpleName], f] } : Channel.empty()
+    db_ch = params.db ? Channel.fromPath(params.db, checkIfExists: true).map { f -> [[id: f.simpleName], f] } : Channel.empty()
+    db_id_ch = params.db_id ? Channel.of([[id: 'catpack_db'], params.db_id]) : Channel.empty()
 
-    FASTA_CLASSIFY_CATPACK(fasta_ch, fasta_2_ch, db_ch, params.db_id, params.run_summarise, params.bin_suffix)
+    FASTA_CLASSIFY_CATPACK(fasta_ch, fasta_2_ch, db_ch, db_id_ch, params.run_summarise, params.bin_suffix)
 }

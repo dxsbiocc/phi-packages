@@ -20,9 +20,7 @@ workflow {
         .fromPath(params.ref_annot_gff, checkIfExists: true)
         .map { f -> [[id: f.simpleName], f] }
     ref_annot_fa_ch = params.ref_annot_fa ? Channel.fromPath(params.ref_annot_fa, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
-    gene_synonyms_ch = Channel
-        .fromPath(params.gene_synonyms, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
+    gene_synonyms_ch = Channel.fromPath(params.gene_synonyms, checkIfExists: true)
 
     OPT_FLIP_TRACK_STAT(probes_fasta_ch, ref_annot_gff_ch.combine(ref_annot_fa_ch).first(), gene_synonyms_ch)
 }

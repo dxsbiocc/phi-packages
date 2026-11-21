@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
+# Curated: take shapes verified against the subworkflow nf-tests; the adapter maps flat params onto the required [meta, ...] channel shapes.
 id: nf-core/subworkflows/fasta-build-add-kraken2-bracken
 name: fasta build add kraken2 bracken
 summary: KRAKEN2 and BRACKEN build custom database subworkflow
@@ -26,19 +26,19 @@ params:
     required: true
     description: Input acc2taxidfile for ch_accession2taxid.
   val_cleanintermediate:
-    kind: input
-    type: path
-    required: true
+    kind: option
+    type: boolean
+    required: false
     description: Input val_cleanintermediate for val_cleanintermediates.
   seqid2taxidfile:
     kind: input
     type: path
-    required: true
+    required: false
     description: Input seqid2taxidfile for ch_custom_seqid2taxid.
   val_runbrackenbuild:
-    kind: input
-    type: path
-    required: true
+    kind: option
+    type: boolean
+    required: false
     description: Input val_runbrackenbuild for val_runbrackenbuild.
   outdir:
     kind: output

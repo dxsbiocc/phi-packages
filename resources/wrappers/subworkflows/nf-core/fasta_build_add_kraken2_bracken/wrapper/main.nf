@@ -19,24 +19,12 @@ workflow {
     fasta_ch = Channel
         .fromPath(params.fasta, checkIfExists: true)
         .map { f -> [[id: f.simpleName], f] }
-    names_dmp_ch = Channel
-        .fromPath(params.names_dmp, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
-    nodes_dmp_ch = Channel
-        .fromPath(params.nodes_dmp, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
-    acc2taxidfile_ch = Channel
-        .fromPath(params.acc2taxidfile, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
-    val_cleanintermediate_ch = Channel
-        .fromPath(params.val_cleanintermediate, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
-    seqid2taxidfile_ch = Channel
-        .fromPath(params.seqid2taxidfile, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
-    val_runbrackenbuild_ch = Channel
-        .fromPath(params.val_runbrackenbuild, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
+    names_dmp_ch = Channel.fromPath(params.names_dmp, checkIfExists: true)
+    nodes_dmp_ch = Channel.fromPath(params.nodes_dmp, checkIfExists: true)
+    acc2taxidfile_ch = Channel.fromPath(params.acc2taxidfile, checkIfExists: true)
+    val_cleanintermediate_ch = Channel.value(params.val_cleanintermediate)
+    seqid2taxidfile_ch = params.seqid2taxidfile ? Channel.fromPath(params.seqid2taxidfile, checkIfExists: true) : Channel.value([])
+    val_runbrackenbuild_ch = Channel.value(params.val_runbrackenbuild)
 
     FASTA_BUILD_ADD_KRAKEN2_BRACKEN(fasta_ch, names_dmp_ch, nodes_dmp_ch, acc2taxidfile_ch, val_cleanintermediate_ch, seqid2taxidfile_ch, val_runbrackenbuild_ch)
 }

@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
+# Curated: take shapes verified against the subworkflow nf-tests; the adapter maps flat params onto the required [meta, ...] channel shapes.
 id: nf-core/subworkflows/fastq-align-bwaaln
 name: fastq align bwaaln
 summary: Align FASTQ files against reference genome with the bwa aln short-read aligner producing a sorted

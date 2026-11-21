@@ -23,10 +23,9 @@ params.interval_files = null
 params.outdir = "results"
 
 workflow {
-    input_ch = Channel
-        .fromPath(params.input, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
-    input_index_ch = params.input_index ? Channel.fromPath(params.input_index, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
+    bam_files = Channel.fromPath(params.input, checkIfExists: true).collect().map { files -> tuple(files) }
+    bai_files = (params.input_index ? Channel.fromPath(params.input_index, checkIfExists: true).collect() : Channel.value([])).map { files -> tuple(files) }
+    input_ch = bam_files.combine(bai_files).map { bams, bais -> [[id: 'sample'], bams, bais, params.which_norm] }
     fasta_ch = Channel
         .fromPath(params.fasta, checkIfExists: true)
         .map { f -> [[id: f.simpleName], f] }
@@ -37,27 +36,13 @@ workflow {
     dict_ch = Channel
         .fromPath(params.dict, checkIfExists: true)
         .map { f -> [[id: f.simpleName], f] }
-    alleles_ch = Channel
-        .fromPath(params.alleles, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
-    alleles_tbi_ch = Channel
-        .fromPath(params.alleles_tbi, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
-    germline_resources_ch = Channel
-        .fromPath(params.germline_resources, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
-    germline_resources_tbi_ch = Channel
-        .fromPath(params.germline_resources_tbi, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
-    panel_of_normals_ch = Channel
-        .fromPath(params.panel_of_normals, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
-    panel_of_normals_tbi_ch = Channel
-        .fromPath(params.panel_of_normals_tbi, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
-    interval_files_ch = Channel
-        .fromPath(params.interval_files, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
+    alleles_ch = Channel.value(params.alleles ? file(params.alleles, checkIfExists: true) : [])
+    alleles_tbi_ch = Channel.value(params.alleles_tbi ? file(params.alleles_tbi, checkIfExists: true) : [])
+    germline_resources_ch = Channel.value(params.germline_resources ? file(params.germline_resources, checkIfExists: true) : [])
+    germline_resources_tbi_ch = Channel.value(params.germline_resources_tbi ? file(params.germline_resources_tbi, checkIfExists: true) : [])
+    panel_of_normals_ch = Channel.value(params.panel_of_normals ? file(params.panel_of_normals, checkIfExists: true) : [])
+    panel_of_normals_tbi_ch = Channel.value(params.panel_of_normals_tbi ? file(params.panel_of_normals_tbi, checkIfExists: true) : [])
+    interval_files_ch = Channel.value(params.interval_files ? file(params.interval_files, checkIfExists: true) : [])
 
-    BAM_TUMOR_NORMAL_SOMATIC_VARIANT_CALLING_GATK(input_ch.combine(input_index_ch).map { t -> t + [params.which_norm] }, fasta_ch, fai_ch.combine(gzi_ch), dict_ch, alleles_ch, alleles_tbi_ch, germline_resources_ch, germline_resources_tbi_ch, panel_of_normals_ch, panel_of_normals_tbi_ch, interval_files_ch)
+    BAM_TUMOR_NORMAL_SOMATIC_VARIANT_CALLING_GATK(input_ch, fasta_ch, fai_ch.combine(gzi_ch), dict_ch, alleles_ch, alleles_tbi_ch, germline_resources_ch, germline_resources_tbi_ch, panel_of_normals_ch, panel_of_normals_tbi_ch, interval_files_ch)
 }

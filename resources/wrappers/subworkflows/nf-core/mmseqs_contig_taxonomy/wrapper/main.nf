@@ -12,15 +12,11 @@ params.mmseqs2_db_id = null
 params.outdir = "results"
 
 workflow {
-    fasta_ch = Channel
+    contigs_ch = Channel
         .fromPath(params.fasta, checkIfExists: true)
         .map { f -> [[id: f.simpleName], f] }
-    mmseqsdb_ch = Channel
-        .fromPath(params.mmseqsdb, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
-    mmseqs2_db_id_ch = Channel
-        .fromPath(params.mmseqs2_db_id, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
+    mmseqsdb_ch = params.mmseqsdb ? Channel.fromPath(params.mmseqsdb, checkIfExists: true) : Channel.empty()
+    db_id_ch = Channel.value(params.mmseqs2_db_id)
 
-    MMSEQS_CONTIG_TAXONOMY(fasta_ch, mmseqsdb_ch, mmseqs2_db_id_ch)
+    MMSEQS_CONTIG_TAXONOMY(contigs_ch, mmseqsdb_ch, db_id_ch)
 }

@@ -3,8 +3,8 @@
   "names_dmp": null,
   "nodes_dmp": null,
   "acc2taxidfile": null,
-  "val_cleanintermediate": null,
+  "val_cleanintermediate": false,
   "seqid2taxidfile": null,
-  "val_runbrackenbuild": null,
+  "val_runbrackenbuild": false,
   "outdir": "results"
 }

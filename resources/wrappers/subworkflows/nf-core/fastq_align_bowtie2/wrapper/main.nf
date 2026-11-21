@@ -17,7 +17,7 @@ params.outdir = "results"
 workflow {
     reads_ch = Channel
         .fromPath(params.reads, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
+        .map { f -> [[id: f.simpleName, single_end: true], f] }
     index_ch = Channel
         .fromPath(params.index, checkIfExists: true)
         .map { f -> [[id: f.simpleName], f] }

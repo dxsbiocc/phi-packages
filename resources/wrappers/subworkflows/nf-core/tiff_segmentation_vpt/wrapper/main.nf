@@ -18,12 +18,8 @@ workflow {
         .fromPath(params.image_dir, checkIfExists: true)
         .map { f -> [[id: f.simpleName], f] }
     micron_to_mosaic_pixel_transform_csv_ch = params.micron_to_mosaic_pixel_transform_csv ? Channel.fromPath(params.micron_to_mosaic_pixel_transform_csv, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
-    algorithm_json_ch = Channel
-        .fromPath(params.algorithm_json, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
-    custom_weights_ch = Channel
-        .fromPath(params.custom_weights, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
+    algorithm_json_ch = Channel.fromPath(params.algorithm_json, checkIfExists: true)
+    custom_weights_ch = params.custom_weights ? Channel.fromPath(params.custom_weights, checkIfExists: true) : Channel.value([])
 
     TIFF_SEGMENTATION_VPT(image_dir_ch.combine(micron_to_mosaic_pixel_transform_csv_ch), algorithm_json_ch, params.regex, custom_weights_ch)
 }

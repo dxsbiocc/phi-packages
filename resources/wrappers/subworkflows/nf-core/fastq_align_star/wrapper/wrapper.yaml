@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
+# Curated: take shapes verified against the subworkflow nf-tests; the adapter maps flat params onto the required [meta, ...] channel shapes.
 id: nf-core/subworkflows/fastq-align-star
 name: fastq align star
 summary: Align reads to a reference genome using STAR then sort with samtools
@@ -22,7 +22,7 @@ params:
     description: Input gtf for ch_gtf.
   star_ignore_sjdbgtf:
     kind: option
-    type: string
+    type: boolean
     required: true
     description: Option star_ignore_sjdbgtf.
   fasta:
@@ -38,7 +38,7 @@ params:
   fasta_2:
     kind: input
     type: path
-    required: true
+    required: false
     description: Input fasta for ch_transcripts_fasta_fai.
   fai_2:
     kind: input

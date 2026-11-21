@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
+# Curated: take shapes verified against the subworkflow nf-tests; the adapter maps flat params onto the required [meta, ...] channel shapes.
 id: nf-core/subworkflows/fasta-classify-catpack
 name: fasta classify catpack
 summary: Taxonomic classification of binned MAGs and contigs using CAT/BAT (CAT_pack).
@@ -13,21 +13,21 @@ params:
   fasta_2:
     kind: input
     type: path
-    required: true
+    required: false
     description: Input fasta for ch_contigs.
   db:
     kind: input
     type: path
-    required: true
+    required: false
     description: Input db for ch_cat_db.
   db_id:
     kind: option
     type: string
-    required: true
+    required: false
     description: Option db_id.
   run_summarise:
     kind: option
-    type: string
+    type: boolean
     required: false
     description: Option run_summarise.
   bin_suffix:

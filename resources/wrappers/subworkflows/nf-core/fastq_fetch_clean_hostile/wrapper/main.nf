@@ -13,12 +13,20 @@ params.index_name = null
 params.outdir = "results"
 
 workflow {
+    if (!params.index_name && !params.reference_dir) {
+        error "fastq-fetch-clean-hostile: provide either 'index_name' (hostile fetch) or 'reference_dir' (existing hostile reference)."
+    }
+    if (params.index_name && params.reference_dir) {
+        error "fastq-fetch-clean-hostile: provide only one of 'index_name' and 'reference_dir'."
+    }
+    if (params.reference_dir && !params.reference_name) {
+        error "fastq-fetch-clean-hostile: 'reference_name' is required with 'reference_dir'; it must match the bowtie2 index prefix inside the directory."
+    }
+
     fastq_ch = Channel
         .fromPath(params.fastq, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
-    reference_dir_ch = Channel
-        .fromPath(params.reference_dir, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
+        .map { f -> [[id: f.simpleName, single_end: true], f] }
+    reference_dir_ch = params.reference_dir ? Channel.fromPath(params.reference_dir, checkIfExists: true).map { f -> [params.reference_name, f] } : Channel.empty()
 
-    FASTQ_FETCH_CLEAN_HOSTILE(fastq_ch, reference_dir_ch.map { t -> t + [params.reference_name] }, params.index_name)
+    FASTQ_FETCH_CLEAN_HOSTILE(fastq_ch, reference_dir_ch, params.index_name)
 }

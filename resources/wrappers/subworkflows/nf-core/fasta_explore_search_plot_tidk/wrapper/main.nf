@@ -15,5 +15,7 @@ workflow {
         .fromPath(params.fasta, checkIfExists: true)
         .map { f -> [[id: f.simpleName], f] }
 
-    FASTA_EXPLORE_SEARCH_PLOT_TIDK(fasta_ch, params.sequence)
+    sequence_ch = params.sequence ? fasta_ch.map { meta, _ -> [meta, params.sequence] } : Channel.empty()
+
+    FASTA_EXPLORE_SEARCH_PLOT_TIDK(fasta_ch, sequence_ch)
 }

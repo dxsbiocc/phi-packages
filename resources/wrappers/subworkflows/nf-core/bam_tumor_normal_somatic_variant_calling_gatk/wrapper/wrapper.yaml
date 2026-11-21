@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
+# Curated: take shapes verified against the subworkflow nf-tests; the adapter maps flat params onto the required [meta, ...] channel shapes.
 id: nf-core/subworkflows/bam-tumor-normal-somatic-variant-calling-gatk
 name: bam tumor normal somatic variant calling gatk
 summary: Perform variant calling on a paired tumor normal set of samples using mutect2 tumor normal mode.
@@ -13,7 +13,7 @@ params:
   input_index:
     kind: input
     type: path
-    required: false
+    required: true
     description: Optional companion input_index for ch_input.
   which_norm:
     kind: option
@@ -43,37 +43,37 @@ params:
   alleles:
     kind: input
     type: path
-    required: true
+    required: false
     description: Input alleles for ch_alleles.
   alleles_tbi:
     kind: input
     type: path
-    required: true
+    required: false
     description: Input alleles_tbi for ch_alleles_tbi.
   germline_resources:
     kind: input
     type: path
-    required: true
+    required: false
     description: Input germline_resources for ch_germline_resource.
   germline_resources_tbi:
     kind: input
     type: path
-    required: true
+    required: false
     description: Input germline_resources_tbi for ch_germline_resource_tbi.
   panel_of_normals:
     kind: input
     type: path
-    required: true
+    required: false
     description: Input panel_of_normals for ch_panel_of_normals.
   panel_of_normals_tbi:
     kind: input
     type: path
-    required: true
+    required: false
     description: Input panel_of_normals_tbi for ch_panel_of_normals_tbi.
   interval_files:
     kind: input
     type: path
-    required: true
+    required: false
     description: Input interval_files for ch_interval_file.
   outdir:
     kind: output

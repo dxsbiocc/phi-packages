@@ -13,7 +13,6 @@ params.analysis_method = null
 params.samplesheet = null
 params.transcript_lengths = null
 params.control_features = null
-params.meta_contrast = null
 params.variable = null
 params.reference = null
 params.target = null
@@ -22,28 +21,17 @@ params.comparison = null
 params.outdir = "results"
 
 workflow {
-    abundance_ch = Channel
+    def meta = [id: 'sample']
+    input_ch = Channel
         .fromPath(params.abundance, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
-    fc_threshold_ch = params.fc_threshold ? Channel.fromPath(params.fc_threshold, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
-    stat_threshold_ch = params.stat_threshold ? Channel.fromPath(params.stat_threshold, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
+        .map { f -> [meta, f, params.analysis_method, params.fc_threshold, params.stat_threshold] }
     samplesheet_ch = Channel
         .fromPath(params.samplesheet, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
-    transcript_lengths_ch = Channel
-        .fromPath(params.transcript_lengths, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
-    control_features_ch = Channel
-        .fromPath(params.control_features, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
-    meta_contrast_ch = Channel
-        .fromPath(params.meta_contrast, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
-    variable_ch = params.variable ? Channel.fromPath(params.variable, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
-    reference_ch = params.reference ? Channel.fromPath(params.reference, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
-    target_ch = params.target ? Channel.fromPath(params.target, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
-    formula_ch = params.formula ? Channel.fromPath(params.formula, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
-    comparison_ch = params.comparison ? Channel.fromPath(params.comparison, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
+        .map { f -> [meta, f] }
+    transcript_lengths_ch = params.transcript_lengths ? Channel.fromPath(params.transcript_lengths, checkIfExists: true).map { f -> [meta, f] } : Channel.value([meta, []])
+    control_features_ch = params.control_features ? Channel.fromPath(params.control_features, checkIfExists: true).map { f -> [meta, f] } : Channel.value([meta, []])
+    def contrast = [variable: params.variable, reference: params.reference, target: params.target, formula: params.formula, comparison: params.comparison]
+    contrasts_ch = Channel.value([meta, [contrast], [params.variable], [params.reference], [params.target], [params.formula], [params.comparison]])
 
-    ABUNDANCE_DIFFERENTIAL_FILTER(abundance_ch.combine(fc_threshold_ch).combine(stat_threshold_ch).map { t -> t + [params.analysis_method] }, samplesheet_ch, transcript_lengths_ch, control_features_ch, meta_contrast_ch.combine(variable_ch).combine(reference_ch).combine(target_ch).combine(formula_ch).combine(comparison_ch))
+    ABUNDANCE_DIFFERENTIAL_FILTER(input_ch, samplesheet_ch, transcript_lengths_ch, control_features_ch, contrasts_ch)
 }

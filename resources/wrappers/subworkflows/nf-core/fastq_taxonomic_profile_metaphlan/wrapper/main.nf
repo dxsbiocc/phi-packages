@@ -12,7 +12,7 @@ params.outdir = "results"
 workflow {
     fastqs_ch = Channel
         .fromPath(params.fastqs, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
+        .map { f -> [[id: f.simpleName, single_end: true], f] }
 
     FASTQ_TAXONOMIC_PROFILE_METAPHLAN(fastqs_ch)
 }

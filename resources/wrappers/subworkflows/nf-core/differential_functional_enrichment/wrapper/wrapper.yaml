@@ -1,68 +1,64 @@
 # Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
+# Curated: take shapes verified against the subworkflow nf-tests; the adapter maps flat params onto the required [meta, ...] channel shapes.
 id: nf-core/subworkflows/differential-functional-enrichment
 name: differential functional enrichment
 summary: Run functional analysis on differential abundance analysis output
 params:
   input_file:
-    kind: option
-    type: string
+    kind: input
+    type: path
     required: true
     description: Option input_file.
   genesets_file:
-    kind: option
-    type: string
-    required: true
+    kind: input
+    type: path
+    required: false
     description: Option genesets_file.
   background_file:
-    kind: option
-    type: string
-    required: true
+    kind: input
+    type: path
+    required: false
     description: Option background_file.
   method_to_run:
     kind: option
     type: string
     required: true
+    enum: [gsea, gprofiler2, decoupler, grea]
     description: Option method_to_run.
-  meta_contrast:
-    kind: input
-    type: path
-    required: true
-    description: Input meta_contrast for ch_contrasts.
   variable:
-    kind: input
-    type: path
+    kind: option
+    type: string
     required: false
     description: Optional companion variable for ch_contrasts.
   reference:
-    kind: input
-    type: path
+    kind: option
+    type: string
     required: false
     description: Optional companion reference for ch_contrasts.
   target:
-    kind: input
-    type: path
+    kind: option
+    type: string
     required: false
     description: Optional companion target for ch_contrasts.
   formula:
-    kind: input
-    type: path
+    kind: option
+    type: string
     required: false
     description: Optional companion formula for ch_contrasts.
   comparison:
-    kind: input
-    type: path
+    kind: option
+    type: string
     required: false
     description: Optional companion comparison for ch_contrasts.
   samples_sheet:
-    kind: option
-    type: string
+    kind: input
+    type: path
     required: true
     description: Option samples_sheet.
   features_sheet:
-    kind: option
-    type: string
+    kind: input
+    type: path
     required: true
     description: Option features_sheet.
   features_id:

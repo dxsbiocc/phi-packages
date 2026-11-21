@@ -30,15 +30,9 @@ workflow {
         .fromPath(params.fasta, checkIfExists: true)
         .map { f -> [[id: f.simpleName], f] }
     fai_ch = params.fai ? Channel.fromPath(params.fai, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
-    samples_ch = Channel
-        .fromPath(params.samples, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
-    populations_ch = Channel
-        .fromPath(params.populations, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
-    cnv_ch = Channel
-        .fromPath(params.cnv, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
+    samples_ch = params.samples ? Channel.value([[:], file(params.samples, checkIfExists: true)]) : Channel.value([[:], []])
+    populations_ch = params.populations ? Channel.value([[:], file(params.populations, checkIfExists: true)]) : Channel.value([[:], []])
+    cnv_ch = params.cnv ? Channel.value([[:], file(params.cnv, checkIfExists: true)]) : Channel.value([[:], []])
 
-    BAM_VARIANT_CALLING_SORT_FREEBAYES_BCFTOOLS(input1_ch.combine(index1_ch).combine(input2_ch).combine(index2_ch).combine(bed_ch), fasta_ch.combine(fai_ch).first(), samples_ch.first(), populations_ch.first(), cnv_ch.first())
+    BAM_VARIANT_CALLING_SORT_FREEBAYES_BCFTOOLS(input1_ch.combine(index1_ch).combine(input2_ch).combine(index2_ch).combine(bed_ch), fasta_ch.combine(fai_ch).first(), samples_ch, populations_ch, cnv_ch)
 }

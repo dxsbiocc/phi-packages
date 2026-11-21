@@ -23,9 +23,8 @@ workflow {
         .fromPath(params.fasta, checkIfExists: true)
         .map { f -> [[id: f.simpleName], f] }
     fai_ch = params.fai ? Channel.fromPath(params.fai, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
-    region_ch = Channel
-        .fromPath(params.region, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
+    depth_ch = Channel.of([[:], params.depth])
+    region_ch = params.region ? Channel.fromPath(params.region, checkIfExists: true).map { f -> [[id: 'regions'], f] } : Channel.value([[id: 'regions'], []])
 
-    BAM_SUBSAMPLEDEPTH_SAMTOOLS(bam_ch.combine(bai_ch), params.depth, fasta_ch.combine(fai_ch), region_ch)
+    BAM_SUBSAMPLEDEPTH_SAMTOOLS(bam_ch.combine(bai_ch), depth_ch, fasta_ch.combine(fai_ch), region_ch)
 }

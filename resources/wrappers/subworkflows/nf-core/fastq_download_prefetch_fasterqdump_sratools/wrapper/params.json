@@ -1,5 +1,6 @@
 {
   "id": null,
+  "single_end": false,
   "dbgap_key": null,
   "outdir": "results"
 }

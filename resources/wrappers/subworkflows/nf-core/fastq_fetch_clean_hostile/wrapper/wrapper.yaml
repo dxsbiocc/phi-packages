@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
+# Curated: take shapes verified against the subworkflow nf-tests; the adapter maps flat params onto the required [meta, ...] channel shapes.
 id: nf-core/subworkflows/fastq-fetch-clean-hostile
 name: fastq fetch clean hostile
 summary: Downloads required reference genomes for hostile and removes host reads from short-read FASTQ
@@ -14,12 +14,12 @@ params:
   reference_dir:
     kind: input
     type: path
-    required: true
+    required: false
     description: Input reference_dir for ch_reference.
   reference_name:
     kind: option
     type: string
-    required: true
+    required: false
     description: Option reference_name.
   index_name:
     kind: option

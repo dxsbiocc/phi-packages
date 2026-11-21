@@ -19,7 +19,7 @@ params.outdir = "results"
 workflow {
     reads_ch = Channel
         .fromPath(params.reads, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
+        .map { f -> [[id: f.simpleName, single_end: true], f] }
     index_ch = Channel
         .fromPath(params.index, checkIfExists: true)
         .map { f -> [[id: f.simpleName], f] }
@@ -30,9 +30,7 @@ workflow {
         .fromPath(params.fasta, checkIfExists: true)
         .map { f -> [[id: f.simpleName], f] }
     fai_ch = params.fai ? Channel.fromPath(params.fai, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
-    fasta_2_ch = Channel
-        .fromPath(params.fasta_2, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
+    fasta_2_ch = params.fasta_2 ? Channel.fromPath(params.fasta_2, checkIfExists: true).map { f -> [[id: f.simpleName], f] } : Channel.empty()
     fai_2_ch = params.fai_2 ? Channel.fromPath(params.fai_2, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
 
     FASTQ_ALIGN_STAR(reads_ch, index_ch, gtf_ch, params.star_ignore_sjdbgtf, fasta_ch.combine(fai_ch), fasta_2_ch.combine(fai_2_ch))

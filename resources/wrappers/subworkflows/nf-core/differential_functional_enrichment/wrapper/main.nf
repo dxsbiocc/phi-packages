@@ -10,7 +10,6 @@ params.input_file = null
 params.genesets_file = null
 params.background_file = null
 params.method_to_run = null
-params.meta_contrast = null
 params.variable = null
 params.reference = null
 params.target = null
@@ -23,14 +22,18 @@ params.features_symbol = null
 params.outdir = "results"
 
 workflow {
-    meta_contrast_ch = Channel
-        .fromPath(params.meta_contrast, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
-    variable_ch = params.variable ? Channel.fromPath(params.variable, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
-    reference_ch = params.reference ? Channel.fromPath(params.reference, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
-    target_ch = params.target ? Channel.fromPath(params.target, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
-    formula_ch = params.formula ? Channel.fromPath(params.formula, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
-    comparison_ch = params.comparison ? Channel.fromPath(params.comparison, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
+    def meta = [id: 'sample']
+    input_ch = Channel.value([
+        meta,
+        file(params.input_file, checkIfExists: true),
+        params.genesets_file ? file(params.genesets_file, checkIfExists: true) : [],
+        params.background_file ? file(params.background_file, checkIfExists: true) : [],
+        params.method_to_run
+    ])
+    samplesheet_ch = Channel.value([meta, file(params.samples_sheet, checkIfExists: true)])
+    featuresheet_ch = Channel.value([meta, file(params.features_sheet, checkIfExists: true), params.features_id, params.features_symbol])
+    def contrast = [variable: params.variable, reference: params.reference, target: params.target, formula: params.formula, comparison: params.comparison]
+    contrasts_ch = Channel.value([meta, [contrast], [params.variable], [params.reference], [params.target], [params.formula], [params.comparison]])
 
-    DIFFERENTIAL_FUNCTIONAL_ENRICHMENT(Channel.value([params.input_file, params.genesets_file, params.background_file, params.method_to_run]), meta_contrast_ch.combine(variable_ch).combine(reference_ch).combine(target_ch).combine(formula_ch).combine(comparison_ch), params.samples_sheet, Channel.value([params.features_sheet, params.features_id, params.features_symbol]))
+    DIFFERENTIAL_FUNCTIONAL_ENRICHMENT(input_ch, contrasts_ch, samplesheet_ch, featuresheet_ch)
 }

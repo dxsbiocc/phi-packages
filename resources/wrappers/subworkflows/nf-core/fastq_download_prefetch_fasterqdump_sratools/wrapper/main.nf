@@ -7,13 +7,13 @@ nextflow.enable.dsl = 2
 include { FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS } from '../main.nf'
 
 params.id = null
+params.single_end = false
 params.dbgap_key = null
 params.outdir = "results"
 
 workflow {
-    dbgap_key_ch = Channel
-        .fromPath(params.dbgap_key, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f] }
+    sra_ids_ch = Channel.of([[id: params.id, single_end: params.single_end], params.id])
+    dbgap_key_ch = params.dbgap_key ? Channel.of(file(params.dbgap_key, checkIfExists: true)) : Channel.value([])
 
-    FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS(params.id, dbgap_key_ch)
+    FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS(sra_ids_ch, dbgap_key_ch)
 }
