@@ -1,0 +1,82 @@
+# Agent-facing wrapper adapter for the vendored nf-core/rnafusion pipeline at ../.
+# Follows docs/contracts/wrapper.md. Params are a starter subset of
+# nextflow_schema.json; REVIEW and curate before publishing.
+id: nf-core/workflows/rnafusion
+name: nf-core/rnafusion
+summary: Nextflow rnafusion analysis pipeline, part of the nf-core community.
+params:
+  input:
+    kind: input
+    type: csv
+    required: true
+    description: Path to samplesheet file containing information about the samples in the experiment.
+  fasta:
+    kind: input
+    type: fasta
+    required: false
+    description: Path to FASTA genome file.
+  gtf:
+    kind: input
+    type: gtf
+    required: false
+    description: Path to GTF genome file.
+  genome:
+    kind: input
+    type: string
+    required: false
+    description: Name of iGenomes reference.
+  genomes_base:
+    kind: option
+    type: string
+    required: true
+    description: Path to reference folder
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for all pipeline results.
+  tools:
+    kind: option
+    type: string
+    required: true
+    description: Comma-delimited list of tools to run
+  config_profile_name:
+    kind: option
+    type: string
+    required: false
+    description: Institutional config name.
+  config_profile_description:
+    kind: option
+    type: string
+    required: false
+    description: Institutional config description.
+  arriba_ref_protein_domains:
+    kind: option
+    type: string
+    required: false
+    description: Path to arriba reference protein domain
+  arriba_ref_known_fusions:
+    kind: option
+    type: string
+    required: false
+    description: Path to arriba reference known fusions
+  arriba_ref_blacklist:
+    kind: option
+    type: string
+    required: false
+    description: Path to arriba reference blacklist
+  arriba_ref_cytobands:
+    kind: option
+    type: string
+    required: false
+    description: Path to arriba reference cytobands
+  fusioncatcher_ref:
+    kind: option
+    type: string
+    required: false
+    description: Path to fusioncatcher references
+outputs:
+  results:
+    type: directory
+    path: ${outdir}
+    primary: true

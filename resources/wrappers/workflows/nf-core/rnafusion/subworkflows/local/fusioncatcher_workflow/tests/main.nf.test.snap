@@ -1,0 +1,14 @@
+{
+    "FUSIONCATCHER_WORKFLOW - Stub": {
+        "content": [
+            [
+                "versions.yml:md5,ec8d5c08a6f0c436e14c29931cc92379"
+            ]
+        ],
+        "timestamp": "2026-05-08T22:05:45.629239468",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
+    }
+}
