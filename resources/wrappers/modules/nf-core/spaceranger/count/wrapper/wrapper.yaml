@@ -1,6 +1,8 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val inputs 'slide' and 'area' are required options with no safe default; one sample per invocation (guarded) pairs reads, images, alignment and slidefile 1:1, and reference/probeset are shared.
+# Curated: one sample per invocation (the adapter errors when the reads glob yields more than one sample group);
+# 'slide' and 'area' are required options with no safe default; the image channels are optional value channels
+# and reference/probeset are shared.
 id: nf-core/modules/spaceranger-count
 name: spaceranger count
 summary: Module to use the 10x Space Ranger pipeline to process 10x spatial transcriptomics data

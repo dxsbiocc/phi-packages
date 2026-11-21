@@ -2,7 +2,8 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: index staged as a single directory; aligner-specific index layout may need curation
+# Curated: 'index' is a glob whose matched files are staged together as one aligner index (bowtie2 needs six
+# files, bwa-mem/bwa-mem2 several, dragmap a directory); the file set must match 'aligner'.
 id: nf-core/subworkflows/fastq-align-dna
 name: "Align DNA reads"
 summary: "Align FASTQ reads to a genome index with bowtie2/bwamem/bwamem2/dragmap/snap."
@@ -15,9 +16,9 @@ params:
     description: "FASTQ glob (paired or single)."
   index:
     kind: input
-    type: path
+    type: path_glob
     required: true
-    description: "Aligner index directory."
+    description: "Aligner index (glob; every matched file is staged together as the index, e.g. 'idx/*')."
   fasta:
     kind: input
     type: fasta

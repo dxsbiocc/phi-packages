@@ -2,7 +2,8 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: single-caller adapter; multi-caller routing needs curation
+# Curated: one ORF caller per invocation ('caller' enum); the caller id travels per record, so run once per
+# caller and combine catalogues afterwards.
 id: nf-core/subworkflows/orftable-fasta-gtf-buildorfcatalogue
 name: "Build ORF catalogue"
 summary: "Normalise ribo-seq ORF tables and build a merged small-ORF catalogue."

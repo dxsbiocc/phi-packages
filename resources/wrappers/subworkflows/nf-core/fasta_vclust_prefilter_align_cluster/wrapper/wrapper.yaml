@@ -2,7 +2,7 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: all matched FASTAs treated as one group
+# Curated: every FASTA matched by 'fasta' is treated as one clustering group; run once per group of genomes.
 id: nf-core/subworkflows/fasta-vclust-prefilter-align-cluster
 name: "Cluster FASTA (vclust)"
 summary: "Prefilter, align and cluster genome FASTAs with vclust at a chosen ANI/TAI threshold."

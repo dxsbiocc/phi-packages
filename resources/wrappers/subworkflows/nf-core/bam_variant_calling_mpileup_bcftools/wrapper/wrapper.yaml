@@ -2,7 +2,8 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: single-sample/region adapter; scatter-gather meta keys need curation
+# Curated: one BAM and one posfile (region) per invocation; the scatter/gather meta keys are options and the
+# adapter merges everything into 'sample_merge_value'.
 id: nf-core/subworkflows/bam-variant-calling-mpileup-bcftools
 name: "Call variants (mpileup/bcftools)"
 summary: "Call variants from BAMs at given positions with bcftools mpileup, gather and optionally annotate."

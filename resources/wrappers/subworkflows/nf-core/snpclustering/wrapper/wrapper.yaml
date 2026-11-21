@@ -2,7 +2,9 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: refpanel/genmap usage depends on BEAGLE configuration; verify semantics
+# Curated: the subworkflow takes refpanel/genmap channels but its body never forwards
+# them to BEAGLE5 (BEAGLE runs reference-free with only the input VCF), so the
+# wrappers' former 'refpanel'/'genmap' options were dead params and were removed.
 id: nf-core/subworkflows/snpclustering
 name: "SNP clustering (PCA)"
 summary: "Impute with BEAGLE5, run plink2 PCA and cluster samples (k-means/DBSCAN)."
@@ -18,16 +20,6 @@ params:
     type: path
     required: true
     description: "Input VCF index."
-  refpanel:
-    kind: input
-    type: path
-    required: false
-    description: "Reference panel (optional)."
-  genmap:
-    kind: input
-    type: path
-    required: false
-    description: "Genetic map (optional)."
   region:
     kind: option
     type: string

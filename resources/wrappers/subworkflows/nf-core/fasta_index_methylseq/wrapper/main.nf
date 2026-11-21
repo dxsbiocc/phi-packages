@@ -18,11 +18,11 @@ params.use_mem2 = false
 params.outdir = "results"
 
 workflow {
-    fasta_ch = Channel.value([[id: 'reference'], [file(params.fasta, checkIfExists: true)]])
-    fai_ch = params.fasta_index ? Channel.value([[id: 'reference'], [file(params.fasta_index, checkIfExists: true)]]) : Channel.empty()
-    bismark_ch = params.bismark_index ? Channel.value([[id: 'reference'], [file(params.bismark_index, checkIfExists: true)]]) : Channel.empty()
-    bwameth_ch = params.bwameth_index ? Channel.value([[id: 'reference'], [file(params.bwameth_index, checkIfExists: true)]]) : Channel.empty()
-    bwamem_ch = params.bwamem_index ? Channel.value([[id: 'reference'], [file(params.bwamem_index, checkIfExists: true)]]) : Channel.empty()
+    fasta_ch = Channel.value([[id: 'reference'], file(params.fasta, checkIfExists: true)])
+    fai_ch = params.fasta_index ? Channel.value([[id: 'reference'], file(params.fasta_index, checkIfExists: true)]) : []
+    bismark_ch = params.bismark_index ? Channel.value([[id: 'reference'], file(params.bismark_index, checkIfExists: true)]) : []
+    bwameth_ch = params.bwameth_index ? Channel.value([[id: 'reference'], file(params.bwameth_index, checkIfExists: true)]) : []
+    bwamem_ch = params.bwamem_index ? Channel.value([[id: 'reference'], file(params.bwamem_index, checkIfExists: true)]) : []
 
     FASTA_INDEX_METHYLSEQ(fasta_ch, fai_ch, bismark_ch, bwameth_ch, bwamem_ch, params.aligner, params.collecthsmetrics, params.use_mem2)
 }

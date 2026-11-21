@@ -2,7 +2,8 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: index directories are staged whole; verify companion semantics
+# Curated: prebuilt indexes are .tar.gz archives (or unpacked paths); absent indexes (empty-list values) make
+# the subworkflow build them from the FASTA for the chosen aligner.
 id: nf-core/subworkflows/fasta-index-methylseq
 name: "Build methylseq indexes"
 summary: "Build the full set of methylseq aligner indexes (bismark/bwameth/bwamem) plus fai."

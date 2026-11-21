@@ -2,7 +2,8 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: freyja update needs network when barcodes not provided
+# Curated: without 'barcodes' the subworkflow runs 'freyja update', which needs network access to refresh the
+# lineage database; the adapter passes an empty-list value (not an empty channel) to trigger it.
 id: nf-core/subworkflows/bam-variant-demix-boot-freyja
 name: "Lineage demix (freyja)"
 summary: "Demix SARS-CoV-2 lineages from a BAM with freyja (optionally bootstrapped)."

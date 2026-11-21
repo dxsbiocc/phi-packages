@@ -2,7 +2,8 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: chunk=true regenerates chunks from the reference panel
+# Curated: chunk=true (default) regenerates chunks from the reference panel via GLIMPSE_CHUNK; 'map' is
+# required by the phase join.
 id: nf-core/subworkflows/vcf-impute-glimpse
 name: "Impute VCF (GLIMPSE1)"
 summary: "Impute a low-coverage VCF with GLIMPSE against a reference panel."
@@ -19,10 +20,10 @@ params:
     required: true
     description: "Input VCF index (.csi)."
   infos:
-    kind: option
-    type: string
+    kind: input
+    type: path
     required: false
-    description: "Sample/info list (optional)."
+    description: "Samples file passed to GLIMPSE_PHASE (optional)."
   ref_vcf:
     kind: input
     type: path

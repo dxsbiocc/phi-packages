@@ -2,7 +2,7 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: requires network access
+# Curated: this workflow's purpose is downloading the Ensembl VEP and snpEff caches, so it needs network access.
 id: nf-core/subworkflows/cache-download-ensemblvep-snpeff
 name: "Download VEP + snpEff caches"
 summary: "Download Ensembl VEP and snpEff annotation caches."

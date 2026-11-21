@@ -2,7 +2,8 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: single-sample/experiment adapter; multi-file combinations need curation; DIA-NN refuses conda profile
+# Curated: one ms_file x searchdb x expdesign per invocation (the subworkflow builds all downstream
+# combinations internally); DIA-NN ships as a binary image, so run it via docker/singularity rather than conda.
 id: nf-core/subworkflows/dia-proteomics-analysis
 name: "DIA proteomics (DIA-NN)"
 summary: "Quantify DIA proteomics runs with DIA-NN (library-free or spectral library)."

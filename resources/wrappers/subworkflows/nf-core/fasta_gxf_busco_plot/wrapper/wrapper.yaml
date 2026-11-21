@@ -2,7 +2,8 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: lineage download needs network unless busco_lineages_path provided
+# Curated: 'lineages' auto-downloads BUSCO datasets (network) unless 'busco_lineages_path' points at a local
+# copy; without 'gxf' only the assembly BUSCO half runs.
 id: nf-core/subworkflows/fasta-gxf-busco-plot
 name: "BUSCO assessment + plots"
 summary: "Run BUSCO on an assembly/annotation and plot completeness summaries."

@@ -2,7 +2,8 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: uniqmap passed as a path string; verify zip handling
+# Curated: 'uniqmap' is either a .zip (auto-unzipped by the subworkflow) or a path to an unpacked uniqmap;
+# 'fasta' is the genome FASTA consumed by makeTagDirectory.
 id: nf-core/subworkflows/homer-groseq
 name: "GRO-seq analysis (HOMER)"
 summary: "Make tag directories, UCSC files, find peaks and convert to BED with HOMER."

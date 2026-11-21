@@ -2,7 +2,8 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: single-sample adapter
+# Curated: one tumor sample per invocation, optionally paired with 'control_bam'; 'data_type' selects TELSEQ
+# (short) or TELOGATOR2 (long); TELOMEREHUNTER runs only when 'run_telomerehunter' is true.
 id: nf-core/subworkflows/bam-telomere-estimation
 name: "Telomere length/content estimation"
 summary: "Estimate telomere length (telseq/telogator2) and optionally content (telomerehunter)."

@@ -32,7 +32,7 @@ workflow {
     ch_hlp = Channel.value([meta_panel, file(params.hap, checkIfExists: true), file(params.legend, checkIfExists: true), file(params.posfile, checkIfExists: true)])
     ch_map = Channel.value([meta_panel, file(params.map, checkIfExists: true)])
     ch_chunks = Channel.value([meta_panel, params.chr, params.start ?: [], params.end ?: []])
-    ch_fasta = params.fasta ? Channel.value([[id: 'reference'], file(params.fasta, checkIfExists: true), file(params.fai, checkIfExists: true)]) : Channel.empty()
+    ch_fasta = Channel.value(params.fasta ? [[id: 'reference'], file(params.fasta, checkIfExists: true), params.fai ? file(params.fai, checkIfExists: true) : []] : [[id: 'reference'], [], []])
 
     BAM_IMPUTE_QUILT(ch_input, ch_hlp, ch_chunks, ch_map, ch_fasta, params.n_gen, params.buffer)
 }

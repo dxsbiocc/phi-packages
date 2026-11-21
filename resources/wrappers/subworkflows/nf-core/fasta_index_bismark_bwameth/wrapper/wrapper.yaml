@@ -2,7 +2,8 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: index directories are staged whole; verify companion semantics
+# Curated: the prebuilt index params are .tar.gz archives (or already-unpacked paths) that the subworkflow
+# untars; an absent index (empty-list value) makes it build the index from the FASTA.
 id: nf-core/subworkflows/fasta-index-bismark-bwameth
 name: "Build methylation aligner index"
 summary: "Build bismark and/or bwameth indexes for a reference FASTA."

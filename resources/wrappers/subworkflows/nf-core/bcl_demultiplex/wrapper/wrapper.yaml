@@ -2,7 +2,8 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: bcl2fastq/bclconvert containers are licensed Illumina tools
+# Curated: bcl2fastq and bclconvert are licensed Illumina tools — run only with containers/images you are
+# entitled to use; the workflow just wires the chosen demultiplexer.
 id: nf-core/subworkflows/bcl-demultiplex
 name: "Demultiplex BCL"
 summary: "Demultiplex Illumina BCL runs to FASTQ with bclconvert or bcl2fastq."

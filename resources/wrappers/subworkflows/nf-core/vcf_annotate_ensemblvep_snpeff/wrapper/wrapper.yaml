@@ -2,7 +2,9 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: cache download needs network when no local cache provided
+# Curated: VEP needs 'vep_cache' or 'vep_gtf' (+ tbi) and snpEff needs 'snpeff_cache' in practice (otherwise
+# the module looks for a data dir inside the container); optional channels are empty values so both tasks
+# still run.
 id: nf-core/subworkflows/vcf-annotate-ensemblvep-snpeff
 name: "Annotate VCF (VEP + snpEff)"
 summary: "Annotate a VCF with Ensembl VEP and/or snpEff, scattering by sites per chunk."

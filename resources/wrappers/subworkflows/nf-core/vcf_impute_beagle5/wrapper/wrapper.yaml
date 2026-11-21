@@ -2,7 +2,8 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: single-region adapter; multi-region scatter needs curation
+# Curated: single-region adapter — the region is passed as one chunk ([meta, region]) instead of chunk
+# files; the panel VCF/index and map feed the imputation join.
 id: nf-core/subworkflows/vcf-impute-beagle5
 name: "Impute VCF (BEAGLE5)"
 summary: "Impute a VCF with BEAGLE5 against a reference panel."

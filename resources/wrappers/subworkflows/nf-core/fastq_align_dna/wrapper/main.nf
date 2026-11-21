@@ -18,7 +18,10 @@ workflow {
     reads_ch = Channel
         .fromFilePairs(params.reads, size: -1)
         .map { id, reads -> [[id: id, single_end: reads.size() == 1], reads] }
-    index_ch = Channel.value([[id: 'reference'], [file(params.index, checkIfExists: true)]])
+    index_ch = Channel
+        .fromPath(params.index, checkIfExists: true)
+        .collect()
+        .map { files -> [[id: 'reference'], files] }
     fasta_ch = Channel.value([[id: 'reference'], file(params.fasta, checkIfExists: true)])
 
     FASTQ_ALIGN_DNA(reads_ch, index_ch, fasta_ch, params.aligner, params.sort)

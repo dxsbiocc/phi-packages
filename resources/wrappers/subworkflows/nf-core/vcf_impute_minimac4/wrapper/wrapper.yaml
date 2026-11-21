@@ -2,7 +2,8 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: single-region adapter; multi-region scatter needs curation
+# Curated: single-region adapter — the region is passed as one chunk ([meta, region]) instead of chunk
+# files; panel, sites VCF and map feed the imputation join.
 id: nf-core/subworkflows/vcf-impute-minimac4
 name: "Impute VCF (Minimac4)"
 summary: "Impute a VCF with Minimac4 against a reference panel (VCF or MSAV)."

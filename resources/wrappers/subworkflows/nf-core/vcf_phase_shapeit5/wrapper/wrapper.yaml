@@ -2,7 +2,8 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: chunk=true regenerates chunks; ref/scaffold/map required for the join
+# Curated: chunk=true (default) regenerates chunks from the target VCF and map via GLIMPSE2_CHUNK and
+# requires 'chunk_model'; the ref/scaffold/map inputs must share the panel_id/chr meta keys for the join.
 id: nf-core/subworkflows/vcf-phase-shapeit5
 name: "Phase VCF (SHAPEIT5)"
 summary: "Phase a VCF with SHAPEIT5 (common variants), optionally chunked."
@@ -47,7 +48,7 @@ params:
     kind: input
     type: path
     required: true
-    description: "Chunking model file (required when chunk=true)."
+    description: "GLIMPSE2 chunking model (mandatory take; used when chunk=true)."
   region:
     kind: option
     type: string

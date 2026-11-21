@@ -2,7 +2,8 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: FCS may need a ramdisk and large memory
+# Curated: FCS/Hostile support tools may need a ramdisk ('ramdisk_path') plus a large memory allocation for
+# full genomes.
 id: nf-core/subworkflows/fasta-clean-fcs
 name: "Clean assembly (FCS-adaptor)"
 summary: "Screen and clean a genome assembly of adaptor contamination with NCBI FCS."

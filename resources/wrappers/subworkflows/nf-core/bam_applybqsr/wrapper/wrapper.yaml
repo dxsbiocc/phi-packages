@@ -2,7 +2,8 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: single-interval adapter; scatter-gather needs curation
+# Curated: single-interval adapter — an optional interval is passed with num_intervals=1 (no scatter-gather);
+# without it the adapter supplies [[], 0] to run genome-wide.
 id: nf-core/subworkflows/bam-applybqsr
 name: "Apply BQSR"
 summary: "Apply GATK base quality score recalibration to a BAM/CRAM."

@@ -9,8 +9,6 @@ include { SNPCLUSTERING } from '../main.nf'
 
 params.vcf = null
 params.vcf_index = null
-params.refpanel = null
-params.genmap = null
 params.region = null
 params.n_pcs = 10
 params.use_approx = false
@@ -23,8 +21,6 @@ params.outdir = "results"
 
 workflow {
     vcf_ch = Channel.value([[id: params.sample_id], file(params.vcf, checkIfExists: true), file(params.vcf_index, checkIfExists: true)])
-    refpanel_ch = params.refpanel ? Channel.value(file(params.refpanel, checkIfExists: true)) : Channel.empty()
-    genmap_ch = params.genmap ? Channel.value(file(params.genmap, checkIfExists: true)) : Channel.empty()
 
-    SNPCLUSTERING(vcf_ch, refpanel_ch, genmap_ch, params.region ?: null, params.n_pcs, params.use_approx, params.algorithm, params.n_clusters, params.dbscan_eps, params.dbscan_min_samples)
+    SNPCLUSTERING(vcf_ch, [], [], params.region ?: null, params.n_pcs, params.use_approx, params.algorithm, params.n_clusters, params.dbscan_eps, params.dbscan_min_samples)
 }
