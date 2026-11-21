@@ -1,0 +1,12 @@
+{
+  "outdir": "results",
+  "config_profile_name": "Test profile",
+  "config_profile_description": "Minimal test dataset to check pipeline function",
+  "input": "https://github.com/nf-core/test-datasets/raw/scrnaseq/samplesheet-2-0.csv",
+  "fasta": "https://github.com/nf-core/test-datasets/raw/scrnaseq/reference/GRCm38.p6.genome.chr19.fa",
+  "gtf": "https://github.com/nf-core/test-datasets/raw/scrnaseq/reference/gencode.vM19.annotation.chr19.gtf",
+  "aligner": "star",
+  "protocol": "10XV2",
+  "validationSchemaIgnoreParams": "genomes",
+  "genome": null
+}
