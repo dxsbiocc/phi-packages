@@ -1,0 +1,59 @@
+name: scatac
+description: >-
+  单细胞 ATAC 插件私有环境：Python 3.12 + snapatac2 2.10 + scanpy 1.12 + ipykernel，
+  脚本链与 notebook 共用。纯 conda（锁定环境不支持 pip/python 源码包）。
+# conda-forge + bioconda：snapatac2 只在 bioconda。strict channel priority 下 conda-forge
+# 优先供应 python/scanpy/anndata/plotly 等通用栈，bioconda 仅供 snapatac2 及其专属依赖，
+# 避免 bioconda 旧版 anndata/scanpy 遮蔽 conda-forge 新版（与 single-cell scanpy 路同构）。
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  # snapatac2 2.10 有 py312/py313 build；scanpy 1.12 要求 python>=3.12。选 3.12 与 spatial
+  # 同线，让编译型依赖落在成熟 build 上。
+  - python=3.12
+  # 主引擎：Rust 后端、file-backed AnnData（自动同步、退出前必须 close）、plotly 图（非 matplotlib）。
+  # 覆盖 fragment 导入、QC/TSSe、scrublet 双细胞、spectral 降维、knn/leiden 聚类/UMAP、tile/peak 矩阵、
+  # macs3 peak calling、marker_regions/diff_test 差异可及性、motif_enrichment（TF 调控 motif 富集，
+  # 非 chromVAR/GRN）、gene activity、harmony/scanorama/mnc 整合。genome.hg38/mm10/hg19/mm39 自带
+  # chrom_sizes；基因注释（GFF3）与 FASTA 是懒下载，不随环境分发（见下）。
+  - snapatac2=2.10
+  # gene activity 矩阵（gene×cell）的下游 normalize/log1p/marker/umap 走 scanpy，
+  # 也是与 single-cell 插件交换 scRNA 参考的公共语言。
+  - scanpy=1.12
+  - anndata
+  - ipykernel
+
+  # snapatac2 的列式后端与 fragment/peak 矩阵 IO。
+  - polars
+  - pyarrow
+
+  # 聚类与近邻图。
+  - leidenalg
+  - python-igraph
+  - umap-learn
+
+  # 降维/特征选择/统计。
+  - scikit-learn
+  - scipy
+  - numpy
+  - pandas
+  - h5py
+
+  # 图：snapatac2 用 plotly（导出 .html/.svg 原生，.png/.pdf 需 kaleido）；
+  # scanpy 的 gene-activity 图用 matplotlib。
+  - plotly
+  - matplotlib-base
+
+# 锁定环境机制（Phi lock-env.ts）只支持 conda 依赖 + R 源码包（sourcePackages.language='r'）；
+# refusePipDependencies 对任何 pip 依赖抛错。因此本环境不含 pip 段，也不含 python sourcePackages。
+# episcanpy 0.4.0 虽在 bioconda 且可共解，但运行时 `from numpy import NaN` 在 numpy 2.x 下 ImportError
+# （np.NaN 已移除），而 snapatac2/scanpy 1.12 需 numpy 2.x，无法共存——故不纳入本环境，由
+# scatac_env_probe 报为缺口（需 numpy<2 的项目环境）。snapatac2 是唯一引擎，覆盖全部 scATAC 能力。
+# 其余 pip-only 能力（magic-impute 插补、scvi-tools 的 torch 栈、chromVAR、ArchR/Signac 的 R 路）
+# 同样由 scatac_env_probe 报告为缺口，走项目环境（env_request），绝不在本私有环境里装包。
+# 基因组参考分两类：chrom_sizes 由 snapatac2 自带（hg38/mm10/hg19/mm39，离线可用）；基因注释
+# （GFF3 ~50MB）与基因组 FASTA（~845MB）是 snapatac2 的懒下载，不随环境分发，由用户提供 input-path
+# 或一次性下载到项目目录，缺失时报缺口。blacklist（ENCODE hg38/mm10）内联在 assets/fragments/blacklist.py
+# （base64-gzip，离线解码）；JASPAR/cis_bp motif 库是 snapatac2 的下载资源，不随插件分发。
+# 绝不在本只读环境里装包或下载大参考。

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://phi.local/plugins/single-cell-atac/scatac-env-probe.json",
+  "title": "scatac_env_probe result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["environment", "packages_total", "packages_installed", "packages", "modules", "core_ready_modules", "blocked_modules", "notes"],
+  "properties": {
+    "environment": { "type": "string", "description": "Python version of the running environment." },
+    "packages_total": { "type": "integer", "minimum": 1 },
+    "packages_installed": { "type": "integer", "minimum": 0 },
+    "packages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["package", "role", "installed", "required", "modules"],
+        "properties": {
+          "package": { "type": "string" },
+          "role": { "type": "string" },
+          "installed": { "type": "boolean" },
+          "version": { "type": ["string", "null"] },
+          "core": { "type": "boolean" },
+          "required": { "type": "boolean" },
+          "modules": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "modules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["module", "packages_checked", "missing_required", "missing_optional", "core_ready"],
+        "properties": {
+          "module": { "type": "integer", "minimum": 1, "maximum": 6 },
+          "packages_checked": { "type": "integer", "minimum": 0 },
+          "missing_required": { "type": "array", "items": { "type": "string" } },
+          "missing_optional": { "type": "array", "items": { "type": "string" } },
+          "core_ready": { "type": "boolean" }
+        }
+      }
+    },
+    "core_ready_modules": { "type": "array", "items": { "type": "string" } },
+    "blocked_modules": { "type": "array", "items": { "type": "string" } },
+    "panel_written": { "type": ["string", "null"] },
+    "notes": { "type": "array", "items": { "type": "string" } }
+  }
+}

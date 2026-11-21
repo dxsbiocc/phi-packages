@@ -1,0 +1,113 @@
+{
+  "language": "python",
+  "skill": "scatac-workflow",
+  "library_title": "scATAC fragment library",
+  "analysis_title": "Single-cell ATAC analysis",
+  "renderer_id": "single-cell-atac/build_notebook.py",
+  "kernels": {
+    "python": { "name": "plugin-single-cell-atac-scatac", "display": "Python 3 (single-cell-atac:scatac)" }
+  },
+  "output_object_default": "scatac.h5ad",
+  "footer": "## What this notebook did not do\n\nWhere a step needed a package, model or genome resource this environment does not ship, the cell said so and continued. An existing message means that step did not run — do not read its absence as a clean result.\n\nNext steps that belong elsewhere:\n\n- **Raw reads to fragments** — alignment and Cell Ranger ATAC / cellranger-atac count produce the fragments.tsv.gz or BAM; they are wrappers, not notebook cells. This notebook starts from fragments, a BAM, a saved .h5ad or a 10x peak matrix.\n- **Genome FASTA and gene annotation** — snapatac2 bundles chrom_sizes for hg38/mm10/hg19/mm39 offline, but the gene annotation (GFF3, ~50 MB) and FASTA (~845 MB) are lazy downloads from a slow host. TSSe, gene activity and motif enrichment need them: pass gene_anno / genome_fasta as local files, or let snapatac2 download once into its cache. Without them those cells report the gap and continue.\n- **chromVAR / ArchR / Signac** — chromVAR deviation scores and the R/Bioconductor scATAC route are not in this pure-conda Python environment. The TF layer here is snapatac2 motif_enrichment plus a TF-gene regulatory network; for chromVAR use a project environment (R ArchR/Signac or pip chromVAR).\n- **episcanpy** — episcanpy 0.4.0 imports numpy.NaN, removed in numpy 2.x which snapatac2/scanpy 1.12 require; it cannot coexist and is reported as a gap, not installed.\n- **Bulk ChIP-seq / CUT&Tag** — peak-centric bulk chromatin profiling is the sibling chromatin-profiling plugin (R/Bioconductor, pure downstream), not this single-cell plugin.",
+  "attribution": "Analysis structure and teaching text are an original distillation of the snapatac2 documentation and tutorials (Zhang et al., MIT license) — https://github.com/kaizhang/SnapATAC2, with single-cell best practices (Apache 2.0). The code is original to this plugin and runs in the private plugin:scatac environment (snapatac2 2.10 + scanpy 1.12 + MACS3 3.1): no install cells, no Colab paths, and the config cell is the single place to tune parameters.",
+  "parameters": {
+    "genome": { "type": "string", "default": "hg38", "comment": "bundled chrom_sizes genome: hg38, mm10, hg19, mm39; for another genome pass chrom_sizes. chrom_sizes is offline; annotation/FASTA are not" },
+    "chrom_sizes": { "type": "string", "default": null, "comment": "two-column chrom<TAB>size file for a non-bundled genome (input-path); overrides genome" },
+    "gene_anno": { "type": "string", "default": null, "comment": "gene annotation GTF/GFF3 for TSSe and gene activity (input-path); null skips them with a gap message rather than a slow ~50MB download" },
+    "genome_fasta": { "type": "string", "default": null, "comment": "genome FASTA for motif enrichment / TF binding (input-path); null skips motif with a gap message rather than a slow ~845MB download" },
+    "blacklist": { "type": "string", "default": null, "comment": "blacklist BED (input-path); null uses the shipped ENCODE blacklist for hg38/mm10, else none" },
+    "motif_db": { "type": "string", "default": null, "comment": "motif database .meme (input-path); null uses snapatac2 cis_bp (a download) when motif runs" },
+    "is_paired": { "type": "bool", "default": true, "comment": "fragments are paired-end; 10x ATAC is paired" },
+    "min_num_fragments": { "type": "int", "default": 200, "comment": "minimum fragments per barcode at import; below this a barcode is dropped as an empty droplet" },
+    "bin_size": { "type": "int", "default": 500, "comment": "tile matrix bin size in bp; tiles are the genome-wide binning used for initial clustering, peaks are the called open-chromatin regions" },
+    "n_features": { "type": "int", "default": 500000, "comment": "number of tiles/peaks to select for the spectral embedding; select_features removes uninformative bins" },
+    "min_counts": { "type": "int", "default": 1000, "comment": "minimum fragments per cell for filter_cells; read the n_fragment distribution before choosing" },
+    "min_tsse": { "type": "number", "default": null, "comment": "minimum TSS enrichment for filter_cells; null disables the gate (TSSe needs gene_anno). Read the tsse distribution before choosing" },
+    "max_counts": { "type": "int", "default": null, "comment": "maximum fragments per cell; null disables the upper gate (a high shoulder can be doublets)" },
+    "max_tsse": { "type": "number", "default": null, "comment": "maximum TSS enrichment; null disables the upper gate" },
+    "doublet_filter": { "type": "bool", "default": true, "comment": "run scrublet on the selected features and filter predicted doublets" },
+    "doublet_threshold": { "type": "number", "default": 0.5, "comment": "scrublet doublet probability threshold for filter_doublets" },
+    "expected_doublet_rate": { "type": "number", "default": 0.1, "comment": "expected doublet rate for scrublet; scales with loaded cell number" },
+    "n_comps": { "type": "int", "default": 30, "comment": "spectral embedding components (LSI-like diffusion map on the tile/peak graph)" },
+    "n_neighbors": { "type": "int", "default": 50, "comment": "neighbors for the kNN graph built on X_spectral" },
+    "resolution": { "type": "list", "default": [1.0], "comment": "Leiden clustering resolution; a list sweeps several resolutions to compare granularity" },
+    "run_umap": { "type": "bool", "default": true, "comment": "compute the UMAP embedding on X_spectral" },
+    "seed": { "type": "int", "default": 0, "comment": "random seed so spectral, clustering and embedding repeat exactly (snapatac2 default 0)" },
+    "group_by": { "type": "string", "default": "leiden", "comment": "obs column defining the clusters for peak calling, markers and annotation" },
+    "peak_qvalue": { "type": "number", "default": 0.05, "comment": "MACS3 q-value cutoff for per-cluster peak calling" },
+    "peak_half_width": { "type": "int", "default": 250, "comment": "half-width in bp to extend each summit before merging peaks into a non-overlapping set" },
+    "call_broad_peaks": { "type": "bool", "default": false, "comment": "call broad peaks (histone marks); ATAC open chromatin uses narrow peaks" },
+    "marker_pvalue": { "type": "number", "default": 0.01, "comment": "p-value cutoff for marker_regions per cluster" },
+    "diff_min_log_fc": { "type": "number", "default": 0.25, "comment": "minimum log fold change for diff_test differential accessibility" },
+    "diff_min_pct": { "type": "number", "default": 0.05, "comment": "minimum fraction of cells with accessibility for a region to enter diff_test" },
+    "run_diff": { "type": "bool", "default": false, "comment": "run pairwise cluster-vs-cluster diff_test (O(clusters^2), slow); marker_regions is always cluster-vs-rest" },
+    "gene_upstream": { "type": "int", "default": 2000, "comment": "promoter upstream bp included in the gene activity matrix" },
+    "gene_body": { "type": "bool", "default": true, "comment": "include the gene body in gene activity; gene activity is a proxy for expression, not RNA" },
+    "reference_path": { "type": "string", "default": null, "comment": "scRNA reference .h5ad for label transfer (input-path); null skips transfer. The reference comes from the single-cell plugin" },
+    "reference_label_key": { "type": "string", "default": "cell_type", "comment": "obs column in the scRNA reference naming cell types" },
+    "label_column": { "type": "string", "default": "cell_type", "comment": "obs column written with the cell-type labels" },
+    "panel_path": { "type": "string", "default": null, "comment": "marker panel JSON (cell type -> gene symbols) for gene-activity scoring (input-path)" },
+    "mapping_path": { "type": "string", "default": null, "comment": "cluster -> label JSON overriding panel scores (input-path)" },
+    "min_score": { "type": "number", "default": 0, "comment": "minimum panel score to accept a label; below it a cluster stays unassigned" },
+    "motif_pvalue": { "type": "number", "default": 0.00001, "comment": "p-value cutoff for motif enrichment / TF binding scanning" },
+    "motif_method": { "type": "string", "default": "binomial", "comment": "motif enrichment test: binomial or hypergeometric" },
+    "batch_column": { "type": "string", "default": "sample", "comment": "obs column naming each cell's sample/batch for integration; the sample is the experimental unit" },
+    "integrate_method": { "type": "string", "default": "harmony", "comment": "batch integration on X_spectral: harmony, scanorama or mnc" },
+    "figures_dir": { "type": "string", "default": "figures", "comment": "directory for the HTML copies of every plotly figure" },
+    "tables_dir": { "type": "string", "default": "markers", "comment": "directory for per-cluster marker region tables" },
+    "plot_tag": { "type": "string", "default": "before", "comment": "suffix for the QC plots; the filter pass re-tags them after" },
+    "static_png": { "type": "bool", "default": false, "comment": "also write a PNG via kaleido (needs a chrome backend); the interactive HTML is always written" },
+    "quantiles": { "type": "list", "default": [0.01, 0.99], "comment": "distribution quantiles reported for each QC metric" },
+    "n_jobs": { "type": "int", "default": 1, "comment": "worker processes; keep 1 for reproducibility and small data, raise for large fragment files" }
+  },
+  "steps": [
+    { "id": "setup", "title": "Setup", "requires": [] },
+    { "id": "blacklist", "title": "Resolve the ENCODE blacklist", "requires": ["setup"] },
+    { "id": "load", "title": "Load the scATAC data", "requires": ["setup"] },
+    { "id": "qc-metrics", "title": "Quality control metrics", "requires": ["load"] },
+    { "id": "qc-plots", "title": "Look at the distributions", "requires": ["qc-metrics"] },
+    { "id": "filter", "title": "Filter low-quality cells and doublets", "requires": ["qc-metrics"] },
+    { "id": "features", "title": "Build the tile matrix and select features", "requires": ["filter", "blacklist"] },
+    { "id": "embed", "title": "Spectral embedding and neighbor graph", "requires": ["features"] },
+    { "id": "cluster", "title": "Cluster and embed", "requires": ["embed"] },
+    { "id": "peaks", "title": "Call per-cluster peaks and merge", "requires": ["cluster", "blacklist"] },
+    { "id": "markers", "title": "Find marker regions and differential accessibility", "requires": ["cluster"] },
+    { "id": "gene-activity", "title": "Gene activity matrix", "requires": ["load"] },
+    { "id": "annotate", "title": "Annotate cell types", "requires": ["gene-activity", "cluster"] },
+    { "id": "motif", "title": "Motif enrichment and TF regulation", "requires": ["markers"] },
+    { "id": "integrate", "title": "Integrate samples", "requires": ["cluster"] },
+    { "id": "save", "title": "Save the object", "requires": ["load"] }
+  ],
+  "presets": {
+    "1": {
+      "title": "Module 01 — scATAC QC",
+      "intro": "Quality control on raw fragments: per-cell fragment count, duplication and mitochondrial\nfraction, fragment size distribution, and TSS enrichment when a gene annotation is supplied.\nThreshold filtering plus scrublet doublet removal, with a report of what each gate removed.\nReads a fragments.tsv.gz, a BAM, a saved .h5ad or a 10x peak matrix.\n\nOriginal distillation of the snapatac2 documentation (MIT); the code is original to this plugin.",
+      "steps": ["setup", "load", "qc-metrics", "qc-plots", "filter", "save"]
+    },
+    "2": {
+      "title": "Module 02 — Preprocess and cluster",
+      "intro": "The QC chain plus a genome-wide tile matrix, feature selection, spectral embedding (the\nscATAC analogue of LSI/PCA), a kNN graph, Leiden clustering and UMAP. Tiles are used for\nclustering because they cover the genome uniformly; called peaks come later for differential\naccessibility.\n\nOriginal distillation of the snapatac2 documentation (MIT).",
+      "steps": ["setup", "blacklist", "load", "qc-metrics", "qc-plots", "filter", "features", "embed", "cluster", "save"]
+    },
+    "3": {
+      "title": "Module 03 — Peaks and marker regions",
+      "intro": "The clustered chain plus per-cluster MACS3 peak calling, a merged non-overlapping peak set,\na peak-count matrix and per-cluster marker regions (cluster-vs-rest differential accessibility).\nPairwise cluster-vs-cluster diff_test is opt-in via run_diff because it is O(clusters^2). This\nis where open-chromatin regions become the features of record for downstream comparison.\n\nOriginal distillation of the snapatac2 documentation (MIT).",
+      "steps": ["setup", "blacklist", "load", "qc-metrics", "qc-plots", "filter", "features", "embed", "cluster", "peaks", "markers", "save"]
+    },
+    "4": {
+      "title": "Module 04 — Gene activity and annotation",
+      "intro": "The clustered chain plus a gene activity matrix (accessibility aggregated over gene bodies\nand promoters) and cell-type annotation, either by scoring a marker panel on gene activity or\nby transferring labels from a scRNA reference. Gene activity is a proxy for expression, not\nRNA; it needs a gene annotation.\n\nOriginal distillation of the snapatac2 documentation (MIT).",
+      "steps": ["setup", "blacklist", "load", "qc-metrics", "qc-plots", "filter", "features", "embed", "cluster", "peaks", "markers", "gene-activity", "annotate", "save"]
+    },
+    "5": {
+      "title": "Module 05 — Motif and integration",
+      "intro": "The annotated chain plus motif enrichment on per-cluster marker regions (which TF motifs\nare over-represented in each cluster's open chromatin) and sample integration with Harmony on\nthe spectral embedding. Motif enrichment needs a genome FASTA and a motif database; without\nthem the cell reports the gap and continues.\n\nOriginal distillation of the snapatac2 documentation (MIT).",
+      "steps": ["setup", "blacklist", "load", "qc-metrics", "qc-plots", "filter", "features", "embed", "cluster", "peaks", "markers", "gene-activity", "annotate", "motif", "integrate", "save"]
+    },
+    "6": {
+      "title": "Module 06 — Full scATAC chain",
+      "intro": "Every capability in order: QC, tile matrix, spectral embedding, clustering, per-cluster\npeaks, marker regions, gene activity, annotation, motif enrichment and sample integration.\nSteps that need a missing genome resource, reference or package report the gap and continue.\n\nOriginal distillation of the snapatac2 documentation (MIT).",
+      "steps": ["setup", "blacklist", "load", "qc-metrics", "qc-plots", "filter", "features", "embed", "cluster", "peaks", "markers", "gene-activity", "annotate", "motif", "integrate", "save"]
+    }
+  }
+}
