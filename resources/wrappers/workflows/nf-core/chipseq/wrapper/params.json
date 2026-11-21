@@ -1,0 +1,12 @@
+{
+  "outdir": "results",
+  "config_profile_name": "Test profile",
+  "config_profile_description": "Minimal test dataset to check pipeline function",
+  "max_memory": "6.GB",
+  "max_time": "6.h",
+  "input": null,
+  "fasta": null,
+  "gtf": null,
+  "gff": null,
+  "genome": null
+}

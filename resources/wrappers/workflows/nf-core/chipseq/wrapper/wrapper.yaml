@@ -1,0 +1,62 @@
+# Agent-facing wrapper adapter for the vendored nf-core/chipseq pipeline at ../.
+# Follows docs/contracts/wrapper.md. Params are a starter subset of
+# nextflow_schema.json; REVIEW and curate before publishing.
+id: nf-core/workflows/chipseq
+name: nf-core/chipseq
+summary: ChIP-seq peak-calling and differential analysis pipeline.
+params:
+  input:
+    kind: input
+    type: csv
+    required: true
+    description: Path to comma-separated file containing information about the samples in the experiment.
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: Path to FASTA genome file.
+  gtf:
+    kind: input
+    type: gtf
+    required: false
+    description: Path to GTF annotation file.
+  gff:
+    kind: input
+    type: gff
+    required: false
+    description: Path to GFF3 annotation file.
+  genome:
+    kind: input
+    type: string
+    required: false
+    description: Name of iGenomes reference.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for all pipeline results.
+  config_profile_name:
+    kind: option
+    type: string
+    required: false
+    description: Institutional config name.
+  config_profile_description:
+    kind: option
+    type: string
+    required: false
+    description: Institutional config description.
+  max_memory:
+    kind: option
+    type: string
+    required: false
+    description: Maximum amount of memory that can be requested for any single job.
+  max_time:
+    kind: option
+    type: string
+    required: false
+    description: Maximum amount of time that can be requested for any single job.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}
+    primary: true
