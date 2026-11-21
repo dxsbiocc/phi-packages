@@ -1,0 +1,9 @@
+{
+  "reads": null,
+  "reads_index": null,
+  "bed": null,
+  "fasta": null,
+  "fai": null,
+  "args": "",
+  "outdir": "results"
+}

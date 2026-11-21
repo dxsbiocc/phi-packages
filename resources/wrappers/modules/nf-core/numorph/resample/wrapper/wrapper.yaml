@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'parameter_file' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/numorph-resample
+name: numorph resample
+summary: performs resampling of light-sheet microscopy images
+params:
+  stitch_directory:
+    kind: input
+    type: path
+    required: true
+    description: Directory containing stitched images format
+  parameter_file:
+    kind: input
+    type: path
+    required: false
+    description: File containing parameters for numorph tools
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  resampled:
+    type: directory
+    path: ${outdir}/numorph_resample
+    primary: true

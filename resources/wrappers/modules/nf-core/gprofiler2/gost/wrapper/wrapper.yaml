@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/gprofiler2-gost
+name: gprofiler2 gost
+summary: runs a functional enrichment analysis with gprofiler2
+params:
+  de_file:
+    kind: input
+    type: path
+    required: true
+    description: CSV or TSV-format tabular file with differential analysis outputs
+  gmt_file:
+    kind: input
+    type: path
+    required: true
+    description: Path to a GMT file downloaded from g:profiler that should be queried instead of the online
+      databases
+  background_file:
+    kind: input
+    type: path
+    required: true
+    description: Path to a CSV/TSV/TXT file listing gene IDs that should be used as the background (will
+      override count_file).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  all_enrich:
+    type: directory
+    path: ${outdir}/gprofiler2_gost
+    primary: true

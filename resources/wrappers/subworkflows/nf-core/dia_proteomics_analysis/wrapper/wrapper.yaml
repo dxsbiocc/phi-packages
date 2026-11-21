@@ -1,0 +1,132 @@
+# Agent-facing wrapper adapter for the vendored dia_proteomics_analysis subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+# REVIEW: single-sample/experiment adapter; multi-file combinations need curation; DIA-NN refuses conda profile
+id: nf-core/subworkflows/dia-proteomics-analysis
+name: "DIA proteomics (DIA-NN)"
+summary: "Quantify DIA proteomics runs with DIA-NN (library-free or spectral library)."
+
+params:
+  ms_file:
+    kind: input
+    type: path
+    required: true
+    description: "Mass-spec file (mzML)."
+  searchdb:
+    kind: input
+    type: fasta
+    required: true
+    description: "Search database FASTA."
+  expdesign:
+    kind: input
+    type: path
+    required: true
+    description: "Experimental design file."
+  enzyme:
+    kind: option
+    type: string
+    required: false
+    description: "Digestion enzyme."
+  fixed_mods:
+    kind: option
+    type: string
+    required: false
+    description: "Fixed modifications."
+  variable_mods:
+    kind: option
+    type: string
+    required: false
+    description: "Variable modifications."
+  precursor_tolerance:
+    kind: option
+    type: number
+    required: false
+    description: "Precursor tolerance."
+  fragment_tolerance:
+    kind: option
+    type: number
+    required: false
+    description: "Fragment tolerance."
+  precursor_tolerance_unit:
+    kind: option
+    type: string
+    required: false
+    enum:
+      - ppm
+      - Da
+    description: "Precursor tolerance unit."
+  fragment_tolerance_unit:
+    kind: option
+    type: string
+    required: false
+    enum:
+      - ppm
+      - Da
+    description: "Fragment tolerance unit."
+  random_preanalysis:
+    kind: option
+    type: boolean
+    required: false
+    description: "Enable random preanalysis."
+  random_preanalysis_n:
+    kind: option
+    type: integer
+    required: false
+    description: "Preanalysis sample count."
+  random_preanalysis_seed:
+    kind: option
+    type: integer
+    required: false
+    description: "Preanalysis seed."
+  scan_window:
+    kind: option
+    type: integer
+    required: false
+    description: "DIA-NN scan window."
+  mass_acc_automatic:
+    kind: option
+    type: boolean
+    required: false
+    description: "Automatic mass accuracy."
+  scan_window_automatic:
+    kind: option
+    type: boolean
+    required: false
+    description: "Automatic scan window."
+  diann_debug:
+    kind: option
+    type: boolean
+    required: false
+    description: "Enable DIA-NN debug output."
+  pg_level:
+    kind: option
+    type: string
+    required: false
+    description: "Protein group level."
+  speclib:
+    kind: input
+    type: path
+    required: false
+    description: "Pre-generated spectral library (optional)."
+  empirical_library:
+    kind: input
+    type: path
+    required: false
+    description: "Empirical library (optional)."
+  empirical_log:
+    kind: input
+    type: path
+    required: false
+    description: "Assembly log (optional)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/dia_proteomics_analysis'
+    primary: true

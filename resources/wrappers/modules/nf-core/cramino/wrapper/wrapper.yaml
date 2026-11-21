@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'bai' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/cramino
+name: cramino
+summary: Quality assessment of long-read bam files using cramino.
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: BAM/CRAM file
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: Index of BAM/CRAM file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to cramino.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  stats:
+    type: directory
+    path: ${outdir}/cramino
+    primary: true

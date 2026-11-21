@@ -1,0 +1,35 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/metaphlan3-metaphlan3
+name: metaphlan3 metaphlan3
+summary: MetaPhlAn is a tool for profiling the composition of microbial communities from metagenomic shotgun
+  sequencing data.
+params:
+  input:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Metaphlan 3.0 can classify the metagenome from a variety of input data types, including
+      FASTQ files (single-end and paired-end), FASTA, bowtie2-produced SAM files (produced from alignments
+      to the MetaPHlAn marker database) and intermediate bowtie2 alignment files (bowtie2out)
+  db_metaphlan:
+    kind: input
+    type: path
+    required: true
+    description: 'Directory containing pre-downloaded and uncompressed MetaPhlAn3 database downloaded
+      from: http://cmprod1.cibio.unitn.it/biobakery3/metaphlan_databases/.'
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to metaphlan3.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  profile:
+    type: directory
+    path: ${outdir}/metaphlan3_metaphlan3
+    primary: true

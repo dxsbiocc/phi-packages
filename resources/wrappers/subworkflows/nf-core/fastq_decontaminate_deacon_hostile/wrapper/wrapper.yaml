@@ -1,0 +1,53 @@
+# Agent-facing wrapper adapter for the vendored fastq_decontaminate_deacon_hostile subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+id: nf-core/subworkflows/fastq-decontaminate-deacon-hostile
+name: "Decontaminate FASTQ"
+summary: "Remove host/contaminant reads with hostile or deacon."
+
+params:
+  reads:
+    kind: input
+    type: path_glob
+    required: true
+    description: "FASTQ glob (paired or single)."
+  fasta:
+    kind: input
+    type: fasta
+    required: false
+    description: "Contaminant reference FASTA (hostile, optional)."
+  reference:
+    kind: input
+    type: path
+    required: false
+    description: "Pre-built reference directory (optional)."
+  reference_name:
+    kind: option
+    type: string
+    required: false
+    description: "Name for the reference."
+  index_name:
+    kind: option
+    type: string
+    required: false
+    description: "deacon index name (optional)."
+  decontaminator:
+    kind: option
+    type: string
+    required: true
+    enum:
+      - hostile
+      - deacon
+    description: "Decontamination tool."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/fastq_decontaminate_deacon_hostile'
+    primary: true

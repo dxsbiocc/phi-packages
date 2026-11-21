@@ -1,0 +1,8 @@
+{
+  "fasta": null,
+  "db": null,
+  "search_mode": null,
+  "eggnog_data_dir": null,
+  "args": "",
+  "outdir": "results"
+}

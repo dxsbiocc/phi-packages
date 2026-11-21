@@ -1,0 +1,48 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'fasta' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'gtf' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'reference_config' treated as single reference (.first()); verify if a list/collection is expected; val input 'reference_name' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/cellrangeratac-mkref
+name: cellrangeratac mkref
+summary: Module to build the reference needed by the 10x Genomics Cell Ranger ATAC tool.
+params:
+  fasta:
+    kind: input
+    type: path
+    required: false
+    description: Reference genome FASTA file
+  gtf:
+    kind: input
+    type: path
+    required: false
+    description: Reference transcriptome GTF file
+  motifs:
+    kind: input
+    type: path
+    required: true
+    description: Sequence motif file (e.g., of transcription factors)
+  reference_config:
+    kind: input
+    type: path
+    required: false
+    description: JSON-like config file holding organism, genome, reference fasta path, reference annotation
+      gtf path, contigs that should be excluded and sequence format motif file path
+  reference_name:
+    kind: option
+    type: string
+    required: true
+    description: The name to give the new reference folder
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to cellrangeratac.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  reference:
+    type: directory
+    path: ${outdir}/cellrangeratac_mkref
+    primary: true

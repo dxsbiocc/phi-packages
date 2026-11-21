@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'ksize' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/sourmash-index
+name: sourmash index
+summary: Create a database of sourmash signatures (a group of FracMinHash sketches) to be used as references.
+params:
+  signatures:
+    kind: input
+    type: path
+    required: true
+    description: Files containing signature (hash sketches) of reference genomes
+  ksize:
+    kind: option
+    type: integer
+    required: true
+    description: ksize value
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to sourmash.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  signature_index:
+    type: directory
+    path: ${outdir}/sourmash_index
+    primary: true

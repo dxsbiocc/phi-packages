@@ -1,0 +1,52 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/centrifuger-centrifuger
+name: centrifuger centrifuger
+summary: Classification of sequencing reads using the Centrifuger tool.
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: List of input FastQ files of size 1 and 2 for single-end and paired-end, respectively.
+  db:
+    kind: input
+    type: path
+    required: true
+    description: Path to directory containing Centrifuger database files (that end in `.cfr`).
+  save_unclassified:
+    kind: option
+    type: boolean
+    required: false
+    description: Optional - if true, output unclassified reads.
+  save_classified:
+    kind: option
+    type: boolean
+    required: false
+    description: Optional - if true, output classified reads.
+  barcode:
+    kind: input
+    type: path
+    required: true
+    description: Optional barcode file.
+  umi:
+    kind: input
+    type: path
+    required: true
+    description: Optional UMI file.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to centrifuger.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  classification_file:
+    type: directory
+    path: ${outdir}/centrifuger_centrifuger
+    primary: true

@@ -1,0 +1,7 @@
+{
+  "treatment_bam": null,
+  "control_bam": null,
+  "blacklist_bed": null,
+  "args": "",
+  "outdir": "results"
+}

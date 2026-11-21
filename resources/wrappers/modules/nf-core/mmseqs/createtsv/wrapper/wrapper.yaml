@@ -1,0 +1,38 @@
+# Agent-facing wrapper adapter for the vendored mmseqs/createtsv module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+# Manually wired: exotic staging pattern.
+id: nf-core/modules/mmseqs-createtsv
+name: mmseqs createtsv
+summary: Convert an MMseqs2 result database to a TSV alignment table.
+params:
+  db_result:
+    kind: input
+    type: path
+    required: true
+    description: MMseqs2 result database directory (from cluster/search/taxonomy).
+  db_query:
+    kind: input
+    type: path
+    required: false
+    description: Optional query database directory (from mmseqs createdb).
+  db_target:
+    kind: input
+    type: path
+    required: true
+    description: Target database directory (from mmseqs createdb).
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to mmseqs.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/mmseqs_createtsv
+    primary: true

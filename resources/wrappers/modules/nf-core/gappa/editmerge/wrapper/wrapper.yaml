@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/gappa-editmerge
+name: gappa editmerge
+summary: Merges the pqueries of several jplace files, placed on a common reference tree, into a single
+  jplace file
+params:
+  jplace:
+    kind: input
+    type: path
+    required: true
+    description: Two or more jplace files output from phylogenetic placement, e.g.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to gappa.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  jplace:
+    type: directory
+    path: ${outdir}/gappa_editmerge
+    primary: true

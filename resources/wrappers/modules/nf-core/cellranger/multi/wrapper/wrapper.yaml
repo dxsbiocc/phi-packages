@@ -1,0 +1,123 @@
+# Agent-facing wrapper adapter for the vendored cellranger/multi module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+# Manually wired: exotic staging pattern.
+id: nf-core/modules/cellranger-multi
+name: cellranger multi
+summary: Run 10x Genomics Cell Ranger multi (GEX plus optional VDJ/antibody/BEAM/CMO/CRISPR libraries).
+params:
+  gex_fastqs:
+    kind: input
+    type: path
+    required: true
+    description: Directory of gene-expression FASTQs.
+  gex_reference:
+    kind: input
+    type: path
+    required: true
+    description: GEX reference directory (Cell Ranger transcriptome).
+  vdj_fastqs:
+    kind: input
+    type: path
+    required: false
+    description: Optional VDJ FASTQ directory.
+  ab_fastqs:
+    kind: input
+    type: path
+    required: false
+    description: Optional antibody-capture FASTQ directory.
+  beam_fastqs:
+    kind: input
+    type: path
+    required: false
+    description: Optional BEAM FASTQ directory.
+  cmo_fastqs:
+    kind: input
+    type: path
+    required: false
+    description: Optional CMO FASTQ directory.
+  crispr_fastqs:
+    kind: input
+    type: path
+    required: false
+    description: Optional CRISPR FASTQ directory.
+  gex_frna_probeset:
+    kind: input
+    type: file
+    required: false
+    description: Optional fixed-RNA probe set CSV.
+  gex_targetpanel:
+    kind: input
+    type: file
+    required: false
+    description: Optional target-panel CSV.
+  vdj_reference:
+    kind: input
+    type: path
+    required: false
+    description: Optional VDJ reference directory.
+  vdj_primer_index:
+    kind: input
+    type: file
+    required: false
+    description: Optional VDJ primer index FASTA.
+  fb_reference:
+    kind: input
+    type: path
+    required: false
+    description: Optional feature-barcode reference CSV.
+  beam_antigen_panel:
+    kind: input
+    type: file
+    required: false
+    description: Optional BEAM antigen panel CSV.
+  beam_control_panel:
+    kind: input
+    type: file
+    required: false
+    description: Optional BEAM control panel CSV.
+  cmo_reference:
+    kind: input
+    type: path
+    required: false
+    description: Optional CMO reference CSV.
+  cmo_barcodes:
+    kind: input
+    type: file
+    required: false
+    description: Optional CMO barcodes CSV.
+  cmo_barcode_assignment:
+    kind: input
+    type: file
+    required: false
+    description: Optional CMO sample barcode assignment CSV.
+  frna_sampleinfo:
+    kind: input
+    type: file
+    required: false
+    description: Optional fixed-RNA sample info CSV.
+  ocm_barcodes:
+    kind: input
+    type: file
+    required: false
+    description: Optional OCM barcodes CSV.
+  skip_renaming:
+    kind: option
+    type: boolean
+    required: false
+    description: Skip Cell Ranger sample renaming.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to cellranger.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/cellranger_multi
+    primary: true

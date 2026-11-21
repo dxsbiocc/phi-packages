@@ -1,0 +1,11 @@
+{
+  "reads": null,
+  "fasta": null,
+  "index": null,
+  "barcodes": null,
+  "whitelist": null,
+  "chr_order": null,
+  "pairs_chr_order": null,
+  "args": "",
+  "outdir": "results"
+}

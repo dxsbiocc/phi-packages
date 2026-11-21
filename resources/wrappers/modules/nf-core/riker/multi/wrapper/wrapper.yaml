@@ -1,0 +1,88 @@
+# Agent-facing wrapper adapter for the vendored riker/multi module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+# Manually wired: exotic staging pattern.
+id: nf-core/modules/riker-multi
+name: riker multi
+summary: Run RIKER multi-tool QC (alignment, basic, isize, ...) on a BAM.
+params:
+  bam:
+    kind: input
+    type: file
+    required: true
+    description: Coordinate-sorted BAM.
+  bai:
+    kind: input
+    type: file
+    required: true
+    description: BAM index.
+  error_vcf:
+    kind: input
+    type: file
+    required: false
+    description: Optional error-model VCF.
+  error_vcf_idx:
+    kind: input
+    type: file
+    required: false
+    description: Optional error-model VCF index.
+  error_intervals:
+    kind: input
+    type: file
+    required: false
+    description: Optional error-model intervals.
+  gcbias_exclude_intervals:
+    kind: input
+    type: file
+    required: false
+    description: Optional GC-bias exclusion intervals.
+  hybcap_baits:
+    kind: input
+    type: path
+    required: false
+    description: Optional hybrid-capture baits directory.
+  hybcap_targets:
+    kind: input
+    type: path
+    required: false
+    description: Optional hybrid-capture targets directory.
+  rna_gene_model:
+    kind: input
+    type: file
+    required: false
+    description: Optional RNA gene model (refFlat).
+  rna_ribosomal_intervals:
+    kind: input
+    type: file
+    required: false
+    description: Optional ribosomal interval list.
+  wgs_intervals:
+    kind: input
+    type: file
+    required: false
+    description: Optional WGS interval list.
+  fasta:
+    kind: input
+    type: file
+    required: false
+    description: Optional reference FASTA.
+  fai:
+    kind: input
+    type: file
+    required: false
+    description: Optional reference FASTA index.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra riker arguments, e.g. --tools alignment basic isize.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/riker_multi
+    primary: true

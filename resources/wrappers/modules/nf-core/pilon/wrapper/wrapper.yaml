@@ -1,0 +1,46 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'bai' combined cartesian-style; verify if per-sample pairing is required; val input 'pilon_mode' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/pilon
+name: pilon
+summary: Automatically improve draft assemblies and find variation among strains, including large event
+  detection
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: FASTA of the input genome
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: BAM file of reads aligned to the input genome
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: BAI file (BAM index) of BAM reads aligned to the input genome
+  pilon_mode:
+    kind: option
+    type: string
+    required: true
+    description: Indicates the type of bam file used (frags for paired-end sequencing of DNA fragments,
+      such as Illumina paired-end reads of fragment size <1000bp, jumps for paired sequencing data of
+      larger insert size, such as Illumina mate pair libraries, typically of insert size >1000bp, unpaired
+      for unpaired seq
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to pilon.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  improved_assembly:
+    type: directory
+    path: ${outdir}/pilon
+    primary: true

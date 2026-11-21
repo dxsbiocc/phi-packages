@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/homer-findpeaks
+name: homer findpeaks
+summary: Find peaks with HOMER suite
+params:
+  tag_dir:
+    kind: input
+    type: path
+    required: true
+    description: The 'Tag Directory'
+  uniqmap:
+    kind: input
+    type: path
+    required: true
+    description: (directory of binary files specifying uniquely mappable locations) Download from http://biowhat.ucsd.edu/homer/groseq/
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to homer.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  txt:
+    type: directory
+    path: ${outdir}/homer_findpeaks
+    primary: true

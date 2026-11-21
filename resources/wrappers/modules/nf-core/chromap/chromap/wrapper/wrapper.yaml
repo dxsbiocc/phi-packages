@@ -1,0 +1,58 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/chromap-chromap
+name: chromap chromap
+summary: Performs preprocessing and alignment of chromatin fastq files to fasta reference files using
+  chromap.
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: List of input FastQ files of size 1 and 2 for single-end and paired-end data, respectively.
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Reference genome FASTA file
+  index:
+    kind: input
+    type: path
+    required: true
+    description: Chromap genome index files (*.index)
+  barcodes:
+    kind: input
+    type: path
+    required: true
+    description: Cell barcode files
+  whitelist:
+    kind: input
+    type: path
+    required: true
+    description: Cell barcode whitelist file
+  chr_order:
+    kind: input
+    type: path
+    required: true
+    description: Custom chromosome order
+  pairs_chr_order:
+    kind: input
+    type: path
+    required: true
+    description: Natural chromosome order for pairs flipping
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to chromap.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bed:
+    type: directory
+    path: ${outdir}/chromap_chromap
+    primary: true

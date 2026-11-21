@@ -1,0 +1,28 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/any2fasta
+name: any2fasta
+summary: Convert various sequence formats (GenBank, GFF, FASTQ, FASTA, CLUSTAL, Stockholm, GFA) to FASTA
+  format.
+params:
+  sequence:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Input sequence file in any supported format (GenBank, GFF, FASTQ, FASTA, CLUSTAL, Stockholm,
+      GFA).
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to any2fasta.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fasta:
+    type: directory
+    path: ${outdir}/any2fasta
+    primary: true

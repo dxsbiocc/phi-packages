@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'max_cov' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/poolsnp
+name: poolsnp
+summary: PoolSNP is a heuristic SNP caller, which uses an MPILEUP file and a reference genome in FASTA
+  format as inputs.
+params:
+  mpileup:
+    kind: input
+    type: path
+    required: true
+    description: MPILEUP file.
+  reference:
+    kind: input
+    type: path
+    required: true
+    description: Reference genome in FASTA format.
+  max_cov_file:
+    kind: input
+    type: path
+    required: true
+    description: File containing the maximum coverage thresholds for all chromosomal arms and libraries.
+  max_cov:
+    kind: option
+    type: number
+    required: true
+    description: Maximum coverage is calculated for every library and chromosomal arm as the percentile
+      of a coverage distribution, e.g.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to poolsnp.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcf:
+    type: directory
+    path: ${outdir}/poolsnp
+    primary: true

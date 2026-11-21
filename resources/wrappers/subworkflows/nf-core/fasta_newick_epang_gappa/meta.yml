@@ -1,0 +1,94 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: "fasta_newick_epang_gappa"
+description: Run phylogenetic placement with a number of query sequences plus a reference alignment and phylogeny. Used in nf-core/phyloplace.
+keywords:
+  - phylogenetic placement
+  - phylogenetics
+  - alignment
+  - fasta
+  - newick
+components:
+  - hmmer/hmmbuild
+  - hmmer/hmmalign
+  - hmmer/eslalimask
+  - hmmer/eslreformat
+  - clustalo/align
+  - mafft/align
+  - epang/place
+  - epang/split
+  - gappa/examinegraft
+  - gappa/examineassign
+  - gappa/examineheattree
+input:
+  - ch_pp_data:
+      type: map
+      description: |
+        Phylogenetic placement input, one entry per sample, where:
+
+        - `alignmethod` is the method used for alignment, 'hmmer', 'clustalo' or 'mafft'
+        - `queryseqfile` is a fasta file with query sequences
+        - `refseqfile` is a file with reference sequences, aligned unless an hmmfile is provided
+        - `refphylogeny` is a newick file with the reference phylogenetic tree
+        - `hmmfile` is an optional HMM file to use for alignment; implies that refseqfile is not aligned
+        - `model` is the phylogenetic model to use in placement, e.g. 'LG+F' or 'GTR+I+F'
+        - `taxonomy` is a tab separated file with taxonomy information for the reference sequences
+
+        Structure: [
+          meta: val(meta),
+          data: [
+            alignmethod:  'hmmer',
+            queryseqfile: path("*.faa"),
+            refseqfile:   path("*.alnfaa"),
+            refphylogeny: path("*.newick"),
+            hmmfile:      path("*.hmm"),
+            model:        "LG",
+            taxonomy:     path("*.tsv")
+          ]
+        ]
+output:
+  - epang:
+      type: directory
+      description: |
+        All output from EPA-NG.
+
+        Structure: [ val(meta), path(epang) ]
+      pattern: "*"
+  - jplace:
+      type: file
+      description: |
+        jplace file from EPA-NG.
+
+        Structure: [ val(meta), path(jplace) ]
+      pattern: "*.jplace"
+  - grafted_phylogeny:
+      type: file
+      description: |
+        Newick file with query sequences placed in reference tree.
+
+        Structure: [ val(meta), path(newick) ]
+      pattern: "*.newick"
+  - taxonomy_profile:
+      type: file
+      description: |
+        Tab separated file with taxonomy information from classification.
+
+        Structure: [ val(meta), path(tsv) ]
+      pattern: "*.tsv"
+  - taxonomy_per_query:
+      type: file
+      description: |
+        Tab separated file with taxonomy information per query from classification.
+
+        Structure: [ val(meta), path(tsv) ]
+      pattern: "*.tsv"
+  - heattree:
+      type: file
+      description: |
+        Heattree in SVG format.
+
+        Structure: [ val(meta), path(svg) ]
+      pattern: "*.svg"
+authors:
+  - "@erikrikarddaniel"
+maintainers:
+  - "@erikrikarddaniel"

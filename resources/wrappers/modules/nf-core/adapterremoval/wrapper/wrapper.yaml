@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/adapterremoval
+name: adapterremoval
+summary: Trim sequencing adapters and collapse overlapping reads
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: List of input FastQ files of size 1 and 2 for single-end and paired-end data, respectively.
+  adapterlist:
+    kind: input
+    type: path
+    required: true
+    description: Optional text file containing list of adapters to look for for removal with one adapter
+      per line.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to adapterremoval.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  singles_truncated:
+    type: directory
+    path: ${outdir}/adapterremoval
+    primary: true

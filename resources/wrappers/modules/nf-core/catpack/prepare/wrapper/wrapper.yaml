@@ -1,0 +1,41 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/catpack-prepare
+name: catpack prepare
+summary: Creates a CAT_pack database based on input FASTAs
+params:
+  db_fasta:
+    kind: input
+    type: path
+    required: true
+    description: A FASTA file containing all sequences to be included in the database
+  names:
+    kind: input
+    type: path
+    required: true
+    description: An NCBI taxonomy-style names text file
+  nodes:
+    kind: input
+    type: path
+    required: true
+    description: An NCBI taxonomy-style nodes text file
+  acc2tax:
+    kind: input
+    type: path
+    required: true
+    description: An NCBI taxonomy names accession to taxonomy file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to catpack.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  db:
+    type: directory
+    path: ${outdir}/catpack_prepare
+    primary: true

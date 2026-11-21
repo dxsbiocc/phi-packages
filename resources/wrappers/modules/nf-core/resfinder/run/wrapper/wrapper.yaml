@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'fasta' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/resfinder-run
+name: resfinder run
+summary: ResFinder identifies acquired antimicrobial resistance genes in total or partial sequenced isolates
+  of bacteria
+params:
+  fastq:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: fastq file(s)
+  fasta:
+    kind: input
+    type: path
+    required: false
+    description: fasta file
+  db_point:
+    kind: input
+    type: path
+    required: true
+    description: database directory containing known point mutations
+  db_res:
+    kind: input
+    type: path
+    required: true
+    description: database directory containing known resistance genes
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to resfinder.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  json:
+    type: directory
+    path: ${outdir}/resfinder_run
+    primary: true

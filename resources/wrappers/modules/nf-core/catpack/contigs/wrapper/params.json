@@ -1,0 +1,9 @@
+{
+  "contigs": null,
+  "database": null,
+  "taxonomy": null,
+  "proteins": null,
+  "diamond_table": null,
+  "args": "",
+  "outdir": "results"
+}

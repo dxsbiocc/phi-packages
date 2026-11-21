@@ -1,0 +1,57 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'tumor_bai' combined cartesian-style; verify if per-sample pairing is required; companion input 'control_bam' combined cartesian-style; verify if per-sample pairing is required; companion input 'control_bai' combined cartesian-style; verify if per-sample pairing is required; companion input 'fai' combined cartesian-style; verify if per-sample pairing is required; companion input 'cytoband' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/telomerehunter
+name: telomerehunter
+summary: In silico estimation of telomere content and composition from cancer genomes
+params:
+  tumor_bam:
+    kind: input
+    type: path
+    required: true
+    description: Indexed BAM/CRAM file of the tumor sample.
+  tumor_bai:
+    kind: input
+    type: path
+    required: false
+    description: BAM/CRAM index file for the tumor sample
+  control_bam:
+    kind: input
+    type: path
+    required: false
+    description: Optional indexed BAM/CRAM file of the control sample
+  control_bai:
+    kind: input
+    type: path
+    required: false
+    description: Optional BAM/CRAM index file for the control sample
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Reference FASTA file (required when input is CRAM)
+  fai:
+    kind: input
+    type: path
+    required: false
+    description: Reference FASTA index
+  cytoband:
+    kind: input
+    type: path
+    required: false
+    description: Optional cytoband file for the reference genome.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to telomerehunter.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  summary:
+    type: directory
+    path: ${outdir}/telomerehunter
+    primary: true

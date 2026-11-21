@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/phantompeakqualtools
+name: phantompeakqualtools
+summary: '"This package computes informative enrichment and quality measures for ChIP-seq/DNase-seq/FAIRE-seq/MNase-seq
+  data.'
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: BAM/CRAM/SAM file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to phantompeakqualtools.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  spp:
+    type: directory
+    path: ${outdir}/phantompeakqualtools
+    primary: true

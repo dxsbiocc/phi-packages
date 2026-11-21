@@ -1,0 +1,9 @@
+{
+  "fasta": null,
+  "conversion_table": null,
+  "taxonomy_tree": null,
+  "name_table": null,
+  "size_table": null,
+  "args": "",
+  "outdir": "results"
+}

@@ -1,0 +1,45 @@
+# Agent-facing wrapper adapter for the vendored gtf_hybridmerge_gffcompare subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+id: nf-core/subworkflows/gtf-hybridmerge-gffcompare
+name: "Hybrid-merge GTF (gffcompare)"
+summary: "Merge novel transcripts into a reference GTF keeping chosen gffcompare class codes."
+
+params:
+  novel_gtf:
+    kind: input
+    type: path
+    required: true
+    description: "Novel transcript GTF."
+  reference_gtf:
+    kind: input
+    type: path
+    required: true
+    description: "Reference annotation GTF."
+  backbone_gtf:
+    kind: input
+    type: path
+    required: true
+    description: "Backbone GTF to merge into."
+  class_codes:
+    kind: option
+    type: string
+    required: true
+    description: "gffcompare class codes to keep (e.g. 'u' or 'u,j,i')."
+  blacklist_bed:
+    kind: input
+    type: path
+    required: false
+    description: "Blacklist BED to intersect (skips if absent)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/gtf_hybridmerge_gffcompare'
+    primary: true

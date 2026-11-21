@@ -1,0 +1,6 @@
+{
+  "report": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/metagenome/test_1.kraken2.report.txt",
+  "taxonomy": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/metagenome/krona_taxonomy.tab",
+  "args": "",
+  "outdir": "results"
+}

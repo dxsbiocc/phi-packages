@@ -1,0 +1,18 @@
+{
+  "estimate": null,
+  "estimate_index": null,
+  "truth": null,
+  "truth_index": null,
+  "freq": null,
+  "freq_index": null,
+  "samples": null,
+  "region": null,
+  "groups": null,
+  "bins": null,
+  "ac_bins": null,
+  "allele_counts": null,
+  "min_val_gl": null,
+  "min_val_dp": null,
+  "args": "",
+  "outdir": "results"
+}

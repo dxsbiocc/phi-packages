@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'labels' exposed as required option; confirm whether a safe default exists; val input 'format' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/hmmer-formattsv
+name: hmmer formattsv
+summary: Convert HMMER's --tblout/--domtblout output to a clean, properly-delimited TSV
+params:
+  files:
+    kind: input
+    type: path
+    required: true
+    description: One or more HMMER --tblout or --domtblout files (gzipped or not), all of the same kind
+      as given in `format`.
+  labels:
+    kind: option
+    type: string
+    required: true
+    description: A list of strings, one per entry in `files`, in the same order.
+  format:
+    kind: option
+    type: string
+    required: true
+    description: Which HMMER output format `files` contains -- either `tblout` or `domtblout`
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tsv:
+    type: directory
+    path: ${outdir}/hmmer_formattsv
+    primary: true

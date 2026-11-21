@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/tailfindr
+name: tailfindr
+summary: Estimating poly(A)-tail lengths from basecalled fast5 files produced by Nanopore sequencing of
+  RNA and DNA
+params:
+  fast5:
+    kind: input
+    type: path
+    required: true
+    description: fast5 file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to tailfindr.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  csv_gz:
+    type: directory
+    path: ${outdir}/tailfindr
+    primary: true

@@ -1,0 +1,10 @@
+{
+  "fasta": null,
+  "universe_file": null,
+  "mediadb": null,
+  "soft": null,
+  "hard": null,
+  "reference": null,
+  "args": "",
+  "outdir": "results"
+}

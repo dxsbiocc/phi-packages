@@ -1,0 +1,57 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'ul_reads' combined cartesian-style; verify if per-sample pairing is required; companion input 'maternal_kmer_dump' combined cartesian-style; verify if per-sample pairing is required; companion input 'hic_read2' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/hifiasm
+name: hifiasm
+summary: Whole-genome assembly using PacBio HiFi reads
+params:
+  long_reads:
+    kind: input
+    type: path
+    required: true
+    description: Long reads PacBio HiFi reads or ONT reads (requires ext.arg '--ont').
+  ul_reads:
+    kind: input
+    type: path
+    required: false
+    description: ONT long reads to use with --ul.
+  paternal_kmer_dump:
+    kind: input
+    type: path
+    required: true
+    description: Yak kmer dump file for paternal reads (can be used for haplotype resolution).
+  maternal_kmer_dump:
+    kind: input
+    type: path
+    required: false
+    description: Yak kmer dump file for maternal reads (can be used for haplotype resolution).
+  hic_read1:
+    kind: input
+    type: path
+    required: true
+    description: Hi-C data Forward reads.
+  hic_read2:
+    kind: input
+    type: path
+    required: false
+    description: Hi-C data Reverse reads.
+  bin_files:
+    kind: input
+    type: path
+    required: true
+    description: bin files produced during a previous Hifiasm run
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to hifiasm.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  raw_unitigs:
+    type: directory
+    path: ${outdir}/hifiasm
+    primary: true

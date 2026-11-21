@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'db' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/pangolin-run
+name: pangolin run
+summary: Phylogenetic Assignment of Named Global Outbreak LINeages
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: The genome assembly to be evaluated
+  db:
+    kind: input
+    type: path
+    required: false
+    description: Directory containing the Pangolin database
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to pangolin.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  report:
+    type: directory
+    path: ${outdir}/pangolin_run
+    primary: true

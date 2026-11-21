@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'scheme_bed' combined cartesian-style; verify if per-sample pairing is required; val input 'normalise_depth' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/artic-aligntrim
+name: artic aligntrim
+summary: Standalone version of fieldbioinformatics aligntrim.
+params:
+  samfile:
+    kind: input
+    type: path
+    required: true
+    description: BAM or SAM file containing aligned reads
+  scheme_bed:
+    kind: input
+    type: path
+    required: false
+    description: BED file containing amplicon scheme primer locations
+  normalise_depth:
+    kind: option
+    type: integer
+    required: true
+    description: Normalise the read depth to this value
+  sort_bam:
+    kind: option
+    type: boolean
+    required: false
+    description: Optionally sort the BAM file after trimming
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to artic.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  primertrimmed_bam:
+    type: directory
+    path: ${outdir}/artic_aligntrim
+    primary: true

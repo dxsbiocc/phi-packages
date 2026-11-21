@@ -1,0 +1,41 @@
+# Agent-facing wrapper adapter for the vendored vcf_gather_bcftools subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+# REVIEW: single-group adapter; index/count companions and multi-sample grouping need curation
+id: nf-core/subworkflows/vcf-gather-bcftools
+name: "Gather scattered VCFs (bcftools)"
+summary: "Concatenate/gather scattered VCF shards per sample and index the result."
+
+params:
+  vcfs:
+    kind: input
+    type: path_glob
+    required: true
+    description: "Glob of VCF shards to gather."
+  vcf_indexes:
+    kind: input
+    type: path_glob
+    required: false
+    description: "Glob of matching VCF index files (.tbi/.csi)."
+  common_meta:
+    kind: option
+    type: string
+    required: true
+    description: "Comma-separated meta fields used for grouping."
+  sort:
+    kind: option
+    type: boolean
+    required: false
+    description: "Sort the gathered output (needs a sort config)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/vcf_gather_bcftools'
+    primary: true

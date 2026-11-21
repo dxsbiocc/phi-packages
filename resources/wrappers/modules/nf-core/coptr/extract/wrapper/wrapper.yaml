@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: glob input 'bam' collected into one staged list; verify staging layout
+id: nf-core/modules/coptr-extract
+name: coptr extract
+summary: Computes the coverage map along the reference genome
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: bam file with the mapping of the reads on the reference genome
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to coptr.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  coverage:
+    type: directory
+    path: ${outdir}/coptr_extract
+    primary: true

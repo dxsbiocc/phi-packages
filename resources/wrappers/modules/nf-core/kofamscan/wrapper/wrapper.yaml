@@ -1,0 +1,36 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/kofamscan
+name: kofamscan
+summary: Produces annotation using kofamscan against a Profile database and a KO list
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input fasta file containing query sequences
+  profiles:
+    kind: input
+    type: path
+    required: true
+    description: Directory containing the Profiles database
+  ko_list:
+    kind: input
+    type: path
+    required: true
+    description: File containing list of KO entries with their data
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to kofamscan.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  txt:
+    type: directory
+    path: ${outdir}/kofamscan
+    primary: true

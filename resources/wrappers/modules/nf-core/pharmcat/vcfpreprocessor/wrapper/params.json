@@ -1,0 +1,12 @@
+{
+  "vcf_gz": null,
+  "vcf_index": null,
+  "fasta": null,
+  "fai": null,
+  "pharmcat_positions": null,
+  "pharmcat_positions_index": null,
+  "pharmcat_uniallelic_positions": null,
+  "pharmcat_uniallelic_positions_index": null,
+  "args": "",
+  "outdir": "results"
+}

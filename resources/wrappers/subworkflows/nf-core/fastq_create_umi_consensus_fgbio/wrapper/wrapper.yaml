@@ -1,0 +1,83 @@
+# Agent-facing wrapper adapter for the vendored fastq_create_umi_consensus_fgbio subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+id: nf-core/subworkflows/fastq-create-umi-consensus-fgbio
+name: "UMI consensus (fgbio)"
+summary: "Build UMI consensus reads from FASTQ with fgbio (bwa-mem/bwa-mem2 alignment)."
+
+params:
+  reads:
+    kind: input
+    type: path_glob
+    required: true
+    description: "FASTQ glob (paired or single)."
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: "Reference genome FASTA."
+  fai:
+    kind: input
+    type: path
+    required: true
+    description: "Reference FASTA index (.fai)."
+  dict:
+    kind: input
+    type: path
+    required: true
+    description: "Reference sequence dictionary."
+  bwa_index:
+    kind: input
+    type: path
+    required: false
+    description: "Pre-built bwa index directory (optional)."
+  groupreadsbyumi_strategy:
+    kind: option
+    type: string
+    required: true
+    enum:
+      - Identity
+      - Edit
+      - Adjacency
+      - Paired
+    description: "fgbio grouping strategy."
+  aligner:
+    kind: option
+    type: string
+    required: true
+    enum:
+      - bwa-mem
+      - bwa-mem2
+    description: "Aligner."
+  duplex:
+    kind: option
+    type: boolean
+    required: false
+    description: "Duplex UMI structure."
+  min_reads:
+    kind: option
+    type: string
+    required: true
+    description: "Min reads per consensus (int, or up to 3 space-separated for duplex)."
+  min_baseq:
+    kind: option
+    type: integer
+    required: true
+    description: "Minimum base quality."
+  max_base_error_rate:
+    kind: option
+    type: number
+    required: true
+    description: "Maximum base error rate."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/fastq_create_umi_consensus_fgbio'
+    primary: true

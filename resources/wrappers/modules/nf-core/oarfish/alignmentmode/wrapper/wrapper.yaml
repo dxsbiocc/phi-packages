@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/oarfish-alignmentmode
+name: oarfish alignmentmode
+summary: oarfish is a program for quantifying transcript-level expression from long-read sequencing technologies.
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Sorted BAM/CRAM/SAM file from long-read RNA-seq data
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to oarfish.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  quant:
+    type: directory
+    path: ${outdir}/oarfish_alignmentmode
+    primary: true

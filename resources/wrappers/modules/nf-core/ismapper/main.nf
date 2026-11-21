@@ -1,0 +1,39 @@
+process ISMAPPER {
+    tag "$meta.id"
+    label 'process_medium'
+
+    conda "${moduleDir}/environment.yml"
+    container "${ workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container ?
+        'https://depot.galaxyproject.org/singularity/ismapper:2.0.2--pyhdfd78af_1' :
+        'quay.io/biocontainers/ismapper:2.0.2--pyhdfd78af_1' }"
+
+    input:
+    tuple val(meta), path(reads), path(reference), path(query)
+
+    output:
+    tuple val(meta), path("results/*"), emit: results
+    tuple val("${task.process}"), val('ismapper'), eval("ismap --version 2>&1 | sed -n 's/^.*ismap //p'"), emit: versions_ismapper, topic: versions
+
+    when:
+    task.ext.when == null || task.ext.when
+
+    script:
+    def args = task.ext.args ?: ''
+    """
+    ismap \\
+        ${args} \\
+        --t ${task.cpus} \\
+        --output_dir results \\
+        --queries ${query} \\
+        --reference ${reference} \\
+        --reads ${reads}
+    """
+
+    stub:
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    """
+    mkdir -p results/${prefix}
+
+    touch results/${prefix}/${prefix}_left_final.fastq
+    """
+}

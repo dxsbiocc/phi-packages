@@ -1,0 +1,12 @@
+{
+  "bed_file": null,
+  "contact_folder": null,
+  "existing_abc": null,
+  "annotation": null,
+  "genome": null,
+  "psem": null,
+  "exclude_bed": null,
+  "genes": null,
+  "args": "",
+  "outdir": "results"
+}

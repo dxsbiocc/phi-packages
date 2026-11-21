@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'config' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/baysor-preview
+name: baysor preview
+summary: Extract neighborhood composition vectors (NVCs) from a dataset.
+params:
+  transcripts:
+    kind: input
+    type: path
+    required: true
+    description: Tab-delimited file with transcript information.
+  config:
+    kind: input
+    type: path
+    required: false
+    description: YAML configuration file for Baysor.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to baysor.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  html:
+    type: directory
+    path: ${outdir}/baysor_preview
+    primary: true

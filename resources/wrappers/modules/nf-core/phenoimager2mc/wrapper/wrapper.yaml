@@ -1,0 +1,28 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: glob input 'tiles' collected into one staged list; verify staging layout
+id: nf-core/modules/phenoimager2mc
+name: phenoimager2mc
+summary: Formatting PhenoImager TIFF output files into stacked and normalized OME-TIFF files per cycle,
+  compatible as ASHLAR and MCMICRO input.
+params:
+  tiles:
+    kind: input
+    type: path
+    required: true
+    description: Folder or list with TIFF files of one cycle from PhenoImager
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to phenoimager2mc.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tif:
+    type: directory
+    path: ${outdir}/phenoimager2mc
+    primary: true

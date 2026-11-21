@@ -1,0 +1,36 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/prokka
+name: prokka
+summary: Whole genome annotation of small genomes (bacterial, archeal, viral)
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: FASTA file to be annotated.
+  proteins:
+    kind: input
+    type: path
+    required: true
+    description: FASTA file of trusted proteins to first annotate from (optional)
+  prodigal_tf:
+    kind: input
+    type: path
+    required: true
+    description: Training file to use for Prodigal (optional)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to prokka.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gff:
+    type: directory
+    path: ${outdir}/prokka
+    primary: true

@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/windowmasker-mkcounts
+name: windowmasker mkcounts
+summary: A program to generate frequency counts of repetitive units.
+params:
+  ref:
+    kind: input
+    type: path
+    required: true
+    description: An input nucleotide fasta file.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to windowmasker.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  counts:
+    type: directory
+    path: ${outdir}/windowmasker_mkcounts
+    primary: true

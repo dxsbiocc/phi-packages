@@ -1,0 +1,81 @@
+# Agent-facing wrapper adapter for the vendored bam_variant_calling_mpileup_bcftools subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+# REVIEW: single-sample/region adapter; scatter-gather meta keys need curation
+id: nf-core/subworkflows/bam-variant-calling-mpileup-bcftools
+name: "Call variants (mpileup/bcftools)"
+summary: "Call variants from BAMs at given positions with bcftools mpileup, gather and optionally annotate."
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: "Aligned BAM file."
+  bai:
+    kind: input
+    type: path
+    required: true
+    description: "BAM index."
+  posfile:
+    kind: input
+    type: path
+    required: true
+    description: "Positions file (CHR POS REF ALT)."
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: "Reference genome FASTA."
+  fai:
+    kind: input
+    type: path
+    required: true
+    description: "Reference FASTA index."
+  panel_id:
+    kind: option
+    type: string
+    required: false
+    description: "Panel id for the posfile meta."
+  chr:
+    kind: option
+    type: string
+    required: false
+    description: "Chromosome for the posfile meta."
+  sample_merge_key:
+    kind: option
+    type: string
+    required: false
+    description: "Meta key for sample merging."
+  sample_merge_value:
+    kind: option
+    type: string
+    required: false
+    description: "Meta value for sample merging."
+  region_gather_keys:
+    kind: option
+    type: string
+    required: false
+    description: "Comma-separated meta keys for region gather."
+  sort_region_gather:
+    kind: option
+    type: boolean
+    required: false
+    description: "Sort region gather output."
+  annotate:
+    kind: option
+    type: boolean
+    required: false
+    description: "Annotate the gathered VCF."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/bam_variant_calling_mpileup_bcftools'
+    primary: true

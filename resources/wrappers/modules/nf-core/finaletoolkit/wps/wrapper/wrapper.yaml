@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'bai' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/finaletoolkit-wps
+name: finaletoolkit wps
+summary: Calculate the windowed protection score (WPS; Snyder et al., 2016) from a BAM file and a list
+  of transcription start sites.
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Sorted BAM file
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: BAM file index
+  site_bed:
+    kind: input
+    type: path
+    required: true
+    description: BED file containing transcription start sites (TSS)
+  chromosome_sizes:
+    kind: input
+    type: path
+    required: true
+    description: Two-column file containing the size for each chromosome
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to finaletoolkit.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bigwig:
+    type: directory
+    path: ${outdir}/finaletoolkit_wps
+    primary: true

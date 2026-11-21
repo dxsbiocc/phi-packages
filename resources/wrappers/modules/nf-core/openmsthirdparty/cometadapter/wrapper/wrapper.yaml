@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'fasta' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/openmsthirdparty-cometadapter
+name: openmsthirdparty cometadapter
+summary: Annotates MS/MS spectra using Comet.
+params:
+  mzml:
+    kind: input
+    type: path
+    required: true
+    description: File containing mass spectra in mzML format
+  fasta:
+    kind: input
+    type: path
+    required: false
+    description: Protein sequence database containing targets and decoys
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to openmsthirdparty.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  idxml:
+    type: directory
+    path: ${outdir}/openmsthirdparty_cometadapter
+    primary: true

@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'dbsnp_file' combined cartesian-style; verify if per-sample pairing is required; companion input 'tabix_file' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/parabricks-dbsnp
+name: parabricks dbsnp
+summary: NVIDIA Clara Parabricks GPU-accelerated variant calls annotation based on dbSNP database
+params:
+  vcf_file:
+    kind: input
+    type: path
+    required: true
+    description: VCF file undergoing annotation.
+  dbsnp_file:
+    kind: input
+    type: path
+    required: false
+    description: dbSNP file required for annotation.
+  tabix_file:
+    kind: input
+    type: path
+    required: false
+    description: dbSNP file index.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to parabricks.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcf:
+    type: directory
+    path: ${outdir}/parabricks_dbsnp
+    primary: true

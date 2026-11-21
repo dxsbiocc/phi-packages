@@ -1,0 +1,22 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/haplocheck
+name: haplocheck
+summary: Haplocheck detects contamination patterns in mtDNA AND WGS sequencing studies by analyzing the
+  mitochondrial DNA.
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: VCF file
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  txt:
+    type: directory
+    path: ${outdir}/haplocheck
+    primary: true

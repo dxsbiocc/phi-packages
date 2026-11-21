@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'elongation_factor' exposed as required option; confirm whether a safe default exists; val-only tuple wired as a single sample; verify multi-sample semantics
+id: nf-core/modules/circularmapper-realignsamfile
+name: circularmapper realignsamfile
+summary: Realign reads mapped with BWA to elongated reference genome
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: BAM/SAM file
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input elongated genome fasta
+  elongation_factor:
+    kind: option
+    type: integer
+    required: true
+    description: The elongation factor used when running circulargenerator, i.e.
+  elongated_chr_list:
+    kind: input
+    type: path
+    required: true
+    description: File listing the chromosomes that were elongated
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to circularmapper.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bam:
+    type: directory
+    path: ${outdir}/circularmapper_realignsamfile
+    primary: true

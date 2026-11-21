@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'truth_vcf' combined cartesian-style; verify if per-sample pairing is required; companion input 'bed' combined cartesian-style; verify if per-sample pairing is required; companion input 'wittyer_config' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/wittyer
+name: wittyer
+summary: A large variant benchmarking tool analogous to hap.py for small variants.
+params:
+  query_vcf:
+    kind: input
+    type: path
+    required: true
+    description: A VCF with called variants to benchmark against the standard
+  truth_vcf:
+    kind: input
+    type: path
+    required: false
+    description: A standard VCF to compare against
+  bed:
+    kind: input
+    type: path
+    required: false
+    description: A BED file specifying regions to be included in the analysis (optional)
+  wittyer_config:
+    kind: input
+    type: path
+    required: false
+    description: Config file in json format used to specify per variant type settings.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to wittyer.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  report:
+    type: directory
+    path: ${outdir}/wittyer
+    primary: true

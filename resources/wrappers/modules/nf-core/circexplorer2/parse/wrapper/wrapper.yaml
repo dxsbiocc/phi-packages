@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/circexplorer2-parse
+name: circexplorer2 parse
+summary: CIRCexplorer2 parses fusion junction files from multiple aligners to prepare them for CIRCexplorer2
+  annotate.
+params:
+  fusions:
+    kind: input
+    type: path
+    required: true
+    description: BAM (BWA), BED (Segemehl), TXT (MapSplice), or Junction (STAR) file.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to circexplorer2.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  junction:
+    type: directory
+    path: ${outdir}/circexplorer2_parse
+    primary: true

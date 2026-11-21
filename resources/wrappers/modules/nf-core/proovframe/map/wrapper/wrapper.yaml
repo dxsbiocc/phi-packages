@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/proovframe-map
+name: proovframe map
+summary: frame-shift correction for long read (meta)genomics - maps proteins to reads
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: A FASTA fna file containing raw read nucleotide sequences
+  faa:
+    kind: input
+    type: path
+    required: true
+    description: A proteome fasta file to create a database of guide protein sequences from
+  db:
+    kind: input
+    type: path
+    required: true
+    description: A previously generated diamond database of guide protein sequences
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to proovframe.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tsv:
+    type: directory
+    path: ${outdir}/proovframe_map
+    primary: true

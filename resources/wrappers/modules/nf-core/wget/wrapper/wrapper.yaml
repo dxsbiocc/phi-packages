@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'url' exposed as required option; confirm whether a safe default exists; val input 'suffix' exposed as required option; confirm whether a safe default exists; val-only tuple wired as a single sample; verify multi-sample semantics
+id: nf-core/modules/wget
+name: wget
+summary: The non-interactive network downloader
+params:
+  url:
+    kind: option
+    type: string
+    required: true
+    description: URL to download
+  suffix:
+    kind: option
+    type: string
+    required: true
+    description: Output suffix
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to wget.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  outfile:
+    type: directory
+    path: ${outdir}/wget
+    primary: true

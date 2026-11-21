@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'sequencing_system' exposed as required option; confirm whether a safe default exists; val input 'fold_coverage' exposed as required option; confirm whether a safe default exists; val input 'read_length' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/art-illumina
+name: art illumina
+summary: Simulation tool to generate synthetic Illumina next-generation sequencing reads
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: FASTA file of input DNA/RNA reference
+  sequencing_system:
+    kind: option
+    type: string
+    required: true
+    description: The name of Illumina sequencing system of the built-in profile used for simulation
+  fold_coverage:
+    kind: option
+    type: integer
+    required: true
+    description: The fold of read coverage to be simulated or number of reads/read pairs generated for
+      each amplicon
+  read_length:
+    kind: option
+    type: integer
+    required: true
+    description: The length of reads to be simulated
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to art.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fastq:
+    type: directory
+    path: ${outdir}/art_illumina
+    primary: true

@@ -1,0 +1,86 @@
+# Agent-facing wrapper adapter for the vendored vcf_phase_shapeit5 subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+# REVIEW: chunk=true regenerates chunks; ref/scaffold/map required for the join
+id: nf-core/subworkflows/vcf-phase-shapeit5
+name: "Phase VCF (SHAPEIT5)"
+summary: "Phase a VCF with SHAPEIT5 (common variants), optionally chunked."
+
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: "Input VCF."
+  vcf_index:
+    kind: input
+    type: path
+    required: true
+    description: "Input VCF index."
+  ref_vcf:
+    kind: input
+    type: path
+    required: true
+    description: "Reference panel VCF."
+  ref_index:
+    kind: input
+    type: path
+    required: true
+    description: "Reference panel VCF index."
+  scaffold_vcf:
+    kind: input
+    type: path
+    required: true
+    description: "Scaffold VCF."
+  scaffold_index:
+    kind: input
+    type: path
+    required: true
+    description: "Scaffold VCF index."
+  map:
+    kind: input
+    type: path
+    required: true
+    description: "Genetic map file."
+  chunk_model:
+    kind: input
+    type: path
+    required: true
+    description: "Chunking model file (required when chunk=true)."
+  region:
+    kind: option
+    type: string
+    required: true
+    description: "Region label."
+  pedigree:
+    kind: input
+    type: path
+    required: false
+    description: "Pedigree file (optional)."
+  panel_id:
+    kind: option
+    type: string
+    required: false
+    description: "Sample/panel id for meta."
+  chr:
+    kind: option
+    type: string
+    required: true
+    description: "Chromosome."
+  chunk:
+    kind: option
+    type: boolean
+    required: false
+    description: "Activate automatic chunking."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/vcf_phase_shapeit5'
+    primary: true

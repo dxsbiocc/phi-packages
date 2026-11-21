@@ -1,0 +1,99 @@
+name: "vg_construct"
+description: Constructs a graph from a reference and variant calls or a multiple
+  sequence alignment file
+keywords:
+  - vg
+  - graph
+  - construct
+  - fasta
+  - vcf
+  - structural variants
+tools:
+  - vg:
+      description: |
+        Variation graph data structures, interchange formats, alignment, genotyping,
+        and variant calling methods.
+      homepage: https://github.com/vgteam/vg
+      documentation: https://github.com/vgteam/vg/wiki
+      licence:
+        - "MIT"
+      identifier: ""
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. [ id:'test', single_end:false ]
+    - input:
+        type: list
+        description: |
+          Either one or more VCF files containing different contigs or a multiple sequence alignment file
+        pattern: "*.{vcf.gz,fa,fasta,fna,clustal}"
+    - tbis:
+        type: list
+        description: The index files for the VCF files
+        pattern: "*.tbi"
+    - insertions_fasta:
+        type: file
+        description: A FASTA file containing insertion sequences (referred to in
+          the VCF file(s))
+        pattern: "*.{fa,fasta,fna}"
+        ontologies: []
+  - - meta2:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. [ id:'test', single_end:false ]
+    - fasta:
+        type: file
+        description: The reference FASTA file (cannot be used in combination with
+          `msa`, but is required when using `vcfs`)
+        pattern: "*.{fa,fasta,fna}"
+        ontologies: []
+  - - meta3:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. [ id:'test', single_end:false ]
+    - fasta_fai:
+        type: file
+        description: The index of the reference FASTA file
+        pattern: "*.fai"
+        ontologies: []
+output:
+  graph:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "*.vg":
+          type: file
+          description: The constructed graph
+          pattern: "*.vg"
+          ontologies: []
+  versions_vg:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - vg:
+          type: string
+          description: The name of the tool
+      - vg 2>&1 | sed -n 's/.*version v\([0-9.]*\).*/\1/p':
+          type: eval
+          description: The expression to obtain the version of the tool
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - vg:
+          type: string
+          description: The name of the tool
+      - vg 2>&1 | sed -n 's/.*version v\([0-9.]*\).*/\1/p':
+          type: eval
+          description: The expression to obtain the version of the tool
+authors:
+  - "@nvnieuwk"
+maintainers:
+  - "@nvnieuwk"

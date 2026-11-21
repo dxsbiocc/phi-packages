@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/seq2hla
+name: seq2hla
+summary: Precision HLA typing and expression from RNA-seq data using seq2HLA
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Paired-end FASTQ files for RNA-seq data
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to seq2hla.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  class1_bowtielog:
+    type: directory
+    path: ${outdir}/seq2hla
+    primary: true

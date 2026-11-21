@@ -1,0 +1,6 @@
+{
+  "bed": null,
+  "fasta": null,
+  "bowtie_index": null,
+  "outdir": "results"
+}

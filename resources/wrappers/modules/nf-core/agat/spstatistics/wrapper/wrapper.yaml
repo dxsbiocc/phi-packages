@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/agat-spstatistics
+name: agat spstatistics
+summary: Provides different type of statistics in text format from a GFF/GTF annotation file
+params:
+  gff:
+    kind: input
+    type: path
+    required: true
+    description: Annotation file in GFF3/GTF format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to agat.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  stats_txt:
+    type: directory
+    path: ${outdir}/agat_spstatistics
+    primary: true

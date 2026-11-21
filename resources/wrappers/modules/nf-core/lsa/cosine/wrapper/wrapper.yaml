@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/lsa-cosine
+name: lsa cosine
+summary: Calculates the cosine similarity matrix between samples based on a gene expression matrix.
+params:
+  expression_matrix:
+    kind: input
+    type: path
+    required: true
+    description: CSV file containing the expression matrix.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to lsa.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  matrix:
+    type: directory
+    path: ${outdir}/lsa_cosine
+    primary: true

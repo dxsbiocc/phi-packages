@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/hapibd
+name: hapibd
+summary: The hap-ibd program detects identity-by-descent (IBD) segments and homozygosity-by-descent (HBD)
+  segments in phased genotype data.
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: phased VCF file with a GT FORMAT subfield with no missing alleles
+  map:
+    kind: input
+    type: path
+    required: true
+    description: genetic map with cM units in PLINK format
+  exclude:
+    kind: input
+    type: path
+    required: true
+    description: text file containing samples one sample per line to be excluded from the analysis
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to hapibd.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  hbd:
+    type: directory
+    path: ${outdir}/hapibd
+    primary: true

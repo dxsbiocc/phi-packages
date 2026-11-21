@@ -1,0 +1,28 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/wisecondorx-gender
+name: wisecondorx gender
+summary: Returns the gender of a .npz resulting from convert, based on a Gaussian mixture model trained
+  during the newref phase
+params:
+  npz:
+    kind: input
+    type: path
+    required: true
+    description: Single sample NPZ file (from which to determine the gender)
+  reference:
+    kind: input
+    type: path
+    required: true
+    description: Reference NPZ file
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gender:
+    type: directory
+    path: ${outdir}/wisecondorx_gender
+    primary: true

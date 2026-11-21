@@ -1,0 +1,8 @@
+{
+  "bins": null,
+  "db": null,
+  "db_name": null,
+  "use_pplacer_scratch_dir": false,
+  "args": "",
+  "outdir": "results"
+}

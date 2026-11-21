@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/hisat3n-build
+name: hisat3n build
+summary: Build HISAT-3N index for nucleotide conversion sequencing alignment
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Reference FASTA file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to hisat3n.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  index:
+    type: directory
+    path: ${outdir}/hisat3n_build
+    primary: true

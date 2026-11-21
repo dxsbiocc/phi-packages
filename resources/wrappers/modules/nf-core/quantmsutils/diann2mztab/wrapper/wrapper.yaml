@@ -1,0 +1,57 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'report_pg' combined cartesian-style; verify if per-sample pairing is required; companion input 'report_pr' combined cartesian-style; verify if per-sample pairing is required; companion input 'exp_design' combined cartesian-style; verify if per-sample pairing is required; companion input 'ms_information' combined cartesian-style; verify if per-sample pairing is required; companion input 'fasta' combined cartesian-style; verify if per-sample pairing is required; val input 'diann_version' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/quantmsutils-diann2mztab
+name: quantmsutils diann2mztab
+summary: Convert DIA-NN results to mzTab, MSstats, and Triqler formats using quantms-utils
+params:
+  report:
+    kind: input
+    type: path
+    required: true
+    description: DIA-NN main report file (tsv or parquet)
+  report_pg:
+    kind: input
+    type: path
+    required: false
+    description: DIA-NN protein group matrix file
+  report_pr:
+    kind: input
+    type: path
+    required: false
+    description: DIA-NN precursor matrix file
+  exp_design:
+    kind: input
+    type: path
+    required: false
+    description: Experimental design file describing sample conditions
+  ms_information:
+    kind: input
+    type: path
+    required: false
+    description: MS statistics/information files in parquet format
+  fasta:
+    kind: input
+    type: path
+    required: false
+    description: FASTA database file used for the search
+  diann_version:
+    kind: option
+    type: string
+    required: true
+    description: DIA-NN version
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to quantmsutils.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  out_msstats:
+    type: directory
+    path: ${outdir}/quantmsutils_diann2mztab
+    primary: true

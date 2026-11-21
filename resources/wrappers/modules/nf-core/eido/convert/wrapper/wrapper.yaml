@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'format' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/eido-convert
+name: eido convert
+summary: Convert any PEP project or Nextflow samplesheet to any format
+params:
+  samplesheet:
+    kind: input
+    type: path
+    required: true
+    description: Nextflow samplesheet or PEP project
+  format:
+    kind: option
+    type: string
+    required: true
+    description: Extension of an output file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to eido.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  samplesheet_converted:
+    type: directory
+    path: ${outdir}/eido_convert
+    primary: true

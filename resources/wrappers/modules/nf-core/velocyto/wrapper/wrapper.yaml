@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'bam' combined cartesian-style; verify if per-sample pairing is required; companion input 'sorted_bam' combined cartesian-style; verify if per-sample pairing is required; standalone path 'gtf' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/velocyto
+name: velocyto
+summary: Velocyto is a library for the analysis of RNA velocity.
+params:
+  barcodes:
+    kind: input
+    type: path
+    required: true
+    description: Valid barcodes file, to filter the bam
+  bam:
+    kind: input
+    type: path
+    required: false
+    description: Sorted BAM/CRAM/SAM file
+  sorted_bam:
+    kind: input
+    type: path
+    required: false
+    description: Cell sorted BAM/CRAM/SAM file generated with `samtools sort -t CB -O BAM -o cellsorted_possorted_genome_bam.bam
+      possorted_genome_bam.bam`
+  gtf:
+    kind: input
+    type: path
+    required: false
+    description: genome annotation file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to velocyto.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  loom:
+    type: directory
+    path: ${outdir}/velocyto
+    primary: true

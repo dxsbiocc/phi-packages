@@ -1,0 +1,12 @@
+{
+  "input_normal": null,
+  "index_normal": null,
+  "input_tumor": null,
+  "index_tumor": null,
+  "intervals": null,
+  "fasta": null,
+  "fai": null,
+  "gzi": null,
+  "args": "",
+  "outdir": "results"
+}

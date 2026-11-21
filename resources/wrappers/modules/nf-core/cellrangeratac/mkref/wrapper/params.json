@@ -1,0 +1,9 @@
+{
+  "fasta": null,
+  "gtf": null,
+  "motifs": null,
+  "reference_config": null,
+  "reference_name": null,
+  "args": "",
+  "outdir": "results"
+}

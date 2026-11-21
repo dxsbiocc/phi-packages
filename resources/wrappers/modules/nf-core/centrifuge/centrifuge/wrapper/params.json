@@ -1,0 +1,8 @@
+{
+  "reads": null,
+  "db": null,
+  "save_unaligned": false,
+  "save_aligned": false,
+  "args": "",
+  "outdir": "results"
+}

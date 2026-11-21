@@ -1,0 +1,49 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'output_fmt' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/parabricks-minimap2
+name: parabricks minimap2
+summary: NVIDIA Clara Parabricks GPU-accelerated minimap2 for aligning long read sequences against a large
+  reference database using an accelerated KSW2 to convert FASTQ to BAM/CRAM.
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Input read file, supported formats - 'fastq', 'fastq.gz', 'fq', 'fq.gz', 'bam'
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: reference fasta file - must be unzipped
+  intervals:
+    kind: input
+    type: path
+    required: true
+    description: (optional) file(s) containing genomic intervals for use in base quality score recalibration
+      (BQSR)
+  known_sites:
+    kind: input
+    type: path
+    required: true
+    description: (optional) known sites file(s) for calculating BQSR.
+  output_fmt:
+    kind: option
+    type: string
+    required: true
+    description: Output format for the alignment.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to parabricks.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bam:
+    type: directory
+    path: ${outdir}/parabricks_minimap2
+    primary: true

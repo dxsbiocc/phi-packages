@@ -1,0 +1,10 @@
+{
+  "fasta_gz": null,
+  "paf": null,
+  "gzi": null,
+  "fai": null,
+  "query_self": false,
+  "fasta_query_list": null,
+  "args": "",
+  "outdir": "results"
+}

@@ -1,0 +1,21 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/homer-pos2bed
+name: homer pos2bed
+summary: Converting from HOMER peak to BED file formats
+params:
+  peaks:
+    kind: input
+    type: path
+    required: true
+    description: Peak file to convert to BED format
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bed:
+    type: directory
+    path: ${outdir}/homer_pos2bed
+    primary: true

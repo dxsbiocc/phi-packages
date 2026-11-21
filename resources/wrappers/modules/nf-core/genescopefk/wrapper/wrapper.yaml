@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/genescopefk
+name: genescopefk
+summary: A derivative of GenomeScope2.0 modified to work with FastK
+params:
+  fastk_histex_histogram:
+    kind: input
+    type: path
+    required: true
+    description: A histogram formatted for GeneScope using the -G parameter from Fastk Histex
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to genescopefk.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  linear_plot:
+    type: directory
+    path: ${outdir}/genescopefk
+    primary: true

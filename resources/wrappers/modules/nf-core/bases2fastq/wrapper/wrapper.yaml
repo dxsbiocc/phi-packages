@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored bases2fastq module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+# Manually wired: exotic staging pattern.
+id: nf-core/modules/bases2fastq
+name: bases2fastq
+summary: Demultiplex Element AVITI/Polony Bases runs into FASTQ with bases2fastq.
+params:
+  run_manifest:
+    kind: input
+    type: file
+    required: true
+    description: RunManifest.csv describing the run.
+  run_dir:
+    kind: input
+    type: path
+    required: true
+    description: Run directory produced by the instrument (staged as input_dir).
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to bases2fastq.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/bases2fastq
+    primary: true

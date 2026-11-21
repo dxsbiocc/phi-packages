@@ -1,0 +1,155 @@
+name: "oncocnv"
+description: Calls CNVs in bam files from tumor patients
+keywords:
+  - cnv
+  - bam
+  - tumor/normal
+tools:
+  - "oncocnv":
+      description: "a package to detect copy number changes in Deep Sequencing data"
+      homepage: "https://github.com/BoevaLab/ONCOCNV/"
+      documentation: "https://github.com/BoevaLab/ONCOCNV/blob/master/README.md"
+      tool_dev_url: "https://github.com/BoevaLab/ONCOCNV/"
+      doi: "10.1093/bioinformatics/btu436"
+      license:
+        - "GPL-3.0-or-later"
+      identifier: biotools:oncocnv
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. [ id:'test', single_end:false ]
+    - normal:
+        type: file
+        description: BAM files
+        pattern: "*.bam"
+        ontologies: []
+    - normal_index:
+        type: file
+        description: BAM file indices
+        pattern: "*.bam.bai"
+        ontologies: []
+    - tumor:
+        type: file
+        description: BAM files
+        pattern: "*.bam"
+        ontologies: []
+    - tumor_index:
+        type: file
+        description: BAM file indices
+        pattern: "*.bam.bai"
+        ontologies: []
+  - bed:
+      type: file
+      description: annotated BED file containing target regions
+      pattern: "*.bed"
+      ontologies: []
+  - fasta:
+      type: file
+      description: genome FASTA file
+      pattern: "*.fasta"
+      ontologies: []
+output:
+  png:
+    - - meta:
+          type: file
+          description: PNG file containing profile plot
+          pattern: "*.profile.png"
+          ontologies: []
+      - "*.profile.png":
+          type: file
+          description: PNG file containing profile plot
+          pattern: "*.profile.png"
+          ontologies: []
+  profile:
+    - - meta:
+          type: file
+          description: PNG file containing profile plot
+          pattern: "*.profile.png"
+          ontologies: []
+      - "*.profile.txt":
+          type: file
+          description: TXT file containing profile data
+          pattern: "*.profile.txt"
+          ontologies: []
+  summary:
+    - - meta:
+          type: file
+          description: PNG file containing profile plot
+          pattern: "*.profile.png"
+          ontologies: []
+      - "*.summary.txt":
+          type: file
+          description: TXT file containing summarized data
+          pattern: "*.summary.txt"
+          ontologies: []
+  versions_oncocnv:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - oncocnv:
+          type: string
+          description: The name of the tool
+      - "7.0":
+          type: string
+          description: The expression to obtain the version of the tool
+
+  versions_perl:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - perl:
+          type: string
+          description: The name of the tool
+      - perl --version | sed '2!d;s/.*v//;s/).*//':
+          type: eval
+          description: The expression to obtain the version of the tool
+
+  versions_r_base:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - r-base:
+          type: string
+          description: The name of the tool
+      - R --version | sed '1!d; s/.*version //; s/ .*//':
+          type: eval
+          description: The expression to obtain the version of the tool
+
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - oncocnv:
+          type: string
+          description: The name of the tool
+      - "7.0":
+          type: string
+          description: The expression to obtain the version of the tool
+
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - perl:
+          type: string
+          description: The name of the tool
+      - perl --version | sed '2!d;s/.*v//;s/).*//':
+          type: eval
+          description: The expression to obtain the version of the tool
+
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - r-base:
+          type: string
+          description: The name of the tool
+      - R --version | sed '1!d; s/.*version //; s/ .*//':
+          type: eval
+          description: The expression to obtain the version of the tool
+
+authors:
+  - "@marrip"
+maintainers:
+  - "@marrip"

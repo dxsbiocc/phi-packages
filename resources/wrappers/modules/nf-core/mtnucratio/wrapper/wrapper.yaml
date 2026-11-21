@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'mt_id' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/mtnucratio
+name: mtnucratio
+summary: A small Java tool to calculate ratios between MT and nuclear sequencing reads in a given BAM
+  file.
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: (coordinate) sorted BAM/SAM file
+  mt_id:
+    kind: option
+    type: string
+    required: true
+    description: Identifier of the contig/chromosome of interest (e.g.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to mtnucratio.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  mtnucratio:
+    type: directory
+    path: ${outdir}/mtnucratio
+    primary: true

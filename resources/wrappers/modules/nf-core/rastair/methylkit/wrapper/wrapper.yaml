@@ -1,0 +1,21 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/rastair-methylkit
+name: rastair methylkit
+summary: Parses rastair call output and converts it into a MethylKit-compatible format.
+params:
+  rastair_call_txt:
+    kind: input
+    type: path
+    required: true
+    description: Text file from `rastair call`
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  methylkit:
+    type: directory
+    path: ${outdir}/rastair_methylkit
+    primary: true

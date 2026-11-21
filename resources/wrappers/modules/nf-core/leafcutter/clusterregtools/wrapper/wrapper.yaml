@@ -1,0 +1,28 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/leafcutter-clusterregtools
+name: leafcutter clusterregtools
+summary: Cluster RNA-seq junction reads extracted by regtools and refine them based on read counts and
+  ratios for alternative splicing analysis
+params:
+  juncfiles:
+    kind: input
+    type: path
+    required: true
+    description: Text file listing paths to junction files (one per line), where junction files contain
+      chromosome, start, end, strand, and read count information extracted by regtools
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to leafcutter.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  pooled:
+    type: directory
+    path: ${outdir}/leafcutter_clusterregtools
+    primary: true

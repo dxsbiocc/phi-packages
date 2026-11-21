@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'fasta' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/nanolyse
+name: nanolyse
+summary: DNA contaminant removal using NanoLyse
+params:
+  fastq:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Basecalled reads in FASTQ.GZ format
+  fasta:
+    kind: input
+    type: path
+    required: false
+    description: A reference fasta file against which to filter.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fastq:
+    type: directory
+    path: ${outdir}/nanolyse
+    primary: true

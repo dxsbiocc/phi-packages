@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'uid' exposed as required option; confirm whether a safe default exists; val input 'database' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/entrezdirect-esummary
+name: entrezdirect esummary
+summary: Queries an NCBI database using Unique Identifier(s)
+params:
+  uids_file:
+    kind: input
+    type: path
+    required: true
+    description: Text file containing multiple UIDs.
+  uid:
+    kind: option
+    type: string
+    required: true
+    description: Unique Identifier (UID) of record in NCBI database.
+  database:
+    kind: option
+    type: string
+    required: true
+    description: Value must be a valid Entrez database name ('assembly', etc).
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to entrezdirect.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  xml:
+    type: directory
+    path: ${outdir}/entrezdirect_esummary
+    primary: true

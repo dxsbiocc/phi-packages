@@ -1,0 +1,10 @@
+{
+  "fasta": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/genome/genome.fasta",
+  "taxonomy_names": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/prokaryotes/metagenome/taxonomy/taxdmp/names.dmp",
+  "taxonomy_nodes": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/prokaryotes/metagenome/taxonomy/taxdmp/nodes.dmp",
+  "taxonomy_merged": null,
+  "accession2taxid": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/prokaryotes/metagenome/taxonomy/accession2taxid/nucl_gb.accession2taxid",
+  "cds_info": null,
+  "args": "",
+  "outdir": "results"
+}

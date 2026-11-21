@@ -1,0 +1,9 @@
+{
+  "illumina": null,
+  "pacbio": null,
+  "nanopore": null,
+  "yml": null,
+  "hmm": null,
+  "args": "",
+  "outdir": "results"
+}

@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'format' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/haplogrep2-classify
+name: haplogrep2 classify
+summary: classification into haplogroups
+params:
+  inputfile:
+    kind: input
+    type: path
+    required: true
+    description: valid options are hsd, vcf, or fasta files
+  format:
+    kind: option
+    type: string
+    required: true
+    description: either "vcf", "fasta" or "hsd"
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to haplogrep2.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  txt:
+    type: directory
+    path: ${outdir}/haplogrep2_classify
+    primary: true

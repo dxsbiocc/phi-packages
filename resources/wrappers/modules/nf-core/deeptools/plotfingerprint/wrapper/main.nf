@@ -10,7 +10,7 @@ params.bai    = null
 params.outdir = null
 // Referenced directly by the vendored module's script block (not passed
 // as a process input) — must be defined here or it evaluates to null.
-params.fragment_size = 0
+params.fragment_size = null
 
 workflow {
     input_ch = Channel.value([[id: 'test', single_end: false], [file(params.bam, checkIfExists: true)], [file(params.bai, checkIfExists: true)]])

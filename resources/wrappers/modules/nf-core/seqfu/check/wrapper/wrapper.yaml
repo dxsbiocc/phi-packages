@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/seqfu-check
+name: seqfu check
+summary: Evaluates the integrity of DNA FASTQ files
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Either fastq file(s) or directory containing fastq files to be checked
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to seqfu.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  check:
+    type: directory
+    path: ${outdir}/seqfu_check
+    primary: true

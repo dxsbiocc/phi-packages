@@ -1,0 +1,56 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'contrast_variable' exposed as required option; confirm whether a safe default exists; val input 'reference' exposed as required option; confirm whether a safe default exists; val input 'target' exposed as required option; confirm whether a safe default exists; val input 'formula' exposed as required option; confirm whether a safe default exists; val input 'comparison' exposed as required option; confirm whether a safe default exists; val-only tuple wired as a single sample; verify multi-sample semantics; companion input 'intensities' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/limma-differential
+name: limma differential
+summary: runs a differential expression analysis with Limma
+params:
+  contrast_variable:
+    kind: option
+    type: string
+    required: true
+    description: (Optional, required if reference and target are used) The column in the sample sheet
+      that should be used to define groups for comparison
+  reference:
+    kind: option
+    type: string
+    required: true
+    description: (Optional, required if contrast_variable and target are used) The value within the contrast_variable
+      column of the sample sheet that should be used to derive the reference samples
+  target:
+    kind: option
+    type: string
+    required: true
+    description: (Optional, required if contrast_variable and reference are used) The value within the
+      contrast_variable column of the sample sheet that should be used to derive the target samples
+  formula:
+    kind: option
+    type: string
+    required: true
+    description: (Optional, requires comparison if used) R formula string used for modeling, e.g.
+  comparison:
+    kind: option
+    type: string
+    required: true
+    description: (Optional, mandatory if formula is used) Literal string passed to `limma::makeContrasts`,
+      e.g.
+  samplesheet:
+    kind: input
+    type: path
+    required: true
+    description: Sample sheet file
+  intensities:
+    kind: input
+    type: path
+    required: false
+    description: Raw TSV or CSV format expression matrix with probes by row and samples by column
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/limma_differential
+    primary: true

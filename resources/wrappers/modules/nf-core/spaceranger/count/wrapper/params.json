@@ -1,0 +1,15 @@
+{
+  "reads": null,
+  "image": null,
+  "cytaimage": null,
+  "darkimage": null,
+  "colorizedimage": null,
+  "alignment": null,
+  "slidefile": null,
+  "slide": null,
+  "area": null,
+  "reference": null,
+  "probeset": null,
+  "args": "",
+  "outdir": "results"
+}

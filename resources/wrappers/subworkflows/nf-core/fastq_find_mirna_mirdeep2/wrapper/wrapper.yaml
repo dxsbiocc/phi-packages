@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
+id: nf-core/subworkflows/fastq-find-mirna-mirdeep2
+name: fastq find mirna mirdeep2
+summary: This subworkflow identifies miRNAs from FASTQ files using miRDeep2.
+params:
+  fastq:
+    kind: input
+    type: path
+    required: true
+    description: Input fastq for ch_reads.
+  genome_fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input genome_fasta for ch_genome_fasta.
+  index:
+    kind: input
+    type: path
+    required: true
+    description: Input index for ch_bowtie_index.
+  mature_mirna:
+    kind: input
+    type: path
+    required: true
+    description: Input mature_mirna for ch_mirna_mature_hairpin.
+  hairpin_mirna:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion hairpin_mirna for ch_mirna_mature_hairpin.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/fastq_find_mirna_mirdeep2
+    primary: true

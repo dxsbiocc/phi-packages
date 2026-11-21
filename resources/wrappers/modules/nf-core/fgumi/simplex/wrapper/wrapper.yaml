@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'min_reads' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/fgumi-simplex
+name: fgumi simplex
+summary: Calls simplex consensus sequences from reads with the same unique molecular tag.
+params:
+  grouped_bam:
+    kind: input
+    type: path
+    required: true
+    description: The input SAM or BAM file, grouped by UMIs
+  min_reads:
+    kind: option
+    type: integer
+    required: true
+    description: Minimum number of original reads to build each consensus read.
+  keep_rejected:
+    kind: option
+    type: boolean
+    required: false
+    description: If true, output rejected reads to a separate BAM file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to fgumi.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bam:
+    type: directory
+    path: ${outdir}/fgumi_simplex
+    primary: true

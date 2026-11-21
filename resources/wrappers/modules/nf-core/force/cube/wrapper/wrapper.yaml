@@ -1,0 +1,47 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: glob input 'mask' collected into one staged list; verify staging layout
+id: nf-core/modules/force-cube
+name: force cube
+summary: Generate processing masks for a give datacube definition and area of interest.
+params:
+  aoi:
+    kind: input
+    type: path
+    required: true
+    description: Vector file (either shapefile geometry or geopackage) defining the area of interest.
+  mask:
+    kind: input
+    type: path_glob
+    required: true
+    description: Input mask.
+  shapefile_dbf:
+    kind: input
+    type: path
+    required: true
+    description: Optional attribute table for shapefiles.
+  shapefile_prj:
+    kind: input
+    type: path
+    required: true
+    description: Optional projection for shapefiles.
+  shapefile_shx:
+    kind: input
+    type: path
+    required: true
+    description: Optional shape index for shapefiles.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to force.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  masks:
+    type: directory
+    path: ${outdir}/force_cube
+    primary: true

@@ -1,0 +1,55 @@
+# Agent-facing wrapper for the local greenhill module at ../main.nf,
+# ported from the Snakemake Workflow project (no nf-core equivalent).
+# Follows docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: local/modules/greenhill
+name: GreenHill
+summary: Scaffold a genome with GreenHill using Hi-C contacts, optionally with long or linked reads.
+params:
+  hic:
+    kind: input
+    type: file
+    required: true
+    description: Hi-C contact file.
+  aware:
+    kind: input
+    type: file
+    required: false
+    description: Optional linked-read aware file (mutually exclusive with cph).
+  bubble:
+    kind: input
+    type: path
+    required: false
+    description: Optional directory of bubble files for aware.
+  cph:
+    kind: input
+    type: file
+    required: false
+    description: Optional CPH contact file.
+  long:
+    kind: input
+    type: path
+    required: false
+    description: Optional directory of long-read files.
+  hic_type:
+    kind: option
+    type: string
+    required: false
+    description: Hi-C input type.
+    enum:
+    - paired
+    - single
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to the tool.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/greenhill
+    primary: true

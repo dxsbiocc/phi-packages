@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored samplesheetparser/diff module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+# Manually wired: exotic staging pattern.
+id: nf-core/modules/samplesheetparser-diff
+name: samplesheetparser diff
+summary: Diff two Illumina sample sheets and report the changes.
+params:
+  old_sheet:
+    kind: input
+    type: file
+    required: true
+    description: Original sample sheet CSV.
+  new_sheet:
+    kind: input
+    type: file
+    required: true
+    description: Updated sample sheet CSV.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to samplesheetparser.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/samplesheetparser_diff
+    primary: true

@@ -1,0 +1,60 @@
+# Agent-facing wrapper adapter for the vendored fasta_gxf_busco_plot subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+# REVIEW: lineage download needs network unless busco_lineages_path provided
+id: nf-core/subworkflows/fasta-gxf-busco-plot
+name: "BUSCO assessment + plots"
+summary: "Run BUSCO on an assembly/annotation and plot completeness summaries."
+
+params:
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: "Assembly or protein FASTA."
+  gxf:
+    kind: input
+    type: path
+    required: false
+    description: "Annotation GFF/GFF3/GTF (evaluated when mode=genome)."
+  mode:
+    kind: option
+    type: string
+    required: true
+    enum:
+      - genome
+      - transcriptome
+      - proteins
+    description: "BUSCO mode."
+  lineages:
+    kind: option
+    type: string
+    required: true
+    description: "Comma-separated BUSCO lineage datasets."
+  busco_lineages_path:
+    kind: input
+    type: path
+    required: false
+    description: "Local BUSCO lineages directory (optional)."
+  busco_config:
+    kind: input
+    type: path
+    required: false
+    description: "BUSCO config file (optional)."
+  busco_cleanup:
+    kind: option
+    type: boolean
+    required: false
+    description: "Remove BUSCO intermediate files."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/fasta_gxf_busco_plot'
+    primary: true

@@ -1,0 +1,36 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/rgi-main
+name: rgi main
+summary: Predict antibiotic resistance from protein or nucleotide data
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Nucleotide or protein sequences in FASTA format
+  card:
+    kind: input
+    type: path
+    required: true
+    description: Directory containing the CARD database.
+  wildcard:
+    kind: input
+    type: path
+    required: true
+    description: Directory containing the WildCARD database (optional).
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to rgi.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  json:
+    type: directory
+    path: ${outdir}/rgi_main
+    primary: true

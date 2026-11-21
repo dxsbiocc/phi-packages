@@ -1,0 +1,64 @@
+name: "homer_pos2bed"
+description: Converting from HOMER peak to BED file formats
+keywords:
+  - peaks
+  - bed
+  - pos
+tools:
+  - "homer":
+      description: |
+        HOMER (Hypergeometric Optimization of Motif EnRichment) is a suite of tools for Motif Discovery and next-gen sequencing analysis.
+      homepage: "http://homer.ucsd.edu/homer/index.html"
+      documentation: "http://homer.ucsd.edu/homer/"
+      tool_dev_url: "http://homer.ucsd.edu/homer/ngs/miscellaneous.html"
+      doi: 10.1016/j.molcel.2010.05.004.
+      licence:
+        - "GPL-3.0-or-later"
+      identifier: biotools:homer
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. [ id:'test', single_end:false ]
+    - peaks:
+        type: file
+        description: Peak file to convert to BED format
+        ontologies: []
+output:
+  bed:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "*.bed":
+          type: file
+          description: BED file
+          pattern: "*.bed"
+          ontologies: []
+  versions_homer:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - homer:
+          type: string
+          description: The name of the tool
+      - "4.11":
+          type: string
+          description: The expression to obtain the version of the tool
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - homer:
+          type: string
+          description: The name of the tool
+      - "4.11":
+          type: string
+          description: The expression to obtain the version of the tool
+authors:
+  - "@edmundmiller"
+maintainers:
+  - "@edmundmiller"

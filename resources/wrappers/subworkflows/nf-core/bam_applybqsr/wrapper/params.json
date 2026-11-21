@@ -1,0 +1,12 @@
+{
+  "bam": null,
+  "bai": null,
+  "recal": null,
+  "fasta": null,
+  "fai": null,
+  "dict": null,
+  "intervals": null,
+  "output_suffix": "bam",
+  "sample_id": "sample",
+  "outdir": "results"
+}

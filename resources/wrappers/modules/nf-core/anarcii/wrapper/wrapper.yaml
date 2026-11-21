@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'seq_type' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/anarcii
+name: anarcii
+summary: A language model for antigen receptor numbering
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Fasta file with full receptor sequences
+  seq_type:
+    kind: option
+    type: string
+    required: true
+    description: Receptor type to number, passed to ANARCII's `-t` flag.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to anarcii.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  anarcii:
+    type: directory
+    path: ${outdir}/anarcii
+    primary: true

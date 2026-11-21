@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'samples' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/paraphrase
+name: paraphrase
+summary: Parse and annotate paraphrase JSONs
+params:
+  jsons:
+    kind: input
+    type: path
+    required: true
+    description: One or more JSON files from paraphase
+  samples:
+    kind: option
+    type: string
+    required: true
+    description: Sample names corresponding to the JSON files.
+  yaml:
+    kind: input
+    type: path
+    required: true
+    description: YAML file containing rules for annotation
+  tsv_output:
+    kind: option
+    type: boolean
+    required: false
+    description: Whether to output in TSV format instead of JSON.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to paraphrase.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  json:
+    type: directory
+    path: ${outdir}/paraphrase
+    primary: true

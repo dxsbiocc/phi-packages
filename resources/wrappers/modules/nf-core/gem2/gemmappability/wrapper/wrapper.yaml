@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'read_length' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/gem2-gemmappability
+name: gem2 gemmappability
+summary: Define the mappability of a reference
+params:
+  index:
+    kind: input
+    type: path
+    required: true
+    description: The index created with gem-indexer from the reference FASTA
+  read_length:
+    kind: option
+    type: integer
+    required: true
+    description: The read length to define the mappability of
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to gem2.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  map:
+    type: directory
+    path: ${outdir}/gem2_gemmappability
+    primary: true

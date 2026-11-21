@@ -1,0 +1,9 @@
+{
+  "coverage_files": null,
+  "normal_vcf": null,
+  "normal_vcf_tbi": null,
+  "genome": null,
+  "assay": null,
+  "args": "",
+  "outdir": "results"
+}

@@ -1,0 +1,11 @@
+{
+  "fasta": null,
+  "coverage": null,
+  "query": null,
+  "bam": null,
+  "assembler": null,
+  "mink": null,
+  "maxk": null,
+  "args": "",
+  "outdir": "results"
+}

@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/nonpareil-set
+name: nonpareil set
+summary: Visualise metagenome redundancy curves in PNG format from multiple Nonpareil npo files in a single
+  image
+params:
+  npos:
+    kind: input
+    type: path
+    required: true
+    description: A list of npo redundancy summary files from nonpareil itself
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to nonpareil.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  png:
+    type: directory
+    path: ${outdir}/nonpareil_set
+    primary: true

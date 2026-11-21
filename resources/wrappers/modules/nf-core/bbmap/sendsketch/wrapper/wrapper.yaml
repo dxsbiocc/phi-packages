@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/bbmap-sendsketch
+name: bbmap sendsketch
+summary: Compares query sketches to reference sketches hosted on a remote server via the Internet.
+params:
+  file:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: file with nucleotide sequences
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to bbmap.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  hits:
+    type: directory
+    path: ${outdir}/bbmap_sendsketch
+    primary: true

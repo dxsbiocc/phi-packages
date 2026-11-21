@@ -1,0 +1,47 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'bai' combined cartesian-style; verify if per-sample pairing is required; companion input 'bed' combined cartesian-style; verify if per-sample pairing is required; companion input 'fasta' combined cartesian-style; verify if per-sample pairing is required; companion input 'fai' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/nucleoatac-run
+name: nucleoatac run
+summary: Call nucleosome positions and occupancy from paired-end ATAC-seq data
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Coordinate-sorted BAM file
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: BAM index file
+  bed:
+    kind: input
+    type: path
+    required: false
+    description: Sorted non-overlapping BED file with regions for nucleosome analysis
+  fasta:
+    kind: input
+    type: path
+    required: false
+    description: Reference genome FASTA used for alignment
+  fai:
+    kind: input
+    type: path
+    required: false
+    description: FASTA index file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to nucleoatac.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  nucpos:
+    type: directory
+    path: ${outdir}/nucleoatac_run
+    primary: true

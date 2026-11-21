@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; glob input 'rcc_files' collected into one staged list; verify staging layout
+id: nf-core/modules/nacho-qc
+name: nacho qc
+summary: NACHO (NAnostring quality Control dasHbOard) is developed for NanoString nCounter data.
+params:
+  rcc_files:
+    kind: input
+    type: path
+    required: true
+    description: List of RCC files for all samples, which are direct outputs from NanoString runs
+  sample_sheet:
+    kind: input
+    type: path
+    required: true
+    description: 'Comma-separated file with 3 columns: RCC_FILE, RCC_FILE_NAME, and SAMPLE_ID'
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  nacho_qc_reports:
+    type: directory
+    path: ${outdir}/nacho_qc
+    primary: true

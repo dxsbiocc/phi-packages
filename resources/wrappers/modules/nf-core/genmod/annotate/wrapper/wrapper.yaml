@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/genmod-annotate
+name: genmod annotate
+summary: for annotating regions, frequencies, cadd scores
+params:
+  input_vcf:
+    kind: input
+    type: path
+    required: true
+    description: VCF file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to genmod.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcf:
+    type: directory
+    path: ${outdir}/genmod_annotate
+    primary: true

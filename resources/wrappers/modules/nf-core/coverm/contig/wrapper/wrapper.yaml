@@ -1,0 +1,48 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/coverm-contig
+name: coverm contig
+summary: Map reads to contigs and estimate coverage
+params:
+  input:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: FASTA/FASTQ containing reads (can be gzipped), or sorted BAM files of reads mapped to
+      a reference.
+  reference:
+    kind: input
+    type: path
+    required: true
+    description: Reference FASTA file to map reads to, or minimap2/strobealign index.
+  bam_input:
+    kind: option
+    type: boolean
+    required: false
+    description: True if input is bam files
+  interleaved:
+    kind: option
+    type: boolean
+    required: false
+    description: True if input is interleaved fastq file
+  enable_bam_output:
+    kind: option
+    type: boolean
+    required: false
+    description: True to enable BAM output of aligned reads
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to coverm.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  coverage:
+    type: directory
+    path: ${outdir}/coverm_contig
+    primary: true

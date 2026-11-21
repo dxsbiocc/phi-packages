@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/knotannotsv
+name: knotannotsv
+summary: Simple tool to create a customizable html file (to be displayed on a web browser) from an AnnotSV
+  output
+params:
+  annotsv_tsv:
+    kind: input
+    type: path
+    required: true
+    description: Annotated TSV produced by AnnotSV
+  knot_out_xl:
+    kind: option
+    type: boolean
+    required: false
+    description: Specify 'true' to output as XLSM (rather than HTML by default)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to knotannotsv.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  output_file:
+    type: directory
+    path: ${outdir}/knotannotsv
+    primary: true

@@ -1,0 +1,10 @@
+{
+  "processed_reads": null,
+  "genome_mappings": null,
+  "fasta": null,
+  "mature": null,
+  "hairpin": null,
+  "mature_other_species": null,
+  "args": "",
+  "outdir": "results"
+}

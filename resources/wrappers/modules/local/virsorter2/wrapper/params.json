@@ -1,0 +1,9 @@
+{
+  "contigs": null,
+  "db_dir": null,
+  "mode": "all",
+  "include_groups": null,
+  "min_length": 1500,
+  "args": "",
+  "outdir": "results"
+}

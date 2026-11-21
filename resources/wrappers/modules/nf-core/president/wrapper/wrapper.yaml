@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/president
+name: president
+summary: Calculate pairwise nucleotide identity with respect to a reference sequence
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: One fasta file or a list of multiple fasta files to perform president on.
+  reference:
+    kind: input
+    type: path
+    required: true
+    description: Fasta of a reference genome.
+  compress:
+    kind: option
+    type: boolean
+    required: false
+    description: Set to "true" if fasta output should be compressed
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to president.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  valid_fasta:
+    type: directory
+    path: ${outdir}/president
+    primary: true

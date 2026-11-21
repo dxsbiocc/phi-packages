@@ -1,0 +1,7 @@
+{
+  "vcf": null,
+  "exclude_bed": null,
+  "annotation_beds": null,
+  "args": "",
+  "outdir": "results"
+}

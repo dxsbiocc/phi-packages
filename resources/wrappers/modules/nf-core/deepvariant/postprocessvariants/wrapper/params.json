@@ -1,0 +1,12 @@
+{
+  "variant_calls_tfrecord_files": null,
+  "gvcf_tfrecords": null,
+  "small_model_calls": null,
+  "phase_inputs": null,
+  "intervals": null,
+  "fasta": null,
+  "fai": null,
+  "gzi": null,
+  "args": "",
+  "outdir": "results"
+}

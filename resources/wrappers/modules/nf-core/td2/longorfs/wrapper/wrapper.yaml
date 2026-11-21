@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'min_len' exposed as required option; confirm whether a safe default exists; val input 'abs_min_len' exposed as required option; confirm whether a safe default exists; val-only tuple wired as a single sample; verify multi-sample semantics
+id: nf-core/modules/td2-longorfs
+name: td2 longorfs
+summary: TD2 identifies candidate coding regions within transcript sequences, such as those generated
+  by de novo RNA-Seq transcript assembly
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Fasta file containing the target transcript sequences
+  min_len:
+    kind: option
+    type: integer
+    required: true
+    description: minimum protein length for proteins in long transcripts, default=90
+  abs_min_len:
+    kind: option
+    type: integer
+    required: true
+    description: minimum protein length for proteins in short transcripts, default=90
+  gene_transmap:
+    kind: input
+    type: path
+    required: true
+    description: Gene to transcript mapping file, default=none
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to td2.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  orfs:
+    type: directory
+    path: ${outdir}/td2_longorfs
+    primary: true

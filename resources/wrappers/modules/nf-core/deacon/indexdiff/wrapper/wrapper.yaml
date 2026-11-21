@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'to' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/deacon-indexdiff
+name: deacon indexdiff
+summary: Subtract minimizers in deacon index (or fasta file) from another index (A - B)
+params:
+  index:
+    kind: input
+    type: path
+    required: true
+    description: Deacon .idx index file to perform the diff operation on
+  genome:
+    kind: input
+    type: path
+    required: true
+    description: A single .idx or fasta file to subtract from the main reference index.
+  to:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion input to.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to deacon.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  index:
+    type: directory
+    path: ${outdir}/deacon_indexdiff
+    primary: true

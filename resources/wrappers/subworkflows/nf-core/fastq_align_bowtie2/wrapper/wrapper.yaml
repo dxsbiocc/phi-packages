@@ -1,0 +1,47 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites; val input 'sort_bam' exposed as required option; confirm whether a safe default exists
+id: nf-core/subworkflows/fastq-align-bowtie2
+name: fastq align bowtie2
+summary: Align reads to a reference genome using bowtie2 then sort with samtools
+params:
+  reads:
+    kind: input
+    type: path
+    required: true
+    description: Input reads for ch_reads.
+  index:
+    kind: input
+    type: path
+    required: true
+    description: Input index for ch_index.
+  save_unaligned:
+    kind: option
+    type: boolean
+    required: false
+    description: Option save_unaligned.
+  sort_bam:
+    kind: option
+    type: string
+    required: true
+    description: Option sort_bam.
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input fasta for ch_fasta_fai.
+  fai:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion fai for ch_fasta_fai.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/fastq_align_bowtie2
+    primary: true

@@ -1,0 +1,27 @@
+# Agent-facing wrapper for the local lefse/run module at ../main.nf,
+# ported from the Snakemake Workflow project (no nf-core equivalent).
+# Follows docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: local/modules/lefse-run
+name: lefse run
+summary: Run LEfSe biomarker discovery on a formatted feature table.
+params:
+  formatted:
+    kind: input
+    type: file
+    required: true
+    description: LEfSe-formatted input file (from lefse format).
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to the tool.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/lefse_run
+    primary: true

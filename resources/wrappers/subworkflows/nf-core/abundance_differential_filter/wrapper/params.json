@@ -1,0 +1,16 @@
+{
+  "abundance": null,
+  "fc_threshold": null,
+  "stat_threshold": null,
+  "analysis_method": null,
+  "samplesheet": null,
+  "transcript_lengths": null,
+  "control_features": null,
+  "meta_contrast": null,
+  "variable": null,
+  "reference": null,
+  "target": null,
+  "formula": null,
+  "comparison": null,
+  "outdir": "results"
+}

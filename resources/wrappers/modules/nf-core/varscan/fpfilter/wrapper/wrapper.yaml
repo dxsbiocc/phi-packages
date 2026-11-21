@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'rc' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/varscan-fpfilter
+name: varscan fpfilter
+summary: VarScan2 is a tool for variant detection in massively parallel sequencing data.
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: VCF file
+  rc:
+    kind: input
+    type: path
+    required: false
+    description: Read counts file from bam-readcount
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to varscan.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  pass_vcf:
+    type: directory
+    path: ${outdir}/varscan_fpfilter
+    primary: true

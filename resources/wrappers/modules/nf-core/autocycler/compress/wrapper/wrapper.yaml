@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/autocycler-compress
+name: autocycler compress
+summary: Package candidate assemblies for clustering by Autocycler.
+params:
+  assemblies:
+    kind: input
+    type: path
+    required: true
+    description: Candidate assembly files (typically FASTA) generated for the sample.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to autocycler.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gfa:
+    type: directory
+    path: ${outdir}/autocycler_compress
+    primary: true

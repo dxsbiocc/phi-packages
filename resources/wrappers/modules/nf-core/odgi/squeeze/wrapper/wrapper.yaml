@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/odgi-squeeze
+name: odgi squeeze
+summary: Squeezes multiple graphs in ODGI format into the same file in ODGI format.
+params:
+  graphs:
+    kind: input
+    type: path
+    required: true
+    description: Pangenome graph files in ODGI format.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to odgi.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  graph:
+    type: directory
+    path: ${outdir}/odgi_squeeze
+    primary: true

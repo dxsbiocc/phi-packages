@@ -1,0 +1,8 @@
+{
+  "pdb": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/proteomics/pdb/1tim.pdb",
+  "query": "A13,A95,A167",
+  "index": null,
+  "structures": null,
+  "args": "",
+  "outdir": "results"
+}

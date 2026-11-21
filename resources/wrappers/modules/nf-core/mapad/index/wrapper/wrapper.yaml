@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: glob input 'fasta' collected into one staged list; verify staging layout
+id: nf-core/modules/mapad-index
+name: mapad index
+summary: Create mapAD index for reference genome
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: FASTA file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to mapad.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  index:
+    type: directory
+    path: ${outdir}/mapad_index
+    primary: true

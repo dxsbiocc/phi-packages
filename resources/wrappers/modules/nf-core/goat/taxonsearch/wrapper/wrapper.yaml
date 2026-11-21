@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'taxon' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/goat-taxonsearch
+name: goat taxonsearch
+summary: Query metadata for any taxon across the tree of life.
+params:
+  taxa_file:
+    kind: input
+    type: path
+    required: true
+    description: A file of NCBI taxonomy ID's (tips) and/or binomial names.
+  taxon:
+    kind: option
+    type: string
+    required: true
+    description: The taxon to search.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to goat.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  taxonsearch:
+    type: directory
+    path: ${outdir}/goat_taxonsearch
+    primary: true

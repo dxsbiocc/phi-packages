@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/pasty
+name: pasty
+summary: Serogroup Pseudomonas aeruginosa assemblies
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: An assembly in FASTA format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to pasty.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tsv:
+    type: directory
+    path: ${outdir}/pasty
+    primary: true

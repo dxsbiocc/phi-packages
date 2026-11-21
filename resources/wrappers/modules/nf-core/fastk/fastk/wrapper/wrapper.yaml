@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/fastk-fastk
+name: fastk fastk
+summary: A fast K-mer counter for high-fidelity shotgun datasets
+params:
+  reads:
+    kind: input
+    type: path
+    required: true
+    description: List of input FASTA, FASTQ, SAM, BAM or CRAM files.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to fastk.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  hist:
+    type: directory
+    path: ${outdir}/fastk_fastk
+    primary: true

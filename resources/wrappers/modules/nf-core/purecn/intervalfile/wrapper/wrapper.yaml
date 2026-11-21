@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'genome' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/purecn-intervalfile
+name: purecn intervalfile
+summary: Generate on and off-target intervals for PureCN from a list of targets
+params:
+  target_bed:
+    kind: input
+    type: path
+    required: true
+    description: BED file of target intervals
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: FASTA reference sequence of the genome being used
+  genome:
+    kind: option
+    type: string
+    required: true
+    description: Genome used for the BED file (e.g., "hg38", "mm10"...)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to purecn.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  txt:
+    type: directory
+    path: ${outdir}/purecn_intervalfile
+    primary: true

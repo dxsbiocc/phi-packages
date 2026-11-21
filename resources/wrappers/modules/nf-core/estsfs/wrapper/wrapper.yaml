@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'data' combined cartesian-style; verify if per-sample pairing is required; companion input 'seed' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/estsfs
+name: estsfs
+summary: estimation of the unfolded site frequency spectrum
+params:
+  e_config:
+    kind: input
+    type: path
+    required: true
+    description: config file for est-sfs
+  data:
+    kind: input
+    type: path
+    required: false
+    description: input data file for est-sfs
+  seed:
+    kind: input
+    type: path
+    required: false
+    description: text file containing random number seed
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  sfs_out:
+    type: directory
+    path: ${outdir}/estsfs
+    primary: true

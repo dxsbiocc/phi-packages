@@ -1,0 +1,11 @@
+{
+  "long_reads": null,
+  "ul_reads": null,
+  "paternal_kmer_dump": null,
+  "maternal_kmer_dump": null,
+  "hic_read1": null,
+  "hic_read2": null,
+  "bin_files": null,
+  "args": "",
+  "outdir": "results"
+}

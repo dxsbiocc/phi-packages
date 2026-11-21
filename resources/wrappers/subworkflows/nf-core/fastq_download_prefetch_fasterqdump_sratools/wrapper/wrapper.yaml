@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites; val input 'id' exposed as required option; confirm whether a safe default exists
+id: nf-core/subworkflows/fastq-download-prefetch-fasterqdump-sratools
+name: fastq download prefetch fasterqdump sratools
+summary: Download FASTQ sequencing reads from the NCBI's Sequence Read Archive (SRA).
+params:
+  id:
+    kind: option
+    type: string
+    required: true
+    description: Option id.
+  dbgap_key:
+    kind: input
+    type: path
+    required: true
+    description: Input dbgap_key for ch_dbgap_key.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/fastq_download_prefetch_fasterqdump_sratools
+    primary: true

@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'bai' combined cartesian-style; verify if per-sample pairing is required; companion input 'region_vcf' combined cartesian-style; verify if per-sample pairing is required; companion input 'barcode' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/cellsnp-modea
+name: cellsnp modea
+summary: Cellsnp-lite is a C/C++ tool for efficient genotyping bi-allelic SNPs on single cells.
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: A single BAM/SAM/CRAM file, e.g., from CellRanger.
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: The index of the BAM/CRAM file.
+  region_vcf:
+    kind: input
+    type: path
+    required: false
+    description: A optional vcf file listing all candidate SNPs for genotyping.
+  barcode:
+    kind: input
+    type: path
+    required: false
+    description: A plain file listing all effective cell barcodes.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to cellsnp.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  base:
+    type: directory
+    path: ${outdir}/cellsnp_modea
+    primary: true

@@ -1,0 +1,8 @@
+{
+  "reads": null,
+  "hashmap": null,
+  "fasta": null,
+  "sort_bam": false,
+  "args": "",
+  "outdir": "results"
+}

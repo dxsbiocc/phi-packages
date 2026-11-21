@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'ssi' combined cartesian-style; verify if per-sample pairing is required; companion input 'keyfile' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/hmmer-eslsfetch
+name: hmmer eslsfetch
+summary: Retrieves one or more complete sequences or subsequences from a sequence file using its pre-built
+  SSI index.
+params:
+  seqfile:
+    kind: input
+    type: path
+    required: true
+    description: Sequence file, in any format supported by esl-sfetch (fasta, embl, genbank, stockholm,
+      a2m, afa, psiblast, clustal, phylip).
+  ssi:
+    kind: input
+    type: path
+    required: false
+    description: SSI index of seqfile, as produced by the `hmmer/eslsfetchindex` module.
+  keyfile:
+    kind: input
+    type: path
+    required: false
+    description: A plain-text list of sequence names/accessions to retrieve, one name/accession per line.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to hmmer.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  sequences:
+    type: directory
+    path: ${outdir}/hmmer_eslsfetch
+    primary: true

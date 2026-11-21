@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'input_index' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/glimpse2-ligate
+name: glimpse2 ligate
+summary: Ligatation of multiple phased BCF/VCF files into a single whole chromosome file.
+params:
+  input_list:
+    kind: input
+    type: path
+    required: true
+    description: VCF/BCF file containing genotype probabilities (GP field).
+  input_index:
+    kind: input
+    type: path
+    required: false
+    description: Index file of the input VCF/BCF file containing genotype likelihoods.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to glimpse2.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  merged_variants:
+    type: directory
+    path: ${outdir}/glimpse2_ligate
+    primary: true

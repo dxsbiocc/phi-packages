@@ -1,0 +1,8 @@
+{
+  "bam": null,
+  "fasta": null,
+  "min_reads": null,
+  "keep_rejected": false,
+  "args": "",
+  "outdir": "results"
+}

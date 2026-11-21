@@ -1,0 +1,8 @@
+{
+  "image_dir": null,
+  "micron_to_mosaic_pixel_transform_csv": null,
+  "algorithm_json": null,
+  "regex": null,
+  "custom_weights": null,
+  "outdir": "results"
+}

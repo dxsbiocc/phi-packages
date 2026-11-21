@@ -1,0 +1,47 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'depths' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/freyja-demix
+name: freyja demix
+summary: specify the relative abundance of each known haplotype
+params:
+  variants:
+    kind: input
+    type: path
+    required: true
+    description: File containing identified variants in a gff-like format
+  depths:
+    kind: input
+    type: path
+    required: false
+    description: File containing depth of the variants
+  barcodes:
+    kind: input
+    type: path
+    required: true
+    description: File containing lineage defining barcodes
+  lineages_meta:
+    kind: input
+    type: path
+    required: true
+    description: Optional file containing lineage metadata that correspond to barcodes
+  lineages_topology:
+    kind: input
+    type: path
+    required: true
+    description: Optional file containing lineage topology information that correspond to barcodes
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to freyja.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  demix:
+    type: directory
+    path: ${outdir}/freyja_demix
+    primary: true

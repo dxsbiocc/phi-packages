@@ -1,0 +1,8 @@
+{
+  "sample_sheet": "https://github.com/nf-core/test-datasets/raw/demultiplex/testdata/sim-data/fqtk_sample_metadata_subset.tsv",
+  "fastq_folder": null,
+  "fastq_names": "out_L001_I1_001.fastq.gz,out_L001_I2_001.fastq.gz,out_L001_R1_001.fastq.gz,out_L001_R2_001.fastq.gz",
+  "read_structures": "8B,8B,150T,150T",
+  "args": "",
+  "outdir": "results"
+}

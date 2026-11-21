@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/shigatyper
+name: shigatyper
+summary: Determine Shigella serotype from Illumina or Oxford Nanopore reads
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Illumina or Nanopore FASTQ file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to shigatyper.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tsv:
+    type: directory
+    path: ${outdir}/shigatyper
+    primary: true

@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'db' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/emu-abundance
+name: emu abundance
+summary: A taxonomic profiler for metagenomic 16S data optimized for error prone long reads.
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: fastq.gz file containing 16S metagenomics data
+  db:
+    kind: input
+    type: path
+    required: false
+    description: Emu database
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to emu.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  report:
+    type: directory
+    path: ${outdir}/emu_abundance
+    primary: true

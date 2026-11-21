@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/transdecoder-longorf
+name: transdecoder longorf
+summary: TransDecoder identifies candidate coding regions within transcript sequences.
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: fasta file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to transdecoder.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  pep:
+    type: directory
+    path: ${outdir}/transdecoder_longorf
+    primary: true

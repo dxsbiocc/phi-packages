@@ -1,0 +1,8 @@
+{
+  "fasta": null,
+  "bam": null,
+  "bai": null,
+  "pilon_mode": null,
+  "args": "",
+  "outdir": "results"
+}

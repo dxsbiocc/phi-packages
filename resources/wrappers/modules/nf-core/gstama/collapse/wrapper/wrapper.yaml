@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'fasta' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/gstama-collapse
+name: gstama collapse
+summary: Collapse redundant transcript models in Iso-Seq data.
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: A sorted BAM or sam file of aligned reads
+  fasta:
+    kind: input
+    type: path
+    required: false
+    description: A fasta file of the genome used for the mapping
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to gstama.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bed:
+    type: directory
+    path: ${outdir}/gstama_collapse
+    primary: true

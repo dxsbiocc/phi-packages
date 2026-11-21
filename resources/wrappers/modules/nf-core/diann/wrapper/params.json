@@ -1,0 +1,9 @@
+{
+  "ms_files": null,
+  "ms_file_names": null,
+  "fasta": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/proteomics/diann/REF_EColi_K12_UPS1_combined_subset_100.fasta",
+  "library": null,
+  "quant": null,
+  "args": "",
+  "outdir": "results"
+}

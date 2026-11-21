@@ -1,0 +1,14 @@
+{
+  "vcf": null,
+  "vcf_index": null,
+  "panel_vcf": null,
+  "panel_index": null,
+  "sites_vcf": null,
+  "sites_index": null,
+  "map": null,
+  "region": "chr22",
+  "panel_id": "panel",
+  "chr": "chr22",
+  "sample_id": "sample",
+  "outdir": "results"
+}

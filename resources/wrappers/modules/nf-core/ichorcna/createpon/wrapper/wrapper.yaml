@@ -1,0 +1,55 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/ichorcna-createpon
+name: ichorcna createpon
+summary: ichorCNA is an R package for calculating copy number alteration from (low-pass) whole genome
+  sequencing, particularly for use in cell-free DNA.
+params:
+  wigs:
+    kind: input
+    type: path
+    required: true
+    description: Any number of hmmcopy/readCounter processed .wig files giving the number of reads in
+      the sample, in each genomic window.
+  gc_wig:
+    kind: input
+    type: path
+    required: true
+    description: hmmcopy/gcCounter processed .wig file giving the gc content in the reference fasta, in
+      each genomic window
+  map_wig:
+    kind: input
+    type: path
+    required: true
+    description: hmmcopy/mapCounter processed .wig file giving the mapability in the reference fasta,
+      in each genomic window
+  centromere:
+    kind: input
+    type: path
+    required: true
+    description: Text file giving centromere locations of each genome, to exclude these windows
+  rep_time_wig:
+    kind: input
+    type: path
+    required: true
+    description: Replication/timing .wig file.
+  exons:
+    kind: input
+    type: path
+    required: true
+    description: BED file for exon regions to annotate CNA regions.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to ichorcna.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  rds:
+    type: directory
+    path: ${outdir}/ichorcna_createpon
+    primary: true

@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'tbis' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/trgt-merge
+name: trgt merge
+summary: Merge TRGT VCFs from multiple samples
+params:
+  vcfs:
+    kind: input
+    type: path
+    required: true
+    description: List containing VCF files from TRGT Must contain at least 2 elements unless `--force-single`
+      is given Samples in each VCf must be pairwise disjoint
+  tbis:
+    kind: input
+    type: path
+    required: false
+    description: List containing indexes of VCF files from TRGT Must contain at least 2 elements unless
+      `--force-single` is given
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: FASTA reference file (optional) Required if VCFs were generated with TRGT pre 1.0
+  fai:
+    kind: input
+    type: path
+    required: true
+    description: Index for FASTA file (optional) Required if VCFs were generated with TRGT pre 1.0
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to trgt.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcf:
+    type: directory
+    path: ${outdir}/trgt_merge
+    primary: true

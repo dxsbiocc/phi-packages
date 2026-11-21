@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 's' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/deacon-indexunion
+name: deacon indexunion
+summary: Combine multiple deacon indexes (A ∪ B ...)
+params:
+  indices:
+    kind: input
+    type: path
+    required: true
+    description: One or more deacon .idx index files to combine
+  s:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion input s.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to deacon.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  index:
+    type: directory
+    path: ${outdir}/deacon_indexunion
+    primary: true

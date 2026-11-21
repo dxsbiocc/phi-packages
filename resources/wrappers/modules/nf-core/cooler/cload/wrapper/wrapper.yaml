@@ -1,0 +1,47 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'index' combined cartesian-style; verify if per-sample pairing is required; val input 'mode' exposed as required option; confirm whether a safe default exists; val input 'cool_bin' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/cooler-cload
+name: cooler cload
+summary: Create a cooler from genomic pairs and bins
+params:
+  contacts:
+    kind: input
+    type: path
+    required: true
+    description: Path to contacts (e.g.
+  index:
+    kind: input
+    type: path
+    required: false
+    description: Path to index file of the contacts.
+  chromsizes:
+    kind: input
+    type: path
+    required: true
+    description: Path to a chromsizes file.
+  mode:
+    kind: option
+    type: integer
+    required: true
+    description: Input mode for cooler cload - one of pairs, pairix, tabix
+  cool_bin:
+    kind: option
+    type: integer
+    required: true
+    description: Bins size in bp
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to cooler.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  cool:
+    type: directory
+    path: ${outdir}/cooler_cload
+    primary: true

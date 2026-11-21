@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/fastani
+name: fastani
+summary: Alignment-free computation of Average Nucleotide Identity (ANI)
+params:
+  query:
+    kind: input
+    type: path
+    required: true
+    description: Fasta file to be used as the query.
+  reference:
+    kind: input
+    type: path
+    required: true
+    description: Fasta file to be used as the reference.
+  ql:
+    kind: input
+    type: path
+    required: true
+    description: File containing a list of query fasta paths.
+  rl:
+    kind: input
+    type: path
+    required: true
+    description: File containing a list of reference fasta paths.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to fastani.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  ani:
+    type: directory
+    path: ${outdir}/fastani
+    primary: true

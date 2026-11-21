@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'index' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/bio2zarr-vcfpartition
+name: bio2zarr vcfpartition
+summary: Outputs a set of region strings that partition indexed VCF/BCF files for parallel processing.
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: Indexed VCF/BCF file to partition
+  index:
+    kind: input
+    type: path
+    required: false
+    description: Index for the VCF/BCF file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to bio2zarr.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  partitions:
+    type: directory
+    path: ${outdir}/bio2zarr_vcfpartition
+    primary: true

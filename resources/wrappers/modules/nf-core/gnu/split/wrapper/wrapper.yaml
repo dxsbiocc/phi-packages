@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/gnu-split
+name: gnu split
+summary: Split a file into consecutive or interleaved sections
+params:
+  input:
+    kind: input
+    type: path
+    required: true
+    description: Text file, possibly gzip file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to gnu.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  split:
+    type: directory
+    path: ${outdir}/gnu_split
+    primary: true

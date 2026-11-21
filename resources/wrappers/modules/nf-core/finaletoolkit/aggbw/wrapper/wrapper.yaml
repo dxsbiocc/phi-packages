@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/finaletoolkit-aggbw
+name: finaletoolkit aggbw
+summary: Aggregates a bigWig signal over constant-length intervals defined in a BED file.
+params:
+  bigwig:
+    kind: input
+    type: path
+    required: true
+    description: BigWig file containing signals to aggregate
+  intervals:
+    kind: input
+    type: path
+    required: true
+    description: BED file containing intervals to aggregate for
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to finaletoolkit.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  wig:
+    type: directory
+    path: ${outdir}/finaletoolkit_aggbw
+    primary: true

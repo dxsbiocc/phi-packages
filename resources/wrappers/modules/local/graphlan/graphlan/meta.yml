@@ -1,0 +1,27 @@
+name: graphlan
+description: Render an annotated GraPhlAn XML tree to a circular phylogenetic figure.
+keywords:
+- visualization
+- phylogeny
+tools:
+- graphlan:
+    description: 'GraPhlAn: compact phylogenetic tree visualization.'
+    homepage: https://github.com/biobakery/graphlan
+input:
+- meta:
+    type: map
+    description: Sample meta map
+- xml:
+    type: file
+    description: Annotated GraPhlAn XML tree
+- format:
+    type: string
+    description: Output image format (png, svg, pdf)
+output:
+- image:
+    type: file
+    description: Rendered tree figure
+authors:
+- '@dengxsh'
+maintainers:
+- '@dengxsh'

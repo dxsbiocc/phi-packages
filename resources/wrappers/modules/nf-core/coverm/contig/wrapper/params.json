@@ -1,0 +1,9 @@
+{
+  "input": null,
+  "reference": null,
+  "bam_input": false,
+  "interleaved": false,
+  "enable_bam_output": false,
+  "args": "",
+  "outdir": "results"
+}

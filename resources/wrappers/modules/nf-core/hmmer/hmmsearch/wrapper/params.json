@@ -1,0 +1,9 @@
+{
+  "hmmfile": null,
+  "seqdb": null,
+  "write_align": false,
+  "write_target": false,
+  "write_domain": false,
+  "args": "",
+  "outdir": "results"
+}

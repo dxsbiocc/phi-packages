@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'tbi' combined cartesian-style; verify if per-sample pairing is required; companion input 'background_tbi' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/htsnimtools-vcfcheck
+name: htsnimtools vcfcheck
+summary: This tools takes a background VCF, such as gnomad, that has full genome (though in some cases,
+  users will instead want whole exome) coverage and uses that as an expectation of variants.
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: The query VCF file
+  tbi:
+    kind: input
+    type: path
+    required: false
+    description: The index of the query VCF file
+  background_vcf:
+    kind: input
+    type: path
+    required: true
+    description: The background VCF file
+  background_tbi:
+    kind: input
+    type: path
+    required: false
+    description: The index of the background VCF file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to htsnimtools.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tsv:
+    type: directory
+    path: ${outdir}/htsnimtools_vcfcheck
+    primary: true

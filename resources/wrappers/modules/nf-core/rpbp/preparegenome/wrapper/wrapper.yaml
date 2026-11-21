@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'gtf' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/rpbp-preparegenome
+name: rpbp preparegenome
+summary: Build the per-ORF reference files that Rp-Bp's downstream scoring needs, starting from a genome
+  FASTA and an annotation GTF.
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Genome FASTA.
+  gtf:
+    kind: input
+    type: path
+    required: false
+    description: Annotation GTF (canonical or hybrid, depending on extended-ORF mode).
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to rpbp.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  transcript_bed:
+    type: directory
+    path: ${outdir}/rpbp_preparegenome
+    primary: true

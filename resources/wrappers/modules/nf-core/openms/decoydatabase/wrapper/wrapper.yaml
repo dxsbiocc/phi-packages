@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/openms-decoydatabase
+name: openms decoydatabase
+summary: Create a decoy peptide database from a standard FASTA database.
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Fasta file containing protein sequences
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to openms.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  decoy_fasta:
+    type: directory
+    path: ${outdir}/openms_decoydatabase
+    primary: true

@@ -1,0 +1,8 @@
+{
+  "mpileup": null,
+  "reference": null,
+  "max_cov_file": null,
+  "max_cov": null,
+  "args": "",
+  "outdir": "results"
+}

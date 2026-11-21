@@ -1,0 +1,21 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/hpsuissero
+name: hpsuissero
+summary: Serotype prediction of Haemophilus parasuis assemblies
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Assembly in FASTA format
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tsv:
+    type: directory
+    path: ${outdir}/hpsuissero
+    primary: true

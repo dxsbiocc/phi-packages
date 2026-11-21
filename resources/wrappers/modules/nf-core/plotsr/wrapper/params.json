@@ -1,0 +1,12 @@
+{
+  "syri": null,
+  "fastas": null,
+  "genomes": null,
+  "bedpe": null,
+  "markers": null,
+  "tracks": null,
+  "chrord": null,
+  "chrname": null,
+  "args": "",
+  "outdir": "results"
+}

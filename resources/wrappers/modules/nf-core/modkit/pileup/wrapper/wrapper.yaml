@@ -1,0 +1,48 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'bai' combined cartesian-style; verify if per-sample pairing is required; companion input 'fai' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/modkit-pileup
+name: modkit pileup
+summary: A bioinformatics tool for working with modified bases
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Sorted BAM/CRAM file
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: Associated index file for BAM.
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Reference sequence in FASTA format.
+  fai:
+    kind: input
+    type: path
+    required: false
+    description: Associated index file for FASTA
+  bed:
+    kind: input
+    type: path
+    required: true
+    description: BED file that will restrict threshold estimation and pileup results to positions overlapping
+      intervals in the file.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to modkit.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bedgz:
+    type: directory
+    path: ${outdir}/modkit_pileup
+    primary: true

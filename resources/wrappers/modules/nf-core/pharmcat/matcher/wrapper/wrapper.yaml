@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'index' combined cartesian-style; verify if per-sample pairing is required; val input 'genes' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/pharmcat-matcher
+name: pharmcat matcher
+summary: The Named Allele Matcher is responsible for calling diplotypes from variant call data.
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: The vcf file to be inspected
+  index:
+    kind: input
+    type: path
+    required: false
+    description: The tbi/csi file to be inspected
+  genes:
+    kind: option
+    type: string
+    required: true
+    description: List of genes to be processed
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to pharmcat.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  matcher_json:
+    type: directory
+    path: ${outdir}/pharmcat_matcher
+    primary: true

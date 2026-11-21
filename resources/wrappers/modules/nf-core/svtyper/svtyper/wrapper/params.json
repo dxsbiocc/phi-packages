@@ -1,0 +1,9 @@
+{
+  "bam": null,
+  "bam_index": null,
+  "vcf": null,
+  "fasta": null,
+  "fai": null,
+  "args": "",
+  "outdir": "results"
+}

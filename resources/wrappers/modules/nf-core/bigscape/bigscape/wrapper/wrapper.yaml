@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/bigscape-bigscape
+name: bigscape bigscape
+summary: BiG-SCAPE (Biosynthetic Gene Similarity Clustering and Prospecting Engine) clusters biosynthetic
+  gene clusters (BGCs) into gene cluster families (GCFs) based on sequence similarity networks.
+params:
+  gbk_dir:
+    kind: input
+    type: path
+    required: true
+    description: Directory containing antiSMASH-annotated GenBank (.gbk) files representing biosynthetic
+      gene cluster regions.
+  pfam_hmm:
+    kind: input
+    type: path
+    required: true
+    description: Path to a Pfam HMM database file (e.g.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to bigscape.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/bigscape_bigscape
+    primary: true

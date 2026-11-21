@@ -1,0 +1,8 @@
+{
+  "orf_table": null,
+  "caller": "ribocode",
+  "fasta": null,
+  "gtf": null,
+  "collapse": true,
+  "outdir": "results"
+}

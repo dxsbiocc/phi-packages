@@ -1,0 +1,15 @@
+{
+  "bam": null,
+  "bai": null,
+  "data_type": "short",
+  "bed": null,
+  "control_bam": null,
+  "control_bai": null,
+  "fasta": null,
+  "fai": null,
+  "cytoband": null,
+  "run_telomerehunter": false,
+  "length_estimator": null,
+  "sample_id": "sample",
+  "outdir": "results"
+}

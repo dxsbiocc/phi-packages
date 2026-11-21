@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/cooler-zoomify
+name: cooler zoomify
+summary: Generate a multi-resolution cooler file by coarsening
+params:
+  cool:
+    kind: input
+    type: path
+    required: true
+    description: Path to COOL file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to cooler.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  mcool:
+    type: directory
+    path: ${outdir}/cooler_zoomify
+    primary: true

@@ -1,0 +1,29 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'intensities' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/proteus-readproteingroups
+name: proteus readproteingroups
+summary: reads a maxQuant proteinGroups file with Proteus
+params:
+  samplesheet:
+    kind: input
+    type: path
+    required: true
+    description: 'CSV or TSV format sample sheet with sample metadata; check here for specifications:
+      https://rdrr.io/github/bartongroup/Proteus/man/readProteinGroups.html'
+  intensities:
+    kind: input
+    type: path
+    required: false
+    description: 'proteinGroups TXT file with protein intensities information from maxQuant; check here
+      for specifications: https://rdrr.io/github/bartongroup/Proteus/man/readProteinGroups.html'
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  dendro_plot:
+    type: directory
+    path: ${outdir}/proteus_readproteingroups
+    primary: true

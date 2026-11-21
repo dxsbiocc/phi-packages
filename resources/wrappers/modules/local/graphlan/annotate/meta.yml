@@ -1,0 +1,28 @@
+name: graphlan_annotate
+description: Apply a GraPhlAn annotation file to a phylogenetic tree.
+keywords:
+- visualization
+- phylogeny
+- annotation
+tools:
+- graphlan:
+    description: 'GraPhlAn: compact phylogenetic tree visualization.'
+    homepage: https://github.com/biobakery/graphlan
+input:
+- meta:
+    type: map
+    description: Sample meta map
+- tree:
+    type: file
+    description: Input tree (Newick or GraPhlAn XML)
+- annotation:
+    type: file
+    description: GraPhlAn annotation file
+output:
+- xml:
+    type: file
+    description: Annotated GraPhlAn XML tree
+authors:
+- '@dengxsh'
+maintainers:
+- '@dengxsh'

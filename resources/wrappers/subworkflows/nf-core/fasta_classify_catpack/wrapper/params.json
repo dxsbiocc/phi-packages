@@ -1,0 +1,9 @@
+{
+  "fasta": null,
+  "fasta_2": null,
+  "db": null,
+  "db_id": null,
+  "run_summarise": null,
+  "bin_suffix": null,
+  "outdir": "results"
+}

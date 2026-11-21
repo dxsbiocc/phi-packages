@@ -1,0 +1,11 @@
+{
+  "tumor_bam": null,
+  "tumor_bai": null,
+  "control_bam": null,
+  "control_bai": null,
+  "fasta": null,
+  "fai": null,
+  "cytoband": null,
+  "args": "",
+  "outdir": "results"
+}

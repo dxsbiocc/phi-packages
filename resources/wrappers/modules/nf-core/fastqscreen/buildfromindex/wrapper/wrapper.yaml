@@ -1,0 +1,24 @@
+# Agent-facing wrapper adapter for the vendored fastqscreen/buildfromindex module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+# Manually wired: exotic staging pattern.
+id: nf-core/modules/fastqscreen-buildfromindex
+name: fastqscreen buildfromindex
+summary: Build a FastQ Screen configuration from a directory of per-genome Bowtie2 index directories.
+params:
+  indexes:
+    kind: input
+    type: path
+    required: true
+    description: Parent directory holding one Bowtie2 index directory per genome; directory names become
+      genome names.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/fastqscreen_buildfromindex
+    primary: true

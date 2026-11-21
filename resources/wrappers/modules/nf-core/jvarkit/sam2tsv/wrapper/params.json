@@ -1,0 +1,10 @@
+{
+  "bam": null,
+  "bai": null,
+  "regions_file": null,
+  "fasta": null,
+  "fasta_index": null,
+  "fasta_dict": null,
+  "args": "",
+  "outdir": "results"
+}

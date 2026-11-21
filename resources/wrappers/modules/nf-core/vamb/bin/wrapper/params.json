@@ -1,0 +1,8 @@
+{
+  "assembly": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/prokaryotes/metagenome/binning/multisample/contigs.fasta.gz",
+  "abundance_tsv": null,
+  "bams": null,
+  "taxonomy": null,
+  "args": "",
+  "outdir": "results"
+}

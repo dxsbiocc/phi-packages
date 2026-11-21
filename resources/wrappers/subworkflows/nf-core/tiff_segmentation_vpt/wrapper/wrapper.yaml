@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites; val input 'regex' exposed as required option; confirm whether a safe default exists
+id: nf-core/subworkflows/tiff-segmentation-vpt
+name: tiff segmentation vpt
+summary: Perform segmentation of MERSCOPE TIFF images using the vizgen-postprocessing tool
+params:
+  image_dir:
+    kind: input
+    type: path
+    required: true
+    description: Input image_dir for ch_input.
+  micron_to_mosaic_pixel_transform_csv:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion micron_to_mosaic_pixel_transform.csv for ch_input.
+  algorithm_json:
+    kind: input
+    type: path
+    required: true
+    description: Input algorithm.json for ch_algorithm_json.
+  regex:
+    kind: option
+    type: string
+    required: true
+    description: Option regex.
+  custom_weights:
+    kind: input
+    type: path
+    required: true
+    description: Input custom_weights for ch_custom_weights.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/tiff_segmentation_vpt
+    primary: true

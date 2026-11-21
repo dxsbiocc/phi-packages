@@ -1,0 +1,47 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'index' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/msisensorpro-pro
+name: msisensorpro pro
+summary: MSIsensor-pro/pro is a tool used to evaluate MSI using single (tumor) sample sequencing data
+params:
+  input:
+    kind: input
+    type: path
+    required: true
+    description: sorted BAM/CRAM file
+  index:
+    kind: input
+    type: path
+    required: false
+    description: index file for input
+  list:
+    kind: input
+    type: path
+    required: true
+    description: Micro-satellite file passed to `msisensor-pro pro -d`.
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: reference genome used to create micro-satellite list
+  fai:
+    kind: input
+    type: path
+    required: true
+    description: index file for reference fasta
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to msisensorpro.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  summary_msi:
+    type: directory
+    path: ${outdir}/msisensorpro_pro
+    primary: true

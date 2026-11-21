@@ -1,0 +1,9 @@
+{
+  "mgrm_file": null,
+  "grm_files": null,
+  "phenotypes_file": null,
+  "quant_covariates_file": null,
+  "cat_covariates_file": null,
+  "args": "",
+  "outdir": "results"
+}

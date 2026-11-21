@@ -1,0 +1,103 @@
+name: dedup
+description: DeDup is a tool for read deduplication in paired-end read merging (e.g.
+  for ancient DNA experiments).
+keywords:
+  - dedup
+  - deduplication
+  - pcr duplicates
+  - ancient DNA
+  - paired-end
+  - bam
+tools:
+  - dedup:
+      description: DeDup is a tool for read deduplication in paired-end read merging
+        (e.g. for ancient DNA experiments).
+      homepage: https://github.com/apeltzer/DeDup
+      documentation: https://dedup.readthedocs.io/en/latest/
+      tool_dev_url: https://github.com/apeltzer/DeDup
+      doi: "10.1186/s13059-016-0918-z"
+      licence: ["GPL v3"]
+      identifier: ""
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. [ id:'test', single_end:false ]
+    - bam:
+        type: file
+        description: BAM/SAM file
+        pattern: "*.{bam,sam}"
+        ontologies: []
+output:
+  bam:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "${prefix}.bam":
+          type: file
+          description: Deduplicated BAM file
+          pattern: "${prefix}.bam"
+          ontologies: []
+  json:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "${prefix}.json":
+          type: file
+          description: JSON file for MultiQC
+          pattern: "${prefix}.json"
+          ontologies:
+            - edam: http://edamontology.org/format_3464 # JSON
+  hist:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "${prefix}.hist":
+          type: file
+          description: Histogram data of amount of deduplication
+          pattern: "${prefix}.hist"
+          ontologies: []
+  log:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "${prefix}.log":
+          type: file
+          description: Dedup log information
+          pattern: "${prefix}.log"
+          ontologies: []
+  versions_dedup:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - dedup:
+          type: string
+          description: The name of the tool
+      - "dedup --version | grep -oE '[0-9]+\\.[0-9]+\\.[0-9]+'":
+          type: eval
+          description: The expression to obtain the version of the tool
+
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - dedup:
+          type: string
+          description: The name of the tool
+      - "dedup --version | grep -oE '[0-9]+\\.[0-9]+\\.[0-9]+'":
+          type: eval
+          description: The expression to obtain the version of the tool
+authors:
+  - "@jfy133"
+maintainers:
+  - "@jfy133"

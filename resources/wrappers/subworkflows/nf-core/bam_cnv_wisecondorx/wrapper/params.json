@@ -1,0 +1,9 @@
+{
+  "bam": null,
+  "bai": null,
+  "fasta": null,
+  "fai": null,
+  "reference": null,
+  "blacklist": null,
+  "outdir": "results"
+}

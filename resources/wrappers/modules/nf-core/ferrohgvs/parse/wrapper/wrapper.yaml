@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/ferrohgvs-parse
+name: ferrohgvs parse
+summary: Parse and validate HGVS variant descriptions with ferro
+params:
+  variants:
+    kind: input
+    type: path
+    required: true
+    description: Text file of HGVS variant descriptions, one per line
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to ferrohgvs.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  parsed:
+    type: directory
+    path: ${outdir}/ferrohgvs_parse
+    primary: true

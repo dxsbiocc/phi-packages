@@ -1,0 +1,83 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'custom_extra_files' combined cartesian-style; verify if per-sample pairing is required; val input 'genome' exposed as required option; confirm whether a safe default exists; val input 'species' exposed as required option; confirm whether a safe default exists; val input 'cache_version' exposed as required option; confirm whether a safe default exists; tuple has no leading val(meta); sample meta synthesized from file name; companion input 'gtf_tbi' combined cartesian-style; verify if per-sample pairing is required; companion input 'gtf_2' combined cartesian-style; verify if per-sample pairing is required; companion input 'gtf_tbi_2' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/ensemblvep-vep
+name: ensemblvep vep
+summary: Ensembl Variant Effect Predictor (VEP).
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: vcf to annotate
+  custom_extra_files:
+    kind: input
+    type: path
+    required: false
+    description: extra sample-specific files to be used with the `--custom` flag to be configured with
+      ext.args (optional)
+  genome:
+    kind: option
+    type: string
+    required: true
+    description: which genome to annotate with
+  species:
+    kind: option
+    type: string
+    required: true
+    description: which species to annotate with
+  cache_version:
+    kind: option
+    type: integer
+    required: true
+    description: which version of the cache to annotate with
+  cache:
+    kind: input
+    type: path
+    required: true
+    description: path to VEP cache (optional)
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: reference FASTA file (optional)
+  extra_files:
+    kind: input
+    type: path
+    required: true
+    description: path to file(s) needed for plugins (optional)
+  gtf:
+    kind: input
+    type: path
+    required: true
+    description: sorted, bgzipped GTF file to annotate with instead of a cache (optional).
+  gtf_tbi:
+    kind: input
+    type: path
+    required: false
+    description: tabix index of the GTF file (optional)
+  gtf_2:
+    kind: input
+    type: path
+    required: false
+    description: sorted, bgzipped GTF file to annotate with instead of a cache (optional).
+  gtf_tbi_2:
+    kind: input
+    type: path
+    required: false
+    description: tabix index of the GTF file (optional)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to ensemblvep.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcf:
+    type: directory
+    path: ${outdir}/ensemblvep_vep
+    primary: true

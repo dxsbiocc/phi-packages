@@ -1,0 +1,10 @@
+{
+  "bam": null,
+  "bai": null,
+  "interval": null,
+  "fasta": null,
+  "fai": null,
+  "gene_list": null,
+  "args": "",
+  "outdir": "results"
+}

@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'dataset' exposed as required option; confirm whether a safe default exists; val input 'tag' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/nextclade-datasetget
+name: nextclade datasetget
+summary: Get dataset for SARS-CoV-2 genome clade assignment, mutation calling, and sequence quality checks
+  (C++ implementation)
+params:
+  dataset:
+    kind: option
+    type: string
+    required: true
+    description: Name of dataset to retrieve.
+  tag:
+    kind: option
+    type: string
+    required: true
+    description: Version tag of the dataset to download.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to nextclade.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  dataset:
+    type: directory
+    path: ${outdir}/nextclade_datasetget
+    primary: true

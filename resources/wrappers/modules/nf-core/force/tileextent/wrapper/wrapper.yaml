@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored force/tileextent module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+# Manually wired: exotic staging pattern.
+id: nf-core/modules/force-tileextent
+name: force tileextent
+summary: Compute the FORCE datacube tile extent for an area of interest.
+params:
+  aoi:
+    kind: input
+    type: file
+    required: true
+    description: Area-of-interest vector file (e.g. GeoPackage).
+  datacube_definition:
+    kind: input
+    type: file
+    required: true
+    description: FORCE datacube-definition.prj file.
+  shapefile_dbf:
+    kind: input
+    type: file
+    required: false
+    description: Optional shapefile .dbf (if the AOI is a shapefile).
+  shapefile_prj:
+    kind: input
+    type: file
+    required: false
+    description: Optional shapefile .prj.
+  shapefile_shx:
+    kind: input
+    type: file
+    required: false
+    description: Optional shapefile .shx.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/force_tileextent
+    primary: true

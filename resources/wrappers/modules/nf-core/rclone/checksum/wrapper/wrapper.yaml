@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'hash' exposed as required option; confirm whether a safe default exists; val input 'destination' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/rclone-checksum
+name: rclone checksum
+summary: Check files in a destination path against a checksum SUM file
+params:
+  sumfile:
+    kind: input
+    type: path
+    required: true
+    description: Checksum SUM file containing hashes and destination paths to verify.
+  hash:
+    kind: option
+    type: string
+    required: true
+    description: Hash type to check, for example MD5, SHA1, or SHA256.
+  destination:
+    kind: option
+    type: string
+    required: true
+    description: Directory containing destination files to check against the SUM file.
+  rclone_config:
+    kind: input
+    type: path
+    required: true
+    description: Rclone configuration file defining the remotes used by source_path and/or destination_path.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to rclone.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  combined:
+    type: directory
+    path: ${outdir}/rclone_checksum
+    primary: true

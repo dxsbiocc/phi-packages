@@ -1,0 +1,59 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'format' exposed as required option; confirm whether a safe default exists; companion input 'fai' combined cartesian-style; verify if per-sample pairing is required; companion input 'gzi' combined cartesian-style; verify if per-sample pairing is required; companion input 'sizes' combined cartesian-style; verify if per-sample pairing is required; companion input 'dict' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/last-mafconvert
+name: last mafconvert
+summary: Converts MAF alignments in another format.
+params:
+  maf:
+    kind: input
+    type: path
+    required: true
+    description: Multiple Alignment Format (MAF) file, optionally compressed with gzip
+  format:
+    kind: option
+    type: string
+    required: true
+    description: Output format (one of axt, bam, blast, blasttab, blasttab+, cram, chain, gff, html, psl,
+      sam, or tab)
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Genome file in FASTA format for CRAM conversion.
+  fai:
+    kind: input
+    type: path
+    required: false
+    description: Genome index file needed for CRAM conversion.
+  gzi:
+    kind: input
+    type: path
+    required: false
+    description: Genome index file needed for CRAM conversion when the genome file was compressed with
+      the BGZF algorithm.
+  sizes:
+    kind: input
+    type: path
+    required: false
+    description: File listing sequence names and lenghts in that genome
+  dict:
+    kind: input
+    type: path
+    required: false
+    description: Samtools dictionary of the genome file.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to last.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  alignment:
+    type: directory
+    path: ${outdir}/last_mafconvert
+    primary: true

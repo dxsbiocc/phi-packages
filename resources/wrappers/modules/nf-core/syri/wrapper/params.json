@@ -1,0 +1,8 @@
+{
+  "infile": null,
+  "query_fasta": null,
+  "reference_fasta": null,
+  "file_type": null,
+  "args": "",
+  "outdir": "results"
+}

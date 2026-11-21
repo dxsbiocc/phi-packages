@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'db' exposed as required option; confirm whether a safe default exists; val-only tuple wired as a single sample; verify multi-sample semantics
+id: nf-core/modules/catpack-download
+name: catpack download
+summary: Downloads the required files for either Nr or GTDB for building into a CAT database
+params:
+  db:
+    kind: option
+    type: string
+    required: true
+    description: Which database to download
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to catpack.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fasta:
+    type: directory
+    path: ${outdir}/catpack_download
+    primary: true

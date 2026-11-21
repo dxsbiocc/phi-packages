@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'reads' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/pypolca-run
+name: pypolca run
+summary: Short read polisher for long read assemblies
+params:
+  contigs:
+    kind: input
+    type: path
+    required: true
+    description: Genome assembly from long reads
+  reads:
+    kind: input
+    type: path
+    required: false
+    description: List of short reads for assembly polishing.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to pypolca.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  polished:
+    type: directory
+    path: ${outdir}/pypolca_run
+    primary: true

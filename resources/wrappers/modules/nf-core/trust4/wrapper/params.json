@@ -1,0 +1,12 @@
+{
+  "bam": null,
+  "reads": null,
+  "fasta": null,
+  "vdj_reference": null,
+  "barcode_whitelist": null,
+  "cell_barcode_read": null,
+  "umi_read": null,
+  "read_format": null,
+  "args": "",
+  "outdir": "results"
+}

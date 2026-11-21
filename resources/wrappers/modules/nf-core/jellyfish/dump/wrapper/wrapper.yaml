@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/jellyfish-dump
+name: jellyfish dump
+summary: Dumps the results from a jellyfish binary file into a human readable format
+params:
+  jf:
+    kind: input
+    type: path
+    required: true
+    description: Jellyfish binary k-mer database
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to jellyfish.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/jellyfish_dump
+    primary: true

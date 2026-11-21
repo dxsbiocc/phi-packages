@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'fixed_img' exposed as required option; confirm whether a safe default exists; val input 'final_sz' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/stainwarpy-register
+name: stainwarpy register
+summary: Register H&E stained and Multiplexed tissue images using feature-based image registration
+params:
+  hne_img:
+    kind: input
+    type: path
+    required: true
+    description: H&E stained image file
+  multiplx_img:
+    kind: input
+    type: path
+    required: true
+    description: Multiplexed image file
+  fixed_img:
+    kind: option
+    type: string
+    required: true
+    description: Which image to use as fixed image for registration.
+  final_sz:
+    kind: option
+    type: string
+    required: true
+    description: In which pixel size to output the registered image and segmentation mask.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to stainwarpy.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  reg_image:
+    type: directory
+    path: ${outdir}/stainwarpy_register
+    primary: true

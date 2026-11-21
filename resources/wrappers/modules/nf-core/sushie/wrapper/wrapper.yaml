@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'sample_sizes' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/sushie
+name: sushie
+summary: Software to perform multi-ancestry SNP fine-mapping on molecular data
+params:
+  study_locus_files:
+    kind: input
+    type: path
+    required: true
+    description: Study locus file(s)
+  ld_files:
+    kind: input
+    type: path
+    required: true
+    description: LD file(s)
+  sample_sizes:
+    kind: option
+    type: string
+    required: true
+    description: Sample size(s)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to sushie.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  corr:
+    type: directory
+    path: ${outdir}/sushie
+    primary: true

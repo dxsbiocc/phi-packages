@@ -1,0 +1,38 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'technology' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/universc
+name: universc
+summary: Module to run UniverSC an open-source pipeline to demultiplex and process single-cell RNA-Seq
+  data
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: FASTQ or FASTQ.GZ file, list of 2 files for paired-end data
+  reference:
+    kind: input
+    type: path
+    required: true
+    description: Reference genome file
+  technology:
+    kind: option
+    type: string
+    required: true
+    description: Technology to pass to universc `--technology argument`
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to universc.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  outs:
+    type: directory
+    path: ${outdir}/universc
+    primary: true

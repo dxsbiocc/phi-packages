@@ -1,0 +1,73 @@
+# Agent-facing wrapper adapter for the vendored ribotish/predict module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+# Manually wired: exotic staging pattern.
+id: nf-core/modules/ribotish-predict
+name: ribotish predict
+summary: Predict translated ORFs from Ribo-seq (and optional TI-seq) BAMs with RiboTISH.
+params:
+  bam_ribo:
+    kind: input
+    type: file
+    required: true
+    description: Ribo-seq aligned BAM.
+  bai_ribo:
+    kind: input
+    type: file
+    required: true
+    description: Ribo-seq BAM index.
+  bam_ti:
+    kind: input
+    type: file
+    required: false
+    description: Optional TI-seq aligned BAM.
+  bai_ti:
+    kind: input
+    type: file
+    required: false
+    description: Optional TI-seq BAM index.
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: Genome FASTA (uncompressed).
+  gtf:
+    kind: input
+    type: file
+    required: true
+    description: Gene annotation GTF.
+  candidate_orfs:
+    kind: input
+    type: file
+    required: false
+    description: Optional candidate ORFs file from a previous ribotish run.
+  para_ribo:
+    kind: input
+    type: file
+    required: false
+    description: Optional Ribo-seq parameter file.
+  para_ti:
+    kind: input
+    type: file
+    required: false
+    description: Optional TI-seq parameter file.
+  reference_gtf:
+    kind: input
+    type: file
+    required: false
+    description: Optional secondary reference GTF.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to ribotish.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/ribotish_predict
+    primary: true

@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/seqtk-subseq
+name: seqtk subseq
+summary: Select only sequences that match the filtering condition
+params:
+  sequences:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: FASTQ/FASTA file
+  filter_list:
+    kind: input
+    type: path
+    required: true
+    description: BED file or a text file with a list of sequence names
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to seqtk.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  sequences:
+    type: directory
+    path: ${outdir}/seqtk_subseq
+    primary: true

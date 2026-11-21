@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; glob input 'fasta' collected into one staged list; verify staging layout; tuple has no leading val(meta); sample meta synthesized from file name; val input 'dbmeta' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/checkm2-predict
+name: checkm2 predict
+summary: CheckM2 bin quality prediction
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: One or multiple FASTA files of each bin
+  db:
+    kind: input
+    type: path
+    required: true
+    description: CheckM2 database
+  dbmeta:
+    kind: option
+    type: string
+    required: true
+    description: Groovy Map containing database information e.g.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to checkm2.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  checkm2_output:
+    type: directory
+    path: ${outdir}/checkm2_predict
+    primary: true

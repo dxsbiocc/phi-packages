@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/ngscheckmate-patterngenerator
+name: ngscheckmate patterngenerator
+summary: Determining whether sequencing data comes from the same individual by using SNP matching.
+params:
+  bed:
+    kind: input
+    type: path
+    required: true
+    description: BED file containing population-level SNPs to use
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Genome fasta file
+  bowtie_index:
+    kind: input
+    type: path
+    required: true
+    description: Folder of Bowtie genome index files
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  pt:
+    type: directory
+    path: ${outdir}/ngscheckmate_patterngenerator
+    primary: true

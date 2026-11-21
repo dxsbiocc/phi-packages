@@ -1,0 +1,53 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: glob input 'fasta' collected into one staged list; verify staging layout; val input 'mode' exposed as required option; confirm whether a safe default exists; val input 'lineage' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/busco-busco
+name: busco busco
+summary: Benchmarking Universal Single Copy Orthologs
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Nucleic or amino acid sequence file in FASTA format.
+  mode:
+    kind: option
+    type: string
+    required: true
+    description: The mode to run Busco in.
+  lineage:
+    kind: option
+    type: string
+    required: true
+    description: The BUSCO lineage to use, or "auto", "auto_prok" or "auto_euk" to automatically select
+      lineage
+  busco_lineages_path:
+    kind: input
+    type: path
+    required: true
+    description: Path to local BUSCO lineages directory.
+  config_file:
+    kind: input
+    type: path
+    required: true
+    description: Path to BUSCO config file.
+  clean_intermediates:
+    kind: option
+    type: boolean
+    required: false
+    description: Flag to remove intermediate files.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to busco.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  batch_summary:
+    type: directory
+    path: ${outdir}/busco_busco
+    primary: true

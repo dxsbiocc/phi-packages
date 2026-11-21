@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'fasta' combined cartesian-style; verify if per-sample pairing is required; companion input 'annotation' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/t1k-build
+name: t1k build
+summary: A module to create a reference database and coordinate files for T1K.
+params:
+  ena:
+    kind: input
+    type: path
+    required: true
+    description: EMBL-ENA dat file.
+  fasta:
+    kind: input
+    type: path
+    required: false
+    description: FASTA file containing gene sequences.
+  annotation:
+    kind: input
+    type: path
+    required: false
+    description: Gene annotation in GTF format.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to t1k.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  rna_sequences:
+    type: directory
+    path: ${outdir}/t1k_build
+    primary: true

@@ -1,0 +1,52 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'bai' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/sentieon-coveragemetrics
+name: sentieon coveragemetrics
+summary: Accelerated implementation of the GATK DepthOfCoverage tool.
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Sorted BAM/CRAM/SAM file
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: BAM/CRAM/SAM file index
+  interval:
+    kind: input
+    type: path
+    required: true
+    description: BED file of genome regions to draw coverage from
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Genome fasta file
+  fai:
+    kind: input
+    type: path
+    required: true
+    description: Index of the genome fasta file
+  gene_list:
+    kind: input
+    type: path
+    required: true
+    description: RefSeq file used to aggregate the results
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to sentieon.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  per_locus:
+    type: directory
+    path: ${outdir}/sentieon_coveragemetrics
+    primary: true

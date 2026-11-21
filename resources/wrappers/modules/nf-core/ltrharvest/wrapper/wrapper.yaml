@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/ltrharvest
+name: ltrharvest
+summary: Predicts LTR retrotransposons using the parallel version of GenomeTools gt-ltrharvest utility
+  included in the EDTA toolchain
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input genome fasta
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to ltrharvest.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gff3:
+    type: directory
+    path: ${outdir}/ltrharvest
+    primary: true

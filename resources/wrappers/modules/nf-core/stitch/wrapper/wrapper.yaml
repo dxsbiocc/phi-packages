@@ -1,0 +1,103 @@
+# Agent-facing wrapper adapter for the vendored stitch module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+# Manually wired: exotic staging pattern.
+id: nf-core/modules/stitch
+name: STITCH
+summary: Impute low-coverage sequencing data with STITCH (BAM or CRAM inputs).
+params:
+  crams:
+    kind: input
+    type: path
+    required: true
+    description: Directory of per-sample CRAM (or BAM) files.
+  crais:
+    kind: input
+    type: path
+    required: true
+    description: Directory of the matching .crai (or .bai) indexes.
+  posfile:
+    kind: input
+    type: file
+    required: true
+    description: Position file (known variant sites).
+  input:
+    kind: input
+    type: file
+    required: false
+    description: Optional pre-generated STITCH input file.
+  genetic_map:
+    kind: input
+    type: file
+    required: false
+    description: Optional genetic map file.
+  rdata:
+    kind: input
+    type: path
+    required: false
+    description: Optional RData directory from a previous STITCH run.
+  samplename:
+    kind: input
+    type: file
+    required: false
+    description: Optional sample names file.
+  chromosome_name:
+    kind: option
+    type: string
+    required: false
+    description: Chromosome to impute.
+  start:
+    kind: option
+    type: integer
+    required: false
+    description: Region start (optional).
+  end:
+    kind: option
+    type: integer
+    required: false
+    description: Region end (optional).
+  buffer:
+    kind: option
+    type: integer
+    required: false
+    description: Region buffer.
+  k:
+    kind: option
+    type: integer
+    required: false
+    description: Number of ancestral haplotypes (K).
+  n_gen:
+    kind: option
+    type: integer
+    required: false
+    description: Number of generations since founding (nGen).
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: Reference FASTA (required for CRAM).
+  fai:
+    kind: input
+    type: file
+    required: true
+    description: Reference FASTA index.
+  seed:
+    kind: option
+    type: integer
+    required: false
+    description: Random seed for reproducibility.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to stitch.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/stitch
+    primary: true

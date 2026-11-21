@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'table' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/datavzrd
+name: datavzrd
+summary: Datavzrd is a tool to create visual HTML reports from collections of CSV/TSV tables.
+params:
+  config_file:
+    kind: input
+    type: path
+    required: true
+    description: Path to a config file in YAML format
+  table:
+    kind: input
+    type: path
+    required: false
+    description: Path to a CSV/TSV file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to datavzrd.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  report:
+    type: directory
+    path: ${outdir}/datavzrd
+    primary: true

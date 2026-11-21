@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/fgumi-codec
+name: fgumi codec
+summary: Call CODEC consensus reads from a UMI-grouped BAM with fgumi
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: UMI-grouped BAM file (from fgumi group)
+  keep_rejected:
+    kind: option
+    type: boolean
+    required: false
+    description: If true, output rejected reads to a separate BAM file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to fgumi.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bam:
+    type: directory
+    path: ${outdir}/fgumi_codec
+    primary: true

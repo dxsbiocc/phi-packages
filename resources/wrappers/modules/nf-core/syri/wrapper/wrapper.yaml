@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'file_type' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/syri
+name: syri
+summary: Syri compares alignments between two chromosome-level assemblies and identifies synteny and structural
+  rearrangements.
+params:
+  infile:
+    kind: input
+    type: path
+    required: true
+    description: File containing alignment coordinates
+  query_fasta:
+    kind: input
+    type: path
+    required: true
+    description: Query genome for the alignments
+  reference_fasta:
+    kind: input
+    type: path
+    required: true
+    description: Reference genome for the alignments
+  file_type:
+    kind: option
+    type: string
+    required: true
+    description: 'Input file type which is one of T: Table, S: SAM, B: BAM, P: PAF'
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to syri.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  syri:
+    type: directory
+    path: ${outdir}/syri
+    primary: true

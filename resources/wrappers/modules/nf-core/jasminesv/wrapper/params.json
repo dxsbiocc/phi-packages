@@ -1,0 +1,11 @@
+{
+  "vcfs": null,
+  "bams": null,
+  "bais": null,
+  "sample_dists": null,
+  "fasta": null,
+  "fasta_fai": null,
+  "chr_norm": null,
+  "args": "",
+  "outdir": "results"
+}

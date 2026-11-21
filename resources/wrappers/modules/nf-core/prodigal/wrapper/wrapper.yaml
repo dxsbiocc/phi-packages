@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'output_format' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/prodigal
+name: prodigal
+summary: Prodigal (Prokaryotic Dynamic Programming Genefinding Algorithm) is a microbial (bacterial and
+  archaeal) gene finding program
+params:
+  genome:
+    kind: input
+    type: path
+    required: true
+    description: fasta/fasta.gz file
+  output_format:
+    kind: option
+    type: string
+    required: true
+    description: Output format ("gbk"/"gff"/"sqn"/"sco")
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to prodigal.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gene_annotations:
+    type: directory
+    path: ${outdir}/prodigal
+    primary: true

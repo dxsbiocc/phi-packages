@@ -1,0 +1,40 @@
+name: greenhill
+description: Scaffold genomes with GreenHill using Hi-C (and optional long reads / linked reads).
+keywords:
+- scaffolding
+- hi-c
+- genome assembly
+tools:
+- greenhill:
+    description: 'GreenHill: Hi-C scaffolding with long-read support.'
+    homepage: https://github.com/COMBINE-lab/GreenHill
+input:
+- meta:
+    type: map
+    description: Sample meta map
+- hic:
+    type: file
+    description: Hi-C contact file (pairs or single)
+- aware:
+    type: file
+    description: Optional linked-read aware file
+- bubble:
+    type: file
+    description: Optional bubble files accompanying aware
+- cph:
+    type: file
+    description: Optional CPH contact file (mutually exclusive with aware)
+- long:
+    type: file
+    description: Optional long reads
+- hic_type:
+    type: string
+    description: paired (HIC) or single (hic)
+output:
+- results:
+    type: file
+    description: GreenHill output files with the given prefix
+authors:
+- '@dengxsh'
+maintainers:
+- '@dengxsh'

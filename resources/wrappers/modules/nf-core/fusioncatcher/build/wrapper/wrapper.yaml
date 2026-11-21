@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'meta' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/fusioncatcher-build
+name: fusioncatcher build
+summary: Build references for fusioncatcher
+params:
+  meta:
+    kind: option
+    type: string
+    required: true
+    description: Groovy Map containing sample information e.g.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to fusioncatcher.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  reference:
+    type: directory
+    path: ${outdir}/fusioncatcher_build
+    primary: true

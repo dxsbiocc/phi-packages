@@ -1,0 +1,6 @@
+{
+  "run_manifest": "https://raw.githubusercontent.com/nf-core/test-datasets/demultiplex/testdata/sim-data/RunManifest.csv",
+  "run_dir": null,
+  "args": "",
+  "outdir": "results"
+}

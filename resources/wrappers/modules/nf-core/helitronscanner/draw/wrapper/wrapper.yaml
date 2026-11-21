@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/helitronscanner-draw
+name: helitronscanner draw
+summary: HelitronScanner draw tool for Helitron transposons in genomes
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Genome data to scan for Helitrons
+  head:
+    kind: input
+    type: path
+    required: true
+    description: Output of the HelitronScanner head command
+  tail:
+    kind: input
+    type: path
+    required: true
+    description: Output of the HelitronScanner tail command
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to helitronscanner.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  draw:
+    type: directory
+    path: ${outdir}/helitronscanner_draw
+    primary: true

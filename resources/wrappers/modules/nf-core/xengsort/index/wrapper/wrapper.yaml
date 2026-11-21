@@ -1,0 +1,38 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; glob input 'host_fasta' collected into one staged list; verify staging layout; glob input 'graft_fasta' collected into one staged list; verify staging layout; val input 'nobjects' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/xengsort-index
+name: xengsort index
+summary: Build a bucketed 3-way Cuckoo hash table index from host and graft reference FASTA files for
+  xenograft read sorting.
+params:
+  host_fasta:
+    kind: input
+    type: path
+    required: true
+    description: Reference FASTA file(s) for the host organism.
+  graft_fasta:
+    kind: input
+    type: path
+    required: true
+    description: Reference FASTA file(s) for the graft organism.
+  nobjects:
+    kind: option
+    type: integer
+    required: true
+    description: Estimated total number of k-mers to be stored in the hash table.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to xengsort.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  hash:
+    type: directory
+    path: ${outdir}/xengsort_index
+    primary: true

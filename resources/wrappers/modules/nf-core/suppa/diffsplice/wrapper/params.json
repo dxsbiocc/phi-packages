@@ -1,0 +1,22 @@
+{
+  "events": null,
+  "expression1": null,
+  "psi1": null,
+  "condition1": null,
+  "expression2": null,
+  "psi2": null,
+  "condition2": null,
+  "method": null,
+  "local_area": null,
+  "lower_bound_delta_psi": null,
+  "is_paired": false,
+  "gene_correction": false,
+  "multi_testing_correction_alpha": null,
+  "save_tpm_events": false,
+  "combination_analysis": false,
+  "use_median_delta_psi": false,
+  "tpm_threshold": null,
+  "nan_tpm_threshold": null,
+  "args": "",
+  "outdir": "results"
+}

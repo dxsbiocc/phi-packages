@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'fastq2' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/spring-compress
+name: spring compress
+summary: Fast, efficient, lossless compression of FASTQ files.
+params:
+  fastq1:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: FASTQ file to compress.
+  fastq2:
+    kind: input
+    type: path
+    required: false
+    description: Parired FASTQ file fon non single-end experiments.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to spring.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  spring:
+    type: directory
+    path: ${outdir}/spring_compress
+    primary: true

@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/humann3-renorm
+name: humann3 renorm
+summary: Normalizing RPKs to relative abundance
+params:
+  input:
+    kind: input
+    type: path
+    required: true
+    description: Tab separated abundance file of HUMAnN3
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to humann3.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  renorm:
+    type: directory
+    path: ${outdir}/humann3_renorm
+    primary: true

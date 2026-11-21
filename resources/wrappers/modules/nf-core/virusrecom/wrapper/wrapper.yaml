@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'mapping' combined cartesian-style; verify if per-sample pairing is required; companion input 'iwic' combined cartesian-style; verify if per-sample pairing is required; val input 'query' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/virusrecom
+name: virusrecom
+summary: Information-theory-based method for recombination detection of viral lineages using weighted
+  information content (WIC).
+params:
+  alignment:
+    kind: input
+    type: path
+    required: true
+    description: Aligned FASTA file containing viral sequences.
+  mapping:
+    kind: input
+    type: path
+    required: false
+    description: Tab-separated file mapping sequence names to lineages
+  iwic:
+    kind: input
+    type: path
+    required: false
+    description: Optional CSV file containing pre-computed WIC values.
+  query:
+    kind: option
+    type: string
+    required: true
+    description: Name of the query lineage to test for recombination (e.g.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to virusrecom.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/virusrecom
+    primary: true

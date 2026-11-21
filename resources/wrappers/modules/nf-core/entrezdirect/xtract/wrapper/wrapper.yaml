@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'pattern' exposed as required option; confirm whether a safe default exists; val input 'element' exposed as required option; confirm whether a safe default exists; val input 'sep' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/entrezdirect-xtract
+name: entrezdirect xtract
+summary: Queries an NCBI database using an UID
+params:
+  xml_input:
+    kind: input
+    type: path
+    required: true
+    description: XML text file containing query results from database.
+  pattern:
+    kind: option
+    type: string
+    required: true
+    description: String in xml_input that encloses element to search.
+  element:
+    kind: option
+    type: string
+    required: true
+    description: Space-delimited strings that will be converted to columns.
+  sep:
+    kind: option
+    type: string
+    required: true
+    description: Separator/delimiter between columns (for instance "," or "\t").
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to entrezdirect.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  txt:
+    type: directory
+    path: ${outdir}/entrezdirect_xtract
+    primary: true

@@ -1,0 +1,78 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'bai' combined cartesian-style; verify if per-sample pairing is required; companion input 'intervals' combined cartesian-style; verify if per-sample pairing is required; val input 'pcr_indel_model' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/sentieon-dnascope
+name: sentieon dnascope
+summary: DNAscope algorithm performs an improved version of Haplotype variant calling.
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: BAM file.
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: BAI file
+  intervals:
+    kind: input
+    type: path
+    required: false
+    description: bed or interval_list file containing interval in the reference that will be used in the
+      analysis
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Genome fasta file
+  fai:
+    kind: input
+    type: path
+    required: true
+    description: Index of the genome fasta file
+  dbsnp:
+    kind: input
+    type: path
+    required: true
+    description: Single Nucleotide Polymorphism database (dbSNP) file
+  dbsnp_tbi:
+    kind: input
+    type: path
+    required: true
+    description: Index of the Single Nucleotide Polymorphism database (dbSNP) file
+  ml_model:
+    kind: input
+    type: path
+    required: true
+    description: machine learning model file
+  pcr_indel_model:
+    kind: option
+    type: string
+    required: true
+    description: Controls the option pcr_indel_model for Dnascope.
+  emit_vcf:
+    kind: option
+    type: boolean
+    required: false
+    description: Controls the vcf output from Dnascope.
+  emit_gvcf:
+    kind: option
+    type: boolean
+    required: false
+    description: If true, the haplotyper will output a gvcf
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to sentieon.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcf:
+    type: directory
+    path: ${outdir}/sentieon_dnascope
+    primary: true

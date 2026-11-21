@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'method' exposed as required option; confirm whether a safe default exists; val input 'function' exposed as required option; confirm whether a safe default exists; val input 'gene_symbol_col' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/immunedeconv
+name: immunedeconv
+summary: Perform immune cell deconvolution using RNA-seq data and various computational methods.
+params:
+  input_file:
+    kind: input
+    type: path
+    required: true
+    description: Input matrix with genes in rows and samples in columns.
+  method:
+    kind: option
+    type: string
+    required: true
+    description: The deconvolution method to use (e.g., 'CIBERSORT', 'EPIC', 'xCell').
+  function:
+    kind: option
+    type: string
+    required: true
+    description: The specific function from immunedeconv to execute for analysis.
+  gene_symbol_col:
+    kind: option
+    type: string
+    required: true
+    description: Column name for gene symbols in the matrix input file.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  deconv_table:
+    type: directory
+    path: ${outdir}/immunedeconv
+    primary: true

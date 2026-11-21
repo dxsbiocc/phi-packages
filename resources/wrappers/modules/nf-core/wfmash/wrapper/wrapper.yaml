@@ -1,0 +1,52 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'paf' combined cartesian-style; verify if per-sample pairing is required; companion input 'gzi' combined cartesian-style; verify if per-sample pairing is required; companion input 'fai' combined cartesian-style; verify if per-sample pairing is required; standalone path 'fasta_query_list' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/wfmash
+name: wfmash
+summary: a pangenome-scale aligner
+params:
+  fasta_gz:
+    kind: input
+    type: path
+    required: true
+    description: BGZIPPED FASTA target file to create the mappings from.
+  paf:
+    kind: input
+    type: path
+    required: false
+    description: Optional inpute file in PAF format to derive the precise alignments for.
+  gzi:
+    kind: input
+    type: path
+    required: false
+    description: The GZI index of the input FASTA file.
+  fai:
+    kind: input
+    type: path
+    required: false
+    description: The FASTA index of the input FASTA file.
+  query_self:
+    kind: option
+    type: boolean
+    required: false
+    description: If set to true, the input FASTA will also be used as the query FASTA.
+  fasta_query_list:
+    kind: input
+    type: path
+    required: false
+    description: Optional inpute file in FASTA format specifying the query sequences as a list.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to wfmash.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  paf:
+    type: directory
+    path: ${outdir}/wfmash
+    primary: true

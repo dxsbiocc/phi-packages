@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/catpack-summarise
+name: catpack summarise
+summary: Summarises results from CAT/BAT/RAT classification steps
+params:
+  classification:
+    kind: input
+    type: path
+    required: true
+    description: CAT/BAT/RAT classification table annotated with official names (from CAT_pack addnames)
+  contigs:
+    kind: input
+    type: path
+    required: true
+    description: Optional nucleotide FASTA file containing long DNA sequences such as contigs that were
+      classified (only if classification table is from CAT_pack contigs)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to catpack.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  txt:
+    type: directory
+    path: ${outdir}/catpack_summarise
+    primary: true

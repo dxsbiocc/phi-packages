@@ -1,0 +1,8 @@
+{
+  "barcodes": null,
+  "bam": null,
+  "sorted_bam": null,
+  "gtf": null,
+  "args": "",
+  "outdir": "results"
+}

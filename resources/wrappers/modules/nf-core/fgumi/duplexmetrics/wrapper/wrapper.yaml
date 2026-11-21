@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'intervals' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/fgumi-duplexmetrics
+name: fgumi duplexmetrics
+summary: Collects a suite of metrics to QC duplex sequencing data
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: UMI-grouped BAM file (from fgumi group) in template-coordinate order with MI tags
+  intervals:
+    kind: input
+    type: path
+    required: false
+    description: Optional intervals file to restrict analysis (BED or Picard interval list format)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to fgumi.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  family_sizes:
+    type: directory
+    path: ${outdir}/fgumi_duplexmetrics
+    primary: true

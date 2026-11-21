@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/rpbp-selectperiodicoffsets
+name: rpbp selectperiodicoffsets
+summary: Pick the single best P-site offset for each read length from the per-(length, offset) Bayes factor
+  table produced upstream.
+params:
+  bayes_factors:
+    kind: input
+    type: path
+    required: true
+    description: Metagene periodicity Bayes factors CSV from `rpbp/estimatemetagenebayesfactors`.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to rpbp.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  periodic:
+    type: directory
+    path: ${outdir}/rpbp_selectperiodicoffsets
+    primary: true

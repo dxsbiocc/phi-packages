@@ -1,0 +1,47 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'bai' combined cartesian-style; verify if per-sample pairing is required; val input 'method' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/ngsbits-samplegender
+name: ngsbits samplegender
+summary: Determines the gender of a sample from the BAM/CRAM file.
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: One or more BAM/CRAM files to determine the gender of
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: The index file(s) from the input BAM/CRAM file(s)
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: The reference FASTA to use (mandatory when CRAM files are used)
+  fai:
+    kind: input
+    type: path
+    required: true
+    description: The index file from the reference FASTA
+  method:
+    kind: option
+    type: string
+    required: true
+    description: The method to use to define the gender (possibilities are 'xy', 'hetx' and 'sry')
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to ngsbits.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tsv:
+    type: directory
+    path: ${outdir}/ngsbits_samplegender
+    primary: true

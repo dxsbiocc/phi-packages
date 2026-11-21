@@ -1,0 +1,8 @@
+{
+  "library": null,
+  "taxonomy": null,
+  "seqid2taxid": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/metagenome/seqid2taxid.map",
+  "keep_intermediate": false,
+  "args": "",
+  "outdir": "results"
+}

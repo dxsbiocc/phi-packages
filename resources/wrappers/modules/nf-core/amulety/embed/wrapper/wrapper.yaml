@@ -1,0 +1,38 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'chain' exposed as required option; confirm whether a safe default exists; val input 'model' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/amulety-embed
+name: amulety embed
+summary: A module to create embeddings of B-cell receptor (BCR) or T-cell receptor (TCR) amino acid sequences
+  using amulety.
+params:
+  tsv:
+    kind: input
+    type: path
+    required: true
+    description: TSV with BCR/TCR nucleotide sequences in AIRR rearrangement format
+  chain:
+    kind: option
+    type: string
+    required: true
+    description: The chain to use for the embeddings.
+  model:
+    kind: option
+    type: string
+    required: true
+    description: The embedding model to use.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to amulety.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  embedding:
+    type: directory
+    path: ${outdir}/amulety_embed
+    primary: true

@@ -1,0 +1,12 @@
+{
+  "sample": null,
+  "feature_meta": null,
+  "assay_files": null,
+  "contrasts": null,
+  "differential_results": null,
+  "contrast_stats_assay": null,
+  "gene_sets": null,
+  "enrichment_results": null,
+  "args": "",
+  "outdir": "results"
+}

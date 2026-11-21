@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'fasta' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/nextgenmap
+name: nextgenmap
+summary: Performs fastq alignment to a fasta reference using NextGenMap
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: List of input FastQ files of size 1, if meta.single_end is true, and 2 if meta.single_end
+      is false.
+  fasta:
+    kind: input
+    type: path
+    required: false
+    description: Genomic reference fasta file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to nextgenmap.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bam:
+    type: directory
+    path: ${outdir}/nextgenmap
+    primary: true

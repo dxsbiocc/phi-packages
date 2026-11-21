@@ -11,7 +11,7 @@ process UNTAR {
     tuple val(meta), path(archive)
 
     output:
-    tuple val(meta), path("${prefix}"), emit: untar
+    tuple val(meta), path("${output_dir}"), emit: untar
     tuple val("${task.process}"), val('untar'), eval('tar --version 2>&1 | head -1 | sed "s/tar (GNU tar) //; s/ Copyright.*//"'), emit: versions_untar, topic: versions
 
     when:
@@ -21,22 +21,24 @@ process UNTAR {
     def args = task.ext.args ?: ''
     def args2 = task.ext.args2 ?: ''
     prefix = task.ext.prefix ?: (meta.id ? "${meta.id}" : archive.baseName.toString().replaceFirst(/\.tar$/, ""))
+    basedir = task.ext.basedir ?: '.'
+    output_dir = basedir != '.' ? basedir.split("/")[0] : prefix
 
     """
-    mkdir ${prefix}
+    mkdir -p ${basedir}/${prefix}
 
     ## Ensures --strip-components only applied when top level of tar contents is a directory
     ## If just files or multiple directories, place all in prefix
     if [[ \$(tar -taf ${archive} | grep -o -P "^.*?\\/" | uniq | wc -l) -eq 1 ]]; then
         tar \\
-            -C ${prefix} --strip-components 1 \\
+            -C ${basedir}/${prefix} --strip-components 1 \\
             -xavf \\
             ${args} \\
             ${archive} \\
             ${args2}
     else
         tar \\
-            -C ${prefix} \\
+            -C ${basedir}/${prefix} \\
             -xavf \\
             ${args} \\
             ${archive} \\

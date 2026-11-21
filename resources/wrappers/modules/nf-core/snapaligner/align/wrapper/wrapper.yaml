@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/snapaligner-align
+name: snapaligner align
+summary: Performs fastq alignment to a fasta reference using SNAP
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: List of input fastq files of size 2 for paired fastq or 1 for bam or single fastq
+  index:
+    kind: input
+    type: path
+    required: true
+    description: List of SNAP genome index files
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to snapaligner.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bam:
+    type: directory
+    path: ${outdir}/snapaligner_align
+    primary: true

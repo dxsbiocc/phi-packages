@@ -1,0 +1,62 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'bai' combined cartesian-style; verify if per-sample pairing is required; companion input 'vcf' combined cartesian-style; verify if per-sample pairing is required; companion input 'tbi' combined cartesian-style; verify if per-sample pairing is required; val input 'repeat_id' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/trgt-plot
+name: trgt plot
+summary: Visualize tandem repeats genotyped by TRGT
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Sorted reads spanning tandem repeat from TRGT output
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: Index for reads
+  vcf:
+    kind: input
+    type: path
+    required: false
+    description: Sorted tandem repeat genotypes called by TRGT
+  tbi:
+    kind: input
+    type: path
+    required: false
+    description: Index for genotypes
+  repeat_id:
+    kind: option
+    type: string
+    required: true
+    description: ID of tandem repeat to plot
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: FASTA reference file
+  fai:
+    kind: input
+    type: path
+    required: true
+    description: Index for FASTA file
+  repeats:
+    kind: input
+    type: path
+    required: true
+    description: BED file with repeat coordinates and structure
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to trgt.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  plot:
+    type: directory
+    path: ${outdir}/trgt_plot
+    primary: true

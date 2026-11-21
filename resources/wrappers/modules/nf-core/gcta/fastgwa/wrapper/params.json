@@ -1,0 +1,11 @@
+{
+  "bed_pgen": null,
+  "bim_pvar": null,
+  "fam_psam": null,
+  "phenotype_file": null,
+  "quant_covariates_file": null,
+  "cat_covariates_file": null,
+  "sparse_grm_files": null,
+  "args": "",
+  "outdir": "results"
+}

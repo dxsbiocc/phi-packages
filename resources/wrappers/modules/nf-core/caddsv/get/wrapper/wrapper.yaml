@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'flag' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/caddsv-get
+name: caddsv get
+summary: Download CADD-SV annotation resources or SegmentNT model files.
+params:
+  flag:
+    kind: option
+    type: string
+    required: true
+    description: CADD-SV resource flag to download.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to caddsv.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  annotations:
+    type: directory
+    path: ${outdir}/caddsv_get
+    primary: true

@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/abacas
+name: abacas
+summary: Contiguate draft genome assembly
+params:
+  scaffold:
+    kind: input
+    type: path
+    required: true
+    description: Fasta file containing scaffold
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: FASTA reference file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to abacas.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/abacas
+    primary: true

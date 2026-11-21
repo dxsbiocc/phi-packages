@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'bai' combined cartesian-style; verify if per-sample pairing is required; standalone path 'database' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/sam2lca-analyze
+name: sam2lca analyze
+summary: Calling lowest common ancestors from multi-mapped reads in SAM/BAM/CRAM files
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: BAM/CRAM/SAM file
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: BAM/CRAM/SAM index
+  database:
+    kind: input
+    type: path
+    required: false
+    description: Directory containing the sam2lca database
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to sam2lca.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  csv:
+    type: directory
+    path: ${outdir}/sam2lca_analyze
+    primary: true

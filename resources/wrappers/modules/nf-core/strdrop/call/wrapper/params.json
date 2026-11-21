@@ -1,0 +1,7 @@
+{
+  "vcf": null,
+  "training_set_json": null,
+  "training_set_vcfs": null,
+  "args": "",
+  "outdir": "results"
+}

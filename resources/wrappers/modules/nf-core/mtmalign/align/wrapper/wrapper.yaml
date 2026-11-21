@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/mtmalign-align
+name: mtmalign align
+summary: Aligns protein structures using mTM-align
+params:
+  pdbs:
+    kind: input
+    type: path
+    required: true
+    description: Input protein structures in PDB format.
+  compress:
+    kind: option
+    type: boolean
+    required: false
+    description: Flag representing whether the output MSA should be compressed.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  alignment:
+    type: directory
+    path: ${outdir}/mtmalign_align
+    primary: true

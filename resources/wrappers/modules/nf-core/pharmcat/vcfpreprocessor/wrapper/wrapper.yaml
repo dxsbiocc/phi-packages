@@ -1,0 +1,63 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'vcf_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'pharmcat_positions_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'pharmcat_uniallelic_positions_index' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/pharmcat-vcfpreprocessor
+name: pharmcat vcfpreprocessor
+summary: The PharmCAT VCF Preprocessor is a script that can pre-process VCF files for PharmCAT to make
+  sure the VCF file complies with PharmCAT's VCF Requirements
+params:
+  vcf_gz:
+    kind: input
+    type: path
+    required: true
+    description: The vcf file to be inspected
+  vcf_index:
+    kind: input
+    type: path
+    required: false
+    description: The tbi/csi file to be inspected
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Genome fasta file
+  fai:
+    kind: input
+    type: path
+    required: true
+    description: Genome index file
+  pharmcat_positions:
+    kind: input
+    type: path
+    required: true
+    description: Pharmcat positions vcf
+  pharmcat_positions_index:
+    kind: input
+    type: path
+    required: false
+    description: Pharmcat positions vcf index file
+  pharmcat_uniallelic_positions:
+    kind: input
+    type: path
+    required: true
+    description: Pharmcat uniallelic positions vcf
+  pharmcat_uniallelic_positions_index:
+    kind: input
+    type: path
+    required: false
+    description: Pharmcat uniallelic positions vcf index file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to pharmcat.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  preprocessed_vcf:
+    type: directory
+    path: ${outdir}/pharmcat_vcfpreprocessor
+    primary: true

@@ -1,0 +1,12 @@
+{
+  "reads": null,
+  "fasta": null,
+  "fai": null,
+  "bwamem_index": null,
+  "skip_deduplication": false,
+  "use_gpu": false,
+  "output_fmt": "bam",
+  "interval_file": null,
+  "known_sites": null,
+  "outdir": "results"
+}

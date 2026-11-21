@@ -1,0 +1,51 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/topas-gencons
+name: topas gencons
+summary: Create fasta consensus with TOPAS toolkit with options to penalize substitutions for typical
+  DNA damage present in ancient DNA
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: Gzipped compressed vcf file generated with GATK UnifiedGenotyper containing the called
+      snps
+  vcf_indels:
+    kind: input
+    type: path
+    required: true
+    description: Optional gzipped compressed vcf file generated with GATK UnifiedGenotyper containing
+      the called indels
+  reference:
+    kind: input
+    type: path
+    required: true
+    description: Fasta file of reference genome
+  fai:
+    kind: input
+    type: path
+    required: true
+    description: Optional index for the fasta file of reference genome
+  vcf_output:
+    kind: option
+    type: boolean
+    required: false
+    description: Boolean value to indicate if a compressed vcf file with the consensus calls included
+      as SNPs should be produced
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to topas.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fasta:
+    type: directory
+    path: ${outdir}/topas_gencons
+    primary: true

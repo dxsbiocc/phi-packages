@@ -1,0 +1,22 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'ids' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/custom-sratoolsncbisettings
+name: custom sratoolsncbisettings
+summary: Test for the presence of suitable NCBI settings or create them on the fly.
+params:
+  ids:
+    kind: option
+    type: string
+    required: true
+    description: List of id settings
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  ncbi_settings:
+    type: directory
+    path: ${outdir}/custom_sratoolsncbisettings
+    primary: true

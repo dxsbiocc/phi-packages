@@ -1,0 +1,8 @@
+{
+  "reads": null,
+  "index": null,
+  "gtf": null,
+  "star_ignore_sjdbgtf": false,
+  "args": "",
+  "outdir": "results"
+}

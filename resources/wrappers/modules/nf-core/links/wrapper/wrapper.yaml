@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/links
+name: links
+summary: LINKS is a genomics application for scaffolding genome assemblies with long reads, such as those
+  produced by Oxford Nanopore Technologies Ltd.
+params:
+  assembly:
+    kind: input
+    type: path
+    required: true
+    description: (Multi-)fasta file containing the draft assembly
+  reads:
+    kind: input
+    type: path
+    required: true
+    description: fastq file(s) containing the long reads to be used for scaffolding
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to links.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  log:
+    type: directory
+    path: ${outdir}/links
+    primary: true

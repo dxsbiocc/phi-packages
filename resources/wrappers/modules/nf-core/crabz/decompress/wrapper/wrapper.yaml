@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/crabz-decompress
+name: crabz decompress
+summary: Decompress files with crabz
+params:
+  archive:
+    kind: input
+    type: path
+    required: true
+    description: File to be decompressed
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to crabz.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  file:
+    type: directory
+    path: ${outdir}/crabz_decompress
+    primary: true

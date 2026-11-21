@@ -1,0 +1,73 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'genotype_quality' exposed as required option; confirm whether a safe default exists; val input 'coverage' exposed as required option; confirm whether a safe default exists; val input 'homozygous_freq' exposed as required option; confirm whether a safe default exists; val input 'heterozygous_freq' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/multivcfanalyzer
+name: multivcfanalyzer
+summary: SNP table generator from GATK UnifiedGenotyper with functionality geared for aDNA
+params:
+  vcfs:
+    kind: input
+    type: path
+    required: true
+    description: One or a list of gzipped or uncompressed VCF file
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Reference genome VCF was generated against
+  snpeff_results:
+    kind: input
+    type: path
+    required: true
+    description: Results from snpEff in txt format (Optional)
+  gff:
+    kind: input
+    type: path
+    required: true
+    description: GFF file corresponding to reference genome fasta (Optional)
+  allele_freqs:
+    kind: option
+    type: boolean
+    required: false
+    description: Whether to include the percentage of reads a given allele is present in in the SNP table.
+  genotype_quality:
+    kind: option
+    type: integer
+    required: true
+    description: Minimum GATK genotyping threshold threshold of which a SNP call falling under is 'discarded'
+  coverage:
+    kind: option
+    type: integer
+    required: true
+    description: Minimum number of a reads that a position must be covered by to be reported
+  homozygous_freq:
+    kind: option
+    type: integer
+    required: true
+    description: Fraction of reads a base must have to be called 'homozygous'
+  heterozygous_freq:
+    kind: option
+    type: integer
+    required: true
+    description: Fraction of which whereby if a call falls above this value, and lower than the homozygous
+      threshold, a base will be called 'heterozygous'.
+  gff_exclude:
+    kind: input
+    type: path
+    required: true
+    description: file listing positions that will be 'filtered' (i.e.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to multivcfanalyzer.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  full_alignment:
+    type: directory
+    path: ${outdir}/multivcfanalyzer
+    primary: true

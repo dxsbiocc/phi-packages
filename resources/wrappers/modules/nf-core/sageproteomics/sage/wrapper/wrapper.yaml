@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; glob input 'mz_m_l' collected into one staged list; verify staging layout
+id: nf-core/modules/sageproteomics-sage
+name: sageproteomics sage
+summary: sage is a search software for proteomics data
+params:
+  mz_m_l:
+    kind: input
+    type: path_glob
+    required: true
+    description: Input mz_m_l.
+  fasta_proteome:
+    kind: input
+    type: path
+    required: true
+    description: proteome database in fasta format
+  base_config:
+    kind: input
+    type: path
+    required: true
+    description: sage configuration json
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  results_tsv:
+    type: directory
+    path: ${outdir}/sageproteomics_sage
+    primary: true

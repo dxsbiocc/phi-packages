@@ -1,0 +1,17 @@
+{
+  "input": null,
+  "input_index": null,
+  "which_norm": null,
+  "fasta": null,
+  "fai": null,
+  "gzi": null,
+  "dict": null,
+  "alleles": null,
+  "alleles_tbi": null,
+  "germline_resources": null,
+  "germline_resources_tbi": null,
+  "panel_of_normals": null,
+  "panel_of_normals_tbi": null,
+  "interval_files": null,
+  "outdir": "results"
+}

@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/parabricks-genotypegvcf
+name: parabricks genotypegvcf
+summary: NVIDIA Clara Parabricks GPU-accelerated joint genotyping, replicating GATK GenotypeGVCFs
+params:
+  input:
+    kind: input
+    type: path
+    required: true
+    description: gvcf file for samples to be jointly genotyped.
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: reference fasta - must be unzipped.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to parabricks.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcf:
+    type: directory
+    path: ${outdir}/parabricks_genotypegvcf
+    primary: true

@@ -1,0 +1,11 @@
+{
+  "fasta": null,
+  "tree": null,
+  "hmm_in": null,
+  "hmm_batch": null,
+  "profile1": null,
+  "profile2": null,
+  "compress": false,
+  "args": "",
+  "outdir": "results"
+}

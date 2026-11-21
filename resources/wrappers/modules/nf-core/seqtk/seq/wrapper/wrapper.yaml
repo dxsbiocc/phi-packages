@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/seqtk-seq
+name: seqtk seq
+summary: Common transformation operations on FASTA or FASTQ files.
+params:
+  fastx:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: A FASTQ or FASTA file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to seqtk.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fastx:
+    type: directory
+    path: ${outdir}/seqtk_seq
+    primary: true

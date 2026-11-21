@@ -1,0 +1,21 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/gt-gff3validator
+name: gt gff3validator
+summary: GenomeTools gt-gff3validator utility to strictly validate a GFF3 file
+params:
+  gff3:
+    kind: input
+    type: path
+    required: true
+    description: Input gff3 file
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  success_log:
+    type: directory
+    path: ${outdir}/gt_gff3validator
+    primary: true

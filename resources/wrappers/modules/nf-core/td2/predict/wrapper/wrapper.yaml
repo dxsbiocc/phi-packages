@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored td2/predict module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+# Manually wired: exotic staging pattern.
+id: nf-core/modules/td2-predict
+name: td2 predict
+summary: Predict translated ORFs with TD2 using a genome FASTA and a LongOrfs ORF directory.
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: Genome FASTA.
+  orfs_dir:
+    kind: input
+    type: path
+    required: true
+    description: ORF directory from td2 longorfs.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to td2.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/td2_predict
+    primary: true

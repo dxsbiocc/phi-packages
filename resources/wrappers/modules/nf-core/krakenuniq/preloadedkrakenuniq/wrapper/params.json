@@ -1,0 +1,11 @@
+{
+  "sequences": null,
+  "prefixes": null,
+  "sequence_type": null,
+  "db": null,
+  "save_output_reads": false,
+  "report_file": false,
+  "save_output": false,
+  "args": "",
+  "outdir": "results"
+}

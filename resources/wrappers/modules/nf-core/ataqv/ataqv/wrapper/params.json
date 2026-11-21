@@ -1,0 +1,12 @@
+{
+  "bam": null,
+  "bai": null,
+  "peak_file": null,
+  "organism": null,
+  "mito_name": null,
+  "tss_file": null,
+  "excl_regs_file": null,
+  "autosom_ref_file": null,
+  "args": "",
+  "outdir": "results"
+}

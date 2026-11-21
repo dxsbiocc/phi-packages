@@ -1,0 +1,10 @@
+{
+  "reads": null,
+  "db": null,
+  "save_unclassified": false,
+  "save_classified": false,
+  "barcode": null,
+  "umi": null,
+  "args": "",
+  "outdir": "results"
+}

@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'traits' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/scoary
+name: scoary
+summary: Use pangenome outputs for GWAS
+params:
+  genes:
+    kind: input
+    type: path
+    required: true
+    description: A presence/absence matrix of genes in the pan-genome
+  traits:
+    kind: input
+    type: path
+    required: false
+    description: A CSV file containing trait information per-sample
+  tree:
+    kind: input
+    type: path
+    required: true
+    description: A Newick formatted tree for phylogenetic analyses
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to scoary.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  csv:
+    type: directory
+    path: ${outdir}/scoary
+    primary: true

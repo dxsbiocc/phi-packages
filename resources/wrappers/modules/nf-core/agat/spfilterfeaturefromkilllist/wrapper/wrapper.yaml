@@ -1,0 +1,36 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/agat-spfilterfeaturefromkilllist
+name: agat spfilterfeaturefromkilllist
+summary: The script aims to remove features based on a kill list.
+params:
+  gff:
+    kind: input
+    type: path
+    required: true
+    description: Input GFF3 file that will be read
+  kill_list:
+    kind: input
+    type: path
+    required: true
+    description: Kill list.
+  config:
+    kind: input
+    type: path
+    required: true
+    description: Input agat config file.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to agat.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gff:
+    type: directory
+    path: ${outdir}/agat_spfilterfeaturefromkilllist
+    primary: true

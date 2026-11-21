@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'output_suffix' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/echtvar-anno
+name: echtvar anno
+summary: Annotate a decomposed (and normalized) VCF with an echtvar file
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: VCF input file
+  annotation_files:
+    kind: input
+    type: path
+    required: true
+    description: List of echtvar annotation files to be used for annotation
+  output_suffix:
+    kind: option
+    type: string
+    required: true
+    description: The suffix for the output file, e.g.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to echtvar.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcf:
+    type: directory
+    path: ${outdir}/echtvar_anno
+    primary: true

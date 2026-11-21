@@ -1,0 +1,12 @@
+{
+  "query_vcf": null,
+  "query_vcf_tbi": null,
+  "truth_vcf": null,
+  "truth_vcf_tbi": null,
+  "regions_bed": null,
+  "fasta": null,
+  "stratification_tsv": null,
+  "stratification_beds": null,
+  "args": "",
+  "outdir": "results"
+}

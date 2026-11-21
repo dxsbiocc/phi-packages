@@ -1,0 +1,10 @@
+{
+  "reads": null,
+  "reference": null,
+  "bam_format": false,
+  "bam_index_extension": null,
+  "cigar_paf_format": false,
+  "cigar_bam": false,
+  "args": "",
+  "outdir": "results"
+}

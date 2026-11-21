@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; glob input 'bins' collected into one staged list; verify staging layout; tuple has no leading val(meta); sample meta synthesized from file name; val input 'db_name' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/gtdbtk-classifywf
+name: gtdbtk classifywf
+summary: GTDB-Tk is a software toolkit for assigning objective taxonomic classifications to bacterial
+  and archaeal genomes based on the Genome Database Taxonomy GTDB.
+params:
+  bins:
+    kind: input
+    type: path_glob
+    required: true
+    description: Input bins.
+  db:
+    kind: input
+    type: path
+    required: true
+    description: Path to a directory containing a GDTB database, as uncompressed from from the 'full package'
+      gtdbdtk_data.tar.gz file.
+  db_name:
+    kind: option
+    type: string
+    required: true
+    description: The name of the GTDB database to use.
+  use_pplacer_scratch_dir:
+    kind: option
+    type: boolean
+    required: false
+    description: Set to true to reduce pplacer memory usage by writing to disk (slower)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to gtdbtk.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gtdb_outdir:
+    type: directory
+    path: ${outdir}/gtdbtk_classifywf
+    primary: true

@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/metaphlan3-mergemetaphlantables
+name: metaphlan3 mergemetaphlantables
+summary: Merges output abundance tables from MetaPhlAn3
+params:
+  profiles:
+    kind: input
+    type: path
+    required: true
+    description: List of per-sample MetaPhlAn3 taxonomic abundance tables
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to metaphlan3.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  txt:
+    type: directory
+    path: ${outdir}/metaphlan3_mergemetaphlantables
+    primary: true

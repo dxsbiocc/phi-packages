@@ -1,0 +1,6 @@
+{
+  "vcf": null,
+  "snpeff_db": "GRCh38.99",
+  "snpeff_cache": null,
+  "outdir": "results"
+}

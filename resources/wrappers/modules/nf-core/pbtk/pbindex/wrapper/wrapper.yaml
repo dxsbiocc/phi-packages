@@ -1,0 +1,21 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/pbtk-pbindex
+name: pbtk pbindex
+summary: Minimalistic tool which creates an index file that enables random access into PacBio BAM files
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Input BAM file
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  pbi:
+    type: directory
+    path: ${outdir}/pbtk_pbindex
+    primary: true

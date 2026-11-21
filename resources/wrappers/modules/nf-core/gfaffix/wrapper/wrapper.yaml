@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/gfaffix
+name: gfaffix
+summary: Collapse walk-preserving shared affixes in variation graphs in GFA format
+params:
+  gfa:
+    kind: input
+    type: path
+    required: true
+    description: Variation graph in GFA format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to gfaffix.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gfa:
+    type: directory
+    path: ${outdir}/gfaffix
+    primary: true

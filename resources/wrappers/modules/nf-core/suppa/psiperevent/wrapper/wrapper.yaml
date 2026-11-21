@@ -1,0 +1,38 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'total_filter' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/suppa-psiperevent
+name: suppa psiperevent
+summary: Calculate PSI values for alternative splicing events using SUPPA
+params:
+  expression:
+    kind: input
+    type: path
+    required: true
+    description: Expression matrix file in TPM units
+  ioe:
+    kind: input
+    type: path
+    required: true
+    description: Events file in ioe format
+  total_filter:
+    kind: option
+    type: integer
+    required: true
+    description: Minimum total expression of the transcripts involved in the event to be considered for
+      PSI calculation (default = 0)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to suppa.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  psi:
+    type: directory
+    path: ${outdir}/suppa_psiperevent
+    primary: true

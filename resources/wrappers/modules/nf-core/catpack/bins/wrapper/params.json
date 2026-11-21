@@ -1,0 +1,10 @@
+{
+  "bins": null,
+  "database": null,
+  "taxonomy": null,
+  "proteins": null,
+  "diamond_table": null,
+  "bin_suffix": null,
+  "args": "",
+  "outdir": "results"
+}

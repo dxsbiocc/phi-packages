@@ -1,0 +1,11 @@
+{
+  "vcf": null,
+  "vcf_tbi": null,
+  "recal": null,
+  "recal_index": null,
+  "tranches": null,
+  "fasta": null,
+  "fai": null,
+  "args": "",
+  "outdir": "results"
+}

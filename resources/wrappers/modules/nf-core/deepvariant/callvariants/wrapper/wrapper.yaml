@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/deepvariant-callvariants
+name: deepvariant callvariants
+summary: Call variants from the examples produced by make_examples
+params:
+  make_examples_tfrecords:
+    kind: input
+    type: path
+    required: true
+    description: The actual sharded input files, from DEEPVARIANT_MAKEEXAMPLES process
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to deepvariant.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  call_variants_tfrecords:
+    type: directory
+    path: ${outdir}/deepvariant_callvariants
+    primary: true

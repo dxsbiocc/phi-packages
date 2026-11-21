@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'fai' combined cartesian-style; verify if per-sample pairing is required; companion input 'hic_map' combined cartesian-style; verify if per-sample pairing is required; companion input 'agp' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/yahs
+name: yahs
+summary: Performs assembly scaffolding using YaHS
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: FASTA reference file
+  fai:
+    kind: input
+    type: path
+    required: false
+    description: index of the reference file
+  hic_map:
+    kind: input
+    type: path
+    required: false
+    description: BED file containing coordinates of read alignments
+  agp:
+    kind: input
+    type: path
+    required: false
+    description: Optional AGP file describing a set of scaffolds from the input contigs to use as a start
+      point
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to yahs.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  scaffolds_fasta:
+    type: directory
+    path: ${outdir}/yahs
+    primary: true

@@ -1,0 +1,9 @@
+{
+  "vcf": null,
+  "bed": null,
+  "var_config": null,
+  "db_config": null,
+  "eff_genome_size": null,
+  "args": "",
+  "outdir": "results"
+}

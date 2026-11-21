@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/ribowaltz
+name: ribowaltz
+summary: Calculation of optimal P-site offsets, diagnostic analysis and visual inspection of ribosome
+  profiling data
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Transcriptome BAM file
+  gtf:
+    kind: input
+    type: path
+    required: true
+    description: GTF file of reference genome
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: FASTA file of reference genome
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  best_offset:
+    type: directory
+    path: ${outdir}/ribowaltz
+    primary: true

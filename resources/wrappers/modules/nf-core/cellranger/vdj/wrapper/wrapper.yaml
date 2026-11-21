@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'reference' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/cellranger-vdj
+name: cellranger vdj
+summary: Module to use Cell Ranger's pipelines analyze sequencing data produced from Chromium Single Cell
+  Immune Profiling.
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: List of input FastQ files of size 1 and 2 for single-end and paired-end data, respectively.
+  reference:
+    kind: input
+    type: path
+    required: false
+    description: Folder containing all the reference indices needed by Cell Ranger
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to cellranger.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  outs:
+    type: directory
+    path: ${outdir}/cellranger_vdj
+    primary: true

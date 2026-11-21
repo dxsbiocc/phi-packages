@@ -1,0 +1,8 @@
+{
+  "bams": null,
+  "bam_indices": null,
+  "reference_fasta": null,
+  "reference_fai": null,
+  "args": "",
+  "outdir": "results"
+}

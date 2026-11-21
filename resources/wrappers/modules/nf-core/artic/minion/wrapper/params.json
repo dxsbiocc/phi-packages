@@ -1,0 +1,10 @@
+{
+  "fastq": null,
+  "model_dir": null,
+  "model": null,
+  "fasta": null,
+  "bed": null,
+  "hdf5_plugin_path": null,
+  "args": "",
+  "outdir": "results"
+}

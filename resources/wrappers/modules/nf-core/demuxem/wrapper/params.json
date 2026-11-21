@@ -1,0 +1,9 @@
+{
+  "input_raw_gene_bc_matrices_h5": null,
+  "input_hto_csv_file": null,
+  "generate_gender_plot": null,
+  "genome": null,
+  "generate_diagnostic_plots": null,
+  "args": "",
+  "outdir": "results"
+}

@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'sigxls' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/icountmini-peaks
+name: icountmini peaks
+summary: Runs iCount peaks on a BED file of crosslinks
+params:
+  bed:
+    kind: input
+    type: path
+    required: true
+    description: BED file of crosslinks
+  sigxls:
+    kind: input
+    type: path
+    required: false
+    description: TSV file of sigxls from iCount sigxls
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to icountmini.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  peaks:
+    type: directory
+    path: ${outdir}/icountmini_peaks
+    primary: true

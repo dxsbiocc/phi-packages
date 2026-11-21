@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'profiler' exposed as required option; confirm whether a safe default exists; val input 'format' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/taxpasta-standardise
+name: taxpasta standardise
+summary: Standardise the output of a wide range of taxonomic profilers
+params:
+  profile:
+    kind: input
+    type: path
+    required: true
+    description: profiler output file (mandatory)
+  profiler:
+    kind: option
+    type: string
+    required: true
+    description: Name of the profiler used to generate the profile (mandatory)
+  format:
+    kind: option
+    type: string
+    required: true
+    description: Type of output file to be generated
+  taxonomy:
+    kind: input
+    type: path
+    required: true
+    description: Directory containing at a minimum nodes.dmp and names.dmp files (optional)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to taxpasta.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  standardised_profile:
+    type: directory
+    path: ${outdir}/taxpasta_standardise
+    primary: true

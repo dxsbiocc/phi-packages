@@ -1,0 +1,8 @@
+{
+  "reads": null,
+  "primary_index": null,
+  "contaminant_index": null,
+  "fasta": null,
+  "fai": null,
+  "outdir": "results"
+}

@@ -1,0 +1,8 @@
+{
+  "bam": null,
+  "genome_fasta": null,
+  "genes_fasta": null,
+  "stb_file": null,
+  "args": "",
+  "outdir": "results"
+}

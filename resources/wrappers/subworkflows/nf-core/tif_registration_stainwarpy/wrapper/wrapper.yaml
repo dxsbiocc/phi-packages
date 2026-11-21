@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites; val input 'val_fixed_img' exposed as required option; confirm whether a safe default exists; val input 'val_final_img_sz' exposed as required option; confirm whether a safe default exists
+id: nf-core/subworkflows/tif-registration-stainwarpy
+name: tif registration stainwarpy
+summary: Register H&E stained and multiplexed tissue images and transform segmentation masks using stainwarpy
+params:
+  ome_tif:
+    kind: input
+    type: path
+    required: true
+    description: Input ome.tif for ch_hne.
+  ome_tif_2:
+    kind: input
+    type: path
+    required: true
+    description: Input ome.tif for ch_multiplexed.
+  ome_tif_3:
+    kind: input
+    type: path
+    required: true
+    description: Input ome.tif for ch_segmask.
+  val_fixed_img:
+    kind: option
+    type: string
+    required: true
+    description: Option val_fixed_img.
+  val_final_img_sz:
+    kind: option
+    type: string
+    required: true
+    description: Option val_final_img_sz.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/tif_registration_stainwarpy
+    primary: true

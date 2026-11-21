@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'reference' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/refsolver-score
+name: refsolver score
+summary: Score a query sequence dictionary against a reference using ref-solver
+params:
+  query:
+    kind: input
+    type: path
+    required: true
+    description: Query file to score (BAM, SAM, CRAM, FASTA, FAI, VCF, .dict, TSV, CSV)
+  reference:
+    kind: input
+    type: path
+    required: false
+    description: Reference file to compare against (BAM, SAM, CRAM, FASTA, FAI, VCF, .dict, TSV, CSV)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to refsolver.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  report:
+    type: directory
+    path: ${outdir}/refsolver_score
+    primary: true

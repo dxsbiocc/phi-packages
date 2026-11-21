@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/stainwarpy-extractchannel
+name: stainwarpy extractchannel
+summary: Extract a single channel image from multiplexed tissue images using stainwarpy
+params:
+  multiplx_img:
+    kind: input
+    type: path
+    required: true
+    description: Multiplexed image file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to stainwarpy.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  single_ch_image:
+    type: directory
+    path: ${outdir}/stainwarpy_extractchannel
+    primary: true

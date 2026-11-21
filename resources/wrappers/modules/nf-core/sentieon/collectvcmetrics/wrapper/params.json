@@ -1,0 +1,11 @@
+{
+  "vcf": null,
+  "tbi": null,
+  "dbsnp": null,
+  "dbsnp_tbi": null,
+  "fasta": null,
+  "fai": null,
+  "interval": null,
+  "args": "",
+  "outdir": "results"
+}

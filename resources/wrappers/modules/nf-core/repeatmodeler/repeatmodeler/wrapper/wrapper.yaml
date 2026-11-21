@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/repeatmodeler-repeatmodeler
+name: repeatmodeler repeatmodeler
+summary: Performs de novo transposable element (TE) family identification with RepeatModeler
+params:
+  db:
+    kind: input
+    type: path
+    required: true
+    description: RepeatModeler database files generated with REPEATMODELER_BUILDDATABASE
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to repeatmodeler.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fasta:
+    type: directory
+    path: ${outdir}/repeatmodeler_repeatmodeler
+    primary: true

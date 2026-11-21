@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/mirdeep2-mapper
+name: mirdeep2 mapper
+summary: miRDeep2 Mapper is a tool that prepares deep sequencing reads for downstream miRNA detection
+  by collapsing reads, mapping them to a genome, and outputting the required files for miRNA discovery.
+params:
+  reads:
+    kind: input
+    type: path
+    required: true
+    description: File containing the raw sequencing reads that need to be collapsed and mapped to a reference
+      genome.
+  index:
+    kind: input
+    type: path
+    required: true
+    description: Path to the genome index file used for mapping the reads to the genome.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to mirdeep2.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  outputs:
+    type: directory
+    path: ${outdir}/mirdeep2_mapper
+    primary: true

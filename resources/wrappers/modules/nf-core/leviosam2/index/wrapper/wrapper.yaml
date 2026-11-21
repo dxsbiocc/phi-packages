@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/leviosam2-index
+name: leviosam2 index
+summary: Index chain files for lift over
+params:
+  fai:
+    kind: input
+    type: path
+    required: true
+    description: FAI (FASTA index) file of the target reference
+  chain:
+    kind: input
+    type: path
+    required: true
+    description: Chain file to index.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  clft:
+    type: directory
+    path: ${outdir}/leviosam2_index
+    primary: true

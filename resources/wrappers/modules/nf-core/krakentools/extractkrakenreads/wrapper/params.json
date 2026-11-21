@@ -1,0 +1,8 @@
+{
+  "taxid": null,
+  "classified_reads_assignment": null,
+  "classified_reads_fastq": null,
+  "report": null,
+  "args": "",
+  "outdir": "results"
+}

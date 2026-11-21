@@ -1,0 +1,10 @@
+{
+  "fasta": null,
+  "db": null,
+  "proteins": null,
+  "prodigal_tf": null,
+  "regions": null,
+  "hmms": null,
+  "args": "",
+  "outdir": "results"
+}

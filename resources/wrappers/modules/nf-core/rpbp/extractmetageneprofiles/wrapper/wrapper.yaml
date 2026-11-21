@@ -1,0 +1,38 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'bai' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/rpbp-extractmetageneprofiles
+name: rpbp extractmetageneprofiles
+summary: Build per-read-length pileups of Ribo-seq read 5'-ends around annotated start codons - the "metagene
+  profile".
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Sorted Ribo-seq BAM.
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: BAM index.
+  transcript_bed:
+    kind: input
+    type: path
+    required: true
+    description: Annotated transcripts BED produced by `rpbp/preparegenome`.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to rpbp.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  metagene:
+    type: directory
+    path: ${outdir}/rpbp_extractmetageneprofiles
+    primary: true

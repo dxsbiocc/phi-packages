@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'transporters' combined cartesian-style; verify if per-sample pairing is required; companion input 'pathways' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/gapseq-draft
+name: gapseq draft
+summary: Create draft metabolic model from pathway and transporter predictions
+params:
+  reactions:
+    kind: input
+    type: path
+    required: true
+    description: Reactions table from gapseq find
+  transporters:
+    kind: input
+    type: path
+    required: false
+    description: Transporters CSV file from gapseq find-transport
+  pathways:
+    kind: input
+    type: path
+    required: false
+    description: Pathways CSV file from gapseq find
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to gapseq.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  draft:
+    type: directory
+    path: ${outdir}/gapseq_draft
+    primary: true

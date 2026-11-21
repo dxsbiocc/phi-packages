@@ -1,0 +1,38 @@
+name: kneaddata
+description: Remove host contamination from metagenomic reads with kneaddata.
+keywords:
+- metagenomics
+- qc
+- host removal
+- contamination
+tools:
+- kneaddata:
+    description: 'kneaddata: host-read decontamination.'
+    homepage: https://github.com/biobakery/kneaddata
+input:
+- meta:
+    type: map
+    description: Sample meta map (id, single_end)
+- reads:
+    type: file
+    description: One (unpaired) or two (paired) FASTQ files
+- db:
+    type: directory
+    description: kneaddata host reference database directory
+output:
+- reads:
+    type: file
+    description: Cleaned FASTQ(s)
+- contaminant:
+    type: file
+    description: Removed contaminant reads
+- counts:
+    type: file
+    description: Read count QC table
+- log:
+    type: file
+    description: kneaddata log
+authors:
+- '@dengxsh'
+maintainers:
+- '@dengxsh'

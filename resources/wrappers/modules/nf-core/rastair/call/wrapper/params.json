@@ -1,0 +1,10 @@
+{
+  "bam": null,
+  "bai": null,
+  "fasta": null,
+  "fai": null,
+  "parsed_trim__o_t": null,
+  "parsed_trim__o_b": null,
+  "args": "",
+  "outdir": "results"
+}

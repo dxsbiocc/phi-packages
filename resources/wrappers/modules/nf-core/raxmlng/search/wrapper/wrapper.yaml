@@ -1,0 +1,54 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'model' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/raxmlng-search
+name: raxmlng search
+summary: Maximum-likelihood tree search with RAxML-NG, optionally combined with its integrated automatic
+  model selection (MOOSE)
+params:
+  alignment:
+    kind: input
+    type: path
+    required: true
+    description: A FASTA/PHYLIP format multiple sequence alignment file
+  model:
+    kind: option
+    type: string
+    required: true
+    description: The substitution model to use for the phylogenetic inference (e.g.
+  tree:
+    kind: input
+    type: path
+    required: true
+    description: Optional starting tree in Newick format.
+  tree_constraint:
+    kind: input
+    type: path
+    required: true
+    description: A backbone/topology constraint tree in Newick format
+  partitions:
+    kind: input
+    type: path
+    required: true
+    description: A RAxML-NG partition/model-definition file, used in place of the `model` string input
+      when given (e.g.
+  site_weights:
+    kind: input
+    type: path
+    required: true
+    description: A file of positive-integer MSA column weights
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to raxmlng.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  phylogeny:
+    type: directory
+    path: ${outdir}/raxmlng_search
+    primary: true

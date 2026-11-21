@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/arcane-filter
+name: arcane filter
+summary: Filter GTF annotations and genome sequence for alignment-free single-cell RNA-seq quantification
+  with Arcane
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Reference genome FASTA file
+  gtf:
+    kind: input
+    type: path
+    required: true
+    description: Genome annotation GTF file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to arcane.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  genes:
+    type: directory
+    path: ${outdir}/arcane_filter
+    primary: true

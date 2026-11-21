@@ -1,0 +1,67 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'contact_folder' combined cartesian-style; verify if per-sample pairing is required; companion input 'existing_abc' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/stare
+name: stare
+summary: Framework that scores enhancer–gene interactions using the Activity-By-Contact model and derives
+  transcription factor affinities on gene level
+params:
+  bed_file:
+    kind: input
+    type: path
+    required: true
+    description: BED file with non-overlapping candidate regions; optional—if omitted runs in promoter-mode
+      around TSS
+  contact_folder:
+    kind: input
+    type: path
+    required: false
+    description: Directory of gzipped chromatin contact files per chromosome; if not provided use distance-based
+      estimate
+  existing_abc:
+    kind: input
+    type: path
+    required: false
+    description: Precomputed ABC‐scoring file (must contain Ensembl ID, PeakID, intergenicScore columns)
+      to reuse interactions
+  annotation:
+    kind: input
+    type: path
+    required: true
+    description: Gene annotation file in GTF format (e.g.
+  genome:
+    kind: input
+    type: path
+    required: true
+    description: Genome FASTA file in RefSeq format
+  psem:
+    kind: input
+    type: path
+    required: true
+    description: Position Specific Energy Matrix or Count Matrix in transfac format; converted automatically
+      to PSEM using sequence background from bed_file
+  exclude_bed:
+    kind: input
+    type: path
+    required: true
+    description: BED file with regions to exclude; overlapping regions are discarded
+  genes:
+    kind: input
+    type: path
+    required: true
+    description: File listing gene IDs or symbols to restrict output; optional
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to stare.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  affinities:
+    type: directory
+    path: ${outdir}/stare
+    primary: true

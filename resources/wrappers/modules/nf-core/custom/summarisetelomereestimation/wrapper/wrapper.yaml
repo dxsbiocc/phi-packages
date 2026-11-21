@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'content_tsv' combined cartesian-style; verify if per-sample pairing is required; val input 'length_tool' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/custom-summarisetelomereestimation
+name: custom summarisetelomereestimation
+summary: Normalise and combine telomere length and content estimates from telseq, telogator2, and telomerehunter
+  into a unified summary
+params:
+  length_tsv:
+    kind: input
+    type: path
+    required: true
+    description: TSV file from telseq or telogator2 with telomere length estimates
+  content_tsv:
+    kind: input
+    type: path
+    required: false
+    description: Optional TSV file from telomerehunter with telomere content estimates
+  length_tool:
+    kind: option
+    type: string
+    required: true
+    description: Which tool produced the length TSV ('telseq' or 'telogator2')
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  summary:
+    type: directory
+    path: ${outdir}/custom_summarisetelomereestimation
+    primary: true

@@ -1,0 +1,8 @@
+{
+  "reads": null,
+  "index": null,
+  "fasta": null,
+  "aligner": "bwamem2",
+  "sort": true,
+  "outdir": "results"
+}

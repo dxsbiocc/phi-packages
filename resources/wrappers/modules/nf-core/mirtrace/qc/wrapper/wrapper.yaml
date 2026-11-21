@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'mirtrace_config' combined cartesian-style; verify if per-sample pairing is required; val input 'mirtrace_species' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/mirtrace-qc
+name: mirtrace qc
+summary: A tool for quality control and tracing taxonomic origins of microRNA sequencing data
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: microRNA sequencing data
+  mirtrace_config:
+    kind: input
+    type: path
+    required: false
+    description: (Optional) CSV with list of FASTQ files to process with one entry per row.
+  mirtrace_species:
+    kind: option
+    type: string
+    required: true
+    description: Target species in microRNA sequencing data (miRbase encoding, e.g.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  html:
+    type: directory
+    path: ${outdir}/mirtrace_qc
+    primary: true

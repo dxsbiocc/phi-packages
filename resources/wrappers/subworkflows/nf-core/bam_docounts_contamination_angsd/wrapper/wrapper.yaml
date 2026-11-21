@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
+id: nf-core/subworkflows/bam-docounts-contamination-angsd
+name: bam docounts contamination angsd
+summary: Calculate contamination of the X-chromosome with ANGSD
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Input bam for ch_bam.
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion bai for ch_bam.
+  hapmap_file:
+    kind: input
+    type: path
+    required: true
+    description: Input hapmap_file for ch_hapmap_file.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/bam_docounts_contamination_angsd
+    primary: true

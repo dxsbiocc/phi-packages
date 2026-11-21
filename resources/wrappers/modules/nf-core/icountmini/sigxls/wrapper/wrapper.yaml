@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/icountmini-sigxls
+name: icountmini sigxls
+summary: Runs iCount sigxls on a BED file of crosslinks
+params:
+  bed:
+    kind: input
+    type: path
+    required: true
+    description: BED file of crosslinks
+  segmentation:
+    kind: input
+    type: path
+    required: true
+    description: A iCount segmentation file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to icountmini.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  sigxls:
+    type: directory
+    path: ${outdir}/icountmini_sigxls
+    primary: true

@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/pcne
+name: pcne
+summary: Estimates plasmid copy number from assembled genome
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: FASTQ reads (paired or single) or a pre-aligned BAM file
+  chromosome:
+    kind: input
+    type: path
+    required: true
+    description: Chromosome contigs FASTA file
+  plasmids:
+    kind: input
+    type: path
+    required: true
+    description: One or more plasmid FASTA files
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to pcne.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/pcne
+    primary: true

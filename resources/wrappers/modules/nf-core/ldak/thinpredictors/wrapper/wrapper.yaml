@@ -1,0 +1,48 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'bim' combined cartesian-style; verify if per-sample pairing is required; companion input 'fam' combined cartesian-style; verify if per-sample pairing is required; val input 'window_prune' exposed as required option; confirm whether a safe default exists; val input 'window_kb' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/ldak-thinpredictors
+name: ldak thinpredictors
+summary: Run linkage disequilibrium (LD) pruning with linkage disequilibrium-adjusted kinship (LDAK) to
+  create a thinned predictor list for weighted kinship workflows
+params:
+  bed:
+    kind: input
+    type: path
+    required: true
+    description: PLINK BED genotype file
+  bim:
+    kind: input
+    type: path
+    required: false
+    description: PLINK BIM variant file
+  fam:
+    kind: input
+    type: path
+    required: false
+    description: PLINK FAM sample file
+  window_prune:
+    kind: option
+    type: number
+    required: true
+    description: Correlation squared (r²) threshold passed to LDAK `--window-prune` (for example, 0.98)
+  window_kb:
+    kind: option
+    type: integer
+    required: true
+    description: Window size in kilobases passed to LDAK `--window-kb` (for example, 100)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to ldak.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  thin_predictors:
+    type: directory
+    path: ${outdir}/ldak_thinpredictors
+    primary: true

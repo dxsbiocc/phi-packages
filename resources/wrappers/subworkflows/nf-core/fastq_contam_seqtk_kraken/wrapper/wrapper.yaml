@@ -1,0 +1,36 @@
+# Agent-facing wrapper adapter for the vendored fastq_contam_seqtk_kraken subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+# REVIEW: kraken2_db comment says string but module expects a staged DB; passed as path
+id: nf-core/subworkflows/fastq-contam-seqtk-kraken
+name: "Screen contamination (seqtk/kraken2)"
+summary: "Subsample reads with seqtk and screen for contamination with kraken2."
+
+params:
+  reads:
+    kind: input
+    type: path_glob
+    required: true
+    description: "FASTQ glob (paired or single)."
+  sample_size:
+    kind: option
+    type: string
+    required: true
+    description: "Number of reads to subsample."
+  kraken2_db:
+    kind: input
+    type: path
+    required: true
+    description: "Path to the kraken2 database directory."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/fastq_contam_seqtk_kraken'
+    primary: true

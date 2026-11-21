@@ -1,0 +1,9 @@
+{
+  "bam": null,
+  "unmapped": null,
+  "fasta": null,
+  "fai": null,
+  "dict": null,
+  "args": "",
+  "outdir": "results"
+}

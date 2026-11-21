@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/rhocall-viz
+name: rhocall viz
+summary: Call regions of homozygosity and make tentative UPD calls
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: VCF file
+  roh:
+    kind: input
+    type: path
+    required: true
+    description: Input RHO file produced from rhocall
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to rhocall.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bed:
+    type: directory
+    path: ${outdir}/rhocall_viz
+    primary: true

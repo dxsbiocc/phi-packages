@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'bai' combined cartesian-style; verify if per-sample pairing is required; companion input 'fai' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/modkit-extractcalls
+name: modkit extractcalls
+summary: Produce a per-read per-position table of base modification **calls** (pass/fail/filtered, with
+  the called base) from a modBAM using the same thresholding algorithm as `modkit pileup`.
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Input modBAM/modCRAM with MM/ML tags.
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: Index for `bam` — `.bai`/`.csi` for a BAM, `.crai` for a CRAM.
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Optional reference FASTA.
+  fai:
+    kind: input
+    type: path
+    required: false
+    description: Samtools FASTA index for `fasta`.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to modkit.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tsv:
+    type: directory
+    path: ${outdir}/modkit_extractcalls
+    primary: true

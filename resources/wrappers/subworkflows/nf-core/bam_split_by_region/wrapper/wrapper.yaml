@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
+id: nf-core/subworkflows/bam-split-by-region
+name: bam split by region
+summary: Split the reads in the input bam by specified genomic region.
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Input bam for ch_bam.
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion bai for ch_bam.
+  regions_file:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion regions_file for ch_bam.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/bam_split_by_region
+    primary: true

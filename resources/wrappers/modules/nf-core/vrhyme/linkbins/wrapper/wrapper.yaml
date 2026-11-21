@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/vrhyme-linkbins
+name: vrhyme linkbins
+summary: Linking bins output by vRhyme to create one sequences per bin
+params:
+  bins:
+    kind: input
+    type: path
+    required: true
+    description: Directory file containing bin FASTA files output by vRhyme (each bin having multiple
+      sequences)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to vrhyme.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  linked_bins:
+    type: directory
+    path: ${outdir}/vrhyme_linkbins
+    primary: true

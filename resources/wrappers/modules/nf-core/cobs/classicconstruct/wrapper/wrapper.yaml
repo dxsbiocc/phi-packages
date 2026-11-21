@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/cobs-classicconstruct
+name: cobs classicconstruct
+summary: Builds a classic bloom filter COBS index
+params:
+  input:
+    kind: input
+    type: path
+    required: true
+    description: The file or directory to be indexed.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to cobs.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  index:
+    type: directory
+    path: ${outdir}/cobs_classicconstruct
+    primary: true

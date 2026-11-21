@@ -1,0 +1,16 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/caalm-downloadmodels
+name: caalm downloadmodels
+summary: Downloads the CAALM model weights from HuggingFace Hub (lczong/CAALM) into a local models/ directory.
+params:
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  models:
+    type: directory
+    path: ${outdir}/caalm_downloadmodels
+    primary: true

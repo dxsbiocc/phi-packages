@@ -1,0 +1,13 @@
+{
+  "tumor_bam": null,
+  "tumor_bam_index": null,
+  "normal_bam": null,
+  "normal_bam_index": null,
+  "intervals": null,
+  "fasta": null,
+  "fasta_fai": null,
+  "panel_of_normals": null,
+  "panel_of_normals_index": null,
+  "args": "",
+  "outdir": "results"
+}

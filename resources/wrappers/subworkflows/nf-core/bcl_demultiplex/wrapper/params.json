@@ -1,0 +1,8 @@
+{
+  "samplesheet": null,
+  "flowcell": null,
+  "run_id": "flowcell",
+  "lane": 1,
+  "demultiplexer": "bclconvert",
+  "outdir": "results"
+}

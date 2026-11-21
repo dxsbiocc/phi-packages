@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'genome_id' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/juicertools-pre
+name: juicertools pre
+summary: Create a multi-resolution .hic contact matrix for analysis with Juicer
+params:
+  pairs:
+    kind: input
+    type: path
+    required: true
+    description: Optionally gzipped TSV file, in one of a number of formats, including pairs format.
+  chromsizes:
+    kind: input
+    type: path
+    required: true
+    description: 'Headerless TSV file describing chromosome sizes with format: chrom_name\tlength Incompatible
+      with genome_id option.'
+  genome_id:
+    kind: option
+    type: string
+    required: true
+    description: String of a supported genome ID, see https://github.com/aidenlab/juicer/wiki/Pre#usage
+      for details.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to juicertools.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  hic:
+    type: directory
+    path: ${outdir}/juicertools_pre
+    primary: true

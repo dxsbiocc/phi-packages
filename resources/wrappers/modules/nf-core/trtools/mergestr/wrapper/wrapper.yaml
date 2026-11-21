@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'tbis' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/trtools-mergestr
+name: trtools mergestr
+summary: MergeSTR merges multiple VCF files produced by the same TR genotyper into a single VCF file.
+params:
+  vcfs:
+    kind: input
+    type: path
+    required: true
+    description: List containing 2 or more bgzipped tandem repeat VCF files e.g.
+  tbis:
+    kind: input
+    type: path
+    required: false
+    description: List containing the tbi index files corresponding to the vcfs input files e.g.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to trtools.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcf:
+    type: directory
+    path: ${outdir}/trtools_mergestr
+    primary: true

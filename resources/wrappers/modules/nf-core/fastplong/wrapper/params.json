@@ -1,0 +1,8 @@
+{
+  "reads": null,
+  "adapter_fasta": null,
+  "discard_trimmed_pass": false,
+  "save_trimmed_fail": false,
+  "args": "",
+  "outdir": "results"
+}

@@ -1,0 +1,28 @@
+name: graphlan_export
+description: Convert a taxonomy abundance table to a GraPhlAn tree and annotation with export2graphlan.
+keywords:
+- visualization
+- taxonomy
+- metagenomics
+tools:
+- export2graphlan:
+    description: Export taxonomic profiles to GraPhlAn.
+    homepage: https://github.com/biobakery/export2graphlan
+input:
+- meta:
+    type: map
+    description: Sample meta map
+- taxonomy:
+    type: file
+    description: Taxonomy abundance table (e.g. MetaPhlAn profile)
+output:
+- tree:
+    type: file
+    description: GraPhlAn tree XML
+- annotation:
+    type: file
+    description: GraPhlAn annotation XML
+authors:
+- '@dengxsh'
+maintainers:
+- '@dengxsh'

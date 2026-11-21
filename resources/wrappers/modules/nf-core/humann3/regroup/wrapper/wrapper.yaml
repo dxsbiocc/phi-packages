@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'groups' exposed as required option; confirm whether a safe default exists; standalone path 'utility_db' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/humann3-regroup
+name: humann3 regroup
+summary: Regrouping genes to other functional categories
+params:
+  input:
+    kind: input
+    type: path
+    required: true
+    description: Tab separated abundance file of HUMAnN3
+  groups:
+    kind: option
+    type: string
+    required: true
+    description: Regroup abundance values to a functional category (e.g.
+  utility_db:
+    kind: input
+    type: path
+    required: false
+    description: HUMAnN utility mapping database directory
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to humann3.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  regroup:
+    type: directory
+    path: ${outdir}/humann3_regroup
+    primary: true

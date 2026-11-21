@@ -1,0 +1,13 @@
+{
+  "vcf": null,
+  "custom_files": null,
+  "fasta": null,
+  "genome": "GRCh38",
+  "species": "homo_sapiens",
+  "cache_version": "110",
+  "cache": null,
+  "extra_files": null,
+  "gtf": null,
+  "gtf_tbi": null,
+  "outdir": "results"
+}

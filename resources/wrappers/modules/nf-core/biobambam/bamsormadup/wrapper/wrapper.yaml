@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'fai' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/biobambam-bamsormadup
+name: biobambam bamsormadup
+summary: Parallel sorting and duplicate marking
+params:
+  bams:
+    kind: input
+    type: path
+    required: true
+    description: List containing 1 or more bam files
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Reference genome in FASTA format (optional)
+  fai:
+    kind: input
+    type: path
+    required: false
+    description: Reference genome in FASTA index format (optional)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to biobambam.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bam:
+    type: directory
+    path: ${outdir}/biobambam_bamsormadup
+    primary: true

@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'vcf_rds' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/tinc
+name: tinc
+summary: TINC is a package to determine the contamination of tumour DNA in a matched normal sample.
+params:
+  cna_rds:
+    kind: input
+    type: path
+    required: true
+    description: RDS file with copy number segments and purity
+  vcf_rds:
+    kind: input
+    type: path
+    required: false
+    description: RDS file with vcf calls from tumour and normal sample
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  rds:
+    type: directory
+    path: ${outdir}/tinc
+    primary: true

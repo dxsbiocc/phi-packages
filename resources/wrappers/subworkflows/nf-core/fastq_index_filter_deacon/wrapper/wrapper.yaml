@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
+id: nf-core/subworkflows/fastq-index-filter-deacon
+name: fastq index filter deacon
+summary: Decontaminate FastQ files by filtering reads that match a reference genome using Deacon
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input fasta for ch_fasta_reads.
+  reads:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion reads for ch_fasta_reads.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/fastq_index_filter_deacon
+    primary: true

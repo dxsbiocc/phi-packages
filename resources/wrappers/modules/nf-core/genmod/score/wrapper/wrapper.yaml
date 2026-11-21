@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'fam' combined cartesian-style; verify if per-sample pairing is required; companion input 'score_config' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/genmod-score
+name: genmod score
+summary: Score the variants of a vcf based on their annotation
+params:
+  input_vcf:
+    kind: input
+    type: path
+    required: true
+    description: vcf file
+  fam:
+    kind: input
+    type: path
+    required: false
+    description: PED file with family information
+  score_config:
+    kind: input
+    type: path
+    required: false
+    description: rank model config file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to genmod.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcf:
+    type: directory
+    path: ${outdir}/genmod_score
+    primary: true

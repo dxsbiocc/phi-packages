@@ -1,0 +1,8 @@
+{
+  "query_vcf": null,
+  "truth_vcf": null,
+  "bed": null,
+  "wittyer_config": null,
+  "args": "",
+  "outdir": "results"
+}

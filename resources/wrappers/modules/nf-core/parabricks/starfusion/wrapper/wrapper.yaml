@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/parabricks-starfusion
+name: parabricks starfusion
+summary: This tool uses the GPU to perform fusion calling for RNA-Seq samples, utilizing the STAR-Fusion
+  algorithm.
+params:
+  chimeric_junction:
+    kind: input
+    type: path
+    required: true
+    description: Path to the Chimeric.out.junction file produced by STAR
+  genome_lib_dir:
+    kind: input
+    type: path
+    required: true
+    description: Path to a genome resource library directory.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to parabricks.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fusions:
+    type: directory
+    path: ${outdir}/parabricks_starfusion
+    primary: true

@@ -1,0 +1,14 @@
+{
+  "dpsi": null,
+  "psivec": null,
+  "significance_threshold": null,
+  "dpsi_threshold": null,
+  "maximum_distance": null,
+  "metric": null,
+  "separation": null,
+  "min_number_events": null,
+  "groups": null,
+  "clustering_method": null,
+  "args": "",
+  "outdir": "results"
+}

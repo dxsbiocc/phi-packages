@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'reference' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/transrate
+name: transrate
+summary: Reference-free and reference-based quality assessment of de novo transcriptome assemblies.
+params:
+  assembly:
+    kind: input
+    type: path
+    required: true
+    description: Transcriptome assembly FASTA file to be evaluated
+  reference:
+    kind: input
+    type: path
+    required: false
+    description: Optional reference proteome or transcriptome FASTA file, to enable reference-based comparative
+      metrics.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to transrate.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  assemblies:
+    type: directory
+    path: ${outdir}/transrate
+    primary: true

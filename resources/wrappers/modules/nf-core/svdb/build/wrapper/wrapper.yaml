@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'input_type' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/svdb-build
+name: svdb build
+summary: Build a structural variant database
+params:
+  input:
+    kind: input
+    type: path
+    required: true
+    description: Input VCF file(s) or folder
+  input_type:
+    kind: option
+    type: string
+    required: true
+    description: input type
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to svdb.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  db:
+    type: directory
+    path: ${outdir}/svdb_build
+    primary: true

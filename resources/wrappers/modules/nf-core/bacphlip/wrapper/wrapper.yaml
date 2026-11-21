@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/bacphlip
+name: bacphlip
+summary: A bacteriophage lifestyle prediction tool
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: FASTA file containing phage contigs/scaffolds/chromosomes (if it is a multi-FASTA file
+      be sure to add the `--multi_fasta` argument)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to bacphlip.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bacphlip_results:
+    type: directory
+    path: ${outdir}/bacphlip
+    primary: true

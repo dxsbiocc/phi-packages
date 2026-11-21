@@ -1,0 +1,7 @@
+{
+  "tumor_bam": null,
+  "tumor_bam_index": null,
+  "models": null,
+  "args": "",
+  "outdir": "results"
+}

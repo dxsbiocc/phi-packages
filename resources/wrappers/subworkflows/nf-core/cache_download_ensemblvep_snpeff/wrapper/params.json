@@ -1,0 +1,8 @@
+{
+  "vep_assembly": "GRCh38",
+  "vep_species": "homo_sapiens",
+  "vep_cache_version": "110",
+  "snpeff_db": "GRCh38.99",
+  "preflight_check": false,
+  "outdir": "results"
+}

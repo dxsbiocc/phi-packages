@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'fasta' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/concoct-concoct
+name: concoct concoct
+summary: Unsupervised binning of metagenomic contigs by using nucleotide composition - kmer frequencies
+  - and coverage data for multiple samples
+params:
+  coverage_file:
+    kind: input
+    type: path
+    required: true
+    description: Subcontig coverage TSV table (typically generated with concoct_coverage_table.py)
+  fasta:
+    kind: input
+    type: path
+    required: false
+    description: FASTA file containing subcontigs (typically generated with cutup_fasta.py)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to concoct.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  args_txt:
+    type: directory
+    path: ${outdir}/concoct_concoct
+    primary: true

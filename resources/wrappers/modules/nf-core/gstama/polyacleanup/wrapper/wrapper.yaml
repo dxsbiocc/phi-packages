@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/gstama-polyacleanup
+name: gstama polyacleanup
+summary: Helper script, remove remaining polyA sequences from Full Length Non Chimeric reads (Pacbio isoseq3)
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Full Length Non Chimeric reads in fasta format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to gstama.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fasta:
+    type: directory
+    path: ${outdir}/gstama_polyacleanup
+    primary: true

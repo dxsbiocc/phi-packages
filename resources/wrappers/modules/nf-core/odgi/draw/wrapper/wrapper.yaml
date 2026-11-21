@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'lay' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/odgi-draw
+name: odgi draw
+summary: Draw previously-determined 2D layouts of the graph with diverse annotations.
+params:
+  graph:
+    kind: input
+    type: path
+    required: true
+    description: Pangenome graph in GFA v1.0 format or ODGI binary format
+  lay:
+    kind: input
+    type: path
+    required: false
+    description: 2D layout from 'odgi layout' in LAY binary format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to odgi.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  png:
+    type: directory
+    path: ${outdir}/odgi_draw
+    primary: true

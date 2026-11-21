@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/vsearch-cluster
+name: vsearch cluster
+summary: Cluster sequences using a single-pass, greedy centroid-based clustering algorithm.
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Sequences to cluster in FASTA format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to vsearch.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  aln:
+    type: directory
+    path: ${outdir}/vsearch_cluster
+    primary: true

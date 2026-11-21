@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'kmer_size' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/khmer-uniquekmers
+name: khmer uniquekmers
+summary: In-memory nucleotide sequence k-mer counting, filtering, graph traversal and more
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: fasta file
+  kmer_size:
+    kind: option
+    type: integer
+    required: true
+    description: k-mer size to use
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to khmer.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  report:
+    type: directory
+    path: ${outdir}/khmer_uniquekmers
+    primary: true

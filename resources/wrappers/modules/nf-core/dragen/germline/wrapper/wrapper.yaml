@@ -1,0 +1,228 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'sex' exposed as required option; confirm whether a safe default exists; standalone path 'cnv_exclude_bed' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'cnv_segmentation_bed' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'cnv_target_bed' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'cram_reference' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'ora_reference' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'repeat_genotype_ref_fasta' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'sv_call_regions_bed' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'sv_exclusion_bed' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'vc_combine_phased_variants_distance_bed' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'vc_excluded_regions_bed' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'vc_log_bed' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'vc_roh_blacklist_bed' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'vc_snp_error_cal_bed' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'vc_target_bed' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'vntr_catalog_bed' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/dragen-germline
+name: dragen germline
+summary: The DRAGEN DNA Germline Pipeline accelerates the secondary analysis of NGS data by harnessing
+  the tremendous power available on the DRAGEN Platform.
+params:
+  input:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: FASTQ (may be gzipped), ora, BAM or CRAM files
+  sex:
+    kind: option
+    type: string
+    required: true
+    description: Sample's sex.
+  checkfingerprint_expected_vcf:
+    kind: input
+    type: path
+    required: true
+    description: Input expected genotypes (VCF) for checkfingerprint comparison
+  cnv_combined_counts:
+    kind: input
+    type: path
+    required: true
+    description: Specify combined PON file
+  cnv_exclude_bed:
+    kind: input
+    type: path
+    required: false
+    description: Regions to exclude for CNV processing
+  cnv_population_b_allele_vcf:
+    kind: input
+    type: path
+    required: true
+    description: CNV population SNP input VCF file
+  cnv_segmentation_bed:
+    kind: input
+    type: path
+    required: false
+    description: Intervals to limit segmentation to
+  cnv_target_bed:
+    kind: input
+    type: path
+    required: false
+    description: CNV target BED file
+  cram_reference:
+    kind: input
+    type: path
+    required: false
+    description: Reference file in FASTA format (only used for decompression)
+  dbsnp:
+    kind: input
+    type: path
+    required: true
+    description: Variant annotation database VCF (or .vcf.gz) file
+  fastqc_adapter_file:
+    kind: input
+    type: path
+    required: true
+    description: FASTA file containing adapter sequences
+  fastqc_kmer_file:
+    kind: input
+    type: path
+    required: true
+    description: FASTA file containing kmers of interest
+  ora_reference:
+    kind: input
+    type: path
+    required: false
+    description: Path to the directory that contains the compression reference and index file
+  qc_coverage_region:
+    kind: input
+    type: path
+    required: true
+    description: bed files to report coverage on, max 3
+  qc_cross_cont_vcf:
+    kind: input
+    type: path
+    required: true
+    description: Variant file (.vcf/.vcf.gz) with population allele frequencies to estimate sample contamination
+  ref_dir:
+    kind: input
+    type: path
+    required: true
+    description: Directory with reference and hash tables
+  repeat_genotype_ref_fasta:
+    kind: input
+    type: path
+    required: false
+    description: FASTA file containing repeat genotypes
+  repeat_genotype_specs:
+    kind: input
+    type: path
+    required: true
+    description: Repeat variant catalog file
+  sv_call_regions_bed:
+    kind: input
+    type: path
+    required: false
+    description: BED file containing the set of regions to call (optionally gzip or bgzip compressed)
+  sv_exclusion_bed:
+    kind: input
+    type: path
+    required: false
+    description: BED file containing the set of exclusion regions for SV calling (optionally gzip or bzip
+      compressed)
+  sv_forcegt_vcf:
+    kind: input
+    type: path
+    required: true
+    description: Specify a VCF of structural variants for forced genotyping, meaning these variants will
+      be scored and emitted in the output VCF even if not found in the sample data.
+  sv_systematic_noise:
+    kind: input
+    type: path
+    required: true
+    description: Systematic noise BEDPE file containing the set of noisy paired regions for SV calling
+      (optionally gzip or bzip compressed).
+  trim_adapter_read:
+    kind: input
+    type: path
+    required: true
+    description: Files of adapter sequences to trim from the 3' end of read 1 and 2
+  trim_adapter_read_5prime:
+    kind: input
+    type: path
+    required: true
+    description: FASTA files that contains adapter sequences to trim from the 5' end of Read 1 and 2;
+      The sequences should be in reverse order (with respect to their appearance in the FASTQ) but not
+      complemented
+  variant_annotation_data:
+    kind: input
+    type: path
+    required: true
+    description: Location of downloaded Nirvana annotation files
+  vc_combine_phased_variants_distance_bed:
+    kind: input
+    type: path
+    required: false
+    description: Combine variants in the same phase set bed file.
+  vc_excluded_regions_bed:
+    kind: input
+    type: path
+    required: false
+    description: Excluded regions bed specifying where variants will be hard filtered
+  vc_forcegt_vcf:
+    kind: input
+    type: path
+    required: true
+    description: List of small variants to force genotype.
+  vc_log_bed:
+    kind: input
+    type: path
+    required: false
+    description: Log information for regions in this BED file
+  vc_mapping_metrics:
+    kind: input
+    type: path
+    required: true
+    description: File containing mapping metrics
+  vc_ml_dir:
+    kind: input
+    type: path
+    required: true
+    description: directory containing machine learning package
+  vc_ntd_error_params:
+    kind: input
+    type: path
+    required: true
+    description: Params file for per-nucleotide error rate calibration
+  vc_roh_blacklist_bed:
+    kind: input
+    type: path
+    required: false
+    description: Blacklist BED file for ROH
+  vc_snp_error_cal_bed:
+    kind: input
+    type: path
+    required: false
+    description: BED file containing regions from which to estimate nucleotide substitution biases
+  vc_systematic_noise:
+    kind: input
+    type: path
+    required: true
+    description: Site specific noise file.
+  vc_target_bed:
+    kind: input
+    type: path
+    required: false
+    description: Target BED file
+  vd_eh_vcf:
+    kind: input
+    type: path
+    required: true
+    description: Expansion hunter vcf (optionally .gzip compressed)
+  vd_small_variant_vcf:
+    kind: input
+    type: path
+    required: true
+    description: Small variant vcf (optionally .gzip compressed)
+  vd_sv_vcf:
+    kind: input
+    type: path
+    required: true
+    description: Structural variant vcf (optionally .gzip compressed)
+  vntr_catalog_bed:
+    kind: input
+    type: path
+    required: false
+    description: BED file specifying the TR regions for the VNTR Caller to act upon
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to dragen.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  replay_json:
+    type: directory
+    path: ${outdir}/dragen
+    primary: true

@@ -1,0 +1,12 @@
+{
+  "assembly": null,
+  "out_fmt": null,
+  "genome_size": null,
+  "target": null,
+  "agpfile": null,
+  "include_bed": null,
+  "exclude_bed": null,
+  "instructions": null,
+  "args": "",
+  "outdir": "results"
+}

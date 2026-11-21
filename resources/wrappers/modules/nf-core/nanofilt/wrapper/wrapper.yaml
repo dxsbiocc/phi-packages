@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/nanofilt
+name: nanofilt
+summary: Filtering and trimming of Oxford Nanopore Sequencing data
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Gunziped fastq files from Oxford Nanopore sequencing.
+  summary_file:
+    kind: input
+    type: path
+    required: true
+    description: Optional - Albacore or guppy summary file for quality scores
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to nanofilt.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  filtreads:
+    type: directory
+    path: ${outdir}/nanofilt
+    primary: true

@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/minibwa-map
+name: minibwa map
+summary: Align fastq reads to a fasta reference using minibwa
+params:
+  reads:
+    kind: input
+    type: path
+    required: true
+    description: List of input FastQ files of size 1 and 2 for single-end and paired-end data, respectively.
+  index:
+    kind: input
+    type: path
+    required: true
+    description: minibwa genome index files
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Reference genome in FASTA format
+  sort_bam:
+    kind: option
+    type: boolean
+    required: false
+    description: use samtools sort (true) or samtools view (false)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to minibwa.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  aligned:
+    type: directory
+    path: ${outdir}/minibwa_map
+    primary: true

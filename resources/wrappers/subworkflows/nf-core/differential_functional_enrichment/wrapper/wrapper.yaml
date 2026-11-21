@@ -1,0 +1,87 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites; val input 'input_file' exposed as required option; confirm whether a safe default exists; val input 'genesets_file' exposed as required option; confirm whether a safe default exists; val input 'background_file' exposed as required option; confirm whether a safe default exists; val input 'method_to_run' exposed as required option; confirm whether a safe default exists; val input 'samples_sheet' exposed as required option; confirm whether a safe default exists; val input 'features_sheet' exposed as required option; confirm whether a safe default exists; val input 'features_id' exposed as required option; confirm whether a safe default exists; val input 'features_symbol' exposed as required option; confirm whether a safe default exists
+id: nf-core/subworkflows/differential-functional-enrichment
+name: differential functional enrichment
+summary: Run functional analysis on differential abundance analysis output
+params:
+  input_file:
+    kind: option
+    type: string
+    required: true
+    description: Option input_file.
+  genesets_file:
+    kind: option
+    type: string
+    required: true
+    description: Option genesets_file.
+  background_file:
+    kind: option
+    type: string
+    required: true
+    description: Option background_file.
+  method_to_run:
+    kind: option
+    type: string
+    required: true
+    description: Option method_to_run.
+  meta_contrast:
+    kind: input
+    type: path
+    required: true
+    description: Input meta_contrast for ch_contrasts.
+  variable:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion variable for ch_contrasts.
+  reference:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion reference for ch_contrasts.
+  target:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion target for ch_contrasts.
+  formula:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion formula for ch_contrasts.
+  comparison:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion comparison for ch_contrasts.
+  samples_sheet:
+    kind: option
+    type: string
+    required: true
+    description: Option samples_sheet.
+  features_sheet:
+    kind: option
+    type: string
+    required: true
+    description: Option features_sheet.
+  features_id:
+    kind: option
+    type: string
+    required: true
+    description: Option features_id.
+  features_symbol:
+    kind: option
+    type: string
+    required: true
+    description: Option features_symbol.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/differential_functional_enrichment
+    primary: true

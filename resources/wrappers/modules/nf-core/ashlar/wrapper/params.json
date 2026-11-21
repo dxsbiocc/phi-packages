@@ -1,0 +1,7 @@
+{
+  "images": null,
+  "opt_dfp": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/imaging/ome-tiff/cycif-tonsil-dfp.ome.tif",
+  "opt_ffp": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/imaging/ome-tiff/cycif-tonsil-ffp.ome.tif",
+  "args": "",
+  "outdir": "results"
+}

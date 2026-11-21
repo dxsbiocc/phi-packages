@@ -1,0 +1,9 @@
+{
+  "reads": null,
+  "fasta": null,
+  "fai": null,
+  "bwameth_index": null,
+  "skip_deduplication": false,
+  "use_gpu": false,
+  "outdir": "results"
+}

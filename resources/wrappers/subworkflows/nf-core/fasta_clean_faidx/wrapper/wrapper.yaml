@@ -1,0 +1,40 @@
+# Agent-facing wrapper adapter for the vendored fasta_clean_faidx subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+id: nf-core/subworkflows/fasta-clean-faidx
+name: "Clean + index FASTA"
+summary: "Trim/renamed a reference FASTA and build fai, chromsizes, dict and sequence stats."
+
+params:
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: "Reference FASTA to clean and index."
+  replace_dots:
+    kind: option
+    type: boolean
+    required: false
+    description: "Replace dots in headers with underscores."
+  get_chromsizes:
+    kind: option
+    type: boolean
+    required: false
+    description: "Emit a chromsizes file."
+  get_dict:
+    kind: option
+    type: boolean
+    required: false
+    description: "Emit a sequence dictionary."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/fasta_clean_faidx'
+    primary: true

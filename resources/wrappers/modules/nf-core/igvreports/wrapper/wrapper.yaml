@@ -1,0 +1,49 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'tracks' combined cartesian-style; verify if per-sample pairing is required; companion input 'tracks_indices' combined cartesian-style; verify if per-sample pairing is required; companion input 'fai' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/igvreports
+name: igvreports
+summary: A Python application to generate self-contained HTML reports for variant review and other genomic
+  applications
+params:
+  sites:
+    kind: input
+    type: path
+    required: true
+    description: VCF, BED, MAF, BEDPE, or generic tab delimited file of genomic variant sites
+  tracks:
+    kind: input
+    type: path
+    required: false
+    description: List of any set of files of the types that IGV can display, eg BAM/CRAM, GTF/GFF, VCF,
+      BED, etc
+  tracks_indices:
+    kind: input
+    type: path
+    required: false
+    description: List of indices for the tracks
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Reference fasta file
+  fai:
+    kind: input
+    type: path
+    required: false
+    description: Reference fasta file index
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to igvreports.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  report:
+    type: directory
+    path: ${outdir}/igvreports
+    primary: true

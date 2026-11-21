@@ -1,0 +1,76 @@
+# Agent-facing wrapper adapter for the vendored vcf_impute_minimac4 subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+# REVIEW: single-region adapter; multi-region scatter needs curation
+id: nf-core/subworkflows/vcf-impute-minimac4
+name: "Impute VCF (Minimac4)"
+summary: "Impute a VCF with Minimac4 against a reference panel (VCF or MSAV)."
+
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: "Input VCF."
+  vcf_index:
+    kind: input
+    type: path
+    required: true
+    description: "Input VCF index."
+  panel_vcf:
+    kind: input
+    type: path
+    required: true
+    description: "Reference panel VCF/BCF or MSAV."
+  panel_index:
+    kind: input
+    type: path
+    required: true
+    description: "Reference panel index."
+  sites_vcf:
+    kind: input
+    type: path
+    required: true
+    description: "Sites-to-impute VCF."
+  sites_index:
+    kind: input
+    type: path
+    required: true
+    description: "Sites VCF index."
+  map:
+    kind: input
+    type: path
+    required: true
+    description: "Genetic map file."
+  region:
+    kind: option
+    type: string
+    required: true
+    description: "Region to impute."
+  panel_id:
+    kind: option
+    type: string
+    required: false
+    description: "Panel id for meta."
+  chr:
+    kind: option
+    type: string
+    required: true
+    description: "Chromosome."
+  sample_id:
+    kind: option
+    type: string
+    required: false
+    description: "Sample id."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/vcf_impute_minimac4'
+    primary: true

@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/genin2
+name: genin2
+summary: Genin2 is a lightining-fast bioinformatic tool to predict genotypes for H5 viruses belonging
+  to the European clade 2.3.4.4b.
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input sequence in FASTA format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to genin2.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tsv:
+    type: directory
+    path: ${outdir}/genin2
+    primary: true

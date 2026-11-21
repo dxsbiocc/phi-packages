@@ -1,0 +1,22 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'taxon' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/gapseq-requestdb
+name: gapseq requestdb
+summary: Download gapseq reference sequence database for metabolic pathway prediction
+params:
+  taxon:
+    kind: option
+    type: string
+    required: true
+    description: Taxonomic group for database download (Bacteria or Archaea)
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  db:
+    type: directory
+    path: ${outdir}/gapseq_requestdb
+    primary: true

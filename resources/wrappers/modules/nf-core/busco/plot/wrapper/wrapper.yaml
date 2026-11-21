@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: glob input 'short_summary_json' collected into one staged list; verify staging layout
+id: nf-core/modules/busco-plot
+name: busco plot
+summary: BUSCO summary plot generation using the built-in 'busco --plot' command
+params:
+  short_summary_json:
+    kind: input
+    type: path
+    required: true
+    description: One or more short summary json files from BUSCO
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to busco.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  png:
+    type: directory
+    path: ${outdir}/busco_plot
+    primary: true

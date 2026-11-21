@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/gt-gff3
+name: gt gff3
+summary: GenomeTools gt-gff3 utility to parse, possibly transform, and output GFF3 files
+params:
+  gff3:
+    kind: input
+    type: path
+    required: true
+    description: Input gff3 file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to gt.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gt_gff3:
+    type: directory
+    path: ${outdir}/gt_gff3
+    primary: true

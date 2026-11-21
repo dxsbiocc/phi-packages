@@ -1,0 +1,14 @@
+{
+  "reads": null,
+  "index": null,
+  "fasta": null,
+  "fai": null,
+  "mismatch_parameter": null,
+  "double_stranded_library": null,
+  "five_prime_overhang": null,
+  "three_prime_overhang": null,
+  "deam_rate_double_stranded": null,
+  "deam_rate_single_stranded": null,
+  "indel_rate": null,
+  "outdir": "results"
+}

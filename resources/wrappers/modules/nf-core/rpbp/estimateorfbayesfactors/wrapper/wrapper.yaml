@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/rpbp-estimateorfbayesfactors
+name: rpbp estimateorfbayesfactors
+summary: Score every candidate ORF for evidence of active translation.
+params:
+  profiles:
+    kind: input
+    type: path
+    required: true
+    description: Per-ORF P-site profile matrix from `rpbp/extractorfprofiles`.
+  orfs_genomic_bed:
+    kind: input
+    type: path
+    required: true
+    description: Per-ORF genomic BED from `rpbp/preparegenome`.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to rpbp.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bayes_factors:
+    type: directory
+    path: ${outdir}/rpbp_estimateorfbayesfactors
+    primary: true

@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/porechop-abi
+name: porechop abi
+summary: Extension of Porechop whose purpose is to process adapter sequences in ONT reads.
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: fastq/fastq.gz file
+  custom_adapters:
+    kind: input
+    type: path
+    required: true
+    description: Text file containing custom adapters
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to porechop.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  reads:
+    type: directory
+    path: ${outdir}/porechop_abi
+    primary: true

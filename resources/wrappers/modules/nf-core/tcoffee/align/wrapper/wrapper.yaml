@@ -1,0 +1,47 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'accessory_information' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/tcoffee-align
+name: tcoffee align
+summary: Aligns sequences using T_COFFEE
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input sequences in FASTA format
+  tree:
+    kind: input
+    type: path
+    required: true
+    description: Input guide tree in Newick format
+  template:
+    kind: input
+    type: path
+    required: true
+    description: T_coffee template file that maps sequences to the accessory information files to be used.
+  accessory_information:
+    kind: input
+    type: path
+    required: false
+    description: Accessory files to be used in the alignment.
+  compress:
+    kind: option
+    type: boolean
+    required: false
+    description: Flag representing whether the output MSA should be compressed.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to tcoffee.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  alignment:
+    type: directory
+    path: ${outdir}/tcoffee_align
+    primary: true

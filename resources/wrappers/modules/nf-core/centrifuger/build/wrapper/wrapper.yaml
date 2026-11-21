@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: glob input 'references' collected into one staged list; verify staging layout
+id: nf-core/modules/centrifuger-build
+name: centrifuger build
+summary: Build centrifuger database for taxonomic profiling
+params:
+  references:
+    kind: input
+    type: path
+    required: true
+    description: One or more reference genome sequence files in FASTA format.
+  taxonomy_nodes:
+    kind: input
+    type: path
+    required: true
+    description: File describing parent-child relationships of a taxonomic tree in NCBI nodes.dmp format
+  taxonomy_names:
+    kind: input
+    type: path
+    required: true
+    description: File describing individual members of a taxonomic tree in NCBI names.dmp format
+  conversion_table:
+    kind: input
+    type: path
+    required: true
+    description: 'Required: a tab-seperated file, mapping sequence IDs to taxonomy IDs.'
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to centrifuger.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  db:
+    type: directory
+    path: ${outdir}/centrifuger_build
+    primary: true

@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/decoupler-decoupler
+name: decoupler decoupler
+summary: decoupler is a package containing different statistical methods to extract biological activities
+  from omics data within a unified framework.
+params:
+  mat:
+    kind: input
+    type: path
+    required: true
+    description: Path to the matrix file (e.g.
+  net:
+    kind: input
+    type: path
+    required: true
+    description: The prior knowledge network linking the features of the expression matrix to a process/component
+      (e.g.
+  annot:
+    kind: input
+    type: path
+    required: true
+    description: Annotation file in TSV format containing gene ID to gene name mappings.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  dc_estimate:
+    type: directory
+    path: ${outdir}/decoupler_decoupler
+    primary: true

@@ -1,0 +1,8 @@
+{
+  "fasta_unaligned": null,
+  "fasta_aligned": null,
+  "tree": null,
+  "compress": false,
+  "args": "",
+  "outdir": "results"
+}

@@ -1,0 +1,72 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'input_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'intervals' combined cartesian-style; verify if per-sample pairing is required; companion input 'recal_table' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/sentieon-haplotyper
+name: sentieon haplotyper
+summary: Runs Sentieon's haplotyper for germline variant calling.
+params:
+  input:
+    kind: input
+    type: path
+    required: true
+    description: BAM/CRAM file from alignment
+  input_index:
+    kind: input
+    type: path
+    required: false
+    description: BAI/CRAI file from alignment
+  intervals:
+    kind: input
+    type: path
+    required: false
+    description: Bed file with the genomic regions included in the library (optional)
+  recal_table:
+    kind: input
+    type: path
+    required: false
+    description: Recalibration table from sentieon/qualcal (optional)
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Genome fasta file
+  fai:
+    kind: input
+    type: path
+    required: true
+    description: The index of the FASTA reference.
+  dbsnp:
+    kind: input
+    type: path
+    required: true
+    description: VCF file containing known sites (optional)
+  dbsnp_tbi:
+    kind: input
+    type: path
+    required: true
+    description: VCF index of dbsnp (optional)
+  emit_vcf:
+    kind: option
+    type: boolean
+    required: false
+    description: Controls the vcf output from the haplotyper.
+  emit_gvcf:
+    kind: option
+    type: boolean
+    required: false
+    description: If true, the haplotyper will output a gvcf
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to sentieon.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcf:
+    type: directory
+    path: ${outdir}/sentieon_haplotyper
+    primary: true

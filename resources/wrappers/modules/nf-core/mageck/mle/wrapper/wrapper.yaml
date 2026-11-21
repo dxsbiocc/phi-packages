@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/mageck-mle
+name: mageck mle
+summary: maximum-likelihood analysis of gene essentialities computation
+params:
+  count_table:
+    kind: input
+    type: path
+    required: true
+    description: Count table file.
+  design_matrix:
+    kind: input
+    type: path
+    required: true
+    description: Design matrix describing the samples and conditions
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to mageck.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gene_summary:
+    type: directory
+    path: ${outdir}/mageck_mle
+    primary: true

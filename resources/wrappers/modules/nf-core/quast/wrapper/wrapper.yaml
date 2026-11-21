@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/quast
+name: quast
+summary: Quality Assessment Tool for Genome Assemblies
+params:
+  consensus:
+    kind: input
+    type: path
+    required: true
+    description: Fasta file containing the assembly of interest
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: The genome assembly to be evaluated.
+  gff:
+    kind: input
+    type: path
+    required: true
+    description: The genome GFF file.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to quast.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/quast
+    primary: true

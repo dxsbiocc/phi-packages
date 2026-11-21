@@ -1,0 +1,38 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'read_length' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/rmats-prep
+name: rmats prep
+summary: MATS is a computational tool to detect differential alternative splicing events from RNA-Seq
+  data.
+params:
+  genome_bam:
+    kind: input
+    type: path
+    required: true
+    description: BAM file aligned to the genome
+  reference_gtf:
+    kind: input
+    type: path
+    required: true
+    description: Annotation GTF file
+  read_length:
+    kind: option
+    type: integer
+    required: true
+    description: Read length in bases
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to rmats.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  rmats:
+    type: directory
+    path: ${outdir}/rmats_prep
+    primary: true

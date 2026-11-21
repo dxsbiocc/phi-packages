@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/dshbio-filtergff3
+name: dshbio filtergff3
+summary: Filter features in gzipped GFF3 format
+params:
+  gff3:
+    kind: input
+    type: path
+    required: true
+    description: Features in gzipped GFF3 format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to dshbio.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gff3:
+    type: directory
+    path: ${outdir}/dshbio_filtergff3
+    primary: true

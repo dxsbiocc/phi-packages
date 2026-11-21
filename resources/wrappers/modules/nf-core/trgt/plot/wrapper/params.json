@@ -1,0 +1,12 @@
+{
+  "bam": null,
+  "bai": null,
+  "vcf": null,
+  "tbi": null,
+  "repeat_id": null,
+  "fasta": null,
+  "fai": null,
+  "repeats": null,
+  "args": "",
+  "outdir": "results"
+}

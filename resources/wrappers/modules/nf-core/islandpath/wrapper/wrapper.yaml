@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/islandpath
+name: islandpath
+summary: Genomic island prediction in bacterial and archaeal genomes
+params:
+  genome:
+    kind: input
+    type: path
+    required: true
+    description: Genome file in .gbk or .embl format.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to islandpath.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gff:
+    type: directory
+    path: ${outdir}/islandpath
+    primary: true

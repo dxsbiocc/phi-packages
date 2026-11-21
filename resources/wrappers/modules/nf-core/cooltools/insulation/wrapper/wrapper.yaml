@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/cooltools-insulation
+name: cooltools insulation
+summary: Calculate the diamond insulation scores and call insulating boundaries
+params:
+  cool:
+    kind: input
+    type: path
+    required: true
+    description: cool file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to cooltools.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tsv:
+    type: directory
+    path: ${outdir}/cooltools_insulation
+    primary: true

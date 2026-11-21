@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/tcoffee-tcs
+name: tcoffee tcs
+summary: Compute the TCS score for a MSA or for a MSA plus a library file.
+params:
+  msa:
+    kind: input
+    type: path
+    required: true
+    description: fasta file containing the alignment to be evaluated.
+  lib:
+    kind: input
+    type: path
+    required: true
+    description: lib file containing the alignment library of the given msa.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tcs:
+    type: directory
+    path: ${outdir}/tcoffee_tcs
+    primary: true

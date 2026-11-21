@@ -1,0 +1,10 @@
+{
+  "bam": "https://raw.githubusercontent.com/nf-core/test-datasets/refs/heads/modules/data/genomics/sarscov2/genome/genome.fasta",
+  "bai": null,
+  "bqsr_table": null,
+  "intervals": null,
+  "fasta": null,
+  "output_fmt": null,
+  "args": "",
+  "outdir": "results"
+}

@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: glob input 'fasta' collected into one staged list; verify staging layout
+id: nf-core/modules/chewbbaca-createschema
+name: chewbbaca createschema
+summary: Create a schema to determine the allelic profiles of a genome
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: One or multiple FASTA files to create schema from
+  prodigal_tf:
+    kind: input
+    type: path
+    required: true
+    description: File containing the prodigal training file
+  cds:
+    kind: input
+    type: path
+    required: true
+    description: File containing the prodigal cds file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to chewbbaca.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  schema:
+    type: directory
+    path: ${outdir}/chewbbaca_createschema
+    primary: true

@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'db' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/hifiadapterfilt-hifiadapterfilt
+name: hifiadapterfilt hifiadapterfilt
+summary: Remove adapter sequences from PacBio HiFi (CCS) reads using BLAST-based detection.
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: PacBio HiFi reads in BAM or FASTQ (compressed or uncompressed) format
+  db:
+    kind: input
+    type: path
+    required: false
+    description: Directory containing the pre-built BLAST nucleotide database for PacBio adapter sequences,
+      as produced by the hifiadapterfilt/downloaddb module.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to hifiadapterfilt.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fastq:
+    type: directory
+    path: ${outdir}/hifiadapterfilt_hifiadapterfilt
+    primary: true

@@ -1,0 +1,6 @@
+{
+  "fasta": null,
+  "altliftover": null,
+  "aligner": "bwamem2",
+  "outdir": "results"
+}

@@ -1,0 +1,53 @@
+# Agent-facing wrapper adapter for the vendored multiqcsav module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+# Manually wired: exotic staging pattern.
+id: nf-core/modules/multiqcsav
+name: multiqcsav
+summary: Generate a MultiQC report from an Illumina sequencing run (SAV InterOp data).
+params:
+  run_dir:
+    kind: input
+    type: path
+    required: true
+    description: Illumina run directory containing RunInfo.xml and InterOp/*.bin.
+  extra_multiqc_files:
+    kind: input
+    type: path
+    required: false
+    description: Optional directory of extra files for MultiQC (e.g. FastQC zips).
+  multiqc_config:
+    kind: input
+    type: file
+    required: false
+    description: Optional MultiQC config YAML.
+  multiqc_logo:
+    kind: input
+    type: file
+    required: false
+    description: Optional custom report logo.
+  replace_names:
+    kind: input
+    type: file
+    required: false
+    description: Optional MultiQC sample-name replacement TSV.
+  sample_names:
+    kind: input
+    type: file
+    required: false
+    description: Optional MultiQC sample-name cleaning file.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to multiqcsav.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/multiqcsav
+    primary: true

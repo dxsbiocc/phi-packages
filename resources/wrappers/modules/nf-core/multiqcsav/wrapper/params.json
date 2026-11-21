@@ -1,0 +1,10 @@
+{
+  "run_dir": null,
+  "extra_multiqc_files": null,
+  "multiqc_config": "https://raw.githubusercontent.com/nf-core/seqinspector/1.0.0/assets/multiqc_config.yml",
+  "multiqc_logo": null,
+  "replace_names": null,
+  "sample_names": null,
+  "args": "",
+  "outdir": "results"
+}

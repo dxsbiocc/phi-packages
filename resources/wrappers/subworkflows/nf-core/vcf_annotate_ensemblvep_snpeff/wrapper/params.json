@@ -1,0 +1,18 @@
+{
+  "vcf": null,
+  "vcf_tbi": null,
+  "custom_files": null,
+  "fasta": null,
+  "vep_genome": "GRCh38",
+  "vep_species": "homo_sapiens",
+  "vep_cache_version": "110",
+  "vep_cache": null,
+  "vep_extra_files": null,
+  "snpeff_db": "GRCh38.99",
+  "snpeff_cache": null,
+  "tools_to_use": "ensemblvep,snpeff",
+  "sites_per_chunk": 10000,
+  "vep_gtf": null,
+  "vep_gtf_tbi": null,
+  "outdir": "results"
+}

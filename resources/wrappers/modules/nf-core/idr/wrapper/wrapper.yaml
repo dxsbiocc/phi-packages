@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'peak_type' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/idr
+name: idr
+summary: Measures reproducibility of ChIP-seq, ATAC-seq peaks using IDR (Irreproducible Discovery Rate)
+params:
+  peaks:
+    kind: input
+    type: path
+    required: true
+    description: BED, narrowPeak or broadPeak files of replicates
+  peak_type:
+    kind: option
+    type: string
+    required: true
+    description: Type of peak file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to idr.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  idr:
+    type: directory
+    path: ${outdir}/idr
+    primary: true

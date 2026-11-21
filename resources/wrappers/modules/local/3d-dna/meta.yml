@@ -1,0 +1,33 @@
+name: 3d-dna
+description: Scaffold a draft genome assembly with 3D-DNA using Hi-C contact maps.
+keywords:
+- scaffolding
+- hi-c
+- genome assembly
+tools:
+- 3d-dna:
+    description: The 3D-DNA scaffolding pipeline.
+    homepage: https://github.com/aidenlab/3d-dna
+input:
+- meta:
+    type: map
+    description: Sample meta map
+- fasta:
+    type: file
+    description: Draft assembly FASTA
+    pattern: '*.{fasta,fa,fna}'
+- mnd:
+    type: file
+    description: Merged nodup Hi-C contacts (merged_nodups.txt from Juicer)
+    pattern: '*.{txt,mnd}'
+output:
+- final_fasta:
+    type: file
+    description: Final scaffolded FASTA
+- assembly:
+    type: file
+    description: Final assembly FASTA
+authors:
+- '@dengxsh'
+maintainers:
+- '@dengxsh'

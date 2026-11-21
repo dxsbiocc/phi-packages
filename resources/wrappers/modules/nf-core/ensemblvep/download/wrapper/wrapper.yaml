@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'assembly' exposed as required option; confirm whether a safe default exists; val input 'species' exposed as required option; confirm whether a safe default exists; val input 'cache_version' exposed as required option; confirm whether a safe default exists; val-only tuple wired as a single sample; verify multi-sample semantics
+id: nf-core/modules/ensemblvep-download
+name: ensemblvep download
+summary: Ensembl Variant Effect Predictor (VEP).
+params:
+  assembly:
+    kind: option
+    type: string
+    required: true
+    description: Genome assembly
+  species:
+    kind: option
+    type: string
+    required: true
+    description: Specie
+  cache_version:
+    kind: option
+    type: string
+    required: true
+    description: cache version
+  preflight_check:
+    kind: option
+    type: boolean
+    required: false
+    description: Whether to check that the expected cache file is listed in the Ensembl CHECKSUMS file
+      before downloading
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to ensemblvep.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  cache:
+    type: directory
+    path: ${outdir}/ensemblvep_download
+    primary: true

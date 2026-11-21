@@ -1,0 +1,11 @@
+{
+  "mgrm_file": null,
+  "grm_files": null,
+  "phenotype_file": null,
+  "phenotype_col1": null,
+  "phenotype_col2": null,
+  "quant_covariates_file": null,
+  "cat_covariates_file": null,
+  "args": "",
+  "outdir": "results"
+}

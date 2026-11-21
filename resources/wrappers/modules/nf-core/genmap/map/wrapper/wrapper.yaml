@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/genmap-map
+name: genmap map
+summary: create mappability files for a genome
+params:
+  index:
+    kind: input
+    type: path
+    required: true
+    description: index directory
+  regions:
+    kind: input
+    type: path
+    required: true
+    description: optional - a bed file with regions to define the mappability off
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to genmap.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  wig:
+    type: directory
+    path: ${outdir}/genmap_map
+    primary: true

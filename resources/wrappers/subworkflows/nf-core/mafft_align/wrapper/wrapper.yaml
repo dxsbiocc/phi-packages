@@ -1,0 +1,22 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
+id: nf-core/subworkflows/mafft-align
+name: mafft align
+summary: Prepare channels for running MAFFT/align
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input fasta for ch_fasta.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/mafft_align
+    primary: true

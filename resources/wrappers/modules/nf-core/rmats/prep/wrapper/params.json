@@ -1,0 +1,7 @@
+{
+  "genome_bam": null,
+  "reference_gtf": null,
+  "read_length": null,
+  "args": "",
+  "outdir": "results"
+}

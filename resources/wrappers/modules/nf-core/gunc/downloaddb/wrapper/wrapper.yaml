@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'db_name' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/gunc-downloaddb
+name: gunc downloaddb
+summary: Download database for GUNC detection of Chimerism and Contamination in Prokaryotic Genomes
+params:
+  db_name:
+    kind: option
+    type: string
+    required: true
+    description: Which database to download.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to gunc.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  db:
+    type: directory
+    path: ${outdir}/gunc_downloaddb
+    primary: true

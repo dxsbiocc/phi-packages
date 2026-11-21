@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'source' exposed as required option; confirm whether a safe default exists; val input 'destination' exposed as required option; confirm whether a safe default exists; val-only tuple wired as a single sample; verify multi-sample semantics
+id: nf-core/modules/rclone-check
+name: rclone check
+summary: Check that files in source and destination paths match
+params:
+  source:
+    kind: option
+    type: string
+    required: true
+    description: File or directory containing source files to compare.
+  destination:
+    kind: option
+    type: string
+    required: true
+    description: Directory containing destination files to compare.
+  rclone_config:
+    kind: input
+    type: path
+    required: true
+    description: Rclone configuration file defining the remotes used by source_path and/or destination_path.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to rclone.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  combined:
+    type: directory
+    path: ${outdir}/rclone_check
+    primary: true

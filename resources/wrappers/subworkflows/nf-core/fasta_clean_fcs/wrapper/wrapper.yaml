@@ -1,0 +1,36 @@
+# Agent-facing wrapper adapter for the vendored fasta_clean_fcs subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+# REVIEW: FCS may need a ramdisk and large memory
+id: nf-core/subworkflows/fasta-clean-fcs
+name: "Clean assembly (FCS-adaptor)"
+summary: "Screen and clean a genome assembly of adaptor contamination with NCBI FCS."
+
+params:
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: "Genome assembly FASTA."
+  database:
+    kind: input
+    type: path
+    required: true
+    description: "FCS database directory or manifest."
+  ramdisk_path:
+    kind: option
+    type: string
+    required: false
+    description: "Path to a ramdisk for FCS (optional)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/fasta_clean_fcs'
+    primary: true

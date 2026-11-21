@@ -1,0 +1,32 @@
+# Agent-facing wrapper for the local kneaddata module at ../main.nf,
+# ported from the Snakemake Workflow project (no nf-core equivalent).
+# Follows docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: local/modules/kneaddata
+name: kneaddata
+summary: Remove host contamination from metagenomic FASTQs with kneaddata and summarise read counts.
+params:
+  reads:
+    kind: input
+    type: path_glob
+    required: true
+    description: 'FASTQ glob: one file (unpaired) or an R1/R2 pair.'
+  db:
+    kind: input
+    type: path
+    required: true
+    description: kneaddata host reference database directory.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to the tool.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/kneaddata
+    primary: true

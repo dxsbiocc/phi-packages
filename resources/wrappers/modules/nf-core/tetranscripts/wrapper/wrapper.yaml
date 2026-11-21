@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/tetranscripts
+name: tetranscripts
+summary: Runs TEtranscripts which summarises transposable element content of a bam file.
+params:
+  bam_t:
+    kind: input
+    type: path
+    required: true
+    description: A BAM file for the treatment condition
+  bam_c:
+    kind: input
+    type: path
+    required: true
+    description: A BAM file for the control condition
+  g_gtf:
+    kind: input
+    type: path
+    required: true
+    description: A GTF file for alignment to the genome
+  te_gtf:
+    kind: input
+    type: path
+    required: true
+    description: A curated GTF file for alignment to transposable elements
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to tetranscripts.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  countTable:
+    type: directory
+    path: ${outdir}/tetranscripts
+    primary: true

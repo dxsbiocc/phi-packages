@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/fungtion-fungtion
+name: fungtion fungtion
+summary: Predicts fungal effector proteins from protein FASTA sequences using ESM-1b protein language
+  model embeddings and R-based SVM models.
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Protein sequences in FASTA format.
+  pretrain:
+    kind: input
+    type: path
+    required: true
+    description: Directory containing the pretrained ESM-1b weights (esm1b_t33_650M_UR50S.pt), as produced
+      by FUNGTION_DOWNLOADMODELS.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to fungtion.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  predictions:
+    type: directory
+    path: ${outdir}/fungtion_fungtion
+    primary: true

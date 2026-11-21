@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/agat-spaddintrons
+name: agat spaddintrons
+summary: Add intron features to gtf/gff file without intron features.
+params:
+  gff:
+    kind: input
+    type: path
+    required: true
+    description: Input gtf/gff file
+  config:
+    kind: input
+    type: path
+    required: true
+    description: Optional input agat config file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to agat.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gff:
+    type: directory
+    path: ${outdir}/agat_spaddintrons
+    primary: true

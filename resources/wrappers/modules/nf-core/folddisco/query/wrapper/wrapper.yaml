@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored folddisco/query module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+# Manually wired: exotic staging pattern.
+id: nf-core/modules/folddisco-query
+name: folddisco query
+summary: Query a FoldDisco index with residue positions from a PDB structure.
+params:
+  pdb:
+    kind: input
+    type: file
+    required: true
+    description: Query PDB structure.
+  query:
+    kind: option
+    type: string
+    required: false
+    description: Comma-separated residue queries, e.g. A13,A95,A167.
+  index:
+    kind: input
+    type: path
+    required: true
+    description: FoldDisco index directory (from folddisco index).
+  structures:
+    kind: input
+    type: path
+    required: true
+    description: Directory of PDB structures the index was built from.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to folddisco.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/folddisco_query
+    primary: true

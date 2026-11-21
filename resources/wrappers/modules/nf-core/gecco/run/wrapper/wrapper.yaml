@@ -1,0 +1,38 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'hmm' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/gecco-run
+name: gecco run
+summary: GECCO is a fast and scalable method for identifying putative novel Biosynthetic Gene Clusters
+  (BGCs) in genomic and metagenomic data using Conditional Random Fields (CRFs).
+params:
+  input:
+    kind: input
+    type: path
+    required: true
+    description: A genomic file containing one or more sequences as input.
+  hmm:
+    kind: input
+    type: path
+    required: false
+    description: Alternative HMM file(s) to use in HMMER format
+  model_dir:
+    kind: input
+    type: path
+    required: true
+    description: Path to an alternative CRF (Conditional Random Fields) module to use
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to gecco.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  genes:
+    type: directory
+    path: ${outdir}/gecco_run
+    primary: true

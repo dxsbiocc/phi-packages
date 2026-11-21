@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 's' combined cartesian-style; verify if per-sample pairing is required; standalone path 'hmmdb' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/bigslice-bigslice
+name: bigslice bigslice
+summary: A scalable tool for large-scale analysis of Biosynthetic Gene Clusters (BGCs).
+params:
+  bgc:
+    kind: input
+    type: path
+    required: true
+    description: List of GenBank (.gbk) files containing genomic region annotations for BiG-SLiCE input.
+  s:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion input s.
+  hmmdb:
+    kind: input
+    type: path
+    required: false
+    description: Path to the BiG-SLiCE HMM database folder containing biosynthetic and sub Pfams for annotation,
+      in the required BiG-SLiCE format.
+  export_tsv:
+    kind: option
+    type: boolean
+    required: false
+    description: If true, runs a second BiG-SLiCE invocation to export all results from the SQLite database
+      to TSV files under `tsv_export/`.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to bigslice.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/bigslice_bigslice
+    primary: true

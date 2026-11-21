@@ -1,0 +1,16 @@
+{
+  "input": null,
+  "input_index": null,
+  "intervals": null,
+  "dict": null,
+  "fasta": null,
+  "fai": null,
+  "germline_resource": null,
+  "germline_resource_tbi": null,
+  "panel_of_normals": null,
+  "panel_of_normals_tbi": null,
+  "emit_orientation_data": false,
+  "emit_contamination_data": false,
+  "args": "",
+  "outdir": "results"
+}

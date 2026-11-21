@@ -1,0 +1,12 @@
+{
+  "contrast_variable": null,
+  "reference": null,
+  "target": null,
+  "formula": null,
+  "comparison": null,
+  "samplesheet": null,
+  "counts": null,
+  "control_genes_file": null,
+  "transcript_lengths_file": null,
+  "outdir": "results"
+}

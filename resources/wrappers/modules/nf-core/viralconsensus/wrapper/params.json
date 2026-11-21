@@ -1,0 +1,9 @@
+{
+  "bam": null,
+  "fasta": null,
+  "primer_bed": null,
+  "save_pos_counts": false,
+  "save_ins_counts": false,
+  "args": "",
+  "outdir": "results"
+}

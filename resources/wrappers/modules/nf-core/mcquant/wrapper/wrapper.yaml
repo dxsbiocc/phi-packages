@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/mcquant
+name: mcquant
+summary: Mcquant extracts single-cell data given a multi-channel image and a segmentation mask.
+params:
+  image:
+    kind: input
+    type: path
+    required: true
+    description: Multi-channel image file
+  mask:
+    kind: input
+    type: path
+    required: true
+    description: Labeled segmentation mask for image
+  markerfile:
+    kind: input
+    type: path
+    required: true
+    description: Marker file with channel names for image to quantify
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to mcquant.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  csv:
+    type: directory
+    path: ${outdir}/mcquant
+    primary: true

@@ -1,0 +1,113 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'psi1' combined cartesian-style; verify if per-sample pairing is required; val input 'condition1' exposed as required option; confirm whether a safe default exists; companion input 'psi2' combined cartesian-style; verify if per-sample pairing is required; val input 'condition2' exposed as required option; confirm whether a safe default exists; val input 'method' exposed as required option; confirm whether a safe default exists; val input 'local_area' exposed as required option; confirm whether a safe default exists; val input 'lower_bound_delta_psi' exposed as required option; confirm whether a safe default exists; val input 'multi_testing_correction_alpha' exposed as required option; confirm whether a safe default exists; val input 'tpm_threshold' exposed as required option; confirm whether a safe default exists; val input 'nan_tpm_threshold' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/suppa-diffsplice
+name: suppa diffsplice
+summary: Perform differential splicing analysis using SUPPA.
+params:
+  events:
+    kind: input
+    type: path
+    required: true
+    description: Splicing events file (events per event or transcript)
+  expression1:
+    kind: input
+    type: path
+    required: true
+    description: Expression file for condition 1 (in TPM units)
+  psi1:
+    kind: input
+    type: path
+    required: false
+    description: PSI file for condition 1
+  condition1:
+    kind: option
+    type: string
+    required: true
+    description: Condition 1 name
+  expression2:
+    kind: input
+    type: path
+    required: true
+    description: Expression file for condition 2 (in TPM units)
+  psi2:
+    kind: input
+    type: path
+    required: false
+    description: PSI file for condition 2
+  condition2:
+    kind: option
+    type: string
+    required: true
+    description: Condition 2 name
+  method:
+    kind: option
+    type: string
+    required: true
+    description: Method to use for differential splicing analysis.
+  local_area:
+    kind: option
+    type: integer
+    required: true
+    description: Number of points in the local area of the delta PSI - average TPM distribution.
+  lower_bound_delta_psi:
+    kind: option
+    type: number
+    required: true
+    description: Lower bound for the absolute delta PSI to test for significant.
+  is_paired:
+    kind: option
+    type: boolean
+    required: false
+    description: Indicates if replicates across conditions are paired.
+  gene_correction:
+    kind: option
+    type: boolean
+    required: false
+    description: Correction of the p-values by gene.
+  multi_testing_correction_alpha:
+    kind: option
+    type: number
+    required: true
+    description: Family-wise error rate to use for the multiple testing correction.
+  save_tpm_events:
+    kind: option
+    type: boolean
+    required: false
+    description: The average log TPM of the events will be saved in an external file.
+  combination_analysis:
+    kind: option
+    type: boolean
+    required: false
+    description: SUPPA will perform the analysis between all possible combinations of conditions.
+  use_median_delta_psi:
+    kind: option
+    type: boolean
+    required: false
+    description: SUPPA will use the median delta PSI, instead of the mean.
+  tpm_threshold:
+    kind: option
+    type: number
+    required: true
+    description: Minimum expression (calculated as average TPM value within-replicates and between-conditions)
+      to be included in the analysis.
+  nan_tpm_threshold:
+    kind: option
+    type: number
+    required: true
+    description: Proportion of samples with nan values allowed per condition to calculate a delta PSI.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to suppa.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  dpsi:
+    type: directory
+    path: ${outdir}/suppa_diffsplice
+    primary: true

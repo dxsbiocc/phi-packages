@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'ids' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/ffq
+name: ffq
+summary: A command line tool that makes it easier to find sequencing data from the SRA / GEO / ENA.
+params:
+  ids:
+    kind: option
+    type: string
+    required: true
+    description: List of supported database ids e.g.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to ffq.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  json:
+    type: directory
+    path: ${outdir}/ffq
+    primary: true

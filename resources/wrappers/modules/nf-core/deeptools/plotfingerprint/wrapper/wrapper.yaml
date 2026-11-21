@@ -19,6 +19,11 @@ params:
     type: file
     required: true
     description: BAM index (.bai) for the input BAM.
+  fragment_size:
+    kind: option
+    type: integer
+    required: false
+    description: Extend reads to this fragment size (single-end BAMs only; 0 disables).
   outdir:
     kind: output
     type: path

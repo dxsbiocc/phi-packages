@@ -1,0 +1,76 @@
+# Agent-facing wrapper adapter for the vendored vcf_impute_glimpse subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+# REVIEW: chunk=true regenerates chunks from the reference panel
+id: nf-core/subworkflows/vcf-impute-glimpse
+name: "Impute VCF (GLIMPSE1)"
+summary: "Impute a low-coverage VCF with GLIMPSE against a reference panel."
+
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: "Input VCF."
+  vcf_index:
+    kind: input
+    type: path
+    required: true
+    description: "Input VCF index (.csi)."
+  infos:
+    kind: option
+    type: string
+    required: false
+    description: "Sample/info list (optional)."
+  ref_vcf:
+    kind: input
+    type: path
+    required: true
+    description: "Reference panel VCF."
+  ref_index:
+    kind: input
+    type: path
+    required: true
+    description: "Reference panel VCF index."
+  region:
+    kind: option
+    type: string
+    required: true
+    description: "Reference region label."
+  map:
+    kind: input
+    type: path
+    required: true
+    description: "Genetic map file."
+  panel_id:
+    kind: option
+    type: string
+    required: false
+    description: "Panel id for meta."
+  chr:
+    kind: option
+    type: string
+    required: true
+    description: "Chromosome."
+  chunk:
+    kind: option
+    type: boolean
+    required: false
+    description: "Activate automatic chunking."
+  sample_id:
+    kind: option
+    type: string
+    required: false
+    description: "Sample id."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/vcf_impute_glimpse'
+    primary: true

@@ -1,0 +1,61 @@
+# Agent-facing wrapper adapter for the vendored bam_variant_demix_boot_freyja subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+# REVIEW: freyja update needs network when barcodes not provided
+id: nf-core/subworkflows/bam-variant-demix-boot-freyja
+name: "Lineage demix (freyja)"
+summary: "Demix SARS-CoV-2 lineages from a BAM with freyja (optionally bootstrapped)."
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: "Aligned BAM file."
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: "Reference genome FASTA."
+  skip_boot:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip bootstrapping."
+  repeats:
+    kind: option
+    type: integer
+    required: false
+    description: "Number of bootstrap repeats."
+  db_name:
+    kind: option
+    type: string
+    required: false
+    description: "freyja database name."
+  barcodes:
+    kind: input
+    type: path
+    required: false
+    description: "freyja barcodes file (optional; else updated)."
+  lineages_meta:
+    kind: input
+    type: path
+    required: false
+    description: "Lineages metadata file (optional)."
+  lineages_topology:
+    kind: input
+    type: path
+    required: false
+    description: "Lineages topology file (optional)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/bam_variant_demix_boot_freyja'
+    primary: true

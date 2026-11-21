@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/wipertools-fastqgather
+name: wipertools fastqgather
+summary: A tool of the wipertools suite that merges FASTQ chunks produced by wipertools_fastqscatter
+params:
+  fastq:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: List of FASTQ chunk files to be merged
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to wipertools.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gathered_fastq:
+    type: directory
+    path: ${outdir}/wipertools_fastqgather
+    primary: true

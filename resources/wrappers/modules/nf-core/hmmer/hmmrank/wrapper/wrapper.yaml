@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'domtblouts' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/hmmer-hmmrank
+name: hmmer hmmrank
+summary: R script that scores output from multiple runs of hmmer/hmmsearch
+params:
+  tblouts:
+    kind: input
+    type: path
+    required: true
+    description: per-sequence hit tables from hmmsearch (--tblout)
+  domtblouts:
+    kind: input
+    type: path
+    required: false
+    description: Optional per-domain hit tables from hmmsearch (--domtblout).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  hmmrank:
+    type: directory
+    path: ${outdir}/hmmer_hmmrank
+    primary: true

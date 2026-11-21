@@ -1,0 +1,58 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
+id: nf-core/subworkflows/deepvariant
+name: deepvariant
+summary: DeepVariant is an analysis pipeline that uses a deep neural network to call genetic variants
+  from next-generation DNA sequencing data
+params:
+  input:
+    kind: input
+    type: path
+    required: true
+    description: Input input for ch_input.
+  index:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion index for ch_input.
+  intervals:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion intervals for ch_input.
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input fasta for ch_fasta.
+  fail:
+    kind: input
+    type: path
+    required: true
+    description: Input fail for ch_fai.
+  gzi:
+    kind: input
+    type: path
+    required: true
+    description: Input gzi for ch_gzi.
+  par_bed:
+    kind: input
+    type: path
+    required: true
+    description: Input par_bed for ch_par_bed.
+  with_phasing:
+    kind: option
+    type: boolean
+    required: false
+    description: Option with_phasing.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/deepvariant
+    primary: true

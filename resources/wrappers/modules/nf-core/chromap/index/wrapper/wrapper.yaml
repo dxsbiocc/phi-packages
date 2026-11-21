@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/chromap-index
+name: chromap index
+summary: Indexes a fasta reference genome ready for chromatin profiling.
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Reference genome FASTA file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to chromap.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  index:
+    type: directory
+    path: ${outdir}/chromap_index
+    primary: true

@@ -1,0 +1,9 @@
+{
+  "filtered": null,
+  "unfiltered": null,
+  "input_layer": null,
+  "output_layer": null,
+  "max_epochs": null,
+  "n_batch": null,
+  "outdir": "results"
+}

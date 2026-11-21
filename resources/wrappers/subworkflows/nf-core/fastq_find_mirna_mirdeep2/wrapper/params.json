@@ -1,0 +1,8 @@
+{
+  "fastq": null,
+  "genome_fasta": null,
+  "index": null,
+  "mature_mirna": null,
+  "hairpin_mirna": null,
+  "outdir": "results"
+}

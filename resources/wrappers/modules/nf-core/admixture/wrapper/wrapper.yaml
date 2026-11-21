@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'bim_map' combined cartesian-style; verify if per-sample pairing is required; companion input 'fam' combined cartesian-style; verify if per-sample pairing is required; val input 'k' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/admixture
+name: admixture
+summary: ADMIXTURE is a program for estimating ancestry in a model-based manner from large autosomal SNP
+  genotype datasets, where the individuals are unrelated (for example, the individuals in a case-control
+  association study).
+params:
+  bed_ped_geno:
+    kind: input
+    type: path
+    required: true
+    description: One of PLINK ".bed" file or PLINK ".ped" or EIGENSTRAT ".geno" file.
+  bim_map:
+    kind: input
+    type: path
+    required: false
+    description: Mandatory accompanying file.
+  fam:
+    kind: input
+    type: path
+    required: false
+    description: PLINK ".fam" file.
+  k:
+    kind: option
+    type: integer
+    required: true
+    description: Belief of the number of ancestral populations.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to admixture.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  ancestry_fractions:
+    type: directory
+    path: ${outdir}/admixture
+    primary: true

@@ -1,0 +1,12 @@
+{
+  "bam": null,
+  "bai": null,
+  "fasta": null,
+  "fai": null,
+  "dict": null,
+  "pon_norm": "pon",
+  "intervals_gendb": null,
+  "intervals": null,
+  "sample_id": "normal",
+  "outdir": "results"
+}

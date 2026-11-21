@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'output_format' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/pyrodigal
+name: pyrodigal
+summary: Pyrodigal is a Python module that provides bindings to Prodigal, a fast, reliable protein-coding
+  gene prediction for prokaryotic genomes.
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: FASTA file
+  output_format:
+    kind: option
+    type: string
+    required: true
+    description: Output format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to pyrodigal.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  annotations:
+    type: directory
+    path: ${outdir}/pyrodigal
+    primary: true

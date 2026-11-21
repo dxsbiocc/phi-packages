@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
+id: nf-core/subworkflows/bam-taps-conversion
+name: bam taps conversion
+summary: Uses rastair to assess C->T conversion as a readout for methylation in a genome-wide basis
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Input bam for ch_bam.
+  bai:
+    kind: input
+    type: path
+    required: true
+    description: Input bai for ch_bai.
+  fa:
+    kind: input
+    type: path
+    required: true
+    description: Input fa for ch_fasta.
+  fa_fai:
+    kind: input
+    type: path
+    required: true
+    description: Input fa.fai for ch_fasta_index.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/bam_taps_conversion
+    primary: true

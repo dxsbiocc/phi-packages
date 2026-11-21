@@ -1,0 +1,15 @@
+{
+  "bam": null,
+  "bai": null,
+  "intervals": null,
+  "fasta": null,
+  "fai": null,
+  "dbsnp": null,
+  "dbsnp_tbi": null,
+  "ml_model": null,
+  "pcr_indel_model": null,
+  "emit_vcf": false,
+  "emit_gvcf": false,
+  "args": "",
+  "outdir": "results"
+}

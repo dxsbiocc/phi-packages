@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/sentieon-bwamem
+name: sentieon bwamem
+summary: Performs fastq alignment to a fasta reference using Sentieon's BWA MEM
+params:
+  reads:
+    kind: input
+    type: path
+    required: true
+    description: Genome fastq files (single-end or paired-end)
+  index:
+    kind: input
+    type: path
+    required: true
+    description: BWA genome index files
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Genome fasta file
+  fasta_fai:
+    kind: input
+    type: path
+    required: true
+    description: The index of the FASTA reference.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to sentieon.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bam_and_bai:
+    type: directory
+    path: ${outdir}/sentieon_bwamem
+    primary: true

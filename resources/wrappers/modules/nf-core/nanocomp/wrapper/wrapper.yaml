@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/nanocomp
+name: nanocomp
+summary: Compare multiple runs of long read sequencing data and alignments
+params:
+  filelist:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: List of all the files you want to compare, they have to be all the same filetype (either
+      fastq, fasta, bam or Nanopore sequencing summary)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to nanocomp.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  report_html:
+    type: directory
+    path: ${outdir}/nanocomp
+    primary: true

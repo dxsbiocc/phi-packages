@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/gvcftools-extractvariants
+name: gvcftools extractvariants
+summary: Removes all non-variant blocks from a gVCF file to produce a smaller variant-only VCF file.
+params:
+  gvcf:
+    kind: input
+    type: path
+    required: true
+    description: GVCF file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to gvcftools.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcf:
+    type: directory
+    path: ${outdir}/gvcftools_extractvariants
+    primary: true

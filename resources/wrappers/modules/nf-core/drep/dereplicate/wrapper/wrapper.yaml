@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; glob input 'fastas' collected into one staged list; verify staging layout; glob input 'drep_work' collected into one staged list; verify staging layout
+id: nf-core/modules/drep-dereplicate
+name: drep dereplicate
+summary: Dereplicates a genome set by identifying highly similar genomes and choose the best representative
+  genome
+params:
+  fastas:
+    kind: input
+    type: path
+    required: true
+    description: List of FASTA files to dereplicate
+  drep_work:
+    kind: input
+    type: path
+    required: true
+    description: Optional existing dRep working directory containing pre-computed clustering results (e.g.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to drep.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fastas:
+    type: directory
+    path: ${outdir}/drep_dereplicate
+    primary: true

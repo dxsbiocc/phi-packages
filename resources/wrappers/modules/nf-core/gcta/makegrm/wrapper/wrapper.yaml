@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'bed_pgen' combined cartesian-style; verify if per-sample pairing is required; companion input 'bim_pvar' combined cartesian-style; verify if per-sample pairing is required; companion input 'fam_psam' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/gcta-makegrm
+name: gcta makegrm
+summary: Compute a whole dense GRM with GCTA
+params:
+  mfile:
+    kind: input
+    type: path
+    required: true
+    description: GCTA multi-input manifest consumed by `--mbfile` or `--mpfile`
+  bed_pgen:
+    kind: input
+    type: path
+    required: false
+    description: Collection of PLINK primary genotype files referenced by the multi-input manifest
+  bim_pvar:
+    kind: input
+    type: path
+    required: false
+    description: Collection of PLINK variant metadata files referenced by the multi-input manifest
+  fam_psam:
+    kind: input
+    type: path
+    required: false
+    description: Collection of PLINK sample metadata files referenced by the multi-input manifest
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to gcta.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  grm_files:
+    type: directory
+    path: ${outdir}/gcta_makegrm
+    primary: true

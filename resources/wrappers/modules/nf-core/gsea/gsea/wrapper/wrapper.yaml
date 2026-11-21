@@ -1,0 +1,54 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'cls' combined cartesian-style; verify if per-sample pairing is required; companion input 'gene_sets' combined cartesian-style; verify if per-sample pairing is required; tuple has no leading val(meta); sample meta synthesized from file name; val input 'reference' exposed as required option; confirm whether a safe default exists; val input 'target' exposed as required option; confirm whether a safe default exists; val-only tuple wired as a single sample; verify multi-sample semantics
+id: nf-core/modules/gsea-gsea
+name: gsea gsea
+summary: run the Broad Gene Set Enrichment tool in GSEA mode
+params:
+  gct:
+    kind: input
+    type: path
+    required: true
+    description: GCT file with expression values
+  cls:
+    kind: input
+    type: path
+    required: false
+    description: CL file with the classes of the samples in the GCT file
+  gene_sets:
+    kind: input
+    type: path
+    required: false
+    description: GMX or GMT file with gene sets
+  reference:
+    kind: option
+    type: string
+    required: true
+    description: String indicating which of the classes in the cls file should be used as the reference
+      level of the comparison.
+  target:
+    kind: option
+    type: string
+    required: true
+    description: String indicating which of the classes in the cls file should be used as the target level
+      of the comparison.
+  chip:
+    kind: input
+    type: path
+    required: true
+    description: optional Broad-style chip file mapping identifiers in gct to those in gene_sets
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to gsea.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  rpt:
+    type: directory
+    path: ${outdir}/gsea_gsea
+    primary: true

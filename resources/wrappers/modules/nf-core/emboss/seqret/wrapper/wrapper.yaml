@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'out_ext' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/emboss-seqret
+name: emboss seqret
+summary: Reads in one or more sequences, converts, filters, or transforms them and writes them out again
+params:
+  sequence:
+    kind: input
+    type: path
+    required: true
+    description: Input sequence query
+  out_ext:
+    kind: option
+    type: string
+    required: true
+    description: File extension of the output file.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to emboss.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  outseq:
+    type: directory
+    path: ${outdir}/emboss_seqret
+    primary: true

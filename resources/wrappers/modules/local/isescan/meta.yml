@@ -1,0 +1,33 @@
+name: isescan
+description: Detect insertion sequence (IS) elements in bacterial genomes with ISEScan.
+keywords:
+- insertion sequences
+- transposons
+- bacteria
+- annotation
+tools:
+- isescan:
+    description: 'ISEScan: IS element detection.'
+    homepage: https://github.com/xiezhq/ISEScan
+input:
+- meta:
+    type: map
+    description: Sample meta map
+- contigs:
+    type: file
+    description: Genome/contigs FASTA
+    pattern: '*.{fasta,fa,fna}'
+output:
+- tsv:
+    type: file
+    description: IS element prediction table
+- fasta:
+    type: file
+    description: IS element sequences
+- gff:
+    type: file
+    description: IS element GFF annotation
+authors:
+- '@dengxsh'
+maintainers:
+- '@dengxsh'

@@ -1,0 +1,83 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'db' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'plasmid_mash_db' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/mobsuite-typer
+name: mobsuite typer
+summary: Bacterial plasmid typing and mobility prediction
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: A bacterial genome assembly in FASTA format
+  db:
+    kind: input
+    type: path
+    required: false
+    description: Optional local copy of MOB-suite database directory
+  plasmid_mash_db:
+    kind: input
+    type: path
+    required: false
+    description: Optional Companion Mash database of reference database.
+  plasmid_meta_txt:
+    kind: input
+    type: path
+    required: true
+    description: Optional MOB-cluster plasmid cluster formatted file matched to the reference plasmid
+      db.
+  plasmid_replicons_fas:
+    kind: input
+    type: path
+    required: true
+    description: Optional nucleotide FASTA file of plasmid replicons If not supplied, default internal
+      `rep.dna.fas` is used.
+  repetitive_mask_fas:
+    kind: input
+    type: path
+    required: true
+    description: Optional nucleotide FASTA file of known repetitive elements If not supplied, default
+      internal `repetitive.dna.fas` is used.
+  plasmid_mob_faa:
+    kind: input
+    type: path
+    required: true
+    description: Optional protein FASTA file of plasmid mobility proteins If not supplied, default internal
+      `mob.proteins.faa` is used.
+  plasmid_mpf_faa:
+    kind: input
+    type: path
+    required: true
+    description: Optional protein FASTA file of plasmid mating pair formation proteins If not supplied,
+      default internal `mpf.proteins.faa` is used.
+  plasmid_orit_fas:
+    kind: input
+    type: path
+    required: true
+    description: Optional nucleotide FASTA file of known plasmid oriT dna sequences If not supplied, default
+      internal `orit.fas` is used.
+  generate_biomarker_report:
+    kind: option
+    type: boolean
+    required: false
+    description: Whether to generate a biomarker report file
+  generate_mge_report:
+    kind: option
+    type: boolean
+    required: false
+    description: Whether to generate a mobile genetic element (MGE) report file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to mobsuite.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  report:
+    type: directory
+    path: ${outdir}/mobsuite_typer
+    primary: true

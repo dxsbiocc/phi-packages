@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/shasum
+name: shasum
+summary: Print SHA256 (256-bit) checksums.
+params:
+  files:
+    kind: input
+    type: path
+    required: true
+    description: Any number of files
+  as_separate_files:
+    kind: option
+    type: boolean
+    required: false
+    description: If true, each file will have its own shasum file.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to shasum.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  checksum:
+    type: directory
+    path: ${outdir}/shasum
+    primary: true

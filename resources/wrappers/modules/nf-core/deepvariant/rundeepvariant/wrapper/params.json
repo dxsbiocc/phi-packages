@@ -1,0 +1,11 @@
+{
+  "input": null,
+  "index": null,
+  "intervals": null,
+  "fasta": null,
+  "fai": null,
+  "gzi": null,
+  "par_bed": null,
+  "args": "",
+  "outdir": "results"
+}

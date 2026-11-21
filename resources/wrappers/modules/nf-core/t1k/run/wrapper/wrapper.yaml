@@ -1,0 +1,48 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'fasta' combined cartesian-style; verify if per-sample pairing is required; companion input 'cordinates' combined cartesian-style; verify if per-sample pairing is required; companion input 'barcodes' combined cartesian-style; verify if per-sample pairing is required; companion input 'barcodewhitelist' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/t1k-run
+name: t1k run
+summary: write your description here
+params:
+  input:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: BAM or FASTQ file(s).
+  fasta:
+    kind: input
+    type: path
+    required: false
+    description: Reference fasta file.
+  cordinates:
+    kind: input
+    type: path
+    required: false
+    description: A fasta file with the coordinates of the gene alleles in the header as created form the
+      t1k/build
+  barcodes:
+    kind: input
+    type: path
+    required: false
+    description: A file with a list of barcodes.
+  barcodewhitelist:
+    kind: input
+    type: path
+    required: false
+    description: A file with a whitelist of barcodes.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to t1k.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  genotype_tsv:
+    type: directory
+    path: ${outdir}/t1k_run
+    primary: true

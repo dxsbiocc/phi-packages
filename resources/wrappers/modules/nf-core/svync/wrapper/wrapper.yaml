@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'tbi' combined cartesian-style; verify if per-sample pairing is required; companion input 'config' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/svync
+name: svync
+summary: A tool to standardize VCF files from structural variant callers
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: The input VCF file containing structural variants
+  tbi:
+    kind: input
+    type: path
+    required: false
+    description: The index of the input VCF file containing structural variants
+  config:
+    kind: input
+    type: path
+    required: false
+    description: The config stating how the standardization should happen
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to svync.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcf:
+    type: directory
+    path: ${outdir}/svync
+    primary: true

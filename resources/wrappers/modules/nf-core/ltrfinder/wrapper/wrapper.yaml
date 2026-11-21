@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/ltrfinder
+name: ltrfinder
+summary: Finds full-length LTR retrotranspsons in genome sequences using the parallel version of LTR_Finder
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Genome sequences in fasta format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to ltrfinder.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  scn:
+    type: directory
+    path: ${outdir}/ltrfinder
+    primary: true

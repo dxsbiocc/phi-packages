@@ -1,0 +1,9 @@
+{
+  "vcf": null,
+  "idx": null,
+  "fasta": null,
+  "fai": null,
+  "ml_model": null,
+  "args": "",
+  "outdir": "results"
+}

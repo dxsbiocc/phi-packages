@@ -1,0 +1,7 @@
+{
+  "vcf_file": null,
+  "dbsnp_file": null,
+  "tabix_file": null,
+  "args": "",
+  "outdir": "results"
+}

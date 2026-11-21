@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'kvalue' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/meryl-histogram
+name: meryl histogram
+summary: A genomic k-mer counter (and sequence utility) with nice features.
+params:
+  meryl_db:
+    kind: input
+    type: path
+    required: true
+    description: Meryl k-mer database
+  kvalue:
+    kind: option
+    type: integer
+    required: true
+    description: An integer value of k to use as the k-mer value.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to meryl.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  hist:
+    type: directory
+    path: ${outdir}/meryl_histogram
+    primary: true

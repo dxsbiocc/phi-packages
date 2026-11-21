@@ -1,0 +1,8 @@
+{
+  "fasta": null,
+  "fai": null,
+  "parameters": null,
+  "snp_mutation_frequency": null,
+  "sim_reads": null,
+  "outdir": "results"
+}

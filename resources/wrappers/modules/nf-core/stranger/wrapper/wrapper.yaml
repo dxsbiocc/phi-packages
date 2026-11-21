@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/stranger
+name: stranger
+summary: Annotates output files from ExpansionHunter with the pathologic implications of the repeat sizes.
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: VCF with repeat expansions
+  variant_catalog:
+    kind: input
+    type: path
+    required: true
+    description: json file with repeat expansion sites to genotype
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to stranger.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcf:
+    type: directory
+    path: ${outdir}/stranger
+    primary: true

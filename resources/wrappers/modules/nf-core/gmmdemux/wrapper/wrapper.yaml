@@ -1,0 +1,55 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'hto_names' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/gmmdemux
+name: gmmdemux
+summary: GMM-Demux is a Gaussian-Mixture-Model-based software for processing sample barcoding data (cell
+  hashing and MULTI-seq).
+params:
+  hto_matrix:
+    kind: input
+    type: path
+    required: true
+    description: path to matrix from cell hashing data, the tool receives either CSV files or TSV, type
+      must be specified using parameters
+  hto_names:
+    kind: option
+    type: string
+    required: true
+    description: Comma separated list of HTO names, without whitespace
+  type_report:
+    kind: option
+    type: boolean
+    required: false
+    description: If true, full classification report is generated, otherwise the simplified classification
+      report.
+  summary_report:
+    kind: option
+    type: boolean
+    required: false
+    description: If true, summary report is generated.
+  skip:
+    kind: input
+    type: path
+    required: true
+    description: Load a full classification report and skip the mtx folder as input.
+  examine:
+    kind: input
+    type: path
+    required: true
+    description: Provide the cell list.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to gmmdemux.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  barcodes:
+    type: directory
+    path: ${outdir}/gmmdemux
+    primary: true

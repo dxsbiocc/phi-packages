@@ -1,0 +1,20 @@
+{
+  "alignment_files": null,
+  "alignment_indices": null,
+  "alignment_file_list": null,
+  "fasta": null,
+  "fai": null,
+  "ref_regions": null,
+  "ref_vcf": null,
+  "ref_vcf_tbi": null,
+  "snp_vcf": null,
+  "snp_vcf_tbi": null,
+  "stutter_in": null,
+  "fam": null,
+  "hap_chr_file": null,
+  "save_log": false,
+  "save_viz": false,
+  "save_stutter": false,
+  "args": "",
+  "outdir": "results"
+}

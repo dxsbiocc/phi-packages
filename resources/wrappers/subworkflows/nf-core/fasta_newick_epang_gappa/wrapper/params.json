@@ -1,0 +1,9 @@
+{
+  "queryseqfile": null,
+  "refseqfile": null,
+  "refphylogeny": null,
+  "hmmfile": null,
+  "alignmethod": "hmmer",
+  "model": null,
+  "outdir": "results"
+}

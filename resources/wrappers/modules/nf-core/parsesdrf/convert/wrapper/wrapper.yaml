@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'fasta' combined cartesian-style; verify if per-sample pairing is required; val input 'raw_folder' exposed as required option; confirm whether a safe default exists; val input 'format' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/parsesdrf-convert
+name: parsesdrf convert
+summary: Convert an SDRF (Sample and Data Relationship Format) file into a pipeline-specific samplesheet/configuration
+  using the `parse_sdrf convert-<format>` subcommands of the sdrf-pipelines package.
+params:
+  sdrf:
+    kind: input
+    type: path
+    required: true
+    description: SDRF file describing the experimental design and sample metadata.
+  fasta:
+    kind: input
+    type: path
+    required: false
+    description: Protein database FASTA.
+  raw_folder:
+    kind: option
+    type: string
+    required: true
+    description: Directory prefix embedded as a literal string into the `<filePaths>` block of the generated
+      MaxQuant `mqpar.xml`; must resolve on the host that later runs MaxQuant.
+  format:
+    kind: option
+    type: string
+    required: true
+    description: Target converter.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to parsesdrf.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  mhcquant:
+    type: directory
+    path: ${outdir}/parsesdrf_convert
+    primary: true

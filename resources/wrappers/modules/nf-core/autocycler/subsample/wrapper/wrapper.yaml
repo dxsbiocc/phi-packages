@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'genome_size' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/autocycler-subsample
+name: autocycler subsample
+summary: Downsample long-read sequencing data to the requested coverage using Autocycler.
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Long-read sequencing reads for the sample in FASTQ format (compressed or uncompressed).
+  genome_size:
+    kind: option
+    type: integer
+    required: true
+    description: Expected genome size in bases used to calculate the target sequencing depth.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to autocycler.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  subsampled_reads:
+    type: directory
+    path: ${outdir}/autocycler_subsample
+    primary: true

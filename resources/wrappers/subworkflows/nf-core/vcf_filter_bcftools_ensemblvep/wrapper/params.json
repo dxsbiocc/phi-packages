@@ -1,0 +1,7 @@
+{
+  "vcf": null,
+  "filter_vep_feature_file": null,
+  "filter_with_bcftools": true,
+  "filter_with_filter_vep": false,
+  "outdir": "results"
+}

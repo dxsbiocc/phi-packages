@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'process' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/mat2json
+name: mat2json
+summary: converst matlab .mat files into json or csv files.
+params:
+  matfile:
+    kind: input
+    type: path
+    required: true
+    description: matlab file
+  process:
+    kind: option
+    type: string
+    required: true
+    description: Name of the process to be used in the output file name and as a tag
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  converted_file:
+    type: directory
+    path: ${outdir}/mat2json
+    primary: true

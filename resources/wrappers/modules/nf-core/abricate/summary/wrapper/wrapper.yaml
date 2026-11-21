@@ -1,0 +1,21 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/abricate-summary
+name: abricate summary
+summary: Screen assemblies for antimicrobial resistance against multiple databases
+params:
+  reports:
+    kind: input
+    type: path
+    required: true
+    description: FASTA, GenBank or EMBL formatted file
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  report:
+    type: directory
+    path: ${outdir}/abricate_summary
+    primary: true

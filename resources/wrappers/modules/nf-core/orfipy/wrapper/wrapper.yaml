@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/orfipy
+name: orfipy
+summary: orfipy is a tool written in python/cython to extract ORFs in an extremely and fast and flexible
+  manner.
+params:
+  infile:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Input file, in plain Fasta/Fastq or gzipped format, containing Nucletide sequences
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to orfipy.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bed:
+    type: directory
+    path: ${outdir}/orfipy
+    primary: true

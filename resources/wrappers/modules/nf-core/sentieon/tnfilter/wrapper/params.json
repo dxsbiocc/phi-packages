@@ -1,0 +1,12 @@
+{
+  "vcf": null,
+  "vcf_tbi": null,
+  "stats": null,
+  "contamination": null,
+  "segments": null,
+  "orientation_priors": null,
+  "fasta": null,
+  "fai": null,
+  "args": "",
+  "outdir": "results"
+}

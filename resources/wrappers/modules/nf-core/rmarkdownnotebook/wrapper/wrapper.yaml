@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'parameters' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/rmarkdownnotebook
+name: rmarkdownnotebook
+summary: Render an rmarkdown notebook.
+params:
+  notebook:
+    kind: input
+    type: path
+    required: true
+    description: Rmarkdown file
+  parameters:
+    kind: option
+    type: string
+    required: true
+    description: Groovy map with notebook parameters which will be passed to rmarkdown to generate parametrized
+      reports.
+  input_files:
+    kind: input
+    type: path
+    required: true
+    description: One or multiple files serving as input data for the notebook.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  report:
+    type: directory
+    path: ${outdir}/rmarkdownnotebook
+    primary: true

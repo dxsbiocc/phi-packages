@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/seqtk-rename
+name: seqtk rename
+summary: Rename sequence names in FASTQ or FASTA files.
+params:
+  sequences:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: A FASTQ or FASTA file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to seqtk.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  sequences:
+    type: directory
+    path: ${outdir}/seqtk_rename
+    primary: true

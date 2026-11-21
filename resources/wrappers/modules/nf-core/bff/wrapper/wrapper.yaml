@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'methods' exposed as required option; confirm whether a safe default exists; val input 'preprocessing' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/bff
+name: bff
+summary: Generating cell hashing calls from a matrix of count data.
+params:
+  hto_matrix:
+    kind: input
+    type: path
+    required: true
+    description: Directory that contains the HTO matrix in a 10X format.
+  methods:
+    kind: option
+    type: string
+    required: true
+    description: Decides whether 'RAW', 'CLUSTER' OR 'COMBINED' should be selected as the call method.
+  preprocessing:
+    kind: option
+    type: string
+    required: true
+    description: Decides whether the HTO matrix should undergo a preprocessing step ('TRUE') or not ('FALSE').
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  assignment:
+    type: directory
+    path: ${outdir}/bff
+    primary: true

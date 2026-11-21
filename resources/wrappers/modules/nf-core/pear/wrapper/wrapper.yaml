@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/pear
+name: pear
+summary: PEAR is an ultrafast, memory-efficient and highly accurate pair-end read merger.
+params:
+  reads:
+    kind: input
+    type: path
+    required: true
+    description: List of input FastQ files with paired-end reads forward and reverse.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to pear.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  assembled:
+    type: directory
+    path: ${outdir}/pear
+    primary: true

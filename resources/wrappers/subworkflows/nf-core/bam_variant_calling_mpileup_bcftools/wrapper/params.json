@@ -1,0 +1,15 @@
+{
+  "bam": null,
+  "bai": null,
+  "posfile": null,
+  "fasta": null,
+  "fai": null,
+  "panel_id": "panel",
+  "chr": "chr22",
+  "sample_merge_key": "id",
+  "sample_merge_value": "all_samples",
+  "region_gather_keys": "panel_id,id",
+  "sort_region_gather": false,
+  "annotate": false,
+  "outdir": "results"
+}

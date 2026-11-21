@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored kaiju/mkfmi module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+# Manually wired: exotic staging pattern.
+id: nf-core/modules/kaiju-mkfmi
+name: kaiju mkfmi
+summary: Build a Kaiju FM-index from a protein FASTA and NCBI taxonomy dumps.
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: Protein FASTA to index.
+  nodes_dmp:
+    kind: input
+    type: file
+    required: true
+    description: NCBI taxonomy nodes.dmp.
+  names_dmp:
+    kind: input
+    type: file
+    required: true
+    description: NCBI taxonomy names.dmp.
+  keep_intermediate:
+    kind: option
+    type: boolean
+    required: false
+    description: Keep intermediate BWT files.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to kaiju.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/kaiju_mkfmi
+    primary: true

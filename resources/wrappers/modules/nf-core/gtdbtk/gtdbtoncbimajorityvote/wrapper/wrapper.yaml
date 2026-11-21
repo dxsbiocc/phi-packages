@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'gtdbtk_prefix' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/gtdbtk-gtdbtoncbimajorityvote
+name: gtdbtk gtdbtoncbimajorityvote
+summary: Converts the output classifications of GTDB-TK from GTDB taxonomy to NCBI taxonomy
+params:
+  gtdbtk_outdir:
+    kind: input
+    type: path
+    required: true
+    description: All the output files from GTDB-Tk
+  gtdbtk_prefix:
+    kind: option
+    type: string
+    required: true
+    description: The prefix used when running gtdbtk/classifywf.
+  ar53_metadata:
+    kind: input
+    type: path
+    required: true
+    description: GTDB ar53 metadata file (from https://data.ace.uq.edu.au/public/gtdb/data/releases/latest/)
+  bac120_metadata:
+    kind: input
+    type: path
+    required: true
+    description: GTDB bac120 metadata file (from https://data.ace.uq.edu.au/public/gtdb/data/releases/latest/)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to gtdbtk.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tsv:
+    type: directory
+    path: ${outdir}/gtdbtk_gtdbtoncbimajorityvote
+    primary: true

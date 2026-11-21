@@ -1,0 +1,48 @@
+# Agent-facing wrapper adapter for the vendored sourcepredict module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+# Manually wired: exotic staging pattern.
+id: nf-core/modules/sourcepredict
+name: sourcepredict
+summary: Predict contamination sources of a metagenomic sample with SourcePredict.
+params:
+  kraken_parse:
+    kind: input
+    type: file
+    required: true
+    description: Parsed Kraken report of the sink sample (taxid CSV).
+  sources:
+    kind: input
+    type: file
+    required: true
+    description: Source samples taxid CSV.
+  labels:
+    kind: input
+    type: file
+    required: true
+    description: Source labels CSV.
+  taxa_sqlite:
+    kind: input
+    type: file
+    required: true
+    description: NCBI taxa.sqlite database (decompressed).
+  taxa_sqlite_traverse_pkl:
+    kind: input
+    type: file
+    required: true
+    description: Precomputed taxonomy traversal pickle.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to sourcepredict.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/sourcepredict
+    primary: true

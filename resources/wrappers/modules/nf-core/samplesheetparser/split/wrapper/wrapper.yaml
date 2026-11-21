@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'by' exposed as required option; confirm whether a safe default exists; val input 'to' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/samplesheetparser-split
+name: samplesheetparser split
+summary: Split a combined Illumina SampleSheet.csv into one file per project or per lane.
+params:
+  samplesheet:
+    kind: input
+    type: path
+    required: true
+    description: Combined Illumina SampleSheet.csv to split (V1 or V2)
+  by:
+    kind: option
+    type: string
+    required: true
+    description: Grouping key — either 'project' or 'lane'
+  to:
+    kind: option
+    type: string
+    required: true
+    description: Output SampleSheet format — either 'v1' or 'v2'
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to samplesheetparser.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  samplesheets:
+    type: directory
+    path: ${outdir}/samplesheetparser_split
+    primary: true

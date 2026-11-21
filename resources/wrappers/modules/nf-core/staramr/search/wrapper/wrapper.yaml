@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/staramr-search
+name: staramr search
+summary: Scans genome contigs against the ResFinder, PlasmidFinder, and PointFinder databases.
+params:
+  genome_fasta:
+    kind: input
+    type: path
+    required: true
+    description: Assembled/complete genome(s) in FASTA format to search for AMR/MLST/Plasmids.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to staramr.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  results_xlsx:
+    type: directory
+    path: ${outdir}/staramr_search
+    primary: true

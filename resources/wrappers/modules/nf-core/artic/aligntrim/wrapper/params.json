@@ -1,0 +1,8 @@
+{
+  "samfile": null,
+  "scheme_bed": null,
+  "normalise_depth": null,
+  "sort_bam": false,
+  "args": "",
+  "outdir": "results"
+}

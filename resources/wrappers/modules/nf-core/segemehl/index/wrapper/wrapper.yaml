@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/segemehl-index
+name: segemehl index
+summary: Generate genome indices for segemehl align
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Reference genome FASTA file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to segemehl.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  index:
+    type: directory
+    path: ${outdir}/segemehl_index
+    primary: true

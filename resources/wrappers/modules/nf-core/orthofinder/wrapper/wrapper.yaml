@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; glob input 'fastas' collected into one staged list; verify staging layout
+id: nf-core/modules/orthofinder
+name: orthofinder
+summary: OrthoFinder is a fast, accurate and comprehensive platform for comparative genomics.
+params:
+  fastas:
+    kind: input
+    type: path
+    required: true
+    description: Input fasta files
+  prior_run:
+    kind: input
+    type: path
+    required: true
+    description: A folder containing a previous WorkingDirectory from OrthoFinder.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to orthofinder.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  orthofinder:
+    type: directory
+    path: ${outdir}/orthofinder
+    primary: true

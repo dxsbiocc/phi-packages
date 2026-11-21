@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/krakentools-kreport2krona
+name: krakentools kreport2krona
+summary: Takes a Kraken report file and prints out a krona-compatible TEXT file
+params:
+  kreport:
+    kind: input
+    type: path
+    required: true
+    description: Kraken report
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to krakentools.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  txt:
+    type: directory
+    path: ${outdir}/krakentools_kreport2krona
+    primary: true

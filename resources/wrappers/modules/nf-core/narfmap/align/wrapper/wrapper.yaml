@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/narfmap-align
+name: narfmap align
+summary: Performs fastq alignment to a reference using NARFMAP
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: List of input FastQ files of size 1 and 2 for single-end and paired-end data, respectively.
+  hashmap:
+    kind: input
+    type: path
+    required: true
+    description: NARFMAP hash table
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Reference genome in FASTA format
+  sort_bam:
+    kind: option
+    type: boolean
+    required: false
+    description: Sort the BAM file after alignment
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to narfmap.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bam:
+    type: directory
+    path: ${outdir}/narfmap_align
+    primary: true

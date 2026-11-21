@@ -1,0 +1,53 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'controlbam' combined cartesian-style; verify if per-sample pairing is required; companion input 'controlbai' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/pureclip
+name: pureclip
+summary: PureCLIP is a tool to detect protein-RNA interaction footprints from single-nucleotide CLIP-seq
+  data, such as iCLIP and eCLIP.
+params:
+  ipbam:
+    kind: input
+    type: path
+    required: true
+    description: Sorted BAM/CRAM/SAM file
+  controlbam:
+    kind: input
+    type: path
+    required: false
+    description: Sorted BAM/CRAM/SAM file
+  ipbai:
+    kind: input
+    type: path
+    required: true
+    description: BAM index
+  controlbai:
+    kind: input
+    type: path
+    required: false
+    description: BAM index
+  genome_fasta:
+    kind: input
+    type: path
+    required: true
+    description: FASTA file of reference genome
+  input_control:
+    kind: option
+    type: boolean
+    required: false
+    description: Whether to run PureCLIP with an input control
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to pureclip.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  crosslinks:
+    type: directory
+    path: ${outdir}/pureclip
+    primary: true

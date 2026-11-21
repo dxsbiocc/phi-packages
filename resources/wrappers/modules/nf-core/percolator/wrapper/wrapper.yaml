@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/percolator
+name: percolator
+summary: Rescore peptide-spectrum matches and estimate false discovery rates using the Percolator semi-supervised
+  learning algorithm.
+params:
+  peptide_identification:
+    kind: input
+    type: path
+    required: true
+    description: peptide identifications as PIN (Percolator input) file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to percolator.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  pout_xml:
+    type: directory
+    path: ${outdir}/percolator
+    primary: true

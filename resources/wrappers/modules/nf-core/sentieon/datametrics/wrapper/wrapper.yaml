@@ -1,0 +1,47 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'bai' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/sentieon-datametrics
+name: sentieon datametrics
+summary: Collects multiple quality metrics from a bam file
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Sorted BAM/CRAM/SAM file
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: Index of th sorted BAM/CRAM/SAM file
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Genome fasta file
+  fai:
+    kind: input
+    type: path
+    required: true
+    description: Index of the genome fasta file
+  plot_results:
+    kind: option
+    type: boolean
+    required: false
+    description: Boolean to determine whether plots should be generated
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to sentieon.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  mq_metrics:
+    type: directory
+    path: ${outdir}/sentieon_datametrics
+    primary: true

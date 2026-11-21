@@ -1,0 +1,16 @@
+{
+  "bam": null,
+  "bai": null,
+  "fasta": null,
+  "fai": null,
+  "dict": null,
+  "germline_resource": null,
+  "germline_resource_tbi": null,
+  "alleles": null,
+  "alleles_tbi": null,
+  "panel_of_normals": null,
+  "panel_of_normals_tbi": null,
+  "interval_file": null,
+  "sample_id": "tumor",
+  "outdir": "results"
+}

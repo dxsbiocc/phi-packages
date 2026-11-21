@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'term' exposed as required option; confirm whether a safe default exists; val-only tuple wired as a single sample; verify multi-sample semantics; val input 'database' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/entrezdirect-esearch
+name: entrezdirect esearch
+summary: Searches a term in a public NCBI database
+params:
+  term:
+    kind: option
+    type: string
+    required: true
+    description: Entrez text query.
+  database:
+    kind: option
+    type: string
+    required: true
+    description: Value must be a valid Entrez database name.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to entrezdirect.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  xml:
+    type: directory
+    path: ${outdir}/entrezdirect_esearch
+    primary: true

@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/methbat-profile
+name: methbat profile
+summary: Runs methbat profile command to create methylation profiles for regions of interest from CpG
+  metrics.
+params:
+  files:
+    kind: input
+    type: path
+    required: true
+    description: Zipped pb-cpg-tools output files and index files
+  regions:
+    kind: input
+    type: path
+    required: true
+    description: Background profile with regions of interest
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to methbat.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  region_profile:
+    type: directory
+    path: ${outdir}/methbat_profile
+    primary: true

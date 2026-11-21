@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/hmmer-hmmbuild
+name: hmmer hmmbuild
+summary: create an hmm profile from a multiple sequence alignment
+params:
+  alignment:
+    kind: input
+    type: path
+    required: true
+    description: multiple sequence alignment in fasta, clustal, stockholm or phylip format
+  mxfile:
+    kind: input
+    type: path
+    required: true
+    description: read substitution score matrix, for use when building profiles from single sequences
+      (--singlemx option)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to hmmer.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  hmm:
+    type: directory
+    path: ${outdir}/hmmer_hmmbuild
+    primary: true

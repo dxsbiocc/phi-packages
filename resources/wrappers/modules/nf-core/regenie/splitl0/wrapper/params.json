@@ -1,0 +1,11 @@
+{
+  "plink_genotype_file": null,
+  "plink_variant_file": null,
+  "plink_sample_file": null,
+  "pheno": null,
+  "covar": null,
+  "bsize": null,
+  "n_jobs": null,
+  "args": "",
+  "outdir": "results"
+}

@@ -1,0 +1,6 @@
+{
+  "shortreads": "https://raw.githubusercontent.com/nf-core/test-datasets/bacass/",
+  "longreads": null,
+  "args": "",
+  "outdir": "results"
+}

@@ -1,0 +1,28 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: glob input 'library' collected into one staged list; verify staging layout
+id: nf-core/modules/sourmash-sketch
+name: sourmash sketch
+summary: Create a signature (a group of FracMinHash sketches) of a sequence using sourmash
+params:
+  library:
+    kind: input
+    type: path
+    required: true
+    description: One or more FASTA or FASTQ file(s) containing (genomic, transcriptomic, or proteomic)
+      sequence data
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to sourmash.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  signatures:
+    type: directory
+    path: ${outdir}/sourmash_sketch
+    primary: true

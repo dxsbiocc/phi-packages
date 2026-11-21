@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/rattle-cluster
+name: rattle cluster
+summary: Reference-free reconstruction and quantification of transcriptomes from long-read sequencing
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Input file in FASTA/FASTQ format.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to rattle.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  clusters:
+    type: directory
+    path: ${outdir}/rattle_cluster
+    primary: true

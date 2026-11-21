@@ -1,0 +1,16 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/rundbcan-database
+name: rundbcan database
+summary: command from run_dbcan to prepare the database for dbCAN annotation.
+params:
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  dbcan_db:
+    type: directory
+    path: ${outdir}/rundbcan_database
+    primary: true

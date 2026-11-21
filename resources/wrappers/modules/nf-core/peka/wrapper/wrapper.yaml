@@ -1,0 +1,47 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'fai' combined cartesian-style; verify if per-sample pairing is required; standalone path 'gtf' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/peka
+name: peka
+summary: Runs PEKA CLIP peak k-mer analysis
+params:
+  peaks:
+    kind: input
+    type: path
+    required: true
+    description: BED file of peak regions
+  crosslinks:
+    kind: input
+    type: path
+    required: true
+    description: BED file of crosslinks
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Genome reference sequence used
+  fai:
+    kind: input
+    type: path
+    required: false
+    description: FAI file corresponding to the reference sequence
+  gtf:
+    kind: input
+    type: path
+    required: false
+    description: A segmented GTF used to annotate peaks
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to peka.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  cluster:
+    type: directory
+    path: ${outdir}/peka
+    primary: true

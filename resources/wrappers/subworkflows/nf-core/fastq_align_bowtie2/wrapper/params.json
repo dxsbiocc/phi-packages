@@ -1,0 +1,9 @@
+{
+  "reads": null,
+  "index": null,
+  "save_unaligned": false,
+  "sort_bam": null,
+  "fasta": null,
+  "fai": null,
+  "outdir": "results"
+}

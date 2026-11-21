@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'fai' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/ngscheckmate-ncm
+name: ngscheckmate ncm
+summary: Determining whether sequencing data comes from the same individual by using SNP matching.
+params:
+  files:
+    kind: input
+    type: path
+    required: true
+    description: VCF or BAM files for each sample, in a merged channel (possibly gzipped).
+  snp_bed:
+    kind: input
+    type: path
+    required: true
+    description: BED file containing the SNPs to analyse
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: fasta file for the genome, only used in the bam mode
+  fai:
+    kind: input
+    type: path
+    required: false
+    description: fasta index file for the genome, only used in the bam mode
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to ngscheckmate.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  corr_matrix:
+    type: directory
+    path: ${outdir}/ngscheckmate_ncm
+    primary: true

@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'fastk1_ktab' combined cartesian-style; verify if per-sample pairing is required; companion input 'fastk2_hist' combined cartesian-style; verify if per-sample pairing is required; companion input 'fastk2_ktab' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/merquryfk-katcomp
+name: merquryfk katcomp
+summary: A reimplemenation of Kat Comp to work with FastK databases
+params:
+  fastk1_hist:
+    kind: input
+    type: path
+    required: true
+    description: A histogram files from the program FastK
+  fastk1_ktab:
+    kind: input
+    type: path
+    required: false
+    description: Histogram ktab files from the program FastK (option -t)
+  fastk2_hist:
+    kind: input
+    type: path
+    required: false
+    description: A histogram files from the program FastK
+  fastk2_ktab:
+    kind: input
+    type: path
+    required: false
+    description: Histogram ktab files from the program FastK (option -t)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to merquryfk.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  images:
+    type: directory
+    path: ${outdir}/merquryfk_katcomp
+    primary: true

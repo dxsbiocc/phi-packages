@@ -1,0 +1,28 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'tumour_samples' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/pyclonevi
+name: pyclonevi
+summary: PyClone-VI is a software for inferring the clonal population structure of cancers by using variant
+  allele frequencies and copy number data of single or multiple samples.
+params:
+  rds_join:
+    kind: input
+    type: path
+    required: true
+    description: RDS file containing the mCNAqc object with joint mutations and copy number segments
+  tumour_samples:
+    kind: option
+    type: string
+    required: true
+    description: List of tumour sample identifiers for a specific patient
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  ctree_input:
+    type: directory
+    path: ${outdir}/pyclonevi
+    primary: true

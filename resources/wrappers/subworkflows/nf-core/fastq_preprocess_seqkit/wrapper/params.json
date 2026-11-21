@@ -1,0 +1,8 @@
+{
+  "reads": null,
+  "skip_seqkit_sana_pair": false,
+  "skip_seqkit_seq": false,
+  "skip_seqkit_replace": false,
+  "skip_seqkit_rmdup": false,
+  "outdir": "results"
+}

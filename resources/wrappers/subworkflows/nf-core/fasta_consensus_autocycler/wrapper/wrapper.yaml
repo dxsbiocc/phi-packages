@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored fasta_consensus_autocycler subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+# REVIEW: all matched contigs are treated as one group; multi-group input needs curation
+id: nf-core/subworkflows/fasta-consensus-autocycler
+name: "Consensus assembly (AutoCycler)"
+summary: "Build a consensus assembly from grouped contigs with AutoCycler."
+
+params:
+  contigs:
+    kind: input
+    type: path_glob
+    required: true
+    description: "Glob of contig FASTA files grouped into one consensus (e.g. 'contigs/*.fasta')."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/fasta_consensus_autocycler'
+    primary: true

@@ -1,0 +1,10 @@
+{
+  "reads": null,
+  "adapter_fasta": null,
+  "save_trimmed_fail": false,
+  "discard_trimmed_pass": false,
+  "save_merged": false,
+  "skip_fastp": false,
+  "skip_fastqc": false,
+  "outdir": "results"
+}

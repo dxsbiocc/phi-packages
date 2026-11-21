@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/ribocode-metaplots
+name: ribocode metaplots
+summary: Set up RiboCode ORF calling with metaplots
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Sorted BAM/CRAM/SAM file
+  annotation:
+    kind: input
+    type: path
+    required: true
+    description: Directory containing annotation files from ribocode/prepare
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to ribocode.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  config:
+    type: directory
+    path: ${outdir}/ribocode_metaplots
+    primary: true

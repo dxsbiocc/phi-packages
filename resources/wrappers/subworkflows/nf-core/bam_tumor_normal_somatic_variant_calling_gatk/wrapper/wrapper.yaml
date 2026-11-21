@@ -1,0 +1,87 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites; val input 'which_norm' exposed as required option; confirm whether a safe default exists
+id: nf-core/subworkflows/bam-tumor-normal-somatic-variant-calling-gatk
+name: bam tumor normal somatic variant calling gatk
+summary: Perform variant calling on a paired tumor normal set of samples using mutect2 tumor normal mode.
+params:
+  input:
+    kind: input
+    type: path
+    required: true
+    description: Input input for ch_input.
+  input_index:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion input_index for ch_input.
+  which_norm:
+    kind: option
+    type: string
+    required: true
+    description: Option which_norm.
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input fasta for ch_fasta.
+  fai:
+    kind: input
+    type: path
+    required: true
+    description: Input fai for ch_fai.
+  gzi:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion gzi for ch_fai.
+  dict:
+    kind: input
+    type: path
+    required: true
+    description: Input dict for ch_dict.
+  alleles:
+    kind: input
+    type: path
+    required: true
+    description: Input alleles for ch_alleles.
+  alleles_tbi:
+    kind: input
+    type: path
+    required: true
+    description: Input alleles_tbi for ch_alleles_tbi.
+  germline_resources:
+    kind: input
+    type: path
+    required: true
+    description: Input germline_resources for ch_germline_resource.
+  germline_resources_tbi:
+    kind: input
+    type: path
+    required: true
+    description: Input germline_resources_tbi for ch_germline_resource_tbi.
+  panel_of_normals:
+    kind: input
+    type: path
+    required: true
+    description: Input panel_of_normals for ch_panel_of_normals.
+  panel_of_normals_tbi:
+    kind: input
+    type: path
+    required: true
+    description: Input panel_of_normals_tbi for ch_panel_of_normals_tbi.
+  interval_files:
+    kind: input
+    type: path
+    required: true
+    description: Input interval_files for ch_interval_file.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/bam_tumor_normal_somatic_variant_calling_gatk
+    primary: true

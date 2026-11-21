@@ -1,0 +1,42 @@
+process SEQSERO2 {
+    tag "$meta.id"
+    label 'process_low'
+
+    conda "${moduleDir}/environment.yml"
+    container "${ workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container ?
+        'https://depot.galaxyproject.org/singularity/seqsero2:1.2.1--py_0' :
+        'quay.io/biocontainers/seqsero2:1.2.1--py_0' }"
+
+    input:
+    tuple val(meta), path(seqs)
+
+    output:
+    tuple val(meta), path("results/*_log.txt")   , emit: log
+    tuple val(meta), path("results/*_result.tsv"), emit: tsv
+    tuple val(meta), path("results/*_result.txt"), emit: txt
+    tuple val("${task.process}"), val('seqsero2'), eval('SeqSero2_package.py --version 2>&1 | sed \'s/^.*SeqSero2_package.py //\''), emit: versions_seqsero2, topic: versions
+
+    when:
+    task.ext.when == null || task.ext.when
+
+    script:
+    def args = task.ext.args ?: ''
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    """
+    SeqSero2_package.py \\
+        $args \\
+        -d results/ \\
+        -n $prefix \\
+        -p $task.cpus \\
+        -i $seqs
+    """
+
+    stub:
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    """
+    mkdir -p results
+    touch results/${prefix}_log.txt
+    touch results/${prefix}_result.tsv
+    touch results/${prefix}_result.txt
+    """
+}

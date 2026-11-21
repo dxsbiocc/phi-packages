@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'bam' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/ale
+name: ale
+summary: 'ALE: assembly likelihood estimator.'
+params:
+  asm:
+    kind: input
+    type: path
+    required: true
+    description: Assembly in FASTA format
+  bam:
+    kind: input
+    type: path
+    required: false
+    description: BAM file containing sorted read mappings
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to ale.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  ale:
+    type: directory
+    path: ${outdir}/ale
+    primary: true

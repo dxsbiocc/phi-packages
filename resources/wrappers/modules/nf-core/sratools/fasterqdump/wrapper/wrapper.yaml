@@ -1,0 +1,36 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/sratools-fasterqdump
+name: sratools fasterqdump
+summary: Extract sequencing reads in FASTQ format from a given NCBI Sequence Read Archive (SRA).
+params:
+  sra:
+    kind: input
+    type: path
+    required: true
+    description: Directory containing ETL data for the given SRA.
+  ncbi_settings:
+    kind: input
+    type: path
+    required: true
+    description: An NCBI user settings file.
+  certificate:
+    kind: input
+    type: path
+    required: true
+    description: Path to a JWT cart file used to access protected dbGAP data on SRA using the sra-toolkit
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to sratools.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  reads:
+    type: directory
+    path: ${outdir}/sratools_fasterqdump
+    primary: true

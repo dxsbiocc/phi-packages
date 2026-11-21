@@ -1,0 +1,57 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'bai' combined cartesian-style; verify if per-sample pairing is required; companion input 'fasta' combined cartesian-style; verify if per-sample pairing is required; companion input 'fai' combined cartesian-style; verify if per-sample pairing is required; companion input 'bed' combined cartesian-style; verify if per-sample pairing is required; companion input 'vcf' combined cartesian-style; verify if per-sample pairing is required; companion input 'tbi' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/alignoth
+name: alignoth
+summary: Creating alignment plots from bam files
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Sorted BAM/CRAM/SAM file to be visualized
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: Index file for the BAM/CRAM/SAM file
+  fasta:
+    kind: input
+    type: path
+    required: false
+    description: Reference fasta file
+  fai:
+    kind: input
+    type: path
+    required: false
+    description: Index file for the reference fasta file
+  bed:
+    kind: input
+    type: path
+    required: false
+    description: Bed file with regions to be visualized (optional)
+  vcf:
+    kind: input
+    type: path
+    required: false
+    description: VCF file with variants to be highlighted (optional)
+  tbi:
+    kind: input
+    type: path
+    required: false
+    description: Index file for the VCF file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to alignoth.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  html:
+    type: directory
+    path: ${outdir}/alignoth
+    primary: true

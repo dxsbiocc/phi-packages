@@ -1,0 +1,53 @@
+# Agent-facing wrapper adapter for the vendored metabuli/build module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+# Manually wired: exotic staging pattern.
+id: nf-core/modules/metabuli-build
+name: metabuli build
+summary: Build a Metabuli taxonomy database from sequences and NCBI taxonomy dumps.
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: Sequence FASTA to build the database from.
+  taxonomy_names:
+    kind: input
+    type: file
+    required: true
+    description: NCBI taxonomy names.dmp.
+  taxonomy_nodes:
+    kind: input
+    type: file
+    required: true
+    description: NCBI taxonomy nodes.dmp.
+  taxonomy_merged:
+    kind: input
+    type: file
+    required: false
+    description: Optional NCBI taxonomy merged.dmp.
+  accession2taxid:
+    kind: input
+    type: file
+    required: true
+    description: accession2taxid mapping file (e.g. nucl_gb.accession2taxid).
+  cds_info:
+    kind: input
+    type: file
+    required: false
+    description: Optional CDS info file.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to metabuli.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/metabuli_build
+    primary: true

@@ -1,0 +1,13 @@
+{
+  "plink_genotype_file": null,
+  "plink_variant_file": null,
+  "plink_sample_file": null,
+  "master": null,
+  "snplists": null,
+  "l0_predictions": null,
+  "pheno": null,
+  "covar": null,
+  "bsize": null,
+  "args": "",
+  "outdir": "results"
+}

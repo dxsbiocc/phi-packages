@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'speciestree' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/treerecs
+name: treerecs
+summary: Treerecs is an open-source (species- and gene-) tree reconciliation software distributed under
+  the GNU AGPL licence.
+params:
+  genetree:
+    kind: input
+    type: path
+    required: true
+    description: Phylogenetic gene tree in text or xml format
+  speciestree:
+    kind: input
+    type: path
+    required: false
+    description: Phylogenetic species tree in text or xml format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to treerecs.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  rectree:
+    type: directory
+    path: ${outdir}/treerecs
+    primary: true

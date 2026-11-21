@@ -1,0 +1,10 @@
+{
+  "alignment": null,
+  "model": null,
+  "tree": null,
+  "tree_constraint": null,
+  "partitions": null,
+  "site_weights": null,
+  "args": "",
+  "outdir": "results"
+}

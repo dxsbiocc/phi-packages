@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/abritamr-run
+name: abritamr run
+summary: A NATA accredited tool for reporting the presence of antimicrobial resistance genes in bacterial
+  genomes
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Assembled contigs in FASTA format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to abritamr.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  matches:
+    type: directory
+    path: ${outdir}/abritamr_run
+    primary: true

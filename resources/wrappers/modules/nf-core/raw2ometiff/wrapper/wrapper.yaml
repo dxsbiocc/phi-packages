@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/raw2ometiff
+name: raw2ometiff
+summary: write your description here
+params:
+  zarr_dir:
+    kind: input
+    type: path
+    required: true
+    description: Tile directory must contain a full pyramid in a Zarr container.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to raw2ometiff.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  ometiff:
+    type: directory
+    path: ${outdir}/raw2ometiff
+    primary: true

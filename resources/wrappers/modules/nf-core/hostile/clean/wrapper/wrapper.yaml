@@ -1,0 +1,38 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; glob input 'reads' collected into one staged list; verify staging layout; tuple has no leading val(meta); sample meta synthesized from file name; val input 'reference_name' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/hostile-clean
+name: hostile clean
+summary: Removes host reads from short- and long-read FASTQ sequencing files
+params:
+  reads:
+    kind: input
+    type: path
+    required: true
+    description: Paired or single end FASTQ files
+  reference_dir:
+    kind: input
+    type: path
+    required: true
+    description: Directory containing index file(s) corresponding to the preferred aligner (bowtie2 short
+      reads or minimap for long reads).
+  reference_name:
+    kind: option
+    type: string
+    required: true
+    description: Name of the reference to align against and thus remove mapped reads to.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to hostile.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fastq:
+    type: directory
+    path: ${outdir}/hostile_clean
+    primary: true

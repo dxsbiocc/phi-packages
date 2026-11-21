@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'extension' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/ensemblvep-filtervep
+name: ensemblvep filtervep
+summary: Filter variants based on Ensembl Variant Effect Predictor (VEP) annotations.
+params:
+  input:
+    kind: input
+    type: path
+    required: true
+    description: VCF/TAB file annotated with vep
+  feature_file:
+    kind: input
+    type: path
+    required: true
+    description: File containing features on separate lines.
+  extension:
+    kind: option
+    type: string
+    required: true
+    description: File extension for the output file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to ensemblvep.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/ensemblvep_filtervep
+    primary: true

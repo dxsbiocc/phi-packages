@@ -1,0 +1,67 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
+id: nf-core/subworkflows/bam-variant-calling-sort-freebayes-bcftools
+name: bam variant calling sort freebayes bcftools
+summary: Call variants using freebayes, then sort and index
+params:
+  input1:
+    kind: input
+    type: path
+    required: true
+    description: Input input1 for ch_input.
+  index1:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion index1 for ch_input.
+  input2:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion input2 for ch_input.
+  index2:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion index2 for ch_input.
+  bed:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion bed for ch_input.
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input fasta for ch_fasta_fai.
+  fai:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion fai for ch_fasta_fai.
+  samples:
+    kind: input
+    type: path
+    required: true
+    description: Input samples for ch_samples.
+  populations:
+    kind: input
+    type: path
+    required: true
+    description: Input populations for ch_populations.
+  cnv:
+    kind: input
+    type: path
+    required: true
+    description: Input cnv for ch_cnv.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/bam_variant_calling_sort_freebayes_bcftools
+    primary: true

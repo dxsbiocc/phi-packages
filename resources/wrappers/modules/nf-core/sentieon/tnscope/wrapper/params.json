@@ -1,0 +1,15 @@
+{
+  "input": null,
+  "input_index": null,
+  "intervals": null,
+  "fasta": null,
+  "fai": null,
+  "dbsnp": null,
+  "dbsnp_tbi": null,
+  "pon": null,
+  "pon_tbi": null,
+  "cosmic": null,
+  "cosmic_tbi": null,
+  "args": "",
+  "outdir": "results"
+}

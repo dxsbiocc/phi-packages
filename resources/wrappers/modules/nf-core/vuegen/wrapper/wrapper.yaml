@@ -1,0 +1,38 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'input_type' exposed as required option; confirm whether a safe default exists; val input 'report_type' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/vuegen
+name: vuegen
+summary: The VueGen nf-core module is designed to automate report generation from outputs produced by
+  other modules, subworkflows, or pipelines.
+params:
+  input_type:
+    kind: option
+    type: string
+    required: true
+    description: Specifies whether the input is a configuration file ('config') or a directory ('directory').
+  input_path:
+    kind: input
+    type: path
+    required: true
+    description: Path to the input directory or configuration file used by VueGen.
+  report_type:
+    kind: option
+    type: string
+    required: true
+    description: The type of report to generate.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to vuegen.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  output_folder:
+    type: directory
+    path: ${outdir}/vuegen
+    primary: true

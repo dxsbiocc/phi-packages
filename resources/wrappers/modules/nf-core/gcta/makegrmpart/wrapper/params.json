@@ -1,0 +1,11 @@
+{
+  "mfile": null,
+  "bed_pgen": null,
+  "bim_pvar": null,
+  "fam_psam": null,
+  "nparts_gcta": null,
+  "part_gcta_job": null,
+  "snp_group_file": null,
+  "args": "",
+  "outdir": "results"
+}

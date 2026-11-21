@@ -1,0 +1,11 @@
+{
+  "reads": null,
+  "index": null,
+  "t2g": null,
+  "t1c": null,
+  "t2c": null,
+  "technology": null,
+  "workflow_mode": null,
+  "args": "",
+  "outdir": "results"
+}

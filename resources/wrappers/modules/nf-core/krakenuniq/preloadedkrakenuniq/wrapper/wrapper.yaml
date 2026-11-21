@@ -1,0 +1,58 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'prefixes' exposed as required option; confirm whether a safe default exists; val input 'sequence_type' exposed as required option; confirm whether a safe default exists; standalone path 'db' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/krakenuniq-preloadedkrakenuniq
+name: krakenuniq preloadedkrakenuniq
+summary: Classifies metagenomic sequence data using unique k-mer counts
+params:
+  sequences:
+    kind: input
+    type: path
+    required: true
+    description: List of input files containing sequences.
+  prefixes:
+    kind: option
+    type: string
+    required: true
+    description: List of sample identifiers or filename prefixes.
+  sequence_type:
+    kind: option
+    type: string
+    required: true
+    description: Format of all given sequencing files as literal string, either 'fasta' or 'fastq'.
+  db:
+    kind: input
+    type: path
+    required: false
+    description: KrakenUniq database
+  save_output_reads:
+    kind: option
+    type: boolean
+    required: false
+    description: Optionally, commands are added to save classified and unclassified reads as FASTQ or
+      FASTA files depending on the input format.
+  report_file:
+    kind: option
+    type: boolean
+    required: false
+    description: Whether to generate a report of relative abundances.
+  save_output:
+    kind: option
+    type: boolean
+    required: false
+    description: Whether to save a file reporting the taxonomic classification of each input read.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to krakenuniq.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  classified_reads:
+    type: directory
+    path: ${outdir}/krakenuniq_preloadedkrakenuniq
+    primary: true

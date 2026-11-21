@@ -1,0 +1,21 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/doubletdetection
+name: doubletdetection
+summary: Doublet detection in single-cell RNA-seq data
+params:
+  h5ad:
+    kind: input
+    type: path
+    required: true
+    description: H5AD anndata object
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  h5ad:
+    type: directory
+    path: ${outdir}/doubletdetection
+    primary: true

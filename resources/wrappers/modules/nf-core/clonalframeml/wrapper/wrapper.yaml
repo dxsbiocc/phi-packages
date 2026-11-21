@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'msa' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/clonalframeml
+name: clonalframeml
+summary: Predict recomination events in bacterial genomes
+params:
+  newick:
+    kind: input
+    type: path
+    required: true
+    description: A Newick formatted tree based on multiple sequence alignment
+  msa:
+    kind: input
+    type: path
+    required: false
+    description: A multiple sequence alignment in FASTA format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to clonalframeml.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  emsim:
+    type: directory
+    path: ${outdir}/clonalframeml
+    primary: true

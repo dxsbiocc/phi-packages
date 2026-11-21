@@ -1,0 +1,17 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/deepbgc-download
+name: deepbgc download
+summary: Database download module for DeepBGC which detects BGCs in bacterial and fungal genomes using
+  deep learning.
+params:
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  db:
+    type: directory
+    path: ${outdir}/deepbgc_download
+    primary: true

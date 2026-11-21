@@ -1,0 +1,9 @@
+{
+  "trimlogs": null,
+  "bblogs": null,
+  "idxstats": null,
+  "fcs": null,
+  "mergetab": null,
+  "samples_meta": null,
+  "outdir": "results"
+}

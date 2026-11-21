@@ -1,0 +1,9 @@
+{
+  "bam": null,
+  "bai": null,
+  "fasta": null,
+  "fai": null,
+  "plot_results": false,
+  "args": "",
+  "outdir": "results"
+}

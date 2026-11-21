@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored fastq_complexity_filter subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+id: nf-core/subworkflows/fastq-complexity-filter
+name: "Complexity filter FASTQ"
+summary: "Filter low-complexity reads with prinseqplusplus, bbduk or fastp."
+
+params:
+  reads:
+    kind: input
+    type: path_glob
+    required: true
+    description: "FASTQ glob (paired or single)."
+  complexity_filter_tool:
+    kind: option
+    type: string
+    required: true
+    enum:
+      - prinseqplusplus
+      - bbduk
+      - fastp
+    description: "Tool to use."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/fastq_complexity_filter'
+    primary: true

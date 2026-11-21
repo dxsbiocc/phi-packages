@@ -1,0 +1,26 @@
+name: lefse_plot_cladogram
+description: Plot LEfSe results as a taxonomic cladogram.
+keywords:
+- metagenomics
+- visualization
+- biomarker
+- taxonomy
+tools:
+- lefse:
+    description: 'LEfSe: LDA effect size biomarker discovery.'
+    homepage: https://github.com/SegataLab/lefse
+input:
+- meta:
+    type: map
+    description: Sample meta map
+- res:
+    type: file
+    description: LEfSe .res results file
+output:
+- plot:
+    type: file
+    description: Cladogram figure (PNG)
+authors:
+- '@dengxsh'
+maintainers:
+- '@dengxsh'

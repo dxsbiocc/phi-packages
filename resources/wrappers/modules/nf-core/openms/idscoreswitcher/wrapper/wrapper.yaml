@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/openms-idscoreswitcher
+name: openms idscoreswitcher
+summary: Switches between different scores of peptide or protein hits in identification data
+params:
+  idxml:
+    kind: input
+    type: path
+    required: true
+    description: Identification file containing a primary PSM score
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to openms.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  idxml:
+    type: directory
+    path: ${outdir}/openms_idscoreswitcher
+    primary: true

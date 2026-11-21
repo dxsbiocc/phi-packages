@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'bai' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/verifybamid-verifybamid
+name: verifybamid verifybamid
+summary: Detecting and estimating inter-sample DNA contamination became a crucial quality assessment step
+  to ensure high quality sequence reads and reliable downstream analysis.
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: BAM file, a sorted, indexed, base quality recalibrated, and duplication-marked BAM file.
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: BAM index file BAI
+  refvcf:
+    kind: input
+    type: path
+    required: true
+    description: The input VCF file contains (1) external genotype information and/or (2) allele frequency
+      information as AF entry or AC/AN entries in the INFO field.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to verifybamid.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  log:
+    type: directory
+    path: ${outdir}/verifybamid_verifybamid
+    primary: true

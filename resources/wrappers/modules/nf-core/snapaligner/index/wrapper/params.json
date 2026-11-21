@@ -1,0 +1,8 @@
+{
+  "fasta": null,
+  "altcontigfile": null,
+  "nonaltcontigfile": null,
+  "altliftoverfile": null,
+  "args": "",
+  "outdir": "results"
+}

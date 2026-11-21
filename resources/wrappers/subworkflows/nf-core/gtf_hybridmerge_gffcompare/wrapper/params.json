@@ -1,0 +1,8 @@
+{
+  "novel_gtf": null,
+  "reference_gtf": null,
+  "backbone_gtf": null,
+  "class_codes": "u,j,i",
+  "blacklist_bed": null,
+  "outdir": "results"
+}

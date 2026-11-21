@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'modcodes' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/modkit-bedmethyltobigwig
+name: modkit bedmethyltobigwig
+summary: Convert a bedMethyl file to bigWig format using modkit
+params:
+  bedmethyl:
+    kind: input
+    type: path
+    required: true
+    description: bedMethyl file
+  chromsizes:
+    kind: input
+    type: path
+    required: true
+    description: Tab-separated file with chromosome names and sizes or fai index
+  modcodes:
+    kind: option
+    type: string
+    required: true
+    description: List of modification codes to include in the output bigWig file.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to modkit.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bw:
+    type: directory
+    path: ${outdir}/modkit_bedmethyltobigwig
+    primary: true

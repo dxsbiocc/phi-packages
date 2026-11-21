@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/foldcomp-compress
+name: foldcomp compress
+summary: Efficient compression tool for protein structures
+params:
+  pdb:
+    kind: input
+    type: path
+    required: true
+    description: Protein structure(s) in PDB or CIF format to compress (also works with folder input)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to foldcomp.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fcz:
+    type: directory
+    path: ${outdir}/foldcomp_compress
+    primary: true

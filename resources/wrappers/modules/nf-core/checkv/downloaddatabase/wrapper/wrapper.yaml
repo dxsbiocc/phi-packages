@@ -1,0 +1,21 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/checkv-downloaddatabase
+name: checkv downloaddatabase
+summary: Construct the database necessary for checkv's quality assessment
+params:
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to checkv.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  checkv_db:
+    type: directory
+    path: ${outdir}/checkv_downloaddatabase
+    primary: true

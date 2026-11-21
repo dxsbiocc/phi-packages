@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/coptr-merge
+name: coptr merge
+summary: Merge reads that were mapped to multiple indices
+params:
+  bams:
+    kind: input
+    type: path
+    required: true
+    description: bam files to merge.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to coptr.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bam:
+    type: directory
+    path: ${outdir}/coptr_merge
+    primary: true

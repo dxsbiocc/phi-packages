@@ -1,0 +1,14 @@
+{
+  "tumour": null,
+  "tumour_index": null,
+  "snp_vcf": null,
+  "allele_counts_het_snps": null,
+  "breakpoints": null,
+  "ref": null,
+  "ref_index": null,
+  "contigs": null,
+  "blacklist": null,
+  "g1000_vcf": null,
+  "args": "",
+  "outdir": "results"
+}

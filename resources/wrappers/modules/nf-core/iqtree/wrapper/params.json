@@ -1,0 +1,18 @@
+{
+  "alignment": null,
+  "tree": null,
+  "tree_te": null,
+  "lmclust": null,
+  "mdef": null,
+  "partitions_equal": null,
+  "partitions_proportional": null,
+  "partitions_unlinked": null,
+  "guide_tree": null,
+  "sitefreq_in": null,
+  "constraint_tree": null,
+  "trees_z": null,
+  "suptree": null,
+  "trees_rf": null,
+  "args": "",
+  "outdir": "results"
+}

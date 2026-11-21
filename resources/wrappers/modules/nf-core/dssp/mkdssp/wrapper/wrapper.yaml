@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'format' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/dssp-mkdssp
+name: dssp mkdssp
+summary: Calculates secondary structure assignments from PDB files using mkdssp (DSSP).
+params:
+  pdb:
+    kind: input
+    type: path
+    required: true
+    description: Protein structure file in PDB format
+  format:
+    kind: option
+    type: string
+    required: true
+    description: Format for the output file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to dssp.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  dssp:
+    type: directory
+    path: ${outdir}/dssp_mkdssp
+    primary: true

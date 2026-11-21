@@ -1,0 +1,11 @@
+{
+  "vcf": null,
+  "in_occs": null,
+  "in_frqs": null,
+  "out_occs": null,
+  "out_frqs": null,
+  "vcf_dbs": null,
+  "bedpe_dbs": null,
+  "args": "",
+  "outdir": "results"
+}

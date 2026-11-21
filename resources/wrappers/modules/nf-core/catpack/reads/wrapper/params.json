@@ -1,0 +1,17 @@
+{
+  "reads": null,
+  "contigs": null,
+  "database": null,
+  "taxonomy": null,
+  "bins": null,
+  "mode": null,
+  "bam_aligned": null,
+  "bam_unaligned": null,
+  "contig2classification": null,
+  "bin2classification": null,
+  "unclassified2classification": null,
+  "proteins": null,
+  "diamond_alignment": null,
+  "args": "",
+  "outdir": "results"
+}

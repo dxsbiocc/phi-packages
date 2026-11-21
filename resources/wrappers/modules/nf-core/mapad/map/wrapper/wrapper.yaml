@@ -1,0 +1,67 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'mismatch_parameter' exposed as required option; confirm whether a safe default exists; val input 'five_prime_overhang' exposed as required option; confirm whether a safe default exists; val input 'three_prime_overhang' exposed as required option; confirm whether a safe default exists; val input 'deam_rate_double_stranded' exposed as required option; confirm whether a safe default exists; val input 'deam_rate_single_stranded' exposed as required option; confirm whether a safe default exists; val input 'indel_rate' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/mapad-map
+name: mapad map
+summary: Map short-reads to an indexed reference genome
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Sequencing reads in FASTQ or BAM (unmapped/mapped) related formats.
+  index:
+    kind: input
+    type: path
+    required: true
+    description: mapAD genome index files (mandatory)
+  mismatch_parameter:
+    kind: option
+    type: number
+    required: true
+    description: Minimum probability of the number of mismatches under `-D` base error rate
+  double_stranded_library:
+    kind: option
+    type: boolean
+    required: false
+    description: Library preparation method - specify if double stranded else it's assumed single stranded
+  five_prime_overhang:
+    kind: option
+    type: number
+    required: true
+    description: 5'-overhang length parameter
+  three_prime_overhang:
+    kind: option
+    type: number
+    required: true
+    description: 3'-overhang length parameter
+  deam_rate_double_stranded:
+    kind: option
+    type: number
+    required: true
+    description: Deamination rate in double-stranded stem of a read
+  deam_rate_single_stranded:
+    kind: option
+    type: number
+    required: true
+    description: Deamination rate in single-stranded ends of a read
+  indel_rate:
+    kind: option
+    type: number
+    required: true
+    description: Expected rate of indels between reads and reference
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to mapad.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bam:
+    type: directory
+    path: ${outdir}/mapad_map
+    primary: true

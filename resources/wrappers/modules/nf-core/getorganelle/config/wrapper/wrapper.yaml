@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'organelle_type' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/getorganelle-config
+name: getorganelle config
+summary: Downloads databases needed for running getorganelle
+params:
+  organelle_type:
+    kind: option
+    type: string
+    required: true
+    description: Type of database, esp.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to getorganelle.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  db:
+    type: directory
+    path: ${outdir}/getorganelle_config
+    primary: true

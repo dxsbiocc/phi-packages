@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'species' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/mirtop-gff
+name: mirtop gff
+summary: mirtop gff generates the GFF3 adapter format to capture miRNA variations
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Sorted BAM/CRAM/SAM file
+  hairpin:
+    kind: input
+    type: path
+    required: true
+    description: Hairpin file
+  gtf:
+    kind: input
+    type: path
+    required: true
+    description: GTF file
+  species:
+    kind: option
+    type: string
+    required: true
+    description: Species name of the GTF file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to mirtop.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gff:
+    type: directory
+    path: ${outdir}/mirtop_gff
+    primary: true

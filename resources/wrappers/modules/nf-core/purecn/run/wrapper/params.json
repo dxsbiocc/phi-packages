@@ -1,0 +1,10 @@
+{
+  "intervals": null,
+  "coverage": null,
+  "vcf": null,
+  "normal_db": null,
+  "mapping_bias": null,
+  "genome": null,
+  "args": "",
+  "outdir": "results"
+}

@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/spring-decompress
+name: spring decompress
+summary: Fast, efficient, lossless decompression of FASTQ files.
+params:
+  spring:
+    kind: input
+    type: path
+    required: true
+    description: Spring file to decompress.
+  write_one_fastq_gz:
+    kind: option
+    type: boolean
+    required: false
+    description: Controls whether spring should write one fastq.gz file with reads from both directions
+      or two fastq.gz files with reads from distinct directions
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to spring.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fastq:
+    type: directory
+    path: ${outdir}/spring_decompress
+    primary: true

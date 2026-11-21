@@ -1,0 +1,7 @@
+{
+  "probes_fasta": null,
+  "ref_annot_gff": null,
+  "ref_annot_fa": null,
+  "gene_synonyms": null,
+  "outdir": "results"
+}

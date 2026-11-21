@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'sv_file_index' combined cartesian-style; verify if per-sample pairing is required; val input 'assembly' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/strvctvre-strvctvre
+name: strvctvre strvctvre
+summary: a structural variant classifier for exonic deletions and duplications
+params:
+  sv_file:
+    kind: input
+    type: path
+    required: true
+    description: Structural variants file in VCF or BED format
+  sv_file_index:
+    kind: input
+    type: path
+    required: false
+    description: Index file for the structural variants file VCF file
+  assembly:
+    kind: option
+    type: string
+    required: true
+    description: Genome assembly version, has to be one of 'GRCh38' or 'GRCh37'
+  phylop:
+    kind: input
+    type: path
+    required: true
+    description: PhyloP bigWig file (fetched from https://hgdownload.cse.ucsc.edu/goldenpath/hg38/phyloP100way/)
+  data_directory:
+    kind: input
+    type: path
+    required: true
+    description: Directory containing the StrVCTVRE data files (fetched from https://github.com/andrewSharo/StrVCTVRE/tree/master/data)
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcf:
+    type: directory
+    path: ${outdir}/strvctvre_strvctvre
+    primary: true

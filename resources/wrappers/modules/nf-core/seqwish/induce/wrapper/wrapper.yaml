@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'fasta' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/seqwish-induce
+name: seqwish induce
+summary: Induce a variation graph in GFA format from alignments in PAF format
+params:
+  paf:
+    kind: input
+    type: path
+    required: true
+    description: comma-separated PAF file(s) of alignments, single entry allowed
+  fasta:
+    kind: input
+    type: path
+    required: false
+    description: FASTA file used to generate alignments
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to seqwish.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gfa:
+    type: directory
+    path: ${outdir}/seqwish_induce
+    primary: true

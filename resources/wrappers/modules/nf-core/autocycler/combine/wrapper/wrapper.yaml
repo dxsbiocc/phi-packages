@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/autocycler-combine
+name: autocycler combine
+summary: Merge resolved cluster assemblies into final consensus outputs with Autocycler.
+params:
+  clusters:
+    kind: input
+    type: path
+    required: true
+    description: Final cluster assembly graphs (GFA) to be combined into consensus sequences.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to autocycler.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fasta:
+    type: directory
+    path: ${outdir}/autocycler_combine
+    primary: true

@@ -1,0 +1,36 @@
+# Agent-facing wrapper adapter for the vendored homer_groseq subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+# REVIEW: uniqmap passed as a path string; verify zip handling
+id: nf-core/subworkflows/homer-groseq
+name: "GRO-seq analysis (HOMER)"
+summary: "Make tag directories, UCSC files, find peaks and convert to BED with HOMER."
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: "Aligned BAM file."
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: "Reference genome FASTA (for HOMER tag directory)."
+  uniqmap:
+    kind: input
+    type: path
+    required: false
+    description: "Uniquely-mappable regions file or zip (optional)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/homer_groseq'
+    primary: true

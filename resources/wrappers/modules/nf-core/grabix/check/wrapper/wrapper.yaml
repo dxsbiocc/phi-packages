@@ -1,0 +1,21 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/grabix-check
+name: grabix check
+summary: Checks if the input file is bgzip compressed or not
+params:
+  input:
+    kind: input
+    type: path
+    required: true
+    description: file to check compression
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  compress_bgzip:
+    type: directory
+    path: ${outdir}/grabix_check
+    primary: true

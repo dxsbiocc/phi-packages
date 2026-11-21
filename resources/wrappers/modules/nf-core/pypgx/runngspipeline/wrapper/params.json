@@ -1,0 +1,10 @@
+{
+  "vcf": null,
+  "tbi": null,
+  "coverage": null,
+  "control_stats": null,
+  "pgx_gene": null,
+  "resource_bundle": null,
+  "args": "",
+  "outdir": "results"
+}

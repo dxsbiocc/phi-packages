@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'fasta_list' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/ska-fasta
+name: ska fasta
+summary: Create genome sketch using split k-mers
+params:
+  fastas:
+    kind: input
+    type: path
+    required: true
+    description: FASTA files with contigs/reads
+  fasta_list:
+    kind: input
+    type: path
+    required: false
+    description: List of FASTA files with contigs/reads
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to ska.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  skf:
+    type: directory
+    path: ${outdir}/ska_fasta
+    primary: true

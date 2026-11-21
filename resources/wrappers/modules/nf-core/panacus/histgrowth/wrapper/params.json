@@ -1,0 +1,8 @@
+{
+  "gfa": null,
+  "bed_subset": null,
+  "bed_exclude": null,
+  "tsv_groupby": null,
+  "args": "",
+  "outdir": "results"
+}

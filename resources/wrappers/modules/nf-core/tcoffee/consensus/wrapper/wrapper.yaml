@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/tcoffee-consensus
+name: tcoffee consensus
+summary: Computes a consensus alignment using T_COFFEE
+params:
+  aln:
+    kind: input
+    type: path
+    required: true
+    description: List of multiple sequence alignments in FASTA format to be used to compute the consensus
+  tree:
+    kind: input
+    type: path
+    required: true
+    description: Input guide tree in Newick format
+  compress:
+    kind: option
+    type: boolean
+    required: false
+    description: Flag representing whether the output MSA should be compressed.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to tcoffee.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  alignment:
+    type: directory
+    path: ${outdir}/tcoffee_consensus
+    primary: true

@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/pharmcat-reporter
+name: pharmcat reporter
+summary: The Reporter module is responsible for generating a report with genotype-specific expert-reviewed
+  drug prescribing recommendations for clinical decision support.
+params:
+  phenotypes:
+    kind: input
+    type: path
+    required: true
+    description: The vcf file to be inspected
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to pharmcat.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  report_json:
+    type: directory
+    path: ${outdir}/pharmcat_reporter
+    primary: true

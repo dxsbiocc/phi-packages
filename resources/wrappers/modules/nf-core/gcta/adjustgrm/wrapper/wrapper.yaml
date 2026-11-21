@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'grm_adj' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/gcta-adjustgrm
+name: gcta adjustgrm
+summary: Adjust a dense GRM for incomplete tagging using `gcta --grm-adj`
+params:
+  grm_files:
+    kind: input
+    type: path
+    required: true
+    description: Dense GRM file bundle with basename `${meta.id}`
+  grm_adj:
+    kind: option
+    type: integer
+    required: true
+    description: Required GRM adjustment value passed to `--grm-adj`.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to gcta.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  grm_files:
+    type: directory
+    path: ${outdir}/gcta_adjustgrm
+    primary: true

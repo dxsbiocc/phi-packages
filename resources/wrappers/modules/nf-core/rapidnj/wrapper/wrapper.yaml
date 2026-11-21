@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/rapidnj
+name: rapidnj
+summary: Produces a Newick format phylogeny from a multiple sequence alignment using a Neighbour-Joining
+  algorithm.
+params:
+  alignment:
+    kind: input
+    type: path
+    required: true
+    description: A FASTA format multiple sequence alignment file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to rapidnj.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  stockholm_alignment:
+    type: directory
+    path: ${outdir}/rapidnj
+    primary: true

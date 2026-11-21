@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/macse-refinealignment
+name: macse refinealignment
+summary: improves the input nucleotide alignment in a codon-aware manner
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Aligned sequences in FASTA format.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to macse.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  nt:
+    type: directory
+    path: ${outdir}/macse_refinealignment
+    primary: true

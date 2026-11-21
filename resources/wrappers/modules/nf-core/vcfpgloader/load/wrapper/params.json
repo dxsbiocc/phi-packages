@@ -1,0 +1,11 @@
+{
+  "vcf": null,
+  "tbi": null,
+  "db_host": null,
+  "db_port": null,
+  "db_name": null,
+  "db_user": null,
+  "db_schema": null,
+  "args": "",
+  "outdir": "results"
+}

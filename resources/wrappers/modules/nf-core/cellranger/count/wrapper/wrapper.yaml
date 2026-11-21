@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored cellranger/count module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+# Manually wired: exotic staging pattern.
+id: nf-core/modules/cellranger-count
+name: cellranger count
+summary: Run 10x Genomics Cell Ranger count on GEX FASTQs against a Cell Ranger reference.
+params:
+  fastqs:
+    kind: input
+    type: path
+    required: true
+    description: Directory of GEX FASTQ files (*.fastq.gz).
+  reference:
+    kind: input
+    type: path
+    required: true
+    description: Cell Ranger reference directory (from cellranger mkref).
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to cellranger.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/cellranger_count
+    primary: true

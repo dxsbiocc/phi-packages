@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/malt-run
+name: malt run
+summary: MALT, an acronym for MEGAN alignment tool, is a sequence alignment and analysis tool designed
+  for processing high-throughput sequencing data, especially in the context of metagenomics.
+params:
+  fastqs:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Input FASTQ files
+  index:
+    kind: input
+    type: path
+    required: true
+    description: Index/database directory from malt-build
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to malt.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  rma6:
+    type: directory
+    path: ${outdir}/malt_run
+    primary: true

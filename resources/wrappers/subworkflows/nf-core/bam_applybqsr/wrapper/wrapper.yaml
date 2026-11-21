@@ -1,0 +1,69 @@
+# Agent-facing wrapper adapter for the vendored bam_applybqsr subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+# REVIEW: single-interval adapter; scatter-gather needs curation
+id: nf-core/subworkflows/bam-applybqsr
+name: "Apply BQSR"
+summary: "Apply GATK base quality score recalibration to a BAM/CRAM."
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: "Input BAM/CRAM."
+  bai:
+    kind: input
+    type: path
+    required: true
+    description: "Input index."
+  recal:
+    kind: input
+    type: path
+    required: true
+    description: "BQSR recalibration table."
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: "Reference FASTA."
+  fai:
+    kind: input
+    type: path
+    required: true
+    description: "Reference FASTA index."
+  dict:
+    kind: input
+    type: path
+    required: true
+    description: "Reference dictionary."
+  intervals:
+    kind: input
+    type: path
+    required: false
+    description: "Interval file (optional)."
+  output_suffix:
+    kind: option
+    type: string
+    required: true
+    enum:
+      - bam
+      - cram
+    description: "Output format."
+  sample_id:
+    kind: option
+    type: string
+    required: false
+    description: "Sample id."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/bam_applybqsr'
+    primary: true

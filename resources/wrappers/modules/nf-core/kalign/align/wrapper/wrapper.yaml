@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/kalign-align
+name: kalign align
+summary: Aligns sequences using kalign
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input sequences in FASTA format.
+  compress:
+    kind: option
+    type: boolean
+    required: false
+    description: Flag representing whether the output MSA should be compressed.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to kalign.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  alignment:
+    type: directory
+    path: ${outdir}/kalign_align
+    primary: true

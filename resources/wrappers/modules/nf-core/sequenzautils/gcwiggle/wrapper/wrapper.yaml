@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/sequenzautils-gcwiggle
+name: sequenzautils gcwiggle
+summary: Sequenza-utils gc_wiggle computes the GC percentage across the sequences, and returns a file
+  in the UCSC wiggle format, given a fasta file and a window size.
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: FASTA file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to sequenzautils.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  wig:
+    type: directory
+    path: ${outdir}/sequenzautils_gcwiggle
+    primary: true

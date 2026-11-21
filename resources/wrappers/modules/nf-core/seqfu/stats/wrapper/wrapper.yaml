@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/seqfu-stats
+name: seqfu stats
+summary: Statistics for FASTA or FASTQ files
+params:
+  files:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: One or more FASTA or FASTQ files
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to seqfu.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  stats:
+    type: directory
+    path: ${outdir}/seqfu_stats
+    primary: true

@@ -1,0 +1,16 @@
+{
+  "vcf": null,
+  "custom_extra_files": null,
+  "genome": null,
+  "species": null,
+  "cache_version": null,
+  "cache": null,
+  "fasta": null,
+  "extra_files": null,
+  "gtf": null,
+  "gtf_tbi": null,
+  "gtf_2": null,
+  "gtf_tbi_2": null,
+  "args": "",
+  "outdir": "results"
+}

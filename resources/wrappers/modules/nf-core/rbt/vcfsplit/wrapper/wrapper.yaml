@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'numchunks' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/rbt-vcfsplit
+name: rbt vcfsplit
+summary: A tool for splitting VCF/BCF files into N equal chunks, including BND support
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: VCF file with variants to be split
+  numchunks:
+    kind: option
+    type: integer
+    required: true
+    description: Number of chunks to split the VCF file into.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bcfchunks:
+    type: directory
+    path: ${outdir}/rbt_vcfsplit
+    primary: true

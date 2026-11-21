@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'genome_size_files' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/ganon-buildcustom
+name: ganon buildcustom
+summary: Build ganon database using custom reference sequences.
+params:
+  input:
+    kind: input
+    type: path
+    required: true
+    description: List of input FASTA files, or a directory containing input FASTA files.
+  input_tsv:
+    kind: input
+    type: path
+    required: true
+    description: (Optional) Specify an TSV file containing the paths, and relevant metadata to the input
+      FASTA files to use the `--input-file` option.
+  taxonomy_files:
+    kind: input
+    type: path
+    required: true
+    description: Pre-downloaded taxonomy files of input sequences.
+  genome_size_files:
+    kind: input
+    type: path
+    required: false
+    description: Pre-downloaded NCBI or GTDB genome size files of input sequences.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to ganon.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  db:
+    type: directory
+    path: ${outdir}/ganon_buildcustom
+    primary: true

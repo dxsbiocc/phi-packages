@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'extract_type' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/fibertoolsrs-extract
+name: fibertoolsrs extract
+summary: Extract Fiber-seq information (such as m6A, CpG, nucleosomes, and MSPs) from BAM file into BED
+  file
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Sorted BAM/CRAM file
+  extract_type:
+    kind: option
+    type: string
+    required: true
+    description: Type of fiberseq information to extract e.g.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to fibertoolsrs.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bed:
+    type: directory
+    path: ${outdir}/fibertoolsrs_extract
+    primary: true

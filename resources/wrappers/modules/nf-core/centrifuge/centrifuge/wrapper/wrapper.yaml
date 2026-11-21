@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'db' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/centrifuge-centrifuge
+name: centrifuge centrifuge
+summary: Classifies metagenomic sequence data
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: List of input FastQ files of size 1 and 2 for single-end and paired-end data, respectively.
+  db:
+    kind: input
+    type: path
+    required: false
+    description: Path to directory containing centrifuge database files
+  save_unaligned:
+    kind: option
+    type: boolean
+    required: false
+    description: If true unmapped fastq files are saved
+  save_aligned:
+    kind: option
+    type: boolean
+    required: false
+    description: If true mapped fastq files are saved
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to centrifuge.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  report:
+    type: directory
+    path: ${outdir}/centrifuge_centrifuge
+    primary: true

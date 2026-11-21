@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/ribocode-gtfupdate
+name: ribocode gtfupdate
+summary: Update GTF annotation file for RiboCode compatibility
+params:
+  gtf:
+    kind: input
+    type: path
+    required: true
+    description: GTF annotation file to update (uncompressed)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to ribocode.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gtf:
+    type: directory
+    path: ${outdir}/ribocode_gtfupdate
+    primary: true

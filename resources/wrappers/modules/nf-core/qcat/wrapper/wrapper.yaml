@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'barcode_kit' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/qcat
+name: qcat
+summary: Demultiplexer for Nanopore samples
+params:
+  reads:
+    kind: input
+    type: path
+    required: true
+    description: Non-demultiplexed fastq files
+  barcode_kit:
+    kind: option
+    type: string
+    required: true
+    description: Barcode kit used for demultiplexing
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  reads:
+    type: directory
+    path: ${outdir}/qcat
+    primary: true

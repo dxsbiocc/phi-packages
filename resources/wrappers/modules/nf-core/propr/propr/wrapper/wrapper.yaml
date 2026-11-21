@@ -1,0 +1,22 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/propr-propr
+name: propr propr
+summary: Perform logratio-based correlation analysis -> get proportionality & basis shrinkage partial
+  correlation coefficients.
+params:
+  count:
+    kind: input
+    type: path
+    required: true
+    description: Count matrix, where rows = variables or genes, columns = samples or cells.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  propr:
+    type: directory
+    path: ${outdir}/propr_propr
+    primary: true

@@ -1,0 +1,53 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'model' exposed as required option; confirm whether a safe default exists; companion input 'bed' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/artic-minion
+name: artic minion
+summary: Run the alignment/variant-call/consensus logic of the artic pipeline
+params:
+  fastq:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: FastQ file containing reads
+  model_dir:
+    kind: input
+    type: path
+    required: true
+    description: Path containing clair3 models, defaults to models packaged with conda installation
+  model:
+    kind: option
+    type: string
+    required: true
+    description: The model to use for clair3, if not provided the pipeline will try to figure it out the
+      appropriate model from the read fastq
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Scheme reference fasta file
+  bed:
+    kind: input
+    type: path
+    required: false
+    description: Scheme BED file
+  hdf5_plugin_path:
+    kind: input
+    type: path
+    required: true
+    description: Optional path to HDF5 plugin library
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to artic.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/artic_minion
+    primary: true

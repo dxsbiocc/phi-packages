@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'indexes' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/aardvark-merge
+name: aardvark merge
+summary: A tool to evaluate and merge multiple variant calls into a consensus VCF.
+params:
+  vcfs:
+    kind: input
+    type: path
+    required: true
+    description: List of VCF files to be merged
+  indexes:
+    kind: input
+    type: path
+    required: false
+    description: List of index files for the input VCF files
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Reference genome fasta file
+  bed:
+    kind: input
+    type: path
+    required: true
+    description: Optional BED file containing genomic regions to restrict the merge operation
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to aardvark.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  summary:
+    type: directory
+    path: ${outdir}/aardvark_merge
+    primary: true

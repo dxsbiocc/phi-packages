@@ -1,0 +1,12 @@
+{
+  "reads": null,
+  "index": null,
+  "fasta": null,
+  "fai": null,
+  "barcodes": null,
+  "whitelist": null,
+  "chr_order": null,
+  "pairs_chr_order": null,
+  "update_readgroups": false,
+  "outdir": "results"
+}

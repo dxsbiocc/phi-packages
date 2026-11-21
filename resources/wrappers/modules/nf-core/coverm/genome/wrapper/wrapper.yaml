@@ -1,0 +1,54 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'ref_mode' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/coverm-genome
+name: coverm genome
+summary: Calculate read coverage per-genome
+params:
+  input:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: FASTA/FASTQ containing reads (can be gzipped), or sorted BAM files of reads mapped to
+      a reference.
+  reference:
+    kind: input
+    type: path
+    required: true
+    description: Genome FASTA file(s) to map reads to, or a directory containing genome FASTA files.
+  bam_input:
+    kind: option
+    type: boolean
+    required: false
+    description: True if input is bam files
+  interleaved:
+    kind: option
+    type: boolean
+    required: false
+    description: True if input is interleaved fastq file
+  ref_mode:
+    kind: option
+    type: string
+    required: true
+    description: 'How to interpret the `reference` input: - `"dir"`: Treat as a directory containing one
+      or more FASTA files.'
+  enable_bam_output:
+    kind: option
+    type: boolean
+    required: false
+    description: True to enable BAM output of aligned reads
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to coverm.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  coverage:
+    type: directory
+    path: ${outdir}/coverm_genome
+    primary: true

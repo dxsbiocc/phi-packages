@@ -1,0 +1,48 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 's' combined cartesian-style; verify if per-sample pairing is required; companion input 'labelled_somalier_files' combined cartesian-style; verify if per-sample pairing is required; companion input 's_2' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/somalier-ancestry
+name: somalier ancestry
+summary: Somalier can extract informative sites, evaluate relatedness, and perform quality-control on
+  BAM/CRAM/BCF/VCF/GVCF or from jointly-called VCFs
+params:
+  query_somalier_files:
+    kind: input
+    type: path
+    required: true
+    description: Set of somalier files for query samples.
+  s:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion input s.
+  labels_tsv:
+    kind: input
+    type: path
+    required: true
+    description: TSV for labelled samples.
+  labelled_somalier_files:
+    kind: input
+    type: path
+    required: false
+    description: Set of somalier files for labelled samples.
+  s_2:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion input s.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to somalier.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tsv:
+    type: directory
+    path: ${outdir}/somalier_ancestry
+    primary: true

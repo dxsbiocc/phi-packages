@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/yara-mapper
+name: yara mapper
+summary: Align reads to a reference genome using YARA
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: List of input FastQ files of size 1 and 2 for single-end and paired-end data, respectively.
+  index:
+    kind: input
+    type: path
+    required: true
+    description: YARA genome index files
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to yara.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bam:
+    type: directory
+    path: ${outdir}/yara_mapper
+    primary: true

@@ -1,0 +1,8 @@
+{
+  "normalbam": null,
+  "tumourbam": null,
+  "fasta": null,
+  "wigfile": null,
+  "args": "",
+  "outdir": "results"
+}

@@ -1,0 +1,11 @@
+{
+  "fasta": null,
+  "fasta_index": null,
+  "bismark_index": null,
+  "bwameth_index": null,
+  "bwamem_index": null,
+  "aligner": "bismark",
+  "collecthsmetrics": false,
+  "use_mem2": false,
+  "outdir": "results"
+}

@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/evigene-tr2aacds
+name: evigene tr2aacds
+summary: Uses evigene/scripts/prot/tr2aacds.pl to filter a transcript assembly
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Transcript assembly in fasta format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to evigene.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  dropset:
+    type: directory
+    path: ${outdir}/evigene_tr2aacds
+    primary: true

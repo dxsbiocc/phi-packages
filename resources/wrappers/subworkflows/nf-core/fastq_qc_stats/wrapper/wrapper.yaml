@@ -1,0 +1,50 @@
+# Agent-facing wrapper adapter for the vendored fastq_qc_stats subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+id: nf-core/subworkflows/fastq-qc-stats
+name: "FASTQ QC statistics"
+summary: "Compute FastQC, seqfu, seqkit and seqtk statistics on FASTQ reads."
+
+params:
+  reads:
+    kind: input
+    type: path_glob
+    required: true
+    description: "FASTQ glob (paired or single)."
+  skip_fastqc:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip FastQC."
+  skip_seqfu_check:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip seqfu check."
+  skip_seqfu_stats:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip seqfu stats."
+  skip_seqkit_stats:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip seqkit stats."
+  skip_seqtk_comp:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip seqtk comp."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/fastq_qc_stats'
+    primary: true

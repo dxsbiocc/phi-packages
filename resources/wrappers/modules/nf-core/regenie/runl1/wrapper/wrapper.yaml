@@ -1,0 +1,69 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'plink_variant_file' combined cartesian-style; verify if per-sample pairing is required; companion input 'plink_sample_file' combined cartesian-style; verify if per-sample pairing is required; companion input 'snplists' combined cartesian-style; verify if per-sample pairing is required; companion input 'l0_predictions' combined cartesian-style; verify if per-sample pairing is required; val input 'bsize' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/regenie-runl1
+name: regenie runl1
+summary: Finish REGENIE step 1 from split level-0 prediction files
+params:
+  plink_genotype_file:
+    kind: input
+    type: path
+    required: true
+    description: PLINK primary genotype file in BED or PGEN format
+  plink_variant_file:
+    kind: input
+    type: path
+    required: false
+    description: PLINK variant metadata file in BIM or PVAR format
+  plink_sample_file:
+    kind: input
+    type: path
+    required: false
+    description: PLINK sample metadata file in FAM or PSAM format
+  master:
+    kind: input
+    type: path
+    required: true
+    description: REGENIE split level-0 master file from `regenie/splitl0`
+  snplists:
+    kind: input
+    type: path
+    required: false
+    description: All per-job variant list files referenced by the master file, staged so `--run-l1` can
+      resolve them
+  l0_predictions:
+    kind: input
+    type: path
+    required: false
+    description: All level-0 prediction files referenced by the master file, staged so `--run-l1` can
+      resolve them
+  pheno:
+    kind: input
+    type: path
+    required: true
+    description: Phenotype file passed to `--phenoFile`
+  covar:
+    kind: input
+    type: path
+    required: true
+    description: Optional covariate file passed to `--covarFile`; provide `[]` when absent
+  bsize:
+    kind: option
+    type: integer
+    required: true
+    description: Optional block size passed to `--bsize`; pass `[]` to use the module default of `1000`
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to regenie.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  predictions:
+    type: directory
+    path: ${outdir}/regenie_runl1
+    primary: true

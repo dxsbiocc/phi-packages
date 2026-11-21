@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'gguf_model' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/llamacpppython-run
+name: llamacpppython run
+summary: Python wrapper for running locally-hosted LLM with llama.cpp
+params:
+  prompt_file:
+    kind: input
+    type: path
+    required: true
+    description: 'Prompt file Structure: [ val(meta), path(prompt_file) ]'
+  gguf_model:
+    kind: input
+    type: path
+    required: false
+    description: 'GGUF model Structure: [ val(meta), path(gguf_model) ]'
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to llamacpppython.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/llamacpppython_run
+    primary: true

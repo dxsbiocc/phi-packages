@@ -1,0 +1,9 @@
+{
+  "fasta": null,
+  "fai": null,
+  "bismark_index": null,
+  "bwameth_index": null,
+  "aligner": "bismark",
+  "use_mem2": false,
+  "outdir": "results"
+}

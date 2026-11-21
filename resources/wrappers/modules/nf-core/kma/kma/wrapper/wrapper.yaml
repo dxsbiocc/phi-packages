@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/kma-kma
+name: kma kma
+summary: Mapping raw reads directly against redundant databases via KMA alignment
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: List of input FastQ files of size 1 and 2 for single-end and paired-end data, respectively.
+  index:
+    kind: input
+    type: path
+    required: true
+    description: kma database file generated via kma_index
+  interleaved:
+    kind: option
+    type: boolean
+    required: false
+    description: use one interleaved fastq file (true) or two paired fastq files (false)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to kma.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  res:
+    type: directory
+    path: ${outdir}/kma_kma
+    primary: true

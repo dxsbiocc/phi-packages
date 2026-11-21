@@ -1,0 +1,29 @@
+name: pysradb
+description: Query SRA/ENA/DDBJ metadata with pysradb.
+keywords:
+- sra
+- metadata
+- download
+- public data
+tools:
+- pysradb:
+    description: 'pysradb: SRA metadata queries.'
+    homepage: https://github.com/saketkc/pysradb
+input:
+- meta:
+    type: map
+    description: Sample meta map
+- command:
+    type: string
+    description: pysradb subcommand (e.g. metadata, search, download)
+- query:
+    type: string
+    description: Accession or search query
+output:
+- results:
+    type: file
+    description: Saved query result table
+authors:
+- '@dengxsh'
+maintainers:
+- '@dengxsh'

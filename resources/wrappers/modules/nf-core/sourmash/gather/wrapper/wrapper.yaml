@@ -1,0 +1,55 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'database' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/sourmash-gather
+name: sourmash gather
+summary: Search a metagenome sourmash signature against one or many reference databases and return the
+  minimum set of genomes that contain the k-mers in the metagenome.
+params:
+  signature:
+    kind: input
+    type: path
+    required: true
+    description: File containing signatures (hash sketches) of a sample
+  database:
+    kind: input
+    type: path
+    required: false
+    description: database
+  save_unassigned:
+    kind: option
+    type: boolean
+    required: false
+    description: If true, output will contain a file that is a sourmash signature containing the unassigned
+      hashes from the query
+  save_matches_sig:
+    kind: option
+    type: boolean
+    required: false
+    description: If true, output will contain a file that is a sourmash signature composed of the FracMinHash
+      sketches that were matched in the database and that matched the query
+  save_prefetch:
+    kind: option
+    type: boolean
+    required: false
+    description: If true, output will contain a file with all prefetch-matched signatures from the database
+  save_prefetch_csv:
+    kind: option
+    type: boolean
+    required: false
+    description: If true, output will contain a csv file with the names of all prefetch-matched signatures
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to sourmash.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  result:
+    type: directory
+    path: ${outdir}/sourmash_gather
+    primary: true

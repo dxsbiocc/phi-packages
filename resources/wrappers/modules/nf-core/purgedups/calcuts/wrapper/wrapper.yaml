@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/purgedups-calcuts
+name: purgedups calcuts
+summary: Calculate coverage cutoffs to determine when to purge duplicated sequence.
+params:
+  stat:
+    kind: input
+    type: path
+    required: true
+    description: Histogram of coverage
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to purgedups.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  cutoff:
+    type: directory
+    path: ${outdir}/purgedups_calcuts
+    primary: true

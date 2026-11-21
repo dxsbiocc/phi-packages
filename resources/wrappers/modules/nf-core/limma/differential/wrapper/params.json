@@ -1,0 +1,10 @@
+{
+  "contrast_variable": null,
+  "reference": null,
+  "target": null,
+  "formula": null,
+  "comparison": null,
+  "samplesheet": null,
+  "intensities": null,
+  "outdir": "results"
+}

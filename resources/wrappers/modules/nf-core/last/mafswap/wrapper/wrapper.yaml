@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/last-mafswap
+name: last mafswap
+summary: Reorder alignments in a MAF file
+params:
+  maf:
+    kind: input
+    type: path
+    required: true
+    description: Multiple Alignment Format (MAF) file, optionally compressed with gzip
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to last.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  maf:
+    type: directory
+    path: ${outdir}/last_mafswap
+    primary: true

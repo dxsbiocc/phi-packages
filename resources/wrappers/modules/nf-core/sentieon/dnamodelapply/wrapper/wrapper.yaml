@@ -1,0 +1,47 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'idx' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/sentieon-dnamodelapply
+name: sentieon dnamodelapply
+summary: modifies the input VCF file by adding the MLrejected FILTER to the variants
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: INPUT VCF file
+  idx:
+    kind: input
+    type: path
+    required: false
+    description: Index of the input VCF file
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Genome fasta file
+  fai:
+    kind: input
+    type: path
+    required: true
+    description: Index of the genome fasta file
+  ml_model:
+    kind: input
+    type: path
+    required: true
+    description: machine learning model file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to sentieon.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcf:
+    type: directory
+    path: ${outdir}/sentieon_dnamodelapply
+    primary: true

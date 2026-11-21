@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'genome_size' exposed as required option; confirm whether a safe default exists; val input 'depth_cutoff' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/rasusa
+name: rasusa
+summary: Randomly subsample sequencing reads to a specified coverage
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: List of input paired-end FastQ files
+  genome_size:
+    kind: option
+    type: string
+    required: true
+    description: Genome size of the species
+  depth_cutoff:
+    kind: option
+    type: integer
+    required: true
+    description: Depth of coverage cutoff
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to rasusa.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  reads:
+    type: directory
+    path: ${outdir}/rasusa
+    primary: true

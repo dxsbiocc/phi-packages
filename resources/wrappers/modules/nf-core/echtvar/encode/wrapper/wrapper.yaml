@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/echtvar-encode
+name: echtvar encode
+summary: Make (encode) a new echtvar file from decomposed vcf
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: VCF file
+  json_filters:
+    kind: input
+    type: path
+    required: true
+    description: JSON file containing the configuration for the encoding process (which columns are pulled
+      from the input VCF and how they are stored)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to echtvar.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  db:
+    type: directory
+    path: ${outdir}/echtvar_encode
+    primary: true

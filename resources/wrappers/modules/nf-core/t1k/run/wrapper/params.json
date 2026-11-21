@@ -1,0 +1,9 @@
+{
+  "input": null,
+  "fasta": null,
+  "cordinates": null,
+  "barcodes": null,
+  "barcodewhitelist": null,
+  "args": "",
+  "outdir": "results"
+}

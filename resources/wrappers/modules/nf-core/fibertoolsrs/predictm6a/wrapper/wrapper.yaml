@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/fibertoolsrs-predictm6a
+name: fibertoolsrs predictm6a
+summary: Predict m6A positions using HiFi kinetics data and encode the results in the MM and ML bam tags.
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Sorted BAM/CRAM file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to fibertoolsrs.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bam:
+    type: directory
+    path: ${outdir}/fibertoolsrs_predictm6a
+    primary: true

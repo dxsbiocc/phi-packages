@@ -1,0 +1,11 @@
+{
+  "bed": null,
+  "bim": null,
+  "fam": null,
+  "phenotype_file": null,
+  "is_binary": false,
+  "quant_covariates_file": null,
+  "cat_covariates_file": null,
+  "args": "",
+  "outdir": "results"
+}

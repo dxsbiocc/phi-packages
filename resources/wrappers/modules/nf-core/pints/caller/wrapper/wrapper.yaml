@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'bais' combined cartesian-style; verify if per-sample pairing is required; val input 'assay_type' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/pints-caller
+name: pints caller
+summary: Main caller script for peak calling
+params:
+  bams:
+    kind: input
+    type: path
+    required: true
+    description: One or more BAM files
+  bais:
+    kind: input
+    type: path
+    required: false
+    description: Corresponding BAM file indexes
+  assay_type:
+    kind: option
+    type: string
+    required: true
+    description: Assay type
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to pints.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  divergent_TREs:
+    type: directory
+    path: ${outdir}/pints_caller
+    primary: true

@@ -1,0 +1,59 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'sv_vcf_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'candidate_small_variants' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/annotsv-annotsv
+name: annotsv annotsv
+summary: Annotation and Ranking of Structural Variation
+params:
+  sv_vcf:
+    kind: input
+    type: path
+    required: true
+    description: A VCF or BED file containing the structural variants to be annotated
+  sv_vcf_index:
+    kind: input
+    type: path
+    required: false
+    description: OPTIONAL - The index for gzipped VCF files
+  candidate_small_variants:
+    kind: input
+    type: path
+    required: false
+    description: OPTIONAL - A file containing candidate small variants
+  annotations:
+    kind: input
+    type: path
+    required: true
+    description: The directory containing the annotations (URL to download this will be made available
+      soon) For now this can be downloaded in the way defined in the repo (https://github.com/lgmgeo/AnnotSV#quick-installation)
+  candidate_genes:
+    kind: input
+    type: path
+    required: true
+    description: OPTIONAL - A file containing genes (either space-separated, tab-separated or line-break-separated)
+  false_positive_snv:
+    kind: input
+    type: path
+    required: true
+    description: OPTIONAL - A VCF file containing small variant candidates
+  gene_transcripts:
+    kind: input
+    type: path
+    required: true
+    description: OPTIONAL - A file containing the preferred gene transcripts to be used in priority during
+      annotation (either space-separated or tab-separated)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to annotsv.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tsv:
+    type: directory
+    path: ${outdir}/annotsv_annotsv
+    primary: true

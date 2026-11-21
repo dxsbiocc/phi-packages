@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
+id: nf-core/subworkflows/mmseqs-contig-taxonomy
+name: mmseqs contig taxonomy
+summary: Assign taxonomy to contigs using the MMseqs2 workflow.
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input fasta for contigs.
+  mmseqsdb:
+    kind: input
+    type: path
+    required: true
+    description: Input mmseqsdb for mmseqs_databases.
+  mmseqs2_db_id:
+    kind: input
+    type: path
+    required: true
+    description: Input mmseqs2_db_id for databases_id.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/mmseqs_contig_taxonomy
+    primary: true

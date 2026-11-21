@@ -1,0 +1,48 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'import_format' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/crabs-import
+name: crabs import
+summary: In-house generated or curated data can be imported into CRABS.
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: In-house sequencing data
+  accession2taxid:
+    kind: input
+    type: path
+    required: true
+    description: Linking accession numbers to taxonomic IDs
+  names:
+    kind: input
+    type: path
+    required: true
+    description: Containing information about the phylogenetic name associated with each taxonomic ID
+  nodes:
+    kind: input
+    type: path
+    required: true
+    description: Containing information how taxonomic IDs are linked
+  import_format:
+    kind: option
+    type: string
+    required: true
+    description: Name of the repository from which the data was downloaded, i.e., BOLD, EMBL, GreenGenes,
+      MIDORI, MITOFISH, NCBI, SILVA, or UNITE.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to crabs.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  crabsdb:
+    type: directory
+    path: ${outdir}/crabs_import
+    primary: true

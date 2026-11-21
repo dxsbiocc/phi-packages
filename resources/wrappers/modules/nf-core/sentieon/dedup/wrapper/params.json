@@ -1,0 +1,8 @@
+{
+  "bam": "https://raw.githubusercontent.com/nf-core/test-datasets/refs/heads/modules/data/genomics/sarscov2/genome/genome.fasta",
+  "bai": null,
+  "fasta": null,
+  "fasta_fai": null,
+  "args": "",
+  "outdir": "results"
+}

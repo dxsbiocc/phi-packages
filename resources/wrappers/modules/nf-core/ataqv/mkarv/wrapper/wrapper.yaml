@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: glob input 'jsons' collected into one staged list; verify staging layout
+id: nf-core/modules/ataqv-mkarv
+name: ataqv mkarv
+summary: mkarv function of a corresponding ataqv tool
+params:
+  jsons:
+    kind: input
+    type: path_glob
+    required: true
+    description: Input jsons.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to ataqv.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  html:
+    type: directory
+    path: ${outdir}/ataqv_mkarv
+    primary: true

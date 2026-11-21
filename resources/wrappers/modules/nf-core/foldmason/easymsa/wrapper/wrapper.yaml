@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/foldmason-easymsa
+name: foldmason easymsa
+summary: Aligns protein structures using foldmason
+params:
+  pdbs:
+    kind: input
+    type: path
+    required: true
+    description: Input protein structures in PDB format.
+  tree:
+    kind: input
+    type: path
+    required: true
+    description: Input guide tree in Newick format.
+  compress:
+    kind: option
+    type: boolean
+    required: false
+    description: Flag representing whether the output MSA should be compressed.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to foldmason.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  msa_3di:
+    type: directory
+    path: ${outdir}/foldmason_easymsa
+    primary: true

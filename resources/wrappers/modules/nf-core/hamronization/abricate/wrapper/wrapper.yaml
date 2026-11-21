@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'format' exposed as required option; confirm whether a safe default exists; val input 'software_version' exposed as required option; confirm whether a safe default exists; val input 'reference_db_version' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/hamronization-abricate
+name: hamronization abricate
+summary: Tool to convert and summarize ABRicate outputs using the hAMRonization specification
+params:
+  report:
+    kind: input
+    type: path
+    required: true
+    description: Output TSV or CSV file from ABRicate
+  format:
+    kind: option
+    type: string
+    required: true
+    description: Type of report file to be produced
+  software_version:
+    kind: option
+    type: string
+    required: true
+    description: Version of ABRicate used
+  reference_db_version:
+    kind: option
+    type: string
+    required: true
+    description: Database version of ABRicate used
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to hamronization.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  json:
+    type: directory
+    path: ${outdir}/hamronization_abricate
+    primary: true

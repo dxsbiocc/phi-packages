@@ -1,0 +1,10 @@
+{
+  "fasta": null,
+  "names_dmp": null,
+  "nodes_dmp": null,
+  "acc2taxidfile": null,
+  "val_cleanintermediate": null,
+  "seqid2taxidfile": null,
+  "val_runbrackenbuild": null,
+  "outdir": "results"
+}

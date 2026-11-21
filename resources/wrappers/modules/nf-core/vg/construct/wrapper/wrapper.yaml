@@ -1,0 +1,49 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'tbis' combined cartesian-style; verify if per-sample pairing is required; companion input 'insertions_fasta' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/vg-construct
+name: vg construct
+summary: Constructs a graph from a reference and variant calls or a multiple sequence alignment file
+params:
+  input:
+    kind: input
+    type: path
+    required: true
+    description: Either one or more VCF files containing different contigs or a multiple sequence alignment
+      file
+  tbis:
+    kind: input
+    type: path
+    required: false
+    description: The index files for the VCF files
+  insertions_fasta:
+    kind: input
+    type: path
+    required: false
+    description: A FASTA file containing insertion sequences (referred to in the VCF file(s))
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: The reference FASTA file (cannot be used in combination with `msa`, but is required when
+      using `vcfs`)
+  fasta_fai:
+    kind: input
+    type: path
+    required: true
+    description: The index of the reference FASTA file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to vg.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  graph:
+    type: directory
+    path: ${outdir}/vg_construct
+    primary: true

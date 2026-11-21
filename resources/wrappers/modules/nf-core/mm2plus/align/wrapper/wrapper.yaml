@@ -1,0 +1,53 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'bam_index_extension' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/mm2plus-align
+name: mm2plus align
+summary: A versatile pairwise aligner for genomic and spliced nucleotide sequences
+params:
+  reads:
+    kind: input
+    type: path
+    required: true
+    description: List of input BAM, or input FASTA or FASTQ files of size 1 and 2 for single-end and paired-end
+      data, respectively.
+  reference:
+    kind: input
+    type: path
+    required: true
+    description: Reference database in FASTA format.
+  bam_format:
+    kind: option
+    type: boolean
+    required: false
+    description: Specify that output should be in BAM format
+  bam_index_extension:
+    kind: option
+    type: string
+    required: true
+    description: BAM alignment index extension (e.g.
+  cigar_paf_format:
+    kind: option
+    type: boolean
+    required: false
+    description: Specify that output CIGAR should be in PAF format
+  cigar_bam:
+    kind: option
+    type: boolean
+    required: false
+    description: Write CIGAR with >65535 ops at the CG tag.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to mm2plus.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  paf:
+    type: directory
+    path: ${outdir}/mm2plus_align
+    primary: true

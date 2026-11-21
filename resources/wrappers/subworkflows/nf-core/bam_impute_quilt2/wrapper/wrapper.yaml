@@ -1,0 +1,101 @@
+# Agent-facing wrapper adapter for the vendored bam_impute_quilt2 subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+# REVIEW: single-region adapter; multi-region scatter and bampaths/bamnames semantics need curation
+id: nf-core/subworkflows/bam-impute-quilt2
+name: "Impute from BAM (QUILT2)"
+summary: "Impute genotypes from low-coverage BAMs with QUILT2 against a reference panel."
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: "Input BAM/CRAM."
+  bai:
+    kind: input
+    type: path
+    required: true
+    description: "BAM/CRAM index."
+  bampaths:
+    kind: option
+    type: string
+    required: false
+    description: "BAM path string for QUILT sample naming."
+  bamnames:
+    kind: option
+    type: string
+    required: false
+    description: "BAM sample names for QUILT."
+  panel_vcf:
+    kind: input
+    type: path
+    required: true
+    description: "Reference panel VCF."
+  panel_index:
+    kind: input
+    type: path
+    required: true
+    description: "Reference panel VCF index."
+  map:
+    kind: input
+    type: path
+    required: true
+    description: "Genetic map file."
+  panel_id:
+    kind: option
+    type: string
+    required: false
+    description: "Panel id for meta."
+  chr:
+    kind: option
+    type: string
+    required: true
+    description: "Chromosome to impute."
+  start:
+    kind: option
+    type: integer
+    required: false
+    description: "Region start (optional)."
+  end:
+    kind: option
+    type: integer
+    required: false
+    description: "Region end (optional)."
+  fasta:
+    kind: input
+    type: fasta
+    required: false
+    description: "Reference FASTA (optional)."
+  fai:
+    kind: input
+    type: path
+    required: false
+    description: "Reference FASTA index (optional)."
+  n_gen:
+    kind: option
+    type: integer
+    required: false
+    description: "Generations since founding."
+  buffer:
+    kind: option
+    type: integer
+    required: false
+    description: "Region buffer."
+  sample_id:
+    kind: option
+    type: string
+    required: false
+    description: "Sample id."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/bam_impute_quilt2'
+    primary: true

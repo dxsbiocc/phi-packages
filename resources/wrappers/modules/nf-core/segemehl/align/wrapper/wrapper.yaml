@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'index' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/segemehl-align
+name: segemehl align
+summary: A multi-split mapping algorithm for circular RNA, splicing, trans-splicing and fusion detection
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: FASTA or FASTQ files
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Reference genome FASTA file used to construct Segemehl
+  index:
+    kind: input
+    type: path
+    required: false
+    description: Segemehl Index file from SEGEMEHL_INDEX
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to segemehl.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  alignment:
+    type: directory
+    path: ${outdir}/segemehl_align
+    primary: true

@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/shigeifinder
+name: shigeifinder
+summary: Determine Shigella serotype from assemblies or Illumina paired-end reads
+params:
+  seqs:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Assembly or paired-end Illumina reads
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to shigeifinder.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tsv:
+    type: directory
+    path: ${outdir}/shigeifinder
+    primary: true

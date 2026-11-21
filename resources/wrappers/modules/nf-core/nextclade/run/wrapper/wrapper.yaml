@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/nextclade-run
+name: nextclade run
+summary: SARS-CoV-2 genome clade assignment, mutation calling, and sequence quality checks (C++ implementation)
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: FASTA file containing one or more consensus sequences
+  dataset:
+    kind: input
+    type: path
+    required: true
+    description: Path containing the dataset files obtained by running nextclade dataset get
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to nextclade.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  csv:
+    type: directory
+    path: ${outdir}/nextclade_run
+    primary: true

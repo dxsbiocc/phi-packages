@@ -1,0 +1,38 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'merged' combined cartesian-style; verify if per-sample pairing is required; val input 'kmersize' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/abyss-abysspe
+name: abyss abysspe
+summary: ABySS is a de novo sequence assembler intended for short paired-end reads and genomes of all
+  sizes.
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: List of input paired-end FastQ files (R1 and R2).
+  merged:
+    kind: input
+    type: path
+    required: false
+    description: Optional merged/overlapping paired-end reads or supplementary single-end reads.
+  kmersize:
+    kind: option
+    type: integer
+    required: true
+    description: K-mer size for assembly.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to abyss.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  contigs:
+    type: directory
+    path: ${outdir}/abyss_abysspe
+    primary: true

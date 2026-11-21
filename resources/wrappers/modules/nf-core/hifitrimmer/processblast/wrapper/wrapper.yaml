@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/hifitrimmer-processblast
+name: hifitrimmer processblast
+summary: Run hifi_trimmer process_blast to process a BLAST search of adapter sequences against PacBio
+  HiFi reads.
+params:
+  blast:
+    kind: input
+    type: path
+    required: true
+    description: BLAST TSV output file used by hifi_trimmer (e.g.
+  yaml:
+    kind: input
+    type: path
+    required: true
+    description: YAML file contain trimming/filtering configuration for `hifi_trimmer`
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to hifitrimmer.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bed:
+    type: directory
+    path: ${outdir}/hifitrimmer_processblast
+    primary: true

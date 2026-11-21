@@ -1,0 +1,40 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'stats_qualityfiltered' combined cartesian-style; verify if per-sample pairing is required; companion input 'stats_deduplicated' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/endorspy
+name: endorspy
+summary: endorS.py calculates endogenous DNA from samtools flagstat files and print to screen
+params:
+  stats_raw:
+    kind: input
+    type: path
+    required: true
+    description: output of samtools flagstat in a txt file, assumes no quality filtering nor duplicate
+      removal performed
+  stats_qualityfiltered:
+    kind: input
+    type: path
+    required: false
+    description: output of samtools flagstat in a txt file, assumes some form of quality or length filtering
+      has been performed, must be provided with at least one of the options -r or -d
+  stats_deduplicated:
+    kind: input
+    type: path
+    required: false
+    description: output of samtools flagstat in a txt file, whereby duplicate removal has been performed
+      on the input reads
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to endorspy.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  json:
+    type: directory
+    path: ${outdir}/endorspy
+    primary: true

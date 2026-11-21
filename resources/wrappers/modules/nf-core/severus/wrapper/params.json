@@ -1,0 +1,10 @@
+{
+  "target_input": null,
+  "target_index": null,
+  "control_input": null,
+  "control_index": null,
+  "vcf": null,
+  "bed": null,
+  "args": "",
+  "outdir": "results"
+}

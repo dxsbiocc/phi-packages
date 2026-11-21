@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'input_b' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/refsolver-compare
+name: refsolver compare
+summary: Compare two sequence dictionaries (headers/references) using ref-solver
+params:
+  input_a:
+    kind: input
+    type: path
+    required: true
+    description: First input (BAM, SAM, CRAM, .dict, TSV, ...)
+  input_b:
+    kind: input
+    type: path
+    required: false
+    description: Second input file to compare against (BAM, SAM, CRAM, .dict, TSV, ...).
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to refsolver.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  report:
+    type: directory
+    path: ${outdir}/refsolver_compare
+    primary: true

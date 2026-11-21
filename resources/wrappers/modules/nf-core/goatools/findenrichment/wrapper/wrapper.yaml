@@ -1,0 +1,47 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'population_list' combined cartesian-style; verify if per-sample pairing is required; companion input 'annotation' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/goatools-findenrichment
+name: goatools findenrichment
+summary: Find enriched GO terms in a list of genes
+params:
+  study_list:
+    kind: input
+    type: path
+    required: true
+    description: Plain text file with one study gene identifier per line
+  population_list:
+    kind: input
+    type: path
+    required: false
+    description: Plain text file with one background population gene identifier per line
+  annotation:
+    kind: input
+    type: path
+    required: false
+    description: Gene-to-GO association file used by GOATOOLS
+  obo:
+    kind: input
+    type: path
+    required: true
+    description: Gene Ontology OBO file
+  goslim:
+    kind: input
+    type: path
+    required: true
+    description: GO slim mapping file used for slim-specific enrichment summaries
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to goatools.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tsv:
+    type: directory
+    path: ${outdir}/goatools_findenrichment
+    primary: true

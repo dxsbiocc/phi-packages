@@ -1,0 +1,84 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'input_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'intervals' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/sentieon-tnhaplotyper2
+name: sentieon tnhaplotyper2
+summary: Tnhaplotyper2 performs somatic variant calling on the tumor-normal matched pairs.
+params:
+  input:
+    kind: input
+    type: path
+    required: true
+    description: BAM/CRAM file(s) from alignment
+  input_index:
+    kind: input
+    type: path
+    required: false
+    description: BAI/CRAI file(s) from alignment
+  intervals:
+    kind: input
+    type: path
+    required: false
+    description: Bed file with the genomic regions included in the library (optional)
+  dict:
+    kind: input
+    type: path
+    required: true
+    description: GATK sequence dictionary
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Genome fasta file
+  fai:
+    kind: input
+    type: path
+    required: true
+    description: Index of the genome fasta file
+  germline_resource:
+    kind: input
+    type: path
+    required: true
+    description: Population vcf of germline sequencing, containing allele fractions.
+  germline_resource_tbi:
+    kind: input
+    type: path
+    required: true
+    description: Index file for the germline resource.
+  panel_of_normals:
+    kind: input
+    type: path
+    required: true
+    description: vcf file to be used as a panel of normals.
+  panel_of_normals_tbi:
+    kind: input
+    type: path
+    required: true
+    description: Index for the panel of normals.
+  emit_orientation_data:
+    kind: option
+    type: boolean
+    required: false
+    description: If true, the module will run the sentieon algorithm TNhaplotyper2 followed by the sentieon
+      algorithm OrientationBias.
+  emit_contamination_data:
+    kind: option
+    type: boolean
+    required: false
+    description: If true, the module will run the sentieon algorithm TNhaplotyper2 followed by the sentieon
+      algorithm ContaminationModel.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to sentieon.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  orientation_data:
+    type: directory
+    path: ${outdir}/sentieon_tnhaplotyper2
+    primary: true

@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'fasta' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'gtf' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/homer-annotatepeaks
+name: homer annotatepeaks
+summary: Annotate peaks with HOMER suite
+params:
+  peak:
+    kind: input
+    type: path
+    required: true
+    description: Peak file to annotate
+  fasta:
+    kind: input
+    type: path
+    required: false
+    description: Fasta file of reference genome
+  gtf:
+    kind: input
+    type: path
+    required: false
+    description: GTF file of reference genome
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to homer.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  txt:
+    type: directory
+    path: ${outdir}/homer_annotatepeaks
+    primary: true

@@ -1,0 +1,28 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'database' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/mmseqs-databases
+name: mmseqs databases
+summary: Download an mmseqs-formatted database
+params:
+  database:
+    kind: option
+    type: string
+    required: true
+    description: Database available through the mmseqs2 databases interface - see https://github.com/soedinglab/MMseqs2/wiki#downloading-databases
+      for details
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to mmseqs.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  database:
+    type: directory
+    path: ${outdir}/mmseqs_databases
+    primary: true

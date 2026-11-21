@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'tumour_samples' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/viber
+name: viber
+summary: Multisample subclonal deconvolution of cancer genome sequencing data.
+params:
+  rds_join:
+    kind: input
+    type: path
+    required: true
+    description: Either a .rds object of class mCNAqc or a .csv mutations table
+  tumour_samples:
+    kind: option
+    type: string
+    required: true
+    description: List of tumour sample identifiers for a specific patient
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  viber_rds:
+    type: directory
+    path: ${outdir}/viber
+    primary: true

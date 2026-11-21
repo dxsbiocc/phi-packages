@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'in_format' exposed as required option; confirm whether a safe default exists; val input 'out_format' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/csvtk-concat
+name: csvtk concat
+summary: Concatenate two or more CSV (or TSV) tables into a single table
+params:
+  csv:
+    kind: input
+    type: path
+    required: true
+    description: CSV/TSV formatted files
+  in_format:
+    kind: option
+    type: string
+    required: true
+    description: Input format (csv, tab, or a delimiting character)
+  out_format:
+    kind: option
+    type: string
+    required: true
+    description: Output format (csv, tab, or a delimiting character)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to csvtk.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  csv:
+    type: directory
+    path: ${outdir}/csvtk_concat
+    primary: true

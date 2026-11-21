@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/purgedups-pbcstat
+name: purgedups pbcstat
+summary: Create read depth histogram and base-level read depth for an assembly based on pacbio data
+params:
+  paf_alignment:
+    kind: input
+    type: path
+    required: true
+    description: PAF alignment file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to purgedups.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  stat:
+    type: directory
+    path: ${outdir}/purgedups_pbcstat
+    primary: true

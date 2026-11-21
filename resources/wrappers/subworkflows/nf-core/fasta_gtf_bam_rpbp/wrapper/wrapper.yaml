@@ -1,0 +1,38 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
+id: nf-core/subworkflows/fasta-gtf-bam-rpbp
+name: fasta gtf bam rpbp
+summary: End-to-end translated-ORF discovery from ribosome profiling (Ribo-seq) data with Rp-Bp (Malone
+  et al.
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Input bam for ch_bam.
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion bai for ch_bam.
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input fasta for ch_fasta_gtf.
+  gtf:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion gtf for ch_fasta_gtf.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/fasta_gtf_bam_rpbp
+    primary: true

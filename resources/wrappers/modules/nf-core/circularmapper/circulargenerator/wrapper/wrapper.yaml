@@ -1,0 +1,38 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'elongation_factor' exposed as required option; confirm whether a safe default exists; val-only tuple wired as a single sample; verify multi-sample semantics; val input 'target' exposed as required option; confirm whether a safe default exists; val-only tuple wired as a single sample; verify multi-sample semantics
+id: nf-core/modules/circularmapper-circulargenerator
+name: circularmapper circulargenerator
+summary: A method to improve mappings on circular genomes, using the BWA mapper.
+params:
+  reference:
+    kind: input
+    type: path
+    required: true
+    description: Genome fasta file
+  elongation_factor:
+    kind: option
+    type: integer
+    required: true
+    description: The number of bases that the ends of the target chromosome in the reference genome should
+      be elongated by
+  target:
+    kind: option
+    type: string
+    required: true
+    description: The name of the chromosome in the reference genome that should be elongated
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to circularmapper.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fasta:
+    type: directory
+    path: ${outdir}/circularmapper_circulargenerator
+    primary: true

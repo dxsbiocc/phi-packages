@@ -1,0 +1,71 @@
+# Agent-facing wrapper adapter for the vendored vcf_annotate_ensemblvep subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+# REVIEW: cache download needs network when no local cache provided
+id: nf-core/subworkflows/vcf-annotate-ensemblvep
+name: "Annotate VCF (Ensembl VEP)"
+summary: "Annotate a VCF with Ensembl VEP using a cache or GTF."
+
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: "VCF file to annotate."
+  custom_files:
+    kind: input
+    type: path_glob
+    required: false
+    description: "Optional custom annotation files glob."
+  fasta:
+    kind: input
+    type: fasta
+    required: false
+    description: "Reference FASTA (optional)."
+  genome:
+    kind: option
+    type: string
+    required: true
+    description: "Genome assembly (e.g. GRCh38)."
+  species:
+    kind: option
+    type: string
+    required: true
+    description: "Species name (e.g. homo_sapiens)."
+  cache_version:
+    kind: option
+    type: string
+    required: true
+    description: "VEP cache version."
+  cache:
+    kind: input
+    type: path
+    required: false
+    description: "Local VEP cache directory (optional)."
+  extra_files:
+    kind: input
+    type: path_glob
+    required: false
+    description: "Extra files glob (optional)."
+  gtf:
+    kind: input
+    type: path
+    required: false
+    description: "GTF file (mutually exclusive with cache)."
+  gtf_tbi:
+    kind: input
+    type: path
+    required: false
+    description: "GTF tabix index (with gtf)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/vcf_annotate_ensemblvep'
+    primary: true

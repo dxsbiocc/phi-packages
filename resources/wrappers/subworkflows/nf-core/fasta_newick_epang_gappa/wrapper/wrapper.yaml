@@ -1,0 +1,54 @@
+# Agent-facing wrapper adapter for the vendored fasta_newick_epang_gappa subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+id: nf-core/subworkflows/fasta-newick-epang-gappa
+name: "Phylogenetic placement (EPA-ng/gappa)"
+summary: "Place query sequences onto a reference phylogeny with EPA-ng and gappa."
+
+params:
+  queryseqfile:
+    kind: input
+    type: fasta
+    required: true
+    description: "Query sequences FASTA."
+  refseqfile:
+    kind: input
+    type: fasta
+    required: true
+    description: "Reference sequences FASTA."
+  refphylogeny:
+    kind: input
+    type: path
+    required: true
+    description: "Reference phylogeny (newick)."
+  hmmfile:
+    kind: input
+    type: path
+    required: false
+    description: "HMM profile (optional; built if absent for hmmer)."
+  alignmethod:
+    kind: option
+    type: string
+    required: true
+    enum:
+      - hmmer
+      - clustalo
+      - mafft
+    description: "Alignment method."
+  model:
+    kind: option
+    type: string
+    required: false
+    description: "Substitution model (optional)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/fasta_newick_epang_gappa'
+    primary: true

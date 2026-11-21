@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'command' exposed as required option; confirm whether a safe default exists; val input 'buffer_size' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/helitronscanner-scan
+name: helitronscanner scan
+summary: HelitronScanner scanHead and scanTail tools for Helitron transposons in genomes
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Genome data to scan for Helitrons
+  command:
+    kind: option
+    type: string
+    required: true
+    description: Command to execute.
+  lcv_filepath:
+    kind: input
+    type: path
+    required: true
+    description: LCV file path.
+  buffer_size:
+    kind: option
+    type: integer
+    required: true
+    description: Genome slice size (use negative or zero for non-buffer, i.e.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to helitronscanner.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  scan:
+    type: directory
+    path: ${outdir}/helitronscanner_scan
+    primary: true

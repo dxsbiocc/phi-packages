@@ -1,0 +1,12 @@
+{
+  "input": null,
+  "index": null,
+  "intervals": null,
+  "fasta": null,
+  "fai": null,
+  "gzi": null,
+  "par_bed": null,
+  "with_phasing": false,
+  "args": "",
+  "outdir": "results"
+}

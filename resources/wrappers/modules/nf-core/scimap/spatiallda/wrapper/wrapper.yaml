@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/scimap-spatiallda
+name: scimap spatiallda
+summary: SpatialLDA uses an LDA based approach for the identification of cellular neighborhoods, using
+  cell type identities.
+params:
+  phenotyped:
+    kind: input
+    type: path
+    required: true
+    description: Phenotyped CSV file, it must contain the columns, sampleID, X, Y and Phenotype.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to scimap.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  spatial_lda_output:
+    type: directory
+    path: ${outdir}/scimap_spatiallda
+    primary: true

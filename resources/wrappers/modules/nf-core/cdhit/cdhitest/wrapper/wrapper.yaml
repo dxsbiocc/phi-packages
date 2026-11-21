@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/cdhit-cdhitest
+name: cdhit cdhitest
+summary: Cluster nucleotide sequences using sequence similarity
+params:
+  sequences:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: fasta or fastq file of sequences to be clustered
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to cdhit.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fasta:
+    type: directory
+    path: ${outdir}/cdhit_cdhitest
+    primary: true

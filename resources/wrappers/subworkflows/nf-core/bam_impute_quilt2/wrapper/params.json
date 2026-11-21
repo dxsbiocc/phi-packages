@@ -1,0 +1,19 @@
+{
+  "bam": null,
+  "bai": null,
+  "bampaths": null,
+  "bamnames": null,
+  "panel_vcf": null,
+  "panel_index": null,
+  "map": null,
+  "panel_id": "panel",
+  "chr": "chr22",
+  "start": null,
+  "end": null,
+  "fasta": null,
+  "fai": null,
+  "n_gen": 100,
+  "buffer": 100000,
+  "sample_id": "sample",
+  "outdir": "results"
+}

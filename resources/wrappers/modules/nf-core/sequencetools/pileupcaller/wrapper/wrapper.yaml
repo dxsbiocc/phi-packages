@@ -1,0 +1,36 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/sequencetools-pileupcaller
+name: sequencetools pileupcaller
+summary: PileupCaller is a tool to create genotype calls from bam files using read-sampling methods
+params:
+  mpileup:
+    kind: input
+    type: path
+    required: true
+    description: samtools mpileup output.
+  snpfile:
+    kind: input
+    type: path
+    required: true
+    description: Eigenstrat format .snp file of the sites in the mpileup file to call genotypes on.
+  sample_names_fn:
+    kind: input
+    type: path
+    required: true
+    description: File containing the sample names
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to sequencetools.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  eigenstrat:
+    type: directory
+    path: ${outdir}/sequencetools_pileupcaller
+    primary: true

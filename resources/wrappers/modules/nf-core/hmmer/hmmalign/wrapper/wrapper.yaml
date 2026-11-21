@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/hmmer-hmmalign
+name: hmmer hmmalign
+summary: hmmalign from the HMMER suite aligns a number of sequences to an HMM profile
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Amino acid or nucleotide gzipped compressed fasta file
+  hmm:
+    kind: input
+    type: path
+    required: true
+    description: A gzipped HMM file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to hmmer.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  sto:
+    type: directory
+    path: ${outdir}/hmmer_hmmalign
+    primary: true

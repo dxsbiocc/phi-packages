@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'fasta' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/openms-peptideindexer
+name: openms peptideindexer
+summary: Refreshes the protein references for all peptide hits.
+params:
+  idxml:
+    kind: input
+    type: path
+    required: true
+    description: idXML identification file
+  fasta:
+    kind: input
+    type: path
+    required: false
+    description: Input sequence database in FASTA format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to openms.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  indexed_idxml:
+    type: directory
+    path: ${outdir}/openms_peptideindexer
+    primary: true

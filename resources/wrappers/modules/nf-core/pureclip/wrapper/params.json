@@ -1,0 +1,10 @@
+{
+  "ipbam": null,
+  "controlbam": null,
+  "ipbai": null,
+  "controlbai": null,
+  "genome_fasta": null,
+  "input_control": false,
+  "args": "",
+  "outdir": "results"
+}

@@ -1,0 +1,22 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'querygse' exposed as required option; confirm whether a safe default exists; val-only tuple wired as a single sample; verify multi-sample semantics
+id: nf-core/modules/geoquery-getgeo
+name: geoquery getgeo
+summary: Retrieves GEO data from the Gene Expression Omnibus (GEO)
+params:
+  querygse:
+    kind: option
+    type: string
+    required: true
+    description: GSE identifier to pass to getGEO()
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  rds:
+    type: directory
+    path: ${outdir}/geoquery_getgeo
+    primary: true

@@ -1,0 +1,9 @@
+{
+  "ds_id": null,
+  "database_name_": null,
+  "database_version_": null,
+  "fdr_": null,
+  "use_tic_": false,
+  "metadata_as_obs_": null,
+  "outdir": "results"
+}

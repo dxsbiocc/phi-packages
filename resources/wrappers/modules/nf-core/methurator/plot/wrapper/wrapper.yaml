@@ -1,0 +1,21 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/methurator-plot
+name: methurator plot
+summary: Plots results produced by methurator gtestimator.
+params:
+  summary_report:
+    kind: input
+    type: path
+    required: true
+    description: YAML file summarizing the saturation analysis results.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  plots:
+    type: directory
+    path: ${outdir}/methurator_plot
+    primary: true

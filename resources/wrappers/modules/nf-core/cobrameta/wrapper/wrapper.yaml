@@ -1,0 +1,60 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'assembler' exposed as required option; confirm whether a safe default exists; val input 'mink' exposed as required option; confirm whether a safe default exists; val input 'maxk' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/cobrameta
+name: cobrameta
+summary: A tool to raise the quality of viral genomes assembled from short-read metagenomes via resolving
+  and joining of contigs fragmented during de novo assembly.
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Assembly file (contigs/scaffolds) in FASTA format
+  coverage:
+    kind: input
+    type: path
+    required: true
+    description: TSV file with 2 columns containing 1) the contig/scaffold id and 2) the coverage depth
+      of the sequence specified in column 1
+  query:
+    kind: input
+    type: path
+    required: true
+    description: File containing the query contigs that the user wants COBRA to extend.
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Sorted BAM/CRAM/SAM file resulting from mapping reads used in assembly to the resulting
+      assembly FASTA
+  assembler:
+    kind: option
+    type: string
+    required: true
+    description: The name of the tool used to assemble contigs
+  mink:
+    kind: option
+    type: integer
+    required: true
+    description: The minimum kmer size used to assemble contigs
+  maxk:
+    kind: option
+    type: integer
+    required: true
+    description: The maximum kmer size used to assemble contigs
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to cobrameta.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  self_circular:
+    type: directory
+    path: ${outdir}/cobrameta
+    primary: true

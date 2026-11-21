@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/parabricks-fq2bammeth
+name: parabricks fq2bammeth
+summary: NVIDIA Clara Parabricks GPU-accelerated fast, accurate algorithm for mapping methylated DNA sequence
+  reads to a reference genome, performing local alignment, and producing alignment for different parts
+  of the query sequence
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: fastq.gz files
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: reference fasta file - must be unzipped
+  index:
+    kind: input
+    type: path
+    required: true
+    description: reference BWA index
+  known_sites:
+    kind: input
+    type: path
+    required: true
+    description: (optional) known sites file(s) for calculating BQSR.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to parabricks.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bam:
+    type: directory
+    path: ${outdir}/parabricks_fq2bammeth
+    primary: true

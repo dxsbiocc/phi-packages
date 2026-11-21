@@ -1,0 +1,20 @@
+{
+  "crams": null,
+  "crais": null,
+  "posfile": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/chr21/sequence/dbsnp_138.hg38.first_10_biallelic_sites.tsv",
+  "input": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/chr21/sequence/genome.GRCh38.stitch.chr21.txt.gz",
+  "genetic_map": null,
+  "rdata": null,
+  "samplename": null,
+  "chromosome_name": "chr21",
+  "start": 8522360,
+  "end": 8522670,
+  "buffer": 0,
+  "k": 2,
+  "n_gen": 1,
+  "fasta": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/chr21/sequence/genome.fasta",
+  "fai": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/chr21/sequence/genome.fasta.fai",
+  "seed": 1,
+  "args": "",
+  "outdir": "results"
+}

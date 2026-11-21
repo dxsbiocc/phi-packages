@@ -1,0 +1,35 @@
+# Agent-facing wrapper adapter for the vendored vcf_annotate_snpeff subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+id: nf-core/subworkflows/vcf-annotate-snpeff
+name: "Annotate VCF (snpEff)"
+summary: "Annotate a VCF with snpEff using a named database or local cache."
+
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: "VCF file to annotate."
+  snpeff_db:
+    kind: option
+    type: string
+    required: true
+    description: "snpEff database version (e.g. GRCh38.99)."
+  snpeff_cache:
+    kind: input
+    type: path
+    required: false
+    description: "Local snpEff cache directory (skips download)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/vcf_annotate_snpeff'
+    primary: true

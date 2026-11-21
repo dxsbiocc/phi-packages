@@ -1,0 +1,84 @@
+# Agent-facing wrapper adapter for the vendored snpclustering subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+# REVIEW: refpanel/genmap usage depends on BEAGLE configuration; verify semantics
+id: nf-core/subworkflows/snpclustering
+name: "SNP clustering (PCA)"
+summary: "Impute with BEAGLE5, run plink2 PCA and cluster samples (k-means/DBSCAN)."
+
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: "Input VCF."
+  vcf_index:
+    kind: input
+    type: path
+    required: true
+    description: "Input VCF index."
+  refpanel:
+    kind: input
+    type: path
+    required: false
+    description: "Reference panel (optional)."
+  genmap:
+    kind: input
+    type: path
+    required: false
+    description: "Genetic map (optional)."
+  region:
+    kind: option
+    type: string
+    required: false
+    description: "Region for BEAGLE (optional)."
+  n_pcs:
+    kind: option
+    type: integer
+    required: false
+    description: "Number of PCs."
+  use_approx:
+    kind: option
+    type: boolean
+    required: false
+    description: "Use approximate PCA."
+  algorithm:
+    kind: option
+    type: string
+    required: false
+    enum:
+      - kmeans
+      - dbscan
+    description: "Clustering algorithm."
+  n_clusters:
+    kind: option
+    type: integer
+    required: false
+    description: "Number of clusters (kmeans)."
+  dbscan_eps:
+    kind: option
+    type: number
+    required: false
+    description: "DBSCAN eps."
+  dbscan_min_samples:
+    kind: option
+    type: integer
+    required: false
+    description: "DBSCAN min samples."
+  sample_id:
+    kind: option
+    type: string
+    required: false
+    description: "Sample id."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/snpclustering'
+    primary: true

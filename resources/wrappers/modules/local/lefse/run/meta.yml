@@ -1,0 +1,26 @@
+name: lefse_run
+description: Run LEfSe differential abundance analysis (lefse_run.py).
+keywords:
+- metagenomics
+- biomarker
+- differential abundance
+- lda
+tools:
+- lefse:
+    description: 'LEfSe: LDA effect size biomarker discovery.'
+    homepage: https://github.com/SegataLab/lefse
+input:
+- meta:
+    type: map
+    description: Sample meta map
+- formatted:
+    type: file
+    description: LEfSe-formatted input (from lefse/format)
+output:
+- results:
+    type: file
+    description: LEfSe .res results file
+authors:
+- '@dengxsh'
+maintainers:
+- '@dengxsh'

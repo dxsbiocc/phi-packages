@@ -1,0 +1,48 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; standalone path 'nucleotide_db' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'protein_db' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'utility_db' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/humann3-humann
+name: humann3 humann
+summary: Functional analysis of metagenome or metatranscriptome data
+params:
+  input:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: A metagenome (DNA reads) or metatranscriptome (RNA reads) [fastq,fastq.gz,fasta,fasta.gz]
+      OR pre-computed mappings [sam,bam,blastm8] OR pre-computed abundance tables [tsv,biom]
+  profile:
+    kind: input
+    type: path
+    required: true
+    description: Pre-computed MetaPhlAn taxonomic profile
+  nucleotide_db:
+    kind: input
+    type: path
+    required: false
+    description: 'ChocoPhlAn nucleotide database directory (v3: *.ffn.gz, v4: *.fna.gz)'
+  protein_db:
+    kind: input
+    type: path
+    required: false
+    description: UniRef protein database directory containing *.dmnd files
+  utility_db:
+    kind: input
+    type: path
+    required: false
+    description: HUMAnN utility mapping database directory
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to humann3.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  genefamilies:
+    type: directory
+    path: ${outdir}/humann3_humann
+    primary: true

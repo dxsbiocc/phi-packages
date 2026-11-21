@@ -1,0 +1,9 @@
+{
+  "reads": null,
+  "fasta": null,
+  "fai": null,
+  "bismark_index": null,
+  "skip_deduplication": false,
+  "cytosine_report": false,
+  "outdir": "results"
+}

@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/slamdunk-all
+name: slamdunk all
+summary: Complete SLAMseq analysis pipeline including read mapping, filtering, SNP calling, and quantification
+params:
+  input:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Input FASTQ file(s) for SLAMseq analysis
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Reference genome FASTA file
+  bed:
+    kind: input
+    type: path
+    required: true
+    description: BED file with 3'UTR coordinates
+  filter_bed:
+    kind: input
+    type: path
+    required: true
+    description: BED file with 3'UTR coordinates to filter multimappers
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to slamdunk.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bam:
+    type: directory
+    path: ${outdir}/slamdunk_all
+    primary: true

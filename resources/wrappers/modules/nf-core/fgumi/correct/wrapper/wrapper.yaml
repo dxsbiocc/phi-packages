@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'min_distance' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/fgumi-correct
+name: fgumi correct
+summary: Correct UMIs in a BAM file to a fixed set of known UMIs with fgumi
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Input BAM file with UMIs in the RX tag
+  umis:
+    kind: input
+    type: path
+    required: true
+    description: Optional file(s) of known UMI sequences, passed to fgumi correct via `--umi-files`.
+  min_distance:
+    kind: option
+    type: integer
+    required: true
+    description: Minimum required difference in mismatches between the best and second-best matching known
+      UMI for a correction to be made (`--min-distance`).
+  keep_rejected:
+    kind: option
+    type: boolean
+    required: false
+    description: If true, write reads whose UMIs could not be corrected to a separate rejects BAM file.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to fgumi.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bam:
+    type: directory
+    path: ${outdir}/fgumi_correct
+    primary: true

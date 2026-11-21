@@ -1,0 +1,57 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'tbi' combined cartesian-style; verify if per-sample pairing is required; val input 'db_host' exposed as required option; confirm whether a safe default exists; val input 'db_port' exposed as required option; confirm whether a safe default exists; val input 'db_name' exposed as required option; confirm whether a safe default exists; val input 'db_user' exposed as required option; confirm whether a safe default exists; val input 'db_schema' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/vcfpgloader-load
+name: vcfpgloader load
+summary: High-performance VCF to PostgreSQL loader using asyncpg for bulk variant ingestion
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: Annotated VCF file containing variants to load
+  tbi:
+    kind: input
+    type: path
+    required: false
+    description: Tabix index for the VCF file
+  db_host:
+    kind: option
+    type: string
+    required: true
+    description: PostgreSQL server hostname or IP address
+  db_port:
+    kind: option
+    type: integer
+    required: true
+    description: PostgreSQL server port (default 5432)
+  db_name:
+    kind: option
+    type: string
+    required: true
+    description: Target database name
+  db_user:
+    kind: option
+    type: string
+    required: true
+    description: Database username for authentication
+  db_schema:
+    kind: option
+    type: string
+    required: true
+    description: Target schema for variant tables (default public)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to vcfpgloader.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  report:
+    type: directory
+    path: ${outdir}/vcfpgloader_load
+    primary: true

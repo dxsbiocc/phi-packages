@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'hf_repo' exposed as required option; confirm whether a safe default exists; val input 'hf_file' exposed as required option; confirm whether a safe default exists; val-only tuple wired as a single sample; verify multi-sample semantics
+id: nf-core/modules/huggingface-download
+name: huggingface download
+summary: Download a file from a Hugging Face Hub repository using the `hf` CLI
+params:
+  hf_repo:
+    kind: option
+    type: string
+    required: true
+    description: Hugging Face repository identifier in `<owner>/<repo>` form, e.g.
+  hf_file:
+    kind: option
+    type: string
+    required: true
+    description: Path of the file to download within the repository, e.g.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to huggingface.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/huggingface_download
+    primary: true

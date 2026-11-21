@@ -1,0 +1,49 @@
+# Agent-facing wrapper adapter for the vendored bcl_demultiplex subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+# REVIEW: bcl2fastq/bclconvert containers are licensed Illumina tools
+id: nf-core/subworkflows/bcl-demultiplex
+name: "Demultiplex BCL"
+summary: "Demultiplex Illumina BCL runs to FASTQ with bclconvert or bcl2fastq."
+
+params:
+  samplesheet:
+    kind: input
+    type: path
+    required: true
+    description: "Illumina samplesheet CSV."
+  flowcell:
+    kind: input
+    type: path
+    required: true
+    description: "BCL run directory (flowcell)."
+  run_id:
+    kind: option
+    type: string
+    required: false
+    description: "Flowcell/run id."
+  lane:
+    kind: option
+    type: integer
+    required: false
+    description: "Lane number."
+  demultiplexer:
+    kind: option
+    type: string
+    required: true
+    enum:
+      - bclconvert
+      - bcl2fastq
+    description: "Demultiplexer to use."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/bcl_demultiplex'
+    primary: true

@@ -1,0 +1,10 @@
+{
+  "fasta": null,
+  "index": null,
+  "bed": null,
+  "gfa": null,
+  "dup": null,
+  "filter_bed": null,
+  "args": "",
+  "outdir": "results"
+}

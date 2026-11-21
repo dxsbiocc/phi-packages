@@ -1,0 +1,22 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/mudskipper-index
+name: mudskipper index
+summary: Build and store a gtf index, which is useful for converting genomic BAM/SAM files to transcriptomic
+  BAM/SAM files.
+params:
+  gtf:
+    kind: input
+    type: path
+    required: true
+    description: Transcript annotation file.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  index:
+    type: directory
+    path: ${outdir}/mudskipper_index
+    primary: true

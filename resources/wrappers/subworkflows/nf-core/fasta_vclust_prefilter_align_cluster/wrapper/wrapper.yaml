@@ -1,0 +1,55 @@
+# Agent-facing wrapper adapter for the vendored fasta_vclust_prefilter_align_cluster subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+# REVIEW: all matched FASTAs treated as one group
+id: nf-core/subworkflows/fasta-vclust-prefilter-align-cluster
+name: "Cluster FASTA (vclust)"
+summary: "Prefilter, align and cluster genome FASTAs with vclust at a chosen ANI/TAI threshold."
+
+params:
+  fasta:
+    kind: input
+    type: path_glob
+    required: true
+    description: "Glob of genome FASTA files to cluster."
+  save_alignment:
+    kind: option
+    type: boolean
+    required: false
+    description: "Save the alignment output."
+  metric:
+    kind: option
+    type: string
+    required: false
+    enum:
+      - ani
+      - gani
+      - tani
+    description: "Clustering metric."
+  tani:
+    kind: option
+    type: number
+    required: false
+    description: "Total ANI threshold."
+  gani:
+    kind: option
+    type: number
+    required: false
+    description: "Global ANI threshold."
+  ani:
+    kind: option
+    type: number
+    required: false
+    description: "ANI threshold."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/fasta_vclust_prefilter_align_cluster'
+    primary: true

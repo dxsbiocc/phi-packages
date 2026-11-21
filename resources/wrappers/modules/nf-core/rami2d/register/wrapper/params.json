@@ -1,0 +1,12 @@
+{
+  "fixed_img": null,
+  "moving_img": null,
+  "markers": null,
+  "ifix": null,
+  "imov": null,
+  "mpp_fix": null,
+  "mpp_mov": null,
+  "mpp_reg": null,
+  "args": "",
+  "outdir": "results"
+}

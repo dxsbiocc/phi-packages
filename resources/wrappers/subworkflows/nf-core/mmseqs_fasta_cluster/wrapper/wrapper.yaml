@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored mmseqs_fasta_cluster subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+id: nf-core/subworkflows/mmseqs-fasta-cluster
+name: "Cluster sequences (MMseqs2)"
+summary: "Cluster protein/nucleotide sequences with MMseqs2 linclust or cluster."
+
+params:
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: "Sequence FASTA to cluster."
+  clustering_tool:
+    kind: option
+    type: string
+    required: true
+    enum:
+      - linclust
+      - cluster
+    description: "MMseqs2 clustering workflow."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/mmseqs_fasta_cluster'
+    primary: true

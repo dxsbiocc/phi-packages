@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/gget-gget
+name: gget gget
+summary: gget is a free, open-source command-line tool and Python package that enables efficient querying
+  of genomic databases.
+params:
+  files:
+    kind: input
+    type: path
+    required: true
+    description: Optional input files which can be specified for certain tools.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to gget.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  files:
+    type: directory
+    path: ${outdir}/gget_gget
+    primary: true

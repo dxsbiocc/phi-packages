@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; tuple has no leading val(meta); sample meta synthesized from file name; val input 'search_mode' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/eggnogmapper
+name: eggnogmapper
+summary: Fast genome-wide functional annotation through orthology assignment.
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input sequences in FASTA format (plain or gzip-compressed)
+  db:
+    kind: input
+    type: path
+    required: true
+    description: Database file, directory, or precomputed results file required by the selected search_mode.
+  search_mode:
+    kind: option
+    type: string
+    required: true
+    description: Search mode passed to emapper.py via -m.
+  eggnog_data_dir:
+    kind: input
+    type: path
+    required: true
+    description: Directory containing eggnog-mapper database files (e.g.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to eggnogmapper.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  annotations:
+    type: directory
+    path: ${outdir}/eggnogmapper
+    primary: true

@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/samshee
+name: samshee
+summary: Module to validate illumina® Sample Sheet v2 files.
+params:
+  samplesheet:
+    kind: input
+    type: path
+    required: true
+    description: illumina v2 samplesheet
+  file_schema_validator:
+    kind: input
+    type: path
+    required: true
+    description: Optional JSON file used additional samplesheet validation settings
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to samshee.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  samplesheet:
+    type: directory
+    path: ${outdir}/samshee
+    primary: true

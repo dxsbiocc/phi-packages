@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'project_id' exposed as required option; confirm whether a safe default exists; val input 'path' exposed as required option; confirm whether a safe default exists; val-only tuple wired as a single sample; verify multi-sample semantics
+id: nf-core/modules/osfclient-fetch
+name: osfclient fetch
+summary: A python library and a command-line client for up- and downloading files to and from your Open
+  Science Framework projects
+params:
+  project_id:
+    kind: option
+    type: string
+    required: true
+    description: Project ID of the Open Science Framework project to fetch files from
+  path:
+    kind: option
+    type: string
+    required: true
+    description: File to fetch from the project
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to osfclient.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  download_files:
+    type: directory
+    path: ${outdir}/osfclient_fetch
+    primary: true

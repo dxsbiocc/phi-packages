@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'genome' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/sparsesignatures
+name: sparsesignatures
+summary: mutational signature deconvolution of cancer cells
+params:
+  tsv_join:
+    kind: input
+    type: path
+    required: true
+    description: joint tsv file with validated mutations by CNAqc
+  genome:
+    kind: option
+    type: string
+    required: true
+    description: Reference genome name to use with SparseSignatures (e.g.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  signatures_mutCounts_rds:
+    type: directory
+    path: ${outdir}/sparse_signatures
+    primary: true

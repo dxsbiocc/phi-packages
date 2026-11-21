@@ -1,0 +1,9 @@
+{
+  "sample_dirs": null,
+  "fasta": null,
+  "bams": null,
+  "bais": null,
+  "sample_csv": null,
+  "args": "",
+  "outdir": "results"
+}

@@ -1,0 +1,21 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/repeatmasker-rmouttogff3
+name: repeatmasker rmouttogff3
+summary: A utility script to assist to convert old RepeatMasker *.out files to version 3 gff files.
+params:
+  out:
+    kind: input
+    type: path
+    required: true
+    description: RepeatMasker out file
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gff3:
+    type: directory
+    path: ${outdir}/repeatmasker_rmouttogff3
+    primary: true

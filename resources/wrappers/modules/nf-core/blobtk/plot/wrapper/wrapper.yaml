@@ -1,0 +1,47 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'online_path' exposed as required option; confirm whether a safe default exists; val input 'extra_args' exposed as required option; confirm whether a safe default exists; val input 'format' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/blobtk-plot
+name: blobtk plot
+summary: Creates differing styles of blobplots depending on provided arguments.
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input assembly FASTA.
+  local_path:
+    kind: input
+    type: path
+    required: true
+    description: A path to a Blob Dir generated as part of a greater pipeline.
+  online_path:
+    kind: option
+    type: string
+    required: true
+    description: A webaddress to a Blob Dir e.g.
+  extra_args:
+    kind: option
+    type: string
+    required: true
+    description: Groovy Map containing sample information and blobtk arguments e.g.
+  format:
+    kind: option
+    type: string
+    required: true
+    description: Value indicating the output format.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to blobtk.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  png:
+    type: directory
+    path: ${outdir}/blobtk_plot
+    primary: true

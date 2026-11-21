@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'taxid' exposed as required option; confirm whether a safe default exists; standalone path 'gxdb' treated as single reference (.first()); verify if a list/collection is expected; val input 'ramdisk_path' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/fcsgx-rungx
+name: fcsgx rungx
+summary: Runs FCS-GX (Foreign Contamination Screen - Genome eXtractor) to screen and remove foreign contamination
+  from genome assemblies
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input genome assembly file in FASTA format
+  taxid:
+    kind: option
+    type: string
+    required: true
+    description: Taxonomy ID of the expected organism
+  gxdb:
+    kind: input
+    type: path
+    required: false
+    description: Directory containing the FCS-GX database
+  ramdisk_path:
+    kind: option
+    type: string
+    required: true
+    description: Path to RAM disk for improved performance (optional)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to fcsgx.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fcsgx_report:
+    type: directory
+    path: ${outdir}/fcsgx_rungx
+    primary: true

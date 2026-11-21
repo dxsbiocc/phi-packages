@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'longreads' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/filtlong
+name: filtlong
+summary: Filtlong filters long reads based on quality measures or short read data.
+params:
+  shortreads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: fastq file
+  longreads:
+    kind: input
+    type: path
+    required: false
+    description: fastq file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to filtlong.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  reads:
+    type: directory
+    path: ${outdir}/filtlong
+    primary: true

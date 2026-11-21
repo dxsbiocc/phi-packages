@@ -1,0 +1,21 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/iphop-download
+name: iphop download
+summary: Download, extract, and check md5 of iPHoP databases
+params:
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to iphop.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  iphop_db:
+    type: directory
+    path: ${outdir}/iphop_download
+    primary: true

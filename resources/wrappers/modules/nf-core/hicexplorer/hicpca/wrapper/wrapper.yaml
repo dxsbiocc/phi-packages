@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/hicexplorer-hicpca
+name: hicexplorer hicpca
+summary: Computes PCA eigenvectors for a Hi-C matrix.
+params:
+  matrix:
+    kind: input
+    type: path
+    required: true
+    description: HiCExplorer matrix in h5 format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to hicexplorer.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/hicexplorer_hicpca
+    primary: true

@@ -1,0 +1,10 @@
+{
+  "fasta": null,
+  "mode": null,
+  "lineage": null,
+  "busco_lineages_path": null,
+  "config_file": null,
+  "clean_intermediates": false,
+  "args": "",
+  "outdir": "results"
+}

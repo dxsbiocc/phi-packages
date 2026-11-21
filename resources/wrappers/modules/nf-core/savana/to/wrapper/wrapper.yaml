@@ -1,0 +1,72 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'tumour_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'snp_vcf' combined cartesian-style; verify if per-sample pairing is required; companion input 'allele_counts_het_snps' combined cartesian-style; verify if per-sample pairing is required; companion input 'breakpoints' combined cartesian-style; verify if per-sample pairing is required; companion input 'ref_index' combined cartesian-style; verify if per-sample pairing is required; val input 'g1000_vcf' exposed as required option; confirm whether a safe default exists; val-only tuple wired as a single sample; verify multi-sample semantics
+id: nf-core/modules/savana-to
+name: savana to
+summary: Tumour-only somatic SV calling with optional copy-number analysis in SAVANA
+params:
+  tumour:
+    kind: input
+    type: path
+    required: true
+    description: Tumour BAM/CRAM file
+  tumour_index:
+    kind: input
+    type: path
+    required: false
+    description: Tumour BAM/CRAM index
+  snp_vcf:
+    kind: input
+    type: path
+    required: false
+    description: Optional SNP VCF for allele counting (mutually exclusive with g1000_vcf and allele_counts_het_snps)
+  allele_counts_het_snps:
+    kind: input
+    type: path
+    required: false
+    description: Optional precomputed allele counts of heterozygous SNPs
+  breakpoints:
+    kind: input
+    type: path
+    required: false
+    description: SAVANA breakpoints VCF to be included in CNA analysis
+  ref:
+    kind: input
+    type: path
+    required: true
+    description: Reference FASTA
+  ref_index:
+    kind: input
+    type: path
+    required: false
+    description: Reference FASTA index
+  contigs:
+    kind: input
+    type: path
+    required: true
+    description: Optional contigs list file for SAVANA to restrict analysis to specific contigs
+  blacklist:
+    kind: input
+    type: path
+    required: true
+    description: Optional blacklist BED for CNA analysis
+  g1000_vcf:
+    kind: option
+    type: string
+    required: true
+    description: Optional 1000G preset for allele counting (mutually exclusive with snp_vcf and allele_counts_het_snps)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to savana.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  sv_breakpoints_vcf:
+    type: directory
+    path: ${outdir}/savana_to
+    primary: true

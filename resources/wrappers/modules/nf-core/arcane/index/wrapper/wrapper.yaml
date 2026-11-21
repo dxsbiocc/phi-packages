@@ -1,0 +1,38 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'genes' combined cartesian-style; verify if per-sample pairing is required; val input 'n_objects' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/arcane-index
+name: arcane index
+summary: Build a k-mer hash index from a filtered reference for alignment-free single-cell RNA-seq quantification
+  with Arcane
+params:
+  reference:
+    kind: input
+    type: path
+    required: true
+    description: Filtered sequence reference FASTA file produced by the arcane filter step
+  genes:
+    kind: input
+    type: path
+    required: false
+    description: Gene IDs file (one per line, in gene_number order) produced by the arcane filter step.
+  n_objects:
+    kind: option
+    type: integer
+    required: true
+    description: Number of k-mers to be stored in the hash table (passed to `--nobjects`)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to arcane.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  index:
+    type: directory
+    path: ${outdir}/arcane_index
+    primary: true

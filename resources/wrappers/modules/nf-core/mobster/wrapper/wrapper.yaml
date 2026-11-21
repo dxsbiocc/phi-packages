@@ -1,0 +1,21 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/mobster
+name: mobster
+summary: Subclonal deconvolution of cancer genome sequencing data.
+params:
+  rds_join:
+    kind: input
+    type: path
+    required: true
+    description: Either a .rds object of class mCNAqc or a .csv mutations table
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  mobster_rds:
+    type: directory
+    path: ${outdir}/mobster
+    primary: true

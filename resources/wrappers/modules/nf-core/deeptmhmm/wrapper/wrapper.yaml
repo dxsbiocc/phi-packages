@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/deeptmhmm
+name: deeptmhmm
+summary: A Deep Learning Model for Transmembrane Topology Prediction and Classification
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Database of sequences in FASTA format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to deeptmhmm.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gff3:
+    type: directory
+    path: ${outdir}/deeptmhmm
+    primary: true

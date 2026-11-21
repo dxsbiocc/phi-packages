@@ -1,0 +1,46 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/ltrretriever-ltrretriever
+name: ltrretriever ltrretriever
+summary: Identifies LTR retrotransposons using LTR_retriever
+params:
+  genome:
+    kind: input
+    type: path
+    required: true
+    description: Genomic sequences in fasta format
+  harvest:
+    kind: input
+    type: path
+    required: true
+    description: LTR-RT candidates from GenomeTools ltrharvest in the old tabular format
+  finder:
+    kind: input
+    type: path
+    required: true
+    description: LTR-RT candidates from LTR_FINDER
+  mgescan:
+    kind: input
+    type: path
+    required: true
+    description: LTR-RT candidates from MGEScan_LTR
+  non_tgca:
+    kind: input
+    type: path
+    required: true
+    description: Non-canonical LTR-RT candidates from GenomeTools ltrharvest in the old tabular format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to ltrretriever.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  log:
+    type: directory
+    path: ${outdir}/ltrretriever_ltrretriever
+    primary: true

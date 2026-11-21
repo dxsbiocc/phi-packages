@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'fai' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/gffcompare
+name: gffcompare
+summary: Compare, merge, annotate and estimate accuracy of generated gtf files
+params:
+  gtfs:
+    kind: input
+    type: path
+    required: true
+    description: GTF/GFF files e.g.
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Genome reference fasta file (optional)
+  fai:
+    kind: input
+    type: path
+    required: false
+    description: Index for fasta file
+  reference_gtf:
+    kind: input
+    type: path
+    required: true
+    description: Reference annotation in gtf/gff format (optional)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to gffcompare.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  annotated_gtf:
+    type: directory
+    path: ${outdir}/gffcompare
+    primary: true

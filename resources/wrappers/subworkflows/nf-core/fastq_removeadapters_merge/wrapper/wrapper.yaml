@@ -1,0 +1,58 @@
+# Agent-facing wrapper adapter for the vendored fastq_removeadapters_merge subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+id: nf-core/subworkflows/fastq-removeadapters-merge
+name: "Trim adapters / merge reads"
+summary: "Trim adapters and optionally merge paired reads with a choice of tools."
+
+params:
+  reads:
+    kind: input
+    type: path_glob
+    required: true
+    description: "FASTQ glob (paired or single)."
+  adapter_tool:
+    kind: option
+    type: string
+    required: true
+    enum:
+      - trimmomatic
+      - cutadapt
+      - trimgalore
+      - bbduk
+      - leehom
+      - fastp
+      - adapterremoval
+    description: "Adapter trimming tool."
+  custom_adapters_file:
+    kind: input
+    type: path
+    required: false
+    description: "Custom adapters FASTA (bbduk/fastp) or txt (adapterremoval)."
+  save_merged:
+    kind: option
+    type: boolean
+    required: false
+    description: "Return merged reads (fastp/adapterremoval)."
+  fastp_discard_trimmed_pass:
+    kind: option
+    type: boolean
+    required: false
+    description: "fastp: discard trimmed-pass reads."
+  fastp_save_trimmed_fail:
+    kind: option
+    type: boolean
+    required: false
+    description: "fastp: save trimmed-fail reads."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/fastq_removeadapters_merge'
+    primary: true

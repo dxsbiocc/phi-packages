@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/krona-ktimportkrona
+name: krona ktimportkrona
+summary: Collect multiple krona reports into a single html file
+params:
+  html:
+    kind: input
+    type: path
+    required: true
+    description: One or multiple html files each containing a krona single plot
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to krona.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  html:
+    type: directory
+    path: ${outdir}/krona_ktimportkrona
+    primary: true

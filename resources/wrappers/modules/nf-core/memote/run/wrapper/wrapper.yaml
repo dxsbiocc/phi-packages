@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/memote-run
+name: memote run
+summary: Run memote test suite and collect results as JSON
+params:
+  model:
+    kind: input
+    type: path
+    required: true
+    description: SBML model file.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to memote.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  json:
+    type: directory
+    path: ${outdir}/memote_run
+    primary: true

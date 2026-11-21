@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'batch_key' exposed as required option; confirm whether a safe default exists; val input 'max_epochs' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/scvitools-solo
+name: scvitools solo
+summary: Detect doublets in single-cell RNA-Seq data
+params:
+  h5ad:
+    kind: input
+    type: path
+    required: true
+    description: H5AD anndata object
+  batch_key:
+    kind: option
+    type: string
+    required: true
+    description: Column in adata.obs to use as batch.
+  max_epochs:
+    kind: option
+    type: integer
+    required: true
+    description: Maximum number of epochs to train the model.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  h5ad:
+    type: directory
+    path: ${outdir}/scvitools_solo
+    primary: true

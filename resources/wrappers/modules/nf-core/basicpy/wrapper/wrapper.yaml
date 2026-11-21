@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/basicpy
+name: basicpy
+summary: BaSiCPy is a python package for background and shading correction of optical microscopy images.
+params:
+  image:
+    kind: input
+    type: path
+    required: true
+    description: BioFormats-compatible image file to be used for dark and flat field illumination correction
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to basicpy.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  profiles:
+    type: directory
+    path: ${outdir}/basicpy
+    primary: true

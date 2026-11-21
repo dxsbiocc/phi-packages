@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/mobsuite-recon
+name: mobsuite recon
+summary: A tool to reconstruct plasmids in bacterial assemblies
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: A bacterial genome assembly in FASTA format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to mobsuite.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  chromosome:
+    type: directory
+    path: ${outdir}/mobsuite_recon
+    primary: true

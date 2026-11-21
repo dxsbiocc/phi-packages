@@ -1,0 +1,52 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'fastk_ktab' combined cartesian-style; verify if per-sample pairing is required; companion input 'assembly' combined cartesian-style; verify if per-sample pairing is required; companion input 'haplotigs' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/merquryfk-merquryfk
+name: merquryfk merquryfk
+summary: FastK based version of Merqury
+params:
+  fastk_hist:
+    kind: input
+    type: path
+    required: true
+    description: A histogram file from the program FastK
+  fastk_ktab:
+    kind: input
+    type: path
+    required: false
+    description: Histogram ktab files from the program FastK (option -t)
+  assembly:
+    kind: input
+    type: path
+    required: false
+    description: FASTA file containing a single primary haplotype
+  haplotigs:
+    kind: input
+    type: path
+    required: false
+    description: FASTA file, or list of FASTA files, containing an alternate haplotype or set of haplotypes
+  mathaptab:
+    kind: input
+    type: path
+    required: true
+    description: trio maternal histogram ktab files from the program FastK (option -t)
+  pathaptab:
+    kind: input
+    type: path
+    required: true
+    description: trio paternal histogram ktab files from the program FastK (option -t)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to merquryfk.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  stats:
+    type: directory
+    path: ${outdir}/merquryfk_merquryfk
+    primary: true

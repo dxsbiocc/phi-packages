@@ -1,0 +1,38 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/opt-stat
+name: opt stat
+summary: stat summarizes opt binding predictions
+params:
+  probe_targets:
+    kind: input
+    type: path
+    required: true
+    description: Generated probe targets
+  fwd_oriented_probes:
+    kind: input
+    type: path
+    required: true
+    description: The forward oriented fasta file
+  gene_synonyms:
+    kind: input
+    type: path
+    required: true
+    description: Gene synonyms that may have been counted as off-targets but simply differ in name (optional
+      input)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to opt.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  summary:
+    type: directory
+    path: ${outdir}/opt_stat
+    primary: true

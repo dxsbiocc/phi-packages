@@ -1,0 +1,7 @@
+{
+  "vcfs": null,
+  "vcf_indexes": null,
+  "common_meta": "id",
+  "sort": false,
+  "outdir": "results"
+}

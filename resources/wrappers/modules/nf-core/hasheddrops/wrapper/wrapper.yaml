@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'rna_matrix' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/hasheddrops
+name: hasheddrops
+summary: Generating cell hashing calls from a matrix of count data.
+params:
+  hto_matrix:
+    kind: input
+    type: path
+    required: true
+    description: Directory that contains the HTO matrix in a 10X format.
+  rna_matrix:
+    kind: input
+    type: path
+    required: false
+    description: Path to RNA count matrix, which is only uses if runEmptyDrops == "TRUE".
+  run_empty_drops:
+    kind: option
+    type: boolean
+    required: false
+    description: Run EmptyDrops() before hashedDrops() ("TRUE") or not ("FALSE").
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  empty_drops_plot:
+    type: directory
+    path: ${outdir}/hasheddrops
+    primary: true

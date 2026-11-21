@@ -1,0 +1,25 @@
+# Agent-facing wrapper adapter for the vendored archive_extract subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+id: nf-core/subworkflows/archive-extract
+name: "Extract archive"
+summary: "Extract a tar/zip archive and route extracted vs non-extracted files."
+
+params:
+  archive:
+    kind: input
+    type: path
+    required: true
+    description: "Archive file to extract (tar.gz, zip, ...)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/archive_extract'
+    primary: true

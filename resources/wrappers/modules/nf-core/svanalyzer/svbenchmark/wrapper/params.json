@@ -1,0 +1,11 @@
+{
+  "test": null,
+  "test_tbi": null,
+  "truth": null,
+  "truth_tbi": null,
+  "bed": null,
+  "fasta": null,
+  "fai": null,
+  "args": "",
+  "outdir": "results"
+}

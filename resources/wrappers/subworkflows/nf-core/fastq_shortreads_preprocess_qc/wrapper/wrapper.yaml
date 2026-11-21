@@ -1,0 +1,176 @@
+# Agent-facing wrapper adapter for the vendored fastq_shortreads_preprocess_qc subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+# REVIEW: 27-input composite; verify each stage's companion semantics for multi-sample use
+id: nf-core/subworkflows/fastq-shortreads-preprocess-qc
+name: "Short-read preprocessing + QC"
+summary: "Full short-read preprocessing: QC, UMI extract, adapter trim, complexity filter, dedup, decontamination."
+
+params:
+  reads:
+    kind: input
+    type: path_glob
+    required: true
+    description: "FASTQ glob (paired or single)."
+  skip_fastqc:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip FastQC."
+  skip_seqfu_check:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip seqfu check."
+  skip_seqfu_stats:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip seqfu stats."
+  skip_seqkit_stats:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip seqkit stats."
+  skip_seqtk_comp:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip seqtk comp."
+  skip_seqkit_sana_pair:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip seqkit sana pair."
+  skip_seqkit_seq:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip seqkit seq."
+  skip_seqkit_replace:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip seqkit replace."
+  skip_seqkit_rmdup:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip seqkit rmdup."
+  skip_umitools_extract:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip UMI-tools extract."
+  umi_discard_read:
+    kind: option
+    type: integer
+    required: false
+    description: "UMI discard read (0/1/2)."
+  skip_adapterremoval:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip adapter removal."
+  adapter_tool:
+    kind: option
+    type: string
+    required: true
+    enum:
+      - trimmomatic
+      - cutadapt
+      - trimgalore
+      - bbduk
+      - leehom
+      - fastp
+      - adapterremoval
+    description: "Adapter trimming tool."
+  custom_adapters_file:
+    kind: input
+    type: path
+    required: false
+    description: "Custom adapters file (optional)."
+  save_merged:
+    kind: option
+    type: boolean
+    required: false
+    description: "Return merged reads."
+  fastp_discard_trimmed_pass:
+    kind: option
+    type: boolean
+    required: false
+    description: "fastp: discard trimmed-pass."
+  fastp_save_trimmed_fail:
+    kind: option
+    type: boolean
+    required: false
+    description: "fastp: save trimmed-fail."
+  skip_complexity_filtering:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip complexity filtering."
+  complexity_filter_tool:
+    kind: option
+    type: string
+    required: true
+    enum:
+      - prinseqplusplus
+      - bbduk
+      - fastp
+    description: "Complexity filter tool."
+  skip_deduplication:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip deduplication."
+  skip_decontamination:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip decontamination."
+  decontamination_fasta:
+    kind: input
+    type: fasta
+    required: false
+    description: "Decontamination reference FASTA (optional)."
+  decontamination_reference:
+    kind: input
+    type: path
+    required: false
+    description: "Decontamination reference dir (optional)."
+  decontamination_reference_name:
+    kind: option
+    type: string
+    required: false
+    description: "Decontamination reference name."
+  decontamination_index_name:
+    kind: option
+    type: string
+    required: false
+    description: "deacon index name (optional)."
+  decontamination_tool:
+    kind: option
+    type: string
+    required: false
+    enum:
+      - hostile
+      - deacon
+    description: "Decontamination tool."
+  skip_final_concatenation:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip final concatenation."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/fastq_shortreads_preprocess_qc'
+    primary: true

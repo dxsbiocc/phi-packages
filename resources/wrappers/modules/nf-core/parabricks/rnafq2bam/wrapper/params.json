@@ -1,0 +1,9 @@
+{
+  "reads": null,
+  "fasta": null,
+  "index": null,
+  "qc_metrics": false,
+  "mark_duplicates": false,
+  "args": "",
+  "outdir": "results"
+}

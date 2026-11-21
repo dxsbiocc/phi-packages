@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/foldcomp-decompress
+name: foldcomp decompress
+summary: Decompression tool for foldcomp compressed structures
+params:
+  fcz:
+    kind: input
+    type: path
+    required: true
+    description: Foldcomp compressed protein structure(s) (also works with folder input)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to foldcomp.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  pdb:
+    type: directory
+    path: ${outdir}/foldcomp_decompress
+    primary: true

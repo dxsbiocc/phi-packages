@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/viennarna-rnafold
+name: viennarna rnafold
+summary: Predict RNA secondary structure using the ViennaRNA RNAfold tools.
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: A fasta file containing RNA or transcript sequences
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to viennarna.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  rnafold_txt:
+    type: directory
+    path: ${outdir}/viennarna_rnafold
+    primary: true

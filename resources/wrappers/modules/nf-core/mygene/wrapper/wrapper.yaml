@@ -1,0 +1,21 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/mygene
+name: mygene
+summary: Fetch the GO concepts for a list of genes
+params:
+  gene_list:
+    kind: input
+    type: path
+    required: true
+    description: A tsv/csv file that contains a list of gene ids in one of the columns.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gmt:
+    type: directory
+    path: ${outdir}/mygene
+    primary: true

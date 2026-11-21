@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/sourmash-taxannotate
+name: sourmash taxannotate
+summary: Annotate list of metagenome members (based on sourmash signature matches) with taxonomic information.
+params:
+  gather_results:
+    kind: input
+    type: path
+    required: true
+    description: Mandatory table with signatures classified as belonging to any of the genomes in the
+      sourmash database(s), result of `sourmash gather` command.
+  taxonomy:
+    kind: input
+    type: path
+    required: true
+    description: One or more databases with lineages (in CSV format, Mandatory)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to sourmash.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  result:
+    type: directory
+    path: ${outdir}/sourmash_taxannotate
+    primary: true

@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'db' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/mifaser
+name: mifaser
+summary: Functional annotation of metagenomic reads by assigning enzyme commission (EC) numbers
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Single-end or paired-end FASTQ files.
+  db:
+    kind: input
+    type: path
+    required: false
+    description: Path to the mi-faser database folder
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to mifaser.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  multi_ec:
+    type: directory
+    path: ${outdir}/mifaser
+    primary: true

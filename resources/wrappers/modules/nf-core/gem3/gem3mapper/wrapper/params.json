@@ -1,0 +1,7 @@
+{
+  "gem": null,
+  "fastq": null,
+  "sort_bam": false,
+  "args": "",
+  "outdir": "results"
+}

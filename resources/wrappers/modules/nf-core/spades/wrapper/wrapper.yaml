@@ -1,0 +1,48 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'pacbio' combined cartesian-style; verify if per-sample pairing is required; companion input 'nanopore' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/spades
+name: spades
+summary: Assembles a small genome (bacterial, fungal, viral)
+params:
+  illumina:
+    kind: input
+    type: path
+    required: true
+    description: List of input FastQ (Illumina or PacBio CCS reads) files of size 1 and 2 for single-end
+      and paired-end data, respectively.
+  pacbio:
+    kind: input
+    type: path
+    required: false
+    description: List of input PacBio CLR FastQ files of size 1.
+  nanopore:
+    kind: input
+    type: path
+    required: false
+    description: List of input FastQ files of size 1, originating from Oxford Nanopore technology.
+  yml:
+    kind: input
+    type: path
+    required: true
+    description: Path to yml file containing read information.
+  hmm:
+    kind: input
+    type: path
+    required: true
+    description: File or directory with amino acid HMMs for Spades HMM-guided mode.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to spades.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  scaffolds:
+    type: directory
+    path: ${outdir}/spades
+    primary: true

@@ -1,0 +1,8 @@
+{
+  "sample_treatment_col": null,
+  "reference": null,
+  "target": null,
+  "samplesheet": null,
+  "counts": null,
+  "outdir": "results"
+}

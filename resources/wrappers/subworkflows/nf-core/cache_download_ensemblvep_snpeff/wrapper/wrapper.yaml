@@ -1,0 +1,46 @@
+# Agent-facing wrapper adapter for the vendored cache_download_ensemblvep_snpeff subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+# REVIEW: requires network access
+id: nf-core/subworkflows/cache-download-ensemblvep-snpeff
+name: "Download VEP + snpEff caches"
+summary: "Download Ensembl VEP and snpEff annotation caches."
+
+params:
+  vep_assembly:
+    kind: option
+    type: string
+    required: true
+    description: "VEP genome assembly."
+  vep_species:
+    kind: option
+    type: string
+    required: true
+    description: "VEP species."
+  vep_cache_version:
+    kind: option
+    type: string
+    required: true
+    description: "VEP cache version."
+  snpeff_db:
+    kind: option
+    type: string
+    required: true
+    description: "snpEff database version."
+  preflight_check:
+    kind: option
+    type: boolean
+    required: false
+    description: "Run VEP download preflight check."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/cache_download_ensemblvep_snpeff'
+    primary: true

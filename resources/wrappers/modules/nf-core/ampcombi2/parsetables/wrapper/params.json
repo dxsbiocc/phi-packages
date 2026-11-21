@@ -1,0 +1,10 @@
+{
+  "amp_input": null,
+  "faa_input": null,
+  "gbk_input": null,
+  "opt_amp_db": null,
+  "opt_amp_db_dir": null,
+  "opt_interproscan": null,
+  "args": "",
+  "outdir": "results"
+}

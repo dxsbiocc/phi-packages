@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'param_file' combined cartesian-style; verify if per-sample pairing is required; standalone path 'index' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/last-lastal
+name: last lastal
+summary: Aligns query sequences to target sequences indexed with lastdb
+params:
+  fastx:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: FASTA/FASTQ file
+  param_file:
+    kind: input
+    type: path
+    required: false
+    description: Trained parameter file
+  index:
+    kind: input
+    type: path
+    required: false
+    description: Directory containing the files of the LAST index
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to last.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  maf:
+    type: directory
+    path: ${outdir}/last_lastal
+    primary: true

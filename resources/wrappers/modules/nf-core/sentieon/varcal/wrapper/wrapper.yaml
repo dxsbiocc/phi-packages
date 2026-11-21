@@ -1,0 +1,57 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'tbi' combined cartesian-style; verify if per-sample pairing is required; val input 'labels' exposed as required option; confirm whether a safe default exists; standalone path 'fasta' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'fai' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/sentieon-varcal
+name: sentieon varcal
+summary: Module for Sentieons VarCal.
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: input vcf file containing the variants to be recalibrated
+  tbi:
+    kind: input
+    type: path
+    required: false
+    description: tbi file matching with -vcf
+  resource_vcf:
+    kind: input
+    type: path
+    required: true
+    description: all resource vcf files that are used with the corresponding '--resource' label
+  resource_tbi:
+    kind: input
+    type: path
+    required: true
+    description: all resource tbi files that are used with the corresponding '--resource' label
+  labels:
+    kind: option
+    type: string
+    required: true
+    description: necessary arguments for Sentieon's VarCal.
+  fasta:
+    kind: input
+    type: path
+    required: false
+    description: The reference fasta file
+  fai:
+    kind: input
+    type: path
+    required: false
+    description: Index of reference fasta file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to sentieon.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  recal:
+    type: directory
+    path: ${outdir}/sentieon_varcal
+    primary: true

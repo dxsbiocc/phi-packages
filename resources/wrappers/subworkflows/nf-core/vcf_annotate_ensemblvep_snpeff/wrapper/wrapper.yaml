@@ -1,0 +1,96 @@
+# Agent-facing wrapper adapter for the vendored vcf_annotate_ensemblvep_snpeff subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+# REVIEW: cache download needs network when no local cache provided
+id: nf-core/subworkflows/vcf-annotate-ensemblvep-snpeff
+name: "Annotate VCF (VEP + snpEff)"
+summary: "Annotate a VCF with Ensembl VEP and/or snpEff, scattering by sites per chunk."
+
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: "VCF file to annotate."
+  vcf_tbi:
+    kind: input
+    type: path
+    required: true
+    description: "VCF tabix index."
+  custom_files:
+    kind: input
+    type: path_glob
+    required: false
+    description: "Optional custom annotation files glob."
+  fasta:
+    kind: input
+    type: fasta
+    required: false
+    description: "Reference FASTA (optional)."
+  vep_genome:
+    kind: option
+    type: string
+    required: true
+    description: "VEP genome assembly."
+  vep_species:
+    kind: option
+    type: string
+    required: true
+    description: "VEP species."
+  vep_cache_version:
+    kind: option
+    type: string
+    required: true
+    description: "VEP cache version."
+  vep_cache:
+    kind: input
+    type: path
+    required: false
+    description: "Local VEP cache directory (optional)."
+  vep_extra_files:
+    kind: input
+    type: path_glob
+    required: false
+    description: "VEP extra files glob (optional)."
+  snpeff_db:
+    kind: option
+    type: string
+    required: true
+    description: "snpEff database version."
+  snpeff_cache:
+    kind: input
+    type: path
+    required: false
+    description: "Local snpEff cache directory (optional)."
+  tools_to_use:
+    kind: option
+    type: string
+    required: true
+    description: "Comma-separated tools: ensemblvep,snpeff."
+  sites_per_chunk:
+    kind: option
+    type: integer
+    required: false
+    description: "Variants per scattered VCF chunk."
+  vep_gtf:
+    kind: input
+    type: path
+    required: false
+    description: "VEP GTF (mutually exclusive with vep_cache)."
+  vep_gtf_tbi:
+    kind: input
+    type: path
+    required: false
+    description: "VEP GTF tabix index."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/vcf_annotate_ensemblvep_snpeff'
+    primary: true

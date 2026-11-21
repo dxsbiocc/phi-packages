@@ -1,0 +1,11 @@
+{
+  "vcf": null,
+  "tbi": null,
+  "resource_vcf": null,
+  "resource_tbi": null,
+  "labels": null,
+  "fasta": null,
+  "fai": null,
+  "args": "",
+  "outdir": "results"
+}

@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/bwafastalign-index
+name: bwafastalign index
+summary: Create BWA-FASTALIGN index for reference genome
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input genome fasta file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to bwafastalign.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  index:
+    type: directory
+    path: ${outdir}/bwafastalign_index
+    primary: true

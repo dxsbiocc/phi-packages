@@ -1,0 +1,11 @@
+{
+  "normal": null,
+  "normal_index": null,
+  "tumor": null,
+  "tumor_index": null,
+  "intervals": null,
+  "fasta": null,
+  "msisensor_scan": null,
+  "args": "",
+  "outdir": "results"
+}

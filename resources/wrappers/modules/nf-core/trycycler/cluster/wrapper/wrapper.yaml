@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'reads' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/trycycler-cluster
+name: trycycler cluster
+summary: Cluster contigs from multiple assemblies by similarity
+params:
+  contigs:
+    kind: input
+    type: path
+    required: true
+    description: Contigs file
+  reads:
+    kind: input
+    type: path
+    required: false
+    description: Long-read FASTQ file, optionally gzip compressed
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to trycycler.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  cluster_dir:
+    type: directory
+    path: ${outdir}/trycycler_cluster
+    primary: true

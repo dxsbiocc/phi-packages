@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
+id: nf-core/subworkflows/opt-flip-track-stat
+name: opt flip track stat
+summary: Off-target probe detection
+params:
+  probes_fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input probes_fasta for ch_probe_fasta.
+  ref_annot_gff:
+    kind: input
+    type: path
+    required: true
+    description: Input ref_annot_gff for ch_references.
+  ref_annot_fa:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion ref_annot_fa for ch_references.
+  gene_synonyms:
+    kind: input
+    type: path
+    required: true
+    description: Input gene_synonyms for ch_gene_synonyms.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/opt_flip_track_stat
+    primary: true

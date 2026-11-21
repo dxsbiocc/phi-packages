@@ -1,0 +1,81 @@
+# Agent-facing wrapper adapter for the vendored bam_tumor_normal_somatic_variant_calling_strelka subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+# REVIEW: single-pair adapter; interval scattering needs curation
+id: nf-core/subworkflows/bam-tumor-normal-somatic-variant-calling-strelka
+name: "Tumor-normal somatic calling (Strelka)"
+summary: "Call somatic SNVs/indels from matched tumor-normal CRAMs with Strelka."
+
+params:
+  normal_cram:
+    kind: input
+    type: bam
+    required: true
+    description: "Normal CRAM/BAM."
+  normal_crai:
+    kind: input
+    type: path
+    required: true
+    description: "Normal index."
+  tumor_cram:
+    kind: input
+    type: bam
+    required: true
+    description: "Tumor CRAM/BAM."
+  tumor_crai:
+    kind: input
+    type: path
+    required: true
+    description: "Tumor index."
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: "Reference FASTA."
+  fai:
+    kind: input
+    type: path
+    required: true
+    description: "Reference FASTA index."
+  dict:
+    kind: input
+    type: path
+    required: false
+    description: "Reference dictionary (optional)."
+  manta_vcf:
+    kind: input
+    type: path
+    required: false
+    description: "Manta indel candidates VCF (optional)."
+  manta_tbi:
+    kind: input
+    type: path
+    required: false
+    description: "Manta VCF index (optional)."
+  intervals:
+    kind: input
+    type: path
+    required: false
+    description: "Interval BED.gz (optional)."
+  intervals_tbi:
+    kind: input
+    type: path
+    required: false
+    description: "Interval BED.gz index (optional)."
+  sample_id:
+    kind: option
+    type: string
+    required: false
+    description: "Sample id."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/bam_tumor_normal_somatic_variant_calling_strelka'
+    primary: true

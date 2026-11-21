@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'fasta' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/chopper
+name: chopper
+summary: Filter and trim long read data.
+params:
+  fastq:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: FastQ with reads from long read sequencing e.g.
+  fasta:
+    kind: input
+    type: path
+    required: false
+    description: An optional reference fasta file against which to remove reads that align to it.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to chopper.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fastq:
+    type: directory
+    path: ${outdir}/chopper
+    primary: true

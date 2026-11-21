@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/concoct-mergecutupclustering
+name: concoct mergecutupclustering
+summary: Merge consecutive parts of the original contigs original cut up by cut_up_fasta.py
+params:
+  clustering_csv:
+    kind: input
+    type: path
+    required: true
+    description: Input cutup clustering result.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to concoct.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  csv:
+    type: directory
+    path: ${outdir}/concoct_mergecutupclustering
+    primary: true

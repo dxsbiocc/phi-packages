@@ -1,0 +1,9 @@
+{
+  "reads": null,
+  "fasta": null,
+  "reference": null,
+  "reference_name": "contaminant",
+  "index_name": null,
+  "decontaminator": "hostile",
+  "outdir": "results"
+}

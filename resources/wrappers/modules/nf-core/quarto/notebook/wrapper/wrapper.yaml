@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'parameters' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/quarto-notebook
+name: quarto notebook
+summary: Render a Quarto notebook, including parametrization.
+params:
+  notebook:
+    kind: input
+    type: path
+    required: true
+    description: The Quarto notebook to be rendered.
+  parameters:
+    kind: option
+    type: string
+    required: true
+    description: Groovy map with notebook parameters which will be passed to Quarto to generate parametrized
+      reports.
+  input_files:
+    kind: input
+    type: path
+    required: true
+    description: One or multiple files serving as input data for the notebook.
+  extensions:
+    kind: input
+    type: path
+    required: true
+    description: A quarto `_extensions` directory with custom template(s) to be available for rendering.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to quarto.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  html:
+    type: directory
+    path: ${outdir}/quarto_notebook
+    primary: true

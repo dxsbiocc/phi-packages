@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/presto-filterseq
+name: presto filterseq
+summary: Filter reads by quality score.
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: compressed fastq file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to presto.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  reads:
+    type: directory
+    path: ${outdir}/presto_filterseq
+    primary: true

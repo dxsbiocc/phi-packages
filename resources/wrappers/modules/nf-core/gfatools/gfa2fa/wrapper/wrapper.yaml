@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/gfatools-gfa2fa
+name: gfatools gfa2fa
+summary: Converts GFA or rGFA files to FASTA
+params:
+  gfa:
+    kind: input
+    type: path
+    required: true
+    description: GFA or rGFA file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to gfatools.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fasta:
+    type: directory
+    path: ${outdir}/gfatools_gfa2fa
+    primary: true

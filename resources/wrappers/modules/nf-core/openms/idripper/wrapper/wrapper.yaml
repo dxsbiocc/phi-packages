@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/openms-idripper
+name: openms idripper
+summary: Split a merged identification file into their originating identification files
+params:
+  merged_idxml:
+    kind: input
+    type: path
+    required: true
+    description: Merged idXML file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to openms.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  idxmls:
+    type: directory
+    path: ${outdir}/openms_idripper
+    primary: true

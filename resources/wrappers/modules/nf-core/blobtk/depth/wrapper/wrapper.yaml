@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'index' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/blobtk-depth
+name: blobtk depth
+summary: Creates a bed file containing the depth of data at intervals of an aligned bam.
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Algined BAM file.
+  index:
+    kind: input
+    type: path
+    required: false
+    description: Algined BAM index file.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to blobtk.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bed:
+    type: directory
+    path: ${outdir}/blobtk_depth
+    primary: true

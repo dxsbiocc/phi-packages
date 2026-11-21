@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/ariba-run
+name: ariba run
+summary: Query input FASTQs against Ariba formatted databases
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Paired-end reads in FASTQ format
+  db:
+    kind: input
+    type: path
+    required: true
+    description: An Ariba prepared database
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to ariba.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/ariba_run
+    primary: true

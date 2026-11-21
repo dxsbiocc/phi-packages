@@ -1,0 +1,62 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'estimate_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'pedigree' combined cartesian-style; verify if per-sample pairing is required; companion input 'truth' combined cartesian-style; verify if per-sample pairing is required; companion input 'truth_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'freq' combined cartesian-style; verify if per-sample pairing is required; companion input 'freq_index' combined cartesian-style; verify if per-sample pairing is required; val input 'region' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/shapeit5-switch
+name: shapeit5 switch
+summary: Program to compute switch error rate and genotyping error rate given simulated or trio data.
+params:
+  estimate:
+    kind: input
+    type: path
+    required: true
+    description: Imputed data.
+  estimate_index:
+    kind: input
+    type: path
+    required: false
+    description: Index file of the freq VCF/BCF file.
+  pedigree:
+    kind: input
+    type: path
+    required: false
+    description: 'Pedigree information in the following format: offspring father mother.'
+  truth:
+    kind: input
+    type: path
+    required: false
+    description: Validation dataset called at the same positions as the imputed file.
+  truth_index:
+    kind: input
+    type: path
+    required: false
+    description: Index file of the truth VCF/BCF file.
+  freq:
+    kind: input
+    type: path
+    required: false
+    description: File containing allele frequencies at each site.
+  freq_index:
+    kind: input
+    type: path
+    required: false
+    description: Index file of the freq VCF/BCF file.
+  region:
+    kind: option
+    type: string
+    required: true
+    description: Target region used for imputation, including left and right buffers (e.g.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to shapeit5.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  errors:
+    type: directory
+    path: ${outdir}/shapeit5_switch
+    primary: true

@@ -1,0 +1,48 @@
+# Agent-facing wrapper adapter for the vendored diann module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+# Manually wired: exotic staging pattern.
+id: nf-core/modules/diann
+name: DIA-NN
+summary: Quantify DIA proteomics runs with DIA-NN (raw files, spectral-library prediction, or --use-quant).
+params:
+  ms_files:
+    kind: input
+    type: path
+    required: false
+    description: Directory of raw MS files (.raw/.mzML/.dia). Omit for library prediction or quant reuse.
+  ms_file_names:
+    kind: option
+    type: string
+    required: false
+    description: Comma-separated MS file basenames to use with quant (instead of staging raw files).
+  fasta:
+    kind: input
+    type: file
+    required: false
+    description: FASTA proteome for spectral-library prediction.
+  library:
+    kind: input
+    type: file
+    required: false
+    description: Existing spectral library (.speclib).
+  quant:
+    kind: input
+    type: path
+    required: false
+    description: Directory of preprocessed .quant files (enables --use-quant).
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to dia-nn.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/diann
+    primary: true

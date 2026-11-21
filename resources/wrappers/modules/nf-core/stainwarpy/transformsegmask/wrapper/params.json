@@ -1,0 +1,10 @@
+{
+  "hne_img": null,
+  "multiplx_img": null,
+  "seg_mask": null,
+  "tform_map": null,
+  "fixed_img": null,
+  "final_sz": null,
+  "args": "",
+  "outdir": "results"
+}

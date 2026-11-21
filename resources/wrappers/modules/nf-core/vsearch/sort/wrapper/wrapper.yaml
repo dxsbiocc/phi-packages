@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'sort_arg' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/vsearch-sort
+name: vsearch sort
+summary: Sort fasta entries by decreasing abundance (--sortbysize) or sequence length (--sortbylength).
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Sequences to be sorted in FASTA format
+  sort_arg:
+    kind: option
+    type: string
+    required: true
+    description: Argument to provide to sort algorithm.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to vsearch.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fasta:
+    type: directory
+    path: ${outdir}/vsearch_sort
+    primary: true

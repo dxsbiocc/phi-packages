@@ -1,0 +1,12 @@
+{
+  "estimate": null,
+  "estimate_index": null,
+  "pedigree": null,
+  "truth": null,
+  "truth_index": null,
+  "freq": null,
+  "freq_index": null,
+  "region": null,
+  "args": "",
+  "outdir": "results"
+}

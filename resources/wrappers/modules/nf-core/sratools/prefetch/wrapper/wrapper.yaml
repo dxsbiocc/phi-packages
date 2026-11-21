@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'id' exposed as required option; confirm whether a safe default exists; val-only tuple wired as a single sample; verify multi-sample semantics
+id: nf-core/modules/sratools-prefetch
+name: sratools prefetch
+summary: Download sequencing data from the NCBI Sequence Read Archive (SRA).
+params:
+  id:
+    kind: option
+    type: string
+    required: true
+    description: A string denoting an SRA id.
+  ncbi_settings:
+    kind: input
+    type: path
+    required: true
+    description: An NCBI user settings file.
+  certificate:
+    kind: input
+    type: path
+    required: true
+    description: Path to a JWT cart file used to access protected dbGAP data on SRA using the sra-toolkit
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to sratools.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  sra:
+    type: directory
+    path: ${outdir}/sratools_prefetch
+    primary: true

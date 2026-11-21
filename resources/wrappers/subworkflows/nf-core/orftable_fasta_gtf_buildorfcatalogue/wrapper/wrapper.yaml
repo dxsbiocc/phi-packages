@@ -1,0 +1,52 @@
+# Agent-facing wrapper adapter for the vendored orftable_fasta_gtf_buildorfcatalogue subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+# REVIEW: single-caller adapter; multi-caller routing needs curation
+id: nf-core/subworkflows/orftable-fasta-gtf-buildorfcatalogue
+name: "Build ORF catalogue"
+summary: "Normalise ribo-seq ORF tables and build a merged small-ORF catalogue."
+
+params:
+  orf_table:
+    kind: input
+    type: path
+    required: true
+    description: "ORF table file."
+  caller:
+    kind: option
+    type: string
+    required: true
+    enum:
+      - ribocode
+      - ribotish
+      - ribotricer
+      - rpbp
+      - price
+    description: "ORF caller that produced the table."
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: "Reference genome FASTA."
+  gtf:
+    kind: input
+    type: path
+    required: true
+    description: "Reference GTF."
+  collapse:
+    kind: option
+    type: boolean
+    required: false
+    description: "Cluster catalogue peptides by identity."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/orftable_fasta_gtf_buildorfcatalogue'
+    primary: true

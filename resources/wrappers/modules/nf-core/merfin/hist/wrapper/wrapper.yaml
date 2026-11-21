@@ -1,0 +1,53 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 's' combined cartesian-style; verify if per-sample pairing is required; val input 'peak' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/merfin-hist
+name: merfin hist
+summary: Compare k-mer frequency in reads and assembly to devise the metrics K* and QV*
+params:
+  fasta_assembly:
+    kind: input
+    type: path
+    required: true
+    description: Genome assembly in FASTA; uncompressed, gz compressed [REQUIRED]
+  s:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion input s.
+  meryl_db_reads:
+    kind: input
+    type: path
+    required: true
+    description: K-mer database produced from raw reads using Meryl [REQUIRED]
+  lookup_table:
+    kind: input
+    type: path
+    required: true
+    description: Input vector of k-mer probabilities (obtained by genomescope2 with parameter --fitted_hist)
+      [OPTIONAL]
+  seqmers:
+    kind: input
+    type: path
+    required: true
+    description: Input for pre-built sequence meryl db.
+  peak:
+    kind: option
+    type: number
+    required: true
+    description: Input to hard set copy 1 and infer multiplicity to copy number.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to merfin.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  hist:
+    type: directory
+    path: ${outdir}/merfin_hist
+    primary: true

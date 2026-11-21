@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'gtf' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/spaceranger-mkgtf
+name: spaceranger mkgtf
+summary: Module to build a filtered GTF needed by the 10x Genomics Space Ranger tool.
+params:
+  gtf:
+    kind: input
+    type: path
+    required: false
+    description: The reference GTF transcriptome file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to spaceranger.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gtf:
+    type: directory
+    path: ${outdir}/spaceranger_mkgtf
+    primary: true

@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/mageck-count
+name: mageck count
+summary: mageck count for functional genomics, reads are usually mapped to a specific sgRNA
+params:
+  inputfile:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: library fastq file containing the sgRNA and gene name or count table containing the sgRNA
+      and number of reads to per sample
+  library:
+    kind: input
+    type: path
+    required: true
+    description: library file containing the sgRNA and gene name
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to mageck.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  count:
+    type: directory
+    path: ${outdir}/mageck_count
+    primary: true

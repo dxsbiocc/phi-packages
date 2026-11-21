@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'celfiles_dir' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/affy-justrma
+name: affy justrma
+summary: Read CEL files into an ExpressionSet and generate a matrix
+params:
+  samplesheet:
+    kind: input
+    type: path
+    required: true
+    description: CSV or TSV format sample sheet with sample metadata and CEL file names
+  celfiles_dir:
+    kind: input
+    type: path
+    required: false
+    description: Path to a directory containing CEL files
+  description:
+    kind: input
+    type: path
+    required: true
+    description: Optional description file in MIAME format
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  rds:
+    type: directory
+    path: ${outdir}/affy_justrma
+    primary: true

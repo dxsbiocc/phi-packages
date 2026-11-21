@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'genome' exposed as required option; confirm whether a safe default exists; standalone path 'genome_installed_path' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/sigprofiler
+name: sigprofiler
+summary: mutational signature deconvolution of cancer cells
+params:
+  tsv_list:
+    kind: input
+    type: path
+    required: true
+    description: joint tsv file with validated mutations by CNAqc
+  genome:
+    kind: option
+    type: string
+    required: true
+    description: Reference genome name to use with SigProfiler (e.g.
+  genome_installed_path:
+    kind: input
+    type: path
+    required: false
+    description: path to installed reference genome (optional)
+  seeds:
+    kind: input
+    type: path
+    required: true
+    description: Seeds file from previous run for reproducible resamples or "random" (default is "random").
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  results_sigprofiler:
+    type: directory
+    path: ${outdir}/sigprofiler
+    primary: true

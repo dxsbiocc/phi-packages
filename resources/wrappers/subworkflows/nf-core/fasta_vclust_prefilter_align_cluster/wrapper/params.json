@@ -1,0 +1,9 @@
+{
+  "fasta": null,
+  "save_alignment": false,
+  "metric": "ani",
+  "tani": 0.95,
+  "gani": 0.95,
+  "ani": 0.95,
+  "outdir": "results"
+}

@@ -1,0 +1,9 @@
+{
+  "bam": null,
+  "bai": null,
+  "lengths_offsets": null,
+  "orfs_genomic_bed": null,
+  "exons_bed": null,
+  "args": "",
+  "outdir": "results"
+}

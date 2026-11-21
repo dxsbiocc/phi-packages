@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'assay' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/htodemux
+name: htodemux
+summary: Demultiplex samples based on data from cell hashing.
+params:
+  seurat_object:
+    kind: input
+    type: path
+    required: true
+    description: A `.rds` file containing the seurat object.
+  assay:
+    kind: option
+    type: string
+    required: true
+    description: Name of the Hashtag assay, usually called "HTO" by default.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  params:
+    type: directory
+    path: ${outdir}/htodemux
+    primary: true

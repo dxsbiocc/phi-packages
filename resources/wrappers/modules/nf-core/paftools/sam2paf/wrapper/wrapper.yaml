@@ -1,0 +1,21 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/paftools-sam2paf
+name: paftools sam2paf
+summary: A program to convert bam into paf.
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: An input bam file to be converted into paf.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  paf:
+    type: directory
+    path: ${outdir}/paftools_sam2paf
+    primary: true

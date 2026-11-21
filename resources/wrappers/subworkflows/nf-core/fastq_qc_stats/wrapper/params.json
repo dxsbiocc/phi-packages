@@ -1,0 +1,9 @@
+{
+  "reads": null,
+  "skip_fastqc": false,
+  "skip_seqfu_check": false,
+  "skip_seqfu_stats": false,
+  "skip_seqkit_stats": false,
+  "skip_seqtk_comp": false,
+  "outdir": "results"
+}

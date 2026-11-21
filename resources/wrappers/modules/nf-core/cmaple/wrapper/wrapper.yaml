@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'newick' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/cmaple
+name: cmaple
+summary: Efficient phylogenetic tree reconstruction for sequences using the CMAPLE algorithm
+params:
+  aln:
+    kind: input
+    type: path
+    required: true
+    description: Multiple sequence alignment file in FASTA, PHYLIP, or MAPLE format.
+  newick:
+    kind: input
+    type: path
+    required: false
+    description: A Newick formatted tree based on multiple sequence alignment
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to cmaple.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  treefile:
+    type: directory
+    path: ${outdir}/cmaple
+    primary: true

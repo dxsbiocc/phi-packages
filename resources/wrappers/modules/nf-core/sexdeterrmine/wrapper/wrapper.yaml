@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/sexdeterrmine
+name: sexdeterrmine
+summary: Calculate the relative coverage on the Gonosomes vs Autosomes from the output of samtools depth,
+  with error bars.
+params:
+  depth:
+    kind: input
+    type: path
+    required: true
+    description: Output from samtools depth (with header)
+  sample_list_file:
+    kind: input
+    type: path
+    required: true
+    description: File containing the list of samples to be processed.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to sexdeterrmine.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  json:
+    type: directory
+    path: ${outdir}/sexdeterrmine
+    primary: true

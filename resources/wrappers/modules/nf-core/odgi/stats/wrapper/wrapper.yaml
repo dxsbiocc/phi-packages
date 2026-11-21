@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/odgi-stats
+name: odgi stats
+summary: Metrics describing a variation graph and its path relationship.
+params:
+  graph:
+    kind: input
+    type: path
+    required: true
+    description: Pangenome graph in binary ODGI or in GFA v1.0 format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to odgi.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tsv:
+    type: directory
+    path: ${outdir}/odgi_stats
+    primary: true

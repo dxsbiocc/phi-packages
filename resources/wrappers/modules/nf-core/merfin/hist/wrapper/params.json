@@ -1,0 +1,10 @@
+{
+  "fasta_assembly": null,
+  "s": null,
+  "meryl_db_reads": null,
+  "lookup_table": null,
+  "seqmers": null,
+  "peak": null,
+  "args": "",
+  "outdir": "results"
+}

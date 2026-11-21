@@ -1,0 +1,21 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/rastair-mbiasparser
+name: rastair mbiasparser
+summary: Parses Rastair mbias output to assess the ideal cutoff for read trimming and reports the values.
+params:
+  rastair_mbias_txt:
+    kind: input
+    type: path
+    required: true
+    description: Text file from `rastair mbias`
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  mbias_processed_pdf:
+    type: directory
+    path: ${outdir}/rastair_mbiasparser
+    primary: true

@@ -1,0 +1,49 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'annot_b' combined cartesian-style; verify if per-sample pairing is required; val input 'format' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/last-dotplot
+name: last dotplot
+summary: Makes a dotplot (Oxford Grid) of pair-wise sequence alignments
+params:
+  maf:
+    kind: input
+    type: path
+    required: true
+    description: Multiple Alignment Format (MAF) file, compressed with gzip
+  annot_b:
+    kind: input
+    type: path
+    required: false
+    description: Annotation file in BED, Repeamasker, genePred or AGP format for the second (vertical)
+      sequence
+  annot_a:
+    kind: input
+    type: path
+    required: true
+    description: Annotation file in BED, Repeamasker, genePred or AGP format for the first (horizontal)
+      sequence
+  format:
+    kind: option
+    type: string
+    required: true
+    description: Output format (PNG or GIF).
+  filter:
+    kind: option
+    type: boolean
+    required: false
+    description: Remove isolated alignments using the `maf-linked` software.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to last.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  plot:
+    type: directory
+    path: ${outdir}/last_dotplot
+    primary: true

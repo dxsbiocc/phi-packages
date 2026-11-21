@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'reference' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/cellrangeratac-count
+name: cellrangeratac count
+summary: Module to use Cell Ranger's ATAC pipelines analyze sequencing data produced from Chromium Single
+  Cell ATAC.
+params:
+  reads:
+    kind: input
+    type: path
+    required: true
+    description: List of input FastQ files of size 1 and 2 for single-end and paired-end data, respectively,
+      plus an additional FastQ for the barcodes
+  reference:
+    kind: input
+    type: path
+    required: false
+    description: Directory containing all the reference indices needed by Cell Ranger ATAC
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to cellrangeratac.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  outs:
+    type: directory
+    path: ${outdir}/cellrangeratac_count
+    primary: true

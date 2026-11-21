@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/variantextractor
+name: variantextractor
+summary: Deterministic and standard extractor of SNVs, indels and structural variants (SVs) from VCF files.
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: Input VCF file containing variants to be extracted and homogenized.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to variantextractor.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcf:
+    type: directory
+    path: ${outdir}/variantextractor
+    primary: true

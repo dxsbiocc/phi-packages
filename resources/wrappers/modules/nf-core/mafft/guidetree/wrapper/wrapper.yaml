@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/mafft-guidetree
+name: mafft guidetree
+summary: Guide tree rendering using MAFFT
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: FASTA file containing the sequences to be used to render the guidetree.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to mafft.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tree:
+    type: directory
+    path: ${outdir}/mafft_guidetree
+    primary: true

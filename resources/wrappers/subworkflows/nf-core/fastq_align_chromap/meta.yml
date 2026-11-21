@@ -1,0 +1,113 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: "fastq_align_chromap"
+description: Align high throughput chromatin profiles using Chromap, updating readgroups if neccessary and then sort with samtools
+keywords:
+  - align
+  - fasta
+  - genome
+  - reference
+  - chromatin profiles
+  - chip-seq
+  - atac-seq
+  - hic
+components:
+  - chromap/chromap
+  - picard/addorreplacereadgroups
+  - samtools/sort
+  - samtools/index
+  - samtools/stats
+  - samtools/idxstats
+  - samtools/flagstat
+  - bam_sort_stats_samtools
+input:
+  - ch_reads:
+      type: file
+      description: |
+        List of input FastQ files of size 1 and 2 for single-end and paired-end data,
+        respectively. The meta map contains sample information,
+        e.g. [ id:'test', single_end:false ].
+
+        Structure: [ val(meta), [ path(reads) ] ]
+  - ch_index:
+      type: file
+      description: |
+        Chromap genome index files. The meta map contains reference information,
+        e.g. [ id:'test' ].
+
+        Structure: [ val(meta2), path(index) ]
+      pattern: "*.index"
+  - ch_fasta_fai:
+      type: file
+      description: |
+        Reference fasta file and index.
+
+        Structure: [ val(meta2), path(fasta), path(fai) ]
+  - ch_barcodes:
+      type: file
+      description: |
+        Cell barcode files.
+
+        Structure: [ path(barcodes) ]
+  - ch_whitelist:
+      type: file
+      description: |
+        Cell barcode whitelist file.
+
+        Structure: [ path(whitelist) ]
+  - ch_chr_order:
+      type: file
+      description: |
+        Custom chromosome order.
+
+        Structure: [ path(chr_order) ]
+  - ch_pairs_chr_order:
+      type: file
+      description: |
+        Natural chromosome order for pairs flipping.
+
+        Structure: [ path(pairs_chr_order) ]
+  - update_readgroups:
+      type: boolean
+      description: |
+        Boolean controling whether the readgroups should be added or updated
+        after chromap alignment
+output:
+  - bam:
+      type: file
+      description: |
+        Sorted BAM file.
+
+        Structure: [ val(meta), path(bam) ]
+      pattern: "*.bam"
+  - index:
+      type: file
+      description: |
+        BAM index.
+
+        Structure: [ val(meta), path(index) ]
+      pattern: "*.{bai,csi}"
+  - stats:
+      type: file
+      description: |
+        File containing samtools stats output.
+
+        Structure: [ val(meta), path(stats) ]
+      pattern: "*.stats"
+  - flagstat:
+      type: file
+      description: |
+        File containing samtools flagstat output.
+
+        Structure: [ val(meta), path(flagstat) ]
+      pattern: "*.flagstat"
+  - idxstats:
+      type: file
+      description: |
+        File containing samtools idxstats output.
+
+        Structure: [ val(meta), path(idxstats) ]
+      pattern: "*.idxstats"
+authors:
+  - "@JoseEspinosa"
+maintainers:
+  - "@JoseEspinosa"

@@ -1,0 +1,46 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; tuple has no leading val(meta); sample meta synthesized from file name; companion input 'level1' combined cartesian-style; verify if per-sample pairing is required; companion input 'level2' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/caalm-caalm
+name: caalm caalm
+summary: Annotates carbohydrate-active enzyme (CAZyme) families from protein sequences using protein language
+  model (ESM) embeddings and FAISS-based nearest-neighbour search.
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Protein sequences in FASTA format.
+  level0:
+    kind: input
+    type: path
+    required: true
+    description: Directory containing the Level 0 (binary CAZyme detection) model files, as produced by
+      CAALM_DOWNLOADMODELS.
+  level1:
+    kind: input
+    type: path
+    required: false
+    description: Directory containing the Level 1 (CAZy class assignment) model files, as produced by
+      CAALM_DOWNLOADMODELS.
+  level2:
+    kind: input
+    type: path
+    required: false
+    description: Directory containing the Level 2 (CAZy family assignment) model files, as produced by
+      CAALM_DOWNLOADMODELS.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to caalm.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  predictions:
+    type: directory
+    path: ${outdir}/caalm_caalm
+    primary: true

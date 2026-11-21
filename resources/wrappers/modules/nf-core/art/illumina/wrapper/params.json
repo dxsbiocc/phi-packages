@@ -1,0 +1,8 @@
+{
+  "fasta": null,
+  "sequencing_system": null,
+  "fold_coverage": null,
+  "read_length": null,
+  "args": "",
+  "outdir": "results"
+}

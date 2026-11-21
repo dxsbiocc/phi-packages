@@ -1,0 +1,6 @@
+{
+  "reads": null,
+  "sample_size": "10000",
+  "kraken2_db": null,
+  "outdir": "results"
+}

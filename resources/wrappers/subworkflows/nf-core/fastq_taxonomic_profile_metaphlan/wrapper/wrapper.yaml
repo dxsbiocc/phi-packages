@@ -1,0 +1,22 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
+id: nf-core/subworkflows/fastq-taxonomic-profile-metaphlan
+name: fastq taxonomic profile metaphlan
+summary: Subworkflow to taxonomically classify metagenomic sequencing data using MetaPhlAn
+params:
+  fastqs:
+    kind: input
+    type: path
+    required: true
+    description: Input fastqs for ch_fastq.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/fastq_taxonomic_profile_metaphlan
+    primary: true

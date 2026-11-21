@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/celesta
+name: celesta
+summary: Unsupervised machine learning for cell type identification in multiplexed imaging using protein
+  expression and cell neighborhood information without ground truth
+params:
+  img_data:
+    kind: input
+    type: path
+    required: true
+    description: Quantification table with single cells as rows, markers (e.g.
+  signature:
+    kind: input
+    type: path
+    required: true
+    description: Signature Matrix containing the definition of cell types according to markers
+  high_thresholds:
+    kind: input
+    type: path
+    required: true
+    description: csv file with user-defined probability high thresholds for anchor cell (row 1) and index
+      cell (row 2) definition
+  low_thresholds:
+    kind: input
+    type: path
+    required: true
+    description: optional csv file with user-defined probability low thresholds for anchor cell (row 1)
+      and index cell (row 2) definition
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to celesta.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  celltypes:
+    type: directory
+    path: ${outdir}/celesta
+    primary: true

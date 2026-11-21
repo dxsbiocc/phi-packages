@@ -1,0 +1,45 @@
+# Agent-facing wrapper adapter for the vendored fastq_preprocess_seqkit subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+id: nf-core/subworkflows/fastq-preprocess-seqkit
+name: "Preprocess FASTQ (seqkit)"
+summary: "Sanity-check, clean, replace and deduplicate FASTQ reads with seqkit."
+
+params:
+  reads:
+    kind: input
+    type: path_glob
+    required: true
+    description: "FASTQ glob (paired or single)."
+  skip_seqkit_sana_pair:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip seqkit sana pair."
+  skip_seqkit_seq:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip seqkit seq."
+  skip_seqkit_replace:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip seqkit replace."
+  skip_seqkit_rmdup:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip seqkit rmdup."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/fastq_preprocess_seqkit'
+    primary: true

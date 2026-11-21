@@ -1,0 +1,8 @@
+{
+  "fasta": null,
+  "affi": null,
+  "config": null,
+  "distill": true,
+  "args": "",
+  "outdir": "results"
+}

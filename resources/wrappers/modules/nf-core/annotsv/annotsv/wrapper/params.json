@@ -1,0 +1,11 @@
+{
+  "sv_vcf": null,
+  "sv_vcf_index": null,
+  "candidate_small_variants": null,
+  "annotations": null,
+  "candidate_genes": null,
+  "false_positive_snv": null,
+  "gene_transcripts": null,
+  "args": "",
+  "outdir": "results"
+}

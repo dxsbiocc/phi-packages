@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'source_path' exposed as required option; confirm whether a safe default exists; val input 'destination_path' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/rclone-copy
+name: rclone copy
+summary: Copy files or directories between local and/or remote storage using Rclone
+params:
+  filter_file:
+    kind: input
+    type: path
+    required: true
+    description: Optional plain text file containing one file path or pattern per line to be passed to
+      Rclone copy as a filter list (e.g.
+  source_path:
+    kind: option
+    type: string
+    required: true
+    description: Source path to copy from.
+  destination_path:
+    kind: option
+    type: string
+    required: true
+    description: Destination path to copy to.
+  rclone_config:
+    kind: input
+    type: path
+    required: true
+    description: Rclone configuration file defining the remotes used by source_path and/or destination_path.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to rclone.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  log:
+    type: directory
+    path: ${outdir}/rclone_copy
+    primary: true

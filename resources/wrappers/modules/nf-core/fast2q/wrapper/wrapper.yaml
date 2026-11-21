@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/fast2q
+name: fast2q
+summary: A program that counts sequence occurrences in FASTQ files.
+params:
+  fastq:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Folder with FASTQ file(s).
+  library:
+    kind: input
+    type: path
+    required: true
+    description: .csv library file following the ´Feature_name,sequence´ or ´Feature_name,sequence1:sequence2´
+      format.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to fast2q.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  count_matrix:
+    type: directory
+    path: ${outdir}/fast2q
+    primary: true

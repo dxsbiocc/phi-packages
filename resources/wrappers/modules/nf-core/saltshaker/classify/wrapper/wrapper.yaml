@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'mito_name' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/saltshaker-classify
+name: saltshaker classify
+summary: mtDNA deletion and duplication classification downstream of mitosalt
+params:
+  call:
+    kind: input
+    type: path
+    required: true
+    description: call metadata file from saltshaker_call
+  mito_name:
+    kind: option
+    type: string
+    required: true
+    description: Name of the mitochondrial chromosome
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to saltshaker.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  classify:
+    type: directory
+    path: ${outdir}/saltshaker_classify
+    primary: true

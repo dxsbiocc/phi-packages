@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'bam_index' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/plastid-psite
+name: plastid psite
+summary: Estimate position of ribosomal P-site within ribosome profiling read alignments as a function
+  of read length
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Genome BAM file
+  bam_index:
+    kind: input
+    type: path
+    required: false
+    description: Genome BAM index file
+  rois_txt:
+    kind: input
+    type: path
+    required: true
+    description: Tab-delimited text file describing the maximal spanning window for each gene (output
+      from plastid_metagenegenerate)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to plastid.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  metagene_profiles:
+    type: directory
+    path: ${outdir}/plastid_psite
+    primary: true

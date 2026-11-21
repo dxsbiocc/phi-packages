@@ -1,0 +1,21 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/repeatmodeler-builddatabase
+name: repeatmodeler builddatabase
+summary: Create a database for RepeatModeler
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Fasta file
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  db:
+    type: directory
+    path: ${outdir}/repeatmodeler_builddatabase
+    primary: true

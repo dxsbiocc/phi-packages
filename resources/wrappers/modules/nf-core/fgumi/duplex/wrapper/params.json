@@ -1,0 +1,7 @@
+{
+  "grouped_bam": null,
+  "min_reads": null,
+  "keep_rejected": false,
+  "args": "",
+  "outdir": "results"
+}

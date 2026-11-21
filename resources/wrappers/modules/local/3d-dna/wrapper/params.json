@@ -1,0 +1,10 @@
+{
+  "fasta": null,
+  "mnd": null,
+  "mode": "haploid",
+  "input_size": 15000,
+  "rounds": 2,
+  "stage": null,
+  "args": "",
+  "outdir": "results"
+}

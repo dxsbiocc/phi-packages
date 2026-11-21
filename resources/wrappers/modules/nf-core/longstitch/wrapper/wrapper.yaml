@@ -1,0 +1,54 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'command' exposed as required option; confirm whether a safe default exists; val input 'span' exposed as required option; confirm whether a safe default exists; val input 'genomesize' exposed as required option; confirm whether a safe default exists; val input 'longmap' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/longstitch
+name: longstitch
+summary: '"A genome assembly correction and scaffolding pipeline using long reads, consisting of up to
+  three steps: - Tigmint cuts the draft assembly at potentially misassembled regions - ntLink is then
+  used to scaffold the corrected assembly - followed by ARKS for further scaffolding (optional)"'
+params:
+  assembly:
+    kind: input
+    type: path
+    required: true
+    description: Draft assembly
+  reads:
+    kind: input
+    type: path
+    required: true
+    description: long reads
+  command:
+    kind: option
+    type: string
+    required: true
+    description: Longstitch command to run.
+  span:
+    kind: option
+    type: string
+    required: true
+    description: min number of spanning molecules to be considered correctly assembled.
+  genomesize:
+    kind: option
+    type: string
+    required: true
+    description: Expected genome size.
+  longmap:
+    kind: option
+    type: string
+    required: true
+    description: Type of long-read (passed to minimap2).
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to longstitch.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tigmint_ntLink_fasta:
+    type: directory
+    path: ${outdir}/longstitch
+    primary: true

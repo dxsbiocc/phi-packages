@@ -1,0 +1,51 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'bblogs' combined cartesian-style; verify if per-sample pairing is required; companion input 'idxstats' combined cartesian-style; verify if per-sample pairing is required; companion input 'fcs' combined cartesian-style; verify if per-sample pairing is required; companion input 'mergetab' combined cartesian-style; verify if per-sample pairing is required; val input 'samples_meta' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/custom-collectstats
+name: custom collectstats
+summary: Collects per-sample read-processing statistics (trimming, decontamination, alignment, feature
+  counting, and optionally taxonomy/function summaries) from a set of heterogeneous log/table files into
+  a single overall-stats table per run.
+params:
+  trimlogs:
+    kind: input
+    type: path
+    required: true
+    description: Trim Galore trimming report(s), one (single-end) or two (paired-end, only the R1 report
+      is read) per sample.
+  bblogs:
+    kind: input
+    type: path
+    required: false
+    description: BBDuk log file(s), one per decontaminated sample.
+  idxstats:
+    kind: input
+    type: path
+    required: false
+    description: One samtools idxstats output file per sample.
+  fcs:
+    kind: input
+    type: path
+    required: false
+    description: One or more featureCounts-derived long-format count tables (as produced e.g.
+  mergetab:
+    kind: input
+    type: path
+    required: false
+    description: Optional wide-format per-sample summary table (e.g.
+  samples_meta:
+    kind: option
+    type: string
+    required: true
+    description: List of per-sample meta maps for every sample included in the run, each with at least
+      `id` and `single_end` e.g.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  overall_stats:
+    type: directory
+    path: ${outdir}/custom_collectstats
+    primary: true

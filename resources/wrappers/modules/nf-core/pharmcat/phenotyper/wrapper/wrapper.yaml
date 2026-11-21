@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'outside_match_tsv' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/pharmcat-phenotyper
+name: pharmcat phenotyper
+summary: The PharmCAT Phenotyper is a core module of the Pharmacogenomics Clinical Annotation Tool that
+  translates patient diplotypes into specific, actionable metabolizer phenotypes (e.g., Poor Metabolizer).
+params:
+  match_json:
+    kind: input
+    type: path
+    required: true
+    description: The Json output from the matcher module of pharmcat
+  outside_match_tsv:
+    kind: input
+    type: path
+    required: false
+    description: Tab seperated file containing diplotypes calls from other callers
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to pharmcat.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  phenotyper_json:
+    type: directory
+    path: ${outdir}/pharmcat_phenotyper
+    primary: true

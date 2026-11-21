@@ -1,0 +1,14 @@
+{
+  "input": null,
+  "input_index": null,
+  "intervals": null,
+  "recal_table": null,
+  "fasta": null,
+  "fai": null,
+  "dbsnp": null,
+  "dbsnp_tbi": null,
+  "emit_vcf": false,
+  "emit_gvcf": false,
+  "args": "",
+  "outdir": "results"
+}

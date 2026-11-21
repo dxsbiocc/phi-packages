@@ -1,0 +1,38 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'taxid' exposed as required option; confirm whether a safe default exists; standalone path 'taxdb' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/taxonkit-list
+name: taxonkit list
+summary: Generate taxonomic subtrees based on taxonids
+params:
+  taxidfile:
+    kind: input
+    type: path
+    required: true
+    description: File with taxon ids to look up, each on their own line (provide either this or name,
+      not both)
+  taxid:
+    kind: option
+    type: string
+    required: true
+    description: Taxon id to look up (provide either this or taxidfile, not both)
+  taxdb:
+    kind: input
+    type: path
+    required: false
+    description: Taxonomy database unpacked from ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to taxonkit.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tsv:
+    type: directory
+    path: ${outdir}/taxonkit_list
+    primary: true

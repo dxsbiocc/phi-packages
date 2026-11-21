@@ -1,0 +1,65 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'vcf_tbi' combined cartesian-style; verify if per-sample pairing is required; companion input 'stats' combined cartesian-style; verify if per-sample pairing is required; companion input 'contamination' combined cartesian-style; verify if per-sample pairing is required; companion input 'segments' combined cartesian-style; verify if per-sample pairing is required; companion input 'orientation_priors' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/sentieon-tnfilter
+name: sentieon tnfilter
+summary: Filters the raw output of sentieon/tnhaplotyper2.
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: compressed vcf file from tnhaplotyper2
+  vcf_tbi:
+    kind: input
+    type: path
+    required: false
+    description: Tabix index of vcf file
+  stats:
+    kind: input
+    type: path
+    required: false
+    description: Stats file that pairs with output vcf file
+  contamination:
+    kind: input
+    type: path
+    required: false
+    description: the location and file name of the file containing the contamination information produced
+      by ContaminationModel.
+  segments:
+    kind: input
+    type: path
+    required: false
+    description: the location and file name of the file containing the tumor segments information produced
+      by ContaminationModel.
+  orientation_priors:
+    kind: input
+    type: path
+    required: false
+    description: the location and file name of the file containing the orientation bias information produced
+      by OrientationBias.
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: The reference fasta file
+  fai:
+    kind: input
+    type: path
+    required: true
+    description: Index of reference fasta file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to sentieon.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcf:
+    type: directory
+    path: ${outdir}/sentieon_tnfilter
+    primary: true

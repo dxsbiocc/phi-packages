@@ -1,0 +1,28 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites; val input 'sequence' exposed as required option; confirm whether a safe default exists
+id: nf-core/subworkflows/fasta-explore-search-plot-tidk
+name: fasta explore search plot tidk
+summary: Uses Telomere Identification toolKit (TIDK) to identify the frequency of telomeric repeats along
+  a sliding window for each sequence in the input fasta file.
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input fasta for ch_fasta.
+  sequence:
+    kind: option
+    type: string
+    required: true
+    description: Option sequence.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/fasta_explore_search_plot_tidk
+    primary: true

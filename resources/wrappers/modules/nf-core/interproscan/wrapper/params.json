@@ -1,0 +1,6 @@
+{
+  "fasta": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/proteomics/interproscan/l_arginase.faa",
+  "interproscan_database": null,
+  "args": "",
+  "outdir": "results"
+}

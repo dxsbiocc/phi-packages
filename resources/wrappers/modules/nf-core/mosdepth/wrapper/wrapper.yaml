@@ -1,0 +1,47 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'bai' combined cartesian-style; verify if per-sample pairing is required; companion input 'bed' combined cartesian-style; verify if per-sample pairing is required; val input 'quantize_labels' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/mosdepth
+name: mosdepth
+summary: Calculates genome-wide sequencing coverage.
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Input BAM/CRAM file
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: Index for BAM/CRAM file
+  bed:
+    kind: input
+    type: path
+    required: false
+    description: BED file with intersected intervals
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Reference genome FASTA file
+  quantize_labels:
+    kind: option
+    type: string
+    required: true
+    description: List of labels for quantized coverage bins, e.g.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to mosdepth.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  global_txt:
+    type: directory
+    path: ${outdir}/mosdepth
+    primary: true

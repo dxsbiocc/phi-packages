@@ -1,0 +1,38 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'name' exposed as required option; confirm whether a safe default exists; standalone path 'taxdb' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/taxonkit-name2taxid
+name: taxonkit name2taxid
+summary: Convert taxon names to TaxIds
+params:
+  names_txt:
+    kind: input
+    type: path
+    required: true
+    description: File with taxon names to look up, each on their own line (provide either this or name,
+      not both)
+  name:
+    kind: option
+    type: string
+    required: true
+    description: Taxon name to look up (provide either this or names.txt, not both)
+  taxdb:
+    kind: input
+    type: path
+    required: false
+    description: Taxonomy database unpacked from ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to taxonkit.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tsv:
+    type: directory
+    path: ${outdir}/taxonkit_name2taxid
+    primary: true

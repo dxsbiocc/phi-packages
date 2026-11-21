@@ -1,0 +1,15 @@
+{
+  "bams": null,
+  "bam_indices": null,
+  "reference_fasta": null,
+  "reference_fai": null,
+  "ancestral_fasta": null,
+  "ancestral_fai": null,
+  "error_file": null,
+  "inbreeding_coefficients": null,
+  "soapsnp_calibration": null,
+  "gl_model": null,
+  "dosaf_mode": null,
+  "args": "",
+  "outdir": "results"
+}

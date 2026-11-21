@@ -1,0 +1,48 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'hard_skip' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/ragtag-scaffold
+name: ragtag scaffold
+summary: Scaffolding is the process of ordering and orienting draft assembly (query) sequences into longer
+  sequences.
+params:
+  assembly:
+    kind: input
+    type: path
+    required: true
+    description: Assembly to be scaffolded
+  reference:
+    kind: input
+    type: path
+    required: true
+    description: Reference assembly
+  exclude:
+    kind: input
+    type: path
+    required: true
+    description: list of target sequences to ignore
+  skip:
+    kind: input
+    type: path
+    required: true
+    description: list of query sequences to leave unplaced
+  hard_skip:
+    kind: input
+    type: path
+    required: false
+    description: list of query headers to leave unplaced and exclude from 'chr0' ('-C')
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to ragtag.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  corrected_assembly:
+    type: directory
+    path: ${outdir}/ragtag_scaffold
+    primary: true

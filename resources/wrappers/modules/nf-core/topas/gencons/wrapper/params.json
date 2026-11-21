@@ -1,0 +1,9 @@
+{
+  "vcf": null,
+  "vcf_indels": null,
+  "reference": null,
+  "fai": null,
+  "vcf_output": false,
+  "args": "",
+  "outdir": "results"
+}

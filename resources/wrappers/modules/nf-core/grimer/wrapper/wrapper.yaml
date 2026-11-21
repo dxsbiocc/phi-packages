@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/grimer
+name: grimer
+summary: Generates an interactive HTML dashboard integrating taxonomy, annotation, and metadata to detect
+  contamination in metagenomic and amplicon sequencing datasets.
+params:
+  input_table:
+    kind: input
+    type: path
+    required: true
+    description: Tab-separated count/observation table or .biom file.
+  sample_metadata:
+    kind: input
+    type: path
+    required: true
+    description: Tab-separated metadata file.
+  config:
+    kind: input
+    type: path
+    required: true
+    description: YAML configuration file defining external tool references, controls, and annotations.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to grimer.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  report:
+    type: directory
+    path: ${outdir}/grimer
+    primary: true

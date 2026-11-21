@@ -1,0 +1,11 @@
+{
+  "fasta": null,
+  "add": null,
+  "addfragments": null,
+  "addfull": null,
+  "addprofile": null,
+  "addlong": null,
+  "compress": false,
+  "args": "",
+  "outdir": "results"
+}

@@ -1,0 +1,11 @@
+{
+  "bam": null,
+  "bai": null,
+  "fasta": null,
+  "fai": null,
+  "bed": null,
+  "vcf": null,
+  "tbi": null,
+  "args": "",
+  "outdir": "results"
+}

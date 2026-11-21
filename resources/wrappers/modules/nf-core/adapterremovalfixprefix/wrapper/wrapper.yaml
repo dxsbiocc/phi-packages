@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/adapterremovalfixprefix
+name: adapterremovalfixprefix
+summary: Fixes prefixes from AdapterRemoval2 output to make sure no clashing read names are in the output.
+params:
+  fastq:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: FASTQ file from AdapterRemoval2
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to adapterremovalfixprefix.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fixed_fastq:
+    type: directory
+    path: ${outdir}/adapterremovalfixprefix
+    primary: true

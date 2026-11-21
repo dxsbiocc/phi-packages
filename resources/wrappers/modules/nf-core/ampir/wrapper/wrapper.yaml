@@ -1,0 +1,38 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'model' exposed as required option; confirm whether a safe default exists; val input 'min_length' exposed as required option; confirm whether a safe default exists; val input 'min_probability' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/ampir
+name: ampir
+summary: A fast and user-friendly method to predict antimicrobial peptides (AMPs) from any given size
+  protein dataset.
+params:
+  faa:
+    kind: input
+    type: path
+    required: true
+    description: FASTA file containing amino acid sequences
+  model:
+    kind: option
+    type: string
+    required: true
+    description: Built-in model for AMP prediction
+  min_length:
+    kind: option
+    type: integer
+    required: true
+    description: Minimum protein length for which predictions will be generated
+  min_probability:
+    kind: option
+    type: number
+    required: true
+    description: Cut-off for AMP prediction
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  amps_faa:
+    type: directory
+    path: ${outdir}/ampir
+    primary: true

@@ -1,0 +1,11 @@
+{
+  "bam": null,
+  "bai": null,
+  "bait_interval": null,
+  "target_interval": null,
+  "fasta": null,
+  "fasta_fai": null,
+  "fasta_dict": null,
+  "fasta_gzi": null,
+  "outdir": "results"
+}

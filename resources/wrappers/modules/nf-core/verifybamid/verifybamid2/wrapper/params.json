@@ -1,0 +1,11 @@
+{
+  "bam": null,
+  "bai": null,
+  "svd_ud": null,
+  "svd_mu": null,
+  "svd_bed": null,
+  "refvcf": null,
+  "references": null,
+  "args": "",
+  "outdir": "results"
+}

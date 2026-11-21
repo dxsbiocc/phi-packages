@@ -1,0 +1,28 @@
+name: lefse_plot_features
+description: Plot per-feature abundance differences for significant LEfSe biomarkers.
+keywords:
+- metagenomics
+- visualization
+- biomarker
+tools:
+- lefse:
+    description: 'LEfSe: LDA effect size biomarker discovery.'
+    homepage: https://github.com/SegataLab/lefse
+input:
+- meta:
+    type: map
+    description: Sample meta map
+- dataset:
+    type: file
+    description: LEfSe-formatted input dataset
+- res:
+    type: file
+    description: LEfSe .res results file
+output:
+- plots:
+    type: file
+    description: Per-feature abundance plots (PNG)
+authors:
+- '@dengxsh'
+maintainers:
+- '@dengxsh'

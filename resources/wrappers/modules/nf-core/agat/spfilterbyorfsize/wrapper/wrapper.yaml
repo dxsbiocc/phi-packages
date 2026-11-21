@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/agat-spfilterbyorfsize
+name: agat spfilterbyorfsize
+summary: The script reads a gff annotation file, and create two output files, one contains the gene models
+  with ORF passing the test, the other contains the rest.
+params:
+  gxf:
+    kind: input
+    type: path
+    required: true
+    description: Input GFF3/GTF file
+  config:
+    kind: input
+    type: path
+    required: true
+    description: Input agat config file.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to agat.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  passed_gff:
+    type: directory
+    path: ${outdir}/agat_spfilterbyorfsize
+    primary: true

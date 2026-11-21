@@ -1,0 +1,5 @@
+{
+  "fasta": null,
+  "clustering_tool": "linclust",
+  "outdir": "results"
+}

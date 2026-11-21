@@ -1,0 +1,12 @@
+{
+  "bam": null,
+  "bai": null,
+  "germline_snv_vcf": null,
+  "male_ploidy_vcf": null,
+  "female_ploidy_vcf": null,
+  "sex": null,
+  "genomedir": null,
+  "reference": null,
+  "filter13": null,
+  "outdir": "results"
+}

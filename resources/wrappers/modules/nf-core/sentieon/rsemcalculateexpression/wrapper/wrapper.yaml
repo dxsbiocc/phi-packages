@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 's' combined cartesian-style; verify if per-sample pairing is required; companion input 'for' combined cartesian-style; verify if per-sample pairing is required; standalone path 'index' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/sentieon-rsemcalculateexpression
+name: sentieon rsemcalculateexpression
+summary: Calculate expression with RSEM
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Input reads for quantification
+  s:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion input s.
+  for:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion input for.
+  index:
+    kind: input
+    type: path
+    required: false
+    description: RSEM index
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to sentieon.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  counts_gene:
+    type: directory
+    path: ${outdir}/sentieon_rsemcalculateexpression
+    primary: true

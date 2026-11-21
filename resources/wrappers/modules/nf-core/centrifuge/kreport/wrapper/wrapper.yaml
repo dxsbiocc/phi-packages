@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'db' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/centrifuge-kreport
+name: centrifuge kreport
+summary: Creates Kraken-style reports from centrifuge out files
+params:
+  report:
+    kind: input
+    type: path
+    required: true
+    description: File containing the centrifuge classification report
+  db:
+    kind: input
+    type: path
+    required: false
+    description: Path to directory containing centrifuge database files
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to centrifuge.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  kreport:
+    type: directory
+    path: ${outdir}/centrifuge_kreport
+    primary: true

@@ -1,0 +1,64 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'index_normal' combined cartesian-style; verify if per-sample pairing is required; companion input 'input_tumor' combined cartesian-style; verify if per-sample pairing is required; companion input 'index_tumor' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/deepsomatic
+name: deepsomatic
+summary: DeepSomatic is an extension of deep learning-based variant caller DeepVariant that takes aligned
+  reads (in BAM or CRAM format) from tumor and normal data, produces pileup image tensors from them, classifies
+  each tensor using a convolutional neural network, and finally reports somatic variants in a s
+params:
+  input_normal:
+    kind: input
+    type: path
+    required: true
+    description: BAM/CRAM file
+  index_normal:
+    kind: input
+    type: path
+    required: false
+    description: Index of BAM/CRAM file
+  input_tumor:
+    kind: input
+    type: path
+    required: false
+    description: BAM/CRAM file
+  index_tumor:
+    kind: input
+    type: path
+    required: false
+    description: Index of BAM/CRAM file
+  intervals:
+    kind: input
+    type: path
+    required: true
+    description: file containing intervals
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: The reference fasta file
+  fai:
+    kind: input
+    type: path
+    required: true
+    description: Index of reference fasta file
+  gzi:
+    kind: input
+    type: path
+    required: true
+    description: GZI index of reference fasta file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to deepsomatic.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcf:
+    type: directory
+    path: ${outdir}/deepsomatic
+    primary: true

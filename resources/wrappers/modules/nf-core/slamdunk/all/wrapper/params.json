@@ -1,0 +1,8 @@
+{
+  "input": null,
+  "fasta": null,
+  "bed": null,
+  "filter_bed": null,
+  "args": "",
+  "outdir": "results"
+}

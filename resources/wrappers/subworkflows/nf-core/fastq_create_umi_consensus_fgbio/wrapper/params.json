@@ -1,0 +1,14 @@
+{
+  "reads": null,
+  "fasta": null,
+  "fai": null,
+  "dict": null,
+  "bwa_index": null,
+  "groupreadsbyumi_strategy": "Adjacency",
+  "aligner": "bwa-mem",
+  "duplex": false,
+  "min_reads": "1",
+  "min_baseq": 10,
+  "max_base_error_rate": 0.025,
+  "outdir": "results"
+}

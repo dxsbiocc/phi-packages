@@ -1,0 +1,57 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'format' exposed as required option; confirm whether a safe default exists; val input 'event_type' exposed as required option; confirm whether a safe default exists; val input 'boundary' exposed as required option; confirm whether a safe default exists; val input 'threshold' exposed as required option; confirm whether a safe default exists; val input 'exon_length' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/suppa-generateevents
+name: suppa generateevents
+summary: Generates alternative splicing events from a GTF file using SUPPA.
+params:
+  gtf:
+    kind: input
+    type: path
+    required: true
+    description: GTF file
+  format:
+    kind: option
+    type: string
+    required: true
+    description: Format of the events to be generated.
+  pool_genes:
+    kind: option
+    type: boolean
+    required: false
+    description: Whether to pool genes or not.
+  event_type:
+    kind: option
+    type: string
+    required: true
+    description: Type of alternative splicing events to be generated.
+  boundary:
+    kind: option
+    type: integer
+    required: true
+    description: Boundary for event generation
+  threshold:
+    kind: option
+    type: number
+    required: true
+    description: Threshold for event generation
+  exon_length:
+    kind: option
+    type: integer
+    required: true
+    description: Minimum exon length for event generation
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to suppa.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  events:
+    type: directory
+    path: ${outdir}/suppa_generateevents
+    primary: true

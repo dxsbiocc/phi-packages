@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'full_table' combined cartesian-style; verify if per-sample pairing is required; val input 'format' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/blobtk-snail
+name: blobtk snail
+summary: Creates blobtk snail plots.
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input assembly FASTA.
+  full_table:
+    kind: input
+    type: path
+    required: false
+    description: Full table TSV from busco.
+  blob_dir:
+    kind: input
+    type: path
+    required: true
+    description: A local path to a BlobDir.
+  format:
+    kind: option
+    type: string
+    required: true
+    description: Output format for the snail plot.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to blobtk.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  images:
+    type: directory
+    path: ${outdir}/blobtk_snail
+    primary: true

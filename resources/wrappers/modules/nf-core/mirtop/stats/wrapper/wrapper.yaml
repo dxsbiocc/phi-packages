@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/mirtop-stats
+name: mirtop stats
+summary: mirtop gff gets the number of isomiRs and miRNAs annotated in the GFF file by isomiR category.
+params:
+  mirtop_gff:
+    kind: input
+    type: path
+    required: true
+    description: Mirtop GFF file obtained with mirtop_gff
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to mirtop.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  txt:
+    type: directory
+    path: ${outdir}/mirtop_stats
+    primary: true

@@ -1,0 +1,21 @@
+{
+  "bams": null,
+  "bais": null,
+  "bamlist": null,
+  "samplename": null,
+  "reference_haplotype_file": null,
+  "reference_legend_file": null,
+  "posfile": null,
+  "phasefile": null,
+  "genfile": null,
+  "genetic_map": null,
+  "chr": null,
+  "regions_start": null,
+  "regions_end": null,
+  "ngen": null,
+  "buffer": null,
+  "fasta": null,
+  "fasta_fai": null,
+  "args": "",
+  "outdir": "results"
+}

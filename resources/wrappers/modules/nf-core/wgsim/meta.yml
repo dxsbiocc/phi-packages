@@ -1,0 +1,64 @@
+name: "wgsim"
+description: simulating sequence reads from a reference genome
+keywords:
+  - simulate
+  - fasta
+  - reads
+tools:
+  - "wgsim":
+      description: "simulating sequence reads from a reference genome"
+      homepage: "https://github.com/lh3/wgsim"
+      documentation: "https://github.com/lh3/wgsim"
+      tool_dev_url: "https://github.com/lh3/wgsim"
+      licence:
+        - "MIT"
+      identifier: biotools:wgsim
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. [ id:'test', single_end:false ]
+    - fasta:
+        type: file
+        description: Genome fasta file
+        pattern: "*.{fa,fasta}"
+        ontologies: []
+output:
+  fastq:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - "*.fastq":
+          type: file
+          description: Simulated FASTQ read files
+          pattern: "*.{fastq}"
+          ontologies:
+            - edam: http://edamontology.org/format_1930 # FASTQ
+  versions_wgsim:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - wgsim:
+          type: string
+          description: The name of the tool
+      - "wgsim 2>&1 | sed -n 's/Version: //p'":
+          type: eval
+          description: The expression to obtain the version of the tool
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - wgsim:
+          type: string
+          description: The name of the tool
+      - "wgsim 2>&1 | sed -n 's/Version: //p'":
+          type: eval
+          description: The expression to obtain the version of the tool
+authors:
+  - "@priyanka-surana"
+maintainers:
+  - "@priyanka-surana"

@@ -1,0 +1,11 @@
+{
+  "vcfs": null,
+  "vcf_indexes": null,
+  "fasta": null,
+  "fai": null,
+  "somalier_sites": null,
+  "ped": null,
+  "sample_groups": null,
+  "common_id": null,
+  "outdir": "results"
+}

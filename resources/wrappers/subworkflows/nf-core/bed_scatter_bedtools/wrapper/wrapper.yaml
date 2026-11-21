@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites; val input 'scatter_count' exposed as required option; confirm whether a safe default exists
+id: nf-core/subworkflows/bed-scatter-bedtools
+name: bed scatter bedtools
+summary: Scatters inputted BED files by the amount specified.
+params:
+  bed:
+    kind: input
+    type: path
+    required: true
+    description: Input bed for ch_bed.
+  scatter_count:
+    kind: option
+    type: string
+    required: true
+    description: Option scatter_count.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/bed_scatter_bedtools
+    primary: true

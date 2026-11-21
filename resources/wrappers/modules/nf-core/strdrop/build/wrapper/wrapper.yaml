@@ -1,0 +1,22 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: glob input 'training_set' collected into one staged list; verify staging layout
+id: nf-core/modules/strdrop-build
+name: strdrop build
+summary: Build reference json from sequencing coverage in STR VCFs
+params:
+  training_set:
+    kind: input
+    type: path
+    required: true
+    description: Input VCF training set files
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  json:
+    type: directory
+    path: ${outdir}/strdrop_build
+    primary: true

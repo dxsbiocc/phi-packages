@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'expression' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/vembrane-sort
+name: vembrane sort
+summary: Sort VCF/BCF files by custom Python expressions for variant prioritization
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: VCF/BCF file to sort
+  expression:
+    kind: option
+    type: string
+    required: true
+    description: Python expression (or tuple of expressions) returning orderable values to sort by
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to vembrane.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcf:
+    type: directory
+    path: ${outdir}/vembrane_sort
+    primary: true

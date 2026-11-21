@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'workflow_mode' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/kallistobustools-ref
+name: kallistobustools ref
+summary: index creation for kb count quantification of single-cell data.
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Genomic DNA fasta file
+  gtf:
+    kind: input
+    type: path
+    required: true
+    description: Genomic gtf file
+  workflow_mode:
+    kind: option
+    type: string
+    required: true
+    description: String value defining workflow to use, can be one of "standard", "nac", "lamanno" (obsolete)
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  index:
+    type: directory
+    path: ${outdir}/kallistobustools_ref
+    primary: true

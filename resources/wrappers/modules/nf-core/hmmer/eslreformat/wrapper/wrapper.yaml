@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'postprocessing_script' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/hmmer-eslreformat
+name: hmmer eslreformat
+summary: reformats sequence files, see HMMER documentation for details.
+params:
+  seqfile:
+    kind: input
+    type: path
+    required: true
+    description: Sequences, aligned or not, in any supported format
+  postprocessing_script:
+    kind: option
+    type: string
+    required: true
+    description: Post processing script in shell, e.g., '| sed "/^>/!s/-//g"'
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to hmmer.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  seqreformated:
+    type: directory
+    path: ${outdir}/hmmer_eslreformat
+    primary: true

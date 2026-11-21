@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'sample_treatment_col' exposed as required option; confirm whether a safe default exists; val input 'reference' exposed as required option; confirm whether a safe default exists; val input 'target' exposed as required option; confirm whether a safe default exists; val-only tuple wired as a single sample; verify multi-sample semantics; companion input 'counts' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/anota2seq-anota2seqrun
+name: anota2seq anota2seqrun
+summary: Generally applicable transcriptome-wide analysis of translational efficiency using anota2seq
+params:
+  sample_treatment_col:
+    kind: option
+    type: string
+    required: true
+    description: The column in the sample sheet that should be used to define groups for comparison
+  reference:
+    kind: option
+    type: string
+    required: true
+    description: The value within the contrast_variable column of the sample sheet that should be used
+      to derive the reference samples
+  target:
+    kind: option
+    type: string
+    required: true
+    description: The value within the contrast_variable column of the sample sheet that should be used
+      to derive the target samples
+  samplesheet:
+    kind: input
+    type: path
+    required: true
+    description: CSV or TSV format sample sheet with sample metadata
+  counts:
+    kind: input
+    type: path
+    required: false
+    description: Raw TSV or CSV format expression matrix
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  translated_mrna:
+    type: directory
+    path: ${outdir}/anota2seq_anota2seqrun
+    primary: true

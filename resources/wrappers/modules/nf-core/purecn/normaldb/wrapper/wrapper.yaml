@@ -1,0 +1,48 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'normal_vcf' combined cartesian-style; verify if per-sample pairing is required; companion input 'normal_vcf_tbi' combined cartesian-style; verify if per-sample pairing is required; val input 'genome' exposed as required option; confirm whether a safe default exists; val input 'assay' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/purecn-normaldb
+name: purecn normaldb
+summary: Build a normal database for coverage normalization from all the (GC-normalized) normal coverage
+  files.
+params:
+  coverage_files:
+    kind: input
+    type: path
+    required: true
+    description: Coverage files from normal samples
+  normal_vcf:
+    kind: input
+    type: path
+    required: false
+    description: Normal panel in VCF format, used to precompute mapping bias for faster runtimes.
+  normal_vcf_tbi:
+    kind: input
+    type: path
+    required: false
+    description: Normal panel in VCF format
+  genome:
+    kind: option
+    type: string
+    required: true
+    description: Genome build
+  assay:
+    kind: option
+    type: string
+    required: true
+    description: Assay name
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to purecn.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  rds:
+    type: directory
+    path: ${outdir}/purecn_normaldb
+    primary: true

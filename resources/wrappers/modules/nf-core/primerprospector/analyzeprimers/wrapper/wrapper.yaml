@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'primers' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/primerprospector-analyzeprimers
+name: primerprospector analyzeprimers
+summary: Score PCR primers for binding to target sequences
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Target FASTA file or files to score primers against.
+  primers:
+    kind: input
+    type: path
+    required: false
+    description: Tab-delimited primers file containing primer names and sequences.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to primerprospector.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  hits:
+    type: directory
+    path: ${outdir}/primerprospector_analyzeprimers
+    primary: true

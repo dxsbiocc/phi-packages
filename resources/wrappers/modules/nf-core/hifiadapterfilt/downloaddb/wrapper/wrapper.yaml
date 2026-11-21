@@ -1,0 +1,16 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/hifiadapterfilt-downloaddb
+name: hifiadapterfilt downloaddb
+summary: Downloads the pre-built PacBio adapter BLAST database from the HiFiAdapterFilt GitHub repository.
+params:
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  db:
+    type: directory
+    path: ${outdir}/hifiadapterfilt_downloaddb
+    primary: true

@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'format' exposed as required option; confirm whether a safe default exists; val input 'mode' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/nonpareil-nonpareil
+name: nonpareil nonpareil
+summary: Calculate metagenome redundancy curve from FASTQ files
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: FASTQ or FASTA file (ideally uncompressed, but not required)
+  format:
+    kind: option
+    type: string
+    required: true
+    description: File format of input file
+  mode:
+    kind: option
+    type: string
+    required: true
+    description: Mode of redundancy estimation
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to nonpareil.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  npa:
+    type: directory
+    path: ${outdir}/nonpareil_nonpareil
+    primary: true

@@ -1,0 +1,32 @@
+# Agent-facing wrapper for the local lefse/features module at ../main.nf,
+# ported from the Snakemake Workflow project (no nf-core equivalent).
+# Follows docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: local/modules/lefse-features
+name: lefse plot_features
+summary: Plot per-feature abundances for significant LEfSe biomarkers.
+params:
+  dataset:
+    kind: input
+    type: file
+    required: true
+    description: LEfSe-formatted input dataset.
+  res:
+    kind: input
+    type: file
+    required: true
+    description: LEfSe .res results file.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to the tool.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/lefse_plot_features
+    primary: true

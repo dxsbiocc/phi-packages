@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/hmmer-hmmstat
+name: hmmer hmmstat
+summary: display summary statistics for each profile HMM in an HMM database file
+params:
+  hmm:
+    kind: input
+    type: path
+    required: true
+    description: HMM database file, optionally compressed, containing one or more profile HMMs
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to hmmer.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  stats:
+    type: directory
+    path: ${outdir}/hmmer_hmmstat
+    primary: true

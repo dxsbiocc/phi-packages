@@ -1,0 +1,45 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'genome_fasta' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'genes_fasta' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/instrain-profile
+name: instrain profile
+summary: inStrain is python program for analysis of co-occurring genome populations from metagenomes that
+  allows highly accurate genome comparisons, analysis of coverage, microdiversity, and linkage, and sensitive
+  SNP detection with gene localization and synonymous non-synonymous identification
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Path to .bam file to be profiled
+  genome_fasta:
+    kind: input
+    type: path
+    required: false
+    description: Path to .fasta file to be profiled; MUST be the .fasta file that was mapped to to create
+      the .bam file
+  genes_fasta:
+    kind: input
+    type: path
+    required: false
+    description: Path to .fna file of genes to be profiled (OPTIONAL)
+  stb_file:
+    kind: input
+    type: path
+    required: true
+    description: Path to .stb (scaffold to bin) file to be profiled (OPTIONAL)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to instrain.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  profile:
+    type: directory
+    path: ${outdir}/instrain_profile
+    primary: true

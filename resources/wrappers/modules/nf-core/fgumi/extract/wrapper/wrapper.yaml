@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'library' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/fgumi-extract
+name: fgumi extract
+summary: Extract unique molecular indices (UMIs) from FASTQ files and write an unaligned BAM file.
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Input FASTQ files used for UMI extraction.
+  library:
+    kind: option
+    type: string
+    required: true
+    description: Library name to store in the output BAM read group.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to fgumi.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bam:
+    type: directory
+    path: ${outdir}/fgumi_extract
+    primary: true

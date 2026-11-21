@@ -1,0 +1,38 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/wisecondorx-predict
+name: wisecondorx predict
+summary: Find copy number aberrations
+params:
+  npz:
+    kind: input
+    type: path
+    required: true
+    description: An NPZ file created with WisecondorX convert
+  reference:
+    kind: input
+    type: path
+    required: true
+    description: A reference NPZ file created with WisecondorX newref
+  blacklist:
+    kind: input
+    type: path
+    required: true
+    description: OPTIONAL - A BED file containing blacklist regions (used mainly when the reference is
+      small)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to wisecondorx.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  aberrations_bed:
+    type: directory
+    path: ${outdir}/wisecondorx_predict
+    primary: true

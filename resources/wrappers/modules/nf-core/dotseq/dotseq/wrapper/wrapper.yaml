@@ -1,0 +1,50 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'contrast_variable' exposed as required option; confirm whether a safe default exists; val input 'reference' exposed as required option; confirm whether a safe default exists; val input 'target' exposed as required option; confirm whether a safe default exists; val-only tuple wired as a single sample; verify multi-sample semantics; companion input 'counts' combined cartesian-style; verify if per-sample pairing is required; companion input 'annotation' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/dotseq-dotseq
+name: dotseq dotseq
+summary: Detect differential ORF usage (DOU) and ORF-level differential translation efficiency (DTE) from
+  Ribo-seq with matched RNA-seq using DOTSeq.
+params:
+  contrast_variable:
+    kind: option
+    type: string
+    required: true
+    description: Sample-sheet column that holds the experimental condition (mapped to DOTSeq's `condition`
+      internally).
+  reference:
+    kind: option
+    type: string
+    required: true
+    description: Value of the contrast_variable to use as reference (baseline).
+  target:
+    kind: option
+    type: string
+    required: true
+    description: Value of the contrast_variable to use as target (non-reference).
+  samplesheet:
+    kind: input
+    type: path
+    required: true
+    description: CSV or TSV sample sheet with `run`, `strategy`, `replicate`, and `condition` columns
+      (defaults; can be overridden via task.ext.args).
+  counts:
+    kind: input
+    type: path
+    required: false
+    description: Per-ORF count matrix.
+  annotation:
+    kind: input
+    type: path
+    required: false
+    description: Per-ORF annotation table (one row per ORF).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  translation:
+    type: directory
+    path: ${outdir}/dotseq_dotseq
+    primary: true

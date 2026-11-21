@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/seroba-run
+name: seroba run
+summary: Determine Streptococcus pneumoniae serotype from Illumina paired-end reads
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Input Illunina paired-end FASTQ files
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to seroba.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tsv:
+    type: directory
+    path: ${outdir}/seroba_run
+    primary: true

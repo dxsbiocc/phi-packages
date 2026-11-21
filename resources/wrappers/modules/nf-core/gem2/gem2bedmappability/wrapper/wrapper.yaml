@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/gem2-gem2bedmappability
+name: gem2 gem2bedmappability
+summary: Convert a mappability file to bedgraph format
+params:
+  map:
+    kind: input
+    type: path
+    required: true
+    description: The mappability file created from the index
+  index:
+    kind: input
+    type: path
+    required: true
+    description: The index of the reference FASTA
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bedgraph:
+    type: directory
+    path: ${outdir}/gem2_gem2bedmappability
+    primary: true

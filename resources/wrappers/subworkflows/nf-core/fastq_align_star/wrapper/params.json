@@ -1,0 +1,11 @@
+{
+  "reads": null,
+  "index": null,
+  "gtf": null,
+  "star_ignore_sjdbgtf": null,
+  "fasta": null,
+  "fai": null,
+  "fasta_2": null,
+  "fai_2": null,
+  "outdir": "results"
+}

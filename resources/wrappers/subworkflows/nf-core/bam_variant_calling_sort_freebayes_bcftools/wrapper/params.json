@@ -1,0 +1,13 @@
+{
+  "input1": null,
+  "index1": null,
+  "input2": null,
+  "index2": null,
+  "bed": null,
+  "fasta": null,
+  "fai": null,
+  "samples": null,
+  "populations": null,
+  "cnv": null,
+  "outdir": "results"
+}

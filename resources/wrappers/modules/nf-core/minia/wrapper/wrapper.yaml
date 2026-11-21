@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/minia
+name: minia
+summary: Minia is a short-read assembler based on a de Bruijn graph
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Input reads in FastQ format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to minia.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  contigs:
+    type: directory
+    path: ${outdir}/minia
+    primary: true

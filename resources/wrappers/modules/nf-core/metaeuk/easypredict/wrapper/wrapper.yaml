@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'database' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/metaeuk-easypredict
+name: metaeuk easypredict
+summary: Annotation of eukaryotic metagenomes using MetaEuk
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Nucleotide FASTA file for annotation
+  database:
+    kind: input
+    type: path
+    required: false
+    description: Either a fasta file containing protein sequences, or a directory containing an mmseqs2-formatted
+      protein database
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to metaeuk.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  faa:
+    type: directory
+    path: ${outdir}/metaeuk_easypredict
+    primary: true

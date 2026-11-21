@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'pattern' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/krakenuniq-download
+name: krakenuniq download
+summary: Download KrakenUniq databases and related fles
+params:
+  pattern:
+    kind: option
+    type: string
+    required: true
+    description: Pattern indicating what type of NCBI data to download.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to krakenuniq.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/krakenuniq_download
+    primary: true

@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/kraken2-buildstandard
+name: kraken2 buildstandard
+summary: Downloads and builds Kraken2 standard database
+params:
+  cleaning:
+    kind: option
+    type: boolean
+    required: false
+    description: activate or deactivate (true or false) cleaning of intermediate files
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to kraken2.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  db:
+    type: directory
+    path: ${outdir}/kraken2_buildstandard
+    primary: true

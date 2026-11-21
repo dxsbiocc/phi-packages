@@ -1,0 +1,21 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/scimap-mcmicro
+name: scimap mcmicro
+summary: SCIMAP is a suite of tools that enables spatial single-cell analyses
+params:
+  cellbyfeature:
+    kind: input
+    type: path
+    required: true
+    description: CSV file with cell by feature table
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  csv:
+    type: directory
+    path: ${outdir}/scimap_mcmicro
+    primary: true

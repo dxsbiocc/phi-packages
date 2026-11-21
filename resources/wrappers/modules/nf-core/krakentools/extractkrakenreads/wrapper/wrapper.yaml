@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'taxid' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/krakentools-extractkrakenreads
+name: krakentools extractkrakenreads
+summary: Extract reads classified at any user-specified taxonomy IDs.
+params:
+  taxid:
+    kind: option
+    type: string
+    required: true
+    description: A list of taxid separated by spaces
+  classified_reads_assignment:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: A file contains the taxonomic classification of each input read.
+  classified_reads_fastq:
+    kind: input
+    type: path
+    required: true
+    description: Classified reads as belonging to any of the taxa on the kraken2 database.
+  report:
+    kind: input
+    type: path
+    required: true
+    description: Optional Kraken2 report containing stats about classified and not classified reads.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to krakentools.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  extracted_kraken2_reads:
+    type: directory
+    path: ${outdir}/krakentools_extractkrakenreads
+    primary: true

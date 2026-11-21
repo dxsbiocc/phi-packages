@@ -1,0 +1,82 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites; val input 'analysis_method' exposed as required option; confirm whether a safe default exists
+id: nf-core/subworkflows/abundance-differential-filter
+name: abundance differential filter
+summary: A subworkflow for filtering differential abundance results
+params:
+  abundance:
+    kind: input
+    type: path
+    required: true
+    description: Input abundance for ch_input.
+  fc_threshold:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion fc_threshold for ch_input.
+  stat_threshold:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion stat_threshold for ch_input.
+  analysis_method:
+    kind: option
+    type: string
+    required: true
+    description: Option analysis_method.
+  samplesheet:
+    kind: input
+    type: path
+    required: true
+    description: Input samplesheet for ch_samplesheet.
+  transcript_lengths:
+    kind: input
+    type: path
+    required: true
+    description: Input transcript_lengths for ch_transcript_lengths.
+  control_features:
+    kind: input
+    type: path
+    required: true
+    description: Input control_features for ch_control_features.
+  meta_contrast:
+    kind: input
+    type: path
+    required: true
+    description: Input meta_contrast for ch_contrasts.
+  variable:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion variable for ch_contrasts.
+  reference:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion reference for ch_contrasts.
+  target:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion target for ch_contrasts.
+  formula:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion formula for ch_contrasts.
+  comparison:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion comparison for ch_contrasts.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/abundance_differential_filter
+    primary: true

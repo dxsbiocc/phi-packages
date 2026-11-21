@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/angsd-contamination
+name: angsd contamination
+summary: A tool to estimate nuclear contamination in males based on heterozygosity in the female chromosome.
+params:
+  icounts:
+    kind: input
+    type: path
+    required: true
+    description: Internal format for dumping binary single chrs.
+  hapmap_file:
+    kind: input
+    type: path
+    required: true
+    description: A list of variable sites to look for heterozygosity.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to angsd.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  txt:
+    type: directory
+    path: ${outdir}/angsd_contamination
+    primary: true

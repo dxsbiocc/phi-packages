@@ -1,0 +1,28 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: glob input 'files_in' collected into one staged list; verify staging layout
+id: nf-core/modules/find-unpigz
+name: find unpigz
+summary: A module for decompressing a large number of gzipped files, getting around the UNIX terminal
+  argument limit
+params:
+  files_in:
+    kind: input
+    type: path
+    required: true
+    description: List of gzipped files to decompress
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to find.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  file_out:
+    type: directory
+    path: ${outdir}/find_unpigz
+    primary: true

@@ -1,0 +1,60 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'vcf_tbi' combined cartesian-style; verify if per-sample pairing is required; companion input 'recal' combined cartesian-style; verify if per-sample pairing is required; companion input 'recal_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'tranches' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/sentieon-applyvarcal
+name: sentieon applyvarcal
+summary: Apply a score cutoff to filter variants based on a recalibration table.
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: VCF file to be recalibrated, this should be the same file as used for the first stage
+      VariantRecalibrator.
+  vcf_tbi:
+    kind: input
+    type: path
+    required: false
+    description: tabix index for the input vcf file.
+  recal:
+    kind: input
+    type: path
+    required: false
+    description: Recalibration file produced when the input vcf was run through VariantRecalibrator in
+      stage 1.
+  recal_index:
+    kind: input
+    type: path
+    required: false
+    description: Index file for the recalibration file.
+  tranches:
+    kind: input
+    type: path
+    required: false
+    description: Tranches file produced when the input vcf was run through VariantRecalibrator in stage
+      1.
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: The reference fasta file
+  fai:
+    kind: input
+    type: path
+    required: true
+    description: Index of reference fasta file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to sentieon.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcf:
+    type: directory
+    path: ${outdir}/sentieon_applyvarcal
+    primary: true

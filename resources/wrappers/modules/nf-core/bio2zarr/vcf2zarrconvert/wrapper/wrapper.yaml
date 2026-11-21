@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/bio2zarr-vcf2zarrconvert
+name: bio2zarr vcf2zarrconvert
+summary: Convert VCF data to the VCF Zarr specification reliably, in parallel or distributed over a cluster.
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: Input VCF/BCF file to convert
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to bio2zarr.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcz:
+    type: directory
+    path: ${outdir}/bio2zarr_vcf2zarrconvert
+    primary: true

@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'index' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/last-train
+name: last train
+summary: Find suitable score parameters for sequence alignment
+params:
+  fastx:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: FASTA/FASTQ file
+  index:
+    kind: input
+    type: path
+    required: false
+    description: Directory containing the files of the LAST index
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to last.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  param_file:
+    type: directory
+    path: ${outdir}/last_train
+    primary: true

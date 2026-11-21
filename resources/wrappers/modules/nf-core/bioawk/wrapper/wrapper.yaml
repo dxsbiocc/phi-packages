@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'output_file_extension' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/bioawk
+name: bioawk
+summary: Bioawk is an extension to Brian Kernighan's awk, adding the support of several common biological
+  data formats.
+params:
+  input:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Input biological sequence file (optionally gzipped) to be manipulated via the program
+      specified in `$args`.
+  program_file:
+    kind: input
+    type: path
+    required: true
+    description: Optional file containing logic for awk to execute.
+  disable_redirect_output:
+    kind: option
+    type: boolean
+    required: false
+    description: Disable the redirection of awk output to a given file.
+  output_file_extension:
+    kind: option
+    type: string
+    required: true
+    description: The suffix to add to the output file name.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to bioawk.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/bioawk
+    primary: true

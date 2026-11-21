@@ -1,0 +1,79 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'input_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'intervals' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/sentieon-tnscope
+name: sentieon tnscope
+summary: TNscope algorithm performs somatic variant calling on the tumor-normal matched pair or the tumor
+  only data, using a Haplotyper algorithm.
+params:
+  input:
+    kind: input
+    type: path
+    required: true
+    description: One or more BAM or CRAM files.
+  input_index:
+    kind: input
+    type: path
+    required: false
+    description: Indices for the input files
+  intervals:
+    kind: input
+    type: path
+    required: false
+    description: bed or interval_list file containing interval in the reference that will be used in the
+      analysis.
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Genome fasta file
+  fai:
+    kind: input
+    type: path
+    required: true
+    description: Index of the genome fasta file
+  dbsnp:
+    kind: input
+    type: path
+    required: true
+    description: Single Nucleotide Polymorphism database (dbSNP) file
+  dbsnp_tbi:
+    kind: input
+    type: path
+    required: true
+    description: Index of the Single Nucleotide Polymorphism database (dbSNP) file
+  pon:
+    kind: input
+    type: path
+    required: true
+    description: Single Nucleotide Polymorphism database (dbSNP) file
+  pon_tbi:
+    kind: input
+    type: path
+    required: true
+    description: Index of the Single Nucleotide Polymorphism database (dbSNP) file
+  cosmic:
+    kind: input
+    type: path
+    required: true
+    description: Catalogue of Somatic Mutations in Cancer (COSMIC) VCF file.
+  cosmic_tbi:
+    kind: input
+    type: path
+    required: true
+    description: Index of the Catalogue of Somatic Mutations in Cancer (COSMIC) VCF file.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to sentieon.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcf:
+    type: directory
+    path: ${outdir}/sentieon_tnscope
+    primary: true

@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'groups' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/leafcutter-differentialsplicing
+name: leafcutter differentialsplicing
+summary: Perform differential splicing analysis to identify junctions with significant changes in splicing
+  between conditions
+params:
+  counts:
+    kind: input
+    type: path
+    required: true
+    description: Intron usage counts file from leafcutter-cluster (either perind.counts.gz or perind_numers.counts.gz)
+  groups:
+    kind: input
+    type: path
+    required: false
+    description: Tab-delimited file with sample names in column 1 and sample group/phenotype assignments
+      in column 2
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to leafcutter.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  cluster_significance:
+    type: directory
+    path: ${outdir}/leafcutter_differentialsplicing
+    primary: true

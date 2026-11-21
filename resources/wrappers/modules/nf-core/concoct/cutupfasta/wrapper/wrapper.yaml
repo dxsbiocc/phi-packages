@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/concoct-cutupfasta
+name: concoct cutupfasta
+summary: Cut up fasta file in non-overlapping or overlapping parts of equal length.
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: (Uncompressed) FASTA file containing contigs
+  bed:
+    kind: option
+    type: boolean
+    required: false
+    description: Specify whether to generate a BED file describing where each contig was cut up
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to concoct.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fasta:
+    type: directory
+    path: ${outdir}/concoct_cutupfasta
+    primary: true

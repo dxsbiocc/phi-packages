@@ -1,0 +1,25 @@
+name: lefse_format
+description: Format a feature table for LEfSe (lefse_format_input.py).
+keywords:
+- metagenomics
+- biomarker
+- differential abundance
+tools:
+- lefse:
+    description: 'LEfSe: LDA effect size biomarker discovery.'
+    homepage: https://github.com/SegataLab/lefse
+input:
+- meta:
+    type: map
+    description: Sample meta map
+- table:
+    type: file
+    description: Feature table with class/subclass rows prepared for LEfSe
+output:
+- formatted:
+    type: file
+    description: LEfSe-formatted input file
+authors:
+- '@dengxsh'
+maintainers:
+- '@dengxsh'

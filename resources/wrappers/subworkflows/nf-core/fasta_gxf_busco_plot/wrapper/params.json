@@ -1,0 +1,10 @@
+{
+  "fasta": null,
+  "gxf": null,
+  "mode": "genome",
+  "lineages": "auto",
+  "busco_lineages_path": null,
+  "busco_config": null,
+  "busco_cleanup": true,
+  "outdir": "results"
+}

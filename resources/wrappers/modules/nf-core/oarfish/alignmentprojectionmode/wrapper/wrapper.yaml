@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/oarfish-alignmentprojectionmode
+name: oarfish alignmentprojectionmode
+summary: oarfish is a program for quantifying transcript-level expression from long-read sequencing technologies.
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Sequencing reads in BAM format
+  annotation:
+    kind: input
+    type: path
+    required: true
+    description: Annotation file in GTF format
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Reference genome in FASTA format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to oarfish.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  quant:
+    type: directory
+    path: ${outdir}/oarfish_alignmentprojectionmode
+    primary: true

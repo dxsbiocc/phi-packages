@@ -1,0 +1,55 @@
+# Agent-facing wrapper adapter for the vendored fastq_trim_fastp_fastqc subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+id: nf-core/subworkflows/fastq-trim-fastp-fastqc
+name: "Trim FASTQ (fastp) + FastQC"
+summary: "Trim adapters/quality with fastp and run FastQC on the trimmed reads."
+
+params:
+  reads:
+    kind: input
+    type: path_glob
+    required: true
+    description: "FASTQ glob (paired or single)."
+  adapter_fasta:
+    kind: input
+    type: path
+    required: false
+    description: "Adapter FASTA for fastp."
+  save_trimmed_fail:
+    kind: option
+    type: boolean
+    required: false
+    description: "Save reads that fail trimming."
+  discard_trimmed_pass:
+    kind: option
+    type: boolean
+    required: false
+    description: "Discard reads that pass trimming."
+  save_merged:
+    kind: option
+    type: boolean
+    required: false
+    description: "Save merged reads (paired input)."
+  skip_fastp:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip fastp trimming."
+  skip_fastqc:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip FastQC."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/fastq_trim_fastp_fastqc'
+    primary: true

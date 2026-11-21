@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'fasta' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/graphmap2-index
+name: graphmap2 index
+summary: A versatile pairwise aligner for genomic and spliced nucleotide sequences
+params:
+  fasta:
+    kind: input
+    type: path
+    required: false
+    description: Reference database in FASTA format.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to graphmap2.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  index:
+    type: directory
+    path: ${outdir}/graphmap2_index
+    primary: true

@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'file_name' exposed as required option; confirm whether a safe default exists; val input 'pride_accession' exposed as required option; confirm whether a safe default exists; val-only tuple wired as a single sample; verify multi-sample semantics
+id: nf-core/modules/pridepy-downloadfile
+name: pridepy downloadfile
+summary: Download a single file from the PRIDE Archive by name using pridepy.
+params:
+  file_name:
+    kind: option
+    type: string
+    required: true
+    description: Name of the file to download from the PRIDE Archive dataset
+  pride_accession:
+    kind: option
+    type: string
+    required: true
+    description: PRIDE Archive project accession (e.g.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to pridepy.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  file:
+    type: directory
+    path: ${outdir}/pridepy_downloadfile
+    primary: true

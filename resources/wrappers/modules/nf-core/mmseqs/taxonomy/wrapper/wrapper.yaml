@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/mmseqs-taxonomy
+name: mmseqs taxonomy
+summary: Computes the lowest common ancestor by identifying the query sequence homologs against the target
+  database.
+params:
+  db_query:
+    kind: input
+    type: path
+    required: true
+    description: An MMseqs2 database with query data
+  db_target:
+    kind: input
+    type: path
+    required: true
+    description: an MMseqs2 database with target data including the taxonomy classification
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to mmseqs.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  db_taxonomy:
+    type: directory
+    path: ${outdir}/mmseqs_taxonomy
+    primary: true

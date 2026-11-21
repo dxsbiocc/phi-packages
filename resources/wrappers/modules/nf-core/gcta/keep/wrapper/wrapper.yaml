@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/gcta-keep
+name: gcta keep
+summary: Apply a keep file to a dense GRM using `gcta --keep`
+params:
+  grm_files:
+    kind: input
+    type: path
+    required: true
+    description: Dense GRM file bundle
+  keep_file:
+    kind: input
+    type: path
+    required: true
+    description: Keep file listing the individuals to retain
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to gcta.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  filtered_grm:
+    type: directory
+    path: ${outdir}/gcta_keep
+    primary: true

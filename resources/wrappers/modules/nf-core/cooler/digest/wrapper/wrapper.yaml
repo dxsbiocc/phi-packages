@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'fasta' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'chromsizes' treated as single reference (.first()); verify if a list/collection is expected; val input 'enzyme' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/cooler-digest
+name: cooler digest
+summary: Generate fragment-delimited genomic bins
+params:
+  fasta:
+    kind: input
+    type: path
+    required: false
+    description: Genome assembly FASTA file or folder containing FASTA files (uncompressed).
+  chromsizes:
+    kind: input
+    type: path
+    required: false
+    description: Path to a chromsizes file.
+  enzyme:
+    kind: option
+    type: string
+    required: true
+    description: Name of restriction enzyme.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to cooler.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bed:
+    type: directory
+    path: ${outdir}/cooler_digest
+    primary: true

@@ -1,0 +1,9 @@
+{
+  "sv_vcf": null,
+  "coverage_bed": null,
+  "cns": null,
+  "snv_vcf": null,
+  "blacklist_bed": null,
+  "args": "",
+  "outdir": "results"
+}

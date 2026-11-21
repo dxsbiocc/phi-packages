@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'dbname' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/barrnap
+name: barrnap
+summary: barrnap uses a hmmer profile to find rrnas in reads or contig fasta files
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: fasta file
+  dbname:
+    kind: option
+    type: string
+    required: true
+    description: database to use(bacteria, archaea, eukaryota, metazoan mitochondria)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to barrnap.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gff:
+    type: directory
+    path: ${outdir}/barrnap
+    primary: true

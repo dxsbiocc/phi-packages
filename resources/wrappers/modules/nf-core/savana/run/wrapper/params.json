@@ -1,0 +1,10 @@
+{
+  "tumour": null,
+  "tumour_index": null,
+  "normal": null,
+  "normal_index": null,
+  "ref": null,
+  "ref_index": null,
+  "args": "",
+  "outdir": "results"
+}

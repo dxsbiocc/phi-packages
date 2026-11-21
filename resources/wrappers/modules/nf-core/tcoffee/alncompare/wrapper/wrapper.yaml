@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'ref_msa' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/tcoffee-alncompare
+name: tcoffee alncompare
+summary: Compares 2 alternative MSAs to evaluate them.
+params:
+  msa:
+    kind: input
+    type: path
+    required: true
+    description: fasta file containing the alignment to be evaluated.
+  ref_msa:
+    kind: input
+    type: path
+    required: false
+    description: fasta file containing the reference alignment used for the evaluation.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to tcoffee.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  scores:
+    type: directory
+    path: ${outdir}/tcoffee_alncompare
+    primary: true

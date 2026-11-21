@@ -1,0 +1,52 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'index' combined cartesian-style; verify if per-sample pairing is required; standalone path 'bed' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'gfa' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'filter_bed' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/salsa2
+name: salsa2
+summary: SALSA, A tool to scaffold long read assemblies with HiC
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Fasta file of assembly.
+  index:
+    kind: input
+    type: path
+    required: false
+    description: Fasta index file of assembly containing the length of contigs.
+  bed:
+    kind: input
+    type: path
+    required: false
+    description: BED file of alignments sorted by read names, e.g., from HiC-Pro
+  gfa:
+    kind: input
+    type: path
+    required: false
+    description: GFA file of the assembly graph
+  dup:
+    kind: input
+    type: path
+    required: true
+    description: File containing the duplicated contigs
+  filter_bed:
+    kind: input
+    type: path
+    required: false
+    description: BED file of the filtered alignments
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to salsa2.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fasta:
+    type: directory
+    path: ${outdir}/salsa2
+    primary: true

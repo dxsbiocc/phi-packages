@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/artic-guppyplex
+name: artic guppyplex
+summary: Aggregates fastq files with demultiplexed reads
+params:
+  fastq_dir:
+    kind: input
+    type: path
+    required: true
+    description: Directory containing the fastq files with demultiplexed reads
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to artic.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fastq:
+    type: directory
+    path: ${outdir}/artic_guppyplex
+    primary: true

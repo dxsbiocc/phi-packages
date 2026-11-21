@@ -1,0 +1,43 @@
+name: virsorter2
+description: Identify viral sequences from metagenomic assemblies with VirSorter2.
+keywords:
+- virus
+- metagenomics
+- classification
+tools:
+- virsorter:
+    description: 'VirSorter2: viral sequence detection.'
+    homepage: https://github.com/jiarong/VirSorter2
+input:
+- meta:
+    type: map
+    description: Sample meta map
+- contigs:
+    type: file
+    description: Assembly contigs FASTA
+- db_dir:
+    type: directory
+    description: VirSorter2 database directory (set up on first use)
+- mode:
+    type: string
+    description: all (detect + classify) or classify
+- include_groups:
+    type: string
+    description: Comma-separated viral groups to include
+- min_length:
+    type: integer
+    description: Minimum contig length
+output:
+- combined:
+    type: file
+    description: Final viral combined FASTA
+- score:
+    type: file
+    description: Final viral score table
+- dramv:
+    type: directory
+    description: for-dramv inputs for DRAM-v
+authors:
+- '@dengxsh'
+maintainers:
+- '@dengxsh'

@@ -1,0 +1,11 @@
+{
+  "transcripts": null,
+  "prior_segmentation": null,
+  "config": null,
+  "scale": null,
+  "prior_confidence": null,
+  "prior_column": null,
+  "polygon_format": null,
+  "args": "",
+  "outdir": "results"
+}

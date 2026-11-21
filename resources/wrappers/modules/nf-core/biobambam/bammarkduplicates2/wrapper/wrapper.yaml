@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/biobambam-bammarkduplicates2
+name: biobambam bammarkduplicates2
+summary: Locate and tag duplicate reads in a BAM file
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: BAM/CRAM file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to biobambam.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bam:
+    type: directory
+    path: ${outdir}/biobambam_bammarkduplicates2
+    primary: true

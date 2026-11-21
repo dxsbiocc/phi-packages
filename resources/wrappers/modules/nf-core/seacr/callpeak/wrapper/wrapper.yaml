@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'ctrlbedgraph' combined cartesian-style; verify if per-sample pairing is required; val input 'threshold' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/seacr-callpeak
+name: seacr callpeak
+summary: Call peaks using SEACR on sequenced reads in bedgraph format
+params:
+  bedgraph:
+    kind: input
+    type: path
+    required: true
+    description: The target bedgraph file from which the peaks will be calculated.
+  ctrlbedgraph:
+    kind: input
+    type: path
+    required: false
+    description: Control (IgG) data bedgraph file to generate an empirical threshold for peak calling.
+  threshold:
+    kind: option
+    type: integer
+    required: true
+    description: Threshold value used to call peaks if the ctrlbedgraph input is set to [].
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to seacr.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bed:
+    type: directory
+    path: ${outdir}/seacr_callpeak
+    primary: true

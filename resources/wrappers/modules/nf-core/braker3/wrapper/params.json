@@ -1,0 +1,10 @@
+{
+  "fasta": null,
+  "bam": null,
+  "rnaseq_sets_dirs": null,
+  "rnaseq_sets_ids": null,
+  "proteins": null,
+  "hintsfile": null,
+  "args": "",
+  "outdir": "results"
+}

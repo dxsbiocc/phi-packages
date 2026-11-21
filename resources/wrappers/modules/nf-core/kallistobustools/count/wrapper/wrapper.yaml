@@ -1,0 +1,57 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'technology' exposed as required option; confirm whether a safe default exists; val input 'workflow_mode' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/kallistobustools-count
+name: kallistobustools count
+summary: quantifies scRNA-seq data from fastq files using kb-python.
+params:
+  reads:
+    kind: input
+    type: path
+    required: true
+    description: List of input FastQ files of size 1 and 2 for single-end and paired-end data, respectively.
+  index:
+    kind: input
+    type: path
+    required: true
+    description: kb-ref index file (.idx)
+  t2g:
+    kind: input
+    type: path
+    required: true
+    description: t2g file from kallisto
+  t1c:
+    kind: input
+    type: path
+    required: true
+    description: kb ref's c1 cdna_t2c file
+  t2c:
+    kind: input
+    type: path
+    required: true
+    description: kb ref's c2 intron_t2c file
+  technology:
+    kind: option
+    type: string
+    required: true
+    description: String value defining the sequencing technology used.
+  workflow_mode:
+    kind: option
+    type: string
+    required: true
+    description: String value defining workflow to use, can be one of "standard", "nac", "lamanno" (obsolete)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to kallistobustools.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  count:
+    type: directory
+    path: ${outdir}/kallistobustools_count
+    primary: true

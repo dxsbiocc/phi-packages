@@ -1,0 +1,47 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'ds_id' exposed as required option; confirm whether a safe default exists; val input 'database_name_' exposed as required option; confirm whether a safe default exists; val input 'database_version_' exposed as required option; confirm whether a safe default exists; val input 'fdr_' exposed as required option; confirm whether a safe default exists; val input 'metadata_as_obs_' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/metaspace-converter
+name: metaspace converter
+summary: Export METASPACE datasets to AnnData and SpatialData objects
+params:
+  ds_id:
+    kind: option
+    type: string
+    required: true
+    description: METASPACE dataset identifier to retrieve and convert to AnnData and SpatialData formats.
+  database_name_:
+    kind: option
+    type: string
+    required: true
+    description: Name of the metabolite annotation database to use (e.g., HMDB)
+  database_version_:
+    kind: option
+    type: string
+    required: true
+    description: Version of the annotation database to use (e.g., v4)
+  fdr_:
+    kind: option
+    type: string
+    required: true
+    description: False Discovery Rate threshold for filtering metabolite annotations.
+  use_tic_:
+    kind: option
+    type: boolean
+    required: false
+    description: Controls whether intensity values are scaled by the total ion count per pixel.
+  metadata_as_obs_:
+    kind: option
+    type: string
+    required: true
+    description: Whether to store metadata in the obs dataframe instead of uns.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  adata_object:
+    type: directory
+    path: ${outdir}/metaspace_converter
+    primary: true

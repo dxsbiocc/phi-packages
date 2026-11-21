@@ -1,0 +1,63 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'out_fmt' exposed as required option; confirm whether a safe default exists; val input 'genome_size' exposed as required option; confirm whether a safe default exists; val input 'target' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/gfastats
+name: gfastats
+summary: A single fast and exhaustive tool for summary statistics and simultaneous *fa* (fasta, fastq,
+  gfa [.gz]) genome assembly file manipulation.
+params:
+  assembly:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Draft assembly file
+  out_fmt:
+    kind: option
+    type: string
+    required: true
+    description: Output format (fasta, fastq, gfa)
+  genome_size:
+    kind: option
+    type: integer
+    required: true
+    description: estimated genome size (bp) for NG* statistics (optional).
+  target:
+    kind: option
+    type: string
+    required: true
+    description: target specific sequence by header, optionally with coordinates (optional).
+  agpfile:
+    kind: input
+    type: path
+    required: true
+    description: converts input agp to path and replaces existing paths.
+  include_bed:
+    kind: input
+    type: path
+    required: true
+    description: generates output on a subset list of headers or coordinates in 0-based bed format.
+  exclude_bed:
+    kind: input
+    type: path
+    required: true
+    description: opposite of --include-bed.
+  instructions:
+    kind: input
+    type: path
+    required: true
+    description: set of instructions provided as an ordered list.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to gfastats.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  assembly_summary:
+    type: directory
+    path: ${outdir}/gfastats
+    primary: true

@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'index_name' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/hostile-fetch
+name: hostile fetch
+summary: Downloads required reference genomes for Hostile
+params:
+  index_name:
+    kind: option
+    type: string
+    required: true
+    description: Name of the reference genome index to download
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to hostile.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  reference:
+    type: directory
+    path: ${outdir}/hostile_fetch
+    primary: true

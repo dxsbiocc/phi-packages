@@ -1,0 +1,58 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'grm_files' combined cartesian-style; verify if per-sample pairing is required; val input 'phenotype_col1' exposed as required option; confirm whether a safe default exists; val input 'phenotype_col2' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/gcta-bivariateremlldms
+name: gcta bivariateremlldms
+summary: Run bivariate REML-LDMS analysis with an MGRM manifest
+params:
+  mgrm_file:
+    kind: input
+    type: path
+    required: true
+    description: MGRM manifest file
+  grm_files:
+    kind: input
+    type: path
+    required: false
+    description: GRM bundles referenced by `mgrm_file`; each manifest entry should have matching `*.grm.{id,bin,N.bin}`
+      files in this bundle
+  phenotype_file:
+    kind: input
+    type: path
+    required: true
+    description: Shared bivariate phenotype file passed to `--pheno`
+  phenotype_col1:
+    kind: option
+    type: integer
+    required: true
+    description: First phenotype column passed to `--reml-bivar` (for example `1`).
+  phenotype_col2:
+    kind: option
+    type: integer
+    required: true
+    description: Second phenotype column passed to `--reml-bivar` (for example `2`).
+  quant_covariates_file:
+    kind: input
+    type: path
+    required: true
+    description: Quantitative covariates file, pass `[]` when absent
+  cat_covariates_file:
+    kind: input
+    type: path
+    required: true
+    description: Categorical covariates file, pass `[]` when absent
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to gcta.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bivariate_results:
+    type: directory
+    path: ${outdir}/gcta_bivariateremlldms
+    primary: true

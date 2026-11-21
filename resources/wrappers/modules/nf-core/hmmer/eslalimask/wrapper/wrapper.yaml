@@ -1,0 +1,61 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/hmmer-eslalimask
+name: hmmer eslalimask
+summary: Mask multiple sequence alignments
+params:
+  unmaskedaln:
+    kind: input
+    type: path
+    required: true
+    description: multiple sequence alignment, Stockholm or other formats
+  fmask_rf:
+    kind: option
+    type: boolean
+    required: false
+    description: Flag to output optional file with final mask of non-gap RF len
+  fmask_all:
+    kind: option
+    type: boolean
+    required: false
+    description: Flag to output optional file with final mask of full aln len
+  gmask_rf:
+    kind: option
+    type: boolean
+    required: false
+    description: Flag to output optional file gap-based 0/1 mask of non-gap RF len
+  gmask_all:
+    kind: option
+    type: boolean
+    required: false
+    description: Flag to output optional file gap-based 0/1 mask of full aln len
+  pmask_rf:
+    kind: option
+    type: boolean
+    required: false
+    description: Flag to output optional file with PP-based 0/1 mask of non-gap RF len
+  pmask_all:
+    kind: option
+    type: boolean
+    required: false
+    description: Flag to output optional file with PP-based 0/1 mask of full aln len
+  maskfile:
+    kind: input
+    type: path
+    required: true
+    description: mask file, see program documentation
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to hmmer.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  maskedaln:
+    type: directory
+    path: ${outdir}/hmmer_eslalimask
+    primary: true

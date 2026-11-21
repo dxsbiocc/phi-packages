@@ -1,0 +1,15 @@
+{
+  "fasta": null,
+  "db": null,
+  "plasmid_mash_db": null,
+  "plasmid_meta_txt": null,
+  "plasmid_replicons_fas": null,
+  "repetitive_mask_fas": null,
+  "plasmid_mob_faa": null,
+  "plasmid_mpf_faa": null,
+  "plasmid_orit_fas": null,
+  "generate_biomarker_report": false,
+  "generate_mge_report": false,
+  "args": "",
+  "outdir": "results"
+}

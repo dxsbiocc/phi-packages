@@ -1,0 +1,62 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'input_index' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/sentieon-qualcal
+name: sentieon qualcal
+summary: Generate recalibration table and optionally perform base quality recalibration
+params:
+  input:
+    kind: input
+    type: path
+    required: true
+    description: BAM/CRAM file from alignment
+  input_index:
+    kind: input
+    type: path
+    required: false
+    description: BAI/CRAI file from alignment
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: The reference fasta file
+  fai:
+    kind: input
+    type: path
+    required: true
+    description: Index of reference fasta file
+  known_sites:
+    kind: input
+    type: path
+    required: true
+    description: VCF files with known sites for indels / snps (optional)
+  known_sites_tbi:
+    kind: input
+    type: path
+    required: true
+    description: Tabix index of the known_sites (optional)
+  recalibration_table:
+    kind: input
+    type: path
+    required: true
+    description: File containing recalibration values (optional)
+  generate_recalibrated_bams:
+    kind: option
+    type: boolean
+    required: false
+    description: If truem, writes recalibrated bams to disc
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to sentieon.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  table:
+    type: directory
+    path: ${outdir}/sentieon_qualcal
+    primary: true

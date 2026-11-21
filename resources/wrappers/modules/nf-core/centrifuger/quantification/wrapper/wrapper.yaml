@@ -1,0 +1,47 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/centrifuger-quantification
+name: centrifuger quantification
+summary: Quantification (taxonomic profiling) of Centrifuger model
+params:
+  classification_file:
+    kind: input
+    type: path
+    required: true
+    description: Path to file containing classification results
+  db:
+    kind: input
+    type: path
+    required: true
+    description: Path to directory containing Centrifuger database files (that end in `.cfr`).
+  taxonomy_nodes:
+    kind: input
+    type: path
+    required: true
+    description: File describing parent-child relationships of a taxonomic tree in NCBI nodes.dmp format
+  taxonomy_names:
+    kind: input
+    type: path
+    required: true
+    description: File describing individual members of a taxonomic tree in NCBI names.dmp format
+  size_table:
+    kind: input
+    type: path
+    required: true
+    description: Optional - Table of contig (or genome) sizes.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to centrifuger.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  report_file:
+    type: directory
+    path: ${outdir}/centrifuger_quantification
+    primary: true

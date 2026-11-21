@@ -1,0 +1,47 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/centrifuge-build
+name: centrifuge build
+summary: Build centrifuge database for taxonomic profiling
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Fasta file containing sequences to be used in centrifuge database.
+  conversion_table:
+    kind: input
+    type: path
+    required: true
+    description: A tab-separated file with sequence ID to taxonomy ID mapping
+  taxonomy_tree:
+    kind: input
+    type: path
+    required: true
+    description: A \t|\t-separated file mapping taxonomy.
+  name_table:
+    kind: input
+    type: path
+    required: true
+    description: A '|'-separated file mapping taxonomy IDs to a name.
+  size_table:
+    kind: input
+    type: path
+    required: true
+    description: Optional list of taxonomic IDs and lengths of the sequences belonging to the same taxonomic
+      IDs.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to centrifuge.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  cf:
+    type: directory
+    path: ${outdir}/centrifuge_build
+    primary: true

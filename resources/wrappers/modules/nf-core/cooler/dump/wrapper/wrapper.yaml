@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'resolution' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/cooler-dump
+name: cooler dump
+summary: Dump a cooler’s data to a text stream.
+params:
+  cool:
+    kind: input
+    type: path
+    required: true
+    description: Path to COOL file
+  resolution:
+    kind: option
+    type: integer
+    required: true
+    description: Resolution
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to cooler.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bedpe:
+    type: directory
+    path: ${outdir}/cooler_dump
+    primary: true

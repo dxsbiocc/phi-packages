@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'bai' combined cartesian-style; verify if per-sample pairing is required; companion input 'fasta' combined cartesian-style; verify if per-sample pairing is required; companion input 'fai' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/methurator-gtestimator
+name: methurator gtestimator
+summary: Run estimator for DNA methylation sequencing saturation.
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Single BAM file
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: Single BAM/CRAM index file
+  fasta:
+    kind: input
+    type: path
+    required: false
+    description: Input genome fasta file
+  fai:
+    kind: input
+    type: path
+    required: false
+    description: FASTA index file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to methurator.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  summary_report:
+    type: directory
+    path: ${outdir}/methurator_gtestimator
+    primary: true

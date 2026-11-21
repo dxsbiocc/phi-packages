@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/windowmasker-convert
+name: windowmasker convert
+summary: Masks out highly repetitive DNA sequences with low complexity in a genome
+params:
+  counts:
+    kind: input
+    type: path
+    required: true
+    description: valid unit counts file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to windowmasker.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  converted:
+    type: directory
+    path: ${outdir}/windowmasker_convert
+    primary: true

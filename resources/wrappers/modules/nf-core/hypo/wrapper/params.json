@@ -1,0 +1,9 @@
+{
+  "sr_bam": null,
+  "reads": null,
+  "draft": null,
+  "genome_size": null,
+  "reads_coverage": null,
+  "args": "",
+  "outdir": "results"
+}

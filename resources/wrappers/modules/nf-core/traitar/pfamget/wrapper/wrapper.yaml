@@ -1,0 +1,16 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/traitar-pfamget
+name: traitar pfamget
+summary: Download PFAM database for traitar phenotype prediction
+params:
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  pfam_db:
+    type: directory
+    path: ${outdir}/traitar_pfamget
+    primary: true

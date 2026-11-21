@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/foldseek-easysearch
+name: foldseek easysearch
+summary: Search for protein structural hits against a foldseek database of protein structures
+params:
+  pdb:
+    kind: input
+    type: path
+    required: true
+    description: Protein structure(s) in PDB, mmCIF or mmJSON format to compare against a foldseek database
+      (also works with folder input)
+  db:
+    kind: input
+    type: path
+    required: true
+    description: foldseek database from protein structures
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to foldseek.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  aln:
+    type: directory
+    path: ${outdir}/foldseek_easysearch
+    primary: true

@@ -1,0 +1,11 @@
+{
+  "gtf": null,
+  "format": null,
+  "pool_genes": false,
+  "event_type": null,
+  "boundary": null,
+  "threshold": null,
+  "exon_length": null,
+  "args": "",
+  "outdir": "results"
+}

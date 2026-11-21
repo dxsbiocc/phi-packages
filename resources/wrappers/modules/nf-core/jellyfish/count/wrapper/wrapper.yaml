@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'kmer_length' exposed as required option; confirm whether a safe default exists; val input 'size' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/jellyfish-count
+name: jellyfish count
+summary: Efficiently counts k-mers from DNA sequencing reads using a fast, memory-efficient, parallelized
+  algorithm
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Nucleotide sequences in FASTA format, can be gzipped.
+  kmer_length:
+    kind: option
+    type: integer
+    required: true
+    description: k-mer size to use
+  size:
+    kind: option
+    type: string
+    required: true
+    description: Specifies the memory hash size (in bytes) to allocate for the k-mer counting hash table
+      (e.g., '100M').
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to jellyfish.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  jf:
+    type: directory
+    path: ${outdir}/jellyfish_count
+    primary: true

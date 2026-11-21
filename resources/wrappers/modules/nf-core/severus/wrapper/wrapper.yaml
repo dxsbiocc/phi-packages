@@ -1,0 +1,52 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'target_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'control_input' combined cartesian-style; verify if per-sample pairing is required; companion input 'control_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'vcf' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/severus
+name: severus
+summary: Severus is a somatic structural variation (SV) caller for long reads (both PacBio and ONT)
+params:
+  target_input:
+    kind: input
+    type: path
+    required: true
+    description: path to one or multiple target BAM/CRAM files (e.g.
+  target_index:
+    kind: input
+    type: path
+    required: false
+    description: path to one or multiple target BAM/CRAM index files
+  control_input:
+    kind: input
+    type: path
+    required: false
+    description: path to the control BAM/CRAM file (e.g.
+  control_index:
+    kind: input
+    type: path
+    required: false
+    description: path to the control BAM/CRAM file index
+  vcf:
+    kind: input
+    type: path
+    required: false
+    description: path to vcf file used for phasing (if using haplotype specific SV calling
+  bed:
+    kind: input
+    type: path
+    required: true
+    description: path to bed file for tandem repeat regions (must be ordered)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to severus.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  log:
+    type: directory
+    path: ${outdir}/severus
+    primary: true

@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/fcs-fcsadaptor
+name: fcs fcsadaptor
+summary: Run NCBI's FCS adaptor on assembled genomes
+params:
+  assembly:
+    kind: input
+    type: path
+    required: true
+    description: assembly fasta file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to fcs.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  cleaned_assembly:
+    type: directory
+    path: ${outdir}/fcs_fcsadaptor
+    primary: true

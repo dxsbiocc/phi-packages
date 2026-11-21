@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'fcsgx_report' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/fcsgx-cleangenome
+name: fcsgx cleangenome
+summary: Runs FCS-GX (Foreign Contamination Screen - Genome eXtractor) to remove foreign contamination
+  from genome assemblies
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input genome assembly file in FASTA format
+  fcsgx_report:
+    kind: input
+    type: path
+    required: false
+    description: Final contamination report with contaminant cleaning actions.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to fcsgx.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  cleaned:
+    type: directory
+    path: ${outdir}/fcsgx_cleangenome
+    primary: true

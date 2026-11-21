@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/gt-stat
+name: gt stat
+summary: GenomeTools gt-stat utility to show statistics about features contained in GFF3 files
+params:
+  gff3:
+    kind: input
+    type: path
+    required: true
+    description: Input gff3 file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to gt.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  stats:
+    type: directory
+    path: ${outdir}/gt_stat
+    primary: true

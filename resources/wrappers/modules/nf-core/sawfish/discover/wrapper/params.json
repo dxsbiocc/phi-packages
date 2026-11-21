@@ -1,0 +1,10 @@
+{
+  "bam": null,
+  "bai": null,
+  "fasta": null,
+  "expected_cn_bed": null,
+  "maf_vcf": null,
+  "cnv_exclude_regions_bed": null,
+  "args": "",
+  "outdir": "results"
+}

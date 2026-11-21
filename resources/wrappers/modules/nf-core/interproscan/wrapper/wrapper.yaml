@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored interproscan module at
+# ../main.nf. Follows the minimal contract in
+# docs/design/phi-wrapper-agent-composition-design.md section 3.
+# Manually wired: exotic staging pattern.
+id: nf-core/modules/interproscan
+name: interproscan
+summary: Annotate protein sequences with InterProScan (requires the InterProScan data directory).
+params:
+  fasta:
+    kind: input
+    type: file
+    required: true
+    description: Protein FASTA to annotate.
+  interproscan_database:
+    kind: input
+    type: path
+    required: true
+    description: InterProScan data directory (staged as data/).
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to interproscan.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/interproscan
+    primary: true

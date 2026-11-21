@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/tcoffee-extractfrompdb
+name: tcoffee extractfrompdb
+summary: Reformats the header of PDB files with t-coffee
+params:
+  pdb:
+    kind: input
+    type: path
+    required: true
+    description: Input pdb to be reformatted
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to tcoffee.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  formatted_pdb:
+    type: directory
+    path: ${outdir}/tcoffee_extractfrompdb
+    primary: true

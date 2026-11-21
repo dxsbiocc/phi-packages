@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; glob input 'training_set_vcfs' collected into one staged list; verify staging layout
+id: nf-core/modules/strdrop-call
+name: strdrop call
+summary: Detect drops in STR coverage
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: Input STR call VCF file
+  training_set_json:
+    kind: input
+    type: path
+    required: true
+    description: Input training set as json
+  training_set_vcfs:
+    kind: input
+    type: path
+    required: true
+    description: Input training set as VCF files
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to strdrop.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcf:
+    type: directory
+    path: ${outdir}/strdrop_call
+    primary: true

@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/duckdb-table2parquet
+name: duckdb table2parquet
+summary: Convert a delimited text table (CSV or TSV, gzipped or not) to Parquet
+params:
+  table:
+    kind: input
+    type: path
+    required: true
+    description: A delimited text table to convert.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to duckdb.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  parquet:
+    type: directory
+    path: ${outdir}/duckdb_table2parquet
+    primary: true

@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/fastx-collapser
+name: fastx collapser
+summary: Collapses identical sequences in a FASTQ/A file into a single sequence (while maintaining reads
+  counts)
+params:
+  fastx:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Decompressed FASTA/FASTQ input file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to fastx.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fasta:
+    type: directory
+    path: ${outdir}/fastx_collapser
+    primary: true

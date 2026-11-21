@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/vclust-align
+name: vclust align
+summary: The align command performs pairwise sequence alignments of viral genomes and provides similarity
+  measures like ANI and coverage (alignment fraction)
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input fasta file containing sequences needed for filtering
+  filter:
+    kind: input
+    type: path
+    required: true
+    description: Input txt file containing sequences relationships for filtering (generated with vclust
+      prefilter)
+  save_alignment:
+    kind: option
+    type: boolean
+    required: false
+    description: Save the pairwise alignments to a blast-like file.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to vclust.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tsv:
+    type: directory
+    path: ${outdir}/vclust_align
+    primary: true

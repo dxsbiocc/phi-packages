@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'index' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/igv-js
+name: igv js
+summary: igv.js is an embeddable interactive genome visualization component
+params:
+  alignment:
+    kind: input
+    type: path
+    required: true
+    description: Sorted BAM/CRAM file
+  index:
+    kind: input
+    type: path
+    required: false
+    description: Index of sorted BAM/CRAM file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to igv.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  browser:
+    type: directory
+    path: ${outdir}/igv_js
+    primary: true

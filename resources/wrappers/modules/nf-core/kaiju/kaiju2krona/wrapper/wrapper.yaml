@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'db' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/kaiju-kaiju2krona
+name: kaiju kaiju2krona
+summary: Convert Kaiju's tab-separated output file into a tab-separated text file which can be imported
+  into Krona.
+params:
+  tsv:
+    kind: input
+    type: path
+    required: true
+    description: Kaiju tab-separated output file
+  db:
+    kind: input
+    type: path
+    required: false
+    description: Kaiju database file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to kaiju.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  txt:
+    type: directory
+    path: ${outdir}/kaiju_kaiju2krona
+    primary: true

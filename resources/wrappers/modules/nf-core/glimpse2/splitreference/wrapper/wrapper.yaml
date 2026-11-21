@@ -1,0 +1,47 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'reference_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'map' combined cartesian-style; verify if per-sample pairing is required; val input 'input_region' exposed as required option; confirm whether a safe default exists; val input 'output_region' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/glimpse2-splitreference
+name: glimpse2 splitreference
+summary: Tool to create a binary reference panel for quick reading time.
+params:
+  reference:
+    kind: input
+    type: path
+    required: true
+    description: Reference panel of haplotypes in VCF/BCF format.
+  reference_index:
+    kind: input
+    type: path
+    required: false
+    description: Index file of the Reference panel file.
+  map:
+    kind: input
+    type: path
+    required: false
+    description: File containing the genetic map.
+  input_region:
+    kind: option
+    type: string
+    required: true
+    description: Target region used for imputation, including left and right buffers (e.g.
+  output_region:
+    kind: option
+    type: string
+    required: true
+    description: Target imputed region, excluding left and right buffers (e.g.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to glimpse2.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bin_ref:
+    type: directory
+    path: ${outdir}/glimpse2_splitreference
+    primary: true

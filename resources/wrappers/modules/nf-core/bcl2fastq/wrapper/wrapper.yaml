@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'run_dir' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/bcl2fastq
+name: bcl2fastq
+summary: Demultiplex Illumina BCL files
+params:
+  samplesheet:
+    kind: input
+    type: path
+    required: true
+    description: Input samplesheet
+  run_dir:
+    kind: input
+    type: path
+    required: false
+    description: Input run directory containing RunInfo.xml and BCL data Could be a directory or a tar
+      of the directory
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to bcl2fastq.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fastq:
+    type: directory
+    path: ${outdir}/bcl2fastq
+    primary: true

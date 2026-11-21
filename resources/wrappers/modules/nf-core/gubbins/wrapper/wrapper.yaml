@@ -1,0 +1,28 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/gubbins
+name: gubbins
+summary: Gubbins (Genealogies Unbiased By recomBinations In Nucleotide Sequences) is an algorithm that
+  iteratively identifies loci containing elevated densities of base substitutions while concurrently constructing
+  a phylogeny based on the putative point mutations outside of these regions.
+params:
+  alignment:
+    kind: input
+    type: path
+    required: true
+    description: fasta alignment file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to gubbins.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fasta:
+    type: directory
+    path: ${outdir}/gubbins
+    primary: true

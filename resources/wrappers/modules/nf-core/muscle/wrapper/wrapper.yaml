@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/muscle
+name: muscle
+summary: MUSCLE is a program for creating multiple alignments of amino acid or nucleotide sequences.
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input sequences for alignment must be in FASTA format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to muscle.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  aligned_fasta:
+    type: directory
+    path: ${outdir}/muscle
+    primary: true

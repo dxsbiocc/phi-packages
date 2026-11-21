@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/bftools-showinf
+name: bftools showinf
+summary: Extract OME xml data from OME-tif
+params:
+  image:
+    kind: input
+    type: path
+    required: true
+    description: Path to image file containing OME metadata
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to bftools.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  xml:
+    type: directory
+    path: ${outdir}/bftools_showinf
+    primary: true

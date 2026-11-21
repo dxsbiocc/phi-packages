@@ -1,0 +1,8 @@
+{
+  "aoi": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/earth_sciences/vector/gpkg/crete.gpkg",
+  "datacube_definition": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/earth_sciences/datacubes/datacube-definition.prj",
+  "shapefile_dbf": null,
+  "shapefile_prj": null,
+  "shapefile_shx": null,
+  "outdir": "results"
+}

@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/skesa
+name: skesa
+summary: Assemble microbial genomes from short-read FASTQ files into contigs in FASTA format using SKESA.
+params:
+  fastq:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: One or more input FASTQ files containing sequencing reads for assembly.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to skesa.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fasta:
+    type: directory
+    path: ${outdir}/skesa
+    primary: true

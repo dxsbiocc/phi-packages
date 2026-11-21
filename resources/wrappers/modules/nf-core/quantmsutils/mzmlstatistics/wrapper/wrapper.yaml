@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/quantmsutils-mzmlstatistics
+name: quantmsutils mzmlstatistics
+summary: Generate statistics from mzML files using quantms-utils
+params:
+  ms_file:
+    kind: input
+    type: path
+    required: true
+    description: Input mzML file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to quantmsutils.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  ms_statistics:
+    type: directory
+    path: ${outdir}/quantmsutils_mzmlstatistics
+    primary: true

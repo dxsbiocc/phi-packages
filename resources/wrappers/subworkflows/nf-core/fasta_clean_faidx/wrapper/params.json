@@ -1,0 +1,7 @@
+{
+  "fasta": null,
+  "replace_dots": false,
+  "get_chromsizes": true,
+  "get_dict": true,
+  "outdir": "results"
+}

@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'ref_fa' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'ref_db' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/liftoff
+name: liftoff
+summary: Uses Liftoff to accurately map annotations in GFF or GTF between assemblies of the same, or closely-related
+  species
+params:
+  target_fa:
+    kind: input
+    type: path
+    required: true
+    description: Target assembly in fasta format (can be gzipped)
+  ref_fa:
+    kind: input
+    type: path
+    required: false
+    description: Reference assembly in fasta format (can be gzipped)
+  ref_annotation:
+    kind: input
+    type: path
+    required: true
+    description: Reference assembly annotations in gtf or gff3 format
+  ref_db:
+    kind: input
+    type: path
+    required: false
+    description: Name of feature database; if not specified, the -g argument must be provided and a database
+      will be built automatically
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to liftoff.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gff3:
+    type: directory
+    path: ${outdir}/liftoff
+    primary: true

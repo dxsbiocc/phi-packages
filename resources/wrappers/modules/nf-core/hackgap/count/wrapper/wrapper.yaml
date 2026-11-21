@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/hackgap-count
+name: hackgap count
+summary: Fast, JIT-compiled k-mer counter supporting both contiguous and gapped k-mers using multi-way
+  bucketed Cuckoo hash tables.
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Input genomic sequence files (FASTA/FASTQ), can be compressed (gzip, xz, bzip2).
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to hackgap.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  hash:
+    type: directory
+    path: ${outdir}/hackgap_count
+    primary: true

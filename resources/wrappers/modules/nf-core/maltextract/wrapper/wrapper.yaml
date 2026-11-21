@@ -1,0 +1,36 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/maltextract
+name: maltextract
+summary: Tool for evaluation of MALT results for true positives of ancient metagenomic taxonomic screening
+params:
+  rma6:
+    kind: input
+    type: path
+    required: true
+    description: RMA6 files from MALT
+  taxon_list:
+    kind: input
+    type: path
+    required: true
+    description: List of target taxa to evaluate
+  ncbi_dir:
+    kind: input
+    type: path
+    required: true
+    description: Directory containing NCBI taxonomy map and tre files
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to maltextract.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/maltextract
+    primary: true

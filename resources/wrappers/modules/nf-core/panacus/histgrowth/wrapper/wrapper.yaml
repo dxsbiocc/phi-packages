@@ -1,0 +1,45 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/panacus-histgrowth
+name: panacus histgrowth
+summary: Calculates a coverage histogram from a GFA file and constructs a growth table from this as either
+  a TSV or HTML file
+params:
+  gfa:
+    kind: input
+    type: path
+    required: true
+    description: GFA file containing a graph without overlapping nodes
+  bed_subset:
+    kind: input
+    type: path
+    required: true
+    description: Optional 1-column TXT-list of paths or 3-/12-column BED file of path coordinates for
+      getting counts by subsetting the graph
+  bed_exclude:
+    kind: input
+    type: path
+    required: true
+    description: Optional 1-column TXT-list of paths or 3-/12-column BED file of path coordinates for
+      excluding bp/nodes/edges that intersect these paths
+  tsv_groupby:
+    kind: input
+    type: path
+    required: true
+    description: Optional 2-column TSV file containing path to group mapping according to which counts
+      from different paths get merged
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to panacus.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tsv:
+    type: directory
+    path: ${outdir}/panacus_histgrowth
+    primary: true

@@ -1,0 +1,36 @@
+# Agent-facing wrapper for the local graphlan/graphlan module at ../main.nf,
+# ported from the Snakemake Workflow project (no nf-core equivalent).
+# Follows docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: local/modules/graphlan-graphlan
+name: graphlan
+summary: Render an annotated GraPhlAn XML tree to a circular phylogenetic figure.
+params:
+  xml:
+    kind: input
+    type: file
+    required: true
+    description: Annotated GraPhlAn XML tree.
+  format:
+    kind: option
+    type: string
+    required: false
+    description: Output image format.
+    enum:
+    - png
+    - svg
+    - pdf
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to the tool.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/graphlan_graphlan
+    primary: true

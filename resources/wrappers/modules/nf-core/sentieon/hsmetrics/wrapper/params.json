@@ -1,0 +1,10 @@
+{
+  "bam": null,
+  "bai": null,
+  "bait_intervals": null,
+  "target_intervals": null,
+  "fasta": null,
+  "fai": null,
+  "args": "",
+  "outdir": "results"
+}

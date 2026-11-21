@@ -1,0 +1,106 @@
+# Agent-facing wrapper adapter for the vendored bam_impute_stitch subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+# REVIEW: single-region adapter; multi-region scatter needs curation
+id: nf-core/subworkflows/bam-impute-stitch
+name: "Impute from BAM (STITCH)"
+summary: "Impute genotypes from low-coverage BAMs with STITCH."
+
+params:
+  bam:
+    kind: input
+    type: bam
+    required: true
+    description: "Input BAM/CRAM."
+  bai:
+    kind: input
+    type: path
+    required: true
+    description: "BAM/CRAM index."
+  bampaths:
+    kind: option
+    type: string
+    required: false
+    description: "BAM path string for STITCH."
+  bamnames:
+    kind: option
+    type: string
+    required: false
+    description: "BAM sample names for STITCH."
+  posfile:
+    kind: input
+    type: path
+    required: true
+    description: "Reference positions file."
+  map:
+    kind: input
+    type: path
+    required: true
+    description: "Genetic map file."
+  panel_id:
+    kind: option
+    type: string
+    required: false
+    description: "Panel id for meta."
+  chr:
+    kind: option
+    type: string
+    required: true
+    description: "Chromosome to impute."
+  start:
+    kind: option
+    type: integer
+    required: false
+    description: "Region start (optional)."
+  end:
+    kind: option
+    type: integer
+    required: false
+    description: "Region end (optional)."
+  fasta:
+    kind: input
+    type: fasta
+    required: false
+    description: "Reference FASTA (optional)."
+  fai:
+    kind: input
+    type: path
+    required: false
+    description: "Reference FASTA index (optional)."
+  k_val:
+    kind: option
+    type: integer
+    required: false
+    description: "STITCH k value."
+  n_gen:
+    kind: option
+    type: integer
+    required: false
+    description: "Generations since founding."
+  buffer:
+    kind: option
+    type: integer
+    required: false
+    description: "Region buffer."
+  seed:
+    kind: option
+    type: integer
+    required: false
+    description: "Random seed."
+  sample_id:
+    kind: option
+    type: string
+    required: false
+    description: "Sample id."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/bam_impute_stitch'
+    primary: true

@@ -1,0 +1,22 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/ctree
+name: ctree
+summary: Clone trees for Cancer Evolution studies from bulk sequencing data.
+params:
+  ctree_input:
+    kind: input
+    type: path
+    required: true
+    description: Either a .rds object of class `vb_bmm` or `dbpmm`, or a `.tsv` mutations table obtained
+      after running the `pyclonevi` module
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  ctree_rds:
+    type: directory
+    path: ${outdir}/ctree
+    primary: true

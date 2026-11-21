@@ -1,0 +1,9 @@
+{
+  "reads": "https://raw.githubusercontent.com/nf-core/test-datasets/refs/heads/modules/data/genomics/sarscov2/genome/genome.fasta",
+  "fasta": null,
+  "intervals": null,
+  "known_sites": null,
+  "output_fmt": null,
+  "args": "",
+  "outdir": "results"
+}

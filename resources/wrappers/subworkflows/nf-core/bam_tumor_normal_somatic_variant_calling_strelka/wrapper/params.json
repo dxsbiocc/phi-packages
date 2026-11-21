@@ -1,0 +1,15 @@
+{
+  "normal_cram": null,
+  "normal_crai": null,
+  "tumor_cram": null,
+  "tumor_crai": null,
+  "fasta": null,
+  "fai": null,
+  "dict": null,
+  "manta_vcf": null,
+  "manta_tbi": null,
+  "intervals": null,
+  "intervals_tbi": null,
+  "sample_id": "tumor_normal",
+  "outdir": "results"
+}

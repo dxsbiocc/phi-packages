@@ -1,0 +1,14 @@
+{
+  "breakpoint": null,
+  "cluster": null,
+  "mtfasta": null,
+  "flank": null,
+  "heteroplasmy_limit": null,
+  "mito_length": null,
+  "heavy_strand_origin_start": null,
+  "heavy_strand_origin_end": null,
+  "light_strand_origin_start": null,
+  "light_strand_origin_end": null,
+  "args": "",
+  "outdir": "results"
+}

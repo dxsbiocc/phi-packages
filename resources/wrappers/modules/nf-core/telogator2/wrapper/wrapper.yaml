@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'reads_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'fai' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/telogator2
+name: telogator2
+summary: Allele-specific telomere length estimation and TVR characterization from long reads
+params:
+  reads:
+    kind: input
+    type: path
+    required: true
+    description: BAM or CRAM file of long reads (PacBio or ONT)
+  reads_index:
+    kind: input
+    type: path
+    required: false
+    description: Index file for the input BAM/CRAM
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Optional reference genome FASTA file
+  fai:
+    kind: input
+    type: path
+    required: false
+    description: Optional FASTA index file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to telogator2.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tlens:
+    type: directory
+    path: ${outdir}/telogator2
+    primary: true

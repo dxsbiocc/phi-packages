@@ -1,0 +1,11 @@
+{
+  "asm_to_ref_bam": null,
+  "asm_to_ref_bai": null,
+  "read_to_asm_bam": null,
+  "read_to_asm_bai": null,
+  "ref_fasta": null,
+  "assembly_mode": null,
+  "output_vcf": false,
+  "args": "",
+  "outdir": "results"
+}

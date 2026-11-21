@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'feature_files' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/deepmased-predict
+name: deepmased predict
+summary: 'DeepMAsED predict subcommand: runs the pre-trained deep learning model on feature tables produced
+  by DeepMAsED features to predict per-contig assembly error scores.'
+params:
+  feature_file_table:
+    kind: input
+    type: path
+    required: true
+    description: Index TSV file listing all feature table files (output of deepmased/features)
+  feature_files:
+    kind: input
+    type: path
+    required: false
+    description: Per-contig feature table files (output of deepmased/features)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to deepmased.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  predictions:
+    type: directory
+    path: ${outdir}/deepmased_predict
+    primary: true

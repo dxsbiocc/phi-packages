@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'db' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/motus-merge
+name: motus merge
+summary: Taxonomic meta-omics profiling using universal marker genes
+params:
+  input:
+    kind: input
+    type: path
+    required: true
+    description: List of output files (more than one) from motus profile, or a single directory containing
+      motus output files.
+  db:
+    kind: input
+    type: path
+    required: false
+    description: 'mOTUs database downloaded by `motus downloadDB` pattern: "db_mOTU/"'
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to motus.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  txt:
+    type: directory
+    path: ${outdir}/motus_merge
+    primary: true

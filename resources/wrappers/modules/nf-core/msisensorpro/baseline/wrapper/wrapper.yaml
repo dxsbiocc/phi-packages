@@ -1,0 +1,35 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; glob input 'pro_all_files' collected into one staged list; verify staging layout
+id: nf-core/modules/msisensorpro-baseline
+name: msisensorpro baseline
+summary: MSIsensor-pro/baseline builds a baseline microsatellite file from a panel of normal samples,
+  for use with msisensor-pro/pro tumor-only MSI detection.
+params:
+  list:
+    kind: input
+    type: path
+    required: true
+    description: Microsatellite list produced by `msisensorpro/scan` and passed to `msisensor-pro baseline
+      -d`.
+  pro_all_files:
+    kind: input
+    type: path
+    required: true
+    description: One or more `*_all` files produced by running `msisensorpro/pro` on individual normal
+      samples.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to msisensorpro.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  baseline:
+    type: directory
+    path: ${outdir}/msisensorpro_baseline
+    primary: true

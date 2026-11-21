@@ -1,0 +1,40 @@
+# Agent-facing wrapper adapter for the vendored vcf_filter_bcftools_ensemblvep subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+id: nf-core/subworkflows/vcf-filter-bcftools-ensemblvep
+name: "Filter VCF (bcftools/VEP)"
+summary: "Filter a VCF with bcftools view and/or Ensembl VEP filter_vep."
+
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: "VCF file to filter."
+  filter_vep_feature_file:
+    kind: input
+    type: path
+    required: false
+    description: "filter_vep feature/filter text file."
+  filter_with_bcftools:
+    kind: option
+    type: boolean
+    required: false
+    description: "Run bcftools view filtering."
+  filter_with_filter_vep:
+    kind: option
+    type: boolean
+    required: false
+    description: "Run filter_vep filtering."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/vcf_filter_bcftools_ensemblvep'
+    primary: true

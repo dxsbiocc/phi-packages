@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'longreads' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/dragonflye
+name: dragonflye
+summary: Assemble bacterial isolate genomes from Nanopore reads
+params:
+  shortreads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: Optional.
+  longreads:
+    kind: input
+    type: path
+    required: false
+    description: Input Nanopore FASTQ file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to dragonflye.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  contigs:
+    type: directory
+    path: ${outdir}/dragonflye
+    primary: true

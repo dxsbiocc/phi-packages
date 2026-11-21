@@ -1,0 +1,73 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites; val input 'mismatch_parameter' exposed as required option; confirm whether a safe default exists; val input 'double_stranded_library' exposed as required option; confirm whether a safe default exists; val input 'five_prime_overhang' exposed as required option; confirm whether a safe default exists; val input 'three_prime_overhang' exposed as required option; confirm whether a safe default exists; val input 'deam_rate_double_stranded' exposed as required option; confirm whether a safe default exists; val input 'deam_rate_single_stranded' exposed as required option; confirm whether a safe default exists; val input 'indel_rate' exposed as required option; confirm whether a safe default exists
+id: nf-core/subworkflows/fastq-align-mapad
+name: fastq align mapad
+summary: Align FASTQ files against reference genome with the mapAD aDNA short-read aligner producing a
+  sorted and indexed BAM files
+params:
+  reads:
+    kind: input
+    type: path
+    required: true
+    description: Input reads for ch_reads.
+  index:
+    kind: input
+    type: path
+    required: true
+    description: Input index for ch_index.
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input fasta for ch_fasta_fai.
+  fai:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion fai for ch_fasta_fai.
+  mismatch_parameter:
+    kind: option
+    type: string
+    required: true
+    description: Option mismatch_parameter.
+  double_stranded_library:
+    kind: option
+    type: string
+    required: true
+    description: Option double_stranded_library.
+  five_prime_overhang:
+    kind: option
+    type: string
+    required: true
+    description: Option five_prime_overhang.
+  three_prime_overhang:
+    kind: option
+    type: string
+    required: true
+    description: Option three_prime_overhang.
+  deam_rate_double_stranded:
+    kind: option
+    type: string
+    required: true
+    description: Option deam_rate_double_stranded.
+  deam_rate_single_stranded:
+    kind: option
+    type: string
+    required: true
+    description: Option deam_rate_single_stranded.
+  indel_rate:
+    kind: option
+    type: string
+    required: true
+    description: Option indel_rate.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/fastq_align_mapad
+    primary: true

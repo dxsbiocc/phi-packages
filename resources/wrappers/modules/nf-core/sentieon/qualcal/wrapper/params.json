@@ -1,0 +1,12 @@
+{
+  "input": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/genome.fasta",
+  "input_index": null,
+  "fasta": null,
+  "fai": null,
+  "known_sites": null,
+  "known_sites_tbi": null,
+  "recalibration_table": null,
+  "generate_recalibrated_bams": false,
+  "args": "",
+  "outdir": "results"
+}

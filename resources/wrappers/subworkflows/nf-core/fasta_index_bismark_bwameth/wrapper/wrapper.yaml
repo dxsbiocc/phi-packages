@@ -1,0 +1,55 @@
+# Agent-facing wrapper adapter for the vendored fasta_index_bismark_bwameth subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+# REVIEW: index directories are staged whole; verify companion semantics
+id: nf-core/subworkflows/fasta-index-bismark-bwameth
+name: "Build methylation aligner index"
+summary: "Build bismark and/or bwameth indexes for a reference FASTA."
+
+params:
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: "Reference genome FASTA."
+  fai:
+    kind: input
+    type: path
+    required: false
+    description: "Pre-built FASTA index (.fai)."
+  bismark_index:
+    kind: input
+    type: path
+    required: false
+    description: "Pre-built bismark index directory (skips building)."
+  bwameth_index:
+    kind: input
+    type: path
+    required: false
+    description: "Pre-built bwameth index directory (skips building)."
+  aligner:
+    kind: option
+    type: string
+    required: true
+    enum:
+      - bismark
+      - bismark_hisat
+      - bwameth
+    description: "Aligner to index for."
+  use_mem2:
+    kind: option
+    type: boolean
+    required: false
+    description: "Use bwamem2 for the bwameth index."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/fasta_index_bismark_bwameth'
+    primary: true

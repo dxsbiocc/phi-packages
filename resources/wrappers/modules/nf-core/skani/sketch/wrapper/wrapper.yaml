@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/skani-sketch
+name: skani sketch
+summary: Storing skani sketches/indices on disk.
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input FASTA file to be sketched
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to skani.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  sketch_dir:
+    type: directory
+    path: ${outdir}/skani_sketch
+    primary: true

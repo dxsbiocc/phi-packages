@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'kraken_taxon_db' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/conifer
+name: conifer
+summary: Calculate confidence scores from Kraken2 output
+params:
+  kraken_result:
+    kind: input
+    type: path
+    required: true
+    description: Raw Kraken2 standard output file
+  kraken_taxon_db:
+    kind: input
+    type: path
+    required: false
+    description: Kraken2 taxo.k2d database file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to conifer.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  score:
+    type: directory
+    path: ${outdir}/conifer
+    primary: true

@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'tree' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/hyphy-fubar
+name: hyphy fubar
+summary: FUBAR (Fast, Unconstrained Bayesian AppRoximation) uses a Bayesian approach to infer nonsynoymous
+  (dN) and synonymous (dS) substitution rates on a per-site basis for a given coding alignment and corresponding
+  phylogeny.
+params:
+  alignment:
+    kind: input
+    type: path
+    required: true
+    description: Codon aligned sequences in FASTA format.
+  tree:
+    kind: input
+    type: path
+    required: false
+    description: Phylogenetic gene tree in text or xml format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to hyphy.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  json:
+    type: directory
+    path: ${outdir}/hyphy_fubar
+    primary: true

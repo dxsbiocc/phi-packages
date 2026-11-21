@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/pdb2pqr
+name: pdb2pqr
+summary: Convert PDB files to PQR format by assigning charge and radius parameters for electrostatics
+  calculations (e.g.
+params:
+  pdb:
+    kind: input
+    type: path
+    required: true
+    description: Protein structure file in PDB format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to pdb2pqr.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  pqr:
+    type: directory
+    path: ${outdir}/pdb2pqr
+    primary: true

@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'hic_input' combined cartesian-style; verify if per-sample pairing is required; companion input 'depths' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/metator-pipeline
+name: metator pipeline
+summary: Metagenomic Tridimensional Organisation-based Reassembly - A set of scripts that streamlines
+  the processing and binning of metagenomic metaHiC datasets.
+params:
+  contigs:
+    kind: input
+    type: path
+    required: true
+    description: Reference assembly to bin, in FASTA format
+  hic_input:
+    kind: input
+    type: path
+    required: false
+    description: 'One of: - a list of two PE read FASTQ files ([R1, R2]) - a list of two BAM files ([R1,
+      R2]), with forward and reverse reads mapped independently to the reference - a single pairs file'
+  depths:
+    kind: input
+    type: path
+    required: false
+    description: (optional) A TSV file describing the coverages of each input contig, as created by jgi_summarize_bam_contig_depths
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to metator.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bins:
+    type: directory
+    path: ${outdir}/metator_pipeline
+    primary: true

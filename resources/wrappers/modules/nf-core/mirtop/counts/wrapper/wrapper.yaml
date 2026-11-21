@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'species' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/mirtop-counts
+name: mirtop counts
+summary: mirtop counts generates a file with the minimal information about each sequence and the count
+  data in columns for each samples.
+params:
+  mirtop_gff:
+    kind: input
+    type: path
+    required: true
+    description: GFF file
+  hairpin:
+    kind: input
+    type: path
+    required: true
+    description: Hairpin file
+  gtf:
+    kind: input
+    type: path
+    required: true
+    description: GTF file
+  species:
+    kind: option
+    type: string
+    required: true
+    description: Species name of the GTF file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to mirtop.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tsv:
+    type: directory
+    path: ${outdir}/mirtop_counts
+    primary: true

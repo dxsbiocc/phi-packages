@@ -1,0 +1,64 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'moving_img' combined cartesian-style; verify if per-sample pairing is required; val input 'ifix' exposed as required option; confirm whether a safe default exists; val input 'imov' exposed as required option; confirm whether a safe default exists; val input 'mpp_fix' exposed as required option; confirm whether a safe default exists; val input 'mpp_mov' exposed as required option; confirm whether a safe default exists; val input 'mpp_reg' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/rami2d-register
+name: rami2d register
+summary: offers 3 pre-defined registration schemes 1) Rigid, 2) Rigid+Affine 3) Rigid+Affine+Bsplines,
+  each of them providing more geometrical adaptability and thus more control in the final outcome.
+params:
+  fixed_img:
+    kind: input
+    type: path
+    required: true
+    description: Absolute path of the image stack containing the fixed image
+  moving_img:
+    kind: input
+    type: path
+    required: false
+    description: Absolute path of the image stack containing the moving image
+  markers:
+    kind: input
+    type: path
+    required: true
+    description: Path to a csv file with a column named marker_name, each row is the name of the channel
+      in the ome metadata of the output image
+  ifix:
+    kind: option
+    type: string
+    required: true
+    description: Integer or string h,e,d.
+  imov:
+    kind: option
+    type: string
+    required: true
+    description: Integer or string h,e,d.
+  mpp_fix:
+    kind: option
+    type: number
+    required: true
+    description: Pixel size of the fixed image in micrometers
+  mpp_mov:
+    kind: option
+    type: number
+    required: true
+    description: Pixel size of the moving image in micrometers
+  mpp_reg:
+    kind: option
+    type: number
+    required: true
+    description: Image resolution in micrometers to be used for applying the registration scheme
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to rami2d.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  registered_image:
+    type: directory
+    path: ${outdir}/rami2d_register
+    primary: true

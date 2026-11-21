@@ -1,0 +1,22 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/propr-logratio
+name: propr logratio
+summary: Transform the data matrix using centered logratio transformation (CLR) or additive logratio transformation
+  (ALR)
+params:
+  count:
+    kind: input
+    type: path
+    required: true
+    description: Count matrix, where rows = variables or genes, columns = samples or cells.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  logratio:
+    type: directory
+    path: ${outdir}/propr_logratio
+    primary: true

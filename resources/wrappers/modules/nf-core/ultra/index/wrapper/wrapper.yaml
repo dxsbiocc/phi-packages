@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/ultra-index
+name: ultra index
+summary: uLTRA aligner - A wrapper around minimap2 to improve small exon detection - Index gtf file for
+  reads alignment
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: A fasta file of the genome to use as reference for mapping
+  gtf:
+    kind: input
+    type: path
+    required: true
+    description: An annotation file of the reference genome in GTF format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to ultra.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  database:
+    type: directory
+    path: ${outdir}/ultra_index
+    primary: true

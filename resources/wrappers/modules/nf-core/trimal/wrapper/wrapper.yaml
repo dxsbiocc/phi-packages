@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'out_format' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/trimal
+name: trimal
+summary: trimAl is a tool for the automated removal of spurious sequences or poorly aligned regions from
+  a multiple sequence alignment.
+params:
+  aln:
+    kind: input
+    type: path
+    required: true
+    description: Input file in several formats (e.g., clustal, fasta, nexus, phylip32, phylip40, pir).
+  out_format:
+    kind: option
+    type: string
+    required: true
+    description: Output format (e.g., pir, mega, nexus, clustal, fasta, phylip).
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to trimal.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  trimal:
+    type: directory
+    path: ${outdir}/trimal
+    primary: true

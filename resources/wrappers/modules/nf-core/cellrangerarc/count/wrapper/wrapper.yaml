@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; glob input 'reads' collected into one staged list; verify staging layout; val input 'sample_type' exposed as required option; confirm whether a safe default exists; val input 'sub_sample' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/cellrangerarc-count
+name: cellrangerarc count
+summary: Module to use Cell Ranger's ARC pipelines analyze sequencing data produced from Chromium Single
+  Cell ARC.
+params:
+  reads:
+    kind: input
+    type: path
+    required: true
+    description: FASTQ files produced using Cell Ranger ARC
+  sample_type:
+    kind: option
+    type: string
+    required: true
+    description: The type of sample
+  sub_sample:
+    kind: option
+    type: string
+    required: true
+    description: The name of sub sample
+  reference:
+    kind: input
+    type: path
+    required: true
+    description: Directory containing all the reference indices needed by Cell Ranger ARC
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to cellrangerarc.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  outs:
+    type: directory
+    path: ${outdir}/cellrangerarc_count
+    primary: true

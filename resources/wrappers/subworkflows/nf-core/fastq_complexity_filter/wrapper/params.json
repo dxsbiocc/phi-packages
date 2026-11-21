@@ -1,0 +1,5 @@
+{
+  "reads": null,
+  "complexity_filter_tool": "fastp",
+  "outdir": "results"
+}

@@ -1,0 +1,8 @@
+{
+  "fasta": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/genome/proteome.fasta",
+  "nodes_dmp": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/delete_me/kaiju/nodes.dmp",
+  "names_dmp": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/delete_me/kaiju/names.dmp",
+  "keep_intermediate": false,
+  "args": "",
+  "outdir": "results"
+}

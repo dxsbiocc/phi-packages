@@ -1,0 +1,45 @@
+# Agent-facing wrapper adapter for the vendored fastq_align_bamcmp_bwa subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+id: nf-core/subworkflows/fastq-align-bamcmp-bwa
+name: "Align + compare contamination (bwa/bamcmp)"
+summary: "Align reads to primary and contaminant indexes and filter with bamcmp."
+
+params:
+  reads:
+    kind: input
+    type: path_glob
+    required: true
+    description: "FASTQ glob (paired or single)."
+  primary_index:
+    kind: input
+    type: path
+    required: true
+    description: "Primary bwa index directory."
+  contaminant_index:
+    kind: input
+    type: path
+    required: true
+    description: "Contaminant bwa index directory."
+  fasta:
+    kind: input
+    type: fasta
+    required: false
+    description: "Reference FASTA (optional)."
+  fai:
+    kind: input
+    type: path
+    required: false
+    description: "Reference FASTA index (optional)."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/fastq_align_bamcmp_bwa'
+    primary: true

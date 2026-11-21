@@ -1,0 +1,8 @@
+{
+  "fasta": null,
+  "min_len": null,
+  "abs_min_len": null,
+  "gene_transmap": null,
+  "args": "",
+  "outdir": "results"
+}

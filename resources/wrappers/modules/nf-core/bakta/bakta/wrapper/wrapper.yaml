@@ -1,0 +1,52 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'db' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/bakta-bakta
+name: bakta bakta
+summary: Annotation of bacterial genomes (isolates, MAGs) and plasmids
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: FASTA file to be annotated.
+  db:
+    kind: input
+    type: path
+    required: false
+    description: Path to the Bakta database directory.
+  proteins:
+    kind: input
+    type: path
+    required: true
+    description: FASTA/GenBank file of trusted proteins to first annotate from (optional)
+  prodigal_tf:
+    kind: input
+    type: path
+    required: true
+    description: Training file to use for Prodigal for CDS prediction(optional)
+  regions:
+    kind: input
+    type: path
+    required: true
+    description: GFF3 or GenBank file of pre-annotated regions (optional)
+  hmms:
+    kind: input
+    type: path
+    required: true
+    description: HMM database file for custom annotation (optional)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to bakta.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  embl:
+    type: directory
+    path: ${outdir}/bakta_bakta
+    primary: true

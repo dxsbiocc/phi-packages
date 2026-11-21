@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/polypolish-polish
+name: polypolish polish
+summary: Polishing genome assemblies with short reads.
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: FASTA file with draft assembly of ONT data
+  sam:
+    kind: input
+    type: path
+    required: true
+    description: List of SAM files of short reads mapped against the FASTA input file
+  save_debug:
+    kind: option
+    type: boolean
+    required: false
+    description: Turn debug output on
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to polypolish.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fasta:
+    type: directory
+    path: ${outdir}/polypolish_polish
+    primary: true

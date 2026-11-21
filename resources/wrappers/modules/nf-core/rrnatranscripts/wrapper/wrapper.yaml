@@ -1,0 +1,21 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/rrnatranscripts
+name: rrnatranscripts
+summary: Ribosomal RNA extraction from a GTF file.
+params:
+  gtf:
+    kind: input
+    type: path
+    required: true
+    description: GTF file
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  rrna_gtf:
+    type: directory
+    path: ${outdir}/rrnatranscripts
+    primary: true

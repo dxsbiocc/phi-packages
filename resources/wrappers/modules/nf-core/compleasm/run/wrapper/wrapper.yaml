@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'lineage' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/compleasm-run
+name: compleasm run
+summary: Assess genome assembly completeness against BUSCO lineages using miniprot alignments
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Genome assembly in FASTA format, optionally gzipped
+  lineage:
+    kind: option
+    type: string
+    required: true
+    description: BUSCO lineage to check against, e.g.
+  library_path:
+    kind: input
+    type: path
+    required: true
+    description: Directory holding downloaded BUSCO lineages.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to compleasm.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  summary:
+    type: directory
+    path: ${outdir}/compleasm_run
+    primary: true

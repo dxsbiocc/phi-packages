@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'gtf' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'fai' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/clippy
+name: clippy
+summary: Runs the Clippy CLIP peak caller
+params:
+  bed:
+    kind: input
+    type: path
+    required: true
+    description: BED file of crosslinks
+  gtf:
+    kind: input
+    type: path
+    required: false
+    description: A GTF file of genes to call peaks on
+  fai:
+    kind: input
+    type: path
+    required: false
+    description: FAI file corresponding to the reference sequence
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to clippy.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  peaks:
+    type: directory
+    path: ${outdir}/clippy
+    primary: true

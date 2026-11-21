@@ -1,0 +1,10 @@
+{
+  "vcf": null,
+  "tbi": null,
+  "regions_file": null,
+  "fasta": null,
+  "fai": null,
+  "dict": null,
+  "args": "",
+  "outdir": "results"
+}

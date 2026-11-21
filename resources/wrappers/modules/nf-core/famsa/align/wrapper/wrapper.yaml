@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/famsa-align
+name: famsa align
+summary: Aligns sequences using FAMSA
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input sequences in FASTA format
+  tree:
+    kind: input
+    type: path
+    required: true
+    description: Input guide tree in Newick format
+  compress:
+    kind: option
+    type: boolean
+    required: false
+    description: Flag representing whether the output MSA should be compressed.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to famsa.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  alignment:
+    type: directory
+    path: ${outdir}/famsa_align
+    primary: true

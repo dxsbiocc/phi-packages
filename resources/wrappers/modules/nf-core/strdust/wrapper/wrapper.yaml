@@ -1,0 +1,47 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'bai' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/strdust
+name: strdust
+summary: Tandem repeat genotyper for long reads
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Sorted (and preferably phased) BAM/CRAM file.
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: Index of BAM/CRAM file
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Reference genome
+  fai:
+    kind: input
+    type: path
+    required: true
+    description: Index of reference genome
+  bed:
+    kind: input
+    type: path
+    required: true
+    description: BED file containing STR regions to genotype (optional)
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to strdust.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcf:
+    type: directory
+    path: ${outdir}/strdust
+    primary: true

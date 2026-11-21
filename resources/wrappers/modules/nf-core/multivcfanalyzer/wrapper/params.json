@@ -1,0 +1,14 @@
+{
+  "vcfs": null,
+  "fasta": null,
+  "snpeff_results": null,
+  "gff": null,
+  "allele_freqs": false,
+  "genotype_quality": null,
+  "coverage": null,
+  "homozygous_freq": null,
+  "heterozygous_freq": null,
+  "gff_exclude": null,
+  "args": "",
+  "outdir": "results"
+}

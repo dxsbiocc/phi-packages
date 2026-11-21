@@ -1,0 +1,31 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/megan-daa2info
+name: megan daa2info
+summary: Analyses a DAA file and exports information in text format
+params:
+  daa:
+    kind: input
+    type: path
+    required: true
+    description: DAA file from DIAMOND
+  megan_summary:
+    kind: option
+    type: boolean
+    required: false
+    description: Specify whether to generate a MEGAN summary file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to megan.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  txt_gz:
+    type: directory
+    path: ${outdir}/megan_daa2info
+    primary: true

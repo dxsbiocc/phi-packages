@@ -1,0 +1,9 @@
+{
+  "reads": null,
+  "adapter_tool": "fastp",
+  "custom_adapters_file": null,
+  "save_merged": false,
+  "fastp_discard_trimmed_pass": false,
+  "fastp_save_trimmed_fail": false,
+  "outdir": "results"
+}

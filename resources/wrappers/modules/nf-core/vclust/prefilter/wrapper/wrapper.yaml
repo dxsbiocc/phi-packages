@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/vclust-prefilter
+name: vclust prefilter
+summary: The prefilter command creates a pre-alignment filter that reduces the number of genome pairs
+  to be aligned by filtering out dissimilar sequences before the alignment step.
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input fasta file containing sequences needed for filtering
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to vclust.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  txt:
+    type: directory
+    path: ${outdir}/vclust_prefilter
+    primary: true

@@ -1,0 +1,16 @@
+{
+  "input": null,
+  "input_index": null,
+  "bamlist": null,
+  "samples_file": null,
+  "reference": null,
+  "reference_index": null,
+  "map": null,
+  "input_region": null,
+  "output_region": null,
+  "fasta_reference": null,
+  "fasta_reference_index": null,
+  "output_suffix": null,
+  "args": "",
+  "outdir": "results"
+}

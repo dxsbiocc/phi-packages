@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'num_splits' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/wipertools-fastqscatter
+name: wipertools fastqscatter
+summary: A tool of the wipertools suite that splits FASTQ files into chunks
+params:
+  fastq:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: FASTQ file
+  num_splits:
+    kind: option
+    type: integer
+    required: true
+    description: Number of desired chunks
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to wipertools.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fastq_chunks:
+    type: directory
+    path: ${outdir}/wipertools_fastqscatter
+    primary: true

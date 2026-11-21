@@ -1,0 +1,47 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'genome_size' exposed as required option; confirm whether a safe default exists; val input 'reads_coverage' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/hypo
+name: hypo
+summary: Assembly polisher using short (and long) reads
+params:
+  sr_bam:
+    kind: input
+    type: path
+    required: true
+    description: Aligned short-read BAM/SAM file.
+  reads:
+    kind: input
+    type: path
+    required: true
+    description: Short reads file(s).
+  draft:
+    kind: input
+    type: path
+    required: true
+    description: Input (fasta) file containing draft contig assembly
+  genome_size:
+    kind: option
+    type: string
+    required: true
+    description: Estimated size of the genome.
+  reads_coverage:
+    kind: option
+    type: integer
+    required: true
+    description: Appprimate depth of coverage of short reads.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to hypo.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fasta:
+    type: directory
+    path: ${outdir}/hypo
+    primary: true

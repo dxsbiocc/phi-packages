@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/rpbp-selectfinalpredictionset
+name: rpbp selectfinalpredictionset
+summary: Produce the final filtered set of predicted translated ORFs from the per-ORF Bayes factor table.
+params:
+  bayes_factors:
+    kind: input
+    type: path
+    required: true
+    description: Per-ORF Bayes factor BED from `rpbp/estimateorfbayesfactors`.
+  genome_fasta:
+    kind: input
+    type: path
+    required: true
+    description: Genome FASTA (matching the one used at `rpbp/preparegenome`).
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to rpbp.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  predicted:
+    type: directory
+    path: ${outdir}/rpbp_selectfinalpredictionset
+    primary: true

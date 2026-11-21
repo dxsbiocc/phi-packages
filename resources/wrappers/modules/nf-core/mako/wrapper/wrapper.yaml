@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/mako
+name: mako
+summary: Sort SAM/BAM files by coordinate, queryname or template-coordinate using a fast external merge-sort
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Input SAM/BAM file to sort
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to mako.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bam:
+    type: directory
+    path: ${outdir}/mako
+    primary: true

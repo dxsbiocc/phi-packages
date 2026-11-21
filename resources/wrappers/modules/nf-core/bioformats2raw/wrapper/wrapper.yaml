@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/bioformats2raw
+name: bioformats2raw
+summary: Java application to convert image file formats, including .mrxs, to an intermediate Zarr structure
+  compatible with the OME-NGFF specification.
+params:
+  image:
+    kind: input
+    type: path
+    required: true
+    description: bioformats supported image file format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to bioformats2raw.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  omezarr:
+    type: directory
+    path: ${outdir}/bioformats2raw
+    primary: true

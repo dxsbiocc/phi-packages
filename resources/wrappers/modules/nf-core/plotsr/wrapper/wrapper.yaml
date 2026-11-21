@@ -1,0 +1,65 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/plotsr
+name: plotsr
+summary: Plotsr generates high-quality visualisation of synteny and structural rearrangements between
+  multiple genomes.
+params:
+  syri:
+    kind: input
+    type: path
+    required: true
+    description: Structural annotation mappings (syri.out) identified by SyRI
+  fastas:
+    kind: input
+    type: path
+    required: true
+    description: Fasta files in the sequence specified by the `genomes` file
+  genomes:
+    kind: input
+    type: path
+    required: true
+    description: 'A genomes.txt file including the header: #file name tags and Fasta file names, title
+      for the plot and plotsr configuration tags.'
+  bedpe:
+    kind: input
+    type: path
+    required: true
+    description: Structural annotation mappings in BEDPE format
+  markers:
+    kind: input
+    type: path
+    required: true
+    description: File containing path to markers
+  tracks:
+    kind: input
+    type: path
+    required: true
+    description: File listing paths and details for all tracks to be plotted
+  chrord:
+    kind: input
+    type: path
+    required: true
+    description: File containing reference (first genome) chromosome IDs in the order in which they are
+      to be plotted.
+  chrname:
+    kind: input
+    type: path
+    required: true
+    description: File containing reference (first genome) chromosome names to be used in the plot.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to plotsr.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  png:
+    type: directory
+    path: ${outdir}/plotsr
+    primary: true

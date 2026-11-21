@@ -1,0 +1,72 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'cluster' combined cartesian-style; verify if per-sample pairing is required; val input 'flank' exposed as required option; confirm whether a safe default exists; val input 'heteroplasmy_limit' exposed as required option; confirm whether a safe default exists; val input 'mito_length' exposed as required option; confirm whether a safe default exists; val input 'heavy_strand_origin_start' exposed as required option; confirm whether a safe default exists; val input 'heavy_strand_origin_end' exposed as required option; confirm whether a safe default exists; val input 'light_strand_origin_start' exposed as required option; confirm whether a safe default exists; val input 'light_strand_origin_end' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/saltshaker-call
+name: saltshaker call
+summary: mtDNA deletion and duplication calling downstream of mitosalt
+params:
+  breakpoint:
+    kind: input
+    type: path
+    required: true
+    description: breakpoint file from mitosalt
+  cluster:
+    kind: input
+    type: path
+    required: false
+    description: cluster file from mitosalt
+  mtfasta:
+    kind: input
+    type: path
+    required: true
+    description: Reference mitochondrial genome in FASTA format
+  flank:
+    kind: option
+    type: integer
+    required: true
+    description: Basepairs flanking a deletion
+  heteroplasmy_limit:
+    kind: option
+    type: number
+    required: true
+    description: Minimum heteroplasmy level to report a deletion/duplication
+  mito_length:
+    kind: option
+    type: integer
+    required: true
+    description: Length of the mitochondrial genome
+  heavy_strand_origin_start:
+    kind: option
+    type: integer
+    required: true
+    description: Start position of the heavy strand origin of replication
+  heavy_strand_origin_end:
+    kind: option
+    type: integer
+    required: true
+    description: End position of the heavy strand origin of replication
+  light_strand_origin_start:
+    kind: option
+    type: integer
+    required: true
+    description: Start position of the light strand origin of replication
+  light_strand_origin_end:
+    kind: option
+    type: integer
+    required: true
+    description: End position of the light strand origin of replication
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to saltshaker.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  call:
+    type: directory
+    path: ${outdir}/saltshaker_call
+    primary: true

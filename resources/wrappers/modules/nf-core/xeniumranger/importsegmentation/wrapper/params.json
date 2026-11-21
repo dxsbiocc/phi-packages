@@ -1,0 +1,12 @@
+{
+  "xenium_bundle": null,
+  "transcript_assignment": null,
+  "viz_polygons": null,
+  "nuclei": null,
+  "cells": null,
+  "coordinate_transform": null,
+  "units": null,
+  "expansion_distance": null,
+  "args": "",
+  "outdir": "results"
+}

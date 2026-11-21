@@ -1,0 +1,45 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'output_format' exposed as required option; confirm whether a safe default exists; val input 'export_source' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/ilastik-pixelclassification
+name: ilastik pixelclassification
+summary: Ilastik is a tool that utilizes machine learning algorithms to classify pixels, segment, track
+  and count cells in images.
+params:
+  input_img:
+    kind: input
+    type: path
+    required: true
+    description: Input img file containing image stack to classify.
+  output_format:
+    kind: option
+    type: string
+    required: true
+    description: String specifying the output format passed as the file extension to the output file specified
+      with the `output_filename_format` parameter.
+  export_source:
+    kind: option
+    type: string
+    required: true
+    description: String passed to the `export_source` parameter - valid options are 'probabilities', '"simple
+      segmentation"', 'uncertainty', 'features', 'labels']
+  ilp:
+    kind: input
+    type: path
+    required: true
+    description: Trained ilastik pixel classification .ilp project file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to ilastik.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/ilastik_pixelclassification
+    primary: true

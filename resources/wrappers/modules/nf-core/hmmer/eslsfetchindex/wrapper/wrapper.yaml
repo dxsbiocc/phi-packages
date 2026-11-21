@@ -1,0 +1,23 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/hmmer-eslsfetchindex
+name: hmmer eslsfetchindex
+summary: Builds an SSI (sequence/subsequence index) file for a sequence file, using the esl-sfetch utility,
+  an Easel miniapp bundled with the HMMER package (esl-sfetch --index).
+params:
+  seqfile:
+    kind: input
+    type: path
+    required: true
+    description: Sequence file, in any format supported by esl-sfetch (fasta, embl, genbank, stockholm,
+      a2m, afa, psiblast, clustal, phylip).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  ssi:
+    type: directory
+    path: ${outdir}/hmmer_eslsfetchindex
+    primary: true

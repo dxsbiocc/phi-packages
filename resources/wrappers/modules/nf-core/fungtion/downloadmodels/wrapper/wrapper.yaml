@@ -1,0 +1,17 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/fungtion-downloadmodels
+name: fungtion downloadmodels
+summary: Downloads the pretrained ESM-1b weights (esm1b_t33_650M_UR50S.pt) that fungtion uses for fungal
+  effector prediction into a local models/ directory via `fungtion setup-models`.
+params:
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  models:
+    type: directory
+    path: ${outdir}/fungtion_downloadmodels
+    primary: true

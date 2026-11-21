@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/integronfinder
+name: integronfinder
+summary: Detect integrons in DNA sequences
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Nucleotide sequences in FASTA format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to integronfinder.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gbk:
+    type: directory
+    path: ${outdir}/integronfinder
+    primary: true

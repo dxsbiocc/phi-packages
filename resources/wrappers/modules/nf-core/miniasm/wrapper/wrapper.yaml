@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'paf' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/miniasm
+name: miniasm
+summary: A very fast OLC-based de novo assembler for noisy long reads
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: List of input PacBio/ONT FastQ files.
+  paf:
+    kind: input
+    type: path
+    required: false
+    description: Alignment in PAF format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to miniasm.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gfa:
+    type: directory
+    path: ${outdir}/miniasm
+    primary: true

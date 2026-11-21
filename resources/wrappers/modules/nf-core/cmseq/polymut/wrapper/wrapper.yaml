@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'bai' combined cartesian-style; verify if per-sample pairing is required; companion input 'gff' combined cartesian-style; verify if per-sample pairing is required; companion input 'fasta' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/cmseq-polymut
+name: cmseq polymut
+summary: Calculates polymorphic site rates over protein coding genes
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: BAM file
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: BAM index file
+  gff:
+    kind: input
+    type: path
+    required: false
+    description: GFF file used to extract protein-coding genes
+  fasta:
+    kind: input
+    type: path
+    required: false
+    description: Optional fasta file to run on a subset of references in the BAM file.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to cmseq.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  polymut:
+    type: directory
+    path: ${outdir}/cmseq_polymut
+    primary: true

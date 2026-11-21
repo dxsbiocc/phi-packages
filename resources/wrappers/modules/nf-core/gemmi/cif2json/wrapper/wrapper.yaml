@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/gemmi-cif2json
+name: gemmi cif2json
+summary: Convert macromolecular structure files from mmCIF format to JSON format using gemmi.
+params:
+  cif:
+    kind: input
+    type: path
+    required: true
+    description: macromolecular structure file in mmCIF (.cif) format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to gemmi.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  json:
+    type: directory
+    path: ${outdir}/gemmi_cif2json
+    primary: true

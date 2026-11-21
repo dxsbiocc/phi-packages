@@ -1,0 +1,35 @@
+# Agent-facing wrapper adapter for the vendored fastq_extract_kraken_krakentools subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+id: nf-core/subworkflows/fastq-extract-kraken-krakentools
+name: "Extract taxon reads (kraken2)"
+summary: "Classify reads with kraken2 and extract reads of given taxids with krakentools."
+
+params:
+  reads:
+    kind: input
+    type: path_glob
+    required: true
+    description: "FASTQ glob (paired or single)."
+  db:
+    kind: input
+    type: path
+    required: true
+    description: "Path to the kraken2 database directory."
+  taxid:
+    kind: option
+    type: string
+    required: true
+    description: "Taxonomic ids to extract, separated by spaces."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/fastq_extract_kraken_krakentools'
+    primary: true

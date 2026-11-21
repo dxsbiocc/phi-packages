@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'db' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/kaiju-kaiju
+name: kaiju kaiju
+summary: Taxonomic classification of metagenomic sequence data using a protein reference database
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: List of input fastq/fasta files of size 1 and 2 for single-end and paired-end data, respectively.
+  db:
+    kind: input
+    type: path
+    required: false
+    description: List or directory containing the database and NCBI taxonomy files (names and nodes) for
+      Kaiju e.g.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to kaiju.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/kaiju_kaiju
+    primary: true

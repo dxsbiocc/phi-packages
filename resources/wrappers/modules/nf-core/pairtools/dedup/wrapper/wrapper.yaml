@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/pairtools-dedup
+name: pairtools dedup
+summary: Find and remove PCR/optical duplicates
+params:
+  input:
+    kind: input
+    type: path
+    required: true
+    description: pair file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to pairtools.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  pairs:
+    type: directory
+    path: ${outdir}/pairtools_dedup
+    primary: true

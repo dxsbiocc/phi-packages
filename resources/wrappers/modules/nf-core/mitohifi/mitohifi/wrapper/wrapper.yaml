@@ -1,0 +1,48 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'ref_gb' combined cartesian-style; verify if per-sample pairing is required; val input 'input_mode' exposed as required option; confirm whether a safe default exists; val input 'mito_code' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/mitohifi-mitohifi
+name: mitohifi mitohifi
+summary: A python workflow that assembles mitogenomes from Pacbio HiFi reads
+params:
+  input:
+    kind: input
+    type: path
+    required: true
+    description: Path to PacBio HiFi reads or fasta contigs
+  ref_fa:
+    kind: input
+    type: path
+    required: true
+    description: Reference mitochondrial genome to align reads or contigs against
+  ref_gb:
+    kind: input
+    type: path
+    required: false
+    description: Reference mitochondrial genome annotation
+  input_mode:
+    kind: option
+    type: string
+    required: true
+    description: Specifies type of input - reads or contigs
+  mito_code:
+    kind: option
+    type: integer
+    required: true
+    description: Integer reference number of mitochondrial genetic code - see https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi
+      for details.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to mitohifi.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fasta:
+    type: directory
+    path: ${outdir}/mitohifi_mitohifi
+    primary: true

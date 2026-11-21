@@ -1,0 +1,22 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
+id: nf-core/subworkflows/h5ad-removebackground-barcodes-cellbender-anndata
+name: h5ad removebackground barcodes cellbender anndata
+summary: Use cellbender for empty droplet removal
+params:
+  mandatory:
+    kind: input
+    type: path
+    required: true
+    description: Input mandatory for ch_unfiltered.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/h5ad_removebackground_barcodes_cellbender_anndata
+    primary: true

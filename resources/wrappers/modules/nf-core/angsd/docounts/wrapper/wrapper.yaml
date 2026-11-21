@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'bai' combined cartesian-style; verify if per-sample pairing is required; companion input 'minqfile' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/angsd-docounts
+name: angsd docounts
+summary: Calculates base frequency statistics across reference positions from BAM.
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: A list of BAM or CRAM files
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: List of BAM/CRAM index files
+  minqfile:
+    kind: input
+    type: path
+    required: false
+    description: File with individual quality score thresholds
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to angsd.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  depth_sample:
+    type: directory
+    path: ${outdir}/angsd_docounts
+    primary: true

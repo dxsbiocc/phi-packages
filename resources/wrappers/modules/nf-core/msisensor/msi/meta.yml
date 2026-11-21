@@ -1,0 +1,105 @@
+name: msisensor_msi
+description: Evaluate microsattelite instability (MSI) using paired tumor-normal sequencing
+  data
+deprecated: true
+keywords:
+  - homoploymer
+  - microsatellite
+  - MSI
+  - instability
+tools:
+  - msisensor:
+      description: MSIsensor is a C++ program to detect replication slippage variants
+        at microsatellite regions, and differentiate them as somatic or germline.
+      homepage: https://github.com/ding-lab/msisensor
+      doi: "10.1093/bioinformatics/btt755"
+      licence: ["MIT"]
+      identifier: biotools:msisensor
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. [ id:'test', single_end:false ]
+    - normal_bam:
+        type: file
+        description: Coordinate sorted BAM/CRAM/SAM file from normal tissue
+        pattern: "*.{bam,cram,sam}"
+        ontologies: []
+    - normal_bai:
+        type: file
+        description: Index for coordinate sorted BAM/CRAM/SAM file from normal tissue
+        pattern: "*.{bam,cram,sam}"
+        ontologies: []
+    - tumor_bam:
+        type: file
+        description: Coordinate sorted BAM/CRAM/SAM file from tumor tissue
+        pattern: "*.{bam,cram,sam}"
+        ontologies: []
+    - tumor_bai:
+        type: file
+        description: Index for coordinate sorted BAM/CRAM/SAM file from tumor tissue
+        pattern: "*.{bam,cram,sam}"
+        ontologies: []
+    - metascan:
+        type: file
+        description: metascan file
+        ontologies: []
+    - homopolymers:
+        type: file
+        description: Output file from MSIsensor scan module
+        pattern: "*.msisensor_scan.tab"
+        ontologies:
+          - edam: http://edamontology.org/format_3475 # TSV
+output:
+  output:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - ${prefix}:
+          type: file
+          description: Output file from MSIsensor msi module
+          ontologies: []
+  output_dis:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - ${prefix}_dis:
+          type: file
+          description: Output file from MSIsensor module
+          ontologies: []
+  output_germline:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - ${prefix}_germline:
+          type: file
+          description: Output file from MSIsensor module
+          ontologies: []
+  output_somatic:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. [ id:'test', single_end:false ]
+      - ${prefix}_somatic:
+          type: file
+          description: Output file from MSIsensor module
+          ontologies: []
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: "versions.yml"
+        ontologies:
+          - edam: http://edamontology.org/format_3750 # YAML
+authors:
+  - "@kevbrick"
+maintainers:
+  - "@kevbrick"

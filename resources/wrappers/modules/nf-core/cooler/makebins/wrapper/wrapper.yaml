@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'cool_bin' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/cooler-makebins
+name: cooler makebins
+summary: Generate fixed-width genomic bins
+params:
+  chromsizes:
+    kind: input
+    type: path
+    required: true
+    description: Path to a chromsizes file.
+  cool_bin:
+    kind: option
+    type: integer
+    required: true
+    description: Resolution (bin size) in base pairs
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to cooler.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bed:
+    type: directory
+    path: ${outdir}/cooler_makebins
+    primary: true

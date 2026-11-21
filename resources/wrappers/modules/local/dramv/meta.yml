@@ -1,0 +1,39 @@
+name: dramv
+description: Annotate viral contigs with DRAM-v (annotate + optional distill), from VirSorter2 for-dramv
+  outputs.
+keywords:
+- virus
+- annotation
+- metagenomics
+- amg
+tools:
+- dram:
+    description: 'DRAM-v: distillation of viral auxiliary metabolic genes.'
+    homepage: https://github.com/WrightonLabCSU/DRAM
+input:
+- meta:
+    type: map
+    description: Sample meta map
+- fasta:
+    type: file
+    description: final-viral-combined-for-dramv.fa (VirSorter2 for-dramv output)
+- affi:
+    type: file
+    description: viral-affi-contigs-for-dramv.tab (keeps VirSorter2 > headers)
+- config:
+    type: file
+    description: Optional DRAM export_config file with a configured amg_database
+- distill:
+    type: boolean
+    description: Also run DRAM-v.py distill on the annotations
+output:
+- annotations:
+    type: file
+    description: DRAM-v annotations.tsv
+- distill:
+    type: directory
+    description: DRAM-v distill output directory
+authors:
+- '@dengxsh'
+maintainers:
+- '@dengxsh'

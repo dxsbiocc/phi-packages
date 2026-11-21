@@ -1,0 +1,16 @@
+{
+  "vcf": null,
+  "vcf_index": null,
+  "ref_vcf": null,
+  "ref_index": null,
+  "scaffold_vcf": null,
+  "scaffold_index": null,
+  "map": null,
+  "chunk_model": null,
+  "region": "chr22",
+  "pedigree": null,
+  "panel_id": "sample",
+  "chr": "chr22",
+  "chunk": true,
+  "outdir": "results"
+}

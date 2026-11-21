@@ -1,0 +1,39 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'qc_table' combined cartesian-style; verify if per-sample pairing is required; val input 'qc_format' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/galah
+name: galah
+summary: Cluster genome FASTA files by average nucleotide identity
+params:
+  bins:
+    kind: input
+    type: path
+    required: true
+    description: A list of fasta-formatted genomes for dereplication
+  qc_table:
+    kind: input
+    type: path
+    required: false
+    description: (optional) A summary TSV from either CheckM [https://nf-co.re/modules/checkm_lineagewf],
+      CheckM2 [https://nf-co.re/modules/checkm2_predict/], or a CSV in drep-style format [https://github.com/MrOlm/drep]
+      with three columnns, `genome,completeness,contamination`.
+  qc_format:
+    kind: option
+    type: string
+    required: true
+    description: Defines the type if input table in `qc_table`, if specified.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to galah.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tsv:
+    type: directory
+    path: ${outdir}/galah
+    primary: true

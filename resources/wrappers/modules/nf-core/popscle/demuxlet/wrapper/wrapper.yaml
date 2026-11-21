@@ -1,0 +1,41 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'donor_genotype' combined cartesian-style; verify if per-sample pairing is required; val input 'plp_prefix' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/popscle-demuxlet
+name: popscle demuxlet
+summary: Software to deconvolute sample identity and identify multiplets when multiple samples are pooled
+  by barcoded single cell sequencing and external genotyping data for each sample is available.
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Input SAM/BAM/CRAM file without running popscle/dsc_pileup, must be sorted by coordinates
+      and indexed.
+  donor_genotype:
+    kind: input
+    type: path
+    required: false
+    description: Input VCF/BCF file, containing the individual genotypes (GT), posterior probability (GP),
+      or genotype likelihood (PL) to assign each barcode to a specific sample (or a pair of samples) in
+      the VCF file.
+  plp_prefix:
+    kind: option
+    type: string
+    required: true
+    description: Prefix of pileup files (CEL,VAR and PLP) produced by popscle/dsc_pileup.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to popscle.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  demuxlet_result:
+    type: directory
+    path: ${outdir}/popscle_demuxlet
+    primary: true

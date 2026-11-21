@@ -1,0 +1,65 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'feature_meta' combined cartesian-style; verify if per-sample pairing is required; companion input 'assay_files' combined cartesian-style; verify if per-sample pairing is required; companion input 'differential_results' combined cartesian-style; verify if per-sample pairing is required; val input 'contrast_stats_assay' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/shinyngs-app
+name: shinyngs app
+summary: build and deploy Shiny apps for interactively mining differential abundance data
+params:
+  sample:
+    kind: input
+    type: path
+    required: true
+    description: CSV-format sample sheet with sample metadata
+  feature_meta:
+    kind: input
+    type: path
+    required: false
+    description: TSV-format feature (e.g.
+  assay_files:
+    kind: input
+    type: path
+    required: false
+    description: List of TSV-format matrix files representing different measures for the same samples
+      (e.g.
+  contrasts:
+    kind: input
+    type: path
+    required: true
+    description: CSV-format file with four columns identifying the sample sheet variable, reference level,
+      treatment level, and optionally a comma-separated list of covariates used as blocking factors.
+  differential_results:
+    kind: input
+    type: path
+    required: false
+    description: List of TSV-format differential analysis outputs, one per row of the contrasts file
+  contrast_stats_assay:
+    kind: option
+    type: string
+    required: true
+    description: contrast statistics
+  gene_sets:
+    kind: input
+    type: path
+    required: true
+    description: 'Optional: GMT-format gene set files used for enrichment, referenced in the app via the
+      shinyngs `--enrichment_gene_sets` argument.'
+  enrichment_results:
+    kind: input
+    type: path
+    required: true
+    description: 'Optional: per-contrast enrichment result tables (e.g.'
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to shinyngs.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  app:
+    type: directory
+    path: ${outdir}/shinyngs_app
+    primary: true

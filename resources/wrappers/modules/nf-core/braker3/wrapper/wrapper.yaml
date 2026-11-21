@@ -1,0 +1,51 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/braker3
+name: braker3
+summary: Gene prediction in novel genomes using RNA-seq and protein homology information
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Genome assembly fasta
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: BAM file of RNA-seq data to be passed to --bam
+  rnaseq_sets_dirs:
+    kind: input
+    type: path
+    required: true
+    description: Directories of RNA-seq data sets to be passed to --rnaseq_sets_dirs
+  rnaseq_sets_ids:
+    kind: input
+    type: path
+    required: true
+    description: IDs of RNA-seq data sets to be passed to --rnaseq_sets_ids
+  proteins:
+    kind: input
+    type: path
+    required: true
+    description: Protein evidence to be passed to --proteins
+  hintsfile:
+    kind: input
+    type: path
+    required: true
+    description: Hintsfile to be passed to --hintsfile
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to braker3.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gtf:
+    type: directory
+    path: ${outdir}/braker3
+    primary: true

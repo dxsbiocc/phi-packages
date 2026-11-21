@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/busco-phylogenomics
+name: busco phylogenomics
+summary: Construct species phylogenies using BUSCO proteins
+params:
+  busco:
+    kind: input
+    type: path
+    required: true
+    description: BUSCO lineage specific output
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to busco.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gene_trees:
+    type: directory
+    path: ${outdir}/busco_phylogenomics
+    primary: true

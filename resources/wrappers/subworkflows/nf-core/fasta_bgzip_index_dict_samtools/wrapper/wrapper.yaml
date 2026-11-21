@@ -1,0 +1,23 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
+id: nf-core/subworkflows/fasta-bgzip-index-dict-samtools
+name: fasta bgzip index dict samtools
+summary: Ensure BGZF compression, index, and produce a sequence size summary and a sequence dictionary
+  for each FASTA file.
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input fasta for ch_fasta.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/fasta_bgzip_index_dict_samtools
+    primary: true

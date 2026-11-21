@@ -1,0 +1,15 @@
+{
+  "vcf": null,
+  "vcf_index": null,
+  "refpanel": null,
+  "genmap": null,
+  "region": null,
+  "n_pcs": 10,
+  "use_approx": false,
+  "algorithm": "kmeans",
+  "n_clusters": 3,
+  "dbscan_eps": 0.5,
+  "dbscan_min_samples": 5,
+  "sample_id": "sample",
+  "outdir": "results"
+}

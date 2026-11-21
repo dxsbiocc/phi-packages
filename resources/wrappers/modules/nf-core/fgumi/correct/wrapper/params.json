@@ -1,0 +1,8 @@
+{
+  "bam": null,
+  "umis": null,
+  "min_distance": null,
+  "keep_rejected": false,
+  "args": "",
+  "outdir": "results"
+}

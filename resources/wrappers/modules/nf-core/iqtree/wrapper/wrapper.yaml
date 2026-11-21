@@ -1,0 +1,99 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'tree' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/iqtree
+name: iqtree
+summary: Produces a Newick format phylogeny from a multiple sequence alignment using the maximum likelihood
+  algorithm.
+params:
+  alignment:
+    kind: input
+    type: path
+    required: true
+    description: One or more input alignment file in PHYLIP, FASTA, NEXUS, CLUSTAL or MSF format or a
+      directory of such files (-s)
+  tree:
+    kind: input
+    type: path
+    required: false
+    description: 'File containing one or multiple phylogenetic trees (-t): - Single tree used e.g.'
+  tree_te:
+    kind: input
+    type: path
+    required: true
+    description: 'File containing single phylogenetic tree (-te) Use cases: - fixed user tree to skip
+      tree search - ancestral sequence reconstruction'
+  lmclust:
+    kind: input
+    type: path
+    required: true
+    description: NEXUS file containing taxon clusters for quartet mapping analysis (-lmclust)
+  mdef:
+    kind: input
+    type: path
+    required: true
+    description: NEXUS model file defining new models (-mdef)
+  partitions_equal:
+    kind: input
+    type: path
+    required: true
+    description: Partition file for edge-equal partition model, all partitions share same set of branch
+      lengths (-q)
+  partitions_proportional:
+    kind: input
+    type: path
+    required: true
+    description: Partition file for edge-equal partition model, all partitions share same set of branch
+      lengths (-spp)
+  partitions_unlinked:
+    kind: input
+    type: path
+    required: true
+    description: Partition file for edge-equal partition model, all partitions share same set of branch
+      lengths (-sp)
+  guide_tree:
+    kind: input
+    type: path
+    required: true
+    description: File containing guide tree for inference of site frequency profiles (-ft)
+  sitefreq_in:
+    kind: input
+    type: path
+    required: true
+    description: Site frequency file (-fs)
+  constraint_tree:
+    kind: input
+    type: path
+    required: true
+    description: File containing opological constraint tree in NEWICK format.
+  trees_z:
+    kind: input
+    type: path
+    required: true
+    description: File containing a set of trees for which log-likelihoods should be computed (-z)
+  suptree:
+    kind: input
+    type: path
+    required: true
+    description: File containing input “target” tree, support values are extracted from trees passed via
+      -t, and mapped onto the target tree (-sup)
+  trees_rf:
+    kind: input
+    type: path
+    required: true
+    description: File containing a second tree set (-rf).
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to iqtree.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  phylogeny:
+    type: directory
+    path: ${outdir}/iqtree
+    primary: true

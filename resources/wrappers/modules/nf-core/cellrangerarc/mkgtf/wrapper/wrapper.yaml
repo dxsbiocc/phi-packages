@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/cellrangerarc-mkgtf
+name: cellrangerarc mkgtf
+summary: Module to build a filtered gtf needed by the 10x Genomics Cell Ranger Arc tool.
+params:
+  gtf:
+    kind: input
+    type: path
+    required: true
+    description: The reference GTF transcriptome file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to cellrangerarc.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  gtf:
+    type: directory
+    path: ${outdir}/cellrangerarc_mkgtf
+    primary: true

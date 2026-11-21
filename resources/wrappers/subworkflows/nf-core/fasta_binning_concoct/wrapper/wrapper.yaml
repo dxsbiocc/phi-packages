@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
+id: nf-core/subworkflows/fasta-binning-concoct
+name: fasta binning concoct
+summary: Runs the CONCOCT workflow of contig binning
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input fasta for ch_fasta.
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Input bam for ch_bam.
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion bai for ch_bam.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/fasta_binning_concoct
+    primary: true

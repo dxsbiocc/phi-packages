@@ -1,0 +1,47 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites; val input 'depth' exposed as required option; confirm whether a safe default exists
+id: nf-core/subworkflows/bam-subsampledepth-samtools
+name: bam subsampledepth samtools
+summary: Subsample a BAM/CRAM/SAM file using samtools to a given mean depth.
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Input bam for ch_bam_bai.
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion bai for ch_bam_bai.
+  depth:
+    kind: option
+    type: string
+    required: true
+    description: Option depth.
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input fasta for ch_fasta.
+  fai:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion fai for ch_fasta.
+  region:
+    kind: input
+    type: path
+    required: true
+    description: Input region for ch_regions.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/bam_subsampledepth_samtools
+    primary: true

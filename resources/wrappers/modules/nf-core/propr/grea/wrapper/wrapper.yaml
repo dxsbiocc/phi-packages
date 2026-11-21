@@ -1,0 +1,27 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/propr-grea
+name: propr grea
+summary: Perform Gene Ratio Enrichment Analysis
+params:
+  adjacency:
+    kind: input
+    type: path
+    required: true
+    description: Adjacency matrix representing the graph connections (ie.
+  gmt:
+    kind: input
+    type: path
+    required: true
+    description: A tab delimited file format that describes gene sets.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/propr_grea
+    primary: true

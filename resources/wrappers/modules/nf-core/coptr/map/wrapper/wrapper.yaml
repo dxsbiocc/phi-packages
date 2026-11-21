@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; glob input 'fasta' collected into one staged list; verify staging layout
+id: nf-core/modules/coptr-map
+name: coptr map
+summary: Maps the reads to the reference database
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: fastq file with reads
+  index:
+    kind: input
+    type: path
+    required: true
+    description: Directory with Bowtie2 genome index files
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to coptr.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  bam:
+    type: directory
+    path: ${outdir}/coptr_map
+    primary: true

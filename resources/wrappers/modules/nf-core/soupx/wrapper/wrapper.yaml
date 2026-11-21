@@ -1,0 +1,37 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'h5ad_raw' combined cartesian-style; verify if per-sample pairing is required; val input 'npcs' exposed as required option; confirm whether a safe default exists; val input 'cluster_algorithm' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/soupx
+name: soupx
+summary: Estimation and removal of cell free mRNA contamination in droplet based single cell RNA-seq data.
+params:
+  h5ad_filtered:
+    kind: input
+    type: path
+    required: true
+    description: filtered H5AD file (after CellRanger filtering)
+  h5ad_raw:
+    kind: input
+    type: path
+    required: false
+    description: raw H5AD file (before CellRanger filtering)
+  npcs:
+    kind: option
+    type: integer
+    required: true
+    description: Number of principal components for Seurat PCA (also controls FindNeighbors dims = 1:npcs).
+  cluster_algorithm:
+    kind: option
+    type: integer
+    required: true
+    description: Seurat FindClusters algorithm identifier passed to `FindClusters(algorithm = ...)`.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  h5ad:
+    type: directory
+    path: ${outdir}/soupx
+    primary: true

@@ -1,0 +1,8 @@
+channels:
+- conda-forge
+- bioconda
+- nodefaults
+dependencies:
+- dram=1.5.0
+- setuptools>=59,<81
+- python>=3.9,<3.11

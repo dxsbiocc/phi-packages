@@ -1,0 +1,34 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'tree' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/hyphy-busted
+name: hyphy busted
+summary: BUSTED (Branch-Site Unrestricted Statistical Test for Episodic Diversification) provides a gene-wide
+  (not site-specific) test for positive selection by asking whether a gene has experienced positive selection
+  at at least one site on at least one branch.
+params:
+  alignment:
+    kind: input
+    type: path
+    required: true
+    description: Aligned sequences in FASTA format.
+  tree:
+    kind: input
+    type: path
+    required: false
+    description: Phylogenetic gene tree in text or xml format
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to hyphy.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  json:
+    type: directory
+    path: ${outdir}/hyphy_busted
+    primary: true

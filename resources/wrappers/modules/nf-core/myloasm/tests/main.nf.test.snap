@@ -1,0 +1,102 @@
+{
+    "homo_sapiens - pacbio - hifi - fastq - stub": {
+        "content": [
+            {
+                "versions_myloasm": [
+                    [
+                        "MYLOASM",
+                        "myloasm",
+                        "0.6.0"
+                    ]
+                ]
+            },
+            {
+                "contigs": [
+                    [
+                        {
+                            "id": "test_stub"
+                        },
+                        "assembly_primary.fa"
+                    ]
+                ],
+                "contigs_alt": [
+                    [
+                        {
+                            "id": "test_stub"
+                        },
+                        "assembly_alternate.fa"
+                    ]
+                ],
+                "contigs_dup": [
+                    [
+                        {
+                            "id": "test_stub"
+                        },
+                        "duplicated_contigs.fa"
+                    ]
+                ],
+                "gfa": [
+                    [
+                        {
+                            "id": "test_stub"
+                        },
+                        "final_contig_graph.gfa"
+                    ]
+                ],
+                "log": [
+                    [
+                        {
+                            "id": "test_stub"
+                        },
+                        "myloasm_1.log"
+                    ]
+                ],
+                "results": [
+                    [
+                        {
+                            "id": "test_stub"
+                        },
+                        "test_stub"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-08-10T09:31:04.53129",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
+    },
+    "homo_sapiens - pacbio - hifi - fastq": {
+        "content": [
+            {
+                "gfa": [
+                    [
+                        {
+                            "id": "test_hifi"
+                        },
+                        "final_contig_graph.gfa:md5,bd796fcc1844533c8d8f3c6999107340"
+                    ]
+                ],
+                "versions_myloasm": [
+                    [
+                        "MYLOASM",
+                        "myloasm",
+                        "0.6.0"
+                    ]
+                ]
+            },
+            true,
+            true,
+            12,
+            true,
+            160,
+            true
+        ],
+        "timestamp": "2026-08-10T09:51:41.737452",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
+    }
+}

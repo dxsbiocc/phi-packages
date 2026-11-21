@@ -1,0 +1,21 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/scds
+name: scds
+summary: Module to use scds for doublet scoring
+params:
+  rds:
+    kind: input
+    type: path
+    required: true
+    description: RDS file containing filtered data (without empty droplets) in SingleCellExperiment format
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  rds:
+    type: directory
+    path: ${outdir}/scds
+    primary: true

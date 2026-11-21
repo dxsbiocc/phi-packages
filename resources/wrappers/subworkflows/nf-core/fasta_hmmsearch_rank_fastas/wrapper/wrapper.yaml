@@ -1,0 +1,35 @@
+# Agent-facing wrapper adapter for the vendored fasta_hmmsearch_rank_fastas subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+id: nf-core/subworkflows/fasta-hmmsearch-rank-fastas
+name: "Rank FASTAs by HMM hits"
+summary: "Search HMM profiles against a FASTA, rank hits and extract matching sequences."
+
+params:
+  hmms:
+    kind: input
+    type: path_glob
+    required: true
+    description: "Glob of HMM profile files."
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: "Single query FASTA file."
+  save_domtblout:
+    kind: option
+    type: boolean
+    required: false
+    description: "Also write the per-domain hit table."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/fasta_hmmsearch_rank_fastas'
+    primary: true

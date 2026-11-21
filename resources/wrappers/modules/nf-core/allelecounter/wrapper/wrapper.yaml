@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'input_index' combined cartesian-style; verify if per-sample pairing is required; standalone path 'fasta' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/allelecounter
+name: allelecounter
+summary: Generates a count of coverage of alleles
+params:
+  input:
+    kind: input
+    type: path
+    required: true
+    description: BAM/CRAM/SAM file
+  input_index:
+    kind: input
+    type: path
+    required: false
+    description: BAM/CRAM/SAM index file
+  loci:
+    kind: input
+    type: path
+    required: true
+    description: loci file <CHR><tab><POS1>
+  fasta:
+    kind: input
+    type: path
+    required: false
+    description: Input genome fasta file.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to allelecounter.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  allelecount:
+    type: directory
+    path: ${outdir}/allelecounter
+    primary: true

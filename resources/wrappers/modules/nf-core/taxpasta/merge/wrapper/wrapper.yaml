@@ -1,0 +1,48 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: val input 'profiler' exposed as required option; confirm whether a safe default exists; val input 'format' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/taxpasta-merge
+name: taxpasta merge
+summary: Standardise and merge two or more taxonomic profiles into a single table
+params:
+  profiles:
+    kind: input
+    type: path
+    required: true
+    description: A list of taxonomic profiler output files (typically in text format, mandatory)
+  profiler:
+    kind: option
+    type: string
+    required: true
+    description: Name of the profiler used to generate the profile (mandatory)
+  format:
+    kind: option
+    type: string
+    required: true
+    description: Type of output file to be generated
+  taxonomy:
+    kind: input
+    type: path
+    required: true
+    description: Directory containing at a minimum nodes.dmp and names.dmp files (optional)
+  samplesheet:
+    kind: input
+    type: path
+    required: true
+    description: A samplesheet describing the sample name and a filepath to a taxonomic abundance profile
+      that needs to be relative from the Nextflow work directory of the executed process.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to taxpasta.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  merged_profiles:
+    type: directory
+    path: ${outdir}/taxpasta_merge
+    primary: true

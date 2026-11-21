@@ -1,0 +1,25 @@
+name: lefse_plot_res
+description: Plot LEfSe LDA effect sizes as a horizontal bar chart.
+keywords:
+- metagenomics
+- visualization
+- biomarker
+tools:
+- lefse:
+    description: 'LEfSe: LDA effect size biomarker discovery.'
+    homepage: https://github.com/SegataLab/lefse
+input:
+- meta:
+    type: map
+    description: Sample meta map
+- res:
+    type: file
+    description: LEfSe .res results file
+output:
+- plot:
+    type: file
+    description: LDA effect size bar plot (PNG)
+authors:
+- '@dengxsh'
+maintainers:
+- '@dengxsh'

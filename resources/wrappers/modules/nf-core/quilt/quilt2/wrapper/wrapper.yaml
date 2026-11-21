@@ -1,0 +1,109 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'bais' combined cartesian-style; verify if per-sample pairing is required; companion input 'bamlist' combined cartesian-style; verify if per-sample pairing is required; companion input 'samplename' combined cartesian-style; verify if per-sample pairing is required; companion input 'reference_vcf_file' combined cartesian-style; verify if per-sample pairing is required; companion input 'reference_vcf_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'posfile' combined cartesian-style; verify if per-sample pairing is required; companion input 'phasefile' combined cartesian-style; verify if per-sample pairing is required; companion input 'genfile' combined cartesian-style; verify if per-sample pairing is required; companion input 'genetic_map' combined cartesian-style; verify if per-sample pairing is required; val input 'chr' exposed as required option; confirm whether a safe default exists; val input 'regions_start' exposed as required option; confirm whether a safe default exists; val input 'regions_end' exposed as required option; confirm whether a safe default exists; val input 'ngen' exposed as required option; confirm whether a safe default exists; val input 'buffer' exposed as required option; confirm whether a safe default exists; companion input 'fasta_fai' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/quilt-quilt2
+name: quilt quilt2
+summary: QUILT2 is an R and C++ program for fast genotype imputation from low-coverage sequence using
+  a large phased reference panel in VCF/BCF format.
+params:
+  bams:
+    kind: input
+    type: path
+    required: true
+    description: (Mandatory) BAM/CRAM files
+  bais:
+    kind: input
+    type: path
+    required: false
+    description: (Mandatory) BAM/CRAM index files
+  bamlist:
+    kind: input
+    type: path
+    required: false
+    description: (Optional) File with list of BAM/CRAM files to impute.
+  samplename:
+    kind: input
+    type: path
+    required: false
+    description: (Optional) File with list of samples names in the same order as in bamlist to impute.
+  reference_vcf_file:
+    kind: input
+    type: path
+    required: false
+    description: (Mandatory) Phased reference panel VCF/BCF file for imputation.
+  reference_vcf_index:
+    kind: input
+    type: path
+    required: false
+    description: (Mandatory) Index for the reference panel VCF file.
+  posfile:
+    kind: input
+    type: path
+    required: false
+    description: (Optional) File with positions of where to impute, lining up one-to-one with genfile.
+  phasefile:
+    kind: input
+    type: path
+    required: false
+    description: (Optional) File with truth phasing results.
+  genfile:
+    kind: input
+    type: path
+    required: false
+    description: (Optional) Path to gen file with high coverage results.
+  genetic_map:
+    kind: input
+    type: path
+    required: false
+    description: (Optional) File with genetic map information, a file with 3 white-space delimited entries
+      giving position (1-based), genetic rate map in cM/Mbp, and genetic map in cM.
+  chr:
+    kind: option
+    type: string
+    required: true
+    description: (Mandatory) What chromosome to run.
+  regions_start:
+    kind: option
+    type: integer
+    required: true
+    description: (Mandatory) When running imputation, where to start from.
+  regions_end:
+    kind: option
+    type: integer
+    required: true
+    description: (Mandatory) When running imputation, where to stop.
+  ngen:
+    kind: option
+    type: integer
+    required: true
+    description: Number of generations since founding or mixing.
+  buffer:
+    kind: option
+    type: integer
+    required: true
+    description: Buffer of region to perform imputation over.
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: (Optional) File with reference genome.
+  fasta_fai:
+    kind: input
+    type: path
+    required: false
+    description: (Optional) File with reference genome index.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to quilt.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcf:
+    type: directory
+    path: ${outdir}/quilt_quilt2
+    primary: true

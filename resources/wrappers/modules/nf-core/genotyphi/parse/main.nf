@@ -1,0 +1,35 @@
+process GENOTYPHI_PARSE {
+    tag "$meta.id"
+    label 'process_low'
+
+    conda "${moduleDir}/environment.yml"
+    container "${ workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container ?
+        'https://depot.galaxyproject.org/singularity/genotyphi:1.9.1--hdfd78af_1':
+        'quay.io/biocontainers/genotyphi:1.9.1--hdfd78af_1' }"
+
+    input:
+    tuple val(meta), path(json)
+
+    output:
+    tuple val(meta), path("*.tsv"), emit: tsv
+    tuple val("${task.process}"), val('genotyphi'), eval("genotyphi --version |& sed 's/^.*GenoTyphi v//'"), emit: versions_genotyphi, topic: versions
+
+    when:
+    task.ext.when == null || task.ext.when
+
+    script:
+    def prefix = task.ext.prefix ?: "${meta.id}"
+
+    """
+    parse_typhi_mykrobe.py \\
+        --jsons $json \\
+        --prefix ${prefix}
+    """
+
+    stub:
+    def prefix = task.ext.prefix ?: "${meta.id}"
+
+    """
+    touch ${prefix}.tsv
+    """
+}

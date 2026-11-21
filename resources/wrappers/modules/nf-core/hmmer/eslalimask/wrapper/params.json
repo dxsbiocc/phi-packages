@@ -1,0 +1,12 @@
+{
+  "unmaskedaln": null,
+  "fmask_rf": false,
+  "fmask_all": false,
+  "gmask_rf": false,
+  "gmask_all": false,
+  "pmask_rf": false,
+  "pmask_all": false,
+  "maskfile": null,
+  "args": "",
+  "outdir": "results"
+}

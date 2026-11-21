@@ -1,0 +1,41 @@
+# Agent-facing wrapper adapter for the vendored fasta_index_dna subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+id: nf-core/subworkflows/fasta-index-dna
+name: "Build DNA aligner index"
+summary: "Build a genome aligner index (bowtie2, bwamem, bwamem2, dragmap or snap)."
+
+params:
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: "Reference genome FASTA."
+  altliftover:
+    kind: input
+    type: path
+    required: false
+    description: "ALT liftover file (only used by snap)."
+  aligner:
+    kind: option
+    type: string
+    required: true
+    enum:
+      - bowtie2
+      - bwamem
+      - bwamem2
+      - dragmap
+      - snap
+    description: "Aligner to build the index for."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/fasta_index_dna'
+    primary: true

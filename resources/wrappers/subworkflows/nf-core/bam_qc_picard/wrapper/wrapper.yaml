@@ -1,0 +1,57 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
+id: nf-core/subworkflows/bam-qc-picard
+name: bam qc picard
+summary: Produces comprehensive statistics from BAM file
+params:
+  bam:
+    kind: input
+    type: path
+    required: true
+    description: Input bam for ch_bam_bai_bait_target.
+  bai:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion bai for ch_bam_bai_bait_target.
+  bait_interval:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion bait_interval for ch_bam_bai_bait_target.
+  target_interval:
+    kind: input
+    type: path
+    required: false
+    description: Optional companion target_interval for ch_bam_bai_bait_target.
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input fasta for ch_fasta.
+  fasta_fai:
+    kind: input
+    type: path
+    required: true
+    description: Input fasta_fai for ch_fasta_fai.
+  fasta_dict:
+    kind: input
+    type: path
+    required: true
+    description: Input fasta_dict for ch_fasta_dict.
+  fasta_gzi:
+    kind: input
+    type: path
+    required: true
+    description: Input fasta_gzi for ch_fasta_gzi.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/bam_qc_picard
+    primary: true

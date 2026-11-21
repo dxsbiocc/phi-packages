@@ -1,0 +1,9 @@
+{
+  "queryfasta": null,
+  "db": null,
+  "idcutoff": null,
+  "outoption": null,
+  "user_columns": null,
+  "args": "",
+  "outdir": "results"
+}

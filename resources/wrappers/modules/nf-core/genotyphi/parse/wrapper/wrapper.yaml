@@ -1,0 +1,21 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/genotyphi-parse
+name: genotyphi parse
+summary: Genotype Salmonella Typhi from Mykrobe results
+params:
+  json:
+    kind: input
+    type: path
+    required: true
+    description: JSON formatted file of Mykrobe results
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  tsv:
+    type: directory
+    path: ${outdir}/genotyphi_parse
+    primary: true

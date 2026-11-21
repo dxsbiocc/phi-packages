@@ -1,0 +1,47 @@
+# Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
+id: nf-core/subworkflows/fasta-build-add-kraken2
+name: fasta build add kraken2
+summary: KRAKEN2 build custom database subworkflow
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: Input fasta for ch_fasta.
+  names_dmp:
+    kind: input
+    type: path
+    required: true
+    description: Input names.dmp for ch_taxonomy_names.
+  nodes_dmp:
+    kind: input
+    type: path
+    required: true
+    description: Input nodes.dmp for ch_taxonomy_nodes.
+  acc2taxidfile:
+    kind: input
+    type: path
+    required: true
+    description: Input acc2taxidfile for ch_accession2taxid.
+  val_cleanintermediate:
+    kind: input
+    type: path
+    required: true
+    description: Input val_cleanintermediate for val_cleanintermediate.
+  seqid2taxidfile:
+    kind: input
+    type: path
+    required: true
+    description: Input seqid2taxidfile for ch_custom_seqid2taxid.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the subworkflow's results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/fasta_build_add_kraken2
+    primary: true

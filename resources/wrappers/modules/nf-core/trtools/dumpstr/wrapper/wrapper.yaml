@@ -1,0 +1,38 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; tuple has no leading val(meta); sample meta synthesized from file name; companion input 'filter_regions_tbi' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/trtools-dumpstr
+name: trtools dumpstr
+summary: DumpSTR filters VCF files with TR genotypes, performing call-level and locus-level filtering,
+  and outputs a filtered VCF file.
+params:
+  vcf:
+    kind: input
+    type: path
+    required: true
+    description: Tandem repeat VCF file
+  filter_regions:
+    kind: input
+    type: path
+    required: true
+    description: bgzip-compressed BED file(s) containing filter regions used by dumpSTR.
+  filter_regions_tbi:
+    kind: input
+    type: path
+    required: false
+    description: Tabix index file(s) for the bgzip-compressed BED filter region file(s).
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to trtools.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  vcf:
+    type: directory
+    path: ${outdir}/trtools_dumpstr
+    primary: true

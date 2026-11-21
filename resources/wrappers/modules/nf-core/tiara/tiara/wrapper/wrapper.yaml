@@ -1,0 +1,26 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/tiara-tiara
+name: tiara tiara
+summary: Domain-level classification of contigs to bacterial, archaeal, eukaryotic, or organelle
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: FASTA file of assembled contigs.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to tiara.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  classifications:
+    type: directory
+    path: ${outdir}/tiara_tiara
+    primary: true

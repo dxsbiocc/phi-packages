@@ -1,0 +1,30 @@
+# Agent-facing wrapper adapter for the vendored faa_seqfu_seqkit subworkflow
+# at ../main.nf. Includes the subworkflow only — never another wrapper;
+# the subworkflow references the already-migrated module directories.
+# Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
+id: nf-core/subworkflows/faa-seqfu-seqkit
+name: "Protein FASTA QC (seqfu/seqkit)"
+summary: "Check and compute statistics on a protein FASTA with seqfu and seqkit."
+
+params:
+  fasta:
+    kind: input
+    type: fasta
+    required: true
+    description: "Protein FASTA file."
+  skip_preprocessing:
+    kind: option
+    type: boolean
+    required: false
+    description: "Skip the preprocessing step."
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: "Output directory for the subworkflow's results."
+
+outputs:
+  results:
+    type: directory
+    path: '${outdir}/faa_seqfu_seqkit'
+    primary: true

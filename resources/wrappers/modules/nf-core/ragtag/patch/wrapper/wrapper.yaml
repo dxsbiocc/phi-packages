@@ -1,0 +1,43 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+id: nf-core/modules/ragtag-patch
+name: ragtag patch
+summary: 'Homology-based assembly patching: Make continuous joins and fill gaps in ''target.fa'' using
+  sequences from ''query.fa'''
+params:
+  target:
+    kind: input
+    type: path
+    required: true
+    description: Target assembly
+  query:
+    kind: input
+    type: path
+    required: true
+    description: Query assembly
+  exclude:
+    kind: input
+    type: path
+    required: true
+    description: list of target sequences to ignore
+  skip:
+    kind: input
+    type: path
+    required: true
+    description: list of query sequences to ignore
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to ragtag.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  patch_fasta:
+    type: directory
+    path: ${outdir}/ragtag_patch
+    primary: true

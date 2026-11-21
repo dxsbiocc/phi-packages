@@ -1,0 +1,38 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: standalone path 'databases' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'gff' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/antismash-antismash
+name: antismash antismash
+summary: antiSMASH allows the rapid genome-wide identification, annotation and analysis of secondary metabolite
+  biosynthesis gene clusters.
+params:
+  sequence_input:
+    kind: input
+    type: path
+    required: true
+    description: Nucleotide sequence file (annotated)
+  databases:
+    kind: input
+    type: path
+    required: false
+    description: Downloaded AntiSMASH databases (e.g.
+  gff:
+    kind: input
+    type: path
+    required: false
+    description: Optional GFF3 file containing premade annotations of the input sequence
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to antismash.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  html_accessory_files:
+    type: directory
+    path: ${outdir}/antismash_antismash
+    primary: true

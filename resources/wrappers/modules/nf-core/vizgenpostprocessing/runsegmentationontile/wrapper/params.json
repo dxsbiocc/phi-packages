@@ -1,0 +1,9 @@
+{
+  "input_images": null,
+  "segmentation_params": null,
+  "tile_index": null,
+  "algorithm_json": null,
+  "custom_weights": null,
+  "args": "",
+  "outdir": "results"
+}

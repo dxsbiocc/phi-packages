@@ -1,0 +1,49 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'input_hto_csv_file' combined cartesian-style; verify if per-sample pairing is required; val input 'generate_gender_plot' exposed as required option; confirm whether a safe default exists; val input 'genome' exposed as required option; confirm whether a safe default exists; val input 'generate_diagnostic_plots' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/demuxem
+name: demuxem
+summary: Demultiplexing cell nucleus hashing data, using the estimated antibody background probability.
+params:
+  input_raw_gene_bc_matrices_h5:
+    kind: input
+    type: path
+    required: true
+    description: 'Path to file containing input raw RNA expression matrix in 10x hdf5 format pattern:
+      "*.{h5}"'
+  input_hto_csv_file:
+    kind: input
+    type: path
+    required: false
+    description: Path to file containing input HTO (antibody tag) count matrix in CSV format.
+  generate_gender_plot:
+    kind: option
+    type: string
+    required: true
+    description: Generate violin plots using gender-specific genes (e.g.
+  genome:
+    kind: option
+    type: string
+    required: true
+    description: Reference genome name.
+  generate_diagnostic_plots:
+    kind: option
+    type: string
+    required: true
+    description: Generate diagnostic plots, including the background/signal between HTO counts, estimated
+      background probabilities, HTO distributions.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to demuxem.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  zarr:
+    type: directory
+    path: ${outdir}/demuxem
+    primary: true

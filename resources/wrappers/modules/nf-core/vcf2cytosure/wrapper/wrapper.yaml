@@ -1,0 +1,48 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; standalone path 'blacklist_bed' treated as single reference (.first()); verify if a list/collection is expected
+id: nf-core/modules/vcf2cytosure
+name: vcf2cytosure
+summary: Convert VCF with structural variations to CytoSure format
+params:
+  sv_vcf:
+    kind: input
+    type: path
+    required: true
+    description: VCF file with structural variants
+  coverage_bed:
+    kind: input
+    type: path
+    required: true
+    description: Bed file with coverage data
+  cns:
+    kind: input
+    type: path
+    required: true
+    description: CN file from CNVkit, not compatible with coverage_bed file
+  snv_vcf:
+    kind: input
+    type: path
+    required: true
+    description: 'VCF file with SNVs to calculate probe coverage, not compatible with coverage_bed pattern:
+      "*.{vcf,vcf.gz}"'
+  blacklist_bed:
+    kind: input
+    type: path
+    required: false
+    description: Bed file with regions to exclude
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to vcf2cytosure.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  cgh:
+    type: directory
+    path: ${outdir}/vcf2cytosure
+    primary: true

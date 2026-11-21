@@ -1,0 +1,50 @@
+# Agent-facing wrapper for the local virsorter2 module at ../main.nf,
+# ported from the Snakemake Workflow project (no nf-core equivalent).
+# Follows docs/design/phi-wrapper-agent-composition-design.md section 3.
+id: local/modules/virsorter2
+name: VirSorter2
+summary: Detect and classify viral contigs with VirSorter2 (produces for-dramv inputs for DRAM-v).
+params:
+  contigs:
+    kind: input
+    type: file
+    required: true
+    description: Assembly contigs FASTA.
+  db_dir:
+    kind: input
+    type: path
+    required: false
+    description: VirSorter2 database directory; set up automatically on first use.
+  mode:
+    kind: option
+    type: string
+    required: false
+    description: Run mode.
+    enum:
+    - all
+    - classify
+  include_groups:
+    kind: option
+    type: string
+    required: false
+    description: Comma-separated viral groups to include (e.g. dsDNAphage,ssDNA).
+  min_length:
+    kind: option
+    type: integer
+    required: false
+    description: Minimum contig length.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to the tool.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the results.
+outputs:
+  output:
+    type: directory
+    path: ${outdir}/virsorter2
+    primary: true

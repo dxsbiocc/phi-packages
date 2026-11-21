@@ -1,0 +1,42 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'snp_mutation_frequency' exposed as required option; confirm whether a safe default exists; val input 'sim_reads' exposed as required option; confirm whether a safe default exists
+id: nf-core/modules/survivor-simsv
+name: survivor simsv
+summary: Simulate an SV VCF file based on a reference genome
+params:
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: The reference genome
+  fai:
+    kind: input
+    type: path
+    required: true
+    description: The index of the reference genome
+  parameters:
+    kind: input
+    type: path
+    required: true
+    description: A text file containing the parameters to be used for the simulation.
+  snp_mutation_frequency:
+    kind: option
+    type: number
+    required: true
+    description: The SNP mutation frequency in the output VCF (0-1)
+  sim_reads:
+    kind: option
+    type: integer
+    required: true
+    description: Whether or not to simulate reads (1==yes, else no)
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  parameters:
+    type: directory
+    path: ${outdir}/survivor_simsv
+    primary: true

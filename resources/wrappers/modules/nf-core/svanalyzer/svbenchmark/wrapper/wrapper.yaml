@@ -1,0 +1,58 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'test_tbi' combined cartesian-style; verify if per-sample pairing is required; companion input 'truth' combined cartesian-style; verify if per-sample pairing is required; companion input 'truth_tbi' combined cartesian-style; verify if per-sample pairing is required; companion input 'bed' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/svanalyzer-svbenchmark
+name: svanalyzer svbenchmark
+summary: SVbenchmark compares a set of “test” structural variants in VCF format to a known truth set (also
+  in VCF format) and outputs estimates of sensitivity and specificity.
+params:
+  test:
+    kind: input
+    type: path
+    required: true
+    description: A VCF-formatted file of structural variants to test (required)
+  test_tbi:
+    kind: input
+    type: path
+    required: false
+    description: A VCF-formatted file index of structural variants to test only for zipped files
+  truth:
+    kind: input
+    type: path
+    required: false
+    description: A VCF-formatted file of variants to compare against (required)
+  truth_tbi:
+    kind: input
+    type: path
+    required: false
+    description: A VCF-formatted file of variants to compare against only for zipped files
+  bed:
+    kind: input
+    type: path
+    required: false
+    description: BED File of regions from which to include variants.
+  fasta:
+    kind: input
+    type: path
+    required: true
+    description: The reference FASTA file for the supplied VCF file or files (required)
+  fai:
+    kind: input
+    type: path
+    required: true
+    description: The reference FASTA index file
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to svanalyzer.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  fns:
+    type: directory
+    path: ${outdir}/svanalyzer_svbenchmark
+    primary: true

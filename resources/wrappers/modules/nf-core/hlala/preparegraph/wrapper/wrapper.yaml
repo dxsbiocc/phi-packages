@@ -1,0 +1,21 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+id: nf-core/modules/hlala-preparegraph
+name: hlala preparegraph
+summary: Pre-compute the graph index structure.
+params:
+  graph:
+    kind: input
+    type: path
+    required: true
+    description: PRG graph directory
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  graph:
+    type: directory
+    path: ${outdir}/hlala_preparegraph
+    primary: true

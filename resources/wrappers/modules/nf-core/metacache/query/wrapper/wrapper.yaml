@@ -1,0 +1,38 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: glob input 'db' collected into one staged list; verify staging layout
+id: nf-core/modules/metacache-query
+name: metacache query
+summary: Metacache query command for taxonomic classification
+params:
+  reads:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: FASTA or FASTQ files
+  db:
+    kind: input
+    type: path
+    required: true
+    description: A MetaCache database contains taxonomic information and min-hash signatures of reference
+      sequences (complete genomes, scaffolds, contigs, ...).
+  do_abundances:
+    kind: option
+    type: boolean
+    required: false
+    description: Flag indicating whether to produce the abundance table.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to metacache.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  mapping_results:
+    type: directory
+    path: ${outdir}/metacache_query
+    primary: true

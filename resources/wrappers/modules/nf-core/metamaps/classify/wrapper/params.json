@@ -1,0 +1,9 @@
+{
+  "classification_res": null,
+  "meta_file": null,
+  "meta_unmappedreads_lengths": null,
+  "para_file": null,
+  "database_folder": null,
+  "args": "",
+  "outdir": "results"
+}

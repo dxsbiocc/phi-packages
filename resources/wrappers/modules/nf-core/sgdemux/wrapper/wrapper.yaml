@@ -1,0 +1,33 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# REVIEW: companion input 'fastqs_dir' combined cartesian-style; verify if per-sample pairing is required
+id: nf-core/modules/sgdemux
+name: sgdemux
+summary: Demultiplex bgzip'd fastq files
+params:
+  sample_sheet:
+    kind: input
+    type: path
+    required: true
+    description: sample_sheet file (either a Singular Genomics sample sheet, or a two column csv with
+      Sample_Barcode and Sample_ID)
+  fastqs_dir:
+    kind: input
+    type: path
+    required: false
+    description: Input directory containing bgzipped (not gzip) FASTQ files
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to sgdemux.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  sample_fastq:
+    type: directory
+    path: ${outdir}/sgdemux
+    primary: true
