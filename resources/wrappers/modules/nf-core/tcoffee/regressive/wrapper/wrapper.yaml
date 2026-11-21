@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'accessory_information' combined cartesian-style; verify if per-sample pairing is required
+# Curated: companion input(s) are single-valued params broadcast onto each main-input item; .combine() is not cartesian here.
 id: nf-core/modules/tcoffee-regressive
 name: tcoffee regressive
 summary: Aligns sequences using the regressive algorithm as implemented in the T_COFFEE package

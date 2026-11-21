@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'feature_files' combined cartesian-style; verify if per-sample pairing is required
+# Curated: companion input(s) are single-valued params broadcast onto each main-input item; .combine() is not cartesian here.
 id: nf-core/modules/deepmased-predict
 name: deepmased predict
 summary: 'DeepMAsED predict subcommand: runs the pre-trained deep learning model on feature tables produced

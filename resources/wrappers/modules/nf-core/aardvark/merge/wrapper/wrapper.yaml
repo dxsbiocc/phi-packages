@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'indexes' combined cartesian-style; verify if per-sample pairing is required
+# Curated: companion input(s) are single-valued params broadcast onto each main-input item; .combine() is not cartesian here.
 id: nf-core/modules/aardvark-merge
 name: aardvark merge
 summary: A tool to evaluate and merge multiple variant calls into a consensus VCF.

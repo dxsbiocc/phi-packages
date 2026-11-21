@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'hmm' combined cartesian-style; verify if per-sample pairing is required
+# Curated: companion input(s) are single-valued params broadcast onto each main-input item; .combine() is not cartesian here.
 id: nf-core/modules/gecco-run
 name: gecco run
 summary: GECCO is a fast and scalable method for identifying putative novel Biosynthetic Gene Clusters

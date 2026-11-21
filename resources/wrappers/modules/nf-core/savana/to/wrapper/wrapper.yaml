@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'tumour_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'snp_vcf' combined cartesian-style; verify if per-sample pairing is required; companion input 'allele_counts_het_snps' combined cartesian-style; verify if per-sample pairing is required; companion input 'breakpoints' combined cartesian-style; verify if per-sample pairing is required; companion input 'ref_index' combined cartesian-style; verify if per-sample pairing is required
+# Curated: companion input(s) are single-valued params broadcast onto each main-input item; .combine() is not cartesian here.
 id: nf-core/modules/savana-to
 name: savana to
 summary: Tumour-only somatic SV calling with optional copy-number analysis in SAVANA

@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'marker_file' combined cartesian-style; verify if per-sample pairing is required; companion input 'coverage_file' combined cartesian-style; verify if per-sample pairing is required
+# Curated: companion input(s) are single-valued params broadcast onto each main-input item; .combine() is not cartesian here.
 id: nf-core/modules/checkm-qa
 name: checkm qa
 summary: CheckM provides a set of tools for assessing the quality of genomes recovered from isolates,

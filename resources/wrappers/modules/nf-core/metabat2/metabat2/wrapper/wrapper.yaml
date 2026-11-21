@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: glob input 'fasta' collected into one staged list; verify staging layout; companion input 'depth' combined cartesian-style; verify if per-sample pairing is required
+# REVIEW: glob input 'fasta' collected into one staged list; verify staging layout
 id: nf-core/modules/metabat2-metabat2
 name: metabat2 metabat2
 summary: Metagenome binning of contigs

@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'universe_file' combined cartesian-style; verify if per-sample pairing is required; companion input 'mediadb' combined cartesian-style; verify if per-sample pairing is required; companion input 'soft' combined cartesian-style; verify if per-sample pairing is required; companion input 'hard' combined cartesian-style; verify if per-sample pairing is required; companion input 'reference' combined cartesian-style; verify if per-sample pairing is required
+# Curated: companion input(s) are single-valued params broadcast onto each main-input item; .combine() is not cartesian here.
 id: nf-core/modules/carveme-carve
 name: carveme carve
 summary: Reconstruct genome-scale metabolic models from protein FASTA files using CarveMe

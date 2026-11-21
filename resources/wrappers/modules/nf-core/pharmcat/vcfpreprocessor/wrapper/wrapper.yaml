@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'vcf_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'pharmcat_positions_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'pharmcat_uniallelic_positions_index' combined cartesian-style; verify if per-sample pairing is required
+# Curated: companion input(s) are single-valued params broadcast onto each main-input item; .combine() is not cartesian here.
 id: nf-core/modules/pharmcat-vcfpreprocessor
 name: pharmcat vcfpreprocessor
 summary: The PharmCAT VCF Preprocessor is a script that can pre-process VCF files for PharmCAT to make

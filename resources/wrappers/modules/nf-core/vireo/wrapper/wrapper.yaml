@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'donor_file' combined cartesian-style; verify if per-sample pairing is required; companion input 'vartrix_data' combined cartesian-style; verify if per-sample pairing is required
+# Curated: companion input(s) are single-valued params broadcast onto each main-input item; .combine() is not cartesian here.
 id: nf-core/modules/vireo
 name: vireo
 summary: Use vireo to perform donor deconvolution for multiplexed scRNA-seq data

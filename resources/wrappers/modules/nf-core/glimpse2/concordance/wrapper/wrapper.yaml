@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'estimate_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'truth' combined cartesian-style; verify if per-sample pairing is required; companion input 'truth_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'freq' combined cartesian-style; verify if per-sample pairing is required; companion input 'freq_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'samples' combined cartesian-style; verify if per-sample pairing is required
+# Curated: companion input(s) are single-valued params broadcast onto each main-input item; .combine() is not cartesian here.
 id: nf-core/modules/glimpse2-concordance
 name: glimpse2 concordance
 summary: Program to compute the genotyping error rate at the sample or marker level.

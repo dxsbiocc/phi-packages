@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: glob input 'xenium_bundle' collected into one staged list; verify staging layout; companion input 'transcript_assignment' combined cartesian-style; verify if per-sample pairing is required; companion input 'viz_polygons' combined cartesian-style; verify if per-sample pairing is required; companion input 'nuclei' combined cartesian-style; verify if per-sample pairing is required; companion input 'cells' combined cartesian-style; verify if per-sample pairing is required; companion input 'coordinate_transform' combined cartesian-style; verify if per-sample pairing is required
+# REVIEW: glob input 'xenium_bundle' collected into one staged list; verify staging layout
 id: nf-core/modules/xeniumranger-importsegmentation
 name: xeniumranger importsegmentation
 summary: The xeniumranger importsegmentation module runs `xeniumranger import-segmentation` to recompute

@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'bais' combined cartesian-style; verify if per-sample pairing is required; companion input 'bamlist' combined cartesian-style; verify if per-sample pairing is required; companion input 'samplename' combined cartesian-style; verify if per-sample pairing is required; companion input 'reference_vcf_file' combined cartesian-style; verify if per-sample pairing is required; companion input 'reference_vcf_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'posfile' combined cartesian-style; verify if per-sample pairing is required; companion input 'phasefile' combined cartesian-style; verify if per-sample pairing is required; companion input 'genfile' combined cartesian-style; verify if per-sample pairing is required; companion input 'genetic_map' combined cartesian-style; verify if per-sample pairing is required; companion input 'fasta_fai' combined cartesian-style; verify if per-sample pairing is required
+# Curated: companion input(s) are single-valued params broadcast onto each main-input item; .combine() is not cartesian here.
 id: nf-core/modules/quilt-quilt2
 name: quilt quilt2
 summary: QUILT2 is an R and C++ program for fast genotype imputation from low-coverage sequence using

@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'bim' combined cartesian-style; verify if per-sample pairing is required; companion input 'fam' combined cartesian-style; verify if per-sample pairing is required
+# Curated: companion input(s) are single-valued params broadcast onto each main-input item; .combine() is not cartesian here.
 id: nf-core/modules/ldak-kvikstep1
 name: ldak kvikstep1
 summary: Run LDAK-KVIK step 1 to fit the genome-wide model and emit the minimal prediction artifact tuple

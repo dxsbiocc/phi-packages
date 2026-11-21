@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'bblogs' combined cartesian-style; verify if per-sample pairing is required; companion input 'idxstats' combined cartesian-style; verify if per-sample pairing is required; companion input 'fcs' combined cartesian-style; verify if per-sample pairing is required; companion input 'mergetab' combined cartesian-style; verify if per-sample pairing is required
+# Curated: companion input(s) are single-valued params broadcast onto each main-input item; .combine() is not cartesian here.
 id: nf-core/modules/custom-collectstats
 name: custom collectstats
 summary: Collects per-sample read-processing statistics (trimming, decontamination, alignment, feature

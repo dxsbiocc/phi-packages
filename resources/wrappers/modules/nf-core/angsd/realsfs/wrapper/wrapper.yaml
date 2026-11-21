@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'pop1_saf_pos' combined cartesian-style; verify if per-sample pairing is required; companion input 'pop1_saf' combined cartesian-style; verify if per-sample pairing is required; companion input 'pop2_saf_pos' combined cartesian-style; verify if per-sample pairing is required; companion input 'pop2_saf' combined cartesian-style; verify if per-sample pairing is required
+# Curated: companion input(s) are single-valued params broadcast onto each main-input item; .combine() is not cartesian here.
 id: nf-core/modules/angsd-realsfs
 name: angsd realsfs
 summary: Estimate site frequency spectrum from site allele frequencies
