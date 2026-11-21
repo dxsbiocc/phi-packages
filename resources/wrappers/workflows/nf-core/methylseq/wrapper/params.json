@@ -1,0 +1,9 @@
+{
+  "outdir": "results",
+  "config_profile_name": "Test profile",
+  "config_profile_description": "Minimal test dataset to check pipeline function",
+  "input": "assets/samplesheet.csv",
+  "fasta": null,
+  "genome": null,
+  "aligner": "bismark"
+}
