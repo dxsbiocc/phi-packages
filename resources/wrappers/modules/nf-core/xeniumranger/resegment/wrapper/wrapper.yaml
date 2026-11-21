@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: glob input 'xenium_bundle' collected into one staged list; verify staging layout
+# Curated: glob input is collected into one staged file list, matching the module's declared path(...) input (stageAs directory or glob pattern).
 id: nf-core/modules/xeniumranger-resegment
 name: xeniumranger resegment
 summary: The xeniumranger resegment module allows you to generate a new segmentation of the morphology

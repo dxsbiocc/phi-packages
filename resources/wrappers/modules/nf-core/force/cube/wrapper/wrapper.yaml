@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: glob input 'mask' collected into one staged list; verify staging layout
+# Curated: module expects exactly one datacube-definition.prj; the wrapper collects the mask param, so pass that single file (a multi-file glob would collide at staging).
 id: nf-core/modules/force-cube
 name: force cube
 summary: Generate processing masks for a give datacube definition and area of interest.

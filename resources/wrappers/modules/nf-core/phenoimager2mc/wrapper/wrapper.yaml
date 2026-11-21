@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: glob input 'tiles' collected into one staged list; verify staging layout
+# Curated: glob input is collected into one staged file list, matching the module's declared path(...) input (stageAs directory or glob pattern).
 id: nf-core/modules/phenoimager2mc
 name: phenoimager2mc
 summary: Formatting PhenoImager TIFF output files into stacked and normalized OME-TIFF files per cycle,
