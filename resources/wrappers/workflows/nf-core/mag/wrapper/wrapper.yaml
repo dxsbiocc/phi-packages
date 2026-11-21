@@ -1,0 +1,239 @@
+# Agent-facing wrapper adapter for the vendored nf-core/mag pipeline at ../.
+# Follows docs/contracts/wrapper.md. Params curated from nextflow_schema.json
+# (assembly, binning, bin quality, taxonomy, gene prediction, virus options);
+# defaults live in params.json. dRep/CoverM are not part of mag — run them as
+# separate module wrappers after this pipeline.
+id: nf-core/workflows/mag
+name: nf-core/mag
+summary: Assembly, binning and annotation of metagenomes
+params:
+  input:
+    kind: input
+    type: csv
+    required: true
+    description: CSV samplesheet file containing information about the samples in the experiment.
+  assembly_input:
+    kind: input
+    type: csv
+    required: false
+    description: Additional CSV samplesheet with pre-computed assemblies to skip the assembly step for those samples.
+  single_end:
+    kind: option
+    type: boolean
+    required: false
+    description: Specifies that the input short reads are single-end.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for all pipeline results.
+  config_profile_name:
+    kind: option
+    type: string
+    required: false
+    description: Institutional config name.
+  config_profile_description:
+    kind: option
+    type: string
+    required: false
+    description: Institutional config description.
+  skip_clipping:
+    kind: option
+    type: boolean
+    required: false
+    description: Skip read preprocessing (adapter clipping and quality trimming) with fastp.
+  host_genome:
+    kind: option
+    type: string
+    required: false
+    description: Name of a built-in host genome reference (e.g. human, mouse) for host-read removal with Bowtie2.
+  host_fasta:
+    kind: input
+    type: fasta
+    required: false
+    description: FASTA of a custom host genome for host-read removal; use instead of host_genome.
+  bbnorm:
+    kind: option
+    type: boolean
+    required: false
+    description: Enable digital normalization of short reads with BBNorm before assembly (reduces memory for deep data).
+  skip_megahit:
+    kind: option
+    type: boolean
+    required: false
+    description: Skip MEGAHIT assembly.
+  skip_spades:
+    kind: option
+    type: boolean
+    required: false
+    description: Skip metaSPAdes assembly.
+  skip_spadeshybrid:
+    kind: option
+    type: boolean
+    required: false
+    description: Skip hybrid metaSPAdes assembly (short + long reads).
+  skip_quast:
+    kind: option
+    type: boolean
+    required: false
+    description: Skip QUAST assembly quality evaluation.
+  coassemble_group:
+    kind: option
+    type: boolean
+    required: false
+    description: Co-assemble samples within one group instead of assembling each sample separately. Only pool related samples.
+  megahit_options:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line options passed to MEGAHIT (quoted string).
+  spades_options:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line options passed to metaSPAdes (quoted string).
+  skip_metabat2:
+    kind: option
+    type: boolean
+    required: false
+    description: Skip MetaBAT2 binning.
+  skip_maxbin2:
+    kind: option
+    type: boolean
+    required: false
+    description: Skip MaxBin2 binning.
+  skip_concoct:
+    kind: option
+    type: boolean
+    required: false
+    description: Skip CONCOCT binning.
+  skip_comebin:
+    kind: option
+    type: boolean
+    required: false
+    description: Skip COMEBin binning.
+  skip_metabinner:
+    kind: option
+    type: boolean
+    required: false
+    description: Skip MetaBinner binning.
+  skip_semibin:
+    kind: option
+    type: boolean
+    required: false
+    description: Skip SemiBin binning.
+  min_contig_size:
+    kind: option
+    type: integer
+    minimum: 0
+    required: false
+    description: Minimum contig size (bp) considered for binning; smaller contigs carry noisy coverage/composition signal.
+  binning_map_mode:
+    kind: option
+    type: string
+    enum: [all, group, own]
+    required: false
+    description: Which samples' reads are mapped back to an assembly for coverage-based binning (all, group, or own sample).
+  skip_binqc:
+    kind: option
+    type: boolean
+    required: false
+    description: Skip all bin quality control (BUSCO, CheckM, CheckM2, GUNC).
+  run_busco:
+    kind: option
+    type: boolean
+    required: false
+    description: Run BUSCO completeness/contamination assessment on bins.
+  busco_db_lineage:
+    kind: option
+    type: string
+    required: false
+    description: BUSCO *_odb10 or *_odb12 lineage to check against; also 'auto', 'auto_prok' and 'auto_euk' for automatic selection.
+  run_checkm:
+    kind: option
+    type: boolean
+    required: false
+    description: Run CheckM (lineage-specific marker sets) on bins; downloads the CheckM reference database.
+  run_checkm2:
+    kind: option
+    type: boolean
+    required: false
+    description: Run CheckM2 (machine-learning models) on bins; downloads the CheckM2 database.
+  run_gunc:
+    kind: option
+    type: boolean
+    required: false
+    description: Run GUNC chimerism detection on bins.
+  refine_bins_dastool:
+    kind: option
+    type: boolean
+    required: false
+    description: Refine bins from multiple binners with DAS Tool.
+  refine_bins_dastool_threshold:
+    kind: option
+    type: number
+    minimum: 0
+    maximum: 1
+    required: false
+    description: DAS Tool score threshold for bin refinement.
+  postbinning_input:
+    kind: option
+    type: string
+    enum: [raw_bins_only, refined_bins_only, both]
+    required: false
+    description: Which bin set (raw, DAS Tool-refined, or both) feeds downstream quality/taxonomy steps.
+  skip_gtdbtk:
+    kind: option
+    type: boolean
+    required: false
+    description: Skip GTDB-Tk taxonomic classification of bins.
+  gtdb_db:
+    kind: option
+    type: string
+    required: false
+    description: GTDB-Tk reference database URL or local path (~80+ GB; confirm disk space and download consent before running).
+  gtdbtk_min_completeness:
+    kind: option
+    type: number
+    minimum: 0
+    maximum: 100
+    required: false
+    description: Minimum bin completeness (%) for GTDB-Tk classification.
+  gtdbtk_max_contamination:
+    kind: option
+    type: number
+    minimum: 0
+    required: false
+    description: Maximum bin contamination (%) for GTDB-Tk classification.
+  skip_prodigal:
+    kind: option
+    type: boolean
+    required: false
+    description: Skip Prodigal gene prediction on bins.
+  skip_prokka:
+    kind: option
+    type: boolean
+    required: false
+    description: Skip Prokka gene annotation on bins.
+  run_virus_identification:
+    kind: option
+    type: boolean
+    required: false
+    description: Run geNomad virus identification on assemblies; requires genomad_db.
+  genomad_db:
+    kind: option
+    type: string
+    required: false
+    description: geNomad database URL or local path (several GB).
+  genomad_min_score:
+    kind: option
+    type: number
+    minimum: 0
+    maximum: 1
+    required: false
+    description: Minimum geNomad virus score to keep a sequence.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}
+    primary: true

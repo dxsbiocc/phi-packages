@@ -1,0 +1,14 @@
+{
+  "input": null,
+  "outdir": "results",
+  "min_contig_size": 1500,
+  "binning_map_mode": "group",
+  "run_busco": true,
+  "busco_db_lineage": "auto",
+  "refine_bins_dastool_threshold": 0.5,
+  "postbinning_input": "raw_bins_only",
+  "gtdb_db": "https://data.gtdb.aau.ecogenomic.org/releases/release232/232.0/auxillary_files/gtdbtk_package/full_package/gtdbtk_r232_data.tar.gz",
+  "gtdbtk_min_completeness": 50.0,
+  "gtdbtk_max_contamination": 10.0,
+  "genomad_min_score": 0.7
+}
