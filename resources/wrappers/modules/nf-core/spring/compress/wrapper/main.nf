@@ -7,15 +7,18 @@ nextflow.enable.dsl = 2
 include { SPRING_COMPRESS } from '../main.nf'
 
 params.fastq1 = null
-params.fastq2 = null
 params.args = ""
 params.outdir = "results"
 
 workflow {
-    fastq1_ch = Channel
+    // fastq1 is a glob over both mates; fromFilePairs groups them per sample, then
+    // the pair is split into the module's path(fastq1)/path(fastq2) elements.
+    fastq_ch = Channel
         .fromFilePairs(params.fastq1, size: -1)
-        .map { sample, reads -> [[id: sample, single_end: reads instanceof List ? reads.size() == 1 : true], reads] }
-    fastq2_ch = params.fastq2 ? Channel.fromPath(params.fastq2, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
+        .map { sample, reads ->
+            def files = reads instanceof List ? reads : [reads]
+            [[id: sample, single_end: files.size() == 1], files[0], files.size() > 1 ? files[1] : []]
+        }
 
-    SPRING_COMPRESS(fastq1_ch.combine(fastq2_ch))
+    SPRING_COMPRESS(fastq_ch)
 }

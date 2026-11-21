@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'fastq2' combined cartesian-style; verify if per-sample pairing is required
+# Curated: mates paired per sample from a single fastq glob (fromFilePairs) and split into the module's path(fastq1)/path(fastq2).
 id: nf-core/modules/spring-compress
 name: spring compress
 summary: Fast, efficient, lossless compression of FASTQ files.
@@ -9,12 +9,8 @@ params:
     kind: input
     type: fastq_glob
     required: true
-    description: FASTQ file to compress.
-  fastq2:
-    kind: input
-    type: path
-    required: false
-    description: Parired FASTQ file fon non single-end experiments.
+    description: Glob matching both mates. Mates are paired per sample by file name and split into
+      the module's fastq1/fastq2 inputs; single files run single-end.
   args:
     kind: option
     type: string

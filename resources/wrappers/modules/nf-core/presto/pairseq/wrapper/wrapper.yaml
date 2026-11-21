@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'r2_read' combined cartesian-style; verify if per-sample pairing is required; val input 'barcode_position' exposed as required option; confirm whether a safe default exists
+# REVIEW: val input 'barcode_position' exposed as required option; confirm whether a safe default exists
 id: nf-core/modules/presto-pairseq
 name: presto pairseq
 summary: Sorts and matches sequence records with matching coordinates across files
@@ -9,12 +9,8 @@ params:
     kind: input
     type: fastq_glob
     required: true
-    description: Compressed FASTQ file of R1.
-  r2_read:
-    kind: input
-    type: path
-    required: false
-    description: Compressed FASTQ file of R2.
+    description: Glob matching both R1 and R2 reads. Mates are paired per sample by file name and
+      split into the module's R1_read/R2_read inputs.
   barcode_position:
     kind: option
     type: string

@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'reads2' combined cartesian-style; verify if per-sample pairing is required
+# Curated: mates paired per sample from a single reads glob (fromFilePairs) and split into the module's path(reads1)/path(reads2).
 id: nf-core/modules/megahit
 name: megahit
 summary: An ultra-fast metagenomic assembler for large and complex metagenomics
@@ -9,14 +9,8 @@ params:
     kind: input
     type: fastq_glob
     required: true
-    description: A single or list of input FastQ files for single-end or R1 of paired-end library(s),
-      respectively in gzipped or uncompressed FASTQ or FASTA format.
-  reads2:
-    kind: input
-    type: path
-    required: false
-    description: A single or list of input FastQ files for R2 of paired-end library(s), respectively in
-      gzipped or uncompressed FASTQ or FASTA format.
+    description: Glob matching all input FASTQ/FASTA reads (both R1 and R2). Mates are paired per
+      sample by file name and split into the module's reads1/reads2 inputs; single files run single-end.
   args:
     kind: option
     type: string

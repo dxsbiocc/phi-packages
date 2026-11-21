@@ -7,16 +7,19 @@ nextflow.enable.dsl = 2
 include { PRESTO_PAIRSEQ } from '../main.nf'
 
 params.r1_read = null
-params.r2_read = null
 params.barcode_position = null
 params.args = ""
 params.outdir = "results"
 
 workflow {
-    r1_read_ch = Channel
+    // r1_read is a glob over both R1 and R2 reads; fromFilePairs groups the mates
+    // of each sample, then the pair is split into the module's path(R1_read)/path(R2_read).
+    reads_ch = Channel
         .fromFilePairs(params.r1_read, size: -1)
-        .map { sample, reads -> [[id: sample, single_end: reads instanceof List ? reads.size() == 1 : true], reads] }
-    r2_read_ch = params.r2_read ? Channel.fromPath(params.r2_read, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
+        .map { sample, reads ->
+            def files = reads instanceof List ? reads : [reads]
+            [[id: sample], files[0], files.size() > 1 ? files[1] : []]
+        }
 
-    PRESTO_PAIRSEQ(r1_read_ch.combine(r2_read_ch), params.barcode_position)
+    PRESTO_PAIRSEQ(reads_ch, params.barcode_position)
 }

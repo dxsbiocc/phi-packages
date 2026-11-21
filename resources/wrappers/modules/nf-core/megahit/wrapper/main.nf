@@ -7,15 +7,19 @@ nextflow.enable.dsl = 2
 include { MEGAHIT } from '../main.nf'
 
 params.reads1 = null
-params.reads2 = null
 params.args = ""
 params.outdir = "results"
 
 workflow {
-    reads1_ch = Channel
+    // reads1 is a glob over all input reads (R1 and R2); fromFilePairs groups the
+    // mates of each sample, then the pair is split into the module's separate
+    // path(reads1)/path(reads2) elements. Single-file samples run single-end.
+    reads_ch = Channel
         .fromFilePairs(params.reads1, size: -1)
-        .map { sample, reads -> [[id: sample, single_end: reads instanceof List ? reads.size() == 1 : true], reads] }
-    reads2_ch = params.reads2 ? Channel.fromPath(params.reads2, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
+        .map { sample, reads ->
+            def files = reads instanceof List ? reads : [reads]
+            [[id: sample, single_end: files.size() == 1], files[0], files.size() > 1 ? files[1] : []]
+        }
 
-    MEGAHIT(reads1_ch.combine(reads2_ch))
+    MEGAHIT(reads_ch)
 }
