@@ -1,6 +1,6 @@
 {
   "vcfs": null,
-  "vcf_indexes": null,
+  "group_id": "sample",
   "common_meta": "id",
   "sort": false,
   "outdir": "results"

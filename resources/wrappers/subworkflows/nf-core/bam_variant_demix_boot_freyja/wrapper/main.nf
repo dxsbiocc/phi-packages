@@ -22,9 +22,9 @@ workflow {
         .fromPath(params.bam, checkIfExists: true)
         .map { f -> [[id: f.simpleName], f] }
     fasta_ch = Channel.value(file(params.fasta, checkIfExists: true))
-    barcodes_ch = params.barcodes ? Channel.value(file(params.barcodes, checkIfExists: true)) : Channel.empty()
-    meta_ch = params.lineages_meta ? Channel.value(file(params.lineages_meta, checkIfExists: true)) : Channel.empty()
-    topo_ch = params.lineages_topology ? Channel.value(file(params.lineages_topology, checkIfExists: true)) : Channel.empty()
+    barcodes_ch = params.barcodes ? Channel.value(file(params.barcodes, checkIfExists: true)) : []
+    meta_ch = params.lineages_meta ? Channel.value(file(params.lineages_meta, checkIfExists: true)) : []
+    topo_ch = params.lineages_topology ? Channel.value(file(params.lineages_topology, checkIfExists: true)) : []
 
     BAM_VARIANT_DEMIX_BOOT_FREYJA(bam_ch, fasta_ch, params.skip_boot, params.repeats, params.db_name, barcodes_ch, meta_ch, topo_ch)
 }

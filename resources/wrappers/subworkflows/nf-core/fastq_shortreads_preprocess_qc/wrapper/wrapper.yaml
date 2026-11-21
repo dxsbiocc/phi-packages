@@ -2,7 +2,9 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: 27-input composite; verify each stage's companion semantics for multi-sample use
+# Curated: 27-arg composite in take order; decontamination is off by default ('decontamination_fasta' or
+# 'decontamination_reference' is only needed when 'skip_decontamination' is false) and every other switch
+# maps 1:1 onto the take.
 id: nf-core/subworkflows/fastq-shortreads-preprocess-qc
 name: "Short-read preprocessing + QC"
 summary: "Full short-read preprocessing: QC, UMI extract, adapter trim, complexity filter, dedup, decontamination."

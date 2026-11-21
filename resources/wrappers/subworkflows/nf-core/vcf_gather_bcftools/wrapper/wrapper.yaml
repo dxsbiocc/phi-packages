@@ -2,7 +2,9 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: single-group adapter; index/count companions and multi-sample grouping need curation
+# Curated: every VCF matched by 'vcfs' is gathered into one output tagged 'group_id'
+# (the subworkflow concatenates a group's shards and re-indexes input/output itself,
+# so no input index is accepted; invoke once per sample's shard set).
 id: nf-core/subworkflows/vcf-gather-bcftools
 name: "Gather scattered VCFs (bcftools)"
 summary: "Concatenate/gather scattered VCF shards per sample and index the result."
@@ -12,17 +14,17 @@ params:
     kind: input
     type: path_glob
     required: true
-    description: "Glob of VCF shards to gather."
-  vcf_indexes:
-    kind: input
-    type: path_glob
+    description: "Glob of VCF shards to gather (all matched files form one group)."
+  group_id:
+    kind: option
+    type: string
     required: false
-    description: "Glob of matching VCF index files (.tbi/.csi)."
+    description: "Meta id (and output name) shared by all gathered shards."
   common_meta:
     kind: option
     type: string
     required: true
-    description: "Comma-separated meta fields used for grouping."
+    description: "Comma-separated meta fields used for grouping; the adapter's meta only carries 'id', so keep 'id'."
   sort:
     kind: option
     type: boolean

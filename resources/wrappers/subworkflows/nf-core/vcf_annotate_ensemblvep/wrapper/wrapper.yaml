@@ -2,7 +2,8 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: cache download needs network when no local cache provided
+# Curated: 'cache' or 'gtf' (+ 'gtf_tbi') is required for offline annotation (the adapter guards this);
+# optional fasta/extra_files are passed as empty values so the VEP task still runs.
 id: nf-core/subworkflows/vcf-annotate-ensemblvep
 name: "Annotate VCF (Ensembl VEP)"
 summary: "Annotate a VCF with Ensembl VEP using a cache or GTF."

@@ -2,7 +2,8 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: kraken2_db comment says string but module expects a staged DB; passed as path
+# Curated: 'kraken2_db' is a Kraken2 database directory staged as a path (the take comment saying 'string' is
+# upstream wording); 'sample_size' is passed as a value.
 id: nf-core/subworkflows/fastq-contam-seqtk-kraken
 name: "Screen contamination (seqtk/kraken2)"
 summary: "Subsample reads with seqtk and screen for contamination with kraken2."

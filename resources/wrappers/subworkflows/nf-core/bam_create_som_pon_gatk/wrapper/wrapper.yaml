@@ -2,7 +2,9 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: single-normal adapter; a real PON needs multiple normal samples; GenomicsDBImport needs an interval file
+# Curated: one normal sample per invocation ('pon_norm' names the PON it contributes); 'intervals_gendb' is
+# required because GenomicsDBImport (and therefore the PON) only runs with it; 'intervals' scatters Mutect2
+# with num_intervals=1 (no scatter).
 id: nf-core/subworkflows/bam-create-som-pon-gatk
 name: "Create somatic PON (GATK)"
 summary: "Call normal samples with Mutect2 and build a GATK somatic panel of normals."
@@ -41,8 +43,8 @@ params:
   intervals_gendb:
     kind: input
     type: path
-    required: false
-    description: "Interval file for GenomicsDBImport (optional)."
+    required: true
+    description: "Interval file for GenomicsDBImport; the PON is only built when this is set, so it is required."
   intervals:
     kind: input
     type: path

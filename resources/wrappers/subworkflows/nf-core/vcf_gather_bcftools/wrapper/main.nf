@@ -8,7 +8,7 @@ nextflow.enable.dsl = 2
 include { VCF_GATHER_BCFTOOLS } from '../main.nf'
 
 params.vcfs = null
-params.vcf_indexes = null
+params.group_id = "sample"
 params.common_meta = "id"
 params.sort = false
 params.outdir = "results"
@@ -16,7 +16,7 @@ params.outdir = "results"
 workflow {
     vcfs_ch = Channel
         .fromPath(params.vcfs, checkIfExists: true)
-        .map { f -> [[id: f.simpleName], f, [], 1] }
+        .map { f -> [[id: params.group_id], f, [], 1] }
 
     VCF_GATHER_BCFTOOLS(vcfs_ch, params.common_meta.tokenize(','), params.sort)
 }

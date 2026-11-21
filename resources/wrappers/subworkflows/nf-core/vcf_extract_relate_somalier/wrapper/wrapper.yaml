@@ -2,7 +2,9 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: VCF/index pairing and count val need curation for multi-sample input
+# Curated: every VCF is indexed by the subworkflow itself and all matched VCFs share
+# the meta field 'cohort', so the subworkflow's common_id step groups them into one
+# relatedness run; set 'common_id' to '' to relate each sample separately.
 id: nf-core/subworkflows/vcf-extract-relate-somalier
 name: "Relatedness (somalier)"
 summary: "Extract somalier markers from VCFs and infer sample relatedness."
@@ -12,12 +14,7 @@ params:
     kind: input
     type: path_glob
     required: true
-    description: "Glob of VCF files."
-  vcf_indexes:
-    kind: input
-    type: path_glob
-    required: true
-    description: "Glob of matching VCF indexes."
+    description: "Glob of VCF files (unindexed inputs are bgzipped/tabixed automatically)."
   fasta:
     kind: input
     type: fasta
@@ -43,11 +40,16 @@ params:
     type: path
     required: false
     description: "Sample groups txt (optional)."
+  cohort:
+    kind: option
+    type: string
+    required: false
+    description: "Value of the shared meta field the subworkflow groups samples by (constant across all VCFs)."
   common_id:
     kind: option
     type: string
     required: false
-    description: "Common identifier for single-sample VCFs."
+    description: "Meta field whose value becomes the relate group id; must exist in the adapter meta ('cohort' or 'id'); set '' to relate each sample separately."
   outdir:
     kind: output
     type: path

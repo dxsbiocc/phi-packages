@@ -2,7 +2,8 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: single-pair adapter; interval scattering needs curation
+# Curated: single tumor/normal pair per invocation; the dict and Manta VCF/index are optional; 'intervals'
+# is passed with num_intervals=1, which selects the subworkflow's no-scatter branch.
 id: nf-core/subworkflows/bam-tumor-normal-somatic-variant-calling-strelka
 name: "Tumor-normal somatic calling (Strelka)"
 summary: "Call somatic SNVs/indels from matched tumor-normal CRAMs with Strelka."

@@ -24,8 +24,8 @@ workflow {
         .map { id, reads -> [[id: id, single_end: reads.size() == 1], reads] }
     fasta_fai_ch = Channel.value([[id: 'reference'], file(params.fasta, checkIfExists: true), file(params.fai, checkIfExists: true)])
     index_ch = Channel.value([[id: 'reference'], [file(params.bwamem_index, checkIfExists: true)]])
-    interval_ch = params.interval_file ? Channel.value([[id: 'reference'], [file(params.interval_file, checkIfExists: true)]]) : Channel.empty()
-    known_ch = params.known_sites ? Channel.value([[id: 'reference'], [file(params.known_sites, checkIfExists: true)]]) : Channel.empty()
+    interval_ch = Channel.value(params.interval_file ? [[id: 'reference'], [file(params.interval_file, checkIfExists: true)]] : [[id: 'reference'], []])
+    known_ch = Channel.value(params.known_sites ? [[id: 'reference'], [file(params.known_sites, checkIfExists: true)]] : [[id: 'reference'], []])
 
     FASTQ_ALIGN_DEDUP_BWAMEM(reads_ch, fasta_fai_ch, index_ch, params.skip_deduplication, params.use_gpu, params.output_fmt, interval_ch, known_ch)
 }

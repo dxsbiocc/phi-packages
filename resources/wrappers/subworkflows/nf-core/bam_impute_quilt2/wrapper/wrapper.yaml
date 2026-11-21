@@ -2,7 +2,8 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: single-region adapter; multi-region scatter and bampaths/bamnames semantics need curation
+# Curated: single-region adapter — 'chr' plus optional 'start'/'end' describe one region; 'bampaths'/'bamnames'
+# are multi-BAM imputation lists and stay empty for a single BAM; 'fasta' is optional.
 id: nf-core/subworkflows/bam-impute-quilt2
 name: "Impute from BAM (QUILT2)"
 summary: "Impute genotypes from low-coverage BAMs with QUILT2 against a reference panel."

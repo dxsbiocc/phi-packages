@@ -2,7 +2,8 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: GPU path requires parabricks container/license
+# Curated: use_gpu=true needs the licensed Parabricks container; 'interval_file'/'known_sites' are optional
+# value channels (only the Parabricks path consumes them).
 id: nf-core/subworkflows/fastq-align-dedup-bwamem
 name: "Align + dedup (bwa-mem)"
 summary: "Align reads with bwa-mem (or parabricks GPU), sort, dedup and compute stats."

@@ -26,11 +26,11 @@ params.outdir = "results"
 
 workflow {
     def meta_panel = [id: params.panel_id, chr: params.chr]
-    ch_input = Channel.value([[id: params.sample_id], file(params.vcf, checkIfExists: true), file(params.vcf_index, checkIfExists: true), params.infos ?: [], params.infos ?: []])
+    ch_input = Channel.value([[id: params.sample_id], file(params.vcf, checkIfExists: true), file(params.vcf_index, checkIfExists: true), [], params.infos ?: []])
     ch_ref = Channel.value([meta_panel, file(params.ref_vcf, checkIfExists: true), file(params.ref_index, checkIfExists: true), params.region])
     ch_map = Channel.value([meta_panel, file(params.map, checkIfExists: true)])
     ch_chunks = Channel.empty()
-    ch_fasta = params.fasta ? Channel.value([meta_panel, file(params.fasta, checkIfExists: true), file(params.fai, checkIfExists: true)]) : Channel.empty()
+    ch_fasta = Channel.value(params.fasta ? [[id: 'reference'], file(params.fasta, checkIfExists: true), params.fai ? file(params.fai, checkIfExists: true) : []] : [[], [], []])
 
     BAM_VCF_IMPUTE_GLIMPSE2(ch_input, ch_ref, ch_chunks, ch_map, ch_fasta, params.chunk, params.chunk_model ?: null, params.splitreference)
 }

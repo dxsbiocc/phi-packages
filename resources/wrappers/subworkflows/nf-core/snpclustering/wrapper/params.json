@@ -1,8 +1,6 @@
 {
   "vcf": null,
   "vcf_index": null,
-  "refpanel": null,
-  "genmap": null,
   "region": null,
   "n_pcs": 10,
   "use_approx": false,

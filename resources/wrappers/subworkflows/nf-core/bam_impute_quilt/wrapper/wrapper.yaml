@@ -2,7 +2,8 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: single-region adapter; multi-region scatter needs curation
+# Curated: single-region adapter — 'chr' plus optional 'start'/'end' describe one region; 'fasta' is optional
+# (empty value tuple for BAM input, needed for CRAM).
 id: nf-core/subworkflows/bam-impute-quilt
 name: "Impute from BAM (QUILT)"
 summary: "Impute genotypes from low-coverage BAMs with QUILT (hap/legend/posfile panel)."

@@ -2,7 +2,8 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: all matched contigs are treated as one group; multi-group input needs curation
+# Curated: every FASTA matched by 'contigs' is treated as one assembly group; run once per isolate (narrow
+# the glob) instead of mixing groups.
 id: nf-core/subworkflows/fasta-consensus-autocycler
 name: "Consensus assembly (AutoCycler)"
 summary: "Build a consensus assembly from grouped contigs with AutoCycler."

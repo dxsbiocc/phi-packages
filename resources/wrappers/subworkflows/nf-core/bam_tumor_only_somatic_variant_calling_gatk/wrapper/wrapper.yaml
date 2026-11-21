@@ -2,7 +2,8 @@
 # at ../main.nf. Includes the subworkflow only — never another wrapper;
 # the subworkflow references the already-migrated module directories.
 # Follows docs/contracts/wrapper.md. Manually wired by scripts/wire-manual-subworkflows.py.
-# REVIEW: single-sample adapter; reference resource channels are plain file values
+# Curated: one tumor sample per invocation; reference resources are plain file values; alleles, panel of
+# normals and interval file are optional empty values (Mutect2 still runs).
 id: nf-core/subworkflows/bam-tumor-only-somatic-variant-calling-gatk
 name: "Tumor-only somatic calling (GATK)"
 summary: "Call somatic variants from a tumor-only BAM with GATK Mutect2 + contamination filtering."
