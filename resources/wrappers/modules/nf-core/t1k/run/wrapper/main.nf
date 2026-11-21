@@ -18,6 +18,11 @@ workflow {
     input_ch = Channel
         .fromFilePairs(params.input, size: -1)
         .map { sample, reads -> [[id: sample, single_end: reads instanceof List ? reads.size() == 1 : true], reads] }
+        .collect()
+        .map { groups ->
+            if (groups.size() != 1) error "t1k-run wrapper runs one sample per invocation: 'input' matched ${groups.size()} sample groups; narrow the glob or invoke once per sample"
+            groups[0]
+        }
     fasta_ch = params.fasta ? Channel.fromPath(params.fasta, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
     cordinates_ch = params.cordinates ? Channel.fromPath(params.cordinates, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
     barcodes_ch = params.barcodes ? Channel.fromPath(params.barcodes, checkIfExists: true).map { f -> [f] } : Channel.value([[]])

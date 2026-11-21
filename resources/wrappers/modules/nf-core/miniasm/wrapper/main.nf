@@ -15,6 +15,11 @@ workflow {
     reads_ch = Channel
         .fromFilePairs(params.reads, size: -1)
         .map { sample, reads -> [[id: sample, single_end: reads instanceof List ? reads.size() == 1 : true], reads] }
+        .collect()
+        .map { groups ->
+            if (groups.size() != 1) error "miniasm wrapper runs one sample per invocation: 'reads' matched ${groups.size()} sample groups; narrow the glob or invoke once per sample"
+            groups[0]
+        }
     paf_ch = params.paf ? Channel.fromPath(params.paf, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
 
     MINIASM(reads_ch.combine(paf_ch))

@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'image' combined cartesian-style; verify if per-sample pairing is required; companion input 'cytaimage' combined cartesian-style; verify if per-sample pairing is required; companion input 'darkimage' combined cartesian-style; verify if per-sample pairing is required; companion input 'colorizedimage' combined cartesian-style; verify if per-sample pairing is required; companion input 'alignment' combined cartesian-style; verify if per-sample pairing is required; companion input 'slidefile' combined cartesian-style; verify if per-sample pairing is required; val input 'slide' exposed as required option; confirm whether a safe default exists; val input 'area' exposed as required option; confirm whether a safe default exists
+# REVIEW: val inputs 'slide' and 'area' are required options with no safe default; one sample per invocation (guarded) pairs reads, images, alignment and slidefile 1:1, and reference/probeset are shared.
 id: nf-core/modules/spaceranger-count
 name: spaceranger count
 summary: Module to use the 10x Space Ranger pipeline to process 10x spatial transcriptomics data
@@ -9,7 +9,7 @@ params:
     kind: input
     type: fastq_glob
     required: true
-    description: List of input FastQ files of size 1 and 2 for single-end and paired-end data, respectively.
+    description: List of input FastQ files of size 1 and 2 for single-end and paired-end data, for one sample (a multi-sample glob is rejected).
   image:
     kind: input
     type: path

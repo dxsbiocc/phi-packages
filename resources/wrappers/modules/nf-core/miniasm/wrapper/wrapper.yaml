@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'paf' combined cartesian-style; verify if per-sample pairing is required
+# Curated: one sample per invocation (guarded); the read group and its per-sample paf are paired 1:1.
 id: nf-core/modules/miniasm
 name: miniasm
 summary: A very fast OLC-based de novo assembler for noisy long reads
@@ -9,7 +9,7 @@ params:
     kind: input
     type: fastq_glob
     required: true
-    description: List of input PacBio/ONT FastQ files.
+    description: List of input PacBio/ONT FastQ files for one sample (a multi-sample glob is rejected).
   paf:
     kind: input
     type: path

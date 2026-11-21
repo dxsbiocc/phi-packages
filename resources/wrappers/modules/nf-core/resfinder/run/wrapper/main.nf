@@ -17,6 +17,11 @@ workflow {
     fastq_ch = Channel
         .fromFilePairs(params.fastq, size: -1)
         .map { sample, reads -> [[id: sample, single_end: reads instanceof List ? reads.size() == 1 : true], reads] }
+        .collect()
+        .map { groups ->
+            if (groups.size() != 1) error "resfinder-run wrapper runs one sample per invocation: 'fastq' matched ${groups.size()} sample groups; narrow the glob or invoke once per sample"
+            groups[0]
+        }
     fasta_ch = params.fasta ? Channel.fromPath(params.fasta, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
     db_point_ch = Channel.fromPath(params.db_point, checkIfExists: true)
     db_res_ch = Channel.fromPath(params.db_res, checkIfExists: true)

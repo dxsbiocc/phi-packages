@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'fasta' combined cartesian-style; verify if per-sample pairing is required
+# Curated: one sample per invocation (guarded); the fastq isolate and its optional assembly fasta are paired 1:1; db_point/db_res are shared.
 id: nf-core/modules/resfinder-run
 name: resfinder run
 summary: ResFinder identifies acquired antimicrobial resistance genes in total or partial sequenced isolates
@@ -10,7 +10,7 @@ params:
     kind: input
     type: fastq_glob
     required: true
-    description: fastq file(s)
+    description: fastq file(s) for one isolate (a multi-sample glob is rejected)
   fasta:
     kind: input
     type: path

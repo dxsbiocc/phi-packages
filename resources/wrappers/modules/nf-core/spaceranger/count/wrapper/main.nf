@@ -24,6 +24,11 @@ workflow {
     reads_ch = Channel
         .fromFilePairs(params.reads, size: -1)
         .map { sample, reads -> [[id: sample, single_end: reads instanceof List ? reads.size() == 1 : true], reads] }
+        .collect()
+        .map { groups ->
+            if (groups.size() != 1) error "spaceranger-count wrapper runs one sample per invocation: 'reads' matched ${groups.size()} sample groups; narrow the glob or invoke once per sample"
+            groups[0]
+        }
     image_ch = params.image ? Channel.fromPath(params.image, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
     cytaimage_ch = params.cytaimage ? Channel.fromPath(params.cytaimage, checkIfExists: true).map { f -> [f] } : Channel.value([[]])
     darkimage_ch = params.darkimage ? Channel.fromPath(params.darkimage, checkIfExists: true).map { f -> [f] } : Channel.value([[]])

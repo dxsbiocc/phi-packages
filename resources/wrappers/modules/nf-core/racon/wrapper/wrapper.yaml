@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'assembly' combined cartesian-style; verify if per-sample pairing is required; companion input 'paf' combined cartesian-style; verify if per-sample pairing is required
+# Curated: one sample per invocation (guarded); reads, assembly and paf are that sample's set, paired 1:1.
 id: nf-core/modules/racon
 name: racon
 summary: Consensus module for raw de novo DNA assembly of long uncorrected reads
@@ -9,7 +9,7 @@ params:
     kind: input
     type: fastq_glob
     required: true
-    description: List of input FastQ files.
+    description: List of input FastQ files for one sample (a multi-sample glob is rejected).
   assembly:
     kind: input
     type: path
