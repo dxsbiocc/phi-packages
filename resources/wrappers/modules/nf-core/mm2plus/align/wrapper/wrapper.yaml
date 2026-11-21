@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'bam_index_extension' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/mm2plus-align
 name: mm2plus align
 summary: A versatile pairwise aligner for genomic and spliced nucleotide sequences
@@ -24,7 +24,7 @@ params:
   bam_index_extension:
     kind: option
     type: string
-    required: true
+    required: false
     description: BAM alignment index extension (e.g.
   cigar_paf_format:
     kind: option

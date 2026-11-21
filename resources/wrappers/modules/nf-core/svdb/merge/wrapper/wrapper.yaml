@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'input_priority' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/svdb-merge
 name: svdb merge
 summary: The merge module merges structural variants within one or more vcf files.
@@ -13,7 +13,7 @@ params:
   input_priority:
     kind: option
     type: string
-    required: true
+    required: false
     description: Prioritize the input VCF files according to this list, e.g ['tiddit','cnvnator'].
   sort_inputs:
     kind: option

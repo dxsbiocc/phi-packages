@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'resolution' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/calder2
 name: calder2
 summary: Hierarchical Hi-C compartment computation
@@ -13,7 +13,7 @@ params:
   resolution:
     kind: option
     type: integer
-    required: true
+    required: false
     description: In case a .mcool file is provided, which resolution level to use for the analysis
   args:
     kind: option

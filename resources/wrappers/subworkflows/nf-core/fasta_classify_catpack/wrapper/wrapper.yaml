@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites; val input 'db_id' exposed as required option; confirm whether a safe default exists; val input 'run_summarise' exposed as required option; confirm whether a safe default exists; val input 'bin_suffix' exposed as required option; confirm whether a safe default exists
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
 id: nf-core/subworkflows/fasta-classify-catpack
 name: fasta classify catpack
 summary: Taxonomic classification of binned MAGs and contigs using CAT/BAT (CAT_pack).
@@ -28,7 +28,7 @@ params:
   run_summarise:
     kind: option
     type: string
-    required: true
+    required: false
     description: Option run_summarise.
   bin_suffix:
     kind: option

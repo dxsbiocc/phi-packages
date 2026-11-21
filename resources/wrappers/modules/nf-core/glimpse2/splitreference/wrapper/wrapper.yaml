@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'reference_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'map' combined cartesian-style; verify if per-sample pairing is required; val input 'input_region' exposed as required option; confirm whether a safe default exists; val input 'output_region' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'reference_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'map' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/glimpse2-splitreference
 name: glimpse2 splitreference
 summary: Tool to create a binary reference panel for quick reading time.

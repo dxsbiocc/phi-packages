@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'segmentation_params' combined cartesian-style; verify if per-sample pairing is required; val input 'tile_index' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'segmentation_params' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/vizgenpostprocessing-runsegmentationontile
 name: vizgenpostprocessing runsegmentationontile
 summary: The module runs the segmentation algorithm on a specific tile using Vizgen's post-processing

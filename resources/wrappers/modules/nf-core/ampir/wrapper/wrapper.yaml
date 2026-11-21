@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'model' exposed as required option; confirm whether a safe default exists; val input 'min_length' exposed as required option; confirm whether a safe default exists; val input 'min_probability' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) genuinely required (no safe default); caller must supply.
 id: nf-core/modules/ampir
 name: ampir
 summary: A fast and user-friendly method to predict antimicrobial peptides (AMPs) from any given size

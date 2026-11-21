@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'index' combined cartesian-style; verify if per-sample pairing is required; val input 'file_ext' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'index' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/fastcov
 name: fastcov
 summary: Generate a coverage plot from one or more bam files

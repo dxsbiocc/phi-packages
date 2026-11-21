@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'donor_genotype' combined cartesian-style; verify if per-sample pairing is required; val input 'plp_prefix' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'donor_genotype' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/popscle-demuxlet
 name: popscle demuxlet
 summary: Software to deconvolute sample identity and identify multiplets when multiple samples are pooled
@@ -22,7 +22,7 @@ params:
   plp_prefix:
     kind: option
     type: string
-    required: true
+    required: false
     description: Prefix of pileup files (CEL,VAR and PLP) produced by popscle/dsc_pileup.
   args:
     kind: option

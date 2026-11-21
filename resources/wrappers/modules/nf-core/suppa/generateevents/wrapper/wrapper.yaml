@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'format' exposed as required option; confirm whether a safe default exists; val input 'event_type' exposed as required option; confirm whether a safe default exists; val input 'boundary' exposed as required option; confirm whether a safe default exists; val input 'threshold' exposed as required option; confirm whether a safe default exists; val input 'exon_length' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) module-defaulted where the tool allows, otherwise genuinely required.
 id: nf-core/modules/suppa-generateevents
 name: suppa generateevents
 summary: Generates alternative splicing events from a GTF file using SUPPA.
@@ -23,22 +23,22 @@ params:
   event_type:
     kind: option
     type: string
-    required: true
+    required: false
     description: Type of alternative splicing events to be generated.
   boundary:
     kind: option
     type: integer
-    required: true
+    required: false
     description: Boundary for event generation
   threshold:
     kind: option
     type: number
-    required: true
+    required: false
     description: Threshold for event generation
   exon_length:
     kind: option
     type: integer
-    required: true
+    required: false
     description: Minimum exon length for event generation
   args:
     kind: option

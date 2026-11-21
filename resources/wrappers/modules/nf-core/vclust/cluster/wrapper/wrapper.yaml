@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'metric' exposed as required option; confirm whether a safe default exists; val input 'tani' exposed as required option; confirm whether a safe default exists; val input 'gani' exposed as required option; confirm whether a safe default exists; val input 'ani' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/vclust-cluster
 name: vclust cluster
 summary: Vclust cluster performs threshold-based clustering by assigning a genome sequence to a cluster
@@ -19,22 +19,22 @@ params:
   metric:
     kind: option
     type: string
-    required: true
+    required: false
     description: 'Similarity metric for clustering choices: ''tani'',''gani'' or ''ani'''
   tani:
     kind: option
     type: number
-    required: true
+    required: false
     description: Min.
   gani:
     kind: option
     type: number
-    required: true
+    required: false
     description: Min.
   ani:
     kind: option
     type: number
-    required: true
+    required: false
     description: Min.
   args:
     kind: option

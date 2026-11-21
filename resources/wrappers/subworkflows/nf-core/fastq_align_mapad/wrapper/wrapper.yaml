@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites; val input 'mismatch_parameter' exposed as required option; confirm whether a safe default exists; val input 'double_stranded_library' exposed as required option; confirm whether a safe default exists; val input 'five_prime_overhang' exposed as required option; confirm whether a safe default exists; val input 'three_prime_overhang' exposed as required option; confirm whether a safe default exists; val input 'deam_rate_double_stranded' exposed as required option; confirm whether a safe default exists; val input 'deam_rate_single_stranded' exposed as required option; confirm whether a safe default exists; val input 'indel_rate' exposed as required option; confirm whether a safe default exists
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
 id: nf-core/subworkflows/fastq-align-mapad
 name: fastq align mapad
 summary: Align FASTQ files against reference genome with the mapAD aDNA short-read aligner producing a

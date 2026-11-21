@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'unfiltered' combined cartesian-style; verify if per-sample pairing is required; val input 'input_layer' exposed as required option; confirm whether a safe default exists; val input 'output_layer' exposed as required option; confirm whether a safe default exists; val input 'max_epochs' exposed as required option; confirm whether a safe default exists; val input 'n_batch' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'unfiltered' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/scvitools-scar
 name: scvitools scar
 summary: Module to use scAR to remove ambient RNA from single-cell RNA-seq data
@@ -18,22 +18,22 @@ params:
   input_layer:
     kind: option
     type: string
-    required: true
+    required: false
     description: Layer to use as input.
   output_layer:
     kind: option
     type: string
-    required: true
+    required: false
     description: Layer to save the denoised counts to.
   max_epochs:
     kind: option
     type: integer
-    required: true
+    required: false
     description: Maximum number of epochs to train the model.
   n_batch:
     kind: option
     type: integer
-    required: true
+    required: false
     description: Number of batches to use for generating the ambient profile.
   outdir:
     kind: output

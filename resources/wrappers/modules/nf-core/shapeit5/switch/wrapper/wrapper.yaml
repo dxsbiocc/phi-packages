@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'estimate_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'pedigree' combined cartesian-style; verify if per-sample pairing is required; companion input 'truth' combined cartesian-style; verify if per-sample pairing is required; companion input 'truth_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'freq' combined cartesian-style; verify if per-sample pairing is required; companion input 'freq_index' combined cartesian-style; verify if per-sample pairing is required; val input 'region' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'estimate_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'pedigree' combined cartesian-style; verify if per-sample pairing is required; companion input 'truth' combined cartesian-style; verify if per-sample pairing is required; companion input 'truth_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'freq' combined cartesian-style; verify if per-sample pairing is required; companion input 'freq_index' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/shapeit5-switch
 name: shapeit5 switch
 summary: Program to compute switch error rate and genotyping error rate given simulated or trio data.

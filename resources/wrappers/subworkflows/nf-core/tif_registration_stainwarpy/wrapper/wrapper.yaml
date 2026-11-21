@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites; val input 'val_fixed_img' exposed as required option; confirm whether a safe default exists; val input 'val_final_img_sz' exposed as required option; confirm whether a safe default exists
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
 id: nf-core/subworkflows/tif-registration-stainwarpy
 name: tif registration stainwarpy
 summary: Register H&E stained and multiplexed tissue images and transform segmentation masks using stainwarpy

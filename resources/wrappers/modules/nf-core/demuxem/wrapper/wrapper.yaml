@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'input_hto_csv_file' combined cartesian-style; verify if per-sample pairing is required; val input 'generate_gender_plot' exposed as required option; confirm whether a safe default exists; val input 'genome' exposed as required option; confirm whether a safe default exists; val input 'generate_diagnostic_plots' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'input_hto_csv_file' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/demuxem
 name: demuxem
 summary: Demultiplexing cell nucleus hashing data, using the estimated antibody background probability.
@@ -19,17 +19,17 @@ params:
   generate_gender_plot:
     kind: option
     type: string
-    required: true
+    required: false
     description: Generate violin plots using gender-specific genes (e.g.
   genome:
     kind: option
     type: string
-    required: true
+    required: false
     description: Reference genome name.
   generate_diagnostic_plots:
     kind: option
     type: string
-    required: true
+    required: false
     description: Generate diagnostic plots, including the background/signal between HTO counts, estimated
       background probabilities, HTO distributions.
   args:

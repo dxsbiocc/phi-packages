@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'labels' exposed as required option; confirm whether a safe default exists; val input 'format' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) genuinely required (no safe default); caller must supply.
 id: nf-core/modules/hmmer-formattsv
 name: hmmer formattsv
 summary: Convert HMMER's --tblout/--domtblout output to a clean, properly-delimited TSV

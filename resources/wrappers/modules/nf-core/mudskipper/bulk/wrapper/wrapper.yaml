@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'rad' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/mudskipper-bulk
 name: mudskipper bulk
 summary: Convert genomic BAM/SAM files to transcriptomic BAM/RAD files.
@@ -23,7 +23,7 @@ params:
   rad:
     kind: option
     type: string
-    required: true
+    required: false
     description: File type
   args:
     kind: option

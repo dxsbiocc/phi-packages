@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'estimate_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'truth' combined cartesian-style; verify if per-sample pairing is required; companion input 'truth_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'freq' combined cartesian-style; verify if per-sample pairing is required; companion input 'freq_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'samples' combined cartesian-style; verify if per-sample pairing is required; val input 'region' exposed as required option; confirm whether a safe default exists; val input 'bins' exposed as required option; confirm whether a safe default exists; val input 'ac_bins' exposed as required option; confirm whether a safe default exists; val input 'allele_counts' exposed as required option; confirm whether a safe default exists; val input 'min_val_gl' exposed as required option; confirm whether a safe default exists; val input 'min_val_dp' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'estimate_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'truth' combined cartesian-style; verify if per-sample pairing is required; companion input 'truth_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'freq' combined cartesian-style; verify if per-sample pairing is required; companion input 'freq_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'samples' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/glimpse2-concordance
 name: glimpse2 concordance
 summary: Program to compute the genotyping error rate at the sample or marker level.
@@ -53,27 +53,27 @@ params:
   bins:
     kind: option
     type: string
-    required: true
+    required: false
     description: Allele frequency bins used for rsquared computations.
   ac_bins:
     kind: option
     type: string
-    required: true
+    required: false
     description: User-defined allele count bins used for rsquared computations.
   allele_counts:
     kind: option
     type: string
-    required: true
+    required: false
     description: Default allele count bins used for rsquared computations.
   min_val_gl:
     kind: option
     type: number
-    required: true
+    required: false
     description: Minimum genotype likelihood probability P(G|R) in validation data.
   min_val_dp:
     kind: option
     type: integer
-    required: true
+    required: false
     description: Minimum coverage in validation data.
   args:
     kind: option

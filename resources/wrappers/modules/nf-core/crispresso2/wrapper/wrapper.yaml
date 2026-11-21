@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'amplicon_sequences' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/crispresso2
 name: crispresso2
 summary: A software pipeline for the analysis of genome editing outcomes from deep sequencing data
@@ -13,7 +13,7 @@ params:
   amplicon_sequences:
     kind: option
     type: string
-    required: true
+    required: false
     description: A comma-separated list of amplicon sequences.
   amplicon_file:
     kind: input

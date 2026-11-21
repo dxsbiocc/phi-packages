@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'sex' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) genuinely required (no safe default); caller must supply.
 id: nf-core/modules/dragen-germline
 name: dragen germline
 summary: The DRAGEN DNA Germline Pipeline accelerates the secondary analysis of NGS data by harnessing

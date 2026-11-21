@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'psivec' combined cartesian-style; verify if per-sample pairing is required; val input 'significance_threshold' exposed as required option; confirm whether a safe default exists; val input 'dpsi_threshold' exposed as required option; confirm whether a safe default exists; val input 'maximum_distance' exposed as required option; confirm whether a safe default exists; val input 'metric' exposed as required option; confirm whether a safe default exists; val input 'separation' exposed as required option; confirm whether a safe default exists; val input 'min_number_events' exposed as required option; confirm whether a safe default exists; val input 'groups' exposed as required option; confirm whether a safe default exists; val input 'clustering_method' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'psivec' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/suppa-clusterevents
 name: suppa clusterevents
 summary: Cluster events based on PSI values and significantly differentially spliced events using SUPPA2.
@@ -18,32 +18,32 @@ params:
   significance_threshold:
     kind: option
     type: number
-    required: true
+    required: false
     description: P-value threshold to consider an event significant from the dpsi file
   dpsi_threshold:
     kind: option
     type: number
-    required: true
+    required: false
     description: Lower-bound for the absolute delta PSI value to cluster
   maximum_distance:
     kind: option
     type: number
-    required: true
+    required: false
     description: Maximum distance (between 0 and 1) to consider two events as members of the same cluster
   metric:
     kind: option
     type: string
-    required: true
+    required: false
     description: Distance metric.
   separation:
     kind: option
     type: number
-    required: true
+    required: false
     description: Maximum distance in PSI space of an event to a cluster (only for OPTICS)
   min_number_events:
     kind: option
     type: integer
-    required: true
+    required: false
     description: Minimum number of events required per cluster
   groups:
     kind: option
@@ -53,7 +53,7 @@ params:
   clustering_method:
     kind: option
     type: string
-    required: true
+    required: false
     description: Clustering method to use (allowed values are DBSCAN, OPTICS)
   args:
     kind: option

@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'online_path' exposed as required option; confirm whether a safe default exists; val input 'extra_args' exposed as required option; confirm whether a safe default exists; val input 'format' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) module-defaulted where the tool allows, otherwise genuinely required.
 id: nf-core/modules/blobtk-plot
 name: blobtk plot
 summary: Creates differing styles of blobplots depending on provided arguments.
@@ -18,7 +18,7 @@ params:
   online_path:
     kind: option
     type: string
-    required: true
+    required: false
     description: A webaddress to a Blob Dir e.g.
   extra_args:
     kind: option

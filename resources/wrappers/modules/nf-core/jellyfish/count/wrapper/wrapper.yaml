@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'kmer_length' exposed as required option; confirm whether a safe default exists; val input 'size' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) genuinely required (no safe default); caller must supply.
 id: nf-core/modules/jellyfish-count
 name: jellyfish count
 summary: Efficiently counts k-mers from DNA sequencing reads using a fast, memory-efficient, parallelized

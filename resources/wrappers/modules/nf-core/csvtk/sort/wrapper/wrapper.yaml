@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: glob input 'csv' collected into one staged list; verify staging layout; val input 'in_format' exposed as required option; confirm whether a safe default exists; val input 'out_format' exposed as required option; confirm whether a safe default exists
+# REVIEW: glob input 'csv' collected into one staged list; verify staging layout
 id: nf-core/modules/csvtk-sort
 name: csvtk sort
 summary: Sort CSV (or TSV) tables

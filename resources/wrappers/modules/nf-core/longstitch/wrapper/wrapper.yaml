@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'command' exposed as required option; confirm whether a safe default exists; val input 'span' exposed as required option; confirm whether a safe default exists; val input 'genomesize' exposed as required option; confirm whether a safe default exists; val input 'longmap' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) module-defaulted where the tool allows, otherwise genuinely required.
 id: nf-core/modules/longstitch
 name: longstitch
 summary: '"A genome assembly correction and scaffolding pipeline using long reads, consisting of up to
@@ -25,17 +25,17 @@ params:
   span:
     kind: option
     type: string
-    required: true
+    required: false
     description: min number of spanning molecules to be considered correctly assembled.
   genomesize:
     kind: option
     type: string
-    required: true
+    required: false
     description: Expected genome size.
   longmap:
     kind: option
     type: string
-    required: true
+    required: false
     description: Type of long-read (passed to minimap2).
   args:
     kind: option

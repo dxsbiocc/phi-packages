@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'plink_variant_file' combined cartesian-style; verify if per-sample pairing is required; companion input 'plink_sample_file' combined cartesian-style; verify if per-sample pairing is required; val input 'bsize' exposed as required option; confirm whether a safe default exists; val input 'n_jobs' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'plink_variant_file' combined cartesian-style; verify if per-sample pairing is required; companion input 'plink_sample_file' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/regenie-splitl0
 name: regenie splitl0
 summary: Split REGENIE step 1 level-0 ridge-regression blocks into parallel jobs
@@ -33,7 +33,7 @@ params:
   bsize:
     kind: option
     type: integer
-    required: true
+    required: false
     description: Optional block size passed to `--bsize`; pass `[]` to use the module default of `1000`
   n_jobs:
     kind: option

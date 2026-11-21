@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'gtdbtk_prefix' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/gtdbtk-gtdbtoncbimajorityvote
 name: gtdbtk gtdbtoncbimajorityvote
 summary: Converts the output classifications of GTDB-TK from GTDB taxonomy to NCBI taxonomy
@@ -13,7 +13,7 @@ params:
   gtdbtk_prefix:
     kind: option
     type: string
-    required: true
+    required: false
     description: The prefix used when running gtdbtk/classifywf.
   ar53_metadata:
     kind: input

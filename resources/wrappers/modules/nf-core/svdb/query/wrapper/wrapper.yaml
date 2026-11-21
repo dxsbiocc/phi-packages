@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'in_occs' exposed as required option; confirm whether a safe default exists; val input 'in_frqs' exposed as required option; confirm whether a safe default exists; val input 'out_occs' exposed as required option; confirm whether a safe default exists; val input 'out_frqs' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/svdb-query
 name: svdb query
 summary: Query a structural variant database, using a vcf file as query
@@ -13,22 +13,22 @@ params:
   in_occs:
     kind: option
     type: string
-    required: true
+    required: false
     description: A list of allele count tags
   in_frqs:
     kind: option
     type: string
-    required: true
+    required: false
     description: A list of allele frequency tags
   out_occs:
     kind: option
     type: string
-    required: true
+    required: false
     description: A list of allele count tags
   out_frqs:
     kind: option
     type: string
-    required: true
+    required: false
     description: A list of allele frequency tags
   vcf_dbs:
     kind: input

@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'bed_pgen' combined cartesian-style; verify if per-sample pairing is required; companion input 'bim_pvar' combined cartesian-style; verify if per-sample pairing is required; companion input 'fam_psam' combined cartesian-style; verify if per-sample pairing is required; val input 'nparts_gcta' exposed as required option; confirm whether a safe default exists; val input 'part_gcta_job' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'bed_pgen' combined cartesian-style; verify if per-sample pairing is required; companion input 'bim_pvar' combined cartesian-style; verify if per-sample pairing is required; companion input 'fam_psam' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/gcta-makegrmpart
 name: gcta makegrmpart
 summary: Compute one partition of a GCTA genetic relationship matrix
@@ -28,13 +28,13 @@ params:
   nparts_gcta:
     kind: option
     type: integer
-    required: true
+    required: false
     description: Total number of GRM partitions requested via `--make-grm-part`; defaults to `1` when
       `null`
   part_gcta_job:
     kind: option
     type: integer
-    required: true
+    required: false
     description: One-based index of the GRM partition to compute via `--make-grm-part`; defaults to `1`
       when `null`
   snp_group_file:

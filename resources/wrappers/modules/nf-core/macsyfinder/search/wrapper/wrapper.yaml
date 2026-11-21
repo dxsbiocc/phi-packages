@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'model_names' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/macsyfinder-search
 name: macsyfinder search
 summary: Search for macromolecular systems in protein datasets using MacSyFinder
@@ -18,7 +18,7 @@ params:
   model_names:
     kind: option
     type: string
-    required: true
+    required: false
     description: Space-separated list of model names to search for.
   args:
     kind: option

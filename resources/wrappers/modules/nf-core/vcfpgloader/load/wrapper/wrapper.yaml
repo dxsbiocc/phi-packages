@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'tbi' combined cartesian-style; verify if per-sample pairing is required; val input 'db_host' exposed as required option; confirm whether a safe default exists; val input 'db_port' exposed as required option; confirm whether a safe default exists; val input 'db_name' exposed as required option; confirm whether a safe default exists; val input 'db_user' exposed as required option; confirm whether a safe default exists; val input 'db_schema' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'tbi' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/vcfpgloader-load
 name: vcfpgloader load
 summary: High-performance VCF to PostgreSQL loader using asyncpg for bulk variant ingestion
@@ -23,7 +23,7 @@ params:
   db_port:
     kind: option
     type: integer
-    required: true
+    required: false
     description: PostgreSQL server port (default 5432)
   db_name:
     kind: option
@@ -38,7 +38,7 @@ params:
   db_schema:
     kind: option
     type: string
-    required: true
+    required: false
     description: Target schema for variant tables (default public)
   args:
     kind: option

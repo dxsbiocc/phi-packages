@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'out_fmt' exposed as required option; confirm whether a safe default exists; val input 'genome_size' exposed as required option; confirm whether a safe default exists; val input 'target' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) module-defaulted where the tool allows, otherwise genuinely required.
 id: nf-core/modules/gfastats
 name: gfastats
 summary: A single fast and exhaustive tool for summary statistics and simultaneous *fa* (fasta, fastq,
@@ -14,7 +14,7 @@ params:
   out_fmt:
     kind: option
     type: string
-    required: true
+    required: false
     description: Output format (fasta, fastq, gfa)
   genome_size:
     kind: option

@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'idcutoff' exposed as required option; confirm whether a safe default exists; val input 'outoption' exposed as required option; confirm whether a safe default exists; val input 'user_columns' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) module-defaulted where the tool allows, otherwise genuinely required.
 id: nf-core/modules/vsearch-usearchglobal
 name: vsearch usearchglobal
 summary: Compare target sequences to fasta-formatted query sequences using global pairwise alignment.
@@ -30,7 +30,7 @@ params:
   user_columns:
     kind: option
     type: string
-    required: true
+    required: false
     description: If using the `userout` option, specify which columns to include in output, with fields
       separated with `+` (e.g.
   args:

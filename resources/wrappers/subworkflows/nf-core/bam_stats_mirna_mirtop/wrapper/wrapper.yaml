@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites; val input 'species' exposed as required option; confirm whether a safe default exists
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
 id: nf-core/subworkflows/bam-stats-mirna-mirtop
 name: bam stats mirna mirtop
 summary: mirtop is a command line tool to annotate miRNAs and isomiRs and compute general statistics using

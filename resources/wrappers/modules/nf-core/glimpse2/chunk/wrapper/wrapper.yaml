@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'input_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'map' combined cartesian-style; verify if per-sample pairing is required; val input 'region' exposed as required option; confirm whether a safe default exists; val input 'model' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'input_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'map' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/glimpse2-chunk
 name: glimpse2 chunk
 summary: Defines chunks where to run imputation

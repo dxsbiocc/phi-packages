@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'bai' combined cartesian-style; verify if per-sample pairing is required; val input 'strand_specificity' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'bai' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/regtools-junctionsextract
 name: regtools junctionsextract
 summary: Extract exon-exon junctions from an RNAseq BAM file.
@@ -18,7 +18,7 @@ params:
   strand_specificity:
     kind: option
     type: string
-    required: true
+    required: false
     description: Strand specificity of the RNA-seq library preparation.
   args:
     kind: option

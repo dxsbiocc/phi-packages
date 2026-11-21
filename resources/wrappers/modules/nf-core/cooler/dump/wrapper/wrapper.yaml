@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'resolution' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/cooler-dump
 name: cooler dump
 summary: Dump a cooler’s data to a text stream.
@@ -13,7 +13,7 @@ params:
   resolution:
     kind: option
     type: integer
-    required: true
+    required: false
     description: Resolution
   args:
     kind: option

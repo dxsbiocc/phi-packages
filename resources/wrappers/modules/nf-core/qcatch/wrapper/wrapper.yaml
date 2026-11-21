@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'chemistry' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/qcatch
 name: qcatch
 summary: Cell-filtering and QC reporting tool for alevin-fry quantification results
@@ -14,7 +14,7 @@ params:
   chemistry:
     kind: option
     type: string
-    required: true
+    required: false
     description: Chemistry type for the single-cell experiment, which determines the partition range for
       the empty_drops step.
   args:

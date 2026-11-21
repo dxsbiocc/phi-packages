@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'taxid' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/taxonkit-list
 name: taxonkit list
 summary: Generate taxonomic subtrees based on taxonids
@@ -14,7 +14,7 @@ params:
   taxid:
     kind: option
     type: string
-    required: true
+    required: false
     description: Taxon id to look up (provide either this or taxidfile, not both)
   taxdb:
     kind: input

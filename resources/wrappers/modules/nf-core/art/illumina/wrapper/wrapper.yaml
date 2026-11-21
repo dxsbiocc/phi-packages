@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'sequencing_system' exposed as required option; confirm whether a safe default exists; val input 'fold_coverage' exposed as required option; confirm whether a safe default exists; val input 'read_length' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) genuinely required (no safe default); caller must supply.
 id: nf-core/modules/art-illumina
 name: art illumina
 summary: Simulation tool to generate synthetic Illumina next-generation sequencing reads

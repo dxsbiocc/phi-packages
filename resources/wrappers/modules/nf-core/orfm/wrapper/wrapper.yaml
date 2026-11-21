@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'min_len' exposed as required option; confirm whether a safe default exists; val input 'codon_table_id' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/orfm
 name: orfm
 summary: A simple and not slow open reading frame (ORF) caller.
@@ -13,12 +13,12 @@ params:
   min_len:
     kind: option
     type: string
-    required: true
+    required: false
     description: The minimum length of the ORF to be reported (default - 96).
   codon_table_id:
     kind: option
     type: string
-    required: true
+    required: false
     description: The codon table to use for translation (default - 1), Codon table should be a valid integer.
   args:
     kind: option

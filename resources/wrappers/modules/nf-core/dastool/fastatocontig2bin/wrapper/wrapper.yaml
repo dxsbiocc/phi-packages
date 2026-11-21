@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'extension' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/dastool-fastatocontig2bin
 name: dastool fastatocontig2bin
 summary: Helper script to convert a set of bins in fasta format to tabular scaffolds2bin format
@@ -13,7 +13,7 @@ params:
   extension:
     kind: option
     type: string
-    required: true
+    required: false
     description: Fasta file extension (fa | fas | fasta | ...), without .gz suffix, if gzipped input.
   args:
     kind: option

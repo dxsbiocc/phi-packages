@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'ds_id' exposed as required option; confirm whether a safe default exists; val input 'database_name_' exposed as required option; confirm whether a safe default exists; val input 'database_version_' exposed as required option; confirm whether a safe default exists; val input 'fdr_' exposed as required option; confirm whether a safe default exists; val input 'metadata_as_obs_' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) module-defaulted where the tool allows, otherwise genuinely required.
 id: nf-core/modules/metaspace-converter
 name: metaspace converter
 summary: Export METASPACE datasets to AnnData and SpatialData objects
@@ -13,17 +13,17 @@ params:
   database_name_:
     kind: option
     type: string
-    required: true
+    required: false
     description: Name of the metabolite annotation database to use (e.g., HMDB)
   database_version_:
     kind: option
     type: string
-    required: true
+    required: false
     description: Version of the annotation database to use (e.g., v4)
   fdr_:
     kind: option
     type: string
-    required: true
+    required: false
     description: False Discovery Rate threshold for filtering metabolite annotations.
   use_tic_:
     kind: option
@@ -33,7 +33,7 @@ params:
   metadata_as_obs_:
     kind: option
     type: string
-    required: true
+    required: false
     description: Whether to store metadata in the obs dataframe instead of uns.
   outdir:
     kind: output

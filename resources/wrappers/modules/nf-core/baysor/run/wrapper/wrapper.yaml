@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'prior_segmentation' combined cartesian-style; verify if per-sample pairing is required; companion input 'config' combined cartesian-style; verify if per-sample pairing is required; val input 'scale' exposed as required option; confirm whether a safe default exists; val input 'prior_confidence' exposed as required option; confirm whether a safe default exists; val input 'prior_column' exposed as required option; confirm whether a safe default exists; val input 'polygon_format' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'prior_segmentation' combined cartesian-style; verify if per-sample pairing is required; companion input 'config' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/baysor-run
 name: baysor run
 summary: Bayesian segmentation of spatial transcriptomics data.
@@ -23,22 +23,22 @@ params:
   scale:
     kind: option
     type: number
-    required: true
+    required: false
     description: Scale factor for the segmentation
   prior_confidence:
     kind: option
     type: number
-    required: true
+    required: false
     description: Confidence of the prior segmentation (optional)
   prior_column:
     kind: option
     type: string
-    required: true
+    required: false
     description: Column name in the prior segmentation file that contains the segmentation mask (optional)
   polygon_format:
     kind: option
     type: string
-    required: true
+    required: false
     description: 'Format for output segmentation polygons (default: FeatureCollection)'
   args:
     kind: option

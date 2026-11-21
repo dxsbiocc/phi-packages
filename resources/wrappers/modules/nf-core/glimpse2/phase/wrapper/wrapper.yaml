@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'input_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'bamlist' combined cartesian-style; verify if per-sample pairing is required; companion input 'samples_file' combined cartesian-style; verify if per-sample pairing is required; companion input 'reference' combined cartesian-style; verify if per-sample pairing is required; companion input 'reference_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'map' combined cartesian-style; verify if per-sample pairing is required; val input 'input_region' exposed as required option; confirm whether a safe default exists; val input 'output_region' exposed as required option; confirm whether a safe default exists; companion input 'fasta_reference_index' combined cartesian-style; verify if per-sample pairing is required; val input 'output_suffix' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'input_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'bamlist' combined cartesian-style; verify if per-sample pairing is required; companion input 'samples_file' combined cartesian-style; verify if per-sample pairing is required; companion input 'reference' combined cartesian-style; verify if per-sample pairing is required; companion input 'reference_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'map' combined cartesian-style; verify if per-sample pairing is required; companion input 'fasta_reference_index' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/glimpse2-phase
 name: glimpse2 phase
 summary: Tool for imputation and phasing from vcf file or directly from bam files.
@@ -44,12 +44,12 @@ params:
   input_region:
     kind: option
     type: string
-    required: true
+    required: false
     description: Target region used for imputation, including left and right buffers (e.g.
   output_region:
     kind: option
     type: string
-    required: true
+    required: false
     description: Target imputed region, excluding left and right buffers (e.g.
   fasta_reference:
     kind: input
@@ -64,7 +64,7 @@ params:
   output_suffix:
     kind: option
     type: string
-    required: true
+    required: false
     description: Output file suffix used to choose the GLIMPSE2 output format.
   args:
     kind: option

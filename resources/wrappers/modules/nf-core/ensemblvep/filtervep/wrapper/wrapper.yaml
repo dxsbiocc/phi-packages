@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'extension' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/ensemblvep-filtervep
 name: ensemblvep filtervep
 summary: Filter variants based on Ensembl Variant Effect Predictor (VEP) annotations.
@@ -18,7 +18,7 @@ params:
   extension:
     kind: option
     type: string
-    required: true
+    required: false
     description: File extension for the output file
   args:
     kind: option

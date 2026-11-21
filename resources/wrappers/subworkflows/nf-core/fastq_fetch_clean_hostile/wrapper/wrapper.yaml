@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites; val input 'reference_name' exposed as required option; confirm whether a safe default exists; val input 'index_name' exposed as required option; confirm whether a safe default exists
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
 id: nf-core/subworkflows/fastq-fetch-clean-hostile
 name: fastq fetch clean hostile
 summary: Downloads required reference genomes for hostile and removes host reads from short-read FASTQ
@@ -24,7 +24,7 @@ params:
   index_name:
     kind: option
     type: string
-    required: true
+    required: false
     description: Option index_name.
   outdir:
     kind: output

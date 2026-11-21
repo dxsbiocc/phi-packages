@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'bed' combined cartesian-style; verify if per-sample pairing is required; companion input 'var_config' combined cartesian-style; verify if per-sample pairing is required; companion input 'db_config' combined cartesian-style; verify if per-sample pairing is required; val input 'eff_genome_size' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'bed' combined cartesian-style; verify if per-sample pairing is required; companion input 'var_config' combined cartesian-style; verify if per-sample pairing is required; companion input 'db_config' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/tmb-pytmb
 name: tmb pytmb
 summary: This module calculates Tumor Mutational Burden (TMB) scores from VCF files using the pyTMB tool.
@@ -28,7 +28,7 @@ params:
   eff_genome_size:
     kind: option
     type: string
-    required: true
+    required: false
     description: Effective genome size (in bases).
   args:
     kind: option

@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites; val input 'input_file' exposed as required option; confirm whether a safe default exists; val input 'genesets_file' exposed as required option; confirm whether a safe default exists; val input 'background_file' exposed as required option; confirm whether a safe default exists; val input 'method_to_run' exposed as required option; confirm whether a safe default exists; val input 'samples_sheet' exposed as required option; confirm whether a safe default exists; val input 'features_sheet' exposed as required option; confirm whether a safe default exists; val input 'features_id' exposed as required option; confirm whether a safe default exists; val input 'features_symbol' exposed as required option; confirm whether a safe default exists
+# REVIEW: subworkflow wiring is best-effort; verify companion/reference semantics and internal module prerequisites
 id: nf-core/subworkflows/differential-functional-enrichment
 name: differential functional enrichment
 summary: Run functional analysis on differential abundance analysis output

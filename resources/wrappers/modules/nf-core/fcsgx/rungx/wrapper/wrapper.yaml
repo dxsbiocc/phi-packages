@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'taxid' exposed as required option; confirm whether a safe default exists; val input 'ramdisk_path' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) module-defaulted where the tool allows, otherwise genuinely required.
 id: nf-core/modules/fcsgx-rungx
 name: fcsgx rungx
 summary: Runs FCS-GX (Foreign Contamination Screen - Genome eXtractor) to screen and remove foreign contamination
@@ -24,7 +24,7 @@ params:
   ramdisk_path:
     kind: option
     type: string
-    required: true
+    required: false
     description: Path to RAM disk for improved performance (optional)
   args:
     kind: option

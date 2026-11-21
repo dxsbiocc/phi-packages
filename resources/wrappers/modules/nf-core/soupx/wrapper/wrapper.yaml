@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'h5ad_raw' combined cartesian-style; verify if per-sample pairing is required; val input 'npcs' exposed as required option; confirm whether a safe default exists; val input 'cluster_algorithm' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'h5ad_raw' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/soupx
 name: soupx
 summary: Estimation and removal of cell free mRNA contamination in droplet based single cell RNA-seq data.

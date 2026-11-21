@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'ref_mode' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/coverm-genome
 name: coverm genome
 summary: Calculate read coverage per-genome
@@ -29,7 +29,7 @@ params:
   ref_mode:
     kind: option
     type: string
-    required: true
+    required: false
     description: 'How to interpret the `reference` input: - `"dir"`: Treat as a directory containing one
       or more FASTA files.'
   enable_bam_output:

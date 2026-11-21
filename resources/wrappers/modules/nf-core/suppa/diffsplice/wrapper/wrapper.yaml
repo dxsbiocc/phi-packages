@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'psi1' combined cartesian-style; verify if per-sample pairing is required; val input 'condition1' exposed as required option; confirm whether a safe default exists; companion input 'psi2' combined cartesian-style; verify if per-sample pairing is required; val input 'condition2' exposed as required option; confirm whether a safe default exists; val input 'method' exposed as required option; confirm whether a safe default exists; val input 'local_area' exposed as required option; confirm whether a safe default exists; val input 'lower_bound_delta_psi' exposed as required option; confirm whether a safe default exists; val input 'multi_testing_correction_alpha' exposed as required option; confirm whether a safe default exists; val input 'tpm_threshold' exposed as required option; confirm whether a safe default exists; val input 'nan_tpm_threshold' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'psi1' combined cartesian-style; verify if per-sample pairing is required; companion input 'psi2' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/suppa-diffsplice
 name: suppa diffsplice
 summary: Perform differential splicing analysis using SUPPA.
@@ -48,12 +48,12 @@ params:
   local_area:
     kind: option
     type: integer
-    required: true
+    required: false
     description: Number of points in the local area of the delta PSI - average TPM distribution.
   lower_bound_delta_psi:
     kind: option
     type: number
-    required: true
+    required: false
     description: Lower bound for the absolute delta PSI to test for significant.
   is_paired:
     kind: option
@@ -68,7 +68,7 @@ params:
   multi_testing_correction_alpha:
     kind: option
     type: number
-    required: true
+    required: false
     description: Family-wise error rate to use for the multiple testing correction.
   save_tpm_events:
     kind: option
@@ -88,13 +88,13 @@ params:
   tpm_threshold:
     kind: option
     type: number
-    required: true
+    required: false
     description: Minimum expression (calculated as average TPM value within-replicates and between-conditions)
       to be included in the analysis.
   nan_tpm_threshold:
     kind: option
     type: number
-    required: true
+    required: false
     description: Proportion of samples with nan values allowed per condition to calculate a delta PSI.
   args:
     kind: option

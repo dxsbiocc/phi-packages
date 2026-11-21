@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'annotsv_version' exposed as required option; confirm whether a safe default exists; val input 'exomiser_version' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/annotsv-installannotations
 name: annotsv installannotations
 summary: Install the AnnotSV annotations
@@ -8,12 +8,12 @@ params:
   annotsv_version:
     kind: option
     type: string
-    required: true
+    required: false
     description: The AnnotSV annotations version to install e.g.
   exomiser_version:
     kind: option
     type: string
-    required: true
+    required: false
     description: The Exomiser annotations version to install e.g.
   outdir:
     kind: output

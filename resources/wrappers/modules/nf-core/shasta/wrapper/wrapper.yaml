@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'model' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/shasta
 name: shasta
 summary: The goal of the Shasta long read assembler is to rapidly produce accurate assembled sequence
@@ -14,7 +14,7 @@ params:
   model:
     kind: option
     type: string
-    required: true
+    required: false
     description: Shasta assembly configuration model name (e.g.
   args:
     kind: option

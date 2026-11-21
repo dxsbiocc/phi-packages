@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'cluster' combined cartesian-style; verify if per-sample pairing is required; val input 'flank' exposed as required option; confirm whether a safe default exists; val input 'heteroplasmy_limit' exposed as required option; confirm whether a safe default exists; val input 'mito_length' exposed as required option; confirm whether a safe default exists; val input 'heavy_strand_origin_start' exposed as required option; confirm whether a safe default exists; val input 'heavy_strand_origin_end' exposed as required option; confirm whether a safe default exists; val input 'light_strand_origin_start' exposed as required option; confirm whether a safe default exists; val input 'light_strand_origin_end' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'cluster' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/saltshaker-call
 name: saltshaker call
 summary: mtDNA deletion and duplication calling downstream of mitosalt

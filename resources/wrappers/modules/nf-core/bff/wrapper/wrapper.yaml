@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'methods' exposed as required option; confirm whether a safe default exists; val input 'preprocessing' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) module-defaulted where the tool allows, otherwise genuinely required.
 id: nf-core/modules/bff
 name: bff
 summary: Generating cell hashing calls from a matrix of count data.
@@ -18,7 +18,7 @@ params:
   preprocessing:
     kind: option
     type: string
-    required: true
+    required: false
     description: Decides whether the HTO matrix should undergo a preprocessing step ('TRUE') or not ('FALSE').
   outdir:
     kind: output

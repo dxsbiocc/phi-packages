@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'model_name' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/stardist
 name: stardist
 summary: Cell and nuclear segmentation with star-convex shapes
@@ -18,7 +18,7 @@ params:
   model_name:
     kind: option
     type: string
-    required: true
+    required: false
     description: Name of a pretrained StarDist model (e.g.
   args:
     kind: option

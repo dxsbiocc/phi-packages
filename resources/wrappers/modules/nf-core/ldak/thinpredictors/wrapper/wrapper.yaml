@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'bim' combined cartesian-style; verify if per-sample pairing is required; companion input 'fam' combined cartesian-style; verify if per-sample pairing is required; val input 'window_prune' exposed as required option; confirm whether a safe default exists; val input 'window_kb' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'bim' combined cartesian-style; verify if per-sample pairing is required; companion input 'fam' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/ldak-thinpredictors
 name: ldak thinpredictors
 summary: Run linkage disequilibrium (LD) pruning with linkage disequilibrium-adjusted kinship (LDAK) to

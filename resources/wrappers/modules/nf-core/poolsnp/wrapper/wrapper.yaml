@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'max_cov' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/poolsnp
 name: poolsnp
 summary: PoolSNP is a heuristic SNP caller, which uses an MPILEUP file and a reference genome in FASTA
@@ -24,7 +24,7 @@ params:
   max_cov:
     kind: option
     type: number
-    required: true
+    required: false
     description: Maximum coverage is calculated for every library and chromosomal arm as the percentile
       of a coverage distribution, e.g.
   args:

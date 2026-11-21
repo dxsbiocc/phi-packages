@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'key' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/hmmer-hmmfetch
 name: hmmer hmmfetch
 summary: extract hmm from hmm database file or create index for hmm database
@@ -13,7 +13,7 @@ params:
   key:
     kind: option
     type: string
-    required: true
+    required: false
     description: Name of HMM to extract.
   keyfile:
     kind: input

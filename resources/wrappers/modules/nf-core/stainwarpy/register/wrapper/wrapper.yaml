@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'fixed_img' exposed as required option; confirm whether a safe default exists; val input 'final_sz' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) genuinely required (no safe default); caller must supply.
 id: nf-core/modules/stainwarpy-register
 name: stainwarpy register
 summary: Register H&E stained and Multiplexed tissue images using feature-based image registration

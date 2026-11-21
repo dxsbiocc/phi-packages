@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'opt_amp_db' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) genuinely required (no safe default); caller must supply.
 id: nf-core/modules/ampcombi2-parsetables
 name: ampcombi2 parsetables
 summary: A submodule that parses and standardizes the results from various antimicrobial peptide identification

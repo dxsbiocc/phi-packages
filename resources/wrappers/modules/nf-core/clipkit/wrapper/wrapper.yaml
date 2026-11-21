@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'out_format' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/clipkit
 name: clipkit
 summary: A multiple sequence alignment-trimming algorithm for accurate phylogenomic inference.
@@ -13,7 +13,7 @@ params:
   out_format:
     kind: option
     type: string
-    required: true
+    required: false
     description: Output format (aln,msa,fas,etc.), default is clipkit.
   auxiliary_file:
     kind: input

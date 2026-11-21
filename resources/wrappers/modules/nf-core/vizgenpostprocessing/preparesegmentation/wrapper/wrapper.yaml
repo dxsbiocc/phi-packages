@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'um_to_mosaic_file' combined cartesian-style; verify if per-sample pairing is required; val input 'images_regex' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'um_to_mosaic_file' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/vizgenpostprocessing-preparesegmentation
 name: vizgenpostprocessing preparesegmentation
 summary: The module prepares the specification JSON file for Vizgen's post-processing tool cell segmentation

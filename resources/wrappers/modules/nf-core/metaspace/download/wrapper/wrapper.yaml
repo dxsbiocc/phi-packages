@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'dataset_id' exposed as required option; confirm whether a safe default exists; val input 'database' exposed as required option; confirm whether a safe default exists; val input 'version' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) genuinely required (no safe default); caller must supply.
 id: nf-core/modules/metaspace-download
 name: metaspace download
 summary: A module to download dataset results from the METASPACE platform and save them as CSV files,

@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'out_format' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/trimal
 name: trimal
 summary: trimAl is a tool for the automated removal of spurious sequences or poorly aligned regions from
@@ -14,7 +14,7 @@ params:
   out_format:
     kind: option
     type: string
-    required: true
+    required: false
     description: Output format (e.g., pir, mega, nexus, clustal, fasta, phylip).
   args:
     kind: option

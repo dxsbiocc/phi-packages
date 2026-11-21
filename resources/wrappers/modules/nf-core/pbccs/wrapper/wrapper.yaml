@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'pbi' combined cartesian-style; verify if per-sample pairing is required; val input 'chunk_num' exposed as required option; confirm whether a safe default exists; val input 'chunk_on' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'pbi' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/pbccs
 name: pbccs
 summary: Pacbio ccs - Generate Highly Accurate Single-Molecule Consensus Reads

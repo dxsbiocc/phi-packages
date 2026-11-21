@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'min_len' exposed as required option; confirm whether a safe default exists; val input 'abs_min_len' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/td2-longorfs
 name: td2 longorfs
 summary: TD2 identifies candidate coding regions within transcript sequences, such as those generated
@@ -14,12 +14,12 @@ params:
   min_len:
     kind: option
     type: integer
-    required: true
+    required: false
     description: minimum protein length for proteins in long transcripts, default=90
   abs_min_len:
     kind: option
     type: integer
-    required: true
+    required: false
     description: minimum protein length for proteins in short transcripts, default=90
   gene_transmap:
     kind: input

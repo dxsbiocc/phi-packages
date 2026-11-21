@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'asm_to_ref_bai' combined cartesian-style; verify if per-sample pairing is required; companion input 'read_to_asm_bam' combined cartesian-style; verify if per-sample pairing is required; companion input 'read_to_asm_bai' combined cartesian-style; verify if per-sample pairing is required; companion input 'ref_fasta' combined cartesian-style; verify if per-sample pairing is required; val input 'assembly_mode' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'asm_to_ref_bai' combined cartesian-style; verify if per-sample pairing is required; companion input 'read_to_asm_bam' combined cartesian-style; verify if per-sample pairing is required; companion input 'read_to_asm_bai' combined cartesian-style; verify if per-sample pairing is required; companion input 'ref_fasta' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/portello
 name: portello
 summary: Transfer HiFi read mappings from their own assembly contigs to a standard reference

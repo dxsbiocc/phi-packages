@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'scheme_bed' combined cartesian-style; verify if per-sample pairing is required; val input 'normalise_depth' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'scheme_bed' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/artic-aligntrim
 name: artic aligntrim
 summary: Standalone version of fieldbioinformatics aligntrim.
@@ -18,7 +18,7 @@ params:
   normalise_depth:
     kind: option
     type: integer
-    required: true
+    required: false
     description: Normalise the read depth to this value
   sort_bam:
     kind: option

@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'output_suffix' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/echtvar-anno
 name: echtvar anno
 summary: Annotate a decomposed (and normalized) VCF with an echtvar file
@@ -18,7 +18,7 @@ params:
   output_suffix:
     kind: option
     type: string
-    required: true
+    required: false
     description: The suffix for the output file, e.g.
   args:
     kind: option

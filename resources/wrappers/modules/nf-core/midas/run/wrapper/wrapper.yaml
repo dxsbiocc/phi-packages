@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: glob input 'db' collected into one staged list; verify staging layout; val input 'mode' exposed as required option; confirm whether a safe default exists
+# REVIEW: glob input 'db' collected into one staged list; verify staging layout
 id: nf-core/modules/midas-run
 name: midas run
 summary: A tool to estimate bacterial species abundance

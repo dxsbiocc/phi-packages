@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'parsed_trim__o_t' exposed as required option; confirm whether a safe default exists; val input 'parsed_trim__o_b' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) genuinely required (no safe default); caller must supply.
 id: nf-core/modules/rastair-call
 name: rastair call
 summary: Assess positive C->T conversion as a readout for methylation on a genome-wide basis

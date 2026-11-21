@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: glob input 'xenium_bundle' collected into one staged list; verify staging layout; val input 'region_name' exposed as required option; confirm whether a safe default exists; val input 'cassette_name' exposed as required option; confirm whether a safe default exists
+# REVIEW: glob input 'xenium_bundle' collected into one staged list; verify staging layout
 id: nf-core/modules/xeniumranger-rename
 name: xeniumranger rename
 summary: The xeniumranger rename module allows you to change the sample region_name and cassette_name

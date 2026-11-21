@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'parameters' exposed as required option; confirm whether a safe default exists; val input 'kernel_' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/jupyternotebook
 name: jupyternotebook
 summary: Render jupyter (or jupytext) notebooks to HTML reports.
@@ -13,7 +13,7 @@ params:
   parameters:
     kind: option
     type: string
-    required: true
+    required: false
     description: Groovy map with notebook parameters which will be passed to papermill in order to create
       parametrized reports.
   input_files:
@@ -24,7 +24,7 @@ params:
   kernel_:
     kind: option
     type: string
-    required: true
+    required: false
     description: Name of the kernel to use.
   outdir:
     kind: output

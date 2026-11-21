@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'report_pg' combined cartesian-style; verify if per-sample pairing is required; companion input 'report_pr' combined cartesian-style; verify if per-sample pairing is required; companion input 'exp_design' combined cartesian-style; verify if per-sample pairing is required; companion input 'ms_information' combined cartesian-style; verify if per-sample pairing is required; companion input 'fasta' combined cartesian-style; verify if per-sample pairing is required; val input 'diann_version' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'report_pg' combined cartesian-style; verify if per-sample pairing is required; companion input 'report_pr' combined cartesian-style; verify if per-sample pairing is required; companion input 'exp_design' combined cartesian-style; verify if per-sample pairing is required; companion input 'ms_information' combined cartesian-style; verify if per-sample pairing is required; companion input 'fasta' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/quantmsutils-diann2mztab
 name: quantmsutils diann2mztab
 summary: Convert DIA-NN results to mzTab, MSstats, and Triqler formats using quantms-utils

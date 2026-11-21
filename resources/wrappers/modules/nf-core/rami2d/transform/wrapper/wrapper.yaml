@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'transform_dir' combined cartesian-style; verify if per-sample pairing is required; val input 'mpp' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'transform_dir' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/rami2d-transform
 name: rami2d transform
 summary: Applies transformations to images using RAMI2D, designed to take the transformation maps produced

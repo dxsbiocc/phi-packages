@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'parameters' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/rmarkdownnotebook
 name: rmarkdownnotebook
 summary: Render an rmarkdown notebook.
@@ -13,7 +13,7 @@ params:
   parameters:
     kind: option
     type: string
-    required: true
+    required: false
     description: Groovy map with notebook parameters which will be passed to rmarkdown to generate parametrized
       reports.
   input_files:

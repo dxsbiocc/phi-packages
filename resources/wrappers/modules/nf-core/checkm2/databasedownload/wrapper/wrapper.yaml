@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'db_zenodo_id' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/checkm2-databasedownload
 name: checkm2 databasedownload
 summary: CheckM2 database download
@@ -8,7 +8,7 @@ params:
   db_zenodo_id:
     kind: option
     type: integer
-    required: true
+    required: false
     description: Zenodo ID of the CheckM2 database to download
   args:
     kind: option

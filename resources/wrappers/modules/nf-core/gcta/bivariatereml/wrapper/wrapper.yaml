@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'phenotype_col1' exposed as required option; confirm whether a safe default exists; val input 'phenotype_col2' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) module-defaulted where the tool allows, otherwise genuinely required.
 id: nf-core/modules/gcta-bivariatereml
 name: gcta bivariatereml
 summary: Run bivariate REML analysis with a single dense GRM
@@ -24,7 +24,7 @@ params:
   phenotype_col2:
     kind: option
     type: integer
-    required: true
+    required: false
     description: Second phenotype column passed to `--reml-bivar` (for example `2`).
   quant_covariates_file:
     kind: input

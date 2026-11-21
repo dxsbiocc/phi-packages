@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'reads' combined cartesian-style; verify if per-sample pairing is required; val input 'cell_barcode_read' exposed as required option; confirm whether a safe default exists; val input 'umi_read' exposed as required option; confirm whether a safe default exists; val input 'read_format' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'reads' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/trust4
 name: trust4
 summary: Run TRUST4 on RNA-seq data
@@ -33,17 +33,17 @@ params:
   cell_barcode_read:
     kind: option
     type: string
-    required: true
+    required: false
     description: Read containing cell barcode (either R1 or R2)
   umi_read:
     kind: option
     type: string
-    required: true
+    required: false
     description: Read containing umi barcode (either R1 or R2)
   read_format:
     kind: option
     type: string
-    required: true
+    required: false
     description: Specifies where in the read the barcodes and UMIs can be found.
   args:
     kind: option

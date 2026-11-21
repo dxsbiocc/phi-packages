@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'in_format' exposed as required option; confirm whether a safe default exists; val input 'out_format' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) genuinely required (no safe default); caller must supply.
 id: nf-core/modules/csvtk-mutate2
 name: csvtk mutate2
 summary: Create a new column from selected fields by awk-like arithmetic/string expressions

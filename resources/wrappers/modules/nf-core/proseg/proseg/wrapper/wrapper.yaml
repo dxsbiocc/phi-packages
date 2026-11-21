@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'mode' exposed as required option; confirm whether a safe default exists; val input 'transcript_metadata_fmt' exposed as required option; confirm whether a safe default exists; val input 'cell_metadata_fmt' exposed as required option; confirm whether a safe default exists; val input 'expected_counts_fmt' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) are module-defaulted when unset (not required).
 id: nf-core/modules/proseg-proseg
 name: proseg proseg
 summary: Proseg (probabilistic segmentation) is a cell segmentation method for in situ spatial transcriptomics.
@@ -13,22 +13,22 @@ params:
   mode:
     kind: option
     type: string
-    required: true
+    required: false
     description: Proseg preset mode
   transcript_metadata_fmt:
     kind: option
     type: string
-    required: true
+    required: false
     description: Format of the transcript metadata file
   cell_metadata_fmt:
     kind: option
     type: string
-    required: true
+    required: false
     description: Format of the cell metadata file
   expected_counts_fmt:
     kind: option
     type: string
-    required: true
+    required: false
     description: Format of the expected counts file
   args:
     kind: option

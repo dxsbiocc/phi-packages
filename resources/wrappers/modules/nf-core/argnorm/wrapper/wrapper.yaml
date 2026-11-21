@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'tool' exposed as required option; confirm whether a safe default exists; val input 'db' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) module-defaulted where the tool allows, otherwise genuinely required.
 id: nf-core/modules/argnorm
 name: argnorm
 summary: Normalize antibiotic resistance genes (ARGs) using the ARO ontology (developed by CARD).
@@ -18,7 +18,7 @@ params:
   db:
     kind: option
     type: string
-    required: true
+    required: false
     description: Database used for ARG annotation
   args:
     kind: option

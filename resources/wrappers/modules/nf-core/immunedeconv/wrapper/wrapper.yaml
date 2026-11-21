@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'method' exposed as required option; confirm whether a safe default exists; val input 'function' exposed as required option; confirm whether a safe default exists; val input 'gene_symbol_col' exposed as required option; confirm whether a safe default exists
+# Curated: val input(s) genuinely required (no safe default); caller must supply.
 id: nf-core/modules/immunedeconv
 name: immunedeconv
 summary: Perform immune cell deconvolution using RNA-seq data and various computational methods.
