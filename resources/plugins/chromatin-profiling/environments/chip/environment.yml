@@ -1,0 +1,89 @@
+name: chip
+description: >-
+  染色质 profiling（ChIP/CUT&Tag）下游插件私有环境：R 4.5 + DiffBind/ChIPseeker/csaw +
+  DESeq2/edgeR + GenomicRanges 栈 + IRkernel，脚本链与 notebook 共用。纯 conda + R 源码包
+  （锁定环境不支持 pip/python 源码包）。
+# conda-forge + bioconda：strict channel priority 下 conda-forge 优先供应 r-base/ggplot2 等
+# 通用栈，bioconda 仅供 Bioconductor 包（DiffBind/ChIPseeker/csaw/DESeq2/edgeR/GenomicRanges）。
+# r-base pin 4.5：核心栈的 conda build 都到 r45（DiffBind 3.20 / ChIPseeker 1.46 / csaw 1.44 /
+# DESeq2 1.50 / edgeR 4.10），与 single-cell seurat 路同线；profileplyr 仅 r44，故不纳入（缺口）。
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  # build_notebook.py 只用标准库；python 随环境提供，不依赖宿主（与 seurat/scatac 同构）。
+  - python=3.12
+  - r-base=4.5
+  - r-irkernel
+
+  # 差异结合主引擎：DiffBind 占位/亲和分析（DBA 对象、sample sheet、自定义 contrast，内部调
+  # DESeq2/edgeR），TF/narrow mark ChIP 与 CUT&Tag 的标准下游。
+  - bioconductor-diffbind
+  # 窗口法差异结合：csaw 对 broad mark（H3K27me3/H3K36me3 等弥散信号）更优，与 DiffBind 共享统计栈。
+  # 平台限制：bioconda 没有 csaw 的 osx-arm64 构建（osx-64/linux-64 有 r45），故 csaw 只进
+  # darwin-x64 与 linux-x64。Apple Silicon（darwin-arm64）上 csaw 是缺口，由 chip_env_probe 如实
+  # 报告；broad mark 仍可走 DiffBind dba.analyze（窗口法 csaw 更优但非唯一）。这是平台条件依赖
+  # （CondaPlatformDependency），不是运行时往只读环境装包。
+  - conda: bioconductor-csaw
+    platforms:
+      - darwin-x64
+      - linux-x64
+  # peak 注释/可视化：ChIPseeker annotatePeak（基因组特征分布/nearest gene/TSS 距离）、
+  # covplot/plotAvgProf2/peakHeatmap/upsetplot。TxDb 由用户 GTF/GFF3 经 makeTxDbFromGFF 建（见下）。
+  # 注意：ChIPseeker 1.46 的 bioconda 配方硬依赖 TxDb.Hsapiens.UCSC.hg19.knownGene（构建期 conda
+  # 传递依赖，~130MB，无法在保留 ChIPseeker 时排除）。它只是附带进环境，不作默认注释源——分析仍
+  # 用用户输入的目标基因组 TxDb；这不违背"运行时不往只读环境下载大参考"红线（lock 期一次性下载）。
+  # 该包（及 go.db）的 post-link 会 R CMD INSTALL，加载 Biobase/AnnotationDbi/S4Vectors，故 locks 必须
+  # 把 bioconda 数据包排到最后（见 implementation-notes 的环境锁排序），否则 sqlite 装不上。
+  - bioconductor-chipseeker
+  # 统计引擎（DiffBind/csaw 依赖，也直接用于归一化/差异）。
+  - bioconductor-deseq2
+  - bioconductor-edger
+
+  # 基因组区间/比对/IO 核心栈：peaks（BED/narrowPeak）导入、BAM 计数/FRiP、bigWig 导入、
+  # consensus peakset（GRanges reduce/overlap）、makeTxDbFromGFF。
+  - bioconductor-genomicranges
+  - bioconductor-genomicalignments
+  - bioconductor-rsamtools
+  - bioconductor-rtracklayer
+  - bioconductor-genomicfeatures
+  # GTF/GFF3 -> TxDb 构建器：Bioc 3.22 起 makeTxDbFromGFF 从 GenomicFeatures 迁出、进 txdbmaker，
+  # 旧的 GenomicFeatures::makeTxDbFromGFF 已 defunct。精简注释策略（用户 GTF/GFF3）依赖它，
+  # 故显式纳入（GenomicFeatures 仍由 DiffBind/ChIPseeker 传递提供 TxDb 类基础设施）。
+  - bioconductor-txdbmaker
+
+  # 可视化：ComplexHeatmap（diff binding/occupancy 热图）+ ggplot2 栈。
+  - bioconductor-complexheatmap
+  - r-ggplot2
+  - r-ragg
+  - r-rcolorbrewer
+  - r-dplyr
+  - r-tidyr
+  - r-readr
+  - r-tibble
+  - r-jsonlite
+  # ChIPseeker::upsetplot 的 Suggests（非 Imports）：单 csAnno 的 UpSet 回退需要它；主路
+  # ComplexHeatmap::make_comb_mat 不依赖。纳入后碎片 upset.R 的 ggupset 守卫回退可用。
+  - r-ggupset
+
+sourcePackages:
+  # bioconda 的 GenomeInfoDbData 不带数据、post-link 下载在只读 prefix 里失败，沿用 seurat 的
+  # GitHub 镜像 pin（GenomicRanges/GenomicFeatures 经 GenomeInfoDb 需要它）。codeload 可达。
+  - language: r
+    name: GenomeInfoDbData
+    source: github
+    repo: Bioconductor/GenomeInfoDbData
+    ref: b5339e03cc0c9c188e773a7ec2b80a146601595a
+    sha256: 1eccebf119d4de560b4f601eddb863436889630fdee3d0185f89e32ca4e14125
+
+# 锁定环境机制（Phi lock-env.ts）只支持 conda 依赖 + R 源码包（sourcePackages.language='r'）；
+# refusePipDependencies 对任何 pip 依赖抛错。本环境不含 pip 段，也不含 python sourcePackages。
+# 纯下游：从已 call 的 peaks/counts/BAM/bigWig 出发，不做 FASTQ/比对/peak calling（那些是
+# nf-core/chipseq wrapper；CUT&Tag 上游 SEACR 无 wrapper，是缺口，插件直接吃用户 SEACR peaks）。
+# 基因组参考（精简策略，与 scATAC 一致）：不主动 bundle 目标基因组 TxDb/org.db。ChIPseeker 注释用
+# 用户 GTF/GFF3 经 txdbmaker::makeTxDbFromGFF 建 TxDb，或用户 TxDb .sqlite（AnnotationDbi::loadDb）；gene
+# symbol 需用户 org.db（annoDb）或 GFF3 gene_name 属性，缺失时报缺口（注释仍给 geneId/特征/TSS 距离）。
+# 唯一例外：ChIPseeker conda 配方附带的 hg19 TxDb（见上），非默认注释源、不用于目标基因组分析。
+# blacklist（ENCODE hg38/mm10）小体积离线随插件（assets/）。绝不在本只读环境里装包或下载大参考。
+# profileplyr（仅 r44）、IDR（pip）、motif/HOMER（上游）由 chip_env_probe 报为缺口，走项目环境
+# （env_request）或上游 wrapper。

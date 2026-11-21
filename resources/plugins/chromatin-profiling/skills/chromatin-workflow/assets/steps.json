@@ -1,0 +1,222 @@
+{
+  "language": "r",
+  "skill": "chromatin-workflow",
+  "library_title": "ChIP/CUT&Tag fragment library",
+  "analysis_title": "Chromatin profiling analysis",
+  "renderer_id": "chromatin-profiling/build_notebook.py",
+  "kernels": {
+    "r": {
+      "name": "plugin-chromatin-profiling-chip",
+      "display": "R 4.5 (chromatin-profiling:chip)"
+    },
+    "python": {
+      "name": "phi-python",
+      "display": "Python 3 (phi-python)"
+    }
+  },
+  "output_object_default": "analyzed.rds",
+  "footer": "## What this notebook did not do\n\nThis is a pure-downstream analysis: it starts from called peaks, count matrices, BAM or bigWig. Where a step needed something this environment does not ship, the cell said so and continued — an existing message means that step did not run, not that it passed.\n\nNext steps that belong elsewhere:\n\n- **Raw reads to peaks** — alignment (bowtie2/BWA) and peak calling (MACS2) are the `nf-core/chipseq` wrapper, not notebook cells. CUT&Tag peak calling (SEACR) has no wrapper yet; pass its peaks in directly.\n- **csaw on Apple Silicon** — bioconda has no osx-arm64 csaw build, so the window-based broad-mark route is a gap on darwin-arm64 (DiffBind still works). Run on linux-x64 / darwin-x64, or request a project environment.\n- **IDR reproducibility** — the formal IDR test needs the `idr` pip package; this notebook reports peak-overlap fractions as a transparent proxy.\n- **Motif analysis (HOMER/MEME), profileplyr, IDR** — these need packages or upstream tools the plugin omits; `chip_env_probe` lists them as gaps with a project-environment next step.\n- **Gene symbols** — annotation needs a user org.db (annoDb) or GFF3 gene_name attributes; without one, peaks are annotated to gene ids, features and TSS distance.",
+  "attribution": "The fragment explanations are an original distillation of the DiffBind, ChIPseeker and csaw Bioconductor vignettes (Artistic-2.0), the ENCODE ChIP-seq guidelines (Landt et al., Genome Res 2012, doi:10.1101/gr.136184.111) and the nf-core/chipseq documentation. No upstream notebook text, images or data are copied; the code runs in Phi's managed plugin:chip environment with no install cells and no hidden state between cells.",
+  "parameters": {
+    "seed": {
+      "type": "int",
+      "default": 42,
+      "comment": "random seed, so normalization and tests repeat exactly"
+    },
+    "figures_dir": {
+      "type": "string",
+      "default": "figures",
+      "comment": "directory for PNG figures; null disables saving"
+    },
+    "peak_paths": {
+      "type": "list",
+      "default": [],
+      "comment": "explicit BED/narrowPeak/broadPeak files; empty uses data_path (file or directory)"
+    },
+    "count_path": {
+      "type": "string",
+      "default": null,
+      "comment": "peak x sample count table; null uses data_path when it is a table"
+    },
+    "bam_paths": {
+      "type": "list",
+      "default": [],
+      "comment": "explicit aligned BAM files; empty uses bam_dir or data_path"
+    },
+    "bam_dir": {
+      "type": "string",
+      "default": null,
+      "comment": "directory of .bam files (with .bai indexes) for FRiP/counting"
+    },
+    "sample_sheet_path": {
+      "type": "string",
+      "default": null,
+      "comment": "DiffBind-format CSV (SampleID/Condition/Replicate/Peaks/PeakCaller/bamReads); null uses data_path"
+    },
+    "paired_end": {
+      "type": "bool",
+      "default": false,
+      "comment": "sequencing is paired-end; affects counting and csaw fragment handling"
+    },
+    "blacklist_path": {
+      "type": "string",
+      "default": null,
+      "comment": "user ENCODE blacklist BED; overrides the inlined hg38/mm10 lists; null with no genome skips filtering"
+    },
+    "genome": {
+      "type": "string",
+      "default": null,
+      "comment": "genome build (hg38 or mm10) selecting the inlined ENCODE v2 blacklist; other builds need blacklist_path"
+    },
+    "min_occupancy": {
+      "type": "int",
+      "default": 2,
+      "comment": "consensus peak must appear in at least this many samples"
+    },
+    "normalize_method": {
+      "type": "string",
+      "default": "libsize",
+      "comment": "libsize (CPM), rpkm (also divides by peak width), or none"
+    },
+    "contrast": {
+      "type": "list",
+      "default": [],
+      "comment": "explicit contrast c(column, treated, control); empty tests all condition pairs"
+    },
+    "min_members": {
+      "type": "int",
+      "default": 2,
+      "comment": "minimum replicates per group for a DiffBind contrast"
+    },
+    "fdr_threshold": {
+      "type": "number",
+      "default": 0.05,
+      "comment": "FDR cutoff for calling a peak differential"
+    },
+    "lfc_threshold": {
+      "type": "number",
+      "default": 0,
+      "comment": "minimum absolute log2 fold change for a differential peak"
+    },
+    "top_n": {
+      "type": "int",
+      "default": 20,
+      "comment": "top differential peaks/regions printed and written"
+    },
+    "csaw_width": {
+      "type": "int",
+      "default": 150,
+      "comment": "csaw window width (bp); larger for broad marks"
+    },
+    "csaw_spacing": {
+      "type": "int",
+      "default": 50,
+      "comment": "csaw window spacing (bp); also the region-merge tolerance"
+    },
+    "csaw_filter": {
+      "type": "string",
+      "default": "global",
+      "comment": "csaw window filter: global (background) or control (input)"
+    },
+    "fragment_size": {
+      "type": "int",
+      "default": 200,
+      "comment": "single-end fragment extension (bp) for csaw; ignored when paired_end"
+    },
+    "gtf_path": {
+      "type": "string",
+      "default": null,
+      "comment": "user GTF/GFF3 to build a TxDb (makeTxDbFromGFF) for annotation"
+    },
+    "txdb_path": {
+      "type": "string",
+      "default": null,
+      "comment": "user prebuilt TxDb .sqlite (loadDb); takes precedence over gtf_path"
+    },
+    "org_db": {
+      "type": "string",
+      "default": null,
+      "comment": "user org.db package name for gene symbols (e.g. org.Hs.eg.db); null reports gene ids"
+    },
+    "tss_upstream": {
+      "type": "int",
+      "default": 3000,
+      "comment": "bp upstream of TSS for promoter definition and coverage profiles"
+    },
+    "tss_downstream": {
+      "type": "int",
+      "default": 3000,
+      "comment": "bp downstream of TSS for promoter definition and coverage profiles"
+    }
+  },
+  "steps": [
+    { "id": "setup", "title": "Setup", "requires": [] },
+    { "id": "load-peaks", "title": "Load called peaks", "requires": ["setup"] },
+    { "id": "load-counts", "title": "Load a count matrix", "requires": ["setup"] },
+    { "id": "load-bam", "title": "Open aligned BAM files", "requires": ["setup"] },
+    { "id": "load-sample-sheet", "title": "Build the DiffBind object", "requires": ["setup"] },
+    { "id": "qc-frip", "title": "FRiP quality metric", "requires": ["load-peaks", "load-bam"] },
+    { "id": "qc-reproducibility", "title": "Replicate reproducibility", "requires": ["load-peaks"] },
+    { "id": "blacklist-filter", "title": "Remove blacklist regions", "requires": ["load-peaks"] },
+    { "id": "consensus", "title": "Build a consensus peakset", "requires": ["load-peaks"] },
+    { "id": "count", "title": "Count reads in peaks", "requires": ["consensus", "load-bam"] },
+    { "id": "normalize", "title": "Normalize for library size", "requires": ["setup"] },
+    { "id": "pca", "title": "Sample PCA", "requires": ["normalize"] },
+    { "id": "diff-deseq2", "title": "Differential binding (DESeq2)", "requires": ["load-sample-sheet", "count"] },
+    { "id": "diff-edger", "title": "Differential binding (edgeR)", "requires": ["load-sample-sheet", "count"] },
+    { "id": "csaw", "title": "Window-based differential binding (csaw)", "requires": ["load-bam", "load-sample-sheet"] },
+    { "id": "annotate", "title": "Annotate peaks to features", "requires": ["load-peaks"] },
+    { "id": "coverage-profile", "title": "TSS profile and peak heatmap", "requires": ["annotate"] },
+    { "id": "upset", "title": "Peak overlap UpSet", "requires": ["setup"] },
+    { "id": "save", "title": "Save object and tables", "requires": ["setup"] }
+  ],
+  "presets": {
+    "1": {
+      "title": "TF / narrow-mark ChIP — DiffBind + DESeq2",
+      "intro": "End-to-end downstream analysis of a transcription-factor or narrow-mark ChIP\nexperiment (H3K4me3, H3K27ac, CTCF). It starts from called peaks and aligned BAMs,\nchecks FRiP and replicate reproducibility, removes ENCODE blacklist artefacts, builds\na consensus peakset, counts reads, and tests differential binding with DiffBind +\nDESeq2. Peaks are annotated to genomic features with a user-supplied GTF/GFF3.\n\nAlignment and MACS2 peak calling belong to the nf-core/chipseq wrapper; this notebook\npicks up at the peak files. The DiffBind sample sheet (SampleID, Condition, Replicate,\nPeaks, PeakCaller, bamReads) drives the statistical design.",
+      "steps": [
+        "setup", "load-sample-sheet", "load-peaks", "load-bam", "qc-frip",
+        "qc-reproducibility", "blacklist-filter", "consensus", "count", "normalize",
+        "pca", "diff-deseq2", "annotate", "upset", "save"
+      ]
+    },
+    "2": {
+      "title": "Broad mark — csaw window analysis",
+      "intro": "Broad histone marks (H3K27me3, H3K36me3, H3K9me3) spread over kilobases rather\nthan sharp peaks, so a window-based test catches diffuse changes that peak-based\nDiffBind can miss. This notebook counts reads in sliding windows with csaw, filters\nbackground windows, normalizes for composition bias, fits a quasi-likelihood model and\ncombines window tests into region-level FDR.\n\ncsaw has no osx-arm64 bioconda build: on Apple Silicon this route reports a gap and\nfalls back to DiffBind. Run on linux-x64 / darwin-x64 for the window analysis. A user\nGTF/GFF3 annotates the differential regions.",
+      "steps": [
+        "setup", "load-sample-sheet", "load-peaks", "load-bam", "qc-frip",
+        "blacklist-filter", "csaw", "annotate", "coverage-profile", "save"
+      ]
+    },
+    "3": {
+      "title": "CUT&Tag — DiffBind + edgeR",
+      "intro": "CUT&Tag profiles protein-DNA interactions with very low background, so FRiP is\ntypically high and fewer reads are needed. The downstream statistics match ChIP: a\nconsensus peakset, read counting, and differential binding. This preset uses edgeR\n(often more sensitive with few replicates) instead of DESeq2.\n\nCUT&Tag peak calling (SEACR) has no nf-core wrapper yet — pass the SEACR peaks in\ndirectly via the sample sheet's Peaks column. The rest of the route is identical to\nChIP, which is why one plugin covers both.",
+      "steps": [
+        "setup", "load-sample-sheet", "load-peaks", "load-bam", "qc-frip",
+        "qc-reproducibility", "blacklist-filter", "consensus", "count", "normalize",
+        "pca", "diff-edger", "annotate", "upset", "save"
+      ]
+    },
+    "4": {
+      "title": "Consensus peakset only",
+      "intro": "Build a reproducible consensus peakset from called peaks without differential\nanalysis: import per-sample peaks, remove blacklist regions, keep sites present in at\nleast min_occupancy samples, and visualise overlap with an UpSet plot. Useful for\ndefining a region universe before counting, or for a quick reproducibility check.",
+      "steps": [
+        "setup", "load-peaks", "blacklist-filter", "consensus", "upset", "save"
+      ]
+    },
+    "5": {
+      "title": "Annotation only",
+      "intro": "Annotate called peaks to genomic features with ChIPseeker: promoter/exon/intron/\nintergenic distribution, nearest gene, distance to TSS, plus a TSS coverage profile and\npeak heatmap. Requires a user GTF/GFF3 (or prebuilt TxDb) — the plugin bundles no\ntarget-genome annotation. Gene symbols additionally need a user org.db.",
+      "steps": [
+        "setup", "load-peaks", "annotate", "coverage-profile", "save"
+      ]
+    },
+    "6": {
+      "title": "Count matrix exploration",
+      "intro": "Start from an existing peak x sample count matrix (featureCounts or a DiffBind\nexport) rather than BAMs: normalize for library size, run sample PCA to see whether\ncondition or batch dominates, and save the normalized table. A fast exploratory pass\nwhen counting already happened upstream.",
+      "steps": [
+        "setup", "load-counts", "normalize", "pca", "save"
+      ]
+    }
+  }
+}
