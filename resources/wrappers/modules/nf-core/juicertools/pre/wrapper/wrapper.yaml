@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'genome_id' exposed as required option; confirm whether a safe default exists
+# REVIEW: val input 'genome_id' exposed as required option; confirm whether a safe default exists
 id: nf-core/modules/juicertools-pre
 name: juicertools pre
 summary: Create a multi-resolution .hic contact matrix for analysis with Juicer

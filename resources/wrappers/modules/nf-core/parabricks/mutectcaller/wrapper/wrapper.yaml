@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'tumor_bam_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'normal_bam' combined cartesian-style; verify if per-sample pairing is required; companion input 'normal_bam_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'intervals' combined cartesian-style; verify if per-sample pairing is required; companion input 'fasta_fai' combined cartesian-style; verify if per-sample pairing is required; standalone path 'panel_of_normals_index' treated as single reference (.first()); verify if a list/collection is expected
+# REVIEW: companion input 'tumor_bam_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'normal_bam' combined cartesian-style; verify if per-sample pairing is required; companion input 'normal_bam_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'intervals' combined cartesian-style; verify if per-sample pairing is required; companion input 'fasta_fai' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/parabricks-mutectcaller
 name: parabricks mutectcaller
 summary: NVIDIA Clara Parabricks GPU-accelerated somatic variant calling, replicating GATK Mutect2.

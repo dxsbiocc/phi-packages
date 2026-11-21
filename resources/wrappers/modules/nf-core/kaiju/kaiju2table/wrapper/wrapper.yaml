@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: standalone path 'db' treated as single reference (.first()); verify if a list/collection is expected; val input 'taxon_rank' exposed as required option; confirm whether a safe default exists
+# REVIEW: val input 'taxon_rank' exposed as required option; confirm whether a safe default exists
 id: nf-core/modules/kaiju-kaiju2table
 name: kaiju kaiju2table
 summary: write your description here

@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'model' exposed as required option; confirm whether a safe default exists; standalone path 'db' treated as single reference (.first()); verify if a list/collection is expected
+# REVIEW: val input 'model' exposed as required option; confirm whether a safe default exists
 id: nf-core/modules/deeparg-predict
 name: deeparg predict
 summary: A deep learning based approach to predict Antibiotic Resistance Genes (ARGs) from metagenomes

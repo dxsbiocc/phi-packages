@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'bais' combined cartesian-style; verify if per-sample pairing is required
+# REVIEW: companion input 'bais' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/sawfish-jointcall
 name: sawfish jointcall
 summary: Joint calling of structural variants from multiple samples using Sawfish

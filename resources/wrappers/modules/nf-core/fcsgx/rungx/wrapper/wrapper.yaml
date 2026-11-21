@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'taxid' exposed as required option; confirm whether a safe default exists; standalone path 'gxdb' treated as single reference (.first()); verify if a list/collection is expected; val input 'ramdisk_path' exposed as required option; confirm whether a safe default exists
+# REVIEW: val input 'taxid' exposed as required option; confirm whether a safe default exists; val input 'ramdisk_path' exposed as required option; confirm whether a safe default exists
 id: nf-core/modules/fcsgx-rungx
 name: fcsgx rungx
 summary: Runs FCS-GX (Foreign Contamination Screen - Genome eXtractor) to screen and remove foreign contamination

@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'annotsv_version' exposed as required option; confirm whether a safe default exists; val input 'exomiser_version' exposed as required option; confirm whether a safe default exists; val-only tuple wired as a single sample; verify multi-sample semantics
+# REVIEW: val input 'annotsv_version' exposed as required option; confirm whether a safe default exists; val input 'exomiser_version' exposed as required option; confirm whether a safe default exists
 id: nf-core/modules/annotsv-installannotations
 name: annotsv installannotations
 summary: Install the AnnotSV annotations

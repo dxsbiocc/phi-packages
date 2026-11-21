@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'grm_files' combined cartesian-style; verify if per-sample pairing is required; val input 'phenotype_col1' exposed as required option; confirm whether a safe default exists; val input 'phenotype_col2' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'grm_files' combined cartesian-style; verify if per-sample pairing is required; val input 'phenotype_col1' exposed as required option; confirm whether a safe default exists; val input 'phenotype_col2' exposed as required option; confirm whether a safe default exists
 id: nf-core/modules/gcta-bivariateremlldms
 name: gcta bivariateremlldms
 summary: Run bivariate REML-LDMS analysis with an MGRM manifest

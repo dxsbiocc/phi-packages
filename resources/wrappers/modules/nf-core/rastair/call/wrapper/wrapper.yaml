@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'parsed_trim__o_t' exposed as required option; confirm whether a safe default exists; val-only tuple wired as a single sample; verify multi-sample semantics; val input 'parsed_trim__o_b' exposed as required option; confirm whether a safe default exists; val-only tuple wired as a single sample; verify multi-sample semantics
+# REVIEW: val input 'parsed_trim__o_t' exposed as required option; confirm whether a safe default exists; val input 'parsed_trim__o_b' exposed as required option; confirm whether a safe default exists
 id: nf-core/modules/rastair-call
 name: rastair call
 summary: Assess positive C->T conversion as a readout for methylation on a genome-wide basis

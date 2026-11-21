@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: glob input 'fastas' collected into one staged list; verify staging layout; standalone path 'gff' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'mapping_db' treated as single reference (.first()); verify if a list/collection is expected; val input 'map_type' exposed as required option; confirm whether a safe default exists
+# REVIEW: glob input 'fastas' collected into one staged list; verify staging layout; val input 'map_type' exposed as required option; confirm whether a safe default exists
 id: nf-core/modules/malt-build
 name: malt build
 summary: MALT, an acronym for MEGAN alignment tool, is a sequence alignment and analysis tool designed

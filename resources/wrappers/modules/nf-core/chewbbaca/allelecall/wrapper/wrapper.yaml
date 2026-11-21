@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; glob input 'fasta' collected into one staged list; verify staging layout
+# REVIEW: glob input 'fasta' collected into one staged list; verify staging layout
 id: nf-core/modules/chewbbaca-allelecall
 name: chewbbaca allelecall
 summary: Determine the allelic profiles of a genome using a pre-defined schema

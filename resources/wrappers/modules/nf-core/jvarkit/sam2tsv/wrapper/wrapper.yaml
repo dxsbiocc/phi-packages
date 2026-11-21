@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'bai' combined cartesian-style; verify if per-sample pairing is required; companion input 'regions_file' combined cartesian-style; verify if per-sample pairing is required; companion input 'fasta_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'fasta_dict' combined cartesian-style; verify if per-sample pairing is required
+# REVIEW: companion input 'bai' combined cartesian-style; verify if per-sample pairing is required; companion input 'regions_file' combined cartesian-style; verify if per-sample pairing is required; companion input 'fasta_index' combined cartesian-style; verify if per-sample pairing is required; companion input 'fasta_dict' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/jvarkit-sam2tsv
 name: jvarkit sam2tsv
 summary: Convert sam files to tsv files

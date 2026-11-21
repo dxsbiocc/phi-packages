@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'bai' combined cartesian-style; verify if per-sample pairing is required; tuple has no leading val(meta); sample meta synthesized from file name; companion input 'svd_mu' combined cartesian-style; verify if per-sample pairing is required; companion input 'svd_bed' combined cartesian-style; verify if per-sample pairing is required; standalone path 'references' treated as single reference (.first()); verify if a list/collection is expected
+# REVIEW: companion input 'bai' combined cartesian-style; verify if per-sample pairing is required; companion input 'svd_mu' combined cartesian-style; verify if per-sample pairing is required; companion input 'svd_bed' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/verifybamid-verifybamid2
 name: verifybamid verifybamid2
 summary: Detecting and estimating inter-sample DNA contamination became a crucial quality assessment step

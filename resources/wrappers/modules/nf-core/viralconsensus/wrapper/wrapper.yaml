@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; standalone path 'primer_bed' treated as single reference (.first()); verify if a list/collection is expected
+# Curated: verified single-invocation wiring (single-valued reference params; call arity matches module inputs).
 id: nf-core/modules/viralconsensus
 name: viralconsensus
 summary: Fast and memory-efficient viral consensus genome sequence generation from read alignments

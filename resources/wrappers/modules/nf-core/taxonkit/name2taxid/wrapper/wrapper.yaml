@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'name' exposed as required option; confirm whether a safe default exists; standalone path 'taxdb' treated as single reference (.first()); verify if a list/collection is expected
+# REVIEW: val input 'name' exposed as required option; confirm whether a safe default exists
 id: nf-core/modules/taxonkit-name2taxid
 name: taxonkit name2taxid
 summary: Convert taxon names to TaxIds

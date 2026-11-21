@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'genome' exposed as required option; confirm whether a safe default exists; standalone path 'bed' treated as single reference (.first()); verify if a list/collection is expected
+# REVIEW: val input 'genome' exposed as required option; confirm whether a safe default exists
 id: nf-core/modules/irescue
 name: irescue
 summary: Quantification of transposable elements expression in scRNA-seq

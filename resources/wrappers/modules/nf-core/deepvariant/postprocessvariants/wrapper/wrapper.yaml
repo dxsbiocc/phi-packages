@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'gvcf_tfrecords' combined cartesian-style; verify if per-sample pairing is required; companion input 'small_model_calls' combined cartesian-style; verify if per-sample pairing is required; companion input 'phase_inputs' combined cartesian-style; verify if per-sample pairing is required; companion input 'intervals' combined cartesian-style; verify if per-sample pairing is required
+# REVIEW: companion input 'gvcf_tfrecords' combined cartesian-style; verify if per-sample pairing is required; companion input 'small_model_calls' combined cartesian-style; verify if per-sample pairing is required; companion input 'phase_inputs' combined cartesian-style; verify if per-sample pairing is required; companion input 'intervals' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/deepvariant-postprocessvariants
 name: deepvariant postprocessvariants
 summary: DeepVariant is an analysis pipeline that uses a deep neural network to call genetic variants

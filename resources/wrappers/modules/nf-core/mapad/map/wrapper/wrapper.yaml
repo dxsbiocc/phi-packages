@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'mismatch_parameter' exposed as required option; confirm whether a safe default exists; val input 'five_prime_overhang' exposed as required option; confirm whether a safe default exists; val input 'three_prime_overhang' exposed as required option; confirm whether a safe default exists; val input 'deam_rate_double_stranded' exposed as required option; confirm whether a safe default exists; val input 'deam_rate_single_stranded' exposed as required option; confirm whether a safe default exists; val input 'indel_rate' exposed as required option; confirm whether a safe default exists
+# REVIEW: val input 'mismatch_parameter' exposed as required option; confirm whether a safe default exists; val input 'five_prime_overhang' exposed as required option; confirm whether a safe default exists; val input 'three_prime_overhang' exposed as required option; confirm whether a safe default exists; val input 'deam_rate_double_stranded' exposed as required option; confirm whether a safe default exists; val input 'deam_rate_single_stranded' exposed as required option; confirm whether a safe default exists; val input 'indel_rate' exposed as required option; confirm whether a safe default exists
 id: nf-core/modules/mapad-map
 name: mapad map
 summary: Map short-reads to an indexed reference genome

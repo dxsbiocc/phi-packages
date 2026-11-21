@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'exclude_bed' combined cartesian-style; verify if per-sample pairing is required
+# REVIEW: companion input 'exclude_bed' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/ngsbits-rohhunter
 name: ngsbits rohhunter
 summary: RohHunter is a tool for run of homozygosity (ROH) detection based on a variant list in VCF format.

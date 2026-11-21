@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'plink_variant_file' combined cartesian-style; verify if per-sample pairing is required; companion input 'plink_sample_file' combined cartesian-style; verify if per-sample pairing is required; companion input 'loco_files' combined cartesian-style; verify if per-sample pairing is required; val input 'bsize' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'plink_variant_file' combined cartesian-style; verify if per-sample pairing is required; companion input 'plink_sample_file' combined cartesian-style; verify if per-sample pairing is required; companion input 'loco_files' combined cartesian-style; verify if per-sample pairing is required; val input 'bsize' exposed as required option; confirm whether a safe default exists
 id: nf-core/modules/regenie-step2
 name: regenie step2
 summary: Run REGENIE step 2 association testing from precomputed step 1 predictions

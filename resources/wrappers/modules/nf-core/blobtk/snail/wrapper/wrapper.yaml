@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'full_table' combined cartesian-style; verify if per-sample pairing is required; val input 'format' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'full_table' combined cartesian-style; verify if per-sample pairing is required; val input 'format' exposed as required option; confirm whether a safe default exists
 id: nf-core/modules/blobtk-snail
 name: blobtk snail
 summary: Creates blobtk snail plots.

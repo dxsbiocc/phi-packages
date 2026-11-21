@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'bai' combined cartesian-style; verify if per-sample pairing is required; standalone path 'reference' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'bed' treated as single reference (.first()); verify if a list/collection is expected
+# REVIEW: companion input 'bai' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/bamreadcount
 name: bamreadcount
 summary: bam-readcount is a utility that runs on a BAM or CRAM file and generates low-level information

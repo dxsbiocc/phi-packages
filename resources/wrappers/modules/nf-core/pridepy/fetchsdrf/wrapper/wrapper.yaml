@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'pride_id' exposed as required option; confirm whether a safe default exists; val-only tuple wired as a single sample; verify multi-sample semantics
+# REVIEW: val input 'pride_id' exposed as required option; confirm whether a safe default exists
 id: nf-core/modules/pridepy-fetchsdrf
 name: pridepy fetchsdrf
 summary: Fetch an SDRF file from the PRIDE Archive for a given project accession.

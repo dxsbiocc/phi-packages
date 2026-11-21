@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: standalone path 'db' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'plasmid_mash_db' treated as single reference (.first()); verify if a list/collection is expected
+# Curated: verified single-invocation wiring (single-valued reference params; call arity matches module inputs).
 id: nf-core/modules/mobsuite-typer
 name: mobsuite typer
 summary: Bacterial plasmid typing and mobility prediction

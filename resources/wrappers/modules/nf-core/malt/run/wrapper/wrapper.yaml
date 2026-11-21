@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics
+# Curated: verified single-invocation wiring (single-valued reference params; call arity matches module inputs).
 id: nf-core/modules/malt-run
 name: malt run
 summary: MALT, an acronym for MEGAN alignment tool, is a sequence alignment and analysis tool designed

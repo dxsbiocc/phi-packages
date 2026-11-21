@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'phenotype_col1' exposed as required option; confirm whether a safe default exists; val input 'phenotype_col2' exposed as required option; confirm whether a safe default exists
+# REVIEW: val input 'phenotype_col1' exposed as required option; confirm whether a safe default exists; val input 'phenotype_col2' exposed as required option; confirm whether a safe default exists
 id: nf-core/modules/gcta-bivariatereml
 name: gcta bivariatereml
 summary: Run bivariate REML analysis with a single dense GRM

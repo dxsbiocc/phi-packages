@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'kraken' combined cartesian-style; verify if per-sample pairing is required; standalone path 'db' treated as single reference (.first()); verify if a list/collection is expected
+# REVIEW: companion input 'kraken' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/kaiju-mergeoutputs
 name: kaiju mergeoutputs
 summary: Merge two tab-separated output files of Kaiju and Kraken in the column format

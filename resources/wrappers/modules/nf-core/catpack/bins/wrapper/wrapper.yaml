@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; glob input 'bins' collected into one staged list; verify staging layout; val input 'bin_suffix' exposed as required option; confirm whether a safe default exists
+# REVIEW: glob input 'bins' collected into one staged list; verify staging layout; val input 'bin_suffix' exposed as required option; confirm whether a safe default exists
 id: nf-core/modules/catpack-bins
 name: catpack bins
 summary: Taxonomic classification of long DNA sequences and metagenome assembled genomes (e.g.

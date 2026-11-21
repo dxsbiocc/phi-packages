@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: standalone path 'reference' treated as single reference (.first()); verify if a list/collection is expected
+# Curated: verified single-invocation wiring (single-valued reference params; call arity matches module inputs).
 id: nf-core/modules/cellrangeratac-count
 name: cellrangeratac count
 summary: Module to use Cell Ranger's ATAC pipelines analyze sequencing data produced from Chromium Single

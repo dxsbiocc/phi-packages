@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'bai' combined cartesian-style; verify if per-sample pairing is required; companion input 'lengths_offsets' combined cartesian-style; verify if per-sample pairing is required
+# REVIEW: companion input 'bai' combined cartesian-style; verify if per-sample pairing is required; companion input 'lengths_offsets' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/rpbp-extractorfprofiles
 name: rpbp extractorfprofiles
 summary: Build a per-ORF P-site count vector for every candidate open reading frame (ORF) in the catalogue.

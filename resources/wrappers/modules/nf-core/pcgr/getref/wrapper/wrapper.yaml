@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: val input 'bundleversion' exposed as required option; confirm whether a safe default exists; val input 'genome' exposed as required option; confirm whether a safe default exists; val-only tuple wired as a single sample; verify multi-sample semantics
+# REVIEW: val input 'bundleversion' exposed as required option; confirm whether a safe default exists; val input 'genome' exposed as required option; confirm whether a safe default exists
 id: nf-core/modules/pcgr-getref
 name: pcgr getref
 summary: Get reference to run Personal Cancer Genome Reporter (PCGR)

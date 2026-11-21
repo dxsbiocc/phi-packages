@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'genome_mappings' combined cartesian-style; verify if per-sample pairing is required; companion input 'hairpin' combined cartesian-style; verify if per-sample pairing is required; companion input 'mature_other_species' combined cartesian-style; verify if per-sample pairing is required
+# REVIEW: companion input 'genome_mappings' combined cartesian-style; verify if per-sample pairing is required; companion input 'hairpin' combined cartesian-style; verify if per-sample pairing is required; companion input 'mature_other_species' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/mirdeep2-mirdeep2
 name: mirdeep2 mirdeep2
 summary: miRDeep2 is a tool for identifying known and novel miRNAs in deep sequencing data by analyzing

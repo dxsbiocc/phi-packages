@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; tuple has no leading val(meta); sample meta synthesized from file name; companion input 'level1' combined cartesian-style; verify if per-sample pairing is required; companion input 'level2' combined cartesian-style; verify if per-sample pairing is required
+# REVIEW: companion input 'level1' combined cartesian-style; verify if per-sample pairing is required; companion input 'level2' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/caalm-caalm
 name: caalm caalm
 summary: Annotates carbohydrate-active enzyme (CAZyme) families from protein sequences using protein language

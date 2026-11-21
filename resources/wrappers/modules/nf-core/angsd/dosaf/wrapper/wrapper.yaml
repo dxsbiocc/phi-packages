@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; companion input 'bam_indices' combined cartesian-style; verify if per-sample pairing is required; tuple has no leading val(meta); sample meta synthesized from file name; companion input 'reference_fai' combined cartesian-style; verify if per-sample pairing is required; tuple has no leading val(meta); sample meta synthesized from file name; companion input 'ancestral_fai' combined cartesian-style; verify if per-sample pairing is required; val input 'gl_model' exposed as required option; confirm whether a safe default exists; val input 'dosaf_mode' exposed as required option; confirm whether a safe default exists
+# REVIEW: companion input 'bam_indices' combined cartesian-style; verify if per-sample pairing is required; companion input 'reference_fai' combined cartesian-style; verify if per-sample pairing is required; companion input 'ancestral_fai' combined cartesian-style; verify if per-sample pairing is required; val input 'gl_model' exposed as required option; confirm whether a safe default exists; val input 'dosaf_mode' exposed as required option; confirm whether a safe default exists
 id: nf-core/modules/angsd-dosaf
 name: angsd dosaf
 summary: Estimate site allele frequencies from BAM files.

@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'contrast_variable' exposed as required option; confirm whether a safe default exists; val input 'reference' exposed as required option; confirm whether a safe default exists; val input 'target' exposed as required option; confirm whether a safe default exists; val-only tuple wired as a single sample; verify multi-sample semantics; companion input 'counts' combined cartesian-style; verify if per-sample pairing is required
+# REVIEW: val input 'contrast_variable' exposed as required option; confirm whether a safe default exists; val input 'reference' exposed as required option; confirm whether a safe default exists; val input 'target' exposed as required option; confirm whether a safe default exists; companion input 'counts' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/propr-propd
 name: propr propd
 summary: Perform differential proportionality analysis

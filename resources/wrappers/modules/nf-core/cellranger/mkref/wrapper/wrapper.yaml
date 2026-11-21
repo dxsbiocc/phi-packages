@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'reference_name' exposed as required option; confirm whether a safe default exists
+# REVIEW: val input 'reference_name' exposed as required option; confirm whether a safe default exists
 id: nf-core/modules/cellranger-mkref
 name: cellranger mkref
 summary: Module to build the reference needed by the 10x Genomics Cell Ranger tool.

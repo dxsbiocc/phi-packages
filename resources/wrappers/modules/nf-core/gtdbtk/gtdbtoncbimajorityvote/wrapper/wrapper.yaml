@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'gtdbtk_prefix' exposed as required option; confirm whether a safe default exists
+# REVIEW: val input 'gtdbtk_prefix' exposed as required option; confirm whether a safe default exists
 id: nf-core/modules/gtdbtk-gtdbtoncbimajorityvote
 name: gtdbtk gtdbtoncbimajorityvote
 summary: Converts the output classifications of GTDB-TK from GTDB taxonomy to NCBI taxonomy

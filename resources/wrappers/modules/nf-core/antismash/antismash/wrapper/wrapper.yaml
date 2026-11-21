@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: standalone path 'databases' treated as single reference (.first()); verify if a list/collection is expected; standalone path 'gff' treated as single reference (.first()); verify if a list/collection is expected
+# Curated: verified single-invocation wiring (single-valued reference params; call arity matches module inputs).
 id: nf-core/modules/antismash-antismash
 name: antismash antismash
 summary: antiSMASH allows the rapid genome-wide identification, annotation and analysis of secondary metabolite

@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'medium' combined cartesian-style; verify if per-sample pairing is required; standalone path 'db' treated as single reference (.first()); verify if a list/collection is expected
+# REVIEW: companion input 'medium' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/gapseq-doall
 name: gapseq doall
 summary: Complete gapseq workflow from genome to gap-filled model

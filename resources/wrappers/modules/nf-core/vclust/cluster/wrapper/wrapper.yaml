@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'metric' exposed as required option; confirm whether a safe default exists; val input 'tani' exposed as required option; confirm whether a safe default exists; val input 'gani' exposed as required option; confirm whether a safe default exists; val input 'ani' exposed as required option; confirm whether a safe default exists
+# REVIEW: val input 'metric' exposed as required option; confirm whether a safe default exists; val input 'tani' exposed as required option; confirm whether a safe default exists; val input 'gani' exposed as required option; confirm whether a safe default exists; val input 'ani' exposed as required option; confirm whether a safe default exists
 id: nf-core/modules/vclust-cluster
 name: vclust cluster
 summary: Vclust cluster performs threshold-based clustering by assigning a genome sequence to a cluster

@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: multiple tuple channels: secondary channels wired as single references (.first()); verify pairing semantics; val input 'assembler' exposed as required option; confirm whether a safe default exists; val input 'mink' exposed as required option; confirm whether a safe default exists; val input 'maxk' exposed as required option; confirm whether a safe default exists
+# REVIEW: val input 'assembler' exposed as required option; confirm whether a safe default exists; val input 'mink' exposed as required option; confirm whether a safe default exists; val input 'maxk' exposed as required option; confirm whether a safe default exists
 id: nf-core/modules/cobrameta
 name: cobrameta
 summary: A tool to raise the quality of viral genomes assembled from short-read metagenomes via resolving

@@ -1,6 +1,6 @@
 # Agent-facing wrapper adapter for the vendored module at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
-# REVIEW: companion input 'paf' combined cartesian-style; verify if per-sample pairing is required; companion input 'gzi' combined cartesian-style; verify if per-sample pairing is required; companion input 'fai' combined cartesian-style; verify if per-sample pairing is required; standalone path 'fasta_query_list' treated as single reference (.first()); verify if a list/collection is expected
+# REVIEW: companion input 'paf' combined cartesian-style; verify if per-sample pairing is required; companion input 'gzi' combined cartesian-style; verify if per-sample pairing is required; companion input 'fai' combined cartesian-style; verify if per-sample pairing is required
 id: nf-core/modules/wfmash
 name: wfmash
 summary: a pangenome-scale aligner
