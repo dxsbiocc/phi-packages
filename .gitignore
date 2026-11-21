@@ -1,5 +1,7 @@
 node_modules/
 dist/
+!resources/wrappers/modules/**/dist/
+!resources/wrappers/modules/**/dist/**
 .DS_Store
 .env
 .env.*

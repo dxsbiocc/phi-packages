@@ -1,0 +1,32 @@
+# Agent-facing wrapper adapter for the vendored module at ../main.nf.
+# Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
+# Curated: verified single-invocation wiring (single-valued reference params; call arity matches module inputs).
+id: nf-core/modules/mash-dist
+name: mash dist
+summary: Calculate Mash distances between reference and query sequences
+params:
+  query:
+    kind: input
+    type: fastq_glob
+    required: true
+    description: FASTA, FASTQ or Mash sketch
+  reference:
+    kind: input
+    type: path
+    required: false
+    description: FASTA, FASTQ or Mash sketch
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to mash.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for the module's results.
+outputs:
+  dist:
+    type: directory
+    path: ${outdir}/mash_dist
+    primary: true
