@@ -2,7 +2,7 @@ schemaVersion: 1
 id: metagenomics
 type: plugin
 version: 0.1.0
-title: Metagenomics Analysis
+title: Metagenomics
 summary: >-
   Two metagenomics routes: read-based profiling (kraken2/bracken plus merging,
   diversity and differential plots after MetaPhlAn/HUMAnN) and assembly/MAG

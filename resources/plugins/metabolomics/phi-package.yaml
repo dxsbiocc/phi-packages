@@ -2,7 +2,7 @@ schemaVersion: 1
 id: metabolomics
 type: plugin
 version: 0.1.0
-title: Metabolomics Analysis
+title: Metabolomics
 summary: >-
   Downstream untargeted LC-MS metabolomics: feature-table QC (RSD, detection
   rate), imputation and normalisation (TIC/median/PQN), PCA/PLS-DA (VIP,

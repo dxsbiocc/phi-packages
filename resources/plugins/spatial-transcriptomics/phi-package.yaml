@@ -2,7 +2,7 @@ schemaVersion: 1
 id: spatial-transcriptomics
 type: plugin
 version: 0.1.0
-title: Spatial Transcriptomics Analysis
+title: Spatial Transcriptomics
 summary: >-
   Spatial transcriptomics (scanpy/squidpy/spatialdata, st_py_) in a private
   locked environment. Covers 10x Visium incl. HD and BGI Stereo-seq (GEM/GEF,

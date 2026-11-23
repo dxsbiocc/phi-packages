@@ -2,7 +2,7 @@ schemaVersion: 1
 id: single-cell-atac
 type: plugin
 version: 0.1.0
-title: Single-cell ATAC Analysis
+title: Single-cell ATAC
 summary: >-
   scATAC analysis in Python/snapatac2 + scanpy (scatac_), privately locked. From
   10x fragments or peak/tile matrices: QC (TSSe, fragments, doublets), scrublet,
