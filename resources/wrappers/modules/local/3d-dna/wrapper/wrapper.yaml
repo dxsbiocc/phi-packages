@@ -1,7 +1,7 @@
 # Agent-facing wrapper for the local 3d-dna module at ../main.nf,
 # ported from the Snakemake Workflow project (no nf-core equivalent).
 # Follows docs/design/phi-wrapper-agent-composition-design.md section 3.
-id: local/modules/3d-dna
+id: local/modules/three-d-dna
 name: 3D-DNA
 summary: Scaffold a draft genome with 3D-DNA using Hi-C merged_nodups contacts.
 params:
