@@ -2,12 +2,12 @@ schemaVersion: 1
 id: single-cell
 type: plugin
 version: 0.6.0
-title: 单细胞分析
+title: Single-cell Analysis
 summary: >-
-  两套平行单细胞工具链，按用户倾向选路：R/Seurat 6（sc_）与 Python/scanpy 1.13
-  （sc_py_），各带私有锁定环境。片段库是唯一分析源，脚本与 notebook 共用；
-  质控/聚类/整合/marker/注释/pseudobulk 两路同构，Python 另含 PAGA/伪时间。
-  附分析原理与结果解读知识层、scNotebooks 13 模块对照。
+  Two parallel single-cell toolchains: R/Seurat 6 (sc_) and Python/scanpy 1.13
+  (sc_py_), each privately locked. A shared fragment library is the only input
+  for scripts and notebooks; QC, clustering, integration, markers, annotation
+  and pseudobulk mirror both routes, plus PAGA and pseudotime in Python.
 toolPrefix: sc
 components:
   agents:

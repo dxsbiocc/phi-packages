@@ -2,13 +2,12 @@ schemaVersion: 1
 id: metagenomics
 type: plugin
 version: 0.1.0
-title: 宏基因组分析
+title: Metagenomics Analysis
 summary: >-
-  两条宏基因组路线：read-based 物种/功能谱（kraken2/bracken、MetaPhlAn/HUMAnN
-  下游的合并、多样性、差异与绘图）与组装/MAG 路线（nf-core/mag 及分箱模块下游的
-  组装统计、MIMAG 质量分级、分类/丰度整合）。重计算工具走 wrapper，插件脚本只做
-  确定性下游统计；私有 Python 环境。附 EasyMetagenome、Snakemake Meta、
-  cambiotraining 与 SIB 课程对照的知识层。
+  Two metagenomics routes: read-based profiling (kraken2/bracken plus merging,
+  diversity and differential plots after MetaPhlAn/HUMAnN) and assembly/MAG
+  (stats, MIMAG tiers, taxonomy/abundance integration after nf-core/mag).
+  Heavy tools run via wrappers; scripts do deterministic statistics in Python.
 toolPrefix: mg
 components:
   agents:
