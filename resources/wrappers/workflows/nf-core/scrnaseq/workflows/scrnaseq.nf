@@ -19,7 +19,7 @@ include { CELLRANGER_ALIGN                                  } from "../subworkfl
 include { CELLRANGER_MULTI_ALIGN                            } from "../subworkflows/local/align_cellrangermulti"
 include { CELLRANGERARC_ALIGN                               } from "../subworkflows/local/align_cellrangerarc"
 include { MTX_TO_H5AD                                       } from '../modules/local/mtx_to_h5ad'
-include { H5AD_REMOVEBACKGROUND_BARCODES_CELLBENDER_ANNDATA } from '../../../../subworkflows/nf-core/h5ad_removebackground_barcodes_cellbender_anndata'
+include { H5AD_REMOVEBACKGROUND_BARCODES_CELLBENDER_ANNDATA } from '../../../../subworkflows/nf-core/h5ad_removebackground_cellbender'
 include { H5AD_CONVERSION                                   } from '../subworkflows/local/h5ad_conversion'
 
 

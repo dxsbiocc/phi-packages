@@ -1,7 +1,7 @@
 # Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
 # Curated: take shapes verified against the subworkflow nf-tests; the adapter maps flat params onto the required [meta, ...] channel shapes.
-id: nf-core/subworkflows/h5ad-removebackground-barcodes-cellbender-anndata
+id: nf-core/subworkflows/h5ad-removebackground-cellbender
 name: h5ad removebackground barcodes cellbender anndata
 summary: Use cellbender for empty droplet removal
 params:

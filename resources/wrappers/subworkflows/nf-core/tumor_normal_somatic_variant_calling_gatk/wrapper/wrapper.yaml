@@ -1,7 +1,7 @@
 # Agent-facing wrapper adapter for the vendored subworkflow at ../main.nf.
 # Follows docs/contracts/wrapper.md. Generated; review flagged semantics.
 # Curated: take shapes verified against the subworkflow nf-tests; the adapter maps flat params onto the required [meta, ...] channel shapes.
-id: nf-core/subworkflows/bam-tumor-normal-somatic-variant-calling-gatk
+id: nf-core/subworkflows/tumor-normal-somatic-variant-calling-gatk
 name: bam tumor normal somatic variant calling gatk
 summary: Perform variant calling on a paired tumor normal set of samples using mutect2 tumor normal mode.
 params:
