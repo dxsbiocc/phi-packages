@@ -2,13 +2,12 @@ schemaVersion: 1
 id: chromatin-profiling
 type: plugin
 version: 0.1.0
-title: 染色质 Profiling（ChIP/CUT&Tag）
+title: Chromatin Profiling (ChIP/CUT&Tag)
 summary: >-
-  染色质 profiling（bulk ChIP-seq/CUT&Tag/CUT&RUN）下游分析工具链，R/Bioconductor（chip_），
-  私有锁定环境。从已 call 的 peak/counts/indexed BAM/bigWig：FRiP/重复性 QC、consensus
-  peakset、read counting、DiffBind(DESeq2/edgeR) 与 csaw(broad mark) 差异结合、ChIPseeker
-  注释、PCA/UpSet。纯下游不做比对/peak calling；片段库唯一分析源，脚本与 notebook 共用；
-  附蒸馏知识层。
+  Downstream bulk ChIP-seq/CUT&Tag/CUT&RUN analysis in R/Bioconductor (chip_),
+  privately locked. From peaks, counts, BAMs or bigWigs: FRiP and replicate QC,
+  consensus peaksets, read counting, DiffBind (DESeq2/edgeR) or csaw, ChIPseeker
+  annotation, PCA/UpSet. No alignment or peak calling.
 toolPrefix: chip
 components:
   agents:

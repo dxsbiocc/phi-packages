@@ -2,13 +2,12 @@ schemaVersion: 1
 id: single-cell-atac
 type: plugin
 version: 0.1.0
-title: 单细胞 ATAC 分析
+title: Single-cell ATAC Analysis
 summary: >-
-  单细胞 ATAC（scATAC）分析工具链，Python/snapatac2+scanpy（scatac_），私有锁定环境。从
-  10x fragment/BAM 或 peak/tile 矩阵：QC(TSSe/片段数/双细胞)、scrublet、spectral
-  降维、Leiden/UMAP、per-cluster peak calling、差异可及性 marker、gene activity
-  注释与 scRNA label transfer、motif 富集、多样本整合。片段库是唯一分析源，脚本与
-  notebook 共用；附 snapatac2 蒸馏的分析原理与解读知识层。
+  scATAC analysis in Python/snapatac2 + scanpy (scatac_), privately locked. From
+  10x fragments or peak/tile matrices: QC (TSSe, fragments, doublets), scrublet,
+  spectral embedding, Leiden/UMAP, per-cluster peak calling, markers, gene
+  activity, label transfer, motif enrichment and integration.
 toolPrefix: scatac
 components:
   agents:
