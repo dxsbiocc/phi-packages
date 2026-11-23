@@ -1,5 +1,7 @@
 name: metagenomics
-description: 宏基因组插件私有环境：Python 3.13 + pandas/numpy/scipy/matplotlib，两条路线的下游统计脚本共用。
+description: >-
+  Private metagenomics environment: Python 3.13 + pandas/numpy/scipy/matplotlib, shared by the
+  downstream statistics scripts of both routes.
 channels:
   - conda-forge
 dependencies:

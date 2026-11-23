@@ -1,151 +1,180 @@
-# single-cell（单细胞分析）· 0.6.0
+# single-cell (single-cell analysis) · 0.6.0
 
-两套平行的单细胞 RNA-seq 工具链：**R/Seurat 6** 与 **Python/scanpy 1.13**，各带一个
-私有锁定环境，按用户倾向选路。附带 [scNotebooks](https://github.com/integrativebioinformatics/scNotebooks)
-13 个教学模块的对照说明；Python 路的 notebook 预设改编自
-[NBIS workshop-scRNAseq](https://nbisweden.github.io/workshop-scRNAseq/home_contents.html)
-的 scanpy labs。
+Two parallel single-cell RNA-seq toolchains: **R/Seurat 6** and **Python/scanpy 1.13**, each
+with a private locked environment, routed by user preference. Includes a map of the 13 teaching
+modules of [scNotebooks](https://github.com/integrativebioinformatics/scNotebooks); the Python
+route's notebook presets adapt the scanpy labs of the
+[NBIS workshop-scRNAseq](https://nbisweden.github.io/workshop-scRNAseq/home_contents.html).
 
 Two parallel single-cell toolkits (R/Seurat 6 and Python/scanpy 1.13), each with its
 own locked private environment, routed by user preference. Includes a map of the 13
 scNotebooks teaching modules; Python notebook presets adapt the NBIS scanpy labs.
 
-## 组成
+## Components
 
-| 组件 | 作用 |
+| Component | Role |
 |--|--|
-| Agent `SingleCell` | 角色、边界与 **R/Python 选路规则**；不绑定环境，只构建所选路的环境 |
-| Skill `seurat-workflow` | R 路可执行流程：8 个 `sc_*` 工具（含 notebook 渲染） |
-| Skill `scanpy-workflow` | Python 路可执行流程：10 个 `sc_py_*` 工具（含 notebook 渲染） |
-| 参考 `scnotebooks-curriculum` | 13 个模块的对照表，折在 `seurat-workflow/references/maintainers/`，只有说明文档 |
-| 环境 `seurat` | R 4.5 + Seurat 6.0.0 + IRkernel，三平台 lock |
-| 环境 `scanpy` | Python 3.13 + scanpy 1.13 + ipykernel，三平台 lock |
+| Agent `SingleCell` | Role, boundaries, and the **R/Python route rules**; binds no environment and builds only the chosen route's environment |
+| Skill `seurat-workflow` | The R route's executable chain: 8 `sc_*` tools (including notebook rendering) |
+| Skill `scanpy-workflow` | The Python route's executable chain: 10 `sc_py_*` tools (including notebook rendering) |
+| Reference `scnotebooks-curriculum` | Module-by-module map of the 13 modules, tucked into `seurat-workflow/references/maintainers/`; documentation only |
+| Environment `seurat` | R 4.5 + Seurat 6.0.0 + IRkernel, locked for three platforms |
+| Environment `scanpy` | Python 3.13 + scanpy 1.13 + ipykernel, locked for three platforms |
 
-两个技能分别跑在 `plugin:seurat` 与 `plugin:scanpy`，不依赖共享 base 环境。spec 与
-三平台 lock 在 `environments/<name>/`。notebook kernel 名为
-`plugin-single-cell-seurat` / `plugin-single-cell-scanpy`，由 Phi 主程序在环境就绪后同步。
+The two skills run in `plugin:seurat` and `plugin:scanpy` respectively and do not depend on a
+shared base environment. Specs and the three-platform locks live in `environments/<name>/`.
+The notebook kernels are named `plugin-single-cell-seurat` / `plugin-single-cell-scanpy` and
+are synchronized by the Phi host once the environment is ready.
 
-## 选路（agent 的职责，不是渲染器的）
+## Route selection (the agent's job, not the renderer's)
 
-- 用户明说 R/Seurat 或 Python/scanpy → 走那一路，全程不混。
-- 只给文件：`.rds` → R 路；`.h5ad` → Python 路；只有 10x 矩阵目录 → 问一句倾向。
-- 一路做完再换路属于新任务；跨路交接只走两个接口：`pseudobulk` 计数表（交给
-  `deseq2/limma/edger` wrapper）或显式的对象互转请求。
-- 规则全文在 `agents/SingleCell.md` 与两个 SKILL.md 的 Rules 首条。
+- The user explicitly says R/Seurat or Python/scanpy → take that route and never mix.
+- Only files given: `.rds` → R route; `.h5ad` → Python route; only a 10x matrix directory → ask about their preference.
+- Switching routes after one is finished is a new task; cross-route handoff goes only through
+  two interfaces: the `pseudobulk` counts table (handed to the `deseq2/limma/edger` wrapper) or
+  an explicit object-conversion request.
+- The full rules are in `agents/SingleCell.md` and the first Rules item of both SKILL.md files.
 
-## 工具
+## Tools
 
-R 路（前缀 `sc`，环境 `plugin:seurat`）：
+R route (prefix `sc`, environment `plugin:seurat`):
 
-| 工具 | 用途 |
+| Tool | Purpose |
 |--|--|
-| `sc_inspect` | 读 `.rds`、10x 矩阵目录或计数表，报告 shape、assay/layer、降维与 metadata 列，列出已能做的步骤 |
-| `sc_qc` | 线粒体/核糖体/血红蛋白比例、双细胞检测、按阈值过滤，报告每道过滤删了多少细胞，输出小提琴图 |
-| `sc_preprocess` | 归一化（LogNormalize 或 SCTransform）、高变基因、scale、PCA、近邻图、多分辨率聚类、UMAP/t-SNE |
-| `sc_markers` | `FindAllMarkers`，每簇一个 CSV + marker 热图 |
-| `sc_annotate` | marker 面板打分标注或显式 mapping；输出 dot plot |
-| `sc_pseudobulk` | 样本（或样本×分组）聚合计数表与样本表，列名按 DE wrapper 约定，返回 `wrapper_hint` |
-| `sc_env_probe` | 逐模块报告缺包与跑不了的部分 |
-| `sc_notebook` | 渲染 R notebook：预设模块 4/5/8/9 或 steps 数组，依赖自动补全，config cell 集中参数，可注入/合并 |
+| `sc_inspect` | Read a `.rds`, a 10x matrix directory, or a counts table, report shape, assay/layer, reductions, and metadata columns, and list the steps it can already do |
+| `sc_qc` | Mitochondrial/ribosomal/hemoglobin fractions, doublet detection, threshold filtering; reports how many cells each filter removed and writes violin plots |
+| `sc_preprocess` | Normalization (LogNormalize or SCTransform), variable features, scale, PCA, neighbor graph, multi-resolution clustering, UMAP/t-SNE |
+| `sc_markers` | `FindAllMarkers`, one CSV per cluster plus a marker heatmap |
+| `sc_annotate` | Marker-panel scoring annotation or an explicit mapping; writes a dot plot |
+| `sc_pseudobulk` | Per-sample (or sample×group) aggregate counts table and sample sheet, with column names following the DE wrapper convention, and a returned `wrapper_hint` |
+| `sc_env_probe` | Reports missing packages and the parts that cannot run, module by module |
+| `sc_notebook` | Renders an R notebook: preset modules 4/5/8/9 or a steps array, dependencies filled in automatically, parameters gathered in a config cell, injectable/mergeable |
 
-Python 路（前缀 `sc_py`，环境 `plugin:scanpy`）：
+Python route (prefix `sc_py`, environment `plugin:scanpy`):
 
-| 工具 | 用途 |
+| Tool | Purpose |
 |--|--|
-| `sc_py_inspect` | 读 `.h5ad`、10x `.h5`/矩阵目录或计数表，报告 shape、layers（含 lognorm 快照）、obsm 与 obs 列 |
-| `sc_py_qc` | QC 指标、Scrublet 双细胞、按阈值过滤，报告每道过滤删了多少细胞，输出分布图 |
-| `sc_py_preprocess` | normalize+log1p（留 lognorm 快照）、seurat_v3 高变基因、scale、PCA、Leiden、UMAP/t-SNE |
-| `sc_py_integrate` | Harmony 或 ComBat 批次整合，整合前后 UMAP 对比，整合后重聚类 |
-| `sc_py_markers` | `rank_genes_groups`，每簇一个 CSV + marker 热图 |
-| `sc_py_annotate` | marker 面板打分标注或显式 mapping；输出 dot plot |
-| `sc_py_pseudobulk` | 与 R 路同构的样本级计数表（表达过滤按单元计数，语义一致），返回 `wrapper_hint` |
-| `sc_py_trajectory` | PAGA 抽象图 + 扩散伪时间（DPT），指定根细胞 |
-| `sc_py_env_probe` | 报告 scanpy 生态缺包（bbknn、scVI、CellTypist 等）与跑不了的部分 |
-| `sc_py_notebook` | 渲染 Python notebook：预设 NBIS labs 1–7 或 steps 数组，其余能力与 R 路渲染器相同 |
+| `sc_py_inspect` | Read a `.h5ad`, a 10x `.h5`/matrix directory, or a counts table, report shape, layers (including the lognorm snapshot), obsm, and obs columns |
+| `sc_py_qc` | QC metrics, Scrublet doublets, threshold filtering; reports how many cells each filter removed and writes distribution plots |
+| `sc_py_preprocess` | normalize+log1p (keeping a lognorm snapshot), seurat_v3 variable genes, scale, PCA, Leiden, UMAP/t-SNE |
+| `sc_py_integrate` | Harmony or ComBat batch integration, before/after UMAP comparison, re-clustering after integration |
+| `sc_py_markers` | `rank_genes_groups`, one CSV per cluster plus a marker heatmap |
+| `sc_py_annotate` | Marker-panel scoring annotation or an explicit mapping; writes a dot plot |
+| `sc_py_pseudobulk` | The sample-level counts table, isomorphic to the R route (expression filtering works on unit counts, same semantics), with a returned `wrapper_hint` |
+| `sc_py_trajectory` | PAGA abstract graph plus diffusion pseudotime (DPT), with a chosen root cell |
+| `sc_py_env_probe` | Reports missing packages in the scanpy ecosystem (bbknn, scVI, CellTypist, and so on) and the parts that cannot run |
+| `sc_py_notebook` | Renders a Python notebook: preset NBIS labs 1–7 or a steps array; the remaining capabilities are the same as the R renderer |
 
-两路的 `build_notebook.py` 是**同一份字节相同的渲染器**（仓库测试断言），语言由
-`--language` / `language` 参数决定；一个 notebook 一个 kernel，语言不一致明确报错。
+Both routes' `build_notebook.py` is **the same byte-identical renderer** (asserted by the
+repository tests), and the language is decided by the `--language` / `language` argument; one
+kernel per notebook, and a language mismatch is an explicit error.
 
-## 两条路径（每路都有）
+## Two modes (both available on each route)
 
-**边做边看（学习、探索）**：渲染 notebook，再用 Phi 的 `notebook_run_cell` 逐格跑。
+**Inspect as you go (learning, exploration)**: render a notebook, then run it cell by cell with
+Phi's `notebook_run_cell`.
 
 ```
 sc_notebook(module=4, data="tenx_dir/", self_check=true)          # R
 sc_py_notebook(module=3, data="batched.h5ad", self_check=true)    # Python
-notebook_read → notebook_run_cell → 用户改 config cell → 只重跑受影响的格
+notebook_read → notebook_run_cell → the user edits the config cell → only the affected cells re-run
 ```
 
-模板是渲染的源材料，不是拷贝的对象：片段库（`assets/fragments/`）按 agent 传入的
-步骤与参数组装成填好占位的 notebook，落在用户工作目录。选哪些步骤、阈值取多少，
-是 agent 依据用户问题和 QC 分布做的判断（规则在 SKILL.md）；渲染器只做确定性填充。
-所有阈值、路径、列名集中在首格 config cell；渲染溯源（步骤、参数来源、片段哈希、
-数据指纹）记在 notebook metadata。`self_check` 在输出目录真跑每格，headless
-（Agg + autoshow=False），不会弹原生图窗。
+The template is source material to render, not an object to copy: the fragment library
+(`assets/fragments/`) is assembled, using the steps and parameters the agent passes in, into a
+notebook with its placeholders filled, and lands in the user's working directory. Which steps to
+pick and which thresholds to use is the agent's judgement based on the user's question and the QC
+distributions (the rules are in SKILL.md); the renderer only does deterministic filling. All
+thresholds, paths, and column names are gathered in the config cell in the first cell; render
+provenance (steps, parameter sources, fragment hashes, data fingerprint) is recorded in the
+notebook metadata. `self_check` really runs every cell in the output directory, headless
+(Agg + autoshow=False), and never pops up a native plot window.
 
-**一次跑完（可复现）**：
+**Run it through in one go (reproducible)**:
 
 ```
 inspect → qc → preprocess → [integrate] → markers → annotate → pseudobulk
 ```
 
-每一步读一个对象写一个对象（`.rds` / `.h5ad`），可单独重跑，参数记录在返回 JSON 里。
-Python 路在 markers 之后可接 `trajectory`。两条路、两种载体的结论应当一致；
-不一致就是其中一条有 bug。
+Each step reads one object and writes one (`.rds` / `.h5ad`), can be re-run on its own, and
+records its parameters in the returned JSON. On the Python route, `trajectory` can follow
+markers. The two routes and the two carriers should reach the same conclusions; if they do not,
+one of them has a bug.
 
-**原始数据处理都不做**：比对、Cell Ranger 属于 wrapper 树。notebook 与脚本链都从
-计数矩阵或已有对象开始。
+**Raw data processing is out of scope**: alignment and Cell Ranger belong to the wrapper tree.
+Notebooks and script chains both start from a count matrix or an existing object.
 
-## 单一分析源与知识层（0.6.0）
+## A single analysis source and a knowledge layer (0.6.0)
 
-每路只有**一份分析代码**：`assets/fragments/`（单语言平铺；预设与参数默认值在
-`assets/steps.json`）。notebook 的细胞就是片段
-原文；脚本工具是薄适配器——`scripts/_fragments.{R,py}` 在同一全局环境里跑同一批
-片段，适配器只把 CLI 旗标映射成与 config cell 同名的配置全局，`scripts/reports/*`
-只做 JSON 序列化。片段的教学输出走 stderr，stdout 只有一份 JSON（R 用
-`sink(stderr())`，Python 用 `redirect_stdout`）。重构前后逐字段核对：R 7/7、
-Python 10/10 份报告与旧契约一致（仅输出路径不同）。
+Each route has only **one copy of the analysis code**: `assets/fragments/` (flat, one language;
+presets and parameter defaults in `assets/steps.json`). The notebook's cells are the fragment
+text itself; the script tools are thin adapters — `scripts/_fragments.{R,py}` runs the same batch
+of fragments in one global environment, the adapter only maps CLI flags to configuration globals
+named like the config cell's, and `scripts/reports/*` only serializes JSON. The fragments'
+teaching output goes to stderr, leaving a single JSON document on stdout (R uses
+`sink(stderr())`, Python uses `redirect_stdout`). Checked field by field before and after the
+refactor: the R 7/7 and Python 10/10 reports match the old contract (only the output paths
+differ).
 
-知识按功能归位：每步一份 `references/step-notes/<step>.md`（目的/原理/结果解读/陷阱，
-即 notebook 的讲解格，与片段按步骤 id 配对）；两路各有一份
-[analysis-playbook.md](skills/seurat-workflow/references/analysis-playbook.md)——agent 的
-决策手册，按阶段「调用 → 读（确切 JSON 字段与图）→ 决定（参数起点+调整规则）→ 红线」，
-原理压缩成一行，来源与许可在文末（OSCA CC BY 4.0、sc-best-practices Apache 2.0、
-Cambridge 课程 GPL-3、NBIS CC-BY-4.0）。`references/README.md` 按功能索引：agent 决策
-（playbook、step-notes、跨路交接）与维护者溯源/对照（`maintainers/`）分开。全部为原创 prose，不复制上游文本。
+Knowledge sits where it is used: one `references/step-notes/<step>.md` per step (purpose / how it
+works / reading the results / pitfalls — the notebook's explanation cells, paired with the
+fragments by step id); each route has an
+[analysis-playbook.md](skills/seurat-workflow/references/analysis-playbook.md) — the agent's
+decision manual, organized per stage as "call → read (the exact JSON fields and figures) → decide
+(starting parameters + adjustment rules) → red lines", with the theory compressed to one line and
+sources and licences at the end (OSCA CC BY 4.0, sc-best-practices Apache 2.0, the Cambridge
+course GPL-3, NBIS CC-BY-4.0). `references/README.md` indexes by function: agent decisions
+(playbook, step-notes, cross-route handoff) are kept apart from maintainer provenance/comparison
+material (`maintainers/`). All of it is original prose; no upstream text is copied.
 
-## 与上游课程的关系
+## Relationship to the upstream courses
 
-- **scNotebooks**（CC BY 4.0，Rojas-Hidalgo et al., *Nat Genet*, 2026）：课程不是流水线
-  （Colab 装包、`/content/` 写死路径、状态留在 kernel）。插件把可执行部分改写成脚本与
-  片段，跑不了的部分说清楚。能跑：模块 04 主线、05 预处理半、08/09 表达量部分；
-  跑不了：06（monocle3）、07（liana）、10（semla）、11（ArchR）——R 环境没有这些包；
-  03（Cell Ranger）归 wrapper 树、12（SCAPE-APA）归独立工具。详见
-  [模块对照表](skills/seurat-workflow/references/maintainers/scnotebooks-module-map.md)。
-- **NBIS workshop-scRNAseq**（CC-BY-4.0，以仓库 LICENSE 为准；站点页脚标 GPL-3 与仓库不符）：scanpy labs 只作**参考**，不分发原文。
-  片段代码为本插件原创，语义对齐 labs 1–7（QC、降维、整合、聚类+marker、样本级差异、
-  注释、轨迹）；每个预设的 intro 与 SOURCE.json 注明出处与许可。移植决策见
-  [NBIS 移植说明](skills/scanpy-workflow/references/maintainers/nbis-porting.md)。
+- **scNotebooks** (CC BY 4.0, Rojas-Hidalgo et al., *Nat Genet*, 2026): the course is not a
+  pipeline (Colab installs packages, `/content/` paths are hard-coded, state stays in the kernel).
+  The plugin rewrites the runnable parts as scripts and fragments and says plainly what cannot run.
+  Runnable: the module 04 main line, half of the 05 preprocessing, the expression parts of 08/09;
+  not runnable: 06 (monocle3), 07 (liana), 10 (semla), 11 (ArchR) — the R environment lacks those
+  packages; 03 (Cell Ranger) belongs to the wrapper tree and 12 (SCAPE-APA) to separate tools. See
+  the [module map](skills/seurat-workflow/references/maintainers/scnotebooks-module-map.md).
+- **NBIS workshop-scRNAseq** (CC-BY-4.0, as stated in the repository LICENSE; the site footer's
+  GPL-3 does not match the repository): the scanpy labs serve as a **reference** only, and their
+  text is not redistributed. The fragment code is original to this plugin and semantically
+  aligned with labs 1–7 (QC, dimensionality reduction, integration, clustering+markers,
+  sample-level differential expression, annotation, trajectory); each preset's intro and
+  SOURCE.json record the source and licence. See the
+  [NBIS porting notes](skills/scanpy-workflow/references/maintainers/nbis-porting.md) for the
+  porting decisions.
 
-## 边界
+## Boundaries
 
-- 不改上游仓库内容，不分发它们的 notebook、图片或示例数据。
-- 不在受管理环境里装包。缺包就报缺包：R 路缺 monocle3/liana/semla/ArchR/scDblFinder；
-  Python 路缺 bbknn（bioconda 无 py313 build）、scVI/CellTypist/Scanorama/gseapy/空间组。
-  `sc_env_probe` / `sc_py_env_probe` 逐模块报出来。
-- Python 路能做轨迹（PAGA+DPT）与双细胞（Scrublet）；R 路对应模块仍标缺包，不假装能跑。
-- 不做空间转录组与 scATAC-seq。
+- Upstream repository content is not modified, and their notebooks, images, or example data are
+  not redistributed.
+- No packages are installed into managed environments. A gap is reported as a gap: the R route
+  lacks monocle3/liana/semla/ArchR/scDblFinder; the Python route lacks bbknn (no py313 build on
+  bioconda), scVI/CellTypist/Scanorama/gseapy/spatial. `sc_env_probe` / `sc_py_env_probe` report
+  them module by module.
+- The Python route can do trajectory (PAGA+DPT) and doublets (Scrublet); the R route still marks
+  the corresponding modules as missing packages and does not pretend to run them.
+- Spatial transcriptomics and scATAC-seq are out of scope.
 
-## 为什么不用 Nextflow wrapper
+## Why not a Nextflow wrapper
 
-单细胞流程做成 wrapper 不是不行，但不合适，原因是执行模式不同：
+Making the single-cell workflow into a wrapper is not impossible, but it does not fit, because the
+execution model differs:
 
-- **wrapper 走 `-profile conda`，运行时解依赖**；**插件环境是锁 + 只读**（客户端从不解
-  依赖）。Seurat/scanpy 大版本之间对象结构不兼容（本插件锁 Seurat 6.0.0 / scanpy 1.13），
-  交给求解器换天换机器可能解出不同版本。
-- **粒度不匹配**：单细胞分析是人在回路（看完分布定阈值、看完 marker 再注释），每步之间
-  要读结果改参数；脚本工具一次调用做完一步并返回结构化结果。
-- **该用 wrapper 的一步确实用了**：两路 `pseudobulk` 都把对象变成 `deseq2/limma/edger`
-  适配器能吃的输入并返回 `wrapper_hint`；R 路接口已用真实 DESeq2 wrapper 实测跑通。
+- **A wrapper runs with `-profile conda` and resolves dependencies at run time**; **the plugin
+  environment is a lock plus read-only** (the client never resolves dependencies). Object
+  structures are incompatible between Seurat/scanpy major versions (this plugin locks Seurat
+  6.0.0 / scanpy 1.13), and handing that to a solver on another day or another machine may
+  resolve different versions.
+- **Mismatched granularity**: single-cell analysis is human-in-the-loop (set thresholds after
+  seeing the distributions, annotate after seeing the markers), and parameters change between
+  steps once results are read; a script tool call completes one step and returns a structured
+  result.
+- **The one step that should use a wrapper does**: both routes' `pseudobulk` turn the object into
+  input the `deseq2/limma/edger` adapter can consume and return a `wrapper_hint`; the R route's
+  interface has been verified against the real DESeq2 wrapper.
 
-详细论证见 [结合设计](../../../docs/design/scnotebooks-integration.zh-CN.md) 第 8、10 节。
+See sections 8 and 10 of the
+[integration design](../../../docs/design/scnotebooks-integration.zh-CN.md) for the full
+argument.

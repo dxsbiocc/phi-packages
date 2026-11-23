@@ -1,5 +1,7 @@
 name: seurat
-description: 单细胞插件私有环境：R 4.5 + Seurat 6.0.0 + IRkernel，脚本链与 notebook 共用。
+description: >-
+  Private single-cell environment: R 4.5 + Seurat 6.0.0 + IRkernel, shared by the script chain
+  and notebooks.
 channels:
   - conda-forge
   - bioconda

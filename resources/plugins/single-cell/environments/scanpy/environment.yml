@@ -1,5 +1,7 @@
 name: scanpy
-description: 单细胞插件私有环境：Python 3.13 + scanpy 1.13 + ipykernel，脚本链与 notebook 共用。
+description: >-
+  Private single-cell environment: Python 3.13 + scanpy 1.13 + ipykernel, shared by the script
+  chain and notebooks.
 channels:
   - conda-forge
   # scrublet/bbknn/harmonypy 在 bioconda，不在 conda-forge。

@@ -1,35 +1,39 @@
-# 红线速查表（agent 运行时对照）
+# Red-line cheatsheet (agent runtime reference)
 
-把 [`analysis-playbook.md`](analysis-playbook.md) §1–§10 的**硬红线**与**常见误读**汇成一表，
-供运行时快速对照。本表是摘要，完整的 Call/Read/Decide 决策过程与 *why* 仍以
-analysis-playbook.md 为准；每步的教学短笔记在 [`step-notes/`](step-notes/)。
+Condenses the **hard red lines** and **common misreadings** of
+[`analysis-playbook.md`](analysis-playbook.md) §1–§10 into one table for quick
+reference at runtime. This table is a summary; the full Call/Read/Decide decision
+procedure and the *why* remain governed by analysis-playbook.md; the per-step
+teaching short notes are in [`step-notes/`](step-notes/).
 
-## 贯穿全局（任何阶段都适用）
+## Global (applies at every stage)
 
-| 硬红线 | 常见误读 |
+| Hard red line | Common misreading |
 | --- | --- |
-| 表达 of record = `layers["lognorm"]`，marker/panel/SVG/通讯绝不用 scaled 值 | 在 z-score 上跑检验/打分 |
-| 空间统计需 `obsm["spatial"]` 坐标 + 邻接图；无坐标只能做非空间分析 | 在表达 PCA/UMAP 上建空间图 |
-| `{"skipped": reason}` 的缺席 ≠ 干净阴性结果 | 把 skipped 当"无显著" |
-| 模型法缺口（cell2location/tangram/stereopy/liana/scvi）→ 项目环境，绝不只读环境内装 | 在插件环境 pip install |
-| 每个阈值是 Visium/Stereo-seq 起点而非默认；先读分布再定，并说明选了何值为何 | 默认值原样到输出 = 没做决策 |
+| Expression of record = `layers["lognorm"]`; markers/panels/SVG/communication never use scaled values | Running tests/scoring on z-scores |
+| Spatial statistics need `obsm["spatial"]` coordinates + an adjacency graph; without coordinates only non-spatial analysis is possible | Building the spatial graph on expression PCA/UMAP |
+| Absence of `{"skipped": reason}` ≠ a clean negative result | Treating skipped as "not significant" |
+| Model-based gaps (cell2location/tangram/stereopy/liana/scvi) → project environment, never install inside the read-only environment | `pip install` inside the plugin environment |
+| Every threshold is a Visium/Stereo-seq starting point, not a default; read the distribution first, then decide, and state which value and why | A default that reached the output untouched = no decision was made |
 
-## 分阶段
+## By stage
 
-| 阶段（工具） | 硬红线 | 常见误读 |
+| Stage (tool) | Hard red line | Common misreading |
 | --- | --- | --- |
-| **§1 inspect**（`st_py_inspect`） | 平台/分析单元先命名；Stereo-seq bin 主动选；无 counts 层不做 QC/seurat_v3/去卷积；`sample/group_column` 选供体/条件列 | 接受 `bin_auto`；load 时静默过滤；把 cluster 列当 group 列 |
-| **§2 QC**（`st_py_qc`） | `kept_fraction`<0.5 或零单元 → 停下重读；`pct_counts_mt` 缺席/中位0 → regex/标识符错先修；QC 只在 raw counts | 不看分布接受默认阈值；never-fire 的 mt gate 当通过；pooled violin 掩盖边缘低质量 |
-| **§3 preprocess+图**（`st_py_preprocess`） | 空间图建在坐标非表达 PCA；绝不在 2D embedding 聚类；一 cluster 一 sample = 批次伪影；`neighbor_method` 必须明示 | counts flavor HVG 用在 log 值；dims 只取 elbow 漏稀有域；`grid` 用于不规则 bin；只跑单一 resolution |
-| **§4 markers**（`st_py_markers`） | 校正 p 描述性（double dipping）非推断；检验不在 scaled；`avg_log2FC` 非可移植效应量；marker = 高检出 AND 其余低检出 | 把 marker p 当显著性；只看大 FC 不看特异性；标识符错致 marker 全消失 |
-| **§5 annotate**（`st_py_annotate`） | 零可用 panel 基因 = 标识符不匹配；报告每标签命中数 + unassigned；空间标签 = 区域/优势类型非纯细胞；粗标签不传播成亚型 | 窄 margin 险胜当鉴定；强制贴标签隐藏 unassigned；通用 panel 当组织特异 |
-| **§6 SVG/邻域**（`st_py_spatial`） | 自相关/富集完全依赖图+标签；SVG p 解析（正态假设）是筛查非机制；深度/批次基因也高分；**富集是邻接非相互作用** | SVG 显著当机制；正 z-score 当信号；不看空间图信排名；小样本弱 null 仍信 z |
-| **§7 去卷积**（`st_py_deconvolve`） | 比例是 NNLS **估计非细胞计数**；需 scRNA 参考；无共享基因 = 标识符不匹配先修；参考粒度/组织匹配界定答案 | 比例当细胞数；以为缺失类型可恢复；小 bin/cellbin 强行去卷积 |
-| **§8 通讯**（`st_py_communication`） | **筛查：共表达非信号证明**；ligrec 读 lognorm（`use_raw=False`）；继承图+标签；符号大小写不敏感但需验证物种 pairs；starter 不穷尽 | hit 当信号证明；不确认配体/受体域相邻；人符号资源当已在小鼠验证 |
-| **§9 跨样本差异**（`st_py_spatial`+`group_column`） | **SAMPLE 是实验单元非 spot**；<2 重复/组无条件级声明；描述性筛查非差异显著性检验；差异可由 composition/depth 驱动；<2 条件 skipped | spot 当重复（伪重复）；空间差异直接归因调控；不看 composition |
-| **§10 notebook**（`st_py_notebook`） | 渲染器填充、你决策；每个 config 值带 source tag，`[default]` = 没决策；交付前 `self_check=true`；script 与 notebook 同阈值 | 把默认当已决策；两路阈值不一致 |
+| **§1 inspect** (`st_py_inspect`) | Platform/analysis unit named first; the Stereo-seq bin is chosen deliberately; no counts layer → no QC/seurat_v3/deconvolution; `sample`/`group_column` picks the donor/condition column | Accepting `bin_auto`; filtering silently at load time; treating a cluster column as the group column |
+| **§2 QC** (`st_py_qc`) | `kept_fraction`<0.5 or zero units → stop and re-read; `pct_counts_mt` absent/median 0 → fix the regex/identifiers first; QC only on raw counts | Accepting default thresholds without reading the distribution; a never-fire mt gate taken as a pass; a pooled violin hiding low-quality edges |
+| **§3 preprocess+graph** (`st_py_preprocess`) | The spatial graph is built on coordinates, not on expression PCA; never cluster in a 2D embedding; one cluster per sample = batch artefact; `neighbor_method` must be stated | counts-flavour HVG applied to log values; taking dims from the elbow only misses rare domains; `grid` used on irregular bins; a single resolution only |
+| **§4 markers** (`st_py_markers`) | The corrected p is descriptive (double dipping), not inference; tests are not run on scaled values; `avg_log2FC` is not a portable effect size; marker = high detection AND low detection elsewhere | Marker p treated as significance; looking only at large FC without specificity; wrong identifiers make all markers vanish |
+| **§5 annotate** (`st_py_annotate`) | Zero usable panel genes = identifier mismatch; report hit counts per label + unassigned; a spatial label = a region/dominant type, not a pure cell; coarse labels are not propagated into subtypes | A narrow-margin winner treated as identification; forced labelling hides unassigned; a generic panel used as tissue-specific |
+| **§6 SVG/neighbourhoods** (`st_py_spatial`) | Autocorrelation/enrichment depend entirely on the graph + labels; the SVG p-value (normal approximation) is a screen, not mechanism; depth/batch genes score high too; **enrichment is adjacency, not interaction** | SVG significance treated as mechanism; a positive z-score treated as signal; trusting the ranking without the spatial map; trusting z with a weak null at small n |
+| **§7 deconvolution** (`st_py_deconvolve`) | Proportions are NNLS **estimates, not cell counts**; an scRNA reference is required; no shared genes = identifier mismatch, fix it first; reference granularity/tissue match bounds the answer | Proportions treated as cell numbers; assuming missing types can be recovered; forcing deconvolution on a small bin/cellbin |
+| **§8 communication** (`st_py_communication`) | **A screen: co-expression is not proof of signalling**; ligrec reads lognorm (`use_raw=False`); inherits the graph + labels; symbols are case-insensitive but species pairs need checking; the starter set is not exhaustive | A hit treated as proof of signalling; not checking that the ligand/receptor domains are adjacent; a human-symbol resource assumed validated in mouse |
+| **§9 cross-sample differential** (`st_py_spatial`+`group_column`) | **The SAMPLE is the experimental unit, not the spot**; <2 replicates/group → no condition-level claim; a descriptive screen, not a differential significance test; differences may be driven by composition/depth; <2 conditions → skipped | Spots treated as replicates (pseudoreplication); spatial differences attributed directly to regulation; composition not checked |
+| **§10 notebook** (`st_py_notebook`) | The renderer fills, you decide; every config value carries a source tag, `[default]` = no decision; `self_check=true` before delivery; script and notebook share thresholds | Defaults treated as decided; the two paths disagree on thresholds |
 
-## 一句话记忆
+## One-sentence recollection
 
-**counts/lognorm 是地基，坐标+图是空间前提；p 值多为描述/筛查非推断；标签是区域假说、
-比例是估计、通讯是邻接共表达；实验单元是 sample；skipped ≠ 阴性，缺口走项目环境。**
+**counts/lognorm is the foundation, coordinates+graph are the spatial prerequisite; p-values are
+mostly descriptive/screening, not inference; a label is a regional hypothesis, a proportion is an
+estimate, communication is adjacency co-expression; the experimental unit is the sample; skipped ≠
+negative, gaps go to a project environment.**

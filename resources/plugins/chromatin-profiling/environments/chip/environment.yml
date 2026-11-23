@@ -1,8 +1,9 @@
 name: chip
 description: >-
-  染色质 profiling（ChIP/CUT&Tag）下游插件私有环境：R 4.5 + DiffBind/ChIPseeker/csaw +
-  DESeq2/edgeR + GenomicRanges 栈 + IRkernel，脚本链与 notebook 共用。纯 conda + R 源码包
-  （锁定环境不支持 pip/python 源码包）。
+  Private environment for the chromatin profiling (ChIP/CUT&Tag) downstream plugin: R 4.5 +
+  DiffBind/ChIPseeker/csaw + DESeq2/edgeR + GenomicRanges stack + IRkernel, shared by the script
+  chain and notebooks. Pure conda + R source packages (locked environments do not support
+  pip/Python source packages).
 # conda-forge + bioconda：strict channel priority 下 conda-forge 优先供应 r-base/ggplot2 等
 # 通用栈，bioconda 仅供 Bioconductor 包（DiffBind/ChIPseeker/csaw/DESeq2/edgeR/GenomicRanges）。
 # r-base pin 4.5：核心栈的 conda build 都到 r45（DiffBind 3.20 / ChIPseeker 1.46 / csaw 1.44 /

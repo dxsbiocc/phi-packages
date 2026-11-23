@@ -1,35 +1,35 @@
 # references — scatac-workflow
 
-按功能组织，不按来源堆放。两类读者，两个入口。
+Organized by function, not piled up by source. Two kinds of reader, two entry points.
 
-## Agent — 怎么跑、怎么解读
+## Agent — how to run it, how to interpret it
 
-- [`analysis-playbook.md`](analysis-playbook.md) — 操作手册。每个阶段是一个决策过程：
-  **调用**哪个工具、**读**哪些 JSON 字段与图、从读到的数**决定**参数、遵守**红线**。
-  阈值起点针对 scATAC 数据，不是默认值；先读分布再适配。引擎是 snapatac2 2.10
-  （file-backed，Rust），scanpy 1.12 只用于 gene-activity 下游与 matplotlib 面板。
-- [`red-line-cheatsheet.md`](red-line-cheatsheet.md) — §1–§10 硬红线 × 常见误读速查表，
-  运行时对照用；完整决策过程仍以 analysis-playbook.md 为准。
-- [`step-notes/`](step-notes/) — 每步一篇短笔记（目的/原理/解读/陷阱），按 step id 命名，
-  与 `assets/fragments/<step>.py` 配对。这些就是 notebook 渲染器嵌入的教学 Markdown 格。
+- [`analysis-playbook.md`](analysis-playbook.md) — the operating manual. Each stage is one decision process:
+  which tool to **call**, which JSON fields and figures to **read**, what to **decide** from the numbers read, and which **red lines** to respect.
+  The threshold starting points are tuned for scATAC data, not defaults; read the distributions first, then adapt. The engine is snapatac2 2.10
+  (file-backed, Rust); scanpy 1.12 is used only for the gene-activity downstream and matplotlib panels.
+- [`red-line-cheatsheet.md`](red-line-cheatsheet.md) — §1–§10 hard red lines × common misreadings quick-reference table,
+  for use at runtime; the full decision process still follows analysis-playbook.md.
+- [`step-notes/`](step-notes/) — one short note per step (purpose/principle/interpretation/pitfalls), named by step id,
+  paired with `assets/fragments/<step>.py`. These are exactly the teaching Markdown cells the notebook renderer embeds.
 
-## Maintainers — 实现与溯源
+## Maintainers — implementation and provenance
 
-- [`maintainers/implementation-notes.md`](maintainers/implementation-notes.md) — 每步计算什么、
-  片段库/适配器/报告层怎么分工、snapatac2 API 映射、backed 对象约束、JSON 契约。
+- [`maintainers/implementation-notes.md`](maintainers/implementation-notes.md) — what each step computes,
+  how the fragment library/adapters/report layer divide the work, the snapatac2 API mapping, the backed-object constraints and the JSON contract.
 
-## 来源与许可
+## Sources and licenses
 
-知识原创蒸馏自下列开放来源，不复制上游文本/图/数据：
+The knowledge is an original distillation of the following open sources; no upstream text/figures/data are copied:
 
-| 来源 | URL | 许可 |
+| Source | URL | License |
 | --- | --- | --- |
-| SnapATAC2 文档与教程（Zhang et al.） | https://github.com/kaizhang/SnapATAC2 | MIT |
-| Single-cell best practices（染色质可及性章节） | https://www.sc-best-practices.org/ | Apache 2.0；Heumos et al., Nat Rev Genet 2023 |
-| ENCODE Blacklist（Amemiya, Kundaje, Boyle） | doi:10.1038/s41598-019-45839-z | Sci Rep 9, 9354 (2019)；Boyle-Lab/Blacklist ENCODE v2 |
+| SnapATAC2 documentation and tutorials (Zhang et al.) | https://github.com/kaizhang/SnapATAC2 | MIT |
+| Single-cell best practices (chromatin accessibility chapter) | https://www.sc-best-practices.org/ | Apache 2.0; Heumos et al., Nat Rev Genet 2023 |
+| ENCODE Blacklist (Amemiya, Kundaje, Boyle) | doi:10.1038/s41598-019-45839-z | Sci Rep 9, 9354 (2019); Boyle-Lab/Blacklist ENCODE v2 |
 
-ENCODE hg38/mm10 blacklist 以 base64-gzip 内联在 `assets/fragments/blacklist.py`，
-脚本工具与渲染出的 notebook 都能离线过滤 artifact 区域。snapatac2 离线内置
-hg38/mm10/hg19/mm39 的 chrom_sizes；基因注释（GFF3）与基因组 FASTA 是懒下载，
-由用户经 `input-path` 提供或一次性下载到项目目录，绝不装进只读插件环境。
-代码为本插件原创，运行在私有 `plugin:scatac` 环境。
+The ENCODE hg38/mm10 blacklist is inlined as base64-gzip in `assets/fragments/blacklist.py`,
+so both the script tools and the rendered notebook can filter artifact regions offline. snapatac2 bundles
+chrom_sizes for hg38/mm10/hg19/mm39 offline; the gene annotation (GFF3) and genome FASTA are lazy downloads,
+supplied by the user through `input-path` or downloaded once into the project directory, and are never installed into the read-only plugin environment.
+The code is original to this plugin and runs in the private `plugin:scatac` environment.

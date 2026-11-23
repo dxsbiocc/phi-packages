@@ -1,7 +1,8 @@
 name: scatac
 description: >-
-  单细胞 ATAC 插件私有环境：Python 3.12 + snapatac2 2.10 + scanpy 1.12 + ipykernel，
-  脚本链与 notebook 共用。纯 conda（锁定环境不支持 pip/python 源码包）。
+  Private environment for the single-cell ATAC plugin: Python 3.12 + snapatac2 2.10 + scanpy 1.12
+  + ipykernel, shared by the script chain and notebooks. Pure conda (locked environments do not
+  support pip/Python source packages).
 # conda-forge + bioconda：snapatac2 只在 bioconda。strict channel priority 下 conda-forge
 # 优先供应 python/scanpy/anndata/plotly 等通用栈，bioconda 仅供 snapatac2 及其专属依赖，
 # 避免 bioconda 旧版 anndata/scanpy 遮蔽 conda-forge 新版（与 single-cell scanpy 路同构）。

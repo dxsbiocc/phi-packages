@@ -1,7 +1,8 @@
 name: spatial
 description: >-
-  空间转录组插件私有环境：Python 3.12 + scanpy 1.12 + squidpy 1.8 + spatialdata 0.8 +
-  ipykernel，脚本链与 notebook 共用。纯 conda（锁定环境不支持 pip/python 源码包）。
+  Private environment for the spatial transcriptomics plugin: Python 3.12 + scanpy 1.12 + squidpy
+  1.8 + spatialdata 0.8 + ipykernel, shared by the script chain and notebooks. Pure conda (locked
+  environments do not support pip/Python source packages).
 # 仅 conda-forge：本栈所有包（含 squidpy/spatialdata/omnipath/scikit-misc/leidenalg）都在
 # conda-forge。锁定求解用 strict channel priority，若再挂 bioconda，其旧版 anndata/scanpy
 # 会遮蔽 conda-forge 的新版导致不可解（实测去掉 bioconda 后零冲突）。bioconda 仅在需要

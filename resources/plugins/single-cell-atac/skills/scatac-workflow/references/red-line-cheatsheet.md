@@ -1,25 +1,25 @@
-# scATAC 硬红线 × 常见误读速查表
+# scATAC hard red lines × common misreadings quick-reference
 
-运行时对照用。完整决策过程（调用 → 读 → 决定 → 红线）以 [`analysis-playbook.md`](analysis-playbook.md) 为准；
-本表把每条红线压成"红线 / 为什么 / 常见误读 / 正确做法"四列，便于在每一步快速自检。
+For use at runtime. The full decision process (call → read → decide → red lines) follows [`analysis-playbook.md`](analysis-playbook.md);
+this table compresses each red line into four columns — "red line / why / common misreading / correct practice" — for a quick self-check at every step.
 
-| # | 硬红线 | 为什么 | 常见误读 | 正确做法 |
+| # | Hard red line | Why | Common misreading | Correct practice |
 | --- | --- | --- | --- | --- |
-| 1 | **原始可及性出发**：peak calling、差异可及性、scrublet 都用 fragment/counts，不用校正/缩放/积分值 | 统计检验与 peak caller 假设原始计数分布；校正破坏均值-方差关系 | 拿 integration 后的嵌入或 scaled 矩阵去 call peaks / diff | 始终从 counts/fragment 层出发；校正值只用于可视化与聚类 |
-| 2 | **backed AnnData 退出前必须 close()** | snapatac2 对象背在 HDF5 上自动同步，不 close 会损坏文件 | 以为像 scanpy 内存对象一样不用管；进程结束文件坏了 | 脚本链每步落盘并 close；notebook 末尾 close 格；内存态对象显式 write |
-| 3 | **分析单元是细胞（barcode），不是 spot/bin** | scATAC 一个 barcode = 一份染色质；无空间坐标 | 把 scATAC 当空间数据找 obsm['spatial']；把 tile 当细胞 | 细胞级 QC/聚类；tile/peak 是基因组特征维度，不是分析单元 |
-| 4 | **doublet 会抬高可及性，必须 scrublet** | 两个细胞共一个 barcode → 片段数与可及性虚高，伪装成"高活性"新类型 | 只看 n_fragment 高就当好细胞；忽略 doublet | scrublet 算 doublet_probability，filter_doublets 去掉；报告 doublet 率 |
-| 5 | **TSSe 是 ATAC 特有信噪比，阈值来自分布** | 低 TSSe = 片段散布无核小体/TSS 结构，即便片段数够也是噪声 | 只用 n_fragment 过滤；TSSe 阈值凭默认 | 读 tsse 分布再定 min_tsse；kept_fraction < 一半停下重审 |
-| 6 | **peak/tile 策略是生物学决策** | tile 大小、peak 宽度、是否 per-cluster call 决定分辨率与细胞类型特异调控 | 用默认 bin/全局 peak 一套到底 | 粗粒度组织域用大 tile；细胞类型特异调控用 per-cluster peak；说清选择与理由 |
-| 7 | **gene activity 是代理，不是实测 RNA** | 由启动子/基因体可及性推断表达，稀疏且偏倚 | 把 gene activity 当表达量做差异表达声称 | gene activity 仅用于注释/marker 可视化；差异表达需 scRNA；标注是推断 |
-| 8 | **label transfer 需要 scRNA 参考** | 没有参考就没有标签来源 | 无参考却声称做了 label transfer / 细胞类型注释 | 参考来自 SingleCell agent（counts+obs/pseudobulk 共享出口）；无参考只做 gene-activity marker 推断并说明 |
-| 9 | **motif 富集需 FASTA + motif 库；结果是序列预测** | motif 富集检验 marker 区域里 TF motif 是否过代表，是序列层面的预测 | 把 motif 命中当实测 TF 结合；把 motif 富集冒充 chromVAR 逐细胞偏差 | 说清 motif 库（JASPAR/cis_bp）与背景；motif 是预测需实验验证；chromVAR 逐细胞 TF 偏差是 R 路缺口、未实现，要它报缺口走项目环境 |
-| 10 | **样本是实验单元，不是细胞** | 条件级声称的重复是生物学样本，细胞是伪重复 | 把成百上千细胞当重复做条件差异 | 每组 ≥2 生物学重复才做条件级声称；否则只描述样本内模式 |
-| 11 | **整合不要过校正；校正值不进差异检验** | 批次校正可能抹掉真实生物学差异 | 拿 integration 后的值做差异可及性 | 校正只用于联合聚类/可视化；差异可及性回到原始 counts，按样本建模 |
-| 12 | **不做比对/Cell Ranger；缺基因组资源报缺口** | 原始 reads 处理是 nf-core wrapper；插件环境只读 | 在插件里跑 Cell Ranger / pip 装 episcanpy / 装 chromVAR / 下载 845MB FASTA 进插件环境 | 从 fragment/BAM/peak 起步（macs3 已随环境）；缺包/缺参考 → env_probe 报事实 + 项目环境 env_request 或指引下载到项目目录 |
+| 1 | **Start from raw accessibility**: peak calling, differential accessibility and scrublet all use fragments/counts, never corrected/scaled/integrated values | Statistical tests and peak callers assume a raw count distribution; correction breaks the mean-variance relationship | Taking the integrated embedding or a scaled matrix to call peaks / run diff | Always start from the counts/fragments layer; corrected values are for visualization and clustering only |
+| 2 | **backed AnnData must be closed with close() before exiting** | snapatac2 objects are backed on HDF5 and sync automatically; not closing them corrupts the file | Assuming they need no handling, like in-memory scanpy objects; the file is broken once the process ends | The script chain writes to disk and closes at every step; a close cell at the end of the notebook; in-memory objects written explicitly |
+| 3 | **The analysis unit is the cell (barcode), not a spot/bin** | In scATAC one barcode = one chromatin sample; there are no spatial coordinates | Treating scATAC as spatial data and looking for obsm['spatial']; treating tiles as cells | Cell-level QC/clustering; tiles/peaks are genome feature dimensions, not analysis units |
+| 4 | **Doublets inflate accessibility and must be removed with scrublet** | Two cells sharing one barcode → fragment count and accessibility are inflated, masquerading as a "high-activity" new type | Treating a high n_fragment alone as a good cell; ignoring doublets | scrublet computes doublet_probability, filter_doublets removes them; report the doublet rate |
+| 5 | **TSSe is the ATAC-specific signal-to-noise metric; the threshold comes from the distribution** | Low TSSe = fragments spread without nucleosome/TSS structure, so even enough fragments can be noise | Filtering on n_fragment alone; picking a TSSe threshold from the default | Read the tsse distribution before setting min_tsse; if kept_fraction < half, stop and re-examine |
+| 6 | **The peak/tile strategy is a biological decision** | Tile size, peak width and whether to call per cluster determine resolution and cell-type-specific regulation | Using the default bin / one global peak set from start to finish | Large tiles for coarse tissue domains; per-cluster peaks for cell-type-specific regulation; state the choice and the reason |
+| 7 | **Gene activity is a proxy, not measured RNA** | Expression is inferred from promoter/gene-body accessibility, and is sparse and biased | Treating gene activity as expression and making differential-expression claims | Use gene activity only for annotation/marker visualization; differential expression needs scRNA; labelling is inference |
+| 8 | **Label transfer needs an scRNA reference** | Without a reference there is no source of labels | Claiming label transfer / cell-type annotation without a reference | The reference comes from the SingleCell agent (counts+obs/pseudobulk shared exit); without one, do only gene-activity marker inference and say so |
+| 9 | **Motif enrichment needs FASTA + a motif library; the result is a sequence prediction** | Motif enrichment tests whether TF motifs are over-represented in marker regions, a sequence-level prediction | Treating motif hits as measured TF binding; passing motif enrichment off as chromVAR per-cell deviations | State the motif library (JASPAR/cis_bp) and background; motifs are predictions needing experimental validation; chromVAR per-cell TF deviations are an R-route gap, not implemented — if requested, report the gap and go via a project environment |
+| 10 | **The sample is the experimental unit, not the cell** | Replicates for condition-level claims are biological samples; cells are pseudoreplicates | Treating hundreds or thousands of cells as replicates for a condition comparison | Make condition-level claims only with ≥2 biological replicates per group; otherwise describe within-sample patterns only |
+| 11 | **Do not over-correct during integration; corrected values do not enter differential tests** | Batch correction can erase real biological differences | Running differential accessibility on integrated values | Correction is for joint clustering/visualization only; differential accessibility returns to raw counts and models by sample |
+| 12 | **Do not run alignment/Cell Ranger; report missing genome resources as a gap** | Raw read processing is the nf-core wrapper; the plugin environment is read-only | Running Cell Ranger in the plugin / pip-installing episcanpy / installing chromVAR / downloading an 845MB FASTA into the plugin environment | Start from fragments/BAM/peaks (macs3 ships with the environment); missing packages/references → env_probe reports the facts + a project environment via env_request, or instructions to download into the project directory |
 
-## 使用方式
+## How to use it
 
-- 每跑一步前，扫一遍与本步相关的行（QC→1/4/5；降维聚类→1/3；peaks→1/6；注释→7/8；motif→9；整合/跨样本→10/11；任何重依赖→12）。
-- 交付前对照第 2 行（对象都 close/落盘了吗）与第 12 行（"没跑"有没有被说成"没问题"）。
-- 阈值与策略永远"先读分布/报告，再决定"，不是先验默认。引用工具 JSON 里的数字，不要自己重算。
+- Before each step, scan the rows relevant to it (QC→1/4/5; embedding/clustering→1/3; peaks→1/6; annotation→7/8; motif→9; integration/cross-sample→10/11; any heavy dependency→12).
+- Before delivery, check row 2 (are all objects closed/written?) and row 12 (was "did not run" presented as "no problem"?).
+- Thresholds and strategies always follow "read the distribution/report first, then decide", never an a priori default. Quote the numbers in the tool JSON; do not recompute them yourself.

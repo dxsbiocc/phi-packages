@@ -1,21 +1,20 @@
-# 科研绘图插件
+# Scientific Plotting Plugin
 
-这个内置插件提供：
+This built-in plugin provides:
 
-- `agents/Visualization.md`：专属的 Visualization 绘图智能体。
-- `skills/omics-visualization/`：用已有模板绘制用户数据的科研绘图模板与脚本。
-- `skills/create-template/`：把图做成可复用模板并登记进 omics-visualization 目录。不负责用已有模板画用户数据，本身没有脚本。
-- `resources/runtime/environments/phi-r/`：智能体与 omics-visualization 技能共享的内置 R 环境
-  `phi:r@1`（`phi-r`），同时提供 `Rscript` 和 Python。
+- `agents/Visualization.md`: the dedicated Visualization plotting agent.
+- `skills/omics-visualization/`: the scientific plotting templates and scripts that draw user data with existing templates.
+- `skills/create-template/`: turns a figure into a reusable template and registers it in the omics-visualization catalog. It does not draw user data with existing templates and has no scripts of its own.
+- `resources/runtime/environments/phi-r/`: the built-in R environment `phi:r@1` (`phi-r`) shared by the agent and the omics-visualization skill, providing both `Rscript` and Python.
 
-插件不声明私有托管环境；绘图技能与其他内置技能共享 `phi:r@1`。
-`create-template` 不声明环境。`python3 scripts/validate_template_contracts.py` 等校验命令在已安装的 `omics-visualization` 技能根目录运行。
+The plugin declares no private hosted environment; the plotting skills share `phi:r@1` with the other built-in skills.
+`create-template` declares no environment. Validation commands such as `python3 scripts/validate_template_contracts.py` run from the installed `omics-visualization` skill root.
 
-## 绘图模板画廊
+## Plot template gallery
 
-`skills/omics-visualization/references/template_gallery.json` 列出目录中的全部绘图模板及其 `preview.png`。查看已安装的科研绘图插件时，插件页读取这份清单，按图族展示模板画廊。预览图是透明 PNG，画廊用白底，避免把空白看成黑底。这些图是模板示例，不是用户数据的作图结果。`scripts/layouts/` 里的布局审核图不是绘图模板，不进入画廊。
+`skills/omics-visualization/references/template_gallery.json` lists every plotting template in the catalog together with its `preview.png`. When the installed scientific plotting plugin is viewed, the plugin page reads this list and shows the template gallery by figure family. Previews are transparent PNGs, and the gallery uses a white background so that blank areas are not mistaken for black. These images are template examples, not plots of user data. The layout audit images under `scripts/layouts/` are not plotting templates and do not enter the gallery.
 
-新增或改名模板后，在 omics-visualization 技能根目录重新生成并校验：
+After adding or renaming a template, regenerate and validate from the omics-visualization skill root:
 
 ```bash
 python3 scripts/build_template_gallery.py

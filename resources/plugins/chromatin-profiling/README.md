@@ -1,104 +1,119 @@
 # chromatin-profiling
 
-染色质 profiling（bulk **ChIP-seq** 与 **CUT&Tag/CUT&RUN**）下游分析插件。**R 单路**：
-Bioconductor，私有锁定环境 `plugin:chip`，工具前缀 `chip_`。主引擎是 **DiffBind**
-（occupancy + affinity 分析）+ **DESeq2/edgeR**（差异结合）+ **csaw**（broad mark 窗口法）+
-**ChIPseeker**（peak 注释）。分析单元是 **peak/样本**，不是细胞。**纯下游**：从已 call 的
-peak/counts/indexed BAM/bigWig 出发，绝不碰 FASTQ。
+Chromatin profiling (bulk **ChIP-seq** and **CUT&Tag/CUT&RUN**) downstream analysis plugin. **R route
+only**: Bioconductor, private locked environment `plugin:chip`, tool prefix `chip_`. The main engines are
+**DiffBind** (occupancy + affinity analysis) + **DESeq2/edgeR** (differential binding) + **csaw** (broad
+mark window method) + **ChIPseeker** (peak annotation). The analysis unit is the **peak/sample**, not the
+cell. **Pure downstream**: starts from already-called peaks/counts/indexed BAM/bigWig and never touches FASTQ.
 
-| 输入起点 | 来源 | 说明 |
+| Input starting point | Source | Notes |
 | --- | --- | --- |
-| BED/narrowPeak/broadPeak | MACS2（ChIP）/ SEACR（CUT&Tag） | 首选，per-sample peak 集 |
-| DiffBind sample sheet CSV | 用户整理 | 驱动 DBA 对象与 contrast（Peaks/bamReads 列） |
-| peak×sample count 表 | featureCounts / dba.count 导出 | 跳过 counting，直接 normalize/pca/diff |
-| indexed BAM | 比对输出 | FRiP / counting / csaw（需 .bai） |
-| bigWig | coverage track | profile / 可视化 |
-| 已存 `.rds`（DBA/GRanges） | 本插件 save | 续跑 diff/annotate |
+| BED/narrowPeak/broadPeak | MACS2 (ChIP) / SEACR (CUT&Tag) | Preferred; per-sample peak sets |
+| DiffBind sample sheet CSV | user-curated | Drives the DBA object and contrasts (Peaks/bamReads columns) |
+| peak×sample count table | featureCounts / dba.count export | Skips counting; goes straight to normalize/pca/diff |
+| indexed BAM | alignment output | FRiP / counting / csaw (needs .bai) |
+| bigWig | coverage track | profile / visualization |
+| saved `.rds` (DBA/GRanges) | this plugin's save | Resume diff/annotate |
 
-**比对 / peak calling 不在这里做**：ChIP 归 nf-core/chipseq wrapper；CUT&Tag 上游 SEACR
-无 wrapper，是缺口，插件直接吃用户 SEACR 产出的 peak。
+**Alignment / peak calling is not done here**: ChIP belongs to the nf-core/chipseq wrapper; CUT&Tag upstream
+SEACR has no wrapper, which is a gap, so the plugin consumes the peaks produced by the user's SEACR run directly.
 
-## 设计原则
+## Design principles
 
-与 single-cell / spatial / single-cell-atac 插件同一套契约：
+The same contract as the single-cell / spatial / single-cell-atac plugins:
 
-- **插件只做确定性填充/渲染**。意图解析、步骤选择、阈值决策归 agent（规则写在
-  [`agents/ChromatinProfiling.md`](agents/ChromatinProfiling.md) 与技能的 SKILL.md）。
-- **片段库是唯一分析源**。`skills/chromatin-workflow/assets/fragments/` 的教学代码同时驱动
-  脚本工具（薄适配器 + JSON 报告层）与 notebook 渲染器，两条形态共用一份代码。
-- **私有锁定环境，不在里面装包**。缺包/缺基因组参考由 `chip_env_probe` 当成事实报告，
-  下一步是项目环境（env_request）或指引下载到项目目录。
-- **notebook 是真代码格 + 每步 Markdown 教学**，渲染进用户工作目录，不是拷贝模板目录。
+- **The plugin only does deterministic filling/rendering**. Intent parsing, step selection and threshold
+  decisions belong to the agent (the rules live in
+  [`agents/ChromatinProfiling.md`](agents/ChromatinProfiling.md) and the skill's SKILL.md).
+- **The fragment library is the single analysis source**. The teaching code in
+  `skills/chromatin-workflow/assets/fragments/` drives both the script tools (thin adapters + a JSON report
+  layer) and the notebook renderer; the two forms share one copy of the code.
+- **Private locked environment; do not install packages inside it**. Missing packages or missing genome
+  references are reported as facts by `chip_env_probe`; the next step is a project environment (env_request)
+  or instructions to download into the project directory.
+- **The notebook is real code cells + per-step Markdown teaching**, rendered into the user's working
+  directory, not a copied template directory.
 
-## R 路的三个硬约束
+## Three hard constraints of the R route
 
-- **DiffBind 需 sample sheet + indexed BAM**：`dba(sampleSheet=)` 从 CSV 建 DBA；counting/FRiP
-  需 `.bai` 索引（`samtools index` 是上游）。相对路径相对 sheet 目录解析。
-- **csaw 在 Apple Silicon 是缺口**：bioconda 无 osx-arm64 构建，csaw 只进 darwin-x64/linux-x64。
-  darwin-arm64 上 broad mark 走 DiffBind 替代或换平台/项目环境，由 `chip_env_probe` 如实报告。
-- **图是 PNG，不是 plotly**：ggplot2（PCA/MA）、ChIPseeker（特征分布/TSS 距离/profile/heatmap）、
-  ComplexHeatmap（UpSet），ragg 渲染。
+- **DiffBind needs a sample sheet + indexed BAM**: `dba(sampleSheet=)` builds the DBA from the CSV;
+  counting/FRiP needs `.bai` indexes (`samtools index` is upstream). Relative paths resolve against the sheet
+  directory.
+- **csaw is a gap on Apple Silicon**: bioconda has no osx-arm64 build, so csaw only ships for
+  darwin-x64/linux-x64. On darwin-arm64, broad marks take the DiffBind substitute route or move platform /
+  project environment, as reported faithfully by `chip_env_probe`.
+- **Figures are PNG, not plotly**: ggplot2 (PCA/MA), ChIPseeker (feature distribution/TSS distance/profile/heatmap),
+  ComplexHeatmap (UpSet), rendered with ragg.
 
-## 分析链
+## Analysis chain
 
-`chip_inspect` → `chip_qc`（FRiP + 重复性重叠分数 + blacklist 过滤）→ `chip_consensus`
-（disjoin/reduce 建 consensus peakset，min_occupancy 决定 region universe）→ `chip_count`
-（summarizeOverlaps 计数 + 归一化）→ `chip_diff`（DiffBind DESeq2/edgeR 用于 TF/narrow/CUT&Tag；
-csaw 窗口法用于 broad mark）→ `chip_annotate`（ChIPseeker 基因组特征分布/nearest gene/TSS 距离 +
-coverage profile/heatmap）→ `chip_visualize`（样本 PCA + peak 重叠 UpSet）。
-`chip_notebook` 是平行的教学路径；`chip_env_probe` 在承诺重依赖能力前探测。
+`chip_inspect` → `chip_qc` (FRiP + replicate overlap score + blacklist filtering) → `chip_consensus`
+(disjoin/reduce to build the consensus peakset; min_occupancy decides the region universe) → `chip_count`
+(summarizeOverlaps counting + normalization) → `chip_diff` (DiffBind DESeq2/edgeR for TF/narrow/CUT&Tag;
+csaw window method for broad marks) → `chip_annotate` (ChIPseeker genomic feature distribution/nearest gene/TSS
+distance + coverage profile/heatmap) → `chip_visualize` (sample PCA + peak overlap UpSet).
+`chip_notebook` is the parallel teaching path; `chip_env_probe` probes before you promise heavy-dependency capabilities.
 
-## 基因组参考（精简策略）
+## Genome references (lean strategy)
 
-- **blacklist 内联**：ENCODE hg38（636 区域）/mm10（3435 区域）以 base64-gzip 内联在
-  `assets/fragments/blacklist-filter.R`，离线解码；`genome` 选版本，`blacklist` 覆盖其他版本，
-  两者都无则跳过并说明。blacklist 基因组版本特异——hg38 区域在 mm10 上是错的。
-- **目标基因组 TxDb 来自用户**：ChIPseeker 注释用用户 GTF/GFF3 经 `makeTxDbFromGFF` 建 TxDb，
-  或用户 TxDb `.sqlite`（`loadDb`）；**插件不 bundle 目标基因组 TxDb**，缺失报缺口。
-  ChIPseeker conda 配方附带的 hg19 TxDb 只是构建期依赖，**绝不作目标基因组的默认注释源**。
-- **gene symbol 需用户 org.db**（annoDb）；无则注释仍给 gene id/特征/TSS 距离，报缺口。
-- 绝不在只读插件环境里装包或下载大参考。
+- **blacklist inlined**: ENCODE hg38 (636 regions) / mm10 (3435 regions) is inlined as base64-gzip in
+  `assets/fragments/blacklist-filter.R` and decoded offline; `genome` selects the build, `blacklist` overrides
+  with another build, and with neither the step skips and says so. Blacklist regions are genome-build
+  specific — hg38 regions are wrong on mm10.
+- **The target-genome TxDb comes from the user**: ChIPseeker annotation uses the user's GTF/GFF3 to build a
+  TxDb via `makeTxDbFromGFF`, or the user's TxDb `.sqlite` (`loadDb`); **the plugin does not bundle the target-genome
+  TxDb** and reports the gap when it is missing. The hg19 TxDb shipped with the ChIPseeker conda recipe is a
+  build-time dependency only and is **never the default annotation source for the target genome**.
+- **Gene symbols need the user's org.db** (annoDb); without it annotation still returns gene id/features/TSS
+  distance and reports the gap.
+- Never install packages or download large references inside the read-only plugin environment.
 
-## 知识层
+## Knowledge layer
 
-`skills/chromatin-workflow/references/` 按功能组织：
+`skills/chromatin-workflow/references/` is organised by function:
 
-- [`analysis-playbook.md`](skills/chromatin-workflow/references/analysis-playbook.md) — agent
-  的操作手册：每步调用哪个工具、读哪些 JSON 字段与图、怎么定阈值、红线是什么。
+- [`analysis-playbook.md`](skills/chromatin-workflow/references/analysis-playbook.md) — the agent's
+  operating manual: which tool to call at each step, which JSON fields and figures to read, how to set
+  thresholds, and what the red lines are.
 - [`red-line-cheatsheet.md`](skills/chromatin-workflow/references/red-line-cheatsheet.md) —
-  12 条硬红线 × 常见误读速查表，运行时对照。
-- [`step-notes/`](skills/chromatin-workflow/references/step-notes/) — 每步的目的/原理/解读/陷阱，
-  即 notebook 的教学格（19 步）。
+  12 hard red lines × common misreadings quick-reference table, for use at runtime.
+- [`step-notes/`](skills/chromatin-workflow/references/step-notes/) — the purpose/principle/interpretation/pitfalls
+  of each step, i.e. the notebook's teaching cells (19 steps).
 - [`maintainers/implementation-notes.md`](skills/chromatin-workflow/references/maintainers/implementation-notes.md)
-  — 实现说明与溯源（片段库架构、DiffBind/csaw/ChIPseeker API 映射、精简注释与 blacklist 自包含、
-  JSON 契约）。
+  — implementation notes and provenance (fragment library architecture, DiffBind/csaw/ChIPseeker API mapping,
+  lean annotation and blacklist self-containment, JSON contract).
 
-知识原创蒸馏自 [DiffBind](https://bioconductor.org/packages/DiffBind)、
-[csaw](https://bioconductor.org/packages/csaw)、[ChIPseeker](https://bioconductor.org/packages/ChIPseeker)
-vignette（Artistic-2.0）与 ENCODE ChIP-seq 指南（doi:10.1101/gr.136184.111）；blacklist 来源
-doi:10.1038/s41598-019-45839-z。不抄上游文本/图/数据。
+The knowledge is an original distillation of the [DiffBind](https://bioconductor.org/packages/DiffBind),
+[csaw](https://bioconductor.org/packages/csaw), [ChIPseeker](https://bioconductor.org/packages/ChIPseeker)
+vignettes (Artistic-2.0) and the ENCODE ChIP-seq guidelines (doi:10.1101/gr.136184.111); the blacklist comes
+from doi:10.1038/s41598-019-45839-z. No upstream text/figures/data are copied.
 
-## 环境
+## Environment
 
-`environments/chip/environment.yml` 声明依赖（纯 conda + R 源码包，无 pip），`locks/` 是三平台
-（darwin-arm64、darwin-x64、linux-x64）的锁定文件。r-base pin 4.5（DiffBind 3.20 / ChIPseeker 1.46 /
-csaw 1.44 / DESeq2 1.50 / edgeR 4.10，与 single-cell seurat 路同线）。csaw 是平台条件依赖
-（CondaPlatformDependency，排除 darwin-arm64）。GenomeInfoDbData 走 GitHub 镜像 pin（codeload 可达）。
-求解走 tuna 镜像，再重写回官方 host。
+`environments/chip/environment.yml` declares the dependencies (pure conda + R source packages, no pip), and
+`locks/` holds the lock files for the three platforms (darwin-arm64, darwin-x64, linux-x64). r-base is pinned
+to 4.5 (DiffBind 3.20 / ChIPseeker 1.46 / csaw 1.44 / DESeq2 1.50 / edgeR 4.10, the same line as the
+single-cell seurat route). csaw is a platform-conditional dependency (CondaPlatformDependency, excluding
+darwin-arm64). GenomeInfoDbData goes through a GitHub mirror pin (codeload reachable). Solving goes through the
+tuna mirror, then the host is rewritten back to the official one.
 
-## 缺口（由 `chip_env_probe` 报事实，走项目环境）
+## Gaps (reported as facts by `chip_env_probe`, handled via a project environment)
 
-- **csaw（darwin-arm64）**：bioconda 无 osx-arm64 构建；broad mark 在 Apple Silicon 走 DiffBind
-  替代或换 linux-x64/darwin-x64/项目环境。
-- **IDR**：正式重复性检验需 `idr` pip 包，锁定环境不支持 pip；插件给透明重叠分数代理，不冒充 IDR。
-- **profileplyr**：仅 r44，与 r-base 4.5 主线不兼容，不纳入。
-- **motif 富集（HOMER/MEME）**：不在 R 下游栈，是缺口；motif 命中是序列预测，不是实测 TF 结合。
-- **org.db gene symbol**：需用户 org.db，缺失报 gene id。
-- **CUT&Tag 上游 SEACR**：无 wrapper，插件吃用户 SEACR peak；比对/peak calling 是上游缺口。
+- **csaw (darwin-arm64)**: bioconda has no osx-arm64 build; on Apple Silicon broad marks go the DiffBind
+  substitute route or move to linux-x64/darwin-x64/project environment.
+- **IDR**: the formal reproducibility test needs the `idr` pip package, and the locked environment does not
+  support pip; the plugin provides a transparent overlap-score proxy and does not pass it off as IDR.
+- **profileplyr**: r44 only, incompatible with the r-base 4.5 main line, not included.
+- **motif enrichment (HOMER/MEME)**: not in the R downstream stack, a gap; motif hits are sequence
+  predictions, not measured TF binding.
+- **org.db gene symbols**: needs the user's org.db; when missing, gene ids are reported.
+- **CUT&Tag upstream SEACR**: no wrapper; the plugin consumes the user's SEACR peaks; alignment/peak calling
+  are an upstream gap.
 
-## 与其他插件的关系
+## Relationship to other plugins
 
-- **single-cell-atac**（姊妹插件）：scATAC 是另一插件（Python/snapatac2，细胞级可及性），
-  与本插件按分析范式分开——本插件是 bulk、peak/样本级、R 路。
-- **wrappers**：原始 reads 到 BAM/peak（比对、MACS2）是 nf-core/chipseq wrapper 的事，不是 notebook 格。
-- **single-cell**：如需 scRNA 对照（peak 注释到表达），参考对象走 SingleCell agent 共享出口。
+- **single-cell-atac** (sibling plugin): scATAC is another plugin (Python/snapatac2, cell-level accessibility),
+  kept separate from this plugin by analysis paradigm — this plugin is bulk, peak/sample-level, R route.
+- **wrappers**: raw reads to BAM/peak (alignment, MACS2) is the nf-core/chipseq wrapper's job, not a notebook cell.
+- **single-cell**: if an scRNA reference is needed (peak annotation against expression), reference objects come
+  via the SingleCell agent's shared exit.
