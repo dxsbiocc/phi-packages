@@ -218,6 +218,17 @@ class TestProteinDesignComposites(unittest.TestCase):
         self.assertIn("foldseek_coverage", dp_params)
         self.assertIn("foldseek_tmscore_threshold", dp_params)
 
+        # Verify top-level protein_binder_design also wires FOLDSEEK_EASYCLUSTER
+        pbd_dir = WRAPPERS_BASE / "workflows" / "local" / "protein_binder_design"
+        pbd_nf = (pbd_dir / "main.nf").read_text(encoding="utf-8")
+        pbd_params = json.loads((pbd_dir / "wrapper" / "params.json").read_text(encoding="utf-8"))
+        self.assertIn("include { FOLDSEEK_EASYCLUSTER", pbd_nf)
+        self.assertIn("FOLDSEEK_EASYCLUSTER(", pbd_nf)
+        self.assertIn("foldseek_tsv         = ch_foldseek_tsv", pbd_nf)
+        self.assertFalse(pbd_params["run_foldseek_cluster"])
+        self.assertIn("foldseek_coverage", pbd_params)
+        self.assertIn("foldseek_tmscore_threshold", pbd_params)
+
         # End-to-end Python bridge: Foldseek easy-cluster -> cluster_id -> DESIGN_FILTER diversity cap
         foldseek_script = (
             WRAPPERS_BASE

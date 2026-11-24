@@ -16,6 +16,8 @@ flowchart TD
         end
     end
 
+    d_clu{run_foldseek_cluster}
+    p_foldseek[FOLDSEEK_EASYCLUSTER]
     p_filter[DESIGN_FILTER]
     out_merged([merged.tsv])
     out_filtered([filtered.tsv])
@@ -34,12 +36,18 @@ flowchart TD
     p_protenix --> p_metrics
     p_chai1 --> p_metrics
     in_ref --> p_metrics
+    p_boltz --> d_clu
+    p_af3 --> d_clu
+    p_protenix --> d_clu
+    p_chai1 --> d_clu
+    d_clu -->|true| p_foldseek
     p_mpnn --> p_filter
     p_boltz --> p_filter
     p_af3 --> p_filter
     p_protenix --> p_filter
     p_chai1 --> p_filter
     p_metrics --> p_filter
+    p_foldseek --> p_filter
     p_filter --> out_merged
     p_filter --> out_filtered
     p_filter --> out_summary

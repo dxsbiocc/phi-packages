@@ -275,6 +275,25 @@ params:
     minimum: 0.5
     maximum: 4
     description: Inter-residue heavy-atom clash cutoff in Angstrom.
+  run_foldseek_cluster:
+    kind: option
+    type: boolean
+    required: false
+    description: Run campaign-wide Foldseek easy-cluster on predicted structures and auto-switch group_by to cluster_id for structural dereplication in DESIGN_FILTER.
+  foldseek_coverage:
+    kind: option
+    type: number
+    required: false
+    minimum: 0
+    maximum: 1
+    description: Minimum alignment coverage fraction (-c) for Foldseek easy-cluster (default 0.8).
+  foldseek_tmscore_threshold:
+    kind: option
+    type: number
+    required: false
+    minimum: 0
+    maximum: 1
+    description: TM-score threshold (--tmscore-threshold) for Foldseek easy-cluster (default 0.6).
   filter_expr:
     kind: option
     type: string

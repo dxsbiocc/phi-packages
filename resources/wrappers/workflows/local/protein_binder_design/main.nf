@@ -4,69 +4,74 @@
 // Orchestrates:
 //   1. RFD3 (parallelized across n_chunks with distinct chunk_id seeds)
 //   2. SEQ_FOLD_EVAL (LIGANDMPNN -> BOLTZ2 / ALPHAFOLD3 / PROTENIX / CHAI1 -> PROTEIN_METRICS)
-//   3. DESIGN_FILTER (campaign-wide lineage merge, boolean DSL filtering,
-//      ranking, and per-parent diversity selection)
+//   3. Optional FOLDSEEK_EASYCLUSTER (campaign-wide structural clustering into cluster_id)
+//   4. DESIGN_FILTER (campaign-wide lineage merge, boolean DSL filtering,
+//      ranking, and per-parent or per-cluster diversity selection)
 //
 
-include { RFD3          } from '../../../modules/local/rfd3/main.nf'
-include { SEQ_FOLD_EVAL } from '../../../subworkflows/local/seq_fold_eval/main.nf'
-include { DESIGN_FILTER } from '../../../modules/local/design_filter/main.nf'
+include { RFD3                 } from '../../../modules/local/rfd3/main.nf'
+include { SEQ_FOLD_EVAL        } from '../../../subworkflows/local/seq_fold_eval/main.nf'
+include { FOLDSEEK_EASYCLUSTER } from '../../../modules/local/foldseek/easycluster/main.nf'
+include { DESIGN_FILTER        } from '../../../modules/local/design_filter/main.nf'
 
 workflow PROTEIN_BINDER_DESIGN {
     take:
-    ch_inputs_json           // channel: path(inputs_json) or []
-    ch_input_structure       // channel: path(input_structure) or []
-    ch_rfd3_weights          // channel: path(weights_dir) or []
-    ch_mpnn_weights          // channel: path(weights_dir) or []
-    ch_boltz_cache           // channel: path(cache_dir) or []
-    ch_af3_model_dir         // channel: path(model_dir) or []
-    ch_af3_db_dir            // channel: path(db_dir) or []
-    ch_protenix_cache        // channel: path(cache_dir) or []
-    ch_chai1_cache           // channel: path(cache_dir) or []
-    ch_reference             // channel: path(reference) or []
-    predictor                // val: string ('boltz2' | 'alphafold3' | 'protenix' | 'chai1')
-    design_name              // val: string
-    contig                   // val: string
-    ligand                   // val: string
-    n_chunks                 // val: int
-    n_batches                // val: int
-    diffusion_batch_size     // val: int
-    num_timesteps            // val: int
-    low_memory_mode          // val: boolean
-    mpnn_model_type          // val: string
-    num_seq_per_pdb          // val: int
-    mpnn_batch_size          // val: int
-    mpnn_temperature         // val: float
-    mpnn_seed                // val: int
-    mpnn_output_mode         // val: string
-    fixed_residues           // val: string
-    chains_to_design         // val: string
-    target_sequence          // val: string
-    ligand_ccd               // val: string
-    ligand_smiles            // val: string
-    predict_affinity         // val: boolean
-    use_msa_server           // val: boolean
-    use_potentials           // val: boolean
-    recycling_steps          // val: int
-    diffusion_samples        // val: int
-    boltz_output_format      // val: string
-    af3_model_seeds          // val: string
-    af3_run_data_pipeline    // val: boolean
-    protenix_model_name      // val: string
-    protenix_diffusion_steps // val: int
-    protenix_dtype           // val: string
-    chai1_use_templates      // val: boolean
-    binder_chains            // val: string
-    target_chains            // val: string
-    contact_cutoff           // val: float
-    hbond_cutoff             // val: float
-    clash_cutoff             // val: float
-    filter_expr              // val: string
-    rank_by                  // val: string
-    rank_direction           // val: string
-    group_by                 // val: string
-    max_per_group            // val: int
-    top_n                    // val: int
+    ch_inputs_json             // channel: path(inputs_json) or []
+    ch_input_structure         // channel: path(input_structure) or []
+    ch_rfd3_weights            // channel: path(weights_dir) or []
+    ch_mpnn_weights            // channel: path(weights_dir) or []
+    ch_boltz_cache             // channel: path(cache_dir) or []
+    ch_af3_model_dir           // channel: path(model_dir) or []
+    ch_af3_db_dir              // channel: path(db_dir) or []
+    ch_protenix_cache          // channel: path(cache_dir) or []
+    ch_chai1_cache             // channel: path(cache_dir) or []
+    ch_reference               // channel: path(reference) or []
+    predictor                  // val: string ('boltz2' | 'alphafold3' | 'protenix' | 'chai1')
+    design_name                // val: string
+    contig                     // val: string
+    ligand                     // val: string
+    n_chunks                   // val: int
+    n_batches                  // val: int
+    diffusion_batch_size       // val: int
+    num_timesteps              // val: int
+    low_memory_mode            // val: boolean
+    mpnn_model_type            // val: string
+    num_seq_per_pdb            // val: int
+    mpnn_batch_size            // val: int
+    mpnn_temperature           // val: float
+    mpnn_seed                  // val: int
+    mpnn_output_mode           // val: string
+    fixed_residues             // val: string
+    chains_to_design           // val: string
+    target_sequence            // val: string
+    ligand_ccd                 // val: string
+    ligand_smiles              // val: string
+    predict_affinity           // val: boolean
+    use_msa_server             // val: boolean
+    use_potentials             // val: boolean
+    recycling_steps            // val: int
+    diffusion_samples          // val: int
+    boltz_output_format        // val: string
+    af3_model_seeds            // val: string
+    af3_run_data_pipeline      // val: boolean
+    protenix_model_name        // val: string
+    protenix_diffusion_steps   // val: int
+    protenix_dtype             // val: string
+    chai1_use_templates        // val: boolean
+    binder_chains              // val: string
+    target_chains              // val: string
+    contact_cutoff             // val: float
+    hbond_cutoff               // val: float
+    clash_cutoff               // val: float
+    run_foldseek_cluster       // val: boolean
+    foldseek_coverage          // val: float
+    foldseek_tmscore_threshold // val: float
+    filter_expr                // val: string
+    rank_by                    // val: string
+    rank_direction             // val: string
+    group_by                   // val: string
+    max_per_group              // val: int
+    top_n                      // val: int
 
     main:
     ch_versions = Channel.empty()
@@ -134,10 +139,37 @@ workflow PROTEIN_BINDER_DESIGN {
     )
     ch_versions = ch_versions.mix(SEQ_FOLD_EVAL.out.versions)
 
-    ch_campaign_tables = SEQ_FOLD_EVAL.out.all_metric_tables
-        .flatMap { _meta, table_list -> table_list }
-        .collect()
-        .map { all_tables -> [[id: design_name], all_tables] }
+    if (run_foldseek_cluster) {
+        ch_campaign_structures = SEQ_FOLD_EVAL.out.predicted_structures
+            .flatMap { _meta, structs -> structs instanceof List ? structs : [structs] }
+            .collect()
+            .map { all_structs -> [[id: design_name], all_structs] }
+
+        FOLDSEEK_EASYCLUSTER(
+            ch_campaign_structures,
+            foldseek_coverage,
+            foldseek_tmscore_threshold
+        )
+        ch_foldseek_tsv = FOLDSEEK_EASYCLUSTER.out.metrics_tsv
+        ch_versions = ch_versions.mix(FOLDSEEK_EASYCLUSTER.out.versions)
+
+        ch_campaign_tables = SEQ_FOLD_EVAL.out.all_metric_tables
+            .flatMap { _meta, table_list -> table_list }
+            .mix(ch_foldseek_tsv.map { _meta, tsv -> tsv })
+            .collect()
+            .map { all_tables -> [[id: design_name], all_tables] }
+    } else {
+        ch_foldseek_tsv = Channel.empty()
+
+        ch_campaign_tables = SEQ_FOLD_EVAL.out.all_metric_tables
+            .flatMap { _meta, table_list -> table_list }
+            .collect()
+            .map { all_tables -> [[id: design_name], all_tables] }
+    }
+
+    def effective_group_by = (run_foldseek_cluster && (!group_by || group_by == 'parent_design_id'))
+        ? 'cluster_id'
+        : (group_by ?: '')
 
     DESIGN_FILTER(
         ch_campaign_tables,
@@ -146,7 +178,7 @@ workflow PROTEIN_BINDER_DESIGN {
         filter_expr,
         rank_by,
         rank_direction,
-        group_by,
+        effective_group_by,
         max_per_group,
         top_n
     )
@@ -156,6 +188,7 @@ workflow PROTEIN_BINDER_DESIGN {
     rfd3_structures      = RFD3.out.structures                   // channel: [ val(meta), [ path ] ]
     sequences_tsv        = SEQ_FOLD_EVAL.out.sequences_tsv       // channel: [ val(meta), path(tsv) ]
     predicted_structures = SEQ_FOLD_EVAL.out.predicted_structures// channel: [ val(meta), [ path ] ]
+    foldseek_tsv         = ch_foldseek_tsv                       // channel: [ val(meta), path(tsv) ] (empty when disabled)
     merged_tsv           = DESIGN_FILTER.out.merged_tsv          // channel: [ val(meta), path(tsv) ]
     filtered_tsv         = DESIGN_FILTER.out.filtered_tsv        // channel: [ val(meta), path(tsv) ]
     summary_json         = DESIGN_FILTER.out.summary_json        // channel: [ val(meta), path(json) ]
