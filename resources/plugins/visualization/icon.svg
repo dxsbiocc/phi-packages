@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none">
+  <rect width="64" height="64" rx="14" fill="#0F172A"/>
+  <!-- Axes -->
+  <path d="M14 14V49H50" stroke="#64748B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Publication bar / distribution elements -->
+  <rect x="20" y="34" width="6" height="11" rx="2" fill="#38BDF8" opacity="0.85"/>
+  <rect x="29" y="27" width="6" height="18" rx="2" fill="#818CF8" opacity="0.9"/>
+  <rect x="38" y="21" width="6" height="24" rx="2" fill="#F43F5E" opacity="0.9"/>
+  <!-- Highlight trend curve & scatter points -->
+  <path d="M23 30L32 23L41 17L48 15" stroke="#FBBF24" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="23" cy="30" r="2.4" fill="#FBBF24"/>
+  <circle cx="32" cy="23" r="2.4" fill="#FBBF24"/>
+  <circle cx="41" cy="17" r="2.6" fill="#FBBF24"/>
+  <circle cx="48" cy="15" r="2.8" fill="#FDE68A"/>
+</svg>

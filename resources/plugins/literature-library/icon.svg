@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none">
+  <rect width="64" height="64" rx="14" fill="#0F172A"/>
+  <!-- Open journal / literature book -->
+  <path d="M32 28C27 24.5 20 23.5 13 24.5V48C20 47 27 48 32 51.5C37 48 44 47 51 48V24.5C44 23.5 37 24.5 32 28Z" fill="#F59E0B" fill-opacity="0.16" stroke="#FBBF24" stroke-width="2.8" stroke-linejoin="round"/>
+  <line x1="32" y1="28" x2="32" y2="51.5" stroke="#FBBF24" stroke-width="2.6" stroke-linecap="round"/>
+  <!-- Text lines on pages -->
+  <line x1="18" y1="32" x2="27" y2="33" stroke="#FDE68A" stroke-width="2.2" stroke-linecap="round" opacity="0.8"/>
+  <line x1="18" y1="38" x2="27" y2="39" stroke="#FDE68A" stroke-width="2.2" stroke-linecap="round" opacity="0.6"/>
+  <line x1="37" y1="33" x2="46" y2="32" stroke="#FDE68A" stroke-width="2.2" stroke-linecap="round" opacity="0.8"/>
+  <line x1="37" y1="39" x2="46" y2="38" stroke="#FDE68A" stroke-width="2.2" stroke-linecap="round" opacity="0.6"/>
+  <!-- Citation / wiki knowledge graph above book -->
+  <line x1="23" y1="18" x2="32" y2="14" stroke="#38BDF8" stroke-width="2" stroke-linecap="round"/>
+  <line x1="41" y1="18" x2="32" y2="14" stroke="#38BDF8" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="32" cy="14" r="3.2" fill="#38BDF8"/>
+  <circle cx="22.5" cy="18.5" r="2.6" fill="#7DD3FC"/>
+  <circle cx="41.5" cy="18.5" r="2.6" fill="#7DD3FC"/>
+</svg>

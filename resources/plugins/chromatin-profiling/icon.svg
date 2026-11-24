@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none">
+  <rect width="64" height="64" rx="14" fill="#0F172A"/>
+  <!-- Consensus peak highlight band -->
+  <rect x="26" y="13" width="12" height="38" rx="3" fill="#34D399" opacity="0.14"/>
+  <!-- Upper ChIP/CUT&Tag signal track -->
+  <path d="M11 29H19C22 29 24 27 26 23L30 15C31 13 33 13 34 15L38 23C40 27 42 29 45 29H53" stroke="#34D399" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M11 29H19C22 29 24 27 26 23L30 15C31 13 33 13 34 15L38 23C40 27 42 29 45 29H53V31H11V29Z" fill="#34D399" opacity="0.22"/>
+  <!-- Lower replicate / broad-mark signal track -->
+  <path d="M11 45H16C18.5 45 20 43 21.5 40L23.5 36.5C24.5 35 26 35 27 36.5L29 40C30.5 42.5 32 42.5 33.5 40L36.5 35C37.5 33.5 39.5 33.5 40.5 35L44 41.5C45.5 44 47 45 49.5 45H53" stroke="#2DD4BF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M11 45H16C18.5 45 20 43 21.5 40L23.5 36.5C24.5 35 26 35 27 36.5L29 40C30.5 42.5 32 42.5 33.5 40L36.5 35C37.5 33.5 39.5 33.5 40.5 35L44 41.5C45.5 44 47 45 49.5 45H53V47H11V45Z" fill="#2DD4BF" opacity="0.2"/>
+  <!-- Chromatin genomic coordinate ticks -->
+  <line x1="11" y1="51" x2="53" y2="51" stroke="#475569" stroke-width="2" stroke-linecap="round"/>
+  <rect x="27" y="49.5" width="10" height="3" rx="1.5" fill="#34D399"/>
+</svg>

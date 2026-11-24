@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none">
+  <rect width="64" height="64" rx="14" fill="#0F172A"/>
+  <!-- Segmented circular bacterial genome / MAG contig ring -->
+  <path d="M32 11A21 21 0 0 1 51.5 24" stroke="#4ADE80" stroke-width="3.6" stroke-linecap="round"/>
+  <path d="M52.5 34A21 21 0 0 1 35 52.8" stroke="#22D3EE" stroke-width="3.6" stroke-linecap="round"/>
+  <path d="M24 51.4A21 21 0 0 1 11.4 28" stroke="#34D399" stroke-width="3.6" stroke-linecap="round"/>
+  <path d="M14.5 20.5A21 21 0 0 1 25 12.2" stroke="#A3E635" stroke-width="3.6" stroke-linecap="round"/>
+  <!-- Diverse microbial cells inside community -->
+  <rect x="21" y="25" width="14" height="6.5" rx="3.25" transform="rotate(-24 21 25)" fill="#4ADE80" fill-opacity="0.25" stroke="#4ADE80" stroke-width="2.2"/>
+  <circle cx="40" cy="30" r="3.8" fill="#22D3EE" fill-opacity="0.3" stroke="#22D3EE" stroke-width="2.2"/>
+  <circle cx="26" cy="39" r="3" fill="#A3E635"/>
+  <rect x="31" y="38" width="11" height="5" rx="2.5" transform="rotate(18 31 38)" fill="#34D399"/>
+</svg>
