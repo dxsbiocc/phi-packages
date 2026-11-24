@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="14" fill="#0F172A"/>
+  <!-- Double helix strands -->
+  <path d="M18 12 C30 20, 34 28, 46 36 C34 44, 30 50, 18 54" stroke="#38BDF8" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+  <path d="M46 12 C34 20, 30 28, 18 36 C30 44, 34 50, 46 54" stroke="#A78BFA" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+  <!-- Base-pair rungs -->
+  <line x1="23" y1="17" x2="41" y2="17" stroke="#64748B" stroke-width="2" stroke-linecap="round"/>
+  <line x1="27" y1="24" x2="37" y2="24" stroke="#64748B" stroke-width="2" stroke-linecap="round"/>
+  <line x1="27" y1="42" x2="37" y2="42" stroke="#64748B" stroke-width="2" stroke-linecap="round"/>
+  <line x1="23" y1="49" x2="41" y2="49" stroke="#64748B" stroke-width="2" stroke-linecap="round"/>
+  <!-- Highlighted somatic variant locus -->
+  <circle cx="32" cy="33" r="4.5" fill="#F43F5E" stroke="#FFF1F2" stroke-width="1.5"/>
+</svg>

@@ -1,0 +1,14 @@
+name: genomics
+description: >-
+  Private somatic genomics downstream environment: Python 3.13 +
+  pandas/numpy/scipy/matplotlib-base for MAF inspection, oncoplots, Ti/Tv,
+  FoCR-compliant TMB & MATH heterogeneity, somatic interactions, Sanchez-Vega
+  oncogenic pathways, SBS96 mutational signature NNLS refitting, and CNV FGA.
+channels:
+  - conda-forge
+dependencies:
+  - python=3.13
+  - pandas
+  - numpy
+  - scipy
+  - matplotlib-base
