@@ -326,16 +326,16 @@ class TestMetagenomicsRuntimeExecution(unittest.TestCase):
             tree_path.write_text("((ASV1:0.2,ASV2:0.2):0.5,(ASV3:0.2,ASV4:0.2):0.5);", encoding="utf-8")
             asv_path = tmp_dir / "asv.tsv"
             asv_path.write_text(
-                "ASV\tA1\tA2\tA3\tB1\tB2\tB3\n"
-                "ASV1\t90\t80\t85\t0\t0\t0\n"
-                "ASV2\t10\t20\t15\t0\t0\t0\n"
-                "ASV3\t0\t0\t0\t90\t75\t80\n"
-                "ASV4\t0\t0\t0\t10\t25\t20\n",
+                "ASV\tA1\tA2\tA3\tA4\tB1\tB2\tB3\tB4\n"
+                "ASV1\t90\t80\t85\t88\t0\t0\t0\t0\n"
+                "ASV2\t10\t20\t15\t12\t0\t0\t0\t0\n"
+                "ASV3\t0\t0\t0\t0\t90\t75\t80\t85\n"
+                "ASV4\t0\t0\t0\t0\t10\t25\t20\t15\n",
                 encoding="utf-8",
             )
             meta_path = tmp_dir / "meta.tsv"
             meta_path.write_text(
-                "sample\tgroup\nA1\tR\nA2\tR\nA3\tR\nB1\tS\nB2\tS\nB3\tS\n",
+                "sample\tgroup\nA1\tR\nA2\tR\nA3\tR\nA4\tR\nB1\tS\nB2\tS\nB3\tS\nB4\tS\n",
                 encoding="utf-8",
             )
             out_dir = tmp_dir / "out_uni"

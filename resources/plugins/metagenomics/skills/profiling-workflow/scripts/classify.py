@@ -119,7 +119,8 @@ def roc_auc_and_youden(y_true, y_score):
     tpr = np.concatenate([[0.0], tps / n_pos])
     fpr = np.concatenate([[0.0], fps / n_neg])
     thresholds = np.concatenate([[s_sorted[0] + 1e-6], s_sorted])
-    auroc = float(np.trapezoid(tpr, fpr))
+    trapz = getattr(np, "trapezoid", None) or getattr(np, "trapz")
+    auroc = float(trapz(tpr, fpr))
 
     youden = tpr - fpr
     best_i = int(np.argmax(youden))
