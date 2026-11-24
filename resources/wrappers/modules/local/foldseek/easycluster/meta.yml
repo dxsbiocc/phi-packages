@@ -1,0 +1,52 @@
+name: foldseek_easycluster
+description: Structural clustering and dereplication of designed protein structures using foldseek easy-cluster, emitting deterministic cluster_id assignments for DESIGN_FILTER diversity capping.
+keywords:
+  - protein-design
+  - foldseek
+  - easy-cluster
+  - structural-clustering
+  - dereplication
+tools:
+  - foldseek:
+      description: Fast and sensitive protein structure search and clustering
+      homepage: https://github.com/steineggerlab/foldseek
+      licence:
+        - GPL-3.0
+input:
+  - - meta:
+        type: map
+        description: Groovy Map containing sample/batch information
+    - structures:
+        type: file
+        description: Input PDB/mmCIF structure file(s) or directory
+  - coverage:
+      type: float
+      description: Minimum alignment coverage fraction (-c)
+  - tmscore_threshold:
+      type: float
+      description: TM-score threshold (--tmscore-threshold)
+output:
+  - metrics_tsv:
+      - meta:
+          type: map
+      - "*.foldseek_cluster.tsv":
+          type: file
+          description: Standardized per-design cluster_id table keyed by design_id
+  - metrics_json:
+      - meta:
+          type: map
+      - "*.foldseek_cluster.json":
+          type: file
+          description: Standardized per-design cluster assignments in JSON format
+  - raw_tsv:
+      - meta:
+          type: map
+      - "*.foldseek_cluster_raw.tsv":
+          type: file
+          description: Raw Foldseek easy-cluster *_clu.tsv (representative -> member)
+  - versions:
+      - versions.yml:
+          type: file
+          description: File containing software versions
+authors:
+  - "@phi-packages"

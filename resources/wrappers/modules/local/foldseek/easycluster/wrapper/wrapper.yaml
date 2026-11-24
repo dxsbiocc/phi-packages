@@ -1,0 +1,40 @@
+# Agent-facing wrapper adapter for the local foldseek/easycluster module at ../main.nf.
+# Follows docs/contracts/wrapper.md.
+id: local/modules/foldseek-easycluster
+name: Foldseek Easy-Cluster (Structural Dereplication)
+summary: Cluster designed PDB/mmCIF protein structures using foldseek easy-cluster to assign deterministic cluster_id groups for diversity capping in DESIGN_FILTER.
+params:
+  structures:
+    kind: input
+    type: path_glob
+    required: true
+    description: Input designed PDB/mmCIF structure file(s) or directory.
+  coverage:
+    kind: option
+    type: number
+    required: false
+    minimum: 0
+    maximum: 1
+    description: Minimum alignment coverage fraction (-c) used by foldseek easy-cluster (default 0.8).
+  tmscore_threshold:
+    kind: option
+    type: number
+    required: false
+    minimum: 0
+    maximum: 1
+    description: TM-score threshold (--tmscore-threshold) used by foldseek easy-cluster (default 0.6).
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra CLI flags forwarded to foldseek easy-cluster.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for Foldseek easy-cluster tables.
+outputs:
+  foldseek_easycluster:
+    type: directory
+    path: ${outdir}/foldseek_easycluster
+    primary: true

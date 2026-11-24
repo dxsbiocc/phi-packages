@@ -1,0 +1,44 @@
+# Agent-facing wrapper adapter for the local foldseek/easysearch module at ../main.nf.
+# Follows docs/contracts/wrapper.md.
+id: local/modules/foldseek-easysearch
+name: Foldseek Easy-Search (Structural Novelty)
+summary: Search designed PDB/mmCIF protein structures against a Foldseek reference database (PDB, AFDB, or custom DB) to compute per-design max TM-score, LDDT, E-value, and structural novelty flags.
+params:
+  structures:
+    kind: input
+    type: path_glob
+    required: true
+    description: Input designed PDB/mmCIF structure file(s) or directory.
+  target_db:
+    kind: input
+    type: path
+    required: true
+    description: Target Foldseek database path or directory of reference structures.
+  evalue:
+    kind: option
+    type: number
+    required: false
+    minimum: 0
+    description: E-value cutoff (-e) used by foldseek easy-search (default 0.01).
+  novelty_tm_cutoff:
+    kind: option
+    type: number
+    required: false
+    minimum: 0
+    maximum: 1
+    description: Alignment TM-score below which a design is flagged is_novel=true (default 0.5).
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra CLI flags forwarded to foldseek easy-search.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for Foldseek easy-search tables.
+outputs:
+  foldseek_easysearch:
+    type: directory
+    path: ${outdir}/foldseek_easysearch
+    primary: true

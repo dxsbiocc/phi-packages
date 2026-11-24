@@ -362,10 +362,16 @@
       "origin": "Authored in phi-packages. Nextflow wrapper and prepare/compile Python helpers for BindCraft (martinpacesa/BindCraft, MIT; optional PyRosetta scoring carries a separate non-commercial license). No model weights bundled."
     },
     {
-      "path": "resources/wrappers/modules/local/foldseek/",
+      "path": "resources/wrappers/modules/local/foldseek/easysearch/",
       "kind": "wrapper",
       "license": "MIT",
-      "origin": "Authored in phi-packages. Nextflow wrapper and search/cluster compiler for Foldseek (steineggerlab/foldseek, GPL-3.0), supporting structural novelty search (easy-search) and structural dereplication (easy-cluster)."
+      "origin": "Authored in phi-packages. Nextflow wrapper and novelty compiler for Foldseek easy-search (steineggerlab/foldseek, GPL-3.0), scoring designed structures against a reference database (max_alntmscore, is_novel)."
+    },
+    {
+      "path": "resources/wrappers/modules/local/foldseek/easycluster/",
+      "kind": "wrapper",
+      "license": "MIT",
+      "origin": "Authored in phi-packages. Nextflow wrapper and cluster compiler for Foldseek easy-cluster (steineggerlab/foldseek, GPL-3.0), assigning deterministic cluster_id groups for DESIGN_FILTER diversity capping."
     },
     {
       "path": "resources/wrappers/modules/local/esmfold2/",

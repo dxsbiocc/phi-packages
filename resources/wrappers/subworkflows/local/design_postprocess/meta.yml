@@ -10,7 +10,7 @@ keywords:
   - diversity
 modules:
   - local/protein_metrics
-  - local/foldseek
+  - local/foldseek/easycluster
   - local/design_filter
 input:
   - ch_structures:

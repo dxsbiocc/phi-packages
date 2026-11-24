@@ -210,7 +210,7 @@ class TestProteinDesignComposites(unittest.TestCase):
         dp_params = json.loads((dp_dir / "wrapper" / "params.json").read_text(encoding="utf-8"))
 
         # Verify subworkflow DSL wiring and auto-defaulting of group_by=cluster_id
-        self.assertIn("include { FOLDSEEK", dp_nf)
+        self.assertIn("include { FOLDSEEK_EASYCLUSTER", dp_nf)
         self.assertIn("run_foldseek_cluster", dp_nf)
         self.assertIn("run_foldseek_cluster ? 'cluster_id' : ''", dp_nf)
         self.assertIn("foldseek_tsv = ch_foldseek_tsv", dp_nf)
@@ -219,7 +219,15 @@ class TestProteinDesignComposites(unittest.TestCase):
         self.assertIn("foldseek_tmscore_threshold", dp_params)
 
         # End-to-end Python bridge: Foldseek easy-cluster -> cluster_id -> DESIGN_FILTER diversity cap
-        foldseek_script = WRAPPERS_BASE / "modules" / "local" / "foldseek" / "bin" / "compile_foldseek_outputs.py"
+        foldseek_script = (
+            WRAPPERS_BASE
+            / "modules"
+            / "local"
+            / "foldseek"
+            / "easycluster"
+            / "bin"
+            / "compile_foldseek_cluster.py"
+        )
         filter_script = WRAPPERS_BASE / "modules" / "local" / "design_filter" / "bin" / "merge_and_filter_designs.py"
 
         with tempfile.TemporaryDirectory() as tmp:
@@ -238,8 +246,6 @@ class TestProteinDesignComposites(unittest.TestCase):
                 [
                     sys.executable,
                     str(foldseek_script),
-                    "--mode",
-                    "cluster",
                     "--input-tsv",
                     str(raw_clu),
                     "--out-tsv",

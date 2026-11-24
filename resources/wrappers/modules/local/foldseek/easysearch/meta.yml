@@ -1,0 +1,55 @@
+name: foldseek_easysearch
+description: Structural novelty screening of designed protein structures against a Foldseek reference database using foldseek easy-search.
+keywords:
+  - protein-design
+  - foldseek
+  - easy-search
+  - structural-novelty
+  - tm-score
+tools:
+  - foldseek:
+      description: Fast and sensitive protein structure search and alignment
+      homepage: https://github.com/steineggerlab/foldseek
+      licence:
+        - GPL-3.0
+input:
+  - - meta:
+        type: map
+        description: Groovy Map containing sample/batch information
+    - structures:
+        type: file
+        description: Input PDB/mmCIF structure file(s) or directory
+  - target_db:
+      type: file
+      description: Target Foldseek database path or reference structure directory
+  - evalue:
+      type: float
+      description: E-value cutoff (-e)
+  - novelty_tm_cutoff:
+      type: float
+      description: Alignment TM-score threshold below which a design is marked is_novel=true
+output:
+  - metrics_tsv:
+      - meta:
+          type: map
+      - "*.foldseek_search.tsv":
+          type: file
+          description: Standardized per-design novelty metrics table keyed by design_id
+  - metrics_json:
+      - meta:
+          type: map
+      - "*.foldseek_search.json":
+          type: file
+          description: Standardized per-design novelty metrics in JSON format
+  - raw_tsv:
+      - meta:
+          type: map
+      - "*.foldseek_search_raw.tsv":
+          type: file
+          description: Raw Foldseek easy-search alignment hits TSV
+  - versions:
+      - versions.yml:
+          type: file
+          description: File containing software versions
+authors:
+  - "@phi-packages"

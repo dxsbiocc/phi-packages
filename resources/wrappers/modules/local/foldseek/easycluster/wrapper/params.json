@@ -1,0 +1,7 @@
+{
+  "structures": null,
+  "coverage": 0.8,
+  "tmscore_threshold": 0.6,
+  "args": "",
+  "outdir": "./results"
+}

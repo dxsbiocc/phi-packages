@@ -9,9 +9,9 @@
 // filtering, ranking, and diversity selection via DESIGN_FILTER.
 //
 
-include { PROTEIN_METRICS } from '../../../modules/local/protein_metrics/main.nf'
-include { FOLDSEEK        } from '../../../modules/local/foldseek/main.nf'
-include { DESIGN_FILTER   } from '../../../modules/local/design_filter/main.nf'
+include { PROTEIN_METRICS      } from '../../../modules/local/protein_metrics/main.nf'
+include { FOLDSEEK_EASYCLUSTER } from '../../../modules/local/foldseek/easycluster/main.nf'
+include { DESIGN_FILTER        } from '../../../modules/local/design_filter/main.nf'
 
 workflow DESIGN_POSTPROCESS {
     take:
@@ -50,17 +50,13 @@ workflow DESIGN_POSTPROCESS {
     ch_versions = ch_versions.mix(PROTEIN_METRICS.out.versions)
 
     if (run_foldseek_cluster) {
-        FOLDSEEK(
+        FOLDSEEK_EASYCLUSTER(
             ch_structures,
-            [],
-            'cluster',
-            0.01,
             foldseek_coverage,
-            foldseek_tmscore_threshold,
-            0.5
+            foldseek_tmscore_threshold
         )
-        ch_foldseek_tsv = FOLDSEEK.out.metrics_tsv
-        ch_versions = ch_versions.mix(FOLDSEEK.out.versions)
+        ch_foldseek_tsv = FOLDSEEK_EASYCLUSTER.out.metrics_tsv
+        ch_versions = ch_versions.mix(FOLDSEEK_EASYCLUSTER.out.versions)
 
         ch_filter_inputs = PROTEIN_METRICS.out.metrics_tsv
             .join(ch_foldseek_tsv, by: 0)

@@ -1,6 +1,7 @@
 """Unit and contract tests for extended protein design Nextflow modules:
   - resources/wrappers/modules/local/bindcraft
-  - resources/wrappers/modules/local/foldseek
+  - resources/wrappers/modules/local/foldseek/easysearch
+  - resources/wrappers/modules/local/foldseek/easycluster
   - resources/wrappers/modules/local/esmfold2
 """
 
@@ -18,7 +19,8 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 LOCAL_MODS = REPO_ROOT / "resources" / "wrappers" / "modules" / "local"
 
 BINDCRAFT_DIR = LOCAL_MODS / "bindcraft"
-FOLDSEEK_DIR = LOCAL_MODS / "foldseek"
+FOLDSEEK_EASYSEARCH_DIR = LOCAL_MODS / "foldseek" / "easysearch"
+FOLDSEEK_EASYCLUSTER_DIR = LOCAL_MODS / "foldseek" / "easycluster"
 ESMFOLD2_DIR = LOCAL_MODS / "esmfold2"
 
 
@@ -119,9 +121,7 @@ class TestFoldseekScripts(unittest.TestCase):
             subprocess.run(
                 [
                     sys.executable,
-                    str(FOLDSEEK_DIR / "bin" / "compile_foldseek_outputs.py"),
-                    "--mode",
-                    "search",
+                    str(FOLDSEEK_EASYSEARCH_DIR / "bin" / "compile_foldseek_search.py"),
                     "--input-tsv",
                     str(raw_search),
                     "--query-dir",
@@ -142,7 +142,7 @@ class TestFoldseekScripts(unittest.TestCase):
             self.assertEqual(s_rows["d3"]["num_hits"], 0)
             self.assertEqual(s_rows["d3"]["is_novel"], "true")
 
-            # Cluster mode: d1+d2 in cluster 1, d3 singleton in cluster 2
+            # Cluster subcommand: d1+d2 in cluster 1, d3 singleton in cluster 2
             raw_clu = tmp_dir / "clu.tsv"
             raw_clu.write_text("d1.pdb\td1.pdb\nd1.pdb\td2.pdb\nd3.pdb\td3.pdb\n", encoding="utf-8")
             c_tsv = tmp_dir / "cluster.tsv"
@@ -150,9 +150,7 @@ class TestFoldseekScripts(unittest.TestCase):
             subprocess.run(
                 [
                     sys.executable,
-                    str(FOLDSEEK_DIR / "bin" / "compile_foldseek_outputs.py"),
-                    "--mode",
-                    "cluster",
+                    str(FOLDSEEK_EASYCLUSTER_DIR / "bin" / "compile_foldseek_cluster.py"),
                     "--input-tsv",
                     str(raw_clu),
                     "--out-tsv",
@@ -240,7 +238,8 @@ class TestExtraModulesContractCompliance(unittest.TestCase):
     def test_extra_modules_contract_and_param_parity(self) -> None:
         expected = [
             (BINDCRAFT_DIR, "local/modules/bindcraft", ["prepare_bindcraft_inputs.py", "compile_bindcraft_outputs.py"]),
-            (FOLDSEEK_DIR, "local/modules/foldseek", ["compile_foldseek_outputs.py"]),
+            (FOLDSEEK_EASYSEARCH_DIR, "local/modules/foldseek-easysearch", ["compile_foldseek_search.py"]),
+            (FOLDSEEK_EASYCLUSTER_DIR, "local/modules/foldseek-easycluster", ["compile_foldseek_cluster.py"]),
             (ESMFOLD2_DIR, "local/modules/esmfold2", ["prepare_esmfold2_inputs.py", "compile_esmfold2_outputs.py"]),
         ]
         for mod_dir, expected_id, scripts in expected:

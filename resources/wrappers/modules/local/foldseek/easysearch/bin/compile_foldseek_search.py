@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
-"""Compile Foldseek easy-search or easy-cluster outputs into standardized
-per-design lineage tables (TSV + JSON).
+"""Compile Foldseek easy-search hits into standardized per-design novelty tables
+(TSV + JSON) keyed by design_id.
 
-Modes:
-  - search:  aggregates best hit per design_id (best_target, max_alntmscore,
-             max_qtmscore, max_lddt, min_evalue, num_hits, is_novel).
-  - cluster: parses *_clu.tsv (representative -> member) into deterministic
-             cluster_id, cluster_representative, is_representative, cluster_size.
+Aggregates the best structural hit per design_id (num_hits, best_target,
+max_alntmscore, max_qtmscore, max_lddt, min_evalue, is_novel), preserving
+zero-hit query designs discovered from --query-dir as is_novel=true.
 """
 
 from __future__ import annotations
@@ -86,7 +84,6 @@ def compile_search(
                 {
                     "design_id": design_id,
                     "step": step_name,
-                    "mode": "search",
                     "num_hits": 0,
                     "best_target": "",
                     "max_alntmscore": 0.0,
@@ -109,7 +106,6 @@ def compile_search(
             {
                 "design_id": design_id,
                 "step": step_name,
-                "mode": "search",
                 "num_hits": len(hits),
                 "best_target": best["target"],
                 "max_alntmscore": round(max_tm, 4),
@@ -122,62 +118,21 @@ def compile_search(
     return rows
 
 
-def compile_cluster(clu_path: Path, step_name: str) -> list[dict[str, Any]]:
-    if not clu_path.is_file():
-        raise SystemExit(f"Foldseek cluster TSV not found: {clu_path}")
-
-    rep_to_members: dict[str, list[str]] = {}
-    for line in clu_path.read_text(encoding="utf-8", errors="replace").splitlines():
-        if not line.strip():
-            continue
-        parts = line.split("\t")
-        if len(parts) < 2:
-            continue
-        rep = _clean_design_id(parts[0])
-        mem = _clean_design_id(parts[1])
-        rep_to_members.setdefault(rep, []).append(mem)
-
-    # Sort clusters largest-first for deterministic cluster_id assignment
-    ordered_reps = sorted(rep_to_members.keys(), key=lambda r: (-len(rep_to_members[r]), r))
-    rows: list[dict[str, Any]] = []
-    for clu_idx, rep in enumerate(ordered_reps, start=1):
-        members = rep_to_members[rep]
-        clu_id = f"clu_{clu_idx}"
-        size = len(members)
-        for mem in members:
-            rows.append(
-                {
-                    "design_id": mem,
-                    "step": step_name,
-                    "mode": "cluster",
-                    "cluster_id": clu_id,
-                    "cluster_representative": rep,
-                    "is_representative": "true" if mem == rep else "false",
-                    "cluster_size": size,
-                }
-            )
-    return rows
-
-
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Compile Foldseek search or cluster outputs.")
-    parser.add_argument("--mode", choices=("search", "cluster"), required=True)
-    parser.add_argument("--input-tsv", required=True, help="Raw Foldseek search hits TSV or *_clu.tsv.")
+    parser = argparse.ArgumentParser(description="Compile Foldseek easy-search outputs.")
+    parser.add_argument("--input-tsv", required=True, help="Raw Foldseek easy-search hits TSV.")
     parser.add_argument("--query-dir", default="", help="Optional staged query directory to include zero-hit designs.")
     parser.add_argument("--novelty-tm-cutoff", type=float, default=0.5, help="TM-score cutoff below which a design is marked is_novel=true.")
-    parser.add_argument("--step-name", default="foldseek", help="Pipeline step name.")
+    parser.add_argument("--step-name", default="foldseek_easysearch", help="Pipeline step name.")
     parser.add_argument("--out-tsv", required=True, help="Output standardized TSV path.")
     parser.add_argument("--out-json", required=True, help="Output standardized JSON path.")
     args = parser.parse_args()
 
-    if args.mode == "search":
-        qids = _discover_query_ids(Path(args.query_dir)) if args.query_dir else []
-        rows = compile_search(Path(args.input_tsv), qids, args.novelty_tm_cutoff, args.step_name)
-    else:
-        rows = compile_cluster(Path(args.input_tsv), args.step_name)
+    qids = _discover_query_ids(Path(args.query_dir)) if args.query_dir else []
+    rows = compile_search(Path(args.input_tsv), qids, args.novelty_tm_cutoff, args.step_name)
 
     if not rows:
-        raise SystemExit("Foldseek produced zero rows to compile.")
+        raise SystemExit("Foldseek easy-search produced zero rows to compile.")
 
     out_tsv = Path(args.out_tsv)
     out_tsv.parent.mkdir(parents=True, exist_ok=True)
