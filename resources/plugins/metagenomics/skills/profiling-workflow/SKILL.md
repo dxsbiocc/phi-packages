@@ -132,9 +132,12 @@ phi:
       description: >-
         Alpha diversity (observed, Chao1, Shannon, Simpson, InvSimpson; the
         first two only for counts), Bray-Curtis beta diversity, PCoA
-        ordination with variance explained, and PERMANOVA when a group column
-        is given (seeded permutations). Writes alpha table, distance matrix,
-        PCoA coordinates, boxplot and ordination figure.
+        ordination with variance explained, PERMANOVA and PERMDISP (homogeneity
+        of multivariate dispersions) when a group column is given, plus optional
+        multi-covariate marginal PERMANOVA (categorical or numeric metadata
+        columns such as sex, age, BMI) via seeded permutations. Writes alpha
+        table, distance matrix, PCoA coordinates, optional covariate-permanova
+        table, boxplot and ordination figure.
       run: [python, ./scripts/diversity.py]
       args:
         type: object
@@ -152,10 +155,15 @@ phi:
           metadata:
             type: string
             format: input-path
-            description: Optional sample metadata with a group column.
+            description: Optional sample metadata with a group column and/or covariates.
           group_col:
             type: string
             description: Metadata column defining groups (default group).
+          covariates:
+            type: array
+            items:
+              type: string
+            description: Optional metadata columns for marginal distance-based PERMANOVA (e.g. [group, sex, age, bmi]).
           output_dir:
             type: string
             format: project-path
@@ -163,7 +171,7 @@ phi:
           permutations:
             type: integer
             minimum: 99
-            description: PERMANOVA permutations (default 999).
+            description: PERMANOVA/PERMDISP permutations (default 999).
           seed:
             type: integer
             description: RNG seed for permutations (default 12345).
@@ -307,12 +315,110 @@ phi:
       approval: write
       output: ./schemas/plot-result.json
       timeoutSeconds: 600
+    - name: network
+      description: >-
+        Spearman co-occurrence network analysis on a taxa or functional
+        feature x sample matrix with prevalence filtering, Benjamini-Hochberg
+        FDR control, hub node ranking (degree and weighted degree), and a
+        co-occurrence network figure. Pass --features to restrict the network
+        to differentially abundant biomarkers.
+      run: [python, ./scripts/network.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [input, output_dir]
+        properties:
+          input:
+            type: string
+            format: input-path
+            description: Feature x sample abundance matrix TSV.
+          output_dir:
+            type: string
+            format: project-path
+            description: Directory for network-edges.tsv, network-nodes.tsv, and figure.
+          min_prevalence:
+            type: number
+            description: Minimum fraction of samples with abundance > 0 (default 0.2).
+          top:
+            type: integer
+            minimum: 2
+            description: Maximum top-mean-abundance features to test when --features is omitted (default 100).
+          min_abs_rho:
+            type: number
+            description: Minimum absolute Spearman correlation to retain an edge (default 0.4).
+          fdr:
+            type: number
+            description: Maximum BH-adjusted q-value to retain an edge (default 0.05).
+          features:
+            type: array
+            items:
+              type: string
+            description: Optional explicit subset of feature names (e.g. significant biomarkers).
+      approval: write
+      output: ./schemas/network-result.json
+      timeoutSeconds: 1200
+    - name: classify
+      description: >-
+        Leak-free stratified k-fold cross-validated binary classification
+        (case vs control) on any taxonomic or functional feature x sample
+        matrix: strictly in-fold log1p + z-score scaling, in-fold mRMR or
+        Mann-Whitney feature selection, and L2-regularized logistic
+        regression. Writes out-of-fold predictions, feature-importance table,
+        and pooled ROC curve with AUROC and Youden sensitivity/specificity.
+      run: [python, ./scripts/classify.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [input, metadata, case, control, output_dir]
+        properties:
+          input:
+            type: string
+            format: input-path
+            description: Feature x sample abundance matrix TSV (species, gene families, or KOs).
+          metadata:
+            type: string
+            format: input-path
+            description: Sample metadata CSV/TSV with the group column.
+          group_col:
+            type: string
+            description: Metadata column defining groups (default group).
+          case:
+            type: string
+            description: Group label treated as positive class (y=1).
+          control:
+            type: string
+            description: Group label treated as negative class (y=0).
+          output_dir:
+            type: string
+            format: project-path
+            description: Directory for oof-predictions.tsv, feature-importance.tsv, and roc-curve.png.
+          top_features:
+            type: integer
+            minimum: 1
+            description: Number of features selected inside each training fold (default 15).
+          selector:
+            type: string
+            enum: [mrmr, mannwhitney]
+            description: In-fold feature selector (default mrmr).
+          folds:
+            type: integer
+            minimum: 2
+            description: Number of stratified CV folds (default 5).
+          l2_alpha:
+            type: number
+            description: L2 regularization strength for logistic regression (default 1.0).
+          seed:
+            type: integer
+            description: RNG seed for stratified fold splitting (default 12345).
+      approval: write
+      output: ./schemas/classify-result.json
+      timeoutSeconds: 1200
 ---
 
 # Read-based metagenomic profiling — downstream chain
 
 This skill owns the **deterministic downstream** of read-based profiling:
-reports → matrix → diversity / differential / functional tables / figures.
+reports → matrix → diversity / differential / network / classification / functional tables / figures.
 Running classifiers on raw reads (fastp, kneaddata, kraken2, bracken,
 metaphlan, humann3, krakentools, krona) is the wrappers' job; the agent
 orchestrates them with `wrapper_search` / `wrapper_inspect` /
@@ -332,13 +438,15 @@ orchestrates them with `wrapper_search` / `wrapper_inspect` /
 
 ```
 reports ──mg_merge──▶ matrix ──┬─ mg_rarefaction  (depth adequacy, counts only)
-                               ├─ mg_diversity   (alpha, Bray-Curtis, PCoA, PERMANOVA)
+                               ├─ mg_diversity   (alpha, Bray-Curtis, PCoA, PERMANOVA, PERMDISP, covariates)
                                ├─ mg_differential (Wilcoxon/KW + BH FDR, volcano)
+                               ├─ mg_network      (Spearman co-occurrence network + hubs)
+                               ├─ mg_classify     (in-fold mRMR + L2 logistic CV + ROC/AUROC)
                                ├─ mg_plot         (barplot / heatmap, optional clustering)
                                └─ (via lefse + graphlan wrappers for cladograms)
 HUMAnN tables ──mg_function──▶ normalized / regrouped / unstratified
                                ──┬─ mg_differential (values=relative)
-                                 ├─ mg_diversity / mg_plot
+                                 ├─ mg_classify / mg_diversity / mg_plot
 MetaPhlAn rank T ──mg_merge──▶ SGB matrix + sgb_species (strain-level view)
 ```
 
@@ -347,16 +455,24 @@ MetaPhlAn rank T ──mg_merge──▶ SGB matrix + sgb_species (strain-level 
 - One matrix, one value kind. Mixing Kraken2 counts with MetaPhlAn relative
   abundances in one matrix is invalid; analyze them separately and compare
   conclusions, not numbers.
+- **MetaPhlAn normalization consistency**: keep `--unknown_estimation` (and
+  database version) identical across all samples in a cohort; mixing profiles
+  normalized to total reads vs classified reads silently skews relative
+  abundances and differential tests.
+- **ID-aligned merging**: always align samples and features strictly by ID
+  (as `mg_merge` and `mg_diversity` do), never by row order.
 - Chao1 and observed richness need counts. On MetaPhlAn output pass
   `values: relative` and report that the two indices were skipped.
+- Check `permdisp` whenever `permanova` is significant: if both are p < 0.05,
+  report that group separation may partly reflect unequal dispersion.
 - Rarefaction is a depth check, not a normalization: run it on counts before
   comparing richness, and never feed rarefied data to `mg_differential`.
 - Thresholds (FDR, fold change, top N, PERMANOVA permutations) are the agent's
   decision, passed explicitly; defaults are starting points, not verdicts.
 - Every JSON return is the audit record — cite its counts, do not recompute.
 - Gaps to report honestly, not fake: LEfSe LDA/cladogram (lefse + graphlan
-  wrappers), Krona (krona wrapper), phyloseq-style network plots, ANCOM-BC
-  (not in the environment). See the playbook's red lines.
+  wrappers), Krona (krona wrapper), ANCOM-BC / MaAsLin 3 (R-based multivariable
+  abundance models not in the Python environment). See the playbook's red lines.
 
 ## Sources
 

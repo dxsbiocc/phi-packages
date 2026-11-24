@@ -11,7 +11,7 @@ Phi's independent public content repository, containing source files for install
 | Standalone skills | 16 |
 | MCP connector definitions | 27 |
 | Composite Phi plugins | 9 |
-| Skills within plugins | 15 |
+| Skills within plugins | 16 |
 | Wrapper adapters | 652 |
 
 ```text

@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "tool",
+    "metric",
+    "n_samples",
+    "n_asvs_input",
+    "n_tree_tips",
+    "n_asvs_matched",
+    "pcoa_variance_explained",
+    "outputs",
+    "artifacts"
+  ],
+  "properties": {
+    "tool": { "type": "string", "const": "mg_amplicon_unifrac" },
+    "metric": { "type": "string", "enum": ["weighted", "unweighted"] },
+    "n_samples": { "type": "integer" },
+    "n_asvs_input": { "type": "integer" },
+    "n_tree_tips": { "type": "integer" },
+    "n_asvs_matched": { "type": "integer" },
+    "pcoa_variance_explained": { "type": "array", "items": { "type": "number" } },
+    "permanova": {
+      "type": ["object", "null"],
+      "properties": {
+        "pseudo_f": { "type": "number" },
+        "r2": { "type": "number" },
+        "p_value": { "type": "number" },
+        "permutations": { "type": "integer" },
+        "groups": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "permdisp": {
+      "type": ["object", "null"],
+      "properties": {
+        "f_stat": { "type": "number" },
+        "p_value": { "type": "number" },
+        "permutations": { "type": "integer" },
+        "group_mean_distances": {
+          "type": "object",
+          "additionalProperties": { "type": "number" }
+        }
+      }
+    },
+    "outputs": {
+      "type": "object",
+      "required": ["weighted_unifrac", "unweighted_unifrac", "pcoa_coords"],
+      "properties": {
+        "weighted_unifrac": { "type": "string" },
+        "unweighted_unifrac": { "type": "string" },
+        "pcoa_coords": { "type": "string" },
+        "pcoa_figure": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "caveat": { "type": "string" }
+  }
+}

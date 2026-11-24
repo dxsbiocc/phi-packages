@@ -24,9 +24,39 @@
       "type": ["object", "null"],
       "properties": {
         "pseudo_f": { "type": "number" },
+        "r2": { "type": "number" },
         "p_value": { "type": "number" },
         "permutations": { "type": "integer" },
         "groups": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "permdisp": {
+      "type": ["object", "null"],
+      "properties": {
+        "f_stat": { "type": "number" },
+        "p_value": { "type": "number" },
+        "permutations": { "type": "integer" },
+        "group_mean_distances": {
+          "type": "object",
+          "additionalProperties": { "type": "number" }
+        }
+      }
+    },
+    "covariate_permanova": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["covariate", "kind", "n_samples", "df", "r2", "pseudo_f", "p_value", "permutations"],
+        "properties": {
+          "covariate": { "type": "string" },
+          "kind": { "type": "string", "enum": ["categorical", "numeric"] },
+          "n_samples": { "type": "integer" },
+          "df": { "type": "integer" },
+          "r2": { "type": "number" },
+          "pseudo_f": { "type": "number" },
+          "p_value": { "type": "number" },
+          "permutations": { "type": "integer" }
+        }
       }
     },
     "notes": { "type": "array", "items": { "type": "string" } },

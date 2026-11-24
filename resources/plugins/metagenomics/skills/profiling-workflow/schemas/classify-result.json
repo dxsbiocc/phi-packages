@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "tool",
+    "case",
+    "control",
+    "n_case",
+    "n_control",
+    "folds",
+    "selector",
+    "top_features",
+    "oof_auroc",
+    "sensitivity",
+    "specificity",
+    "top_biomarkers",
+    "outputs",
+    "artifacts"
+  ],
+  "properties": {
+    "tool": { "type": "string", "const": "mg_classify" },
+    "case": { "type": "string" },
+    "control": { "type": "string" },
+    "n_case": { "type": "integer" },
+    "n_control": { "type": "integer" },
+    "folds": { "type": "integer" },
+    "selector": { "type": "string", "enum": ["mrmr", "mannwhitney"] },
+    "top_features": { "type": "integer" },
+    "oof_auroc": { "type": "number" },
+    "fold_auroc_mean": { "type": ["number", "null"] },
+    "fold_auroc_sd": { "type": ["number", "null"] },
+    "youden_threshold": { "type": "number" },
+    "sensitivity": { "type": "number" },
+    "specificity": { "type": "number" },
+    "top_biomarkers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["feature", "folds_selected", "selection_frequency", "mean_coef", "abs_mean_coef"],
+        "properties": {
+          "feature": { "type": "string" },
+          "folds_selected": { "type": "integer" },
+          "selection_frequency": { "type": "number" },
+          "mean_coef": { "type": "number" },
+          "abs_mean_coef": { "type": "number" }
+        }
+      }
+    },
+    "outputs": {
+      "type": "object",
+      "required": ["predictions", "feature_importance", "roc_figure"],
+      "properties": {
+        "predictions": { "type": "string" },
+        "feature_importance": { "type": "string" },
+        "roc_figure": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "caveat": { "type": "string" }
+  }
+}

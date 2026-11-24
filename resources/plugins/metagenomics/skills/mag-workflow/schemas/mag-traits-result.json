@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "tool",
+    "n_bins",
+    "sources",
+    "total_amr_hits",
+    "total_virulence_hits",
+    "total_stress_hits",
+    "total_bgc_regions",
+    "outputs",
+    "artifacts"
+  ],
+  "properties": {
+    "tool": { "type": "string", "const": "mg_mag_traits" },
+    "n_bins": { "type": "integer" },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["amrfinderplus", "abricate", "rgi", "antismash"]
+      }
+    },
+    "total_amr_hits": { "type": "integer" },
+    "total_virulence_hits": { "type": "integer" },
+    "total_stress_hits": { "type": "integer" },
+    "total_bgc_regions": { "type": "integer" },
+    "n_amr_classes": { "type": "integer" },
+    "n_bgc_types": { "type": "integer" },
+    "outputs": {
+      "type": "object",
+      "required": ["traits_summary", "traits_figure"],
+      "properties": {
+        "traits_summary": { "type": "string" },
+        "amr_matrix": { "type": "string" },
+        "bgc_matrix": { "type": "string" },
+        "traits_figure": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "caveat": { "type": "string" }
+  }
+}

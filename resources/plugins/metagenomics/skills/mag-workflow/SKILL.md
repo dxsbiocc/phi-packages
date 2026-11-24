@@ -231,6 +231,57 @@ phi:
       approval: write
       output: ./schemas/mag-tree-result.json
       timeoutSeconds: 1200
+    - name: mag_traits
+      description: >-
+        Summarize specialized MAG functional traits from upstream wrapper
+        outputs: AMRFinderPlus TSV (AMR/virulence/stress), ABRicate TSV
+        (AMR/VFDB), RGI/CARD TSV (drug classes), and antiSMASH JSON
+        (biosynthetic gene cluster regions). Writes mag-traits-summary.tsv,
+        bin x AMR class and bin x BGC type count matrices, and an overview
+        stacked barplot. Upstream annotation runs in wrappers, never here.
+      run: [python, ./scripts/mag_traits.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [output_dir]
+        properties:
+          amrfinder:
+            type: array
+            items:
+              type: string
+            description: AMRFinderPlus TSV output file(s).
+          abricate:
+            type: array
+            items:
+              type: string
+            description: ABRicate TSV output file(s) (AMR or VFDB databases).
+          rgi:
+            type: array
+            items:
+              type: string
+            description: RGI/CARD TSV output file(s).
+          antismash:
+            type: array
+            items:
+              type: string
+            description: antiSMASH JSON file(s) or directory of per-bin antiSMASH outputs.
+          bin_map:
+            type: string
+            format: input-path
+            description: Optional TSV/CSV with file,bin columns overriding bin attribution.
+          min_identity:
+            type: number
+            description: Minimum percent identity filter for AMR/virulence hits (default 0).
+          min_coverage:
+            type: number
+            description: Minimum percent coverage filter for AMR/virulence hits (default 0).
+          output_dir:
+            type: string
+            format: project-path
+            description: Directory for traits summary, AMR/BGC matrices, and figure.
+      approval: write
+      output: ./schemas/mag-traits-result.json
+      timeoutSeconds: 1200
 ---
 
 # Assembly / MAG route — downstream chain

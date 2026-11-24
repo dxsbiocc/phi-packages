@@ -11,7 +11,7 @@
     "standaloneSkills": 16,
     "connectors": 24,
     "plugins": 9,
-    "pluginSkills": 15,
+    "pluginSkills": 16,
     "wrapperAdapters": 652,
     "importedFiles": 7885,
     "importedBytes": 85272892
@@ -60,7 +60,8 @@
     "Added nine original protein-design Nextflow wrappers inspired by RosettaCommons/chaperone (MIT): six modules (protein_metrics, design_filter, rfd3, ligandmpnn, boltz2, alphafold3), two subworkflows (design_postprocess, seq_fold_eval with predictor switching between boltz2 and alphafold3), and one end-to-end workflow (protein_binder_design). All Nextflow processes, wrapper adapters, and pure-Python bin/ helper scripts are original (MIT) and bundle no model weights or upstream source code; upstream runtimes remain subject to their respective licenses (RFdiffusion3/Foundry BSD-3-Clause, LigandMPNN MIT, Boltz-2 MIT, AlphaFold 3 code Apache-2.0 with non-commercial model parameters supplied separately by the user via model_dir).",
     "protein-design is the ninth bundled plugin (toolPrefix pd, agent ProteinDesign): three skills (protein-design-workflow playbook/tutorials with no scripts; structure-input-prep with pd_inspect_structure and pd_validate_rfd3_spec; design-evaluation with pd_funnel_report) using pure-Python stdlib scripts in the shared phi:python@1 environment. Heavy GPU generation, inverse folding, and structure prediction stay on the nine local Nextflow wrappers (rfd3, ligandmpnn, boltz2, alphafold3, protein_metrics, design_filter, seq_fold_eval, design_postprocess, protein_binder_design). counts.plugins 8 to 9, counts.pluginSkills 12 to 15.",
     "Added three extended protein-design Nextflow module wrappers (MIT original adapters and pure-Python bin/ helpers, no weights bundled): bindcraft (martinpacesa/BindCraft MIT; optional PyRosetta carries a separate non-commercial license), foldseek (steineggerlab/foldseek GPL-3.0, supporting easy-search novelty scoring and easy-cluster structural dereplication), and esmfold2 (biohub/ESMFold2 MIT, fast MSA-free folding with external model_dir).",
-    "Added two additional open-source structure prediction modules (MIT original adapters and pure-Python bin/ helpers, no weights bundled): protenix (bytedance/Protenix Apache-2.0, supporting v1/v2 checkpoints) and chai1 (chaidiscovery/chai-lab Apache-2.0, with pure-Python .npz score reader), and wired both into seq_fold_eval and protein_binder_design under predictor (boltz2 | alphafold3 | protenix | chai1)."
+    "Added two additional open-source structure prediction modules (MIT original adapters and pure-Python bin/ helpers, no weights bundled): protenix (bytedance/Protenix Apache-2.0, supporting v1/v2 checkpoints) and chai1 (chaidiscovery/chai-lab Apache-2.0, with pure-Python .npz score reader), and wired both into seq_fold_eval and protein_binder_design under predictor (boltz2 | alphafold3 | protenix | chai1).",
+    "Upgraded metagenomics plugin to 0.2.0 (counts.pluginSkills 15 to 16) within the same locked Python 3.13 environment (pandas/numpy/scipy/matplotlib): added mg_mag_traits (AMRFinderPlus/ABRicate/RGI/antiSMASH downstream summaries), PERMDISP and multi-covariate marginal PERMANOVA in mg_diversity, mg_network (Spearman co-occurrence network + hubs), mg_classify (leak-free stratified CV mRMR/Mann-Whitney + L2 logistic regression with OOF AUROC/Youden ROC), and amplicon-workflow (mg_amplicon_unifrac for Weighted/Unweighted UniFrac on nf-core/ampliseq / QIIME 2 ASV tables + rooted trees), plus anti-pitfall red lines inspired by MicroBioAgent (bioRxiv 2026.11.17.767465)."
   ],
   "initialImportCounts": {
     "standaloneSkills": 14,

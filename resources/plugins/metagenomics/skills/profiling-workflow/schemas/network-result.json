@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "tool",
+    "n_samples",
+    "n_features_tested",
+    "n_pairs_tested",
+    "n_nodes_connected",
+    "n_edges",
+    "n_positive_edges",
+    "n_negative_edges",
+    "top_hubs",
+    "outputs",
+    "artifacts"
+  ],
+  "properties": {
+    "tool": { "type": "string", "const": "mg_network" },
+    "n_samples": { "type": "integer" },
+    "n_features_tested": { "type": "integer" },
+    "n_pairs_tested": { "type": "integer" },
+    "n_nodes_connected": { "type": "integer" },
+    "n_edges": { "type": "integer" },
+    "n_positive_edges": { "type": "integer" },
+    "n_negative_edges": { "type": "integer" },
+    "top_hubs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["feature", "degree", "pos_edges", "neg_edges", "weighted_degree"],
+        "properties": {
+          "feature": { "type": "string" },
+          "degree": { "type": "integer" },
+          "pos_edges": { "type": "integer" },
+          "neg_edges": { "type": "integer" },
+          "weighted_degree": { "type": "number" },
+          "mean_abundance": { "type": "number" },
+          "prevalence": { "type": "number" }
+        }
+      }
+    },
+    "outputs": {
+      "type": "object",
+      "required": ["edges", "nodes"],
+      "properties": {
+        "edges": { "type": "string" },
+        "nodes": { "type": "string" },
+        "network_figure": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "caveat": { "type": "string" }
+  }
+}

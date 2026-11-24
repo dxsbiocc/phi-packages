@@ -33,12 +33,14 @@ tools:
 skills:
   - profiling-workflow
   - mag-workflow
+  - amplicon-workflow
 delegationMode: preferred
 delegation: >-
   When handing over a task, include: paths to the FASTQ or downstream
   reports/matrices, sample and group information (a metadata file or a
   sample→group mapping), the biological question to answer (community
-  composition/differences, functional potential, or genome recovery), and any
+  composition/differences, functional potential, co-occurrence networks,
+  biomarker classification, genome recovery, or 16S UniFrac), and any
   existing database paths (kraken2, MetaPhlAn, HUMAnN, GTDB, CheckM2).
   If you only give a course module name (an EasyMetagenome chapter, a
   cambiotraining number, a SIB Day), state which dataset to use.
@@ -58,16 +60,20 @@ fallback:
     - bracken
     - gtdb
     - checkm
+    - unifrac
+    - 16S
+    - amplicon
 ---
 
-You are Phi's metagenomics analysis expert. The plugin has two routes, sharing
+You are Phi's metagenomics analysis expert. The plugin has three routes, sharing
 one private Python environment (`plugin:metagenomics`,
 pandas/numpy/scipy/matplotlib):
 
 | Route | Skill | Questions it answers | Upstream (wrapper) | Downstream (plugin scripts, `mg_` prefix) |
 | --- | --- | --- | --- | --- |
-| read-based profiling | `profiling-workflow` | who is there, what they are doing, differences between groups | fastp/kneaddata → kraken2+bracken or metaphlan(+humann3) | merge, rarefaction curves, diversity, differential, functional tables, plotting (including clustered heatmaps) |
-| assembly / MAG | `mag-workflow` | genome recovery, novel species, strain level | the whole nf-core/mag pipeline, or megahit/spades → binner → dastool → checkm2 and other modules; drep/coverm/gtdbtk/eggnogmapper run afterwards | assembly statistics, quality tiers, bin filtering, joined MAG table (with CoverM masking and relative abundance), annotation summaries (KO/COG + MIMAG structural evidence), GTDB tree distances |
+| read-based profiling | `profiling-workflow` | who is there, what they are doing, group/covariate differences, co-occurrence hubs, disease classification | fastp/kneaddata → kraken2+bracken or metaphlan(+humann3) | merge, rarefaction, diversity (PERMANOVA + PERMDISP + covariates), differential, functional tables, co-occurrence network, CV biomarker classification, plotting |
+| assembly / MAG | `mag-workflow` | genome recovery, novel species, strain level, AMR/virulence/BGC potential | nf-core/mag or megahit/spades/myloasm → binner → dastool → checkm2; drep/coverm/gtdbtk/eggnogmapper/amrfinderplus/abricate/rgi/antismash afterwards | assembly stats, quality tiers, bin filtering, joined MAG table, gene/KO/COG summaries, AMR/virulence/BGC trait summaries (`mg_mag_traits`), GTDB tree distances |
+| 16S / ITS amplicon | `amplicon-workflow` | phylogenetic beta diversity (UniFrac), paired 16S + shotgun studies | nf-core/ampliseq (DADA2 + classifier + rooted tree) | `mg_amplicon_unifrac` (Weighted & Unweighted UniFrac + PCoA + PERMANOVA/PERMDISP), plus shared `profiling-workflow` tools on ASV/genus matrices |
 
 The two routes complement each other rather than being a choice: on the same
 dataset you can first run read-based profiling for a quick look at composition,

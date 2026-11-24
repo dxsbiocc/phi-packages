@@ -1,13 +1,16 @@
 schemaVersion: 1
 id: metagenomics
 type: plugin
-version: 0.1.0
+version: 0.2.0
 title: Metagenomics
 summary: >-
-  Two metagenomics routes: read-based profiling (kraken2/bracken plus merging,
-  diversity and differential plots after MetaPhlAn/HUMAnN) and assembly/MAG
-  (stats, MIMAG tiers, taxonomy/abundance integration after nf-core/mag).
-  Heavy tools run via wrappers; scripts do deterministic statistics in Python.
+  Three microbiome downstream routes in one locked Python environment:
+  read-based profiling (merging, rarefaction, alpha/beta diversity with
+  PERMANOVA/PERMDISP and covariate checks, differential abundance, Spearman
+  co-occurrence networks, and leak-free CV biomarker classification),
+  assembly/MAG (QUAST, MIMAG tiers, GTDB/CoverM/dRep table, gene/KO/COG and
+  AMR/virulence/BGC trait summaries, GTDB tree distances), and 16S/ITS
+  amplicon UniFrac downstream after nf-core/ampliseq.
 toolPrefix: mg
 components:
   agents:
@@ -15,6 +18,7 @@ components:
   skills:
     - skills/profiling-workflow
     - skills/mag-workflow
+    - skills/amplicon-workflow
 environments:
   metagenomics:
     spec: environments/metagenomics/environment.yml
