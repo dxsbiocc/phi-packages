@@ -4,16 +4,10 @@ type: plugin
 version: 0.2.0
 title: Proteomics
 summary: >-
-  Downstream quantitative MS-based proteomics and PTM/phosphoproteomics in
-  Python (prot_): peptide-to-protein rollup (rrollup/top3/median/sum, unique
-  or razor), DIA-NN / MaxQuant / FragPipe matrix inspection (contaminant,
-  reverse, scale, missingness, and design checks), median/quantile
-  normalization and Perseus-style MinProb/kNN imputation with PCA/CV QC,
-  empirical-Bayes moderated t-test differential abundance, PTM protein-abundance
-  normalization and Kinase-Substrate Enrichment Analysis (KSEA), offline
-  detected-proteome ORA/GSEA, and co-abundance hub network analysis. Raw
-  spectrum search/quantification (quantms / DIA-NN / MaxQuant / FragPipe) runs
-  upstream.
+  Downstream MS proteomics and PTM/phosphoproteomics (prot_): peptide-to-protein
+  rollup, MaxQuant/DIA-NN/FragPipe inspection, median/quantile norm, MinProb/kNN
+  imputation, moderated t-test DE, PTM normalization + KSEA, ORA/GSEA, and
+  co-abundance hub networks.
 toolPrefix: prot
 components:
   agents:

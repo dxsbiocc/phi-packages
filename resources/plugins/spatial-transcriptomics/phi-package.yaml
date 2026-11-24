@@ -4,12 +4,10 @@ type: plugin
 version: 0.2.0
 title: Spatial Transcriptomics
 summary: >-
-  Spatial transcriptomics (scanpy/squidpy/spatialdata, st_py_) in a private
-  locked environment. Covers 10x Visium incl. HD and BGI Stereo-seq (GEM/GEF,
-  bin/cellbin): QC, normalisation/PCA/clustering/UMAP, markers, SVGs, niche
-  enrichment/centrality/Ripley, spatial niche segmentation, PAGA/DPT spatial
-  trajectory & gene-program scoring, deconvolution, niche-stratified cell
-  communication and cross-sample differences.
+  Spatial transcriptomics (scanpy/squidpy/spatialdata, st_py_) for 10x Visium
+  (incl. HD) and BGI Stereo-seq: QC, PCA/Leiden/UMAP, markers, SVGs, niche
+  enrichment/centrality/Ripley, spatial niches, PAGA/DPT trajectory,
+  deconvolution, niche-stratified CCC, and cross-sample diffs.
 toolPrefix: st
 components:
   agents:

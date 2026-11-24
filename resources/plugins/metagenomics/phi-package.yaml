@@ -4,14 +4,10 @@ type: plugin
 version: 0.3.0
 title: Metagenomics
 summary: >-
-  Three microbiome downstream routes in one locked Python environment:
-  read-based profiling (merging, rarefaction, alpha/beta diversity with
-  PERMANOVA/PERMDISP and covariate checks, non-parametric and CLR multivariable
-  differential abundance, Spearman co-occurrence networks, and leak-free CV
-  biomarker classification), assembly/MAG (QUAST, MIMAG tiers, GTDB/CoverM/dRep
-  table, gene/KO/COG, AMR/virulence/BGC traits, metabolic module completeness
-  and CarveMe/gapseq GEM summaries, GTDB tree distances), and 16S/ITS amplicon
-  UniFrac downstream after nf-core/ampliseq.
+  Three microbiome downstream routes in one locked Python environment (mg_):
+  read-based profiling (diversity/PERMANOVA/PERMDISP, CLR multivariable DA,
+  networks, CV classification), assembly/MAG (MIMAG, GTDB, AMR/BGC, metabolism),
+  and 16S/ITS amplicon UniFrac after nf-core/ampliseq.
 toolPrefix: mg
 components:
   agents:
