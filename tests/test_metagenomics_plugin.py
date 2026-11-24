@@ -196,7 +196,7 @@ class PluginStructureTests(unittest.TestCase):
                 sp = (sd / tool["output"]).resolve()
                 self.assertTrue(sp.is_file())
                 jsonschema.Draft7Validator.check_schema(json.loads(sp.read_text()))
-        self.assertEqual(len(final_names), 13)
+        self.assertEqual(len(final_names), 19)
 
     def test_markdown_links_resolve(self):
         for sd in sorted((PLUGIN / "skills").iterdir()):

@@ -1,6 +1,8 @@
 name: Package checks
 
 on:
+  push:
+    branches: [main]
   pull_request:
   workflow_dispatch:
 
@@ -14,6 +16,52 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
-      - name: Run repository tests
+          node-version: '24'
+      - name: Run repository contract tests
         run: node --test tests/*.test.mjs
+
+  python-plugin-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      - name: Install lightweight scientific Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy pandas scipy scikit-learn matplotlib pyyaml jsonschema
+      - name: Run Python plugin end-to-end and regression tests
+        env:
+          MPLBACKEND: Agg
+        run: |
+          python tests/test_bulk_rnaseq_plugin.py -v
+          python tests/test_chromatin_and_scatac_plugins.py -v
+          python tests/test_genomics_plugin.py -v
+          python tests/test_metabolomics_plugin.py -v
+          python tests/test_metagenomics_enhancements.py -v
+          python tests/test_metagenomics_plugin.py -v
+          python tests/test_protein_design_composites.py -v
+          python tests/test_protein_design_extra_modules.py -v
+          python tests/test_protein_design_plugin.py -v
+          python tests/test_protein_design_protenix_chai1.py -v
+          python tests/test_protein_design_wrappers.py -v
+          python tests/test_proteomics_plugin.py -v
+
+  spatial-plugin-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-name: phi-spatial-ci
+          create-args: >-
+            --file resources/plugins/spatial-transcriptomics/environments/spatial/locks/linux-x64.txt
+      - name: Run spatial-transcriptomics 0.2.0 end-to-end tests
+        shell: bash -el {0}
+        env:
+          MPLBACKEND: Agg
+        run: |
+          micromamba activate phi-spatial-ci
+          python tests/test_spatial_plugin.py -v
