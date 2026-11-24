@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "seg",
+    "sample_fga_table",
+    "chromosome_summary_table",
+    "n_samples",
+    "n_segments",
+    "median_fga",
+    "top_altered_chromosomes",
+    "figures"
+  ],
+  "properties": {
+    "seg": { "type": "string" },
+    "sample_fga_table": { "type": "string" },
+    "chromosome_summary_table": { "type": "string" },
+    "n_samples": { "type": "integer" },
+    "n_segments": { "type": "integer" },
+    "median_fga": { "type": "number" },
+    "top_altered_chromosomes": { "type": "array", "items": { "type": "object" } },
+    "group_comparison": { "type": ["object", "null"] },
+    "figures": { "type": "array", "items": { "type": "string" } }
+  }
+}

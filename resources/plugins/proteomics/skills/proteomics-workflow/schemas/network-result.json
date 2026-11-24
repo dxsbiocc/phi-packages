@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "input",
+    "edges_table",
+    "hubs_table",
+    "method",
+    "n_proteins",
+    "n_edges",
+    "n_modules_ge2",
+    "top_hubs",
+    "figures"
+  ],
+  "properties": {
+    "input": { "type": "string" },
+    "edges_table": { "type": "string" },
+    "hubs_table": { "type": "string" },
+    "method": { "type": "string" },
+    "n_proteins": { "type": "integer" },
+    "n_edges": { "type": "integer" },
+    "n_modules_ge2": { "type": "integer" },
+    "top_hubs": { "type": "array", "items": { "type": "object" } },
+    "figures": { "type": "array", "items": { "type": "string" } }
+  }
+}

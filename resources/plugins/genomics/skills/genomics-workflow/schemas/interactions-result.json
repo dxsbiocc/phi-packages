@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "maf",
+    "interactions_table",
+    "pathways_table",
+    "n_samples",
+    "n_pairs_tested",
+    "n_significant_pairs",
+    "top_interactions",
+    "pathways",
+    "cohort_comparison",
+    "figures"
+  ],
+  "properties": {
+    "maf": { "type": "string" },
+    "interactions_table": { "type": "string" },
+    "pathways_table": { "type": "string" },
+    "n_samples": { "type": "integer" },
+    "n_pairs_tested": { "type": "integer" },
+    "n_significant_pairs": { "type": "integer" },
+    "top_interactions": { "type": "array", "items": { "type": "object" } },
+    "pathways": { "type": "array", "items": { "type": "object" } },
+    "cohort_comparison": { "type": "object" },
+    "figures": { "type": "array", "items": { "type": "string" } }
+  }
+}

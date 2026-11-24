@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "maf",
+    "n_variants",
+    "n_nonsynonymous",
+    "n_silent",
+    "n_samples",
+    "n_genes",
+    "vaf",
+    "clinical",
+    "cnv_seg",
+    "warnings"
+  ],
+  "properties": {
+    "maf": { "type": "string" },
+    "n_variants": { "type": "integer" },
+    "n_nonsynonymous": { "type": "integer" },
+    "n_silent": { "type": "integer" },
+    "n_samples": { "type": "integer" },
+    "n_genes": { "type": "integer" },
+    "variant_classifications": { "type": "object" },
+    "variant_types": { "type": "object" },
+    "vaf": { "type": "object" },
+    "context_column": { "type": ["string", "null"] },
+    "clinical": { "type": "object" },
+    "cnv_seg": { "type": "object" },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

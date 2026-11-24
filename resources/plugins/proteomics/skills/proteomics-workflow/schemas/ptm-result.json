@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "ptm_matrix",
+    "ptm_de_table",
+    "protein_normalized",
+    "n_sites_protein_normalized",
+    "contrast",
+    "n_sites_tested",
+    "n_up",
+    "n_down",
+    "ksea",
+    "figures",
+    "warnings"
+  ],
+  "properties": {
+    "ptm_matrix": { "type": "string" },
+    "ptm_de_table": { "type": "string" },
+    "protein_normalized": { "type": "boolean" },
+    "n_sites_protein_normalized": { "type": "integer" },
+    "contrast": { "type": "string" },
+    "n_sites_tested": { "type": "integer" },
+    "n_up": { "type": "integer" },
+    "n_down": { "type": "integer" },
+    "ksea": { "type": "object" },
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

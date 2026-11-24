@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "maf",
+    "gene_summary_table",
+    "sample_summary_table",
+    "titv_table",
+    "n_samples",
+    "n_nonsyn_variants",
+    "median_variants_per_sample",
+    "substitution_counts",
+    "top_genes",
+    "figures"
+  ],
+  "properties": {
+    "maf": { "type": "string" },
+    "gene_summary_table": { "type": "string" },
+    "sample_summary_table": { "type": "string" },
+    "titv_table": { "type": "string" },
+    "n_samples": { "type": "integer" },
+    "n_nonsyn_variants": { "type": "integer" },
+    "median_variants_per_sample": { "type": "number" },
+    "titv_ratio": { "type": ["number", "null"] },
+    "substitution_counts": { "type": "object" },
+    "top_genes": { "type": "array", "items": { "type": "object" } },
+    "figures": { "type": "array", "items": { "type": "string" } }
+  }
+}

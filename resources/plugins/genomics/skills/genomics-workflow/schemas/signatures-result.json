@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["maf", "mode", "refitting", "figures", "warnings"],
+  "properties": {
+    "maf": { "type": "string" },
+    "mode": { "type": "string", "enum": ["sbs96", "fallback_6class"] },
+    "context_col": { "type": ["string", "null"] },
+    "sbs96_catalog": { "type": "string" },
+    "n_snvs_classified": { "type": "integer" },
+    "n_samples": { "type": "integer" },
+    "sbs96": { "type": "object" },
+    "refitting": { "type": "object" },
+    "substitution_counts": { "type": "object" },
+    "titv_ratio": { "type": ["number", "null"] },
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

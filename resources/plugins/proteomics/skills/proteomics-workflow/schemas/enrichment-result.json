@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["de_table", "gmt", "mode", "ora", "gsea", "figures"],
+  "properties": {
+    "de_table": { "type": "string" },
+    "gmt": { "type": "string" },
+    "mode": { "type": "string" },
+    "ora": { "type": "object" },
+    "gsea": { "type": "object" },
+    "figures": { "type": "array", "items": { "type": "string" } }
+  }
+}

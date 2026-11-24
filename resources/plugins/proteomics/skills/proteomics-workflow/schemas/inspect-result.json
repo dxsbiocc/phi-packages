@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "input",
+    "detected_format",
+    "id_col",
+    "n_features",
+    "n_samples",
+    "contaminant_or_decoy_rows",
+    "scale",
+    "overall_missing_fraction",
+    "design",
+    "warnings"
+  ],
+  "properties": {
+    "input": { "type": "string" },
+    "detected_format": { "type": "string" },
+    "id_col": { "type": "string" },
+    "n_features": { "type": "integer" },
+    "n_samples": { "type": "integer" },
+    "contaminant_or_decoy_rows": { "type": "integer" },
+    "scale": { "type": "object" },
+    "overall_missing_fraction": { "type": "number" },
+    "per_sample_missing_fraction": { "type": "object" },
+    "per_sample_detected_features": { "type": "object" },
+    "design": { "type": "object" },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

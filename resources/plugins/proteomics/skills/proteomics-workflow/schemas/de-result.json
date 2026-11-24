@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "input",
+    "de_table",
+    "contrast",
+    "method",
+    "n_case",
+    "n_control",
+    "n_tested",
+    "n_up",
+    "n_down",
+    "figures",
+    "warnings"
+  ],
+  "properties": {
+    "input": { "type": "string" },
+    "de_table": { "type": "string" },
+    "contrast": { "type": "string" },
+    "method": { "type": "string" },
+    "n_case": { "type": "integer" },
+    "n_control": { "type": "integer" },
+    "n_tested": { "type": "integer" },
+    "fdr_cutoff": { "type": "number" },
+    "log2fc_cutoff": { "type": "number" },
+    "n_up": { "type": "integer" },
+    "n_down": { "type": "integer" },
+    "empirical_bayes": { "type": ["object", "null"] },
+    "top_regulated": { "type": "array", "items": { "type": "object" } },
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

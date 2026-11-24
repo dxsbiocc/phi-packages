@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "input",
+    "processed_matrix",
+    "sample_qc_table",
+    "n_features_raw",
+    "n_contaminants_removed",
+    "n_features_kept",
+    "n_samples",
+    "normalization",
+    "imputation",
+    "figures"
+  ],
+  "properties": {
+    "input": { "type": "string" },
+    "processed_matrix": { "type": "string" },
+    "sample_qc_table": { "type": "string" },
+    "detected_format": { "type": "string" },
+    "n_features_raw": { "type": "integer" },
+    "n_contaminants_removed": { "type": "integer" },
+    "n_features_kept": { "type": "integer" },
+    "n_samples": { "type": "integer" },
+    "log2_transformed": { "type": "boolean" },
+    "filter_mode": { "type": "string" },
+    "min_valid_frac": { "type": "number" },
+    "normalization": { "type": "string" },
+    "imputation": { "type": "string" },
+    "missing_fraction_before_impute": { "type": "number" },
+    "pca": { "type": ["object", "null"] },
+    "figures": { "type": "array", "items": { "type": "string" } }
+  }
+}

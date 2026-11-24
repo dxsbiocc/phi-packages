@@ -52,6 +52,7 @@ phi:
             format: input-path
             description: Optional CBS/CNVkit copy-number segment file (.seg/.tsv).
       approval: read
+      output: ./schemas/inspect-result.json
       timeoutSeconds: 300
     - name: summary
       description: >-
@@ -81,6 +82,7 @@ phi:
             format: project-path
             description: Directory for gene/sample/TiTv tables and summary/oncoplot PNGs.
       approval: write
+      output: ./schemas/summary-result.json
       timeoutSeconds: 600
     - name: tmb_ith
       description: >-
@@ -131,6 +133,7 @@ phi:
             format: project-path
             description: Directory for per-sample TMB/MATH table and distribution figures.
       approval: write
+      output: ./schemas/tmb-ith-result.json
       timeoutSeconds: 600
     - name: interactions
       description: >-
@@ -185,6 +188,7 @@ phi:
             format: project-path
             description: Directory for interactions, pathways, cohort comparison tables, and plots.
       approval: write
+      output: ./schemas/interactions-result.json
       timeoutSeconds: 600
     - name: signatures
       description: >-
@@ -220,6 +224,7 @@ phi:
             format: project-path
             description: Directory for SBS96 catalog, exposure matrix, cosine similarity table, and plots.
       approval: write
+      output: ./schemas/signatures-result.json
       timeoutSeconds: 600
     - name: cnv
       description: >-
@@ -264,6 +269,7 @@ phi:
             format: project-path
             description: Directory for per-sample FGA table, chromosome summary, and CNV figures.
       approval: write
+      output: ./schemas/cnv-result.json
       timeoutSeconds: 600
 ---
 

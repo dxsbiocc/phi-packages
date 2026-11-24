@@ -55,6 +55,7 @@ phi:
             type: string
             description: Optional batch column to test for collinearity with group_col.
       approval: read
+      output: ./schemas/inspect-result.json
       timeoutSeconds: 300
     - name: rollup
       description: >-
@@ -96,6 +97,7 @@ phi:
             format: project-path
             description: Directory for rolled-up log2 protein matrix, peptide count table, and histogram.
       approval: write
+      output: ./schemas/rollup-result.json
       timeoutSeconds: 600
     - name: qc_impute
       description: >-
@@ -161,6 +163,7 @@ phi:
             format: project-path
             description: Directory for processed matrix, sample QC table, and QC figures.
       approval: write
+      output: ./schemas/qc-impute-result.json
       timeoutSeconds: 600
     - name: de
       description: >-
@@ -213,6 +216,7 @@ phi:
             format: project-path
             description: Directory for DE table, volcano plot, and MA plot.
       approval: write
+      output: ./schemas/de-result.json
       timeoutSeconds: 600
     - name: ptm
       description: >-
@@ -275,6 +279,7 @@ phi:
             format: project-path
             description: Directory for PTM DE table, KSEA table, and figures.
       approval: write
+      output: ./schemas/ptm-result.json
       timeoutSeconds: 600
     - name: enrichment
       description: >-
@@ -330,6 +335,7 @@ phi:
             format: project-path
             description: Directory for ORA/GSEA tables and enrichment dotplot.
       approval: write
+      output: ./schemas/enrichment-result.json
       timeoutSeconds: 1200
     - name: network
       description: >-
@@ -372,6 +378,7 @@ phi:
             format: project-path
             description: Directory for edge table, hub table, and co-abundance heatmap.
       approval: write
+      output: ./schemas/network-result.json
       timeoutSeconds: 600
 ---
 

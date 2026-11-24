@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "maf",
+    "table",
+    "capture_size_mb",
+    "min_vaf",
+    "cnv_filtered_for_math",
+    "n_samples",
+    "tmb_high_ge10_samples",
+    "figures",
+    "warnings"
+  ],
+  "properties": {
+    "maf": { "type": "string" },
+    "table": { "type": "string" },
+    "capture_size_mb": { "type": "number" },
+    "min_vaf": { "type": "number" },
+    "vaf_source": { "type": ["string", "null"] },
+    "cnv_filtered_for_math": { "type": "boolean" },
+    "n_variants_excluded_by_cnv": { "type": "integer" },
+    "n_samples": { "type": "integer" },
+    "tmb_median": { "type": ["number", "null"] },
+    "tmb_high_ge10_samples": { "type": "integer" },
+    "math_median": { "type": ["number", "null"] },
+    "group_comparison": { "type": ["object", "null"] },
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

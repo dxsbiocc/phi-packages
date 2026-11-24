@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "input",
+    "protein_matrix",
+    "peptide_counts_table",
+    "shared_peptides",
+    "method",
+    "n_peptides_raw",
+    "n_proteins_quantified",
+    "figures"
+  ],
+  "properties": {
+    "input": { "type": "string" },
+    "protein_matrix": { "type": "string" },
+    "peptide_counts_table": { "type": "string" },
+    "peptide_col": { "type": "string" },
+    "protein_col": { "type": "string" },
+    "input_scale": { "type": "string" },
+    "shared_peptides": { "type": "string" },
+    "method": { "type": "string" },
+    "min_peptides": { "type": "integer" },
+    "n_peptides_raw": { "type": "integer" },
+    "n_contaminants_removed": { "type": "integer" },
+    "n_shared_peptides_dropped": { "type": "integer" },
+    "n_proteins_below_min_peptides": { "type": "integer" },
+    "n_proteins_quantified": { "type": "integer" },
+    "median_peptides_per_protein": { "type": "number" },
+    "figures": { "type": "array", "items": { "type": "string" } }
+  }
+}
