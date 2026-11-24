@@ -1,0 +1,92 @@
+# Agent-facing wrapper adapter for the local protenix module at ../main.nf.
+# Follows docs/contracts/wrapper.md.
+id: local/modules/protenix
+name: Protenix Structure Prediction
+summary: Predict biomolecular complex structures with ByteDance Protenix (v1/v2) from Protenix JSON files or sequence-native TSV tables.
+params:
+  inputs:
+    kind: input
+    type: path_glob
+    required: false
+    description: Input Protenix JSON file(s) or directory. Optional if sequences_tsv is provided.
+  sequences_tsv:
+    kind: input
+    type: file
+    required: false
+    description: Sequence-native TSV/CSV table (e.g. output from ligandmpnn) converted automatically to Protenix JSON.
+  cache_dir:
+    kind: input
+    type: path
+    required: false
+    description: Optional directory containing Protenix checkpoints and CCD cache (sets PROTENIX_ROOT_DIR).
+  model_name:
+    kind: option
+    type: string
+    required: false
+    description: Protenix model checkpoint name (e.g. protenix_base_default_v1.0.0 or protenix-v2).
+  target_sequence:
+    kind: option
+    type: string
+    required: false
+    description: Optional target protein sequence appended when reading sequences_tsv.
+  ligand_ccd:
+    kind: option
+    type: string
+    required: false
+    description: Optional ligand CCD code added when reading sequences_tsv.
+  ligand_smiles:
+    kind: option
+    type: string
+    required: false
+    description: Optional ligand SMILES string added when reading sequences_tsv (ignored if ligand_ccd is set).
+  seeds:
+    kind: option
+    type: string
+    required: false
+    description: Comma-separated integer inference seeds (e.g. "101").
+  recycling_steps:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Number of Pairformer recycling cycles (--cycle).
+  diffusion_steps:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Number of diffusion denoising steps (--step).
+  diffusion_samples:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Number of diffusion samples per seed (--sample).
+  use_msa:
+    kind: option
+    type: boolean
+    required: false
+    description: Enable protein MSA features (--use_msa).
+  dtype:
+    kind: option
+    type: string
+    required: false
+    description: Inference floating-point precision.
+    enum:
+      - bf16
+      - fp32
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra CLI options forwarded to protenix pred.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for predicted mmCIF structures and confidence tables.
+outputs:
+  predictions:
+    type: directory
+    path: ${outdir}/protenix
+    primary: true

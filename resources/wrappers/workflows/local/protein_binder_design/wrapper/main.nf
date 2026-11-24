@@ -16,6 +16,8 @@ params.mpnn_weights_dir = null
 params.boltz_cache_dir = null
 params.af3_model_dir = null
 params.af3_db_dir = null
+params.protenix_cache_dir = null
+params.chai1_cache_dir = null
 params.reference = null
 params.n_chunks = null
 params.n_batches = null
@@ -41,6 +43,10 @@ params.diffusion_samples = null
 params.boltz_output_format = null
 params.af3_model_seeds = null
 params.af3_run_data_pipeline = null
+params.protenix_model_name = null
+params.protenix_diffusion_steps = null
+params.protenix_dtype = null
+params.chai1_use_templates = null
 params.binder_chains = null
 params.target_chains = null
 params.contact_cutoff = null
@@ -66,6 +72,8 @@ workflow {
     def boltz_cache = params.boltz_cache_dir ? file(params.boltz_cache_dir, checkIfExists: true) : []
     def af3_model = params.af3_model_dir ? file(params.af3_model_dir, checkIfExists: true) : []
     def af3_db = params.af3_db_dir ? file(params.af3_db_dir, checkIfExists: true) : []
+    def protenix_cache = params.protenix_cache_dir ? file(params.protenix_cache_dir, checkIfExists: true) : []
+    def chai1_cache = params.chai1_cache_dir ? file(params.chai1_cache_dir, checkIfExists: true) : []
     def ref_file = params.reference ? file(params.reference, checkIfExists: true) : []
 
     PROTEIN_BINDER_DESIGN(
@@ -76,6 +84,8 @@ workflow {
         Channel.value(boltz_cache),
         Channel.value(af3_model),
         Channel.value(af3_db),
+        Channel.value(protenix_cache),
+        Channel.value(chai1_cache),
         Channel.value(ref_file),
         params.predictor ?: 'boltz2',
         params.design_name ?: 'binder_campaign',
@@ -105,6 +115,10 @@ workflow {
         params.boltz_output_format,
         params.af3_model_seeds ?: '1',
         params.af3_run_data_pipeline,
+        params.protenix_model_name ?: 'protenix_base_default_v1.0.0',
+        params.protenix_diffusion_steps,
+        params.protenix_dtype ?: 'bf16',
+        params.chai1_use_templates,
         params.binder_chains ?: '',
         params.target_chains ?: '',
         params.contact_cutoff,

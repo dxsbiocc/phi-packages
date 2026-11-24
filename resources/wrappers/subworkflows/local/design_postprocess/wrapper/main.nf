@@ -13,6 +13,9 @@ params.target_chains = null
 params.contact_cutoff = null
 params.hbond_cutoff = null
 params.clash_cutoff = null
+params.run_foldseek_cluster = null
+params.foldseek_coverage = null
+params.foldseek_tmscore_threshold = null
 params.id_column = null
 params.join_mode = null
 params.expr = null
@@ -41,6 +44,9 @@ workflow {
         params.contact_cutoff,
         params.hbond_cutoff,
         params.clash_cutoff,
+        params.run_foldseek_cluster,
+        params.foldseek_coverage,
+        params.foldseek_tmscore_threshold,
         params.id_column,
         params.join_mode,
         params.expr ?: '',

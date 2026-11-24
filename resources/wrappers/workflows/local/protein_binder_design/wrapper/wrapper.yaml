@@ -2,7 +2,7 @@
 # Follows docs/contracts/wrapper.md.
 id: local/workflows/protein-binder-design
 name: Protein Binder Design Pipeline
-summary: End-to-end de novo protein and small-molecule binder design workflow chaining RFdiffusion3 backbone generation, LigandMPNN inverse folding, Boltz-2 or AlphaFold 3 refolding, structural metrics, and boolean DSL diversity filtering.
+summary: End-to-end de novo protein and small-molecule binder design workflow chaining RFdiffusion3 backbone generation, LigandMPNN inverse folding, selectable structure prediction (Boltz-2, AlphaFold 3, Protenix, or Chai-1), structural metrics, and boolean DSL diversity filtering.
 params:
   design_name:
     kind: option
@@ -17,6 +17,8 @@ params:
     enum:
       - boltz2
       - alphafold3
+      - protenix
+      - chai1
   inputs_json:
     kind: input
     type: file
@@ -62,6 +64,16 @@ params:
     type: path
     required: false
     description: Optional AlphaFold 3 genetic/template database directory (used when predictor is alphafold3 and af3_run_data_pipeline is true).
+  protenix_cache_dir:
+    kind: input
+    type: path
+    required: false
+    description: Optional Protenix checkpoints and CCD cache directory (used when predictor is protenix).
+  chai1_cache_dir:
+    kind: input
+    type: path
+    required: false
+    description: Optional Chai-1 model weights cache directory (used when predictor is chai1).
   reference:
     kind: input
     type: file
@@ -129,7 +141,7 @@ params:
     type: integer
     required: false
     minimum: 0
-    description: Random seed for LigandMPNN sampling.
+    description: Random seed for LigandMPNN (and Chai-1) sampling.
   mpnn_output_mode:
     kind: option
     type: string
@@ -157,7 +169,7 @@ params:
     kind: option
     type: string
     required: false
-    description: Optional ligand CCD code(s) for complex prediction.
+    description: Optional ligand CCD code(s) for complex prediction (boltz2, alphafold3, protenix).
   ligand_smiles:
     kind: option
     type: string
@@ -172,7 +184,7 @@ params:
     kind: option
     type: boolean
     required: false
-    description: Enable MMseqs2 MSA server in Boltz-2 (boltz2 only).
+    description: Enable MSA features/server (boltz2, protenix, chai1).
   use_potentials:
     kind: option
     type: boolean
@@ -183,13 +195,13 @@ params:
     type: integer
     required: false
     minimum: 1
-    description: Boltz-2 recycling steps (boltz2 only).
+    description: Number of trunk recycling steps (boltz2, protenix, chai1).
   diffusion_samples:
     kind: option
     type: integer
     required: false
     minimum: 1
-    description: Diffusion samples per sequence (shared by boltz2 and alphafold3).
+    description: Diffusion samples per sequence (shared across predictors).
   boltz_output_format:
     kind: option
     type: string
@@ -202,12 +214,36 @@ params:
     kind: option
     type: string
     required: false
-    description: Comma-separated integer modelSeeds for AlphaFold 3 (alphafold3 only).
+    description: Comma-separated integer model seeds (shared by alphafold3 and protenix).
   af3_run_data_pipeline:
     kind: option
     type: boolean
     required: false
     description: Run AlphaFold 3 CPU MSA/template search pipeline (alphafold3 only).
+  protenix_model_name:
+    kind: option
+    type: string
+    required: false
+    description: Protenix checkpoint name (e.g. protenix_base_default_v1.0.0 or protenix-v2; protenix only).
+  protenix_diffusion_steps:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Protenix diffusion denoising steps (protenix only).
+  protenix_dtype:
+    kind: option
+    type: string
+    required: false
+    description: Protenix inference precision (protenix only).
+    enum:
+      - bf16
+      - fp32
+  chai1_use_templates:
+    kind: option
+    type: boolean
+    required: false
+    description: Enable template server in Chai-1 (chai1 only).
   binder_chains:
     kind: option
     type: string

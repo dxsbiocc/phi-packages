@@ -6,6 +6,8 @@ flowchart TD
     d_pred{predictor}
     p_boltz[BOLTZ2]
     p_af3[ALPHAFOLD3]
+    p_protenix[PROTENIX]
+    p_chai1[CHAI1]
     p_metrics[PROTEIN_METRICS]
 
     out_seq([sequences.tsv])
@@ -17,9 +19,15 @@ flowchart TD
     p_mpnn --> d_pred
     d_pred -->|boltz2| p_boltz
     d_pred -->|alphafold3| p_af3
+    d_pred -->|protenix| p_protenix
+    d_pred -->|chai1| p_chai1
     p_boltz --> out_pred
     p_af3 --> out_pred
+    p_protenix --> out_pred
+    p_chai1 --> out_pred
     p_boltz --> p_metrics
     p_af3 --> p_metrics
+    p_protenix --> p_metrics
+    p_chai1 --> p_metrics
     in_ref --> p_metrics
     p_metrics --> out_metrics

@@ -1,13 +1,16 @@
 name: design_postprocess
-description: Compute structural metrics (Kabsch RMSD, interface contacts, putative H-bonds, clashes, Rg) on designed protein structures, merge with upstream metric tables by lineage ID, filter with a boolean DSL, and select diverse ranked candidates.
+description: Compute structural metrics on designed protein structures, optionally cluster structures with Foldseek easy-cluster to assign cluster_id groups, merge with upstream metric tables by lineage ID, filter with a boolean DSL, and select diverse ranked candidates.
 keywords:
   - protein-design
   - metrics
+  - foldseek
+  - clustering
   - filtering
   - lineage
   - diversity
 modules:
   - local/protein_metrics
+  - local/foldseek
   - local/design_filter
 input:
   - ch_structures:
@@ -26,6 +29,9 @@ output:
   - metrics_json:
       type: file
       description: Structural metrics JSON from PROTEIN_METRICS
+  - foldseek_tsv:
+      type: file
+      description: Optional Foldseek structural cluster_id table when run_foldseek_cluster is enabled
   - merged_tsv:
       type: file
       description: Merged lineage metrics table annotated with passed_filter

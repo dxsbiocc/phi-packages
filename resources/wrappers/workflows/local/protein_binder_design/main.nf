@@ -3,7 +3,7 @@
 //
 // Orchestrates:
 //   1. RFD3 (parallelized across n_chunks with distinct chunk_id seeds)
-//   2. SEQ_FOLD_EVAL (LIGANDMPNN -> BOLTZ2 or ALPHAFOLD3 -> PROTEIN_METRICS per chunk)
+//   2. SEQ_FOLD_EVAL (LIGANDMPNN -> BOLTZ2 / ALPHAFOLD3 / PROTENIX / CHAI1 -> PROTEIN_METRICS)
 //   3. DESIGN_FILTER (campaign-wide lineage merge, boolean DSL filtering,
 //      ranking, and per-parent diversity selection)
 //
@@ -14,53 +14,59 @@ include { DESIGN_FILTER } from '../../../modules/local/design_filter/main.nf'
 
 workflow PROTEIN_BINDER_DESIGN {
     take:
-    ch_inputs_json         // channel: path(inputs_json) or []
-    ch_input_structure     // channel: path(input_structure) or []
-    ch_rfd3_weights        // channel: path(weights_dir) or []
-    ch_mpnn_weights        // channel: path(weights_dir) or []
-    ch_boltz_cache         // channel: path(cache_dir) or []
-    ch_af3_model_dir       // channel: path(model_dir) or []
-    ch_af3_db_dir          // channel: path(db_dir) or []
-    ch_reference           // channel: path(reference) or []
-    predictor              // val: string ('boltz2' | 'alphafold3')
-    design_name            // val: string
-    contig                 // val: string
-    ligand                 // val: string
-    n_chunks               // val: int
-    n_batches              // val: int
-    diffusion_batch_size   // val: int
-    num_timesteps          // val: int
-    low_memory_mode        // val: boolean
-    mpnn_model_type        // val: string
-    num_seq_per_pdb        // val: int
-    mpnn_batch_size        // val: int
-    mpnn_temperature       // val: float
-    mpnn_seed              // val: int
-    mpnn_output_mode       // val: string
-    fixed_residues         // val: string
-    chains_to_design       // val: string
-    target_sequence        // val: string
-    ligand_ccd             // val: string
-    ligand_smiles          // val: string
-    predict_affinity       // val: boolean
-    use_msa_server         // val: boolean
-    use_potentials         // val: boolean
-    recycling_steps        // val: int
-    diffusion_samples      // val: int
-    boltz_output_format    // val: string
-    af3_model_seeds        // val: string
-    af3_run_data_pipeline  // val: boolean
-    binder_chains          // val: string
-    target_chains          // val: string
-    contact_cutoff         // val: float
-    hbond_cutoff           // val: float
-    clash_cutoff           // val: float
-    filter_expr            // val: string
-    rank_by                // val: string
-    rank_direction         // val: string
-    group_by               // val: string
-    max_per_group          // val: int
-    top_n                  // val: int
+    ch_inputs_json           // channel: path(inputs_json) or []
+    ch_input_structure       // channel: path(input_structure) or []
+    ch_rfd3_weights          // channel: path(weights_dir) or []
+    ch_mpnn_weights          // channel: path(weights_dir) or []
+    ch_boltz_cache           // channel: path(cache_dir) or []
+    ch_af3_model_dir         // channel: path(model_dir) or []
+    ch_af3_db_dir            // channel: path(db_dir) or []
+    ch_protenix_cache        // channel: path(cache_dir) or []
+    ch_chai1_cache           // channel: path(cache_dir) or []
+    ch_reference             // channel: path(reference) or []
+    predictor                // val: string ('boltz2' | 'alphafold3' | 'protenix' | 'chai1')
+    design_name              // val: string
+    contig                   // val: string
+    ligand                   // val: string
+    n_chunks                 // val: int
+    n_batches                // val: int
+    diffusion_batch_size     // val: int
+    num_timesteps            // val: int
+    low_memory_mode          // val: boolean
+    mpnn_model_type          // val: string
+    num_seq_per_pdb          // val: int
+    mpnn_batch_size          // val: int
+    mpnn_temperature         // val: float
+    mpnn_seed                // val: int
+    mpnn_output_mode         // val: string
+    fixed_residues           // val: string
+    chains_to_design         // val: string
+    target_sequence          // val: string
+    ligand_ccd               // val: string
+    ligand_smiles            // val: string
+    predict_affinity         // val: boolean
+    use_msa_server           // val: boolean
+    use_potentials           // val: boolean
+    recycling_steps          // val: int
+    diffusion_samples        // val: int
+    boltz_output_format      // val: string
+    af3_model_seeds          // val: string
+    af3_run_data_pipeline    // val: boolean
+    protenix_model_name      // val: string
+    protenix_diffusion_steps // val: int
+    protenix_dtype           // val: string
+    chai1_use_templates      // val: boolean
+    binder_chains            // val: string
+    target_chains            // val: string
+    contact_cutoff           // val: float
+    hbond_cutoff             // val: float
+    clash_cutoff             // val: float
+    filter_expr              // val: string
+    rank_by                  // val: string
+    rank_direction           // val: string
+    group_by                 // val: string
+    max_per_group            // val: int
+    top_n                    // val: int
 
     main:
     ch_versions = Channel.empty()
@@ -93,6 +99,8 @@ workflow PROTEIN_BINDER_DESIGN {
         ch_boltz_cache,
         ch_af3_model_dir,
         ch_af3_db_dir,
+        ch_protenix_cache,
+        ch_chai1_cache,
         ch_reference,
         predictor,
         mpnn_model_type,
@@ -114,6 +122,10 @@ workflow PROTEIN_BINDER_DESIGN {
         boltz_output_format,
         af3_model_seeds,
         af3_run_data_pipeline,
+        protenix_model_name,
+        protenix_diffusion_steps,
+        protenix_dtype,
+        chai1_use_templates,
         binder_chains,
         target_chains,
         contact_cutoff,

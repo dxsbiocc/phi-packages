@@ -2,7 +2,7 @@
 # Follows docs/contracts/wrapper.md.
 id: local/subworkflows/design-postprocess
 name: Protein Design Post-processing and Filtering
-summary: Evaluate designed PDB/mmCIF structures (RMSD, interface contacts, H-bonds, clashes, Rg), merge with upstream metric tables on design_id, filter with a boolean expression DSL, and select top diverse candidates.
+summary: Evaluate designed PDB/mmCIF structures (RMSD, interface contacts, H-bonds, clashes, Rg), optionally cluster structures with Foldseek easy-cluster, merge with upstream metric tables on design_id, filter with a boolean DSL, and select top diverse candidates.
 params:
   structures:
     kind: input
@@ -50,6 +50,25 @@ params:
     minimum: 0.5
     maximum: 4
     description: Inter-residue heavy-atom steric clash cutoff in Angstrom.
+  run_foldseek_cluster:
+    kind: option
+    type: boolean
+    required: false
+    description: Run Foldseek easy-cluster on structures and auto-wire group_by=cluster_id (default max_per_group=1) into DESIGN_FILTER unless overridden.
+  foldseek_coverage:
+    kind: option
+    type: number
+    required: false
+    minimum: 0
+    maximum: 1
+    description: Minimum alignment coverage fraction (-c) for Foldseek easy-cluster (default 0.8).
+  foldseek_tmscore_threshold:
+    kind: option
+    type: number
+    required: false
+    minimum: 0
+    maximum: 1
+    description: TM-score threshold (--tmscore-threshold) for Foldseek easy-cluster (default 0.6).
   id_column:
     kind: option
     type: string
@@ -85,13 +104,13 @@ params:
     kind: option
     type: string
     required: false
-    description: Optional grouping column (e.g. parent_design_id) for diversity capping.
+    description: Optional grouping column (defaults to cluster_id when run_foldseek_cluster is true).
   max_per_group:
     kind: option
     type: integer
     required: false
     minimum: 0
-    description: Maximum retained passing designs per group (0 disables capping).
+    description: Maximum retained passing designs per group (defaults to 1 when run_foldseek_cluster is true; 0 disables capping otherwise).
   top_n:
     kind: option
     type: integer
@@ -102,7 +121,7 @@ params:
     kind: output
     type: path
     required: true
-    description: Output directory for structural metrics, merged lineage table, filtered designs, and summary JSON.
+    description: Output directory for structural metrics, optional Foldseek clusters, merged lineage table, filtered designs, and summary JSON.
 outputs:
   results:
     type: directory

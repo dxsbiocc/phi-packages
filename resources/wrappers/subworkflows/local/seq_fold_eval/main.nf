@@ -1,15 +1,16 @@
 //
 // Sequence Design -> Structure Prediction -> Structural Evaluation Subworkflow
 //
-// Chains LIGANDMPNN (inverse folding) -> BOLTZ2 or ALPHAFOLD3 (selectable via
-// `predictor`) -> PROTEIN_METRICS (Kabsch RMSD, interface contacts, H-bonds,
-// ligand contacts, clashes, Rg) while preserving design_id / parent_design_id
-// lineage across all stages.
+// Chains LIGANDMPNN (inverse folding) -> selectable structure prediction oracle
+// (BOLTZ2, ALPHAFOLD3, PROTENIX, or CHAI1 via `predictor`) -> PROTEIN_METRICS
+// while preserving design_id / parent_design_id lineage across all stages.
 //
 
 include { LIGANDMPNN      } from '../../../modules/local/ligandmpnn/main.nf'
 include { BOLTZ2          } from '../../../modules/local/boltz2/main.nf'
 include { ALPHAFOLD3      } from '../../../modules/local/alphafold3/main.nf'
+include { PROTENIX        } from '../../../modules/local/protenix/main.nf'
+include { CHAI1           } from '../../../modules/local/chai1/main.nf'
 include { PROTEIN_METRICS } from '../../../modules/local/protein_metrics/main.nf'
 
 workflow SEQ_FOLD_EVAL {
@@ -19,8 +20,10 @@ workflow SEQ_FOLD_EVAL {
     ch_boltz_cache         // channel: path(cache_dir) or []
     ch_af3_model_dir       // channel: path(model_dir) or []
     ch_af3_db_dir          // channel: path(db_dir) or []
+    ch_protenix_cache      // channel: path(cache_dir) or []
+    ch_chai1_cache         // channel: path(cache_dir) or []
     ch_reference           // channel: path(reference) or []
-    predictor              // val: string ('boltz2' | 'alphafold3')
+    predictor              // val: string ('boltz2' | 'alphafold3' | 'protenix' | 'chai1')
     mpnn_model_type        // val: string
     num_seq_per_pdb        // val: int
     mpnn_batch_size        // val: int
@@ -40,6 +43,10 @@ workflow SEQ_FOLD_EVAL {
     boltz_output_format    // val: string
     af3_model_seeds        // val: string
     af3_run_data_pipeline  // val: boolean
+    protenix_model_name    // val: string
+    protenix_diffusion_steps // val: int
+    protenix_dtype         // val: string
+    chai1_use_templates    // val: boolean
     binder_chains          // val: string
     target_chains          // val: string
     contact_cutoff         // val: float
@@ -82,6 +89,39 @@ workflow SEQ_FOLD_EVAL {
         ch_pred_structures = ALPHAFOLD3.out.structures
         ch_pred_metrics_tsv = ALPHAFOLD3.out.metrics_tsv
         ch_versions = ch_versions.mix(ALPHAFOLD3.out.versions)
+    } else if (predictor == 'protenix') {
+        PROTENIX(
+            ch_pred_inputs,
+            ch_protenix_cache,
+            protenix_model_name,
+            target_sequence,
+            ligand_ccd,
+            ligand_smiles,
+            af3_model_seeds,
+            recycling_steps,
+            protenix_diffusion_steps,
+            diffusion_samples,
+            use_msa_server,
+            protenix_dtype
+        )
+        ch_pred_structures = PROTENIX.out.structures
+        ch_pred_metrics_tsv = PROTENIX.out.metrics_tsv
+        ch_versions = ch_versions.mix(PROTENIX.out.versions)
+    } else if (predictor == 'chai1') {
+        CHAI1(
+            ch_pred_inputs,
+            ch_chai1_cache,
+            target_sequence,
+            ligand_smiles,
+            use_msa_server,
+            chai1_use_templates,
+            recycling_steps,
+            diffusion_samples,
+            mpnn_seed
+        )
+        ch_pred_structures = CHAI1.out.structures
+        ch_pred_metrics_tsv = CHAI1.out.metrics_tsv
+        ch_versions = ch_versions.mix(CHAI1.out.versions)
     } else if (predictor == 'boltz2') {
         BOLTZ2(
             ch_pred_inputs,
@@ -100,7 +140,7 @@ workflow SEQ_FOLD_EVAL {
         ch_pred_metrics_tsv = BOLTZ2.out.metrics_tsv
         ch_versions = ch_versions.mix(BOLTZ2.out.versions)
     } else {
-        error "Unsupported predictor '${predictor}' in SEQ_FOLD_EVAL. Expected 'boltz2' or 'alphafold3'."
+        error "Unsupported predictor '${predictor}' in SEQ_FOLD_EVAL. Expected 'boltz2', 'alphafold3', 'protenix', or 'chai1'."
     }
 
     PROTEIN_METRICS(

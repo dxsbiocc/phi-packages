@@ -4,6 +4,8 @@ flowchart TD
     in_ref([reference])
 
     p_metrics[PROTEIN_METRICS]
+    d_clu{run_foldseek_cluster}
+    p_foldseek[FOLDSEEK easy-cluster]
     p_filter[DESIGN_FILTER]
 
     out_merged([merged.tsv])
@@ -12,7 +14,10 @@ flowchart TD
 
     in_struct --> p_metrics
     in_ref --> p_metrics
+    in_struct --> d_clu
+    d_clu -->|true| p_foldseek
     p_metrics --> p_filter
+    p_foldseek --> p_filter
     in_extra --> p_filter
     p_filter --> out_merged
     p_filter --> out_filtered

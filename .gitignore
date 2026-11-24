@@ -2,6 +2,9 @@ node_modules/
 dist/
 !resources/wrappers/modules/**/dist/
 !resources/wrappers/modules/**/dist/**
+.codegraph/
+/.mag-testdata/
+/.scrnaseq-testdata/
 .DS_Store
 .env
 .env.*

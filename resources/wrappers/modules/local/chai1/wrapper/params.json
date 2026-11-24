@@ -1,0 +1,14 @@
+{
+  "inputs": null,
+  "sequences_tsv": null,
+  "cache_dir": null,
+  "target_sequence": "",
+  "ligand_smiles": "",
+  "use_msa_server": false,
+  "use_templates_server": false,
+  "num_trunk_recycles": 3,
+  "num_diffn_samples": 5,
+  "seed": 42,
+  "args": "",
+  "outdir": "results"
+}

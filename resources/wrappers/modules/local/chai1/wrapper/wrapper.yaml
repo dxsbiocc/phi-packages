@@ -1,0 +1,74 @@
+# Agent-facing wrapper adapter for the local chai1 module at ../main.nf.
+# Follows docs/contracts/wrapper.md.
+id: local/modules/chai1
+name: Chai-1 Structure Prediction
+summary: Predict biomolecular complex structures with Chai-1 from entity-tagged FASTA files or sequence-native TSV tables, ranking samples by aggregate_score.
+params:
+  inputs:
+    kind: input
+    type: path_glob
+    required: false
+    description: Input Chai-1 entity-tagged FASTA file(s) or directory. Optional if sequences_tsv is provided.
+  sequences_tsv:
+    kind: input
+    type: file
+    required: false
+    description: Sequence-native TSV/CSV table (e.g. output from ligandmpnn) converted automatically to Chai-1 FASTA files.
+  cache_dir:
+    kind: input
+    type: path
+    required: false
+    description: Optional directory containing Chai-1 model weights cache (sets CHAI_DOWNLOADS_DIR).
+  target_sequence:
+    kind: option
+    type: string
+    required: false
+    description: Optional target protein sequence appended when reading sequences_tsv.
+  ligand_smiles:
+    kind: option
+    type: string
+    required: false
+    description: Optional ligand SMILES string added as >ligand|name=ligand when reading sequences_tsv.
+  use_msa_server:
+    kind: option
+    type: boolean
+    required: false
+    description: Query MSA server automatically (--use-msa-server); false uses ESM embeddings only.
+  use_templates_server:
+    kind: option
+    type: boolean
+    required: false
+    description: Query template server automatically (--use-templates-server).
+  num_trunk_recycles:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Number of trunk recycling iterations (--num-trunk-recycles).
+  num_diffn_samples:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Number of diffusion samples per prediction job (--num-diffn-samples).
+  seed:
+    kind: option
+    type: integer
+    required: false
+    minimum: 0
+    description: Random seed for reproducible inference (--seed).
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra CLI options forwarded to chai-lab fold.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for predicted mmCIF structures and confidence tables.
+outputs:
+  predictions:
+    type: directory
+    path: ${outdir}/chai1
+    primary: true

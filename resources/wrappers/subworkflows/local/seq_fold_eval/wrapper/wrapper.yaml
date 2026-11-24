@@ -2,7 +2,7 @@
 # Follows docs/contracts/wrapper.md.
 id: local/subworkflows/seq-fold-eval
 name: Sequence Design, Structure Refolding, and Evaluation
-summary: Run LigandMPNN inverse folding on backbone structures, refold designed sequences with Boltz-2 or AlphaFold 3, and score predicted structures with PROTEIN_METRICS.
+summary: Run LigandMPNN inverse folding on backbone structures, refold designed sequences with Boltz-2, AlphaFold 3, Protenix, or Chai-1, and score predicted structures with PROTEIN_METRICS.
 params:
   structures:
     kind: input
@@ -17,6 +17,8 @@ params:
     enum:
       - boltz2
       - alphafold3
+      - protenix
+      - chai1
   mpnn_weights_dir:
     kind: input
     type: path
@@ -37,6 +39,16 @@ params:
     type: path
     required: false
     description: Optional AlphaFold 3 genetic/template databases directory (used when predictor is alphafold3 and af3_run_data_pipeline is true).
+  protenix_cache_dir:
+    kind: input
+    type: path
+    required: false
+    description: Optional Protenix checkpoints and CCD cache directory (used when predictor is protenix).
+  chai1_cache_dir:
+    kind: input
+    type: path
+    required: false
+    description: Optional Chai-1 model weights cache directory (used when predictor is chai1).
   reference:
     kind: input
     type: file
@@ -75,7 +87,7 @@ params:
     type: integer
     required: false
     minimum: 0
-    description: Random seed for LigandMPNN sampling.
+    description: Random seed for LigandMPNN (and Chai-1) sampling.
   mpnn_output_mode:
     kind: option
     type: string
@@ -103,7 +115,7 @@ params:
     kind: option
     type: string
     required: false
-    description: Optional ligand CCD code(s) for complex prediction.
+    description: Optional ligand CCD code(s) for complex prediction (boltz2, alphafold3, protenix).
   ligand_smiles:
     kind: option
     type: string
@@ -118,7 +130,7 @@ params:
     kind: option
     type: boolean
     required: false
-    description: Enable MMseqs2 MSA server in Boltz-2 (boltz2 only).
+    description: Enable MSA features/server (boltz2, protenix, chai1).
   use_potentials:
     kind: option
     type: boolean
@@ -129,13 +141,13 @@ params:
     type: integer
     required: false
     minimum: 1
-    description: Number of recycling steps in Boltz-2 (boltz2 only).
+    description: Number of trunk recycling steps (shared by boltz2, protenix, chai1).
   diffusion_samples:
     kind: option
     type: integer
     required: false
     minimum: 1
-    description: Number of diffusion structure samples per job (shared by boltz2 and alphafold3).
+    description: Number of diffusion structure samples per job (shared across predictors).
   boltz_output_format:
     kind: option
     type: string
@@ -148,12 +160,36 @@ params:
     kind: option
     type: string
     required: false
-    description: Comma-separated integer modelSeeds for AlphaFold 3 (alphafold3 only).
+    description: Comma-separated integer model seeds (shared by alphafold3 and protenix).
   af3_run_data_pipeline:
     kind: option
     type: boolean
     required: false
     description: Run AlphaFold 3 CPU MSA/template search pipeline (alphafold3 only).
+  protenix_model_name:
+    kind: option
+    type: string
+    required: false
+    description: Protenix checkpoint name (e.g. protenix_base_default_v1.0.0 or protenix-v2; protenix only).
+  protenix_diffusion_steps:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Protenix diffusion denoising steps (--step; protenix only).
+  protenix_dtype:
+    kind: option
+    type: string
+    required: false
+    description: Protenix inference precision (protenix only).
+    enum:
+      - bf16
+      - fp32
+  chai1_use_templates:
+    kind: option
+    type: boolean
+    required: false
+    description: Enable template server in Chai-1 (chai1 only).
   binder_chains:
     kind: option
     type: string

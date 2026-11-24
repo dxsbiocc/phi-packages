@@ -204,6 +204,117 @@ class TestProteinDesignComposites(unittest.TestCase):
         self.assertIn("BOLTZ2", sfe_text)
         self.assertIn("ALPHAFOLD3", sfe_text)
 
+    def test_design_postprocess_foldseek_cluster_wiring_and_bridge(self) -> None:
+        dp_dir = WRAPPERS_BASE / "subworkflows" / "local" / "design_postprocess"
+        dp_nf = (dp_dir / "main.nf").read_text(encoding="utf-8")
+        dp_params = json.loads((dp_dir / "wrapper" / "params.json").read_text(encoding="utf-8"))
+
+        # Verify subworkflow DSL wiring and auto-defaulting of group_by=cluster_id
+        self.assertIn("include { FOLDSEEK", dp_nf)
+        self.assertIn("run_foldseek_cluster", dp_nf)
+        self.assertIn("run_foldseek_cluster ? 'cluster_id' : ''", dp_nf)
+        self.assertIn("foldseek_tsv = ch_foldseek_tsv", dp_nf)
+        self.assertFalse(dp_params["run_foldseek_cluster"])
+        self.assertIn("foldseek_coverage", dp_params)
+        self.assertIn("foldseek_tmscore_threshold", dp_params)
+
+        # End-to-end Python bridge: Foldseek easy-cluster -> cluster_id -> DESIGN_FILTER diversity cap
+        foldseek_script = WRAPPERS_BASE / "modules" / "local" / "foldseek" / "bin" / "compile_foldseek_outputs.py"
+        filter_script = WRAPPERS_BASE / "modules" / "local" / "design_filter" / "bin" / "merge_and_filter_designs.py"
+
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_dir = Path(tmp)
+            raw_clu = tmp_dir / "designs_clu.tsv"
+            raw_clu.write_text(
+                "D1.cif\tD1.cif\n"
+                "D1.cif\tD2.cif\n"
+                "D1.cif\tD3.cif\n"
+                "D4.cif\tD4.cif\n",
+                encoding="utf-8",
+            )
+            foldseek_tsv = tmp_dir / "foldseek_cluster.tsv"
+            foldseek_json = tmp_dir / "foldseek_cluster.json"
+            subprocess.run(
+                [
+                    sys.executable,
+                    str(foldseek_script),
+                    "--mode",
+                    "cluster",
+                    "--input-tsv",
+                    str(raw_clu),
+                    "--out-tsv",
+                    str(foldseek_tsv),
+                    "--out-json",
+                    str(foldseek_json),
+                ],
+                check=True,
+            )
+
+            metrics_tsv = tmp_dir / "metrics.tsv"
+            metrics_tsv.write_text(
+                "design_id\tconfidence_score\tclash_count\n"
+                "D1\t0.72\t0\n"
+                "D2\t0.91\t0\n"
+                "D3\t0.85\t2\n"
+                "D4\t0.80\t0\n",
+                encoding="utf-8",
+            )
+
+            merged_tsv = tmp_dir / "merged.tsv"
+            filtered_tsv = tmp_dir / "filtered.tsv"
+            summary_json = tmp_dir / "summary.json"
+            subprocess.run(
+                [
+                    sys.executable,
+                    str(filter_script),
+                    "--tables",
+                    str(metrics_tsv),
+                    str(foldseek_tsv),
+                    "--id-column",
+                    "design_id",
+                    "--join-mode",
+                    "outer",
+                    "--expr",
+                    "clash_count == 0 and confidence_score >= 0.7",
+                    "--rank-by",
+                    "confidence_score",
+                    "--rank-direction",
+                    "max",
+                    "--group-by",
+                    "cluster_id",
+                    "--max-per-group",
+                    "1",
+                    "--out-merged",
+                    str(merged_tsv),
+                    "--out-filtered",
+                    str(filtered_tsv),
+                    "--out-summary",
+                    str(summary_json),
+                ],
+                check=True,
+            )
+
+            summary = json.loads(summary_json.read_text(encoding="utf-8"))
+            self.assertEqual(summary["total_designs"], 4)
+            self.assertEqual(summary["passed_filter"], 3)
+            self.assertEqual(summary["selected_designs"], 2)
+            self.assertEqual(summary["group_by"], "cluster_id")
+            self.assertEqual(summary["max_per_group"], 1)
+
+            filtered_lines = [
+                line.split("\t")
+                for line in filtered_tsv.read_text(encoding="utf-8").splitlines()
+                if line.strip()
+            ]
+            header = filtered_lines[0]
+            id_idx = header.index("design_id")
+            clu_idx = header.index("cluster_id")
+            selected_ids = [row[id_idx] for row in filtered_lines[1:]]
+            selected_clusters = [row[clu_idx] for row in filtered_lines[1:]]
+            # D2 (0.91) beats D1 (0.72) inside clu_1; D4 (0.80) wins clu_2
+            self.assertEqual(selected_ids, ["D2", "D4"])
+            self.assertEqual(selected_clusters, ["clu_1", "clu_2"])
+
 
 if __name__ == "__main__":
     unittest.main()

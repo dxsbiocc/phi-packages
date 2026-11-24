@@ -1,0 +1,17 @@
+{
+  "inputs": null,
+  "sequences_tsv": null,
+  "cache_dir": null,
+  "model_name": "protenix_base_default_v1.0.0",
+  "target_sequence": "",
+  "ligand_ccd": "",
+  "ligand_smiles": "",
+  "seeds": "101",
+  "recycling_steps": 10,
+  "diffusion_steps": 200,
+  "diffusion_samples": 5,
+  "use_msa": false,
+  "dtype": "bf16",
+  "args": "",
+  "outdir": "results"
+}

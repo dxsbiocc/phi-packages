@@ -1,0 +1,73 @@
+name: protenix
+description: Predict biomolecular complex structures (proteins, nucleic acids, ligands) with ByteDance Protenix (v1/v2) from Protenix JSON or sequence-native TSV tables.
+keywords:
+  - protein-design
+  - structure-prediction
+  - protenix
+  - folding
+tools:
+  - protenix:
+      description: Protenix open-source AlphaFold3-family biomolecular structure predictor.
+      homepage: https://github.com/bytedance/Protenix
+      licence:
+        - Apache-2.0
+input:
+  - meta:
+      type: map
+      description: Sample or batch metadata map
+  - inputs:
+      type: file
+      description: Optional Protenix JSON job file(s) or directory
+  - sequences_tsv:
+      type: file
+      description: Optional sequence-native TSV/CSV table (e.g. from ligandmpnn)
+  - cache_dir:
+      type: directory
+      description: Optional Protenix model checkpoints and CCD cache directory
+  - model_name:
+      type: string
+      description: Protenix checkpoint name (e.g. protenix_base_default_v1.0.0 or protenix-v2)
+  - target_sequence:
+      type: string
+      description: Optional target protein sequence appended when using sequences_tsv
+  - ligand_ccd:
+      type: string
+      description: Optional ligand CCD code when using sequences_tsv
+  - ligand_smiles:
+      type: string
+      description: Optional ligand SMILES string when using sequences_tsv
+  - seeds:
+      type: string
+      description: Comma-separated inference seeds (e.g. '101')
+  - recycling_steps:
+      type: integer
+      description: Number of Pairformer recycling iterations (--cycle)
+  - diffusion_steps:
+      type: integer
+      description: Number of diffusion denoising steps (--step)
+  - diffusion_samples:
+      type: integer
+      description: Number of diffusion samples per seed (--sample)
+  - use_msa:
+      type: boolean
+      description: Enable MSA features during Protenix prediction
+  - dtype:
+      type: string
+      description: Inference precision (bf16 or fp32)
+output:
+  - structures:
+      type: file
+      description: Top-ranked predicted mmCIF structure per design
+  - metrics_tsv:
+      type: file
+      description: Standardized TSV table of Protenix confidence metrics
+  - metrics_json:
+      type: file
+      description: JSON array of Protenix confidence metrics and lineage metadata
+  - versions:
+      type: file
+      description: Software versions YAML
+authors:
+  - '@dengxsh'
+maintainers:
+  - '@dengxsh'

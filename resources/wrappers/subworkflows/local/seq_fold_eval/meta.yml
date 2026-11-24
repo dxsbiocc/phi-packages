@@ -1,5 +1,5 @@
 name: seq_fold_eval
-description: Inverse-fold protein backbones with LigandMPNN, refold designed complexes with either Boltz-2 or AlphaFold 3 (selectable via `predictor`), and evaluate structural metrics with PROTEIN_METRICS.
+description: Inverse-fold protein backbones with LigandMPNN, refold designed complexes with Boltz-2, AlphaFold 3, Protenix, or Chai-1 (selectable via `predictor`), and evaluate structural metrics with PROTEIN_METRICS.
 keywords:
   - protein-design
   - inverse-folding
@@ -8,10 +8,14 @@ keywords:
   - ligandmpnn
   - boltz2
   - alphafold3
+  - protenix
+  - chai1
 modules:
   - local/ligandmpnn
   - local/boltz2
   - local/alphafold3
+  - local/protenix
+  - local/chai1
   - local/protein_metrics
 input:
   - ch_structures:
@@ -29,6 +33,12 @@ input:
   - ch_af3_db_dir:
       type: directory
       description: Optional AlphaFold 3 genetic/template database directory
+  - ch_protenix_cache:
+      type: directory
+      description: Optional Protenix checkpoints and CCD cache directory
+  - ch_chai1_cache:
+      type: directory
+      description: Optional Chai-1 model weights cache directory
   - ch_reference:
       type: file
       description: Optional reference PDB/mmCIF structure for Kabsch RMSD
@@ -41,7 +51,7 @@ output:
       description: Merged FASTA of designed sequences
   - predicted_structures:
       type: file
-      description: Best predicted complex structures from Boltz-2 or AlphaFold 3
+      description: Best predicted complex structures from the selected predictor
   - predictor_metrics_tsv:
       type: file
       description: Confidence (and optional Boltz-2 affinity) metrics TSV from the selected predictor
