@@ -9,7 +9,12 @@ Downstream quantitative MS-based proteomics and PTM/phosphoproteomics plugin
   searching, FDR scoring, and quantification (DIA-NN, MaxQuant, FragPipe,
   Spectronaut, or `nf-core/quantms` wrappers).
 - **This plugin (`prot_*`)**:
-  1. `prot_inspect` — auto-detect DIA-NN / MaxQuant / FragPipe / generic protein
+  1. `prot_rollup` — aggregate peptide/precursor intensity tables (DIA-NN
+     `pr_matrix`, MaxQuant `peptides.txt`, FragPipe `combined_peptide`, or
+     QUANTIX/generic peptide tables) to log2 protein abundances (`rrollup`,
+     `top3`, `median`, `sum`) with `unique_only` or `razor` shared-peptide
+     assignment.
+  2. `prot_inspect` — auto-detect DIA-NN / MaxQuant / FragPipe / generic protein
      tables, contaminant/reverse rows, scale (`raw_intensity` vs `log2`),
      per-sample missingness, sample alignment, replicate counts, and
      batch-condition collinearity.

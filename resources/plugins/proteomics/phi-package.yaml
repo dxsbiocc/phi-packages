@@ -1,11 +1,12 @@
 schemaVersion: 1
 id: proteomics
 type: plugin
-version: 0.1.0
+version: 0.2.0
 title: Proteomics
 summary: >-
   Downstream quantitative MS-based proteomics and PTM/phosphoproteomics in
-  Python (prot_): DIA-NN / MaxQuant / FragPipe matrix inspection (contaminant,
+  Python (prot_): peptide-to-protein rollup (rrollup/top3/median/sum, unique
+  or razor), DIA-NN / MaxQuant / FragPipe matrix inspection (contaminant,
   reverse, scale, missingness, and design checks), median/quantile
   normalization and Perseus-style MinProb/kNN imputation with PCA/CV QC,
   empirical-Bayes moderated t-test differential abundance, PTM protein-abundance

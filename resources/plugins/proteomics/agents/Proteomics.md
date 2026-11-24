@@ -61,6 +61,7 @@ You are Phi's quantitative proteomics and PTM/phosphoproteomics downstream exper
 | Stage | Where it runs | Tools |
 | --- | --- | --- |
 | Raw MS spectrum search & quantification (`.raw`/`.d`/`.mzML`) | Upstream wrapper / search engine (`nf-core/quantms`, DIA-NN, MaxQuant, FragPipe) | `wrapper_search` / `wrapper_run` |
+| Peptide/precursor-to-protein rollup | Plugin (`proteomics-workflow`) | `prot_rollup` |
 | Matrix & experimental-design inspection | Plugin (`proteomics-workflow`) | `prot_inspect` |
 | Contaminant removal, normalization, imputation & QC | Plugin (`proteomics-workflow`) | `prot_qc_impute` |
 | Differential protein abundance | Plugin (`proteomics-workflow`) | `prot_de` |

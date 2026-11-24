@@ -56,6 +56,47 @@ phi:
             description: Optional batch column to test for collinearity with group_col.
       approval: read
       timeoutSeconds: 300
+    - name: rollup
+      description: >-
+        Aggregate peptide or precursor intensity tables (DIA-NN pr_matrix,
+        MaxQuant peptides.txt, FragPipe combined_peptide, or QUANTIX/generic
+        peptide tables) to log2 protein-level abundances using reference-scaled
+        rollup (rrollup), Top-3 (Hi3), median, or linear sum, with unique-only
+        or Occam's razor shared-peptide assignment and contaminant removal.
+      run: [python, ./scripts/prot_rollup.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [input, output_dir]
+        properties:
+          input:
+            type: string
+            format: input-path
+            description: Peptide or precursor intensity matrix TSV/CSV.
+          peptide_col:
+            type: string
+            description: Optional peptide/precursor identifier column (auto-detected if omitted).
+          protein_col:
+            type: string
+            description: Optional protein/gene identifier column (auto-detected if omitted).
+          shared_peptides:
+            type: string
+            enum: [unique_only, razor]
+            description: Shared-peptide assignment policy (default unique_only; razor assigns to most-supported protein).
+          method:
+            type: string
+            enum: [rrollup, top3, median, sum]
+            description: Protein rollup strategy (default rrollup reference-scaled log2 rollup).
+          min_peptides:
+            type: integer
+            minimum: 1
+            description: Minimum peptides required to quantify a protein (default 2).
+          output_dir:
+            type: string
+            format: project-path
+            description: Directory for rolled-up log2 protein matrix, peptide count table, and histogram.
+      approval: write
+      timeoutSeconds: 600
     - name: qc_impute
       description: >-
         Remove contaminants/decoys, log2-transform raw intensities (if needed),
@@ -343,7 +384,8 @@ strategies.
 ## Chain
 
 ```
-Raw MS (.raw/.d/.mzML) ──(quantms / DIA-NN / MaxQuant / FragPipe)──▶ protein / PTM matrix
+Raw MS (.raw/.d/.mzML) ──(quantms / DIA-NN / MaxQuant / FragPipe)──▶ peptide / protein / PTM matrix
+peptide matrix    ──prot_rollup─────▶ unique/razor peptide-to-protein rollup (rrollup/top3/median/sum)
 matrix + metadata ──prot_inspect────▶ detect format, contaminants, scale, missingness & design
                   ──prot_qc_impute──▶ filter contaminants, log2, normalize, impute & QC/PCA
                   ──prot_de─────────▶ empirical-Bayes moderated t-test + volcano/MA

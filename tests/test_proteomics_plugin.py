@@ -251,6 +251,83 @@ class TestProteomicsPlugin(unittest.TestCase):
         self.assertGreaterEqual(net["n_modules_ge2"], 1)
         self.assertEqual(len(net["figures"]), 1)
 
+    def test_02_peptide_rollup_and_chain_to_de(self):
+        rng = np.random.default_rng(99)
+        samples = [f"CTRL_{i}" for i in range(1, 5)] + [f"TRT_{i}" for i in range(1, 5)]
+        pep_rows = []
+        # 25 proteins, each with 4 unique peptides + ionization offsets; proteins 0..5 upregulated +2.5 log2FC
+        for p_idx in range(25):
+            prot = f"P{p_idx:03d}"
+            base = rng.normal(22.0, 1.0)
+            for k in range(4):
+                ion_offset = rng.normal(0.0, 1.5)
+                vals = base + ion_offset + rng.normal(0.0, 0.2, size=8)
+                if p_idx < 6:
+                    vals[4:] += 2.5
+                lin = np.power(2.0, vals)
+                if k == 3 and p_idx % 2 == 0:
+                    lin[0] = 0.0  # missing in one sample
+                row = {"Precursor.Id": f"{prot}_PEP{k}", "Protein.Group": prot}
+                for s_idx, s in enumerate(samples):
+                    row[s] = round(float(lin[s_idx]), 2)
+                pep_rows.append(row)
+        # Add 2 shared peptides and 1 contaminant peptide
+        for idx, (pid, pg) in enumerate([("SHARED_1", "P000;P001"), ("SHARED_2", "P002;P003"), ("CONT_1", "CON__KRT2")]):
+            row = {"Precursor.Id": pid, "Protein.Group": pg}
+            for s in samples:
+                row[s] = 1e6
+            pep_rows.append(row)
+
+        pep_path = os.path.join(self.work, "pr_matrix.tsv")
+        pd.DataFrame(pep_rows).to_csv(pep_path, sep="\t", index=False)
+
+        # Unique-only rrollup
+        r_dir = os.path.join(self.work, "rollup_rrollup")
+        res_r = run_tool(
+            "prot_rollup.py",
+            [
+                "--input", pep_path,
+                "--method", "rrollup",
+                "--shared_peptides", "unique_only",
+                "--min_peptides", "2",
+                "--output_dir", r_dir,
+            ],
+        )
+        self.assertEqual(res_r["n_contaminants_removed"], 1)
+        self.assertEqual(res_r["n_shared_peptides_dropped"], 2)
+        self.assertEqual(res_r["n_proteins_quantified"], 25)
+        self.assertEqual(len(res_r["figures"]), 1)
+
+        # Razor + top3 smoke check
+        t_dir = os.path.join(self.work, "rollup_top3")
+        res_t = run_tool(
+            "prot_rollup.py",
+            [
+                "--input", pep_path,
+                "--method", "top3",
+                "--shared_peptides", "razor",
+                "--min_peptides", "2",
+                "--output_dir", t_dir,
+            ],
+        )
+        self.assertEqual(res_t["n_shared_peptides_dropped"], 0)
+        self.assertEqual(res_t["n_proteins_quantified"], 25)
+
+        # Chain rolled-up protein matrix straight into prot_de
+        de_dir = os.path.join(self.work, "rollup_de")
+        de_res = run_tool(
+            "prot_de.py",
+            [
+                "--input", res_r["protein_matrix"],
+                "--metadata", self.meta_path,
+                "--case", "treated",
+                "--control", "control",
+                "--method", "moderated_t",
+                "--output_dir", de_dir,
+            ],
+        )
+        self.assertGreaterEqual(de_res["n_up"], 5)
+
 
 if __name__ == "__main__":
     unittest.main()

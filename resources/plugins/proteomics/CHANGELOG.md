@@ -1,5 +1,9 @@
 # Changelog — proteomics
 
+## 0.2.0 (2026-11-24)
+
+- `prot_rollup`: added peptide/precursor-to-protein rollup (`rrollup` reference-scaled log2 rollup, `top3`/Hi3, `median`, `sum`) with `unique_only` vs Occam's `razor` shared-peptide handling, contaminant removal, per-protein peptide counts, and histogram output.
+
 ## 0.1.0 (2026-11-24)
 
 Initial release: pure conda-forge downstream quantitative MS proteomics and
