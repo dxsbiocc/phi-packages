@@ -1,0 +1,61 @@
+name: design_filter
+description: Merge multi-step protein design metrics by lineage ID, filter with a Chaperone-compatible boolean expression DSL, and select ranked diverse candidates.
+keywords:
+  - protein-design
+  - filtering
+  - lineage
+  - ranking
+  - diversity
+tools:
+  - design_filter:
+      description: Pure-Python lineage merger, boolean DSL filter, and diversity selector inspired by Chaperone PipelineDataHandler and FilterBlock.
+      licence:
+        - MIT
+input:
+  - meta:
+      type: map
+      description: Batch or campaign metadata map
+  - tables:
+      type: file
+      description: One or more TSV, CSV, or JSON metric tables to merge
+  - id_column:
+      type: string
+      description: Column name used as the lineage join key
+  - join_mode:
+      type: string
+      description: Join strategy across tables (outer or left)
+  - expr:
+      type: string
+      description: Boolean filter expression supporting and/or/not, parentheses, and comparison operators
+  - rank_by:
+      type: string
+      description: Optional numeric metric column used to rank passing designs
+  - rank_direction:
+      type: string
+      description: Ranking direction (max or min)
+  - group_by:
+      type: string
+      description: Optional grouping column for per-group diversity capping
+  - max_per_group:
+      type: integer
+      description: Maximum candidates kept per group (0 disables capping)
+  - top_n:
+      type: integer
+      description: Keep top N ranked candidates (0 keeps all)
+output:
+  - merged_tsv:
+      type: file
+      description: Merged lineage metrics table annotated with passed_filter
+  - filtered_tsv:
+      type: file
+      description: Filtered, ranked, and diversity-selected designs table
+  - summary_json:
+      type: file
+      description: Funnel summary counts and filter configuration JSON
+  - versions:
+      type: file
+      description: Software versions YAML
+authors:
+  - '@dengxsh'
+maintainers:
+  - '@dengxsh'

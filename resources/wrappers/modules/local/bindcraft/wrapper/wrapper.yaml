@@ -1,0 +1,74 @@
+# Agent-facing wrapper adapter for the local bindcraft module at ../main.nf.
+# Follows docs/contracts/wrapper.md.
+id: local/modules/bindcraft
+name: BindCraft Binder Design
+summary: Design de novo protein binders against a target structure and optional hotspot residues using BindCraft (AF2 hallucination + ProteinMPNN + filtering).
+params:
+  starting_pdb:
+    kind: input
+    type: file
+    required: false
+    description: Target PDB structure file. Required unless provided inside settings_json.
+  settings_json:
+    kind: input
+    type: file
+    required: false
+    description: Optional BindCraft target settings JSON file.
+  filters_json:
+    kind: input
+    type: file
+    required: false
+    description: Optional BindCraft filter thresholds JSON (defaults to BindCraft default_filters.json).
+  advanced_json:
+    kind: input
+    type: file
+    required: false
+    description: Optional BindCraft advanced settings JSON (defaults to default_4stage_multimer.json).
+  binder_name:
+    kind: option
+    type: string
+    required: false
+    description: Prefix for generated binder design names.
+  chains:
+    kind: option
+    type: string
+    required: false
+    description: Comma-separated target chain IDs (e.g. "A" or "A,B").
+  target_hotspot_residues:
+    kind: option
+    type: string
+    required: false
+    description: Optional comma-separated target hotspot residues (e.g. "A56,A58-62").
+  min_length:
+    kind: option
+    type: integer
+    required: false
+    minimum: 15
+    description: Minimum binder amino-acid length.
+  max_length:
+    kind: option
+    type: integer
+    required: false
+    minimum: 15
+    description: Maximum binder amino-acid length.
+  number_of_final_designs:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Stopping condition specifying how many accepted designs to generate.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra CLI arguments forwarded to bindcraft.py.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for accepted PDBs and standardized BindCraft metrics.
+outputs:
+  designs:
+    type: directory
+    path: ${outdir}/bindcraft
+    primary: true

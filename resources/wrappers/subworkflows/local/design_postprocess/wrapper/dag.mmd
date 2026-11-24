@@ -1,0 +1,19 @@
+flowchart TD
+    in_struct([structures])
+    in_extra([extra_tables])
+    in_ref([reference])
+
+    p_metrics[PROTEIN_METRICS]
+    p_filter[DESIGN_FILTER]
+
+    out_merged([merged.tsv])
+    out_filtered([filtered.tsv])
+    out_summary([summary.json])
+
+    in_struct --> p_metrics
+    in_ref --> p_metrics
+    p_metrics --> p_filter
+    in_extra --> p_filter
+    p_filter --> out_merged
+    p_filter --> out_filtered
+    p_filter --> out_summary

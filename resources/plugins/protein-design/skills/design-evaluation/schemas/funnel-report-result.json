@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "total_designs",
+    "passed_filter",
+    "selected_designs",
+    "pass_rate",
+    "metric_quantiles_all",
+    "metric_quantiles_selected",
+    "top_candidates"
+  ],
+  "properties": {
+    "total_designs": { "type": "integer" },
+    "passed_filter": { "type": "integer" },
+    "selected_designs": { "type": "integer" },
+    "pass_rate": { "type": "number" },
+    "unique_parents_total": { "type": ["integer", "null"] },
+    "unique_parents_selected": { "type": ["integer", "null"] },
+    "filter_expr": { "type": "string" },
+    "rank_by": { "type": "string" },
+    "metric_quantiles_all": { "type": "object" },
+    "metric_quantiles_selected": { "type": "object" },
+    "top_candidates": { "type": "array" }
+  }
+}

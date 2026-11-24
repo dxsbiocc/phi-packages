@@ -1,0 +1,60 @@
+name: seq_fold_eval
+description: Inverse-fold protein backbones with LigandMPNN, refold designed complexes with either Boltz-2 or AlphaFold 3 (selectable via `predictor`), and evaluate structural metrics with PROTEIN_METRICS.
+keywords:
+  - protein-design
+  - inverse-folding
+  - structure-prediction
+  - evaluation
+  - ligandmpnn
+  - boltz2
+  - alphafold3
+modules:
+  - local/ligandmpnn
+  - local/boltz2
+  - local/alphafold3
+  - local/protein_metrics
+input:
+  - ch_structures:
+      type: file
+      description: Channel of [ val(meta), [ structures ] ] input backbone PDB/mmCIF files
+  - ch_mpnn_weights:
+      type: directory
+      description: Optional LigandMPNN weights directory
+  - ch_boltz_cache:
+      type: directory
+      description: Optional Boltz-2 checkpoints and CCD cache directory
+  - ch_af3_model_dir:
+      type: directory
+      description: User-supplied AlphaFold 3 model parameters directory (required when predictor is alphafold3)
+  - ch_af3_db_dir:
+      type: directory
+      description: Optional AlphaFold 3 genetic/template database directory
+  - ch_reference:
+      type: file
+      description: Optional reference PDB/mmCIF structure for Kabsch RMSD
+output:
+  - sequences_tsv:
+      type: file
+      description: LigandMPNN sequence-native TSV table
+  - sequences_fasta:
+      type: file
+      description: Merged FASTA of designed sequences
+  - predicted_structures:
+      type: file
+      description: Best predicted complex structures from Boltz-2 or AlphaFold 3
+  - predictor_metrics_tsv:
+      type: file
+      description: Confidence (and optional Boltz-2 affinity) metrics TSV from the selected predictor
+  - structure_metrics_tsv:
+      type: file
+      description: Structural evaluation metrics TSV from PROTEIN_METRICS
+  - all_metric_tables:
+      type: file
+      description: Grouped list of [mpnn_tsv, pred_tsv, struct_tsv] per meta for downstream DESIGN_FILTER
+  - versions:
+      type: file
+      description: Software versions YAML
+authors:
+  - '@dengxsh'
+maintainers:
+  - '@dengxsh'

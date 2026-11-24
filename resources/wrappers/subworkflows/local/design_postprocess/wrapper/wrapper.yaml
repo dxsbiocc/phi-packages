@@ -1,0 +1,110 @@
+# Agent-facing wrapper adapter for local/subworkflows/design-postprocess.
+# Follows docs/contracts/wrapper.md.
+id: local/subworkflows/design-postprocess
+name: Protein Design Post-processing and Filtering
+summary: Evaluate designed PDB/mmCIF structures (RMSD, interface contacts, H-bonds, clashes, Rg), merge with upstream metric tables on design_id, filter with a boolean expression DSL, and select top diverse candidates.
+params:
+  structures:
+    kind: input
+    type: path_glob
+    required: true
+    description: Input designed or predicted PDB/mmCIF files or directory.
+  extra_tables:
+    kind: input
+    type: path_glob
+    required: false
+    description: Optional upstream metric table(s) (TSV/CSV/JSON, e.g. from ligandmpnn or boltz2) to merge on design_id.
+  reference:
+    kind: input
+    type: file
+    required: false
+    description: Optional reference PDB/mmCIF structure for Kabsch RMSD alignment.
+  binder_chains:
+    kind: option
+    type: string
+    required: false
+    description: Comma-separated binder chain IDs (defaults to the first chain).
+  target_chains:
+    kind: option
+    type: string
+    required: false
+    description: Comma-separated target chain IDs (defaults to all non-binder chains).
+  contact_cutoff:
+    kind: option
+    type: number
+    required: false
+    minimum: 1
+    maximum: 15
+    description: Heavy-atom interface contact distance cutoff in Angstrom.
+  hbond_cutoff:
+    kind: option
+    type: number
+    required: false
+    minimum: 1
+    maximum: 6
+    description: Polar N/O distance cutoff in Angstrom for putative cross-interface H-bonds.
+  clash_cutoff:
+    kind: option
+    type: number
+    required: false
+    minimum: 0.5
+    maximum: 4
+    description: Inter-residue heavy-atom steric clash cutoff in Angstrom.
+  id_column:
+    kind: option
+    type: string
+    required: false
+    description: Lineage join key column name across metric tables.
+  join_mode:
+    kind: option
+    type: string
+    required: false
+    description: Join strategy across metric tables.
+    enum:
+      - outer
+      - left
+  expr:
+    kind: option
+    type: string
+    required: false
+    description: Boolean filter expression (e.g. "ca_rmsd <= 2.0 and interface_contacts >= 15 and clash_count == 0").
+  rank_by:
+    kind: option
+    type: string
+    required: false
+    description: Optional numeric metric column used to rank passing designs.
+  rank_direction:
+    kind: option
+    type: string
+    required: false
+    description: Sort direction for rank_by.
+    enum:
+      - max
+      - min
+  group_by:
+    kind: option
+    type: string
+    required: false
+    description: Optional grouping column (e.g. parent_design_id) for diversity capping.
+  max_per_group:
+    kind: option
+    type: integer
+    required: false
+    minimum: 0
+    description: Maximum retained passing designs per group (0 disables capping).
+  top_n:
+    kind: option
+    type: integer
+    required: false
+    minimum: 0
+    description: Maximum number of top-ranked designs to retain (0 keeps all).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for structural metrics, merged lineage table, filtered designs, and summary JSON.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/design_postprocess
+    primary: true

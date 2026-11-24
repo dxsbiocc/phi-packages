@@ -1,0 +1,74 @@
+# Agent-facing wrapper adapter for the local design_filter module at ../main.nf.
+# Follows docs/contracts/wrapper.md.
+id: local/modules/design-filter
+name: Protein Design Lineage Merge and Filter
+summary: Merge multi-step protein design metric tables on design_id, filter with a boolean expression DSL, and select ranked diverse candidates.
+params:
+  tables:
+    kind: input
+    type: path_glob
+    required: true
+    description: Input metric table file(s) or glob pattern (TSV, CSV, or JSON).
+  id_column:
+    kind: option
+    type: string
+    required: false
+    description: Column name used as the lineage join key across tables.
+  join_mode:
+    kind: option
+    type: string
+    required: false
+    description: Join strategy across metric tables.
+    enum:
+      - outer
+      - left
+  expr:
+    kind: option
+    type: string
+    required: false
+    description: Boolean filter expression (e.g. "ca_rmsd <= 2.0 and interface_contacts >= 15 and clash_count == 0").
+  rank_by:
+    kind: option
+    type: string
+    required: false
+    description: Optional numeric column name used to rank passing designs.
+  rank_direction:
+    kind: option
+    type: string
+    required: false
+    description: Sort direction for rank_by.
+    enum:
+      - max
+      - min
+  group_by:
+    kind: option
+    type: string
+    required: false
+    description: Optional grouping column (e.g. parent_design_id) for diversity capping.
+  max_per_group:
+    kind: option
+    type: integer
+    required: false
+    minimum: 0
+    description: Maximum passing designs retained per group (0 disables capping).
+  top_n:
+    kind: option
+    type: integer
+    required: false
+    minimum: 0
+    description: Maximum number of top-ranked designs to retain (0 keeps all).
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to merge_and_filter_designs.py.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for merged, filtered, and summary files.
+outputs:
+  filtered:
+    type: directory
+    path: ${outdir}/design_filter
+    primary: true

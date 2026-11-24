@@ -1,0 +1,37 @@
+flowchart TD
+    in_spec([inputs_json / contig])
+    in_target([input_structure])
+    in_ref([reference])
+
+    subgraph chunk [Per-Chunk Generation & Evaluation]
+        p_rfd3[RFD3]
+        subgraph sfe [SEQ_FOLD_EVAL]
+            p_mpnn[LIGANDMPNN]
+            d_pred{predictor}
+            p_boltz[BOLTZ2]
+            p_af3[ALPHAFOLD3]
+            p_metrics[PROTEIN_METRICS]
+        end
+    end
+
+    p_filter[DESIGN_FILTER]
+    out_merged([merged.tsv])
+    out_filtered([filtered.tsv])
+    out_summary([summary.json])
+
+    in_spec --> p_rfd3
+    in_target --> p_rfd3
+    p_rfd3 --> p_mpnn
+    p_mpnn --> d_pred
+    d_pred -->|boltz2| p_boltz
+    d_pred -->|alphafold3| p_af3
+    p_boltz --> p_metrics
+    p_af3 --> p_metrics
+    in_ref --> p_metrics
+    p_mpnn --> p_filter
+    p_boltz --> p_filter
+    p_af3 --> p_filter
+    p_metrics --> p_filter
+    p_filter --> out_merged
+    p_filter --> out_filtered
+    p_filter --> out_summary

@@ -1,0 +1,64 @@
+name: alphafold3
+description: Predict biomolecular complex structures (proteins, nucleic acids, ligands) with AlphaFold 3 from AF3 JSON files or sequence-native TSV tables.
+keywords:
+  - protein-design
+  - structure-prediction
+  - alphafold3
+  - folding
+tools:
+  - alphafold3:
+      description: AlphaFold 3 biomolecular structure prediction (code Apache-2.0; model parameters require separate non-commercial access from Google DeepMind).
+      homepage: https://github.com/google-deepmind/alphafold3
+      licence:
+        - Apache-2.0
+input:
+  - meta:
+      type: map
+      description: Sample or batch metadata map
+  - inputs:
+      type: file
+      description: Optional AlphaFold 3 JSON job file(s) or directory
+  - sequences_tsv:
+      type: file
+      description: Optional sequence-native TSV/CSV table (e.g. from ligandmpnn)
+  - model_dir:
+      type: directory
+      description: User-supplied directory containing AlphaFold 3 model parameters (--model_dir)
+  - db_dir:
+      type: directory
+      description: Optional genetic/template databases directory required only when run_data_pipeline is true
+  - target_sequence:
+      type: string
+      description: Optional target protein sequence appended when using sequences_tsv
+  - ligand_ccd:
+      type: string
+      description: Optional comma-separated ligand CCD code(s) when using sequences_tsv
+  - ligand_smiles:
+      type: string
+      description: Optional ligand SMILES string when using sequences_tsv
+  - model_seeds:
+      type: string
+      description: Comma-separated integer modelSeeds for AF3 inference
+  - run_data_pipeline:
+      type: boolean
+      description: Run CPU genetic/template search pipeline (false skips MSA for fast de novo refolding)
+  - num_diffusion_samples:
+      type: integer
+      description: Number of diffusion samples per seed
+output:
+  - structures:
+      type: file
+      description: Top-ranked predicted mmCIF structure per design
+  - metrics_tsv:
+      type: file
+      description: Standardized TSV table of AF3 confidence metrics (ranking_score, ptm, iptm, plddt, min_pae_interaction)
+  - metrics_json:
+      type: file
+      description: JSON array of AF3 confidence metrics and lineage metadata
+  - versions:
+      type: file
+      description: Software versions YAML
+authors:
+  - '@dengxsh'
+maintainers:
+  - '@dengxsh'

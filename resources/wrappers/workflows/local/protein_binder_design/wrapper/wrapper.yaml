@@ -1,0 +1,286 @@
+# Agent-facing wrapper adapter for local/workflows/protein-binder-design.
+# Follows docs/contracts/wrapper.md.
+id: local/workflows/protein-binder-design
+name: Protein Binder Design Pipeline
+summary: End-to-end de novo protein and small-molecule binder design workflow chaining RFdiffusion3 backbone generation, LigandMPNN inverse folding, Boltz-2 or AlphaFold 3 refolding, structural metrics, and boolean DSL diversity filtering.
+params:
+  design_name:
+    kind: option
+    type: string
+    required: false
+    description: Campaign prefix used for output filenames and chunk identifiers.
+  predictor:
+    kind: option
+    type: string
+    required: false
+    description: Structure prediction oracle used to refold designed sequences.
+    enum:
+      - boltz2
+      - alphafold3
+  inputs_json:
+    kind: input
+    type: file
+    required: false
+    description: RFD3 JSON specification file. Optional if contig is supplied directly.
+  input_structure:
+    kind: input
+    type: file
+    required: false
+    description: Target or motif PDB/mmCIF structure file for conditioned design.
+  contig:
+    kind: option
+    type: string
+    required: false
+    description: Quick RFD3 contig string (e.g. "A1-100/0 60-90") used when inputs_json is omitted.
+  ligand:
+    kind: option
+    type: string
+    required: false
+    description: Optional comma-separated ligand residue name(s) present in input_structure for RFD3.
+  rfd3_weights_dir:
+    kind: input
+    type: path
+    required: false
+    description: Directory containing RFdiffusion3 / Foundry checkpoints.
+  mpnn_weights_dir:
+    kind: input
+    type: path
+    required: false
+    description: Directory containing LigandMPNN / ProteinMPNN checkpoints.
+  boltz_cache_dir:
+    kind: input
+    type: path
+    required: false
+    description: Directory containing Boltz-2 checkpoints and CCD cache (used when predictor is boltz2).
+  af3_model_dir:
+    kind: input
+    type: path
+    required: false
+    description: User-supplied AlphaFold 3 model parameters directory (required when predictor is alphafold3).
+  af3_db_dir:
+    kind: input
+    type: path
+    required: false
+    description: Optional AlphaFold 3 genetic/template database directory (used when predictor is alphafold3 and af3_run_data_pipeline is true).
+  reference:
+    kind: input
+    type: file
+    required: false
+    description: Optional reference PDB/mmCIF structure for Kabsch RMSD evaluation.
+  n_chunks:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Number of parallel RFD3 -> SEQ_FOLD_EVAL chunks to fan out.
+  n_batches:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Number of RFD3 diffusion batches per chunk.
+  diffusion_batch_size:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Number of backbones generated per RFD3 diffusion batch.
+  num_timesteps:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Number of RFD3 reverse diffusion denoising steps.
+  low_memory_mode:
+    kind: option
+    type: boolean
+    required: false
+    description: Enable low-memory tokenization in RFD3.
+  mpnn_model_type:
+    kind: option
+    type: string
+    required: false
+    description: MPNN model variant.
+    enum:
+      - protein_mpnn
+      - ligand_mpnn
+      - soluble_mpnn
+  num_seq_per_pdb:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Sequences sampled per generated backbone in LigandMPNN.
+  mpnn_batch_size:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Sequences per GPU batch in LigandMPNN.
+  mpnn_temperature:
+    kind: option
+    type: number
+    required: false
+    minimum: 0.01
+    maximum: 2
+    description: Sampling temperature for LigandMPNN.
+  mpnn_seed:
+    kind: option
+    type: integer
+    required: false
+    minimum: 0
+    description: Random seed for LigandMPNN sampling.
+  mpnn_output_mode:
+    kind: option
+    type: string
+    required: false
+    description: LigandMPNN output mode ('sequences' recommended for campaign scale).
+    enum:
+      - sequences
+      - structures
+  fixed_residues:
+    kind: option
+    type: string
+    required: false
+    description: Optional space-separated fixed residue IDs for LigandMPNN.
+  chains_to_design:
+    kind: option
+    type: string
+    required: false
+    description: Optional comma-separated chain IDs to design in LigandMPNN.
+  target_sequence:
+    kind: option
+    type: string
+    required: false
+    description: Target protein sequence appended for complex refolding.
+  ligand_ccd:
+    kind: option
+    type: string
+    required: false
+    description: Optional ligand CCD code(s) for complex prediction.
+  ligand_smiles:
+    kind: option
+    type: string
+    required: false
+    description: Optional ligand SMILES string for complex prediction.
+  predict_affinity:
+    kind: option
+    type: boolean
+    required: false
+    description: Enable Boltz-2 binding affinity prediction for ligand complexes (boltz2 only).
+  use_msa_server:
+    kind: option
+    type: boolean
+    required: false
+    description: Enable MMseqs2 MSA server in Boltz-2 (boltz2 only).
+  use_potentials:
+    kind: option
+    type: boolean
+    required: false
+    description: Enable inference-time physical potentials in Boltz-2 (boltz2 only).
+  recycling_steps:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Boltz-2 recycling steps (boltz2 only).
+  diffusion_samples:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Diffusion samples per sequence (shared by boltz2 and alphafold3).
+  boltz_output_format:
+    kind: option
+    type: string
+    required: false
+    description: Boltz-2 output structure format (boltz2 only).
+    enum:
+      - mmcif
+      - pdb
+  af3_model_seeds:
+    kind: option
+    type: string
+    required: false
+    description: Comma-separated integer modelSeeds for AlphaFold 3 (alphafold3 only).
+  af3_run_data_pipeline:
+    kind: option
+    type: boolean
+    required: false
+    description: Run AlphaFold 3 CPU MSA/template search pipeline (alphafold3 only).
+  binder_chains:
+    kind: option
+    type: string
+    required: false
+    description: Comma-separated binder chain IDs for structural scoring.
+  target_chains:
+    kind: option
+    type: string
+    required: false
+    description: Comma-separated target chain IDs for structural scoring.
+  contact_cutoff:
+    kind: option
+    type: number
+    required: false
+    minimum: 1
+    maximum: 15
+    description: Heavy-atom interface contact cutoff in Angstrom.
+  hbond_cutoff:
+    kind: option
+    type: number
+    required: false
+    minimum: 1
+    maximum: 6
+    description: Polar N/O distance cutoff in Angstrom for putative H-bonds.
+  clash_cutoff:
+    kind: option
+    type: number
+    required: false
+    minimum: 0.5
+    maximum: 4
+    description: Inter-residue heavy-atom clash cutoff in Angstrom.
+  filter_expr:
+    kind: option
+    type: string
+    required: false
+    description: Boolean DSL filter expression applied to merged campaign metrics (e.g. "complex_plddt >= 0.8 and iptm >= 0.7 and clash_count == 0").
+  rank_by:
+    kind: option
+    type: string
+    required: false
+    description: Numeric metric column used to rank passing designs.
+  rank_direction:
+    kind: option
+    type: string
+    required: false
+    description: Sort direction for rank_by.
+    enum:
+      - max
+      - min
+  group_by:
+    kind: option
+    type: string
+    required: false
+    description: Grouping column (e.g. parent_design_id) for diversity capping.
+  max_per_group:
+    kind: option
+    type: integer
+    required: false
+    minimum: 0
+    description: Maximum selected designs retained per parent group (0 disables capping).
+  top_n:
+    kind: option
+    type: integer
+    required: false
+    minimum: 0
+    description: Maximum number of top-ranked designs to retain (0 keeps all).
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for all campaign stages and final selected candidates.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}
+    primary: true

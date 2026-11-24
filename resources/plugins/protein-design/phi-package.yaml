@@ -1,0 +1,18 @@
+schemaVersion: 1
+id: protein-design
+type: plugin
+version: 0.1.0
+title: Protein Design
+summary: >-
+  End-to-end protein and small-molecule binder design specialist with usage
+  tutorials, input-prep validators, and funnel diagnostics. Heavy GPU
+  generation, inverse folding, and structure prediction run through local
+  Nextflow wrappers (rfd3, ligandmpnn, boltz2, alphafold3).
+toolPrefix: pd
+components:
+  agents:
+    - agents/ProteinDesign.md
+  skills:
+    - skills/protein-design-workflow
+    - skills/structure-input-prep
+    - skills/design-evaluation

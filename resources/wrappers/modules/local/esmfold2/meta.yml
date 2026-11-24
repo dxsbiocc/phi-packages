@@ -1,0 +1,50 @@
+name: esmfold2
+description: Fast MSA-free single-sequence protein structure prediction with ESMFold2 from FASTA files or sequence-native TSV tables.
+keywords:
+  - protein-design
+  - structure-prediction
+  - esmfold2
+  - folding
+  - msa-free
+tools:
+  - esmfold2:
+      description: ESMFold2 MSA-free language-model protein folding (weights supplied externally via model_dir).
+      homepage: https://huggingface.co/biohub/ESMFold2
+      licence:
+        - MIT
+input:
+  - meta:
+      type: map
+      description: Sample or batch metadata map
+  - fasta:
+      type: file
+      description: Optional input FASTA file(s)
+  - sequences_tsv:
+      type: file
+      description: Optional sequence-native TSV/CSV table (e.g. from ligandmpnn)
+  - model_dir:
+      type: directory
+      description: Optional local directory containing ESMFold2 and ESMC model checkpoints
+  - num_recycles:
+      type: integer
+      description: Number of folding trunk recycling iterations
+  - chunk_size:
+      type: integer
+      description: Optional axial attention chunk size to reduce GPU memory usage (0 disables chunking)
+output:
+  - structures:
+      type: file
+      description: Predicted PDB or mmCIF structures per design
+  - metrics_tsv:
+      type: file
+      description: Standardized TSV table of pLDDT, complex_plddt, and optional pTM
+  - metrics_json:
+      type: file
+      description: JSON array of ESMFold2 confidence metrics and lineage metadata
+  - versions:
+      type: file
+      description: Software versions YAML
+authors:
+  - '@dengxsh'
+maintainers:
+  - '@dengxsh'

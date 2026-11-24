@@ -1,0 +1,64 @@
+name: rfd3
+description: Generate all-atom de novo protein backbones and biomolecular complexes with RFdiffusion3 (RosettaCommons Foundry).
+keywords:
+  - protein-design
+  - diffusion
+  - rfdiffusion3
+  - backbone-generation
+tools:
+  - rfd3:
+      description: RFdiffusion3 all-atom generative diffusion model for biomolecular design.
+      homepage: https://github.com/RosettaCommons/foundry
+      licence:
+        - BSD-3-Clause
+input:
+  - meta:
+      type: map
+      description: Sample or campaign chunk metadata map
+  - inputs_json:
+      type: file
+      description: Optional RFD3 JSON design specification file
+  - input_structure:
+      type: file
+      description: Optional target or motif PDB/mmCIF structure
+  - weights_dir:
+      type: directory
+      description: Directory containing RFdiffusion3 / Foundry checkpoints
+  - contig:
+      type: string
+      description: Optional RFD3 contig string when not supplying inputs_json
+  - ligand:
+      type: string
+      description: Optional ligand residue code(s) for small-molecule conditioning
+  - n_batches:
+      type: integer
+      description: Number of diffusion batches per input key
+  - diffusion_batch_size:
+      type: integer
+      description: Number of designs generated per diffusion batch
+  - num_timesteps:
+      type: integer
+      description: Number of reverse diffusion denoising timesteps
+  - low_memory_mode:
+      type: boolean
+      description: Enable memory-efficient tokenization for smaller GPUs
+  - chunk_id:
+      type: integer
+      description: Chunk index for unique naming across parallel batches
+output:
+  - structures:
+      type: file
+      description: Generated backbone structure files (.cif/.cif.gz/.pdb)
+  - metrics_tsv:
+      type: file
+      description: Standardized TSV table of generated designs and sidecar metadata
+  - metrics_json:
+      type: file
+      description: JSON array of generated designs and metadata
+  - versions:
+      type: file
+      description: Software versions YAML
+authors:
+  - '@dengxsh'
+maintainers:
+  - '@dengxsh'

@@ -1,0 +1,52 @@
+name: protein_metrics
+description: Compute Kabsch RMSD, interface contacts, putative H-bonds, ligand contacts, steric clashes, and radius of gyration for designed protein structures (PDB/mmCIF).
+keywords:
+  - protein-design
+  - structural-biology
+  - rmsd
+  - interface
+  - metrics
+tools:
+  - protein_metrics:
+      description: Pure-Python structural metrics calculator inspired by Chaperone analysis blocks.
+      licence:
+        - MIT
+input:
+  - meta:
+      type: map
+      description: Sample or batch metadata map
+  - structures:
+      type: file
+      description: One or more PDB/mmCIF structure files or a directory of structures
+  - reference:
+      type: file
+      description: Optional reference PDB/mmCIF structure for Kabsch CA/backbone RMSD
+  - binder_chains:
+      type: string
+      description: Comma-separated binder chain IDs (default first chain)
+  - target_chains:
+      type: string
+      description: Comma-separated target chain IDs (default remaining chains)
+  - contact_cutoff:
+      type: float
+      description: Heavy-atom interface contact distance cutoff in Angstrom
+  - hbond_cutoff:
+      type: float
+      description: Putative polar H-bond distance cutoff in Angstrom
+  - clash_cutoff:
+      type: float
+      description: Inter-residue heavy-atom steric clash cutoff in Angstrom
+output:
+  - metrics_tsv:
+      type: file
+      description: Tab-separated table of structural metrics per design
+  - metrics_json:
+      type: file
+      description: JSON array of structural metrics per design
+  - versions:
+      type: file
+      description: Software versions YAML
+authors:
+  - '@dengxsh'
+maintainers:
+  - '@dengxsh'

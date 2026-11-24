@@ -1,0 +1,68 @@
+name: ligandmpnn
+description: Inverse-fold amino acid sequences for protein and protein-ligand backbones using LigandMPNN / ProteinMPNN / SolubleMPNN.
+keywords:
+  - protein-design
+  - sequence-design
+  - inverse-folding
+  - ligandmpnn
+  - proteinmpnn
+tools:
+  - ligandmpnn:
+      description: LigandMPNN and ProteinMPNN inverse folding and optional side-chain packing.
+      homepage: https://github.com/dauparas/LigandMPNN
+      licence:
+        - MIT
+input:
+  - meta:
+      type: map
+      description: Sample or batch metadata map
+  - structures:
+      type: file
+      description: One or more input backbone PDB/mmCIF files or a directory
+  - weights_dir:
+      type: directory
+      description: Optional directory containing LigandMPNN/ProteinMPNN checkpoints
+  - model_type:
+      type: string
+      description: Model variant (protein_mpnn, ligand_mpnn, soluble_mpnn)
+  - num_seq_per_pdb:
+      type: integer
+      description: Total sequences to sample per input backbone
+  - batch_size:
+      type: integer
+      description: Sequences sampled per inference batch
+  - temperature:
+      type: float
+      description: Sampling temperature (0.1 for high recovery, 0.2-0.3 for exploration)
+  - seed:
+      type: integer
+      description: Random seed for reproducible sequence sampling
+  - output_mode:
+      type: string
+      description: Output mode ('sequences' sequence-native table or 'structures' with side-chain packing)
+  - fixed_residues:
+      type: string
+      description: Optional space-separated fixed residue IDs (e.g. 'A10 A11 B5')
+  - chains_to_design:
+      type: string
+      description: Optional comma-separated chain IDs to redesign (e.g. 'A')
+output:
+  - sequences_tsv:
+      type: file
+      description: Sequence-native TSV table with parent_design_id and confidence metrics
+  - sequences_fasta:
+      type: file
+      description: Merged FASTA file of all designed sequences
+  - metrics_json:
+      type: file
+      description: JSON array of designed sequences and parsed confidence metrics
+  - packed_structures:
+      type: file
+      description: Optional side-chain packed PDB structures when output_mode is 'structures'
+  - versions:
+      type: file
+      description: Software versions YAML
+authors:
+  - '@dengxsh'
+maintainers:
+  - '@dengxsh'

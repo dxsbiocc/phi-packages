@@ -1,0 +1,86 @@
+# Agent-facing wrapper adapter for the local boltz2 module at ../main.nf.
+# Follows docs/contracts/wrapper.md.
+id: local/modules/boltz2
+name: Boltz-2 Structure and Affinity Prediction
+summary: Predict protein and biomolecular complex structures (plus optional ligand affinity) using Boltz-2 from YAML/FASTA files or sequence-native TSV tables.
+params:
+  inputs:
+    kind: input
+    type: path_glob
+    required: false
+    description: Input Boltz-2 YAML/FASTA file(s) or directory. Optional if sequences_tsv is provided.
+  sequences_tsv:
+    kind: input
+    type: file
+    required: false
+    description: Sequence-native TSV/CSV table (e.g. output from ligandmpnn) converted automatically to Boltz-2 YAML files.
+  cache_dir:
+    kind: input
+    type: path
+    required: false
+    description: Directory containing Boltz-2 model checkpoints and CCD cache (--cache).
+  target_sequence:
+    kind: option
+    type: string
+    required: false
+    description: Optional target protein sequence appended as a second chain when reading sequences_tsv.
+  ligand_ccd:
+    kind: option
+    type: string
+    required: false
+    description: Optional ligand CCD code (e.g. ATP, HEM) added when reading sequences_tsv.
+  ligand_smiles:
+    kind: option
+    type: string
+    required: false
+    description: Optional ligand SMILES string added when reading sequences_tsv (ignored if ligand_ccd is set).
+  predict_affinity:
+    kind: option
+    type: boolean
+    required: false
+    description: Enable Boltz-2 binding affinity prediction for protein-ligand complexes.
+  use_msa_server:
+    kind: option
+    type: boolean
+    required: false
+    description: Generate MSAs automatically via the public MMseqs2 server (--use_msa_server).
+  use_potentials:
+    kind: option
+    type: boolean
+    required: false
+    description: Apply inference-time physical potentials (--use_potentials) for cleaner geometry.
+  recycling_steps:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Number of recycling steps (3 for fast screening, 10 for high accuracy).
+  diffusion_samples:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Number of diffusion samples per prediction job.
+  output_format:
+    kind: option
+    type: string
+    required: false
+    description: Output structure file format.
+    enum:
+      - mmcif
+      - pdb
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra CLI options forwarded to boltz predict.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for predicted structures and confidence/affinity tables.
+outputs:
+  predictions:
+    type: directory
+    path: ${outdir}/boltz2
+    primary: true

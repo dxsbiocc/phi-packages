@@ -1,0 +1,62 @@
+# Agent-facing wrapper adapter for the local protein_metrics module at ../main.nf.
+# Follows docs/contracts/wrapper.md.
+id: local/modules/protein-metrics
+name: Protein Structure Metrics
+summary: Compute Kabsch CA/backbone RMSD, interface contacts, putative H-bonds, ligand contacts, steric clashes, and radius of gyration for designed PDB or mmCIF structures.
+params:
+  structures:
+    kind: input
+    type: path_glob
+    required: true
+    description: Input PDB/mmCIF file, glob pattern, or directory of designed structures.
+  reference:
+    kind: input
+    type: file
+    required: false
+    description: Optional reference PDB/mmCIF structure for Kabsch RMSD alignment.
+  binder_chains:
+    kind: option
+    type: string
+    required: false
+    description: Comma-separated binder chain IDs (defaults to the first chain in each structure).
+  target_chains:
+    kind: option
+    type: string
+    required: false
+    description: Comma-separated target chain IDs (defaults to all non-binder chains).
+  contact_cutoff:
+    kind: option
+    type: number
+    required: false
+    minimum: 1
+    maximum: 15
+    description: Heavy-atom distance cutoff in Angstrom for interface and ligand contacts.
+  hbond_cutoff:
+    kind: option
+    type: number
+    required: false
+    minimum: 1
+    maximum: 6
+    description: Polar N/O distance cutoff in Angstrom for putative cross-interface H-bonds.
+  clash_cutoff:
+    kind: option
+    type: number
+    required: false
+    minimum: 0.5
+    maximum: 4
+    description: Inter-residue heavy-atom distance threshold in Angstrom for steric clashes.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra command-line arguments passed to compute_protein_metrics.py.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for structural metrics tables.
+outputs:
+  metrics:
+    type: directory
+    path: ${outdir}/protein_metrics
+    primary: true

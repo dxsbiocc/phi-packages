@@ -1,0 +1,11 @@
+{
+  "structures": null,
+  "reference": null,
+  "binder_chains": "",
+  "target_chains": "",
+  "contact_cutoff": 4.5,
+  "hbond_cutoff": 3.5,
+  "clash_cutoff": 2.0,
+  "args": "",
+  "outdir": "results"
+}

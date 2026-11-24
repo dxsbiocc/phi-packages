@@ -1,0 +1,44 @@
+name: design_postprocess
+description: Compute structural metrics (Kabsch RMSD, interface contacts, putative H-bonds, clashes, Rg) on designed protein structures, merge with upstream metric tables by lineage ID, filter with a boolean DSL, and select diverse ranked candidates.
+keywords:
+  - protein-design
+  - metrics
+  - filtering
+  - lineage
+  - diversity
+modules:
+  - local/protein_metrics
+  - local/design_filter
+input:
+  - ch_structures:
+      type: file
+      description: Channel of [ val(meta), [ structures ] ] PDB/mmCIF files
+  - ch_extra_tables:
+      type: file
+      description: Optional channel of [ val(meta), [ tables ] ] upstream TSV/CSV/JSON metric tables
+  - ch_reference:
+      type: file
+      description: Optional reference PDB/mmCIF structure for Kabsch RMSD
+output:
+  - metrics_tsv:
+      type: file
+      description: Structural metrics TSV from PROTEIN_METRICS
+  - metrics_json:
+      type: file
+      description: Structural metrics JSON from PROTEIN_METRICS
+  - merged_tsv:
+      type: file
+      description: Merged lineage metrics table annotated with passed_filter
+  - filtered_tsv:
+      type: file
+      description: Filtered, ranked, and diversity-selected designs TSV
+  - summary_json:
+      type: file
+      description: Funnel summary JSON
+  - versions:
+      type: file
+      description: Software versions YAML
+authors:
+  - '@dengxsh'
+maintainers:
+  - '@dengxsh'

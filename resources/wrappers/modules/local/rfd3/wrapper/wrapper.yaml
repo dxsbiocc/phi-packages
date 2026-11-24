@@ -1,0 +1,75 @@
+# Agent-facing wrapper adapter for the local rfd3 module at ../main.nf.
+# Follows docs/contracts/wrapper.md.
+id: local/modules/rfd3
+name: RFdiffusion3 Backbone Generation
+summary: Generate all-atom de novo protein backbones and binder scaffolds using RFdiffusion3 (Foundry), outputting structures and a standardized lineage table.
+params:
+  inputs_json:
+    kind: input
+    type: file
+    required: false
+    description: RFD3 JSON specification file. Optional if contig is provided directly.
+  input_structure:
+    kind: input
+    type: file
+    required: false
+    description: Optional target or motif PDB/mmCIF structure file.
+  weights_dir:
+    kind: input
+    type: path
+    required: false
+    description: Directory containing RFdiffusion3 / Foundry checkpoints (sets FOUNDRY_CHECKPOINT_DIRS).
+  contig:
+    kind: option
+    type: string
+    required: false
+    description: Quick RFD3 contig string (e.g. "50-80" or "A1-100/0 60-90") used when inputs_json is omitted.
+  ligand:
+    kind: option
+    type: string
+    required: false
+    description: Optional comma-separated ligand residue name(s) present in input_structure.
+  n_batches:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Number of diffusion batches per design specification.
+  diffusion_batch_size:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Number of designs sampled per diffusion batch.
+  num_timesteps:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Number of reverse diffusion denoising timesteps (200 recommended for production).
+  low_memory_mode:
+    kind: option
+    type: boolean
+    required: false
+    description: Enable low-memory tokenization on GPUs with limited VRAM.
+  chunk_id:
+    kind: option
+    type: integer
+    required: false
+    minimum: 0
+    description: Chunk index used to distinguish parallel generation batches.
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra Hydra CLI overrides passed directly to rfd3 design.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for generated structures and lineage tables.
+outputs:
+  designs:
+    type: directory
+    path: ${outdir}/rfd3
+    primary: true

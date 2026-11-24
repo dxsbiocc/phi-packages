@@ -1,0 +1,14 @@
+{
+  "starting_pdb": null,
+  "settings_json": null,
+  "filters_json": null,
+  "advanced_json": null,
+  "binder_name": "binder",
+  "chains": "A",
+  "target_hotspot_residues": "",
+  "min_length": 65,
+  "max_length": 120,
+  "number_of_final_designs": 10,
+  "args": "",
+  "outdir": "results"
+}

@@ -1,0 +1,14 @@
+{
+  "inputs": null,
+  "sequences_tsv": null,
+  "model_dir": null,
+  "db_dir": null,
+  "target_sequence": "",
+  "ligand_ccd": "",
+  "ligand_smiles": "",
+  "model_seeds": "1",
+  "run_data_pipeline": false,
+  "num_diffusion_samples": 5,
+  "args": "",
+  "outdir": "results"
+}

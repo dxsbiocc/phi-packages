@@ -1,0 +1,19 @@
+{
+  "structures": null,
+  "extra_tables": null,
+  "reference": null,
+  "binder_chains": "",
+  "target_chains": "",
+  "contact_cutoff": 4.5,
+  "hbond_cutoff": 3.5,
+  "clash_cutoff": 2.0,
+  "id_column": "design_id",
+  "join_mode": "outer",
+  "expr": "",
+  "rank_by": "",
+  "rank_direction": "max",
+  "group_by": "",
+  "max_per_group": 0,
+  "top_n": 0,
+  "outdir": "results"
+}

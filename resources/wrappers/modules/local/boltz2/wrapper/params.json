@@ -1,0 +1,16 @@
+{
+  "inputs": null,
+  "sequences_tsv": null,
+  "cache_dir": null,
+  "target_sequence": "",
+  "ligand_ccd": "",
+  "ligand_smiles": "",
+  "predict_affinity": false,
+  "use_msa_server": false,
+  "use_potentials": true,
+  "recycling_steps": 3,
+  "diffusion_samples": 1,
+  "output_format": "mmcif",
+  "args": "",
+  "outdir": "results"
+}

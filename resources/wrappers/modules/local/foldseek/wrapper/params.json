@@ -1,0 +1,11 @@
+{
+  "structures": null,
+  "target_db": null,
+  "mode": "cluster",
+  "evalue": 0.01,
+  "coverage": 0.8,
+  "tmscore_threshold": 0.6,
+  "novelty_tm_cutoff": 0.5,
+  "args": "",
+  "outdir": "results"
+}

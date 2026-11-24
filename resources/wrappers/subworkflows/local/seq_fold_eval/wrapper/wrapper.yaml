@@ -1,0 +1,197 @@
+# Agent-facing wrapper adapter for local/subworkflows/seq-fold-eval.
+# Follows docs/contracts/wrapper.md.
+id: local/subworkflows/seq-fold-eval
+name: Sequence Design, Structure Refolding, and Evaluation
+summary: Run LigandMPNN inverse folding on backbone structures, refold designed sequences with Boltz-2 or AlphaFold 3, and score predicted structures with PROTEIN_METRICS.
+params:
+  structures:
+    kind: input
+    type: path_glob
+    required: true
+    description: Input backbone PDB/mmCIF file(s) or directory.
+  predictor:
+    kind: option
+    type: string
+    required: false
+    description: Structure prediction oracle used to refold designed sequences.
+    enum:
+      - boltz2
+      - alphafold3
+  mpnn_weights_dir:
+    kind: input
+    type: path
+    required: false
+    description: Optional directory containing LigandMPNN/ProteinMPNN checkpoints.
+  boltz_cache_dir:
+    kind: input
+    type: path
+    required: false
+    description: Optional directory containing Boltz-2 model checkpoints and CCD cache (used when predictor is boltz2).
+  af3_model_dir:
+    kind: input
+    type: path
+    required: false
+    description: User-supplied AlphaFold 3 model parameters directory (required when predictor is alphafold3).
+  af3_db_dir:
+    kind: input
+    type: path
+    required: false
+    description: Optional AlphaFold 3 genetic/template databases directory (used when predictor is alphafold3 and af3_run_data_pipeline is true).
+  reference:
+    kind: input
+    type: file
+    required: false
+    description: Optional reference PDB/mmCIF structure for Kabsch RMSD alignment.
+  mpnn_model_type:
+    kind: option
+    type: string
+    required: false
+    description: MPNN model architecture variant.
+    enum:
+      - protein_mpnn
+      - ligand_mpnn
+      - soluble_mpnn
+  num_seq_per_pdb:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Number of sequences sampled per input backbone.
+  mpnn_batch_size:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Sequences sampled per GPU batch in LigandMPNN.
+  mpnn_temperature:
+    kind: option
+    type: number
+    required: false
+    minimum: 0.01
+    maximum: 2
+    description: LigandMPNN sampling temperature.
+  mpnn_seed:
+    kind: option
+    type: integer
+    required: false
+    minimum: 0
+    description: Random seed for LigandMPNN sampling.
+  mpnn_output_mode:
+    kind: option
+    type: string
+    required: false
+    description: LigandMPNN output mode ('sequences' recommended for large runs).
+    enum:
+      - sequences
+      - structures
+  fixed_residues:
+    kind: option
+    type: string
+    required: false
+    description: Optional space-separated fixed residue IDs for LigandMPNN.
+  chains_to_design:
+    kind: option
+    type: string
+    required: false
+    description: Optional comma-separated chain IDs to design in LigandMPNN.
+  target_sequence:
+    kind: option
+    type: string
+    required: false
+    description: Optional target protein sequence appended for complex prediction.
+  ligand_ccd:
+    kind: option
+    type: string
+    required: false
+    description: Optional ligand CCD code(s) for complex prediction.
+  ligand_smiles:
+    kind: option
+    type: string
+    required: false
+    description: Optional ligand SMILES string for complex prediction.
+  predict_affinity:
+    kind: option
+    type: boolean
+    required: false
+    description: Enable Boltz-2 binding affinity prediction for ligand complexes (boltz2 only).
+  use_msa_server:
+    kind: option
+    type: boolean
+    required: false
+    description: Enable MMseqs2 MSA server in Boltz-2 (boltz2 only).
+  use_potentials:
+    kind: option
+    type: boolean
+    required: false
+    description: Enable inference-time physical potentials in Boltz-2 (boltz2 only).
+  recycling_steps:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Number of recycling steps in Boltz-2 (boltz2 only).
+  diffusion_samples:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Number of diffusion structure samples per job (shared by boltz2 and alphafold3).
+  boltz_output_format:
+    kind: option
+    type: string
+    required: false
+    description: Boltz-2 output structure format (boltz2 only).
+    enum:
+      - mmcif
+      - pdb
+  af3_model_seeds:
+    kind: option
+    type: string
+    required: false
+    description: Comma-separated integer modelSeeds for AlphaFold 3 (alphafold3 only).
+  af3_run_data_pipeline:
+    kind: option
+    type: boolean
+    required: false
+    description: Run AlphaFold 3 CPU MSA/template search pipeline (alphafold3 only).
+  binder_chains:
+    kind: option
+    type: string
+    required: false
+    description: Comma-separated binder chain IDs for PROTEIN_METRICS.
+  target_chains:
+    kind: option
+    type: string
+    required: false
+    description: Comma-separated target chain IDs for PROTEIN_METRICS.
+  contact_cutoff:
+    kind: option
+    type: number
+    required: false
+    minimum: 1
+    maximum: 15
+    description: Heavy-atom interface contact distance cutoff in Angstrom.
+  hbond_cutoff:
+    kind: option
+    type: number
+    required: false
+    minimum: 1
+    maximum: 6
+    description: Polar N/O distance cutoff in Angstrom for putative cross-interface H-bonds.
+  clash_cutoff:
+    kind: option
+    type: number
+    required: false
+    minimum: 0.5
+    maximum: 4
+    description: Inter-residue heavy-atom steric clash cutoff in Angstrom.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for sequences, predicted structures, and evaluation tables.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}/seq_fold_eval
+    primary: true

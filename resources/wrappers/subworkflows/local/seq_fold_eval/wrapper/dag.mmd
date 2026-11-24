@@ -1,0 +1,25 @@
+flowchart TD
+    in_struct([structures])
+    in_ref([reference])
+
+    p_mpnn[LIGANDMPNN]
+    d_pred{predictor}
+    p_boltz[BOLTZ2]
+    p_af3[ALPHAFOLD3]
+    p_metrics[PROTEIN_METRICS]
+
+    out_seq([sequences.tsv])
+    out_pred([predicted_structures])
+    out_metrics([protein_metrics.tsv])
+
+    in_struct --> p_mpnn
+    p_mpnn --> out_seq
+    p_mpnn --> d_pred
+    d_pred -->|boltz2| p_boltz
+    d_pred -->|alphafold3| p_af3
+    p_boltz --> out_pred
+    p_af3 --> out_pred
+    p_boltz --> p_metrics
+    p_af3 --> p_metrics
+    in_ref --> p_metrics
+    p_metrics --> out_metrics

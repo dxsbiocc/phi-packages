@@ -1,0 +1,71 @@
+name: boltz2
+description: Predict biomolecular complex structures and optional ligand binding affinities with Boltz-2, accepting either YAML/FASTA inputs or sequence-native TSV tables.
+keywords:
+  - protein-design
+  - structure-prediction
+  - boltz2
+  - folding
+  - affinity
+tools:
+  - boltz:
+      description: Boltz-2 biomolecular interaction structure and affinity prediction model.
+      homepage: https://github.com/jwohlwend/boltz
+      licence:
+        - MIT
+input:
+  - meta:
+      type: map
+      description: Sample or batch metadata map
+  - inputs:
+      type: file
+      description: Optional Boltz-2 YAML/FASTA files or directory
+  - sequences_tsv:
+      type: file
+      description: Optional sequence-native TSV/CSV table (e.g. from ligandmpnn)
+  - cache_dir:
+      type: directory
+      description: Optional Boltz-2 model weights and CCD cache directory
+  - target_sequence:
+      type: string
+      description: Optional target protein sequence appended when using sequences_tsv
+  - ligand_ccd:
+      type: string
+      description: Optional ligand CCD code when using sequences_tsv
+  - ligand_smiles:
+      type: string
+      description: Optional ligand SMILES string when using sequences_tsv
+  - predict_affinity:
+      type: boolean
+      description: Enable Boltz-2 binding affinity prediction for ligand complexes
+  - use_msa_server:
+      type: boolean
+      description: Query MMseqs2 MSA server automatically during prediction
+  - use_potentials:
+      type: boolean
+      description: Enable inference-time physical potentials for improved pose geometry
+  - recycling_steps:
+      type: integer
+      description: Number of trunk recycling iterations
+  - diffusion_samples:
+      type: integer
+      description: Number of diffusion structure samples per job
+  - output_format:
+      type: string
+      description: Output structure format (mmcif or pdb)
+output:
+  - structures:
+      type: file
+      description: Best predicted structure per design (.cif or .pdb)
+  - metrics_tsv:
+      type: file
+      description: Standardized TSV table of Boltz-2 confidence and affinity metrics
+  - metrics_json:
+      type: file
+      description: JSON array of Boltz-2 metrics and lineage metadata
+  - versions:
+      type: file
+      description: Software versions YAML
+authors:
+  - '@dengxsh'
+maintainers:
+  - '@dengxsh'

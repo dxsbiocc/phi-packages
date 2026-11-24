@@ -1,0 +1,14 @@
+{
+  "inputs_json": null,
+  "input_structure": null,
+  "weights_dir": null,
+  "contig": "",
+  "ligand": "",
+  "n_batches": 1,
+  "diffusion_batch_size": 8,
+  "num_timesteps": 200,
+  "low_memory_mode": false,
+  "chunk_id": 0,
+  "args": "",
+  "outdir": "results"
+}

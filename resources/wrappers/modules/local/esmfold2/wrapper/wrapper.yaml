@@ -1,0 +1,48 @@
+# Agent-facing wrapper adapter for the local esmfold2 module at ../main.nf.
+# Follows docs/contracts/wrapper.md.
+id: local/modules/esmfold2
+name: ESMFold2 Fast Single-Sequence Folding
+summary: Predict protein structures rapidly without MSAs using ESMFold2 from FASTA files or sequence-native TSV tables, emitting per-design pLDDT and optional pTM metrics.
+params:
+  fasta:
+    kind: input
+    type: path_glob
+    required: false
+    description: Input FASTA file(s). Optional if sequences_tsv is provided.
+  sequences_tsv:
+    kind: input
+    type: file
+    required: false
+    description: Sequence-native TSV/CSV table (e.g. output from ligandmpnn) converted automatically to FASTA.
+  model_dir:
+    kind: input
+    type: path
+    required: false
+    description: Optional local directory containing ESMFold2 / ESMC checkpoints (sets ESMFOLD2_MODEL_DIR).
+  num_recycles:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Number of trunk recycling iterations (default 4).
+  chunk_size:
+    kind: option
+    type: integer
+    required: false
+    minimum: 0
+    description: Optional attention chunk size (e.g. 64 or 128) to reduce VRAM usage (0 disables chunking).
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra CLI flags forwarded to the ESMFold2 CLI.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for predicted structures and pLDDT/pTM tables.
+outputs:
+  predictions:
+    type: directory
+    path: ${outdir}/esmfold2
+    primary: true

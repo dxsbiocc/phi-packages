@@ -1,0 +1,64 @@
+name: bindcraft
+description: One-shot de novo protein binder design via AlphaFold2 backpropagation, ProteinMPNN redesign, and complex validation with BindCraft.
+keywords:
+  - protein-design
+  - binder-design
+  - bindcraft
+  - hallucination
+tools:
+  - bindcraft:
+      description: BindCraft end-to-end protein binder hallucination and filtering pipeline (MIT; optional PyRosetta scoring carries a separate non-commercial license).
+      homepage: https://github.com/martinpacesa/BindCraft
+      licence:
+        - MIT
+input:
+  - meta:
+      type: map
+      description: Sample or campaign metadata map
+  - starting_pdb:
+      type: file
+      description: Target PDB structure file
+  - settings_json:
+      type: file
+      description: Optional BindCraft target settings JSON
+  - filters_json:
+      type: file
+      description: Optional BindCraft filters JSON override
+  - advanced_json:
+      type: file
+      description: Optional BindCraft advanced settings JSON override
+  - binder_name:
+      type: string
+      description: Prefix for generated binder design names
+  - chains:
+      type: string
+      description: Comma-separated target chain IDs
+  - target_hotspot_residues:
+      type: string
+      description: Optional comma-separated hotspot residue ranges (e.g. 'A56,A58-62')
+  - min_length:
+      type: integer
+      description: Minimum binder length
+  - max_length:
+      type: integer
+      description: Maximum binder length
+  - number_of_final_designs:
+      type: integer
+      description: Stopping condition for accepted designs
+output:
+  - structures:
+      type: file
+      description: Accepted binder-target complex PDB files
+  - metrics_tsv:
+      type: file
+      description: Standardized TSV table parsed from final_design_stats.csv
+  - metrics_json:
+      type: file
+      description: JSON array of BindCraft design metrics
+  - versions:
+      type: file
+      description: Software versions YAML
+authors:
+  - '@dengxsh'
+maintainers:
+  - '@dengxsh'

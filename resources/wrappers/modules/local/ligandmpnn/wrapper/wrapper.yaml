@@ -1,0 +1,83 @@
+# Agent-facing wrapper adapter for the local ligandmpnn module at ../main.nf.
+# Follows docs/contracts/wrapper.md.
+id: local/modules/ligandmpnn
+name: LigandMPNN Sequence Design
+summary: Design amino acid sequences for protein or protein-ligand backbones using ProteinMPNN, LigandMPNN, or SolubleMPNN with sequence-native lineage output.
+params:
+  structures:
+    kind: input
+    type: path_glob
+    required: true
+    description: Input backbone PDB/mmCIF file, glob pattern, or directory.
+  weights_dir:
+    kind: input
+    type: path
+    required: false
+    description: Optional directory containing LigandMPNN/ProteinMPNN model checkpoints.
+  model_type:
+    kind: option
+    type: string
+    required: false
+    description: MPNN model architecture variant.
+    enum:
+      - protein_mpnn
+      - ligand_mpnn
+      - soluble_mpnn
+  num_seq_per_pdb:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Total number of sequences to sample per input backbone structure.
+  batch_size:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Number of sequences sampled per GPU batch.
+  temperature:
+    kind: option
+    type: number
+    required: false
+    minimum: 0.01
+    maximum: 2
+    description: Sampling temperature (0.1 for conservative design, 0.2-0.3 for diversity).
+  seed:
+    kind: option
+    type: integer
+    required: false
+    minimum: 0
+    description: Random seed for deterministic sampling.
+  output_mode:
+    kind: option
+    type: string
+    required: false
+    description: Output mode; 'sequences' avoids per-sequence PDB bloat, 'structures' runs side-chain packing.
+    enum:
+      - sequences
+      - structures
+  fixed_residues:
+    kind: option
+    type: string
+    required: false
+    description: Optional space-separated fixed residue identifiers (e.g. "A10 A11 A12").
+  chains_to_design:
+    kind: option
+    type: string
+    required: false
+    description: Optional comma-separated chain IDs to design (e.g. "A").
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra CLI arguments forwarded to LigandMPNN run.py.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for designed sequences, metrics, and optional packed PDBs.
+outputs:
+  sequences:
+    type: directory
+    path: ${outdir}/ligandmpnn
+    primary: true

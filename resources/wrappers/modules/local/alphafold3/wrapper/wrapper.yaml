@@ -1,0 +1,72 @@
+# Agent-facing wrapper adapter for the local alphafold3 module at ../main.nf.
+# Follows docs/contracts/wrapper.md.
+id: local/modules/alphafold3
+name: AlphaFold 3 Structure Prediction
+summary: Predict biomolecular complex structures with AlphaFold 3 from AF3 JSON files or sequence-native TSV tables (requires user-supplied model parameters).
+params:
+  inputs:
+    kind: input
+    type: path_glob
+    required: false
+    description: Input AlphaFold 3 JSON file(s) or directory. Optional if sequences_tsv is provided.
+  sequences_tsv:
+    kind: input
+    type: file
+    required: false
+    description: Sequence-native TSV/CSV table (e.g. output from ligandmpnn) converted automatically to AF3 JSON jobs.
+  model_dir:
+    kind: input
+    type: path
+    required: true
+    description: User-supplied directory containing AlphaFold 3 model parameters (--model_dir).
+  db_dir:
+    kind: input
+    type: path
+    required: false
+    description: Optional AlphaFold 3 genetic/template database directory (required only when run_data_pipeline is true).
+  target_sequence:
+    kind: option
+    type: string
+    required: false
+    description: Optional target protein sequence appended as a second chain when reading sequences_tsv.
+  ligand_ccd:
+    kind: option
+    type: string
+    required: false
+    description: Optional comma-separated ligand CCD code(s) added when reading sequences_tsv.
+  ligand_smiles:
+    kind: option
+    type: string
+    required: false
+    description: Optional ligand SMILES string added when reading sequences_tsv (ignored if ligand_ccd is set).
+  model_seeds:
+    kind: option
+    type: string
+    required: false
+    description: Comma-separated integer modelSeeds for AlphaFold 3 inference (e.g. "1" or "1,2,3").
+  run_data_pipeline:
+    kind: option
+    type: boolean
+    required: false
+    description: Run MSA/template search pipeline (set false for fast single-sequence de novo binder refolding).
+  num_diffusion_samples:
+    kind: option
+    type: integer
+    required: false
+    minimum: 1
+    description: Number of diffusion samples per model seed (default 5).
+  args:
+    kind: option
+    type: string
+    required: false
+    description: Extra CLI flags forwarded to run_alphafold.py.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for predicted mmCIF structures and confidence tables.
+outputs:
+  predictions:
+    type: directory
+    path: ${outdir}/alphafold3
+    primary: true
