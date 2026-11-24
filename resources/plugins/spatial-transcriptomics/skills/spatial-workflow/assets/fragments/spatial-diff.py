@@ -33,7 +33,10 @@ else:
         if sub.n_obs < min_units:
             info(f"condition '{condition}' has {sub.n_obs} units (< min_units={min_units}); skipping")
             continue
-        sq.gr.spatial_neighbors_knn(sub, spatial_key=coord_key, n_neighs=n_neighs)
+        if hasattr(sq.gr, "spatial_neighbors_knn"):
+            sq.gr.spatial_neighbors_knn(sub, spatial_key=coord_key, n_neighs=n_neighs)
+        else:
+            sq.gr.spatial_neighbors(sub, spatial_key=coord_key, coord_type="generic", n_neighs=n_neighs)
         sq.gr.spatial_autocorr(
             sub, mode="moran", genes=None, layer=layer,
             corr_method="fdr_bh", n_perms=None, use_raw=False, seed=seed,

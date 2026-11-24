@@ -50,12 +50,23 @@
     "svg_corr_method": { "type": "string", "default": "fdr_bh", "comment": "multiple-testing correction for SVG p-values; a statsmodels method name (fdr_bh, bonferroni, holm). benjamini-hochberg is accepted as an alias for fdr_bh" },
     "n_perms": { "type": "int", "default": 1000, "comment": "permutations for neighbourhood enrichment and ligand-receptor significance" },
     "cooc_interval": { "type": "int", "default": 50, "comment": "number of distance intervals for the co-occurrence probability" },
+    "ripley_mode": { "type": "string", "default": "L", "comment": "Ripley point-pattern statistic: L (default), F or G" },
+    "ripley_simulations": { "type": "int", "default": 100, "comment": "Monte Carlo simulations for Ripley's point-pattern envelope" },
+    "niche_column": { "type": "string", "default": "niche", "comment": "obs column written with spatial niche / tissue domain labels" },
+    "niche_mode": { "type": "string", "default": "composition", "comment": "niche aggregation mode: composition (neighbourhood cell-type profile) or expression (spatially smoothed HVG expression)" },
+    "niche_resolution": { "type": "number", "default": 0.5, "comment": "Leiden resolution for spatial niche segmentation" },
+    "niche_hops": { "type": "int", "default": 1, "comment": "spatial graph hops aggregated per unit for niche segmentation" },
+    "niche_use_deconvolution": { "type": "bool", "default": false, "comment": "use obsm['deconvolution'] proportions instead of group_by labels in composition niche mode" },
+    "root_cluster": { "type": "string", "default": null, "comment": "starting cluster/cell type for diffusion pseudotime; null selects automatically with a warning note" },
+    "gene_sets_path": { "type": "string", "default": null, "comment": "JSON mapping program name -> gene list for spatial sc.tl.score_genes; null skips gene-program scoring" },
+    "paga_threshold": { "type": "number", "default": 0.05, "comment": "minimum PAGA connectivity weight reported and plotted" },
     "reference_path": { "type": "string", "default": null, "comment": "single-cell reference .h5ad for deconvolution; null skips deconvolution with a message" },
     "reference_cell_type_key": { "type": "string", "default": "cell_type", "comment": "obs column in the reference naming cell types" },
     "deconv_method": { "type": "string", "default": "nnls", "comment": "deconvolution solver: nnls (scipy, in-plugin); cell2location needs a project environment" },
     "interactions_path": { "type": "string", "default": null, "comment": "ligand-receptor table for CCC; null uses the shipped resource so ligrec runs offline" },
     "ccc_threshold": { "type": "number", "default": 0.01, "comment": "p-value threshold for significant ligand-receptor interactions" },
-    "group_column": { "type": "string", "default": null, "comment": "condition/sample column for cross-sample spatial differential; null = one group per sample" },
+    "stratify_by": { "type": "string", "default": null, "comment": "obs column (e.g. niche) to run niche-stratified ligrec in addition to global communication; null skips stratification" },
+    "group_column": { "type": "string", "default": null, "comment": "condition/sample column for cross-sample spatial differential and niche dynamics; null = skip" },
     "min_units": { "type": "int", "default": 10, "comment": "minimum spatial units for a group to enter a spatial differential contrast" },
     "figures_dir": { "type": "string", "default": "figures", "comment": "directory for the PNG copies of every plot" },
     "plot_tag": { "type": "string", "default": "before", "comment": "suffix for the QC plots; the filter pass re-tags them after" }
@@ -77,7 +88,9 @@
     { "id": "annotate", "title": "Score clusters against a marker panel", "requires": ["markers"] },
     { "id": "assign-labels", "title": "Assign cell types", "requires": ["annotate"] },
     { "id": "svg", "title": "Spatially variable genes", "requires": ["spatial-neighbors", "normalize"] },
-    { "id": "nhood", "title": "Neighbourhood enrichment and co-occurrence", "requires": ["spatial-neighbors", "cluster"] },
+    { "id": "nhood", "title": "Neighbourhood enrichment, co-occurrence, centrality and Ripley's L", "requires": ["spatial-neighbors", "cluster"] },
+    { "id": "niche", "title": "Spatial niche segmentation and dynamics", "requires": ["spatial-neighbors", "cluster"] },
+    { "id": "trajectory", "title": "Spatial trajectory (PAGA/DPT) and gene-program scoring", "requires": ["spatial-neighbors", "cluster"] },
     { "id": "deconvolve", "title": "Deconvolve cell-type proportions", "requires": ["spatial-neighbors", "normalize"] },
     { "id": "communication", "title": "Cell-cell communication", "requires": ["spatial-neighbors", "cluster"] },
     { "id": "spatial-diff", "title": "Cross-sample differential spatial patterns", "requires": ["spatial-neighbors", "cluster"] },
@@ -100,19 +113,19 @@
       "steps": ["setup", "load", "qc-metrics", "qc-plots", "filter", "normalize", "hvg", "scale", "pca", "cluster", "spatial-neighbors", "spatial-plots", "markers", "annotate", "assign-labels", "save"]
     },
     "4": {
-      "title": "Module 04 — Spatially variable genes and neighbourhoods",
-      "intro": "The annotated chain plus Moran's I spatially variable genes and neighbourhood\nenrichment / co-occurrence of clusters: which genes carry spatial structure and which\ncell types sit next to each other more than chance.\n\nOriginal distillation of OSTA (CC BY 4.0).",
-      "steps": ["setup", "load", "qc-metrics", "qc-plots", "filter", "normalize", "hvg", "scale", "pca", "cluster", "spatial-neighbors", "spatial-plots", "markers", "annotate", "assign-labels", "svg", "nhood", "save"]
+      "title": "Module 04 — Spatially variable genes, neighbourhoods and niches",
+      "intro": "The annotated chain plus Moran's I spatially variable genes, neighbourhood\nenrichment / co-occurrence / centrality / Ripley's L, and UTAG-style spatial\nniche segmentation.\n\nOriginal distillation of OSTA (CC BY 4.0).",
+      "steps": ["setup", "load", "qc-metrics", "qc-plots", "filter", "normalize", "hvg", "scale", "pca", "cluster", "spatial-neighbors", "spatial-plots", "markers", "annotate", "assign-labels", "svg", "nhood", "niche", "save"]
     },
     "5": {
       "title": "Module 05 — Deconvolution and communication",
-      "intro": "The annotated chain plus cell-type proportion deconvolution (scipy NNLS against a\nsingle-cell reference) and ligand-receptor cell-cell communication (squidpy ligrec with\na shipped offline resource). Deconvolution needs a reference .h5ad; without one the cell\nsays so and continues.\n\nOriginal distillation of OSTA (CC BY 4.0).",
+      "intro": "The annotated chain plus cell-type proportion deconvolution (scipy NNLS against a\nsingle-cell reference) and ligand-receptor cell-cell communication (squidpy ligrec with\na shipped offline resource, optionally stratified by niche). Deconvolution needs a\nreference .h5ad; without one the cell says so and continues.\n\nOriginal distillation of OSTA (CC BY 4.0).",
       "steps": ["setup", "load", "qc-metrics", "qc-plots", "filter", "normalize", "hvg", "scale", "pca", "cluster", "spatial-neighbors", "spatial-plots", "markers", "annotate", "assign-labels", "deconvolve", "communication", "save"]
     },
     "6": {
       "title": "Module 06 — Full spatial chain",
-      "intro": "Every capability in order: QC, preprocess, cluster, spatial maps, markers,\nannotation, SVG, neighbourhoods, deconvolution, communication and cross-sample\ndifferential spatial patterns. Steps that need a missing reference or package report\nthe gap and continue.\n\nOriginal distillation of OSTA (CC BY 4.0).",
-      "steps": ["setup", "load", "qc-metrics", "qc-plots", "filter", "normalize", "hvg", "scale", "pca", "cluster", "spatial-neighbors", "spatial-plots", "markers", "annotate", "assign-labels", "svg", "nhood", "deconvolve", "communication", "spatial-diff", "save"]
+      "intro": "Every capability in order: QC, preprocess, cluster, spatial maps, markers,\nannotation, SVG, neighbourhoods (enrichment, co-occurrence, centrality, Ripley),\nspatial niches, PAGA/DPT spatial trajectory, deconvolution, communication and\ncross-sample differential spatial patterns. Steps that need a missing reference\nor package report the gap and continue.\n\nOriginal distillation of OSTA (CC BY 4.0).",
+      "steps": ["setup", "load", "qc-metrics", "qc-plots", "filter", "normalize", "hvg", "scale", "pca", "cluster", "spatial-neighbors", "spatial-plots", "markers", "annotate", "assign-labels", "svg", "nhood", "niche", "trajectory", "deconvolve", "communication", "spatial-diff", "save"]
     }
   }
 }

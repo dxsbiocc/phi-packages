@@ -5,11 +5,12 @@ description: >-
   toolchain and its private locked environment. Reads 10x Visium (including Visium HD bin/seg) or
   BGI Stereo-seq (GEM/GEF, square bin and cellbin), and does loading and binning, QC,
   normalisation/PCA/clustering/UMAP, spatial plots on tissue coordinates, markers and cell-type
-  annotation, spatially variable genes (SVG), neighbourhood enrichment/co-occurrence,
-  deconvolution against an scRNA reference, cell communication, and cross-sample differential
-  spatial patterns. Can also explain how each OSTA (Bioconductor) analysis step runs in Phi and
-  how to interpret it. Does not do raw read processing (alignment, Cell Ranger, SAW); that is the
-  wrappers' job.
+  annotation, spatially variable genes (SVG), neighbourhood enrichment/co-occurrence/centrality/
+  Ripley's L, UTAG-style spatial niche segmentation and cross-stage dynamics, Scanpy PAGA/DPT
+  spatial trajectory and gene-program scoring, deconvolution against an scRNA reference,
+  niche-stratified cell communication, and cross-sample differential spatial patterns. Can also
+  explain how each OSTA (Bioconductor) analysis step runs in Phi and how to interpret it. Does
+  not do raw read processing (alignment, Cell Ranger, SAW); that is the wrappers' job.
 tools:
   - read
   - glob

@@ -27,11 +27,14 @@ Same contract as the single-cell plugin:
 
 ## Analysis chain
 
-`st_py_inspect` → `st_py_qc` → `st_py_preprocess` → spatial graphs → `st_py_markers` →
-`st_py_annotate` → `st_py_svg` (spatially variable genes) → `st_py_neighborhood` (neighbourhood
-enrichment/co-occurrence) → `st_py_deconvolve` (needs an scRNA reference) →
-`st_py_communication` (cell communication) → `st_py_spatial_diff` (cross-sample differential
-spatial patterns). `st_py_notebook` is the parallel teaching path.
+`st_py_inspect` → `st_py_qc` → `st_py_preprocess` → `st_py_markers` →
+`st_py_annotate` → `st_py_spatial` (SVGs, neighbourhood enrichment/co-occurrence,
+interaction matrix, centrality, Ripley's L, cross-sample differential spatial
+patterns) → `st_py_niche` (UTAG-style spatial niche segmentation & cross-stage
+dynamics) → `st_py_trajectory` (Scanpy PAGA + spatial diffusion pseudotime &
+gene-program scoring) → `st_py_deconvolve` (needs an scRNA reference) →
+`st_py_communication` (cell communication, optionally stratified by niche).
+`st_py_notebook` is the parallel teaching path.
 
 ## Knowledge layer
 

@@ -19,9 +19,15 @@ if neighbor_method not in ("knn", "radius", "delaunay", "grid"):
 
 coords = np.asarray(adata.obsm[coord_key], dtype=float)
 if neighbor_method == "grid":
-    sq.gr.spatial_neighbors_grid(adata, spatial_key=coord_key, n_neighs=n_neighs, n_rings=1)
+    if hasattr(sq.gr, "spatial_neighbors_grid"):
+        sq.gr.spatial_neighbors_grid(adata, spatial_key=coord_key, n_neighs=n_neighs, n_rings=1)
+    else:
+        sq.gr.spatial_neighbors(adata, spatial_key=coord_key, coord_type="grid", n_neighs=n_neighs, n_rings=1)
 elif neighbor_method == "delaunay":
-    sq.gr.spatial_neighbors_delaunay(adata, spatial_key=coord_key)
+    if hasattr(sq.gr, "spatial_neighbors_delaunay"):
+        sq.gr.spatial_neighbors_delaunay(adata, spatial_key=coord_key)
+    else:
+        sq.gr.spatial_neighbors(adata, spatial_key=coord_key, coord_type="generic", delaunay=True)
 elif neighbor_method == "radius":
     r = radius
     if r is None:
@@ -30,9 +36,15 @@ elif neighbor_method == "radius":
         dist, _ = cKDTree(coords).query(coords, k=2)
         r = float(np.median(dist[:, 1]) * 1.5)
         analysis_notes.append(f"radius derived from spacing: {r:.3g} coordinate units")
-    sq.gr.spatial_neighbors_radius(adata, radius=r, spatial_key=coord_key)
+    if hasattr(sq.gr, "spatial_neighbors_radius"):
+        sq.gr.spatial_neighbors_radius(adata, radius=r, spatial_key=coord_key)
+    else:
+        sq.gr.spatial_neighbors(adata, spatial_key=coord_key, coord_type="generic", radius=r)
 else:
-    sq.gr.spatial_neighbors_knn(adata, spatial_key=coord_key, n_neighs=n_neighs)
+    if hasattr(sq.gr, "spatial_neighbors_knn"):
+        sq.gr.spatial_neighbors_knn(adata, spatial_key=coord_key, n_neighs=n_neighs)
+    else:
+        sq.gr.spatial_neighbors(adata, spatial_key=coord_key, coord_type="generic", n_neighs=n_neighs)
 
 analysis_steps.append("spatial-neighbors")
 graph = adata.obsp["spatial_connectivities"]

@@ -199,13 +199,13 @@ phi:
     - name: py_spatial
       description: >-
         Spatial statistics on a clustered, normalized object: Moran's I or
-        Geary's C spatially variable genes, neighbourhood enrichment and
-        co-occurrence of domains, and (when group_column names a condition)
-        cross-sample differential spatial patterns. Rebuilds the spatial
-        adjacency graph from tissue coordinates. Reports the SVG ranking, the
-        top enriched domain pairs, and genes whose spatial structure changes
-        between conditions. A section that needs a missing input reports the
-        gap and continues.
+        Geary's C spatially variable genes, neighbourhood enrichment,
+        co-occurrence, normalized interaction matrix, spatial graph centrality
+        scores, Ripley's L/F/G point-pattern clustering, and (when group_column
+        names a condition) cross-sample differential spatial patterns. Rebuilds
+        the spatial adjacency graph from tissue coordinates. Reports the SVG
+        ranking, top enriched/contacting domain pairs, centrality and Ripley
+        patterns, and genes whose spatial structure changes between conditions.
       run: [python, ./scripts/spatial_statistics.py]
       args:
         type: object
@@ -223,7 +223,7 @@ phi:
           figures_dir:
             type: string
             format: project-path
-            description: Directory for SVG, neighbourhood and differential plots.
+            description: Directory for SVG, neighbourhood, centrality, Ripley and differential plots.
           group_by:
             type: string
             description: obs column defining the domains (default leiden).
@@ -253,12 +253,137 @@ phi:
           cooc_interval:
             type: integer
             description: Distance intervals for co-occurrence (default 50).
+          ripley_mode:
+            type: string
+            enum: [L, F, G]
+            description: Ripley point-pattern clustering statistic (default L).
+          ripley_simulations:
+            type: integer
+            description: Monte Carlo simulations for Ripley's point-pattern envelope (default 100).
           group_column:
             type: string
             description: Condition/sample obs column for cross-sample differential; null skips it.
           min_units:
             type: integer
             description: Minimum units for a condition to enter the differential contrast (default 10).
+          seed:
+            type: integer
+            description: Random seed (default 42).
+      approval: write
+      timeoutSeconds: 3600
+    - name: py_niche
+      description: >-
+        Segment tissue into recurring spatial niches (microenvironments) via
+        UTAG-style spatial neighbourhood aggregation and Leiden clustering, in
+        either composition mode (local cell-type/cluster or deconvolution
+        profile) or expression mode (spatially smoothed HVG expression). When
+        group_column names a condition/stage column, also computes cross-stage
+        niche proportion dynamics.
+      run: [python, ./scripts/niche.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [input]
+        properties:
+          input:
+            type: string
+            format: input-path
+            description: AnnData saved as .h5ad, after st_py_preprocess (clusters + spatial coordinates).
+          output:
+            type: string
+            format: project-path
+            description: Where to save the object with spatial niche labels attached.
+          figures_dir:
+            type: string
+            format: project-path
+            description: Directory for spatial niche map, composition heatmap and condition dynamics plots.
+          group_by:
+            type: string
+            description: obs column defining cell types or clusters (default leiden).
+          niche_column:
+            type: string
+            description: obs column to write niche labels into (default niche).
+          niche_mode:
+            type: string
+            enum: [composition, expression]
+            description: Aggregation mode — composition (neighbourhood cell-type profile, default) or expression (spatially smoothed HVGs).
+          niche_resolution:
+            type: number
+            description: Leiden resolution for niche segmentation (default 0.5).
+          niche_hops:
+            type: integer
+            description: Spatial graph hops aggregated per unit (default 1).
+          niche_use_deconvolution:
+            type: boolean
+            description: Use obsm['deconvolution'] proportions in composition mode if present (default false).
+          group_column:
+            type: string
+            description: Optional condition/stage obs column for cross-stage niche proportion dynamics.
+          coord_key:
+            type: string
+            description: obsm key holding spatial coordinates (default spatial).
+          neighbor_method:
+            type: string
+            enum: [knn, radius, delaunay, grid]
+            description: Spatial adjacency geometry (default knn).
+          n_neighs:
+            type: integer
+            description: Neighbours for knn adjacency (default 6).
+          radius:
+            type: number
+            description: Radius for radius adjacency; null derives it from spacing.
+          seed:
+            type: integer
+            description: Random seed (default 42).
+      approval: write
+      timeoutSeconds: 3600
+    - name: py_trajectory
+      description: >-
+        Infer expression-manifold connectivity (Scanpy PAGA) and diffusion
+        pseudotime (DPT), project pseudotime back onto spatial tissue
+        coordinates, and optionally score pathway/signature gene programs
+        (sc.tl.score_genes on the unscaled lognorm layer) in space.
+      run: [python, ./scripts/trajectory.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [input]
+        properties:
+          input:
+            type: string
+            format: input-path
+            description: AnnData saved as .h5ad, after st_py_preprocess (clusters + lognorm + spatial coordinates).
+          output:
+            type: string
+            format: project-path
+            description: Where to save the object with PAGA, dpt_pseudotime and gene-program scores attached.
+          figures_dir:
+            type: string
+            format: project-path
+            description: Directory for PAGA graph, spatial DPT map and spatial gene-program maps.
+          group_by:
+            type: string
+            description: obs column defining clusters/cell types for PAGA (default leiden).
+          root_cluster:
+            type: string
+            description: Starting cluster/cell type for diffusion pseudotime; null selects automatically with a note.
+          gene_sets_path:
+            type: string
+            format: input-path
+            description: Optional JSON mapping program name to gene symbol array for spatial score_genes.
+          paga_threshold:
+            type: number
+            description: Minimum PAGA connectivity weight reported and plotted (default 0.05).
+          coord_key:
+            type: string
+            description: obsm key holding spatial coordinates (default spatial).
+          neighbor_method:
+            type: string
+            enum: [knn, radius, delaunay, grid]
+            description: Spatial adjacency geometry (default knn).
+          n_neighs:
+            type: integer
+            description: Neighbours for knn adjacency (default 6).
           seed:
             type: integer
             description: Random seed (default 42).
@@ -453,6 +578,12 @@ phi:
           n_perms:
             type: integer
             description: Permutations for the ligrec test (default 1000).
+          stratify_by:
+            type: string
+            description: Optional obs column (e.g. niche) to run niche-stratified ligrec in addition to global communication.
+          min_units:
+            type: integer
+            description: Minimum units for a stratum to enter niche-stratified ligrec (default 10).
           coord_key:
             type: string
             description: obsm key holding spatial coordinates (default spatial).
@@ -498,7 +629,7 @@ phi:
             type: array
             items:
               type: string
-              enum: [setup, load, qc-metrics, qc-plots, filter, normalize, hvg, scale, pca, cluster, spatial-neighbors, spatial-plots, markers, annotate, assign-labels, svg, nhood, deconvolve, communication, spatial-diff, save]
+              enum: [setup, load, qc-metrics, qc-plots, filter, normalize, hvg, scale, pca, cluster, spatial-neighbors, spatial-plots, markers, annotate, assign-labels, svg, nhood, niche, trajectory, deconvolve, communication, spatial-diff, save]
             description: >-
               Steps to render instead of a preset; declared dependencies are
               added automatically. Pass module or steps, not both.
@@ -599,12 +730,36 @@ phi:
             type: string
             format: input-path
             description: Ligand-receptor table for communication; null uses the shipped offline set.
+          ripley_mode:
+            type: string
+            enum: [L, F, G]
+            description: Ripley point-pattern statistic (default L).
+          niche_column:
+            type: string
+            description: obs column for spatial niches (default niche).
+          niche_mode:
+            type: string
+            enum: [composition, expression]
+            description: Niche aggregation mode (default composition).
+          niche_resolution:
+            type: number
+            description: Leiden resolution for niche segmentation (default 0.5).
+          root_cluster:
+            type: string
+            description: Starting cluster for diffusion pseudotime; null selects automatically.
+          gene_sets_path:
+            type: string
+            format: input-path
+            description: Optional JSON gene sets for spatial score_genes.
           ccc_threshold:
             type: number
             description: p-value threshold for significant interactions (default 0.01).
+          stratify_by:
+            type: string
+            description: Optional obs column (e.g. niche) for niche-stratified ligrec.
           group_column:
             type: string
-            description: Condition/sample column for cross-sample differential; null skips it.
+            description: Condition/sample column for cross-sample differential and niche dynamics; null skips it.
           kernel:
             type: string
             description: Kernel name written to the notebook (default plugin-spatial-transcriptomics-spatial).
@@ -670,9 +825,11 @@ inside the read-only environment.
 3. `st_py_preprocess` — normalize, variable genes, PCA, Leiden clusters, UMAP, spatial adjacency graph, cluster maps.
 4. `st_py_markers` — marker genes per spatial domain, as tables.
 5. `st_py_annotate` — labels from a marker panel or an explicit mapping.
-6. `st_py_spatial` — spatially variable genes, neighbourhood enrichment / co-occurrence, cross-sample differential spatial patterns.
-7. `st_py_deconvolve` — cell-type proportions against a single-cell reference (scipy NNLS).
-8. `st_py_communication` — ligand-receptor communication between domains (squidpy ligrec).
+6. `st_py_spatial` — spatially variable genes, neighbourhood enrichment / co-occurrence / interaction matrix / centrality / Ripley's L, cross-sample differential spatial patterns.
+7. `st_py_niche` — UTAG-style spatial niche segmentation and cross-stage niche dynamics.
+8. `st_py_trajectory` — Scanpy PAGA + diffusion pseudotime mapped onto tissue coordinates, plus spatial gene-program scoring.
+9. `st_py_deconvolve` — cell-type proportions against a single-cell reference (scipy NNLS).
+10. `st_py_communication` — ligand-receptor communication between domains (squidpy ligrec, optionally stratified by niche).
 
 Skip a step only when the object already contains its result; `st_py_inspect`
 says which results are present. Steps 6-8 need the clusters and lognorm snapshot

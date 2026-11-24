@@ -169,3 +169,66 @@ else:
         tidy["pvalue"] = np.asarray(tidy["pvalue"], dtype=float)
         tidy.index.names = ["ligand", "receptor", "source_cluster", "target_cluster"]
         adata.uns[f"{group_by}_ligrec"] = tidy.reset_index()
+
+        # Optional niche-/region-stratified CCC (when stratify_by is set).
+        if stratify_by:
+            if stratify_by not in adata.obs.columns:
+                analysis_notes.append(f"stratify_by '{stratify_by}' not in obs; skipped niche-stratified CCC")
+            else:
+                by_stratum = {}
+                strat_tables = []
+                for stratum in sorted_levels(adata.obs[stratify_by].astype(str)):
+                    smask = (adata.obs[stratify_by].astype(str) == stratum).to_numpy()
+                    sub_ccc = ccc[smask].copy()
+                    sub_ccc.obs[group_by] = sub_ccc.obs[group_by].cat.remove_unused_categories()
+                    if sub_ccc.n_obs < min_units or len(sub_ccc.obs[group_by].cat.categories) < 2:
+                        by_stratum[stratum] = {"skipped": "too few units or < 2 groups in stratum"}
+                        continue
+                    try:
+                        sres = sq.gr.ligrec(
+                            sub_ccc,
+                            cluster_key=group_by,
+                            interactions=lr,
+                            use_raw=False,
+                            n_perms=n_perms,
+                            threshold=0.01,
+                            corr_method="fdr_bh",
+                            corr_axis="clusters",
+                            n_jobs=1,
+                            show_progress_bar=False,
+                            seed=seed,
+                            copy=True,
+                        )
+                    except ValueError as err:
+                        by_stratum[stratum] = {"skipped": str(err)}
+                        continue
+                    s_means = sres["means"].stack(level=list(range(sres["means"].columns.nlevels)))
+                    s_pvals = sres["pvalues"].stack(level=list(range(sres["pvalues"].columns.nlevels)))
+                    s_sig = s_means[(s_pvals < ccc_threshold) & (s_means > 0)]
+                    s_top = s_sig.sort_values(ascending=False).head(5)
+                    by_stratum[stratum] = {
+                        "n_units": int(sub_ccc.n_obs),
+                        "n_significant": int(len(s_sig)),
+                        "top": [
+                            {
+                                "ligand": idx[0],
+                                "receptor": idx[1],
+                                "source_cluster": idx[2],
+                                "target_cluster": idx[3],
+                                "mean": round(float(val), 4),
+                            }
+                            for idx, val in s_top.items()
+                        ],
+                    }
+                    stidy = s_means.rename("mean").to_frame()
+                    stidy["pvalue"] = s_pvals
+                    stidy["mean"] = np.asarray(stidy["mean"], dtype=float)
+                    stidy["pvalue"] = np.asarray(stidy["pvalue"], dtype=float)
+                    stidy.index.names = ["ligand", "receptor", "source_cluster", "target_cluster"]
+                    stidy = stidy.reset_index()
+                    stidy[stratify_by] = stratum
+                    strat_tables.append(stidy)
+                ccc_results["stratify_by"] = stratify_by
+                ccc_results["by_stratum"] = by_stratum
+                if strat_tables:
+                    adata.uns[f"{group_by}_ligrec_by_{stratify_by}"] = pd.concat(strat_tables, ignore_index=True)
