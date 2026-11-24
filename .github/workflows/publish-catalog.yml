@@ -1,0 +1,100 @@
+name: Publish catalog-v1
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Target GitHub Release tag
+        required: true
+        default: catalog-v1
+      phi_ref:
+        description: Branch or tag of dxsbiocc/phi containing the catalog builder
+        required: true
+        default: main
+      wrapper_version:
+        description: Optional explicit semver override for wrapper packages
+        required: false
+        default: ''
+      dry_run:
+        description: Verify and print incremental upload plan without modifying the release
+        type: boolean
+        required: true
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout phi-packages
+        uses: actions/checkout@v4
+        with:
+          path: phi-packages
+
+      - name: Checkout Phi builder
+        uses: actions/checkout@v4
+        with:
+          repository: dxsbiocc/phi
+          ref: ${{ inputs.phi_ref }}
+          token: ${{ secrets.PHI_REPO_TOKEN || github.token }}
+          path: Phi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Install Phi dependencies
+        working-directory: Phi
+        run: npm ci
+
+      - name: Run repository contract tests
+        working-directory: phi-packages
+        run: node --test tests/*.test.mjs
+
+      - name: Prepare signed catalog assets
+        working-directory: phi-packages
+        env:
+          CATALOG_ED25519_PRIVATE_KEY: ${{ secrets.CATALOG_ED25519_PRIVATE_KEY }}
+        run: |
+          if [ -z "$CATALOG_ED25519_PRIVATE_KEY" ]; then
+            if [ "${{ inputs.dry_run }}" = "true" ]; then
+              echo "No CATALOG_ED25519_PRIVATE_KEY secret set; generating ephemeral key for dry-run."
+              openssl genpkey -algorithm ED25519 -out /tmp/catalog-key.pem
+            else
+              echo "CATALOG_ED25519_PRIVATE_KEY secret is required for non-dry-run publish." >&2
+              exit 1
+            fi
+          else
+            umask 077
+            printf '%s\n' "$CATALOG_ED25519_PRIVATE_KEY" > /tmp/catalog-key.pem
+          fi
+          EXTRA_ARGS=""
+          if [ -n "${{ inputs.wrapper_version }}" ]; then
+            EXTRA_ARGS="--wrapper-version ${{ inputs.wrapper_version }}"
+          fi
+          node scripts/prepare-catalog.mjs \
+            --phi ../Phi \
+            --out /tmp/phi-catalog-out \
+            --key /tmp/catalog-key.pem \
+            $EXTRA_ARGS
+
+      - name: Publish catalog assets incrementally (index last)
+        working-directory: phi-packages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          DRY_FLAG=""
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            DRY_FLAG="--dry-run"
+          fi
+          node scripts/publish-catalog.mjs \
+            --assets /tmp/phi-catalog-out/assets \
+            --tag "${{ inputs.release_tag }}" \
+            --repo "${{ github.repository }}" \
+            $DRY_FLAG
+
+      - name: Remove temporary signing key
+        if: always()
+        run: rm -f /tmp/catalog-key.pem

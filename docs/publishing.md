@@ -40,6 +40,18 @@ Use a fresh output path to keep earlier release files out of the new catalog.
 客户端验证签名以及每个 sidecar/归档的 SHA-256 和大小，并通过完整缓存代际原子切换。
 保留同一包版本的不可变归档；更改内容应提升包版本。
 
+可使用 `scripts/publish-catalog.mjs` 完成上传前全量 SHA-256 校验、跳过已有不可变归档的增量上传，并自动最后覆盖上传 `index.json` 与 `index.sig.json`：
+
+```sh
+# 先干跑核对增量上传清单
+node scripts/publish-catalog.mjs --assets /tmp/phi-catalog-20261008/assets --tag catalog-v1 --dry-run
+
+# 确认无误后执行增量发布
+node scripts/publish-catalog.mjs --assets /tmp/phi-catalog-20261008/assets --tag catalog-v1
+```
+
+也可直接在 GitHub Actions 中手动触发 **Publish catalog-v1**（`.github/workflows/publish-catalog.yml`，默认 `dry_run: true`）；正式发布需在仓库 Secrets 中配置 `CATALOG_ED25519_PRIVATE_KEY`（及私有 `dxsbiocc/phi` 访问令牌 `PHI_REPO_TOKEN`）。
+
 Upload all assets to the repository's `catalog-v1` release, uploading the index and signature
 last. Phi validates the signature and every asset's SHA-256 and size before atomic cache activation.
 Keep an existing package version's archive immutable; bump the package version when its contents change.
