@@ -1,0 +1,28 @@
+# Agent-facing wrapper adapter for the vendored nf-core/quantms pipeline at ../.
+# Follows docs/contracts/wrapper.md. Params are a starter subset of
+# nextflow_schema.json; REVIEW and curate before publishing.
+id: nf-core/workflows/quantms
+name: nf-core/quantms
+summary: Quantitative Mass Spectrometry nf-core workflow
+params:
+  input:
+    kind: input
+    type: csv
+    required: true
+    description: Path to an SDRF (.sdrf.tsv) or OpenMS experimental design file describing the proteomics samples.
+  database:
+    kind: option
+    type: string
+    required: true
+    description: The `fasta` protein database used during database search. *Note:* For DIA data, it must
+      not contain decoys.
+  outdir:
+    kind: output
+    type: path
+    required: true
+    description: Output directory for all pipeline results.
+outputs:
+  results:
+    type: directory
+    path: ${outdir}
+    primary: true

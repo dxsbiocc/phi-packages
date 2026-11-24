@@ -1,0 +1,16 @@
+{
+  "outdir": "results",
+  "config_profile_name": "Test profile",
+  "config_profile_description": "Minimal test dataset to check pipeline function",
+  "modules_testdata_base_path": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/",
+  "input": "tests/csv/3.0/fastq_single.csv",
+  "igenomes_base": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/",
+  "genome": "testdata.nf-core.sarek",
+  "bcftools_annotations": "${params.modules_testdata_base_path}/genomics/sarscov2/illumina/vcf/test2.vcf.gz",
+  "bcftools_annotations_tbi": "${params.modules_testdata_base_path}/genomics/sarscov2/illumina/vcf/test2.vcf.gz.tbi",
+  "bcftools_header_lines": "tests/config/bcfann_test_header.txt",
+  "sentieon_dnascope_model": "s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh38/Annotation/Sentieon/SentieonDNAscopeModel1.1.model",
+  "tools": "strelka",
+  "fasta": null,
+  "step": "mapping"
+}

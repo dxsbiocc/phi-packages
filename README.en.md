@@ -12,7 +12,7 @@ Phi's independent public content repository, containing source files for install
 | MCP connector definitions | 27 |
 | Composite Phi plugins | 12 |
 | Skills within plugins | 19 |
-| Wrapper adapters | 652 |
+| Wrapper adapters | 654 |
 
 ```text
 resources/
