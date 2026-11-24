@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "tool",
+    "exposure",
+    "exposure_terms",
+    "covariates",
+    "n_samples",
+    "df_residual",
+    "n_features_tested",
+    "n_significant",
+    "fdr",
+    "outputs",
+    "artifacts"
+  ],
+  "properties": {
+    "tool": { "type": "string", "const": "mg_multivariable" },
+    "exposure": { "type": "string" },
+    "exposure_terms": { "type": "array", "items": { "type": "string" } },
+    "covariates": { "type": "array", "items": { "type": "string" } },
+    "n_samples": { "type": "integer" },
+    "df_residual": { "type": "integer" },
+    "n_features_tested": { "type": "integer" },
+    "n_significant": { "type": "integer" },
+    "fdr": { "type": "number" },
+    "pseudocount": { "type": "number" },
+    "top_hits": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": ["table", "volcano_figure"],
+      "properties": {
+        "table": { "type": "string" },
+        "volcano_figure": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "caveat": { "type": "string" }
+  }
+}

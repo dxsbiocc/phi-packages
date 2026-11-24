@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "tool",
+    "n_bins",
+    "sources",
+    "n_modules_evaluated",
+    "completeness_cutoff",
+    "n_sbml_models",
+    "outputs",
+    "artifacts"
+  ],
+  "properties": {
+    "tool": { "type": "string", "const": "mg_mag_metabolism" },
+    "n_bins": { "type": "integer" },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["ko_modules", "gapseq_pathways", "sbml_gem"]
+      }
+    },
+    "n_modules_evaluated": { "type": "integer" },
+    "completeness_cutoff": { "type": "number" },
+    "n_sbml_models": { "type": "integer" },
+    "outputs": {
+      "type": "object",
+      "required": ["metabolism_summary"],
+      "properties": {
+        "metabolism_summary": { "type": "string" },
+        "module_completeness": { "type": "string" },
+        "metabolism_figure": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "caveat": { "type": "string" }
+  }
+}

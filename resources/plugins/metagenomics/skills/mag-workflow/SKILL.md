@@ -282,6 +282,49 @@ phi:
       approval: write
       output: ./schemas/mag-traits-result.json
       timeoutSeconds: 1200
+    - name: mag_metabolism
+      description: >-
+        Summarize MAG metabolic pathway completeness from a bin x KO matrix
+        (mg_mag_function output, scored against 10 curated microbial KEGG
+        modules or a custom --module_map) and/or gapseq *-Pathways.tbl tables,
+        plus genome-scale metabolic model (GEM) metabolite/reaction/exchange/
+        gene counts from CarveMe or gapseq SBML (.xml/.xml.gz) files. Writes
+        mag-metabolism-summary.tsv, mag-module-completeness.tsv, and a
+        completeness heatmap.
+      run: [python, ./scripts/mag_metabolism.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [output_dir]
+        properties:
+          ko_matrix:
+            type: string
+            format: input-path
+            description: MAG x KO count matrix TSV (e.g. mag-ko-matrix.tsv from mg_mag_function).
+          module_map:
+            type: string
+            format: input-path
+            description: Optional custom TSV/CSV with module_id, module_name, ko_list columns.
+          gapseq_pathways:
+            type: array
+            items:
+              type: string
+            description: gapseq *-Pathways.tbl files (one per MAG).
+          sbml:
+            type: array
+            items:
+              type: string
+            description: CarveMe or gapseq SBML .xml or .xml.gz GEM files (one per MAG).
+          completeness_cutoff:
+            type: number
+            description: Completeness threshold (0-1) to count a module as complete (default 0.75).
+          output_dir:
+            type: string
+            format: project-path
+            description: Directory for summary, completeness matrix, and heatmap.
+      approval: write
+      output: ./schemas/mag-metabolism-result.json
+      timeoutSeconds: 1200
 ---
 
 # Assembly / MAG route — downstream chain

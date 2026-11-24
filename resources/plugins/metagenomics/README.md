@@ -1,4 +1,4 @@
-# metagenomics (metagenomic analysis) · 0.2.0
+# metagenomics (metagenomic analysis) · 0.3.0
 
 **Downstream analysis chains + knowledge layer** for three microbiome routes
 sharing one private locked Python environment (`plugin:metagenomics`, Python
@@ -71,6 +71,7 @@ with `contract-1.0.0` artifact descriptors (no notebook renderer yet).
 | `mg_plot` | Stacked composition barplot (top N + Other, optional group means) and taxa heatmap (optional `log10` + hierarchical clustering) |
 | `mg_network` | Pairwise Spearman co-occurrence network with prevalence filtering, BH FDR control, hub node ranking (`degree`, `weighted_degree`), and network plot |
 | `mg_classify` | Leak-free stratified k-fold cross-validated binary classification (in-fold `log1p` + z-score scaling, in-fold `mRMR`/`mannwhitney` selection, L2 logistic regression) with pooled OOF AUROC, Youden sensitivity/specificity, feature weights, and ROC plot |
+| `mg_multivariable` | Compositionally-aware CLR + OLS multivariable differential abundance with covariate adjustment (`exposure + covariates`), Student-t p-values, BH FDR, and volcano plot |
 
 ### Assembly / MAG (`mag-workflow`, prefix `mg`)
 
@@ -82,6 +83,7 @@ with `contract-1.0.0` artifact descriptors (no notebook renderer yet).
 | `mg_mag_table` | Left-join quality + GTDB-Tk summary (`d__`…`s__`) + CoverM abundance (low `covered_fraction` masking + optional genome-size-weighted relative abundance) + dRep clusters → `mag-table.tsv` + phylum barplot |
 | `mg_mag_function` | Prokka / Prodigal / eggNOG outputs → per-bin gene counts, prediction-level MIMAG structural evidence (`5S/16S/23S` + `tRNA≥18`), `bin × KO` and `bin × COG` matrices + COG barplot |
 | `mg_mag_traits` | Downstream aggregator for `amrfinderplus`, `abricate` (AMR/VFDB), `rgi` (CARD), and `antismash` JSON → `mag-traits-summary.tsv`, `bin × AMR class` and `bin × BGC type` matrices + overview barplot |
+| `mg_mag_metabolism` | MAG metabolic module completeness (10 built-in core KEGG modules or custom `--module_map`, plus `gapseq` `*-Pathways.tbl`) and CarveMe/gapseq SBML GEM complexity summaries (`metabolites`, `reactions`, `exchange_reactions`, `genes`) + completeness heatmap |
 | `mg_mag_tree` | Pure-Python Newick parsing of GTDB `classify.tree` → pairwise patristic distance matrix and nearest GTDB reference per MAG |
 
 ### 16S / ITS Amplicon (`amplicon-workflow`, prefix `mg`)

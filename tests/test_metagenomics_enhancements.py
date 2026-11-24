@@ -42,9 +42,11 @@ class TestMetagenomicsStaticAndContracts(unittest.TestCase):
     def test_scripts_compile_and_respect_locked_environment(self) -> None:
         scripts = [
             MAG_SCRIPTS / "mag_traits.py",
+            MAG_SCRIPTS / "mag_metabolism.py",
             PROF_SCRIPTS / "diversity.py",
             PROF_SCRIPTS / "network.py",
             PROF_SCRIPTS / "classify.py",
+            PROF_SCRIPTS / "multivariable.py",
             AMP_SCRIPTS / "amplicon_unifrac.py",
         ]
         stdlib_names = set(sys.stdlib_module_names)
@@ -69,14 +71,16 @@ class TestMetagenomicsStaticAndContracts(unittest.TestCase):
 
     def test_schemas_and_plugin_manifest_wiring(self) -> None:
         manifest = (MG_PLUGIN / "phi-package.yaml").read_text(encoding="utf-8")
-        self.assertIn("version: 0.2.0", manifest)
+        self.assertIn("version: 0.3.0", manifest)
         self.assertIn("skills/amplicon-workflow", manifest)
 
         schemas = [
             MG_PLUGIN / "skills" / "mag-workflow" / "schemas" / "mag-traits-result.json",
+            MG_PLUGIN / "skills" / "mag-workflow" / "schemas" / "mag-metabolism-result.json",
             MG_PLUGIN / "skills" / "profiling-workflow" / "schemas" / "diversity-result.json",
             MG_PLUGIN / "skills" / "profiling-workflow" / "schemas" / "network-result.json",
             MG_PLUGIN / "skills" / "profiling-workflow" / "schemas" / "classify-result.json",
+            MG_PLUGIN / "skills" / "profiling-workflow" / "schemas" / "multivariable-result.json",
             MG_PLUGIN / "skills" / "amplicon-workflow" / "schemas" / "amplicon-unifrac-result.json",
         ]
         for sp in schemas:
@@ -359,6 +363,104 @@ class TestMetagenomicsRuntimeExecution(unittest.TestCase):
             self.assertTrue((out_dir / "weighted-unifrac.tsv").is_file())
             self.assertTrue((out_dir / "unweighted-unifrac.tsv").is_file())
             self.assertTrue((out_dir / "pcoa-weighted-unifrac.png").is_file())
+
+    def test_mg_multivariable_clr_regression(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_dir = Path(tmp)
+            rng = random.Random(11)
+            samples = [f"S{i}" for i in range(16)]
+            lines = ["feature\t" + "\t".join(samples)]
+            # Sp_pos strongly enriched in case; Sp_bg flat; Sp_age driven by age
+            ages = [30 + i * 2 for i in range(16)]
+            lines.append("Sp_pos\t" + "\t".join(f"{50.0 + rng.gauss(0, 2) if i < 8 else 5.0 + rng.gauss(0, 1):.3f}" for i in range(16)))
+            lines.append("Sp_bg1\t" + "\t".join(f"{20.0 + rng.gauss(0, 1):.3f}" for _ in range(16)))
+            lines.append("Sp_bg2\t" + "\t".join(f"{15.0 + rng.gauss(0, 1):.3f}" for _ in range(16)))
+            lines.append("Sp_age\t" + "\t".join(f"{ages[i] * 0.8 + rng.gauss(0, 1):.3f}" for i in range(16)))
+            mat_path = tmp_dir / "mat.tsv"
+            mat_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+            meta_lines = ["sample\tgroup\tsex\tage"] + [
+                f"{s}\t{'case' if i < 8 else 'ctrl'}\t{'M' if i % 2 == 0 else 'F'}\t{ages[i]}"
+                for i, s in enumerate(samples)
+            ]
+            meta_path = tmp_dir / "meta.tsv"
+            meta_path.write_text("\n".join(meta_lines) + "\n", encoding="utf-8")
+
+            out_dir = tmp_dir / "out_mv"
+            res = _run_json(
+                [
+                    sys.executable,
+                    str(PROF_SCRIPTS / "multivariable.py"),
+                    "--input",
+                    str(mat_path),
+                    "--metadata",
+                    str(meta_path),
+                    "--exposure",
+                    "group",
+                    "--reference",
+                    "ctrl",
+                    "--covariates",
+                    "sex",
+                    "age",
+                    "--output_dir",
+                    str(out_dir),
+                ]
+            )
+            self.assertEqual(res["tool"], "mg_multivariable")
+            self.assertGreaterEqual(res["n_significant"], 1)
+            self.assertEqual(res["top_hits"][0]["feature"], "Sp_pos")
+            self.assertTrue((out_dir / "multivariable-clr.tsv").is_file())
+            self.assertTrue((out_dir / "multivariable-volcano.png").is_file())
+
+    def test_mg_mag_metabolism_ko_gapseq_sbml(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_dir = Path(tmp)
+            ko_path = tmp_dir / "mag-ko-matrix.tsv"
+            ko_path.write_text(
+                "bin\tK02588\tK02586\tK02591\tK00249\tK01692\n"
+                "bin_1\t1\t1\t1\t1\t0\n"
+                "bin_2\t0\t0\t0\t1\t1\n",
+                encoding="utf-8",
+            )
+            gp_path = tmp_dir / "bin_1-Pathways.tbl"
+            gp_path.write_text(
+                "ID\tName\tPrediction\tCompleteness\n"
+                "PWY-1\tGlycolysis\ttrue\t90\n"
+                "PWY-2\tMethanogenesis\tfalse\t10\n",
+                encoding="utf-8",
+            )
+            sbml_path = tmp_dir / "bin_1.xml"
+            sbml_path.write_text(
+                "<?xml version='1.0' encoding='UTF-8'?>"
+                "<sbml xmlns='http://www.sbml.org/sbml/level3/version1/core' xmlns:fbc='http://www.sbml.org/sbml/level3/version1/fbc/version2'>"
+                "<model id='bin_1'>"
+                "<listOfSpecies><species id='M_glc'/><species id='M_pyr'/></listOfSpecies>"
+                "<listOfReactions><reaction id='R_EX_glc'/><reaction id='R_HEX1'/></listOfReactions>"
+                "<fbc:listOfGeneProducts><fbc:geneProduct fbc:id='G_1'/></fbc:listOfGeneProducts>"
+                "</model></sbml>",
+                encoding="utf-8",
+            )
+            out_dir = tmp_dir / "out_met"
+            res = _run_json(
+                [
+                    sys.executable,
+                    str(MAG_SCRIPTS / "mag_metabolism.py"),
+                    "--ko_matrix",
+                    str(ko_path),
+                    "--gapseq_pathways",
+                    str(gp_path),
+                    "--sbml",
+                    str(sbml_path),
+                    "--output_dir",
+                    str(out_dir),
+                ]
+            )
+            self.assertEqual(res["tool"], "mg_mag_metabolism")
+            self.assertEqual(res["n_bins"], 2)
+            self.assertEqual(res["n_sbml_models"], 1)
+            self.assertTrue((out_dir / "mag-metabolism-summary.tsv").is_file())
+            self.assertTrue((out_dir / "mag-module-completeness.tsv").is_file())
+            self.assertTrue((out_dir / "mag-metabolism-heatmap.png").is_file())
 
 
 if __name__ == "__main__":

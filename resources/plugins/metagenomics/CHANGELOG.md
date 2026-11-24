@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.0 (2026-11-23)
+
+在现有 `plugin:metagenomics` 锁定环境内继续补齐两项高频下游能力（无新增包依赖）：
+
+- `profiling-workflow` 新增 `mg_multivariable`（共 10 个工具）：基于 Centered Log-Ratio (CLR) 变换 + OLS 多元线性回归的成分感知多协变量差异丰度检验，支持指定主暴露变量、参考水平与多个混杂协变量（分类/连续均可），输出精确 Student-t p 值、BH FDR `q_value`、`multivariable-clr.tsv` 与 `multivariable-volcano.png`。
+- `mag-workflow` 新增 `mg_mag_metabolism`（共 8 个工具）：支持基于 `mg_mag_function` 产出的 `mag-ko-matrix.tsv` 评估 10 个核心微生物 KEGG 代谢模块完整度（也支持 `--module_map` 自定义通路）、解析 `nf-core/gapseq` 的 `*-Pathways.tbl` 通路预测表，并用纯 Python 标准库 XML 解析 `nf-core/carveme` / `gapseq` 产出的 SBML（`.xml`/`.xml.gz`）GEM 模型统计代谢物、反应、交换反应与基因数，输出 `mag-metabolism-summary.tsv`、`mag-module-completeness.tsv` 与完整度热图。
+
 ## 0.2.0 (2026-11-23)
 
 在不改动私有锁定环境（`plugin:metagenomics`，Python 3.13 + `pandas/numpy/scipy/matplotlib-base`）的前提下，围绕宏基因组下游统计建模、专项功能汇总与 16S 扩增子衔接完成能力补强（参考 MicroBioAgent / `openclaw-microbiome`, bioRxiv 2026.11.17.767465 思路，全部脚本与文档原创实现）：

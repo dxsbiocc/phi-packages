@@ -413,6 +413,53 @@ phi:
       approval: write
       output: ./schemas/classify-result.json
       timeoutSeconds: 1200
+    - name: multivariable
+      description: >-
+        Compositionally-aware multivariable differential abundance via Centered
+        Log-Ratio (CLR) transformation + OLS linear regression with covariate
+        adjustment (e.g., sex, age, BMI) and Benjamini-Hochberg FDR control.
+        Writes multivariable-clr.tsv and multivariable-volcano.png.
+      run: [python, ./scripts/multivariable.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [input, metadata, output_dir]
+        properties:
+          input:
+            type: string
+            format: input-path
+            description: Feature x sample abundance matrix TSV (taxa or functional groups).
+          metadata:
+            type: string
+            format: input-path
+            description: Sample metadata CSV/TSV containing exposure and covariate columns.
+          exposure:
+            type: string
+            description: Primary variable of interest in metadata (categorical or numeric; default group).
+          reference:
+            type: string
+            description: Optional reference level when exposure is categorical.
+          covariates:
+            type: array
+            items:
+              type: string
+            description: Optional confounding metadata columns to adjust for (e.g. [sex, age, bmi]).
+          min_prevalence:
+            type: number
+            description: Minimum fraction of samples with abundance > 0 (default 0.1).
+          pseudocount:
+            type: number
+            description: Optional positive pseudocount for CLR transform (default auto = 0.5 * min non-zero).
+          fdr:
+            type: number
+            description: BH FDR significance threshold (default 0.05).
+          output_dir:
+            type: string
+            format: project-path
+            description: Directory for multivariable-clr.tsv and volcano plot.
+      approval: write
+      output: ./schemas/multivariable-result.json
+      timeoutSeconds: 1200
 ---
 
 # Read-based metagenomic profiling — downstream chain
