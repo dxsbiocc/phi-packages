@@ -1,0 +1,14 @@
+name: rnaseq
+description: >-
+  Private bulk RNA-seq downstream environment: Python 3.13 +
+  pandas/numpy/scipy/matplotlib-base for matrix inspection, QC, multi-contrast
+  integration, hypergeometric ORA, pre-ranked GSEA, and single-sample pathway
+  scoring.
+channels:
+  - conda-forge
+dependencies:
+  - python=3.13
+  - pandas
+  - numpy
+  - scipy
+  - matplotlib-base

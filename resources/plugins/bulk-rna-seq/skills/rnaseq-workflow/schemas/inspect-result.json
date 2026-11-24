@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["tool", "warnings", "ready_steps"],
+  "properties": {
+    "tool": { "type": "string", "const": "rna_inspect" },
+    "matrix": { "type": "object" },
+    "metadata": { "type": "object" },
+    "de_table": { "type": "object" },
+    "gmt": { "type": "object" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "ready_steps": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["tool", "n_samples", "n_pathways_scored", "top_group_tests", "outputs", "artifacts"],
+  "properties": {
+    "tool": { "type": "string", "const": "rna_pathway_score" },
+    "n_samples": { "type": "integer" },
+    "n_pathways_scored": { "type": "integer" },
+    "top_group_tests": { "type": "array", "items": { "type": "object" } },
+    "outputs": { "type": "object" },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
+  }
+}

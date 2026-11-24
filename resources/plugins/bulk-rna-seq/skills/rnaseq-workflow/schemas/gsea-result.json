@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["tool", "n_genes_ranked", "rank_by", "n_sets_tested", "n_significant", "top_pathways", "outputs", "artifacts"],
+  "properties": {
+    "tool": { "type": "string", "const": "rna_gsea" },
+    "n_genes_ranked": { "type": "integer" },
+    "rank_by": { "type": "string", "enum": ["stat", "log2fc"] },
+    "n_sets_tested": { "type": "integer" },
+    "n_significant": { "type": "integer" },
+    "top_pathways": { "type": "array", "items": { "type": "object" } },
+    "outputs": { "type": "object" },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "caveat": { "type": "string" }
+  }
+}

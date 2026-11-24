@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["tool", "direction", "n_foreground", "n_universe", "n_sets_tested", "n_significant", "top_pathways", "outputs", "artifacts"],
+  "properties": {
+    "tool": { "type": "string", "const": "rna_ora" },
+    "direction": { "type": "string", "enum": ["both", "up", "down"] },
+    "n_foreground": { "type": "integer" },
+    "n_universe": { "type": "integer" },
+    "n_sets_tested": { "type": "integer" },
+    "n_significant": { "type": "integer" },
+    "top_pathways": { "type": "array", "items": { "type": "object" } },
+    "outputs": { "type": "object" },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "caveat": { "type": "string" }
+  }
+}

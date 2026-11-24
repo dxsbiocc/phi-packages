@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["tool", "n_samples", "n_genes", "transform", "pca_variance_explained", "flagged_outliers", "outputs", "artifacts"],
+  "properties": {
+    "tool": { "type": "string", "const": "rna_qc" },
+    "n_samples": { "type": "integer" },
+    "n_genes": { "type": "integer" },
+    "transform": { "type": "string" },
+    "pca_variance_explained": { "type": "array", "items": { "type": "number" } },
+    "flagged_outliers": { "type": "array", "items": { "type": "string" } },
+    "outputs": { "type": "object" },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
+  }
+}

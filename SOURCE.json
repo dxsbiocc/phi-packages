@@ -10,8 +10,8 @@
   "counts": {
     "standaloneSkills": 16,
     "connectors": 24,
-    "plugins": 9,
-    "pluginSkills": 16,
+    "plugins": 10,
+    "pluginSkills": 17,
     "wrapperAdapters": 652,
     "importedFiles": 7885,
     "importedBytes": 85272892
@@ -391,6 +391,13 @@
       "kind": "wrapper",
       "license": "MIT",
       "origin": "Authored in phi-packages. Nextflow wrapper and pure-Python prepare/compile helpers (including stdlib .npz scalar parser) for Chai-1 (chaidiscovery/chai-lab, Apache-2.0) supporting entity-tagged FASTA or sequence-native TSV inputs with weights cached via cache_dir."
+    },
+    {
+      "path": "resources/plugins/bulk-rna-seq/",
+      "kind": "plugin",
+      "license": "MIT",
+      "packageVersion": "0.1.0",
+      "origin": "Authored in phi-packages. Downstream bulk RNA-seq interpretation and pathway analysis plugin (toolPrefix rna, agent BulkRnaSeq, skill rnaseq-workflow) with six deterministic Python tools (rna_inspect, rna_qc, rna_compare, rna_ora, rna_gsea, rna_pathway_score) in plugin:rnaseq (Python 3.13 + pandas/numpy/scipy/matplotlib-base). Raw FASTQ alignment stays on nf-core/rna-seq and core DE/time-series modeling stays on local/differential-expression wrappers."
     }
   ],
   "iconMigration": {

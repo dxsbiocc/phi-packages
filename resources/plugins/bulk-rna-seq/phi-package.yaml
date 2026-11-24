@@ -1,0 +1,22 @@
+schemaVersion: 1
+id: bulk-rna-seq
+type: plugin
+version: 0.1.0
+title: Bulk RNA-seq
+summary: >-
+  Downstream bulk RNA-seq interpretation and pathway analysis in Python (rna_):
+  matrix/DE/design inspection (catching TPM-as-count and batch-group
+  collinearity), library/PCA/outlier QC, multi-contrast DEG integration,
+  offline hypergeometric ORA with explicit background universe, pre-ranked GSEA
+  (ES/NES/FDR + leading-edge + enrichment curves), and single-sample pathway
+  activity scoring. Alignment/quantification (nf-core/rna-seq) and core DE
+  models (DESeq2/edgeR/limma/timeseries) run via existing wrappers.
+toolPrefix: rna
+components:
+  agents:
+    - agents/BulkRnaSeq.md
+  skills:
+    - skills/rnaseq-workflow
+environments:
+  rnaseq:
+    spec: environments/rnaseq/environment.yml

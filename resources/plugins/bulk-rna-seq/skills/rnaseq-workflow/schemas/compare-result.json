@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["tool", "contrasts", "per_contrast", "n_union_degs", "n_shared_up_all", "n_shared_down_all", "n_discordant", "pairwise", "outputs", "artifacts"],
+  "properties": {
+    "tool": { "type": "string", "const": "rna_compare" },
+    "contrasts": { "type": "array", "items": { "type": "string" } },
+    "per_contrast": { "type": "object" },
+    "n_union_degs": { "type": "integer" },
+    "n_shared_up_all": { "type": "integer" },
+    "n_shared_down_all": { "type": "integer" },
+    "n_discordant": { "type": "integer" },
+    "pairwise": { "type": "array", "items": { "type": "object" } },
+    "outputs": { "type": "object" },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
+  }
+}
