@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.0 (2026-11-23)
+
+在不改动私有锁定环境（`plugin:metagenomics`，Python 3.13 + `pandas/numpy/scipy/matplotlib-base`）的前提下，围绕宏基因组下游统计建模、专项功能汇总与 16S 扩增子衔接完成能力补强（参考 MicroBioAgent / `openclaw-microbiome`, bioRxiv 2026.11.17.767465 思路，全部脚本与文档原创实现）：
+
+- `mag-workflow` 新增 `mg_mag_traits`（7 个工具）：直接解析仓库已有上游 Wrapper（`amrfinderplus`、`abricate` AMR/VFDB、`rgi`/CARD、`antismash` JSON）输出，生成 `mag-traits-summary.tsv`、`mag-amr-matrix.tsv`、`mag-bgc-matrix.tsv` 及堆叠柱状图 `mag-traits-overview.png`，补齐 MAG 耐药、毒力与次级代谢 BGC 下游汇总闭环。
+- `profiling-workflow` 增强与新增（9 个工具）：
+  - `mg_diversity` 新增 **PERMDISP**（PCoA 空间组内离散度齐性置换检验，PERMANOVA 与 PERMDISP 同时显著时自动在 `notes` 提示）以及 **`--covariates` 多协变量边际 PERMANOVA**（基于 Gower 中心化 db-RDA pseudo-F，同时支持分类与连续型临床/环境协变量，导出 `covariate-permanova.tsv`）。
+  - 新增 `mg_network`：物种/功能 Spearman 共现网络（流行率过滤 + BH FDR 控制 + Hub 节点度/加权度排序 + `cooccurrence-network.png`）。
+  - 新增 `mg_classify`：纯 `numpy/scipy` 实现无泄露分层 k 折交叉验证二分类（折内 `log1p` + z-score 标准化、折内 `mRMR`/`Mann-Whitney` 特征筛选、L2 逻辑回归），输出 `oof-predictions.tsv`、`feature-importance.tsv` 与带 Youden 敏感度/特异度的 `roc-curve.png`。
+- 新增第 3 个技能 `amplicon-workflow`（`mg_amplicon_unifrac`）：承接 `nf-core/ampliseq` / QIIME 2 导出的 ASV 表与有根 Newick 树，严格按 ASV ID 对齐并计算精确的 Normalized Weighted UniFrac 与 Unweighted UniFrac 距离矩阵、PCoA、PERMANOVA 和 PERMDISP，可与 `profiling-workflow` 组合完成 16S + Shotgun 联合分析。
+- 红线规则完善：在 `profiling-workflow` 与 `amplicon-workflow` 中显式补充 MetaPhlAn `--unknown_estimation` 归一化一致性、16S 超变区与分类器匹配（V3–V4 vs V4）、以及严格按 ID 对齐合并等防坑检查项；同步补充插件 `icon.svg`。
+
 ## 0.1.0 (2026-11-19)
 
 首个版本：宏基因组两条路线的下游脚本链 + 知识层，不做 notebook 渲染器。
