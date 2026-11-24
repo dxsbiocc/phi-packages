@@ -1,0 +1,16 @@
+name: proteomics
+description: >-
+  Private quantitative proteomics downstream environment: Python 3.13 +
+  pandas/numpy/scipy/scikit-learn/matplotlib-base for DIA-NN/MaxQuant/FragPipe
+  inspection, normalization, MinProb/kNN imputation, empirical-Bayes moderated
+  t-test DE, PTM/phosphosite normalization + KSEA, offline ORA/GSEA, and
+  co-abundance network analysis.
+channels:
+  - conda-forge
+dependencies:
+  - python=3.13
+  - pandas
+  - numpy
+  - scipy
+  - scikit-learn
+  - matplotlib-base
