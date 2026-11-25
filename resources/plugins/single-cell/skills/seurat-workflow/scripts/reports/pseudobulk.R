@@ -25,5 +25,19 @@ emit(list(
     min_cells_expressing = min_cells_expressing
   ),
   dropped_genes = pb_info$dropped,
-  notes = chr(pb_info$notes)
+  notes = chr(pb_info$notes),
+  scientificContext = if (!is.null(counts_output) && nzchar(counts_output) && !is.null(pb_info$design) && nrow(pb_info$design) > 0) {
+    ctx <- list()
+    ctx[[counts_output]] <- list(
+      valueSemantics = "raw_counts",
+      sampleIds = chr(pb_info$design$sample),
+      donorBySample = as.list(stats::setNames(
+        as.character(pb_info$design$source_sample),
+        as.character(pb_info$design$sample)
+      ))
+    )
+    ctx
+  } else {
+    NULL
+  }
 ))

@@ -21,6 +21,7 @@ from _common import (
     fail,
     infer_scale,
     read_table,
+    write_artifact,
 )
 
 
@@ -286,10 +287,42 @@ def main() -> None:
     fig.savefig(fig_path, dpi=150)
     plt.close(fig)
 
+    params_meta = {
+        "method": args.method,
+        "shared_peptides": args.shared_peptides,
+        "min_peptides": args.min_peptides,
+    }
+    artifacts = [
+        write_artifact(
+            fig_path,
+            "prot_rollup",
+            f"Peptide-to-protein rollup ({args.method}, {len(prot_df)} proteins)",
+            inputs=(args.input,),
+            parameters=params_meta,
+        ),
+        write_artifact(
+            prot_path,
+            "prot_rollup",
+            f"Protein log2 abundance matrix ({len(prot_df)} proteins x {len(sample_names)} samples)",
+            inputs=(args.input,),
+            parameters=params_meta,
+            shape=prot_df.shape,
+        ),
+        write_artifact(
+            counts_path,
+            "prot_rollup",
+            "Per-protein peptide count and detection summary",
+            inputs=(args.input,),
+            parameters=params_meta,
+            shape=counts_df.shape,
+        ),
+    ]
+    prot_abs = os.path.abspath(prot_path)
+
     emit(
         {
             "input": os.path.abspath(args.input),
-            "protein_matrix": os.path.abspath(prot_path),
+            "protein_matrix": prot_abs,
             "peptide_counts_table": os.path.abspath(counts_path),
             "peptide_col": p_col,
             "protein_col": prot_col,
@@ -304,6 +337,13 @@ def main() -> None:
             "n_proteins_quantified": int(len(prot_df)),
             "median_peptides_per_protein": round(float(counts_df["n_peptides"].median()), 2),
             "figures": [os.path.abspath(fig_path)],
+            "scientificContext": {
+                prot_abs: {
+                    "valueSemantics": "log_transformed",
+                    "sampleIds": [str(s) for s in sample_names],
+                }
+            },
+            "artifacts": artifacts,
         }
     )
 

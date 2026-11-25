@@ -27,6 +27,8 @@
     "n_proteins_below_min_peptides": { "type": "integer" },
     "n_proteins_quantified": { "type": "integer" },
     "median_peptides_per_protein": { "type": "number" },
-    "figures": { "type": "array", "items": { "type": "string" } }
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "scientificContext": { "type": "object" },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
   }
 }

@@ -28,6 +28,7 @@
       }
     },
     "output_dir": { "type": "string" },
+    "scientificContext": { "type": "object" },
     "artifacts": { "type": "array", "items": { "type": "string" } }
   }
 }

@@ -1,6 +1,11 @@
 # Changelog — chromatin-profiling
 
-## 0.1.0 (unreleased)
+## 0.1.1 (2026-11-24)
+
+- `chip_diff` 在产出差异结合结果表时返回 `scientificContext`（`valueSemantics: "de_stats"`），供下游绘图与语义校验读取。
+- 报告层统一为各步骤产出的图表与结果表自动写入 `1.0.0` 版 `.phi-artifact.json` 旁注并返回 `artifacts` 展示列表（上限 8 项）。
+
+## 0.1.0 (2026-11-20)
 
 首个版本：R 单路 bulk ChIP-seq / CUT&Tag / CUT&RUN 下游分析插件，镜像 single-cell /
 spatial / single-cell-atac 的片段库契约。

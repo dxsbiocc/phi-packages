@@ -171,6 +171,12 @@ def main():
         "taxa_before": taxa_before,
         "taxa_after": int(len(matrix)),
         "output": args.output,
+        "scientificContext": {
+            str(args.output): {
+                "valueSemantics": "raw_counts" if value_kind == "counts" else "relative_abundance",
+                "sampleIds": [str(s) for s in matrix.columns],
+            }
+        },
         "artifacts": [artifact],
         **({"sgb_species": sgb_species} if sgb_species else {}),
     })

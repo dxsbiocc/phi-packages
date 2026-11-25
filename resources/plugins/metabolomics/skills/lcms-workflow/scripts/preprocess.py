@@ -111,6 +111,11 @@ def main():
                        skill=SKILL, inputs=[args.input], parameters=params,
                        shape=report.shape),
     ]
+    sem = (
+        "log_transformed"
+        if args.transform != "none"
+        else ("normalized" if args.normalize != "none" else "raw_intensity")
+    )
     emit({
         "input": args.input,
         "output": str(out_path),
@@ -123,6 +128,12 @@ def main():
         "n_missing_remaining": int(X.isna().sum().sum()),
         "dropped_columns": dropped,
         "factors": {str(k): float(v) for k, v in factors.items()},
+        "scientificContext": {
+            str(out_path): {
+                "valueSemantics": sem,
+                "sampleIds": [str(c) for c in X.columns],
+            }
+        },
         "artifacts": artifacts,
     })
 

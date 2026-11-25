@@ -204,7 +204,7 @@ Designs were read from public docs and READMEs. No code was copied.
 - **ChIP-Atlas.** `https://chip-atlas.dbcls.jp/api/v1/experiment` returned AccessDenied, and the experiment-list keys that were tried were missing. Roadmap Epigenomics is queried through ENCODE instead.
 - **CELLxGENE Census matrices and controlled GDC/ENCODE/HCA/HuBMAP/MetaboLights files.** Responses stay metadata. Controlled files have `url: null`.
 - **A MetaboLights metabolite catalog.** `/studies/{id}/metabolites` is not a JSON table. The `metabolite` schema exists for a later source.
-- **Catalog manifests.** Added under `resources/connectors/` for the five omics servers after the HTTPS gateway went live on `phi.omicsagent.cn`. Pharmacogenomics and literature stay out of the catalog until `/pharmacogenomics/mcp` and `/literature/mcp` are on that host. The connector count stays at 27.
+- **Catalog manifests.** Added under `resources/connectors/` for the five omics servers after the HTTPS gateway went live on `phi.omicsagent.cn`. Pharmacogenomics and literature stay out of the catalog until `/pharmacogenomics/mcp` and `/literature/mcp` are on that host. The connector count stays at 24.
 - **Literature PDF parsing, paywalled text, and paid APIs.** `get_fulltext` does not download or parse PDFs. Closed and unknown licenses return links. Semantic Scholar and arXiv are opt-in. OpenCitations is only the fallback for citations and references. bioRxiv and medRxiv keyword search is not invented on top of their date API. A category filter on a bioRxiv date browse applies to the fetched page.
 
 ## Planned

@@ -29,6 +29,8 @@
     "empirical_bayes": { "type": ["object", "null"] },
     "top_regulated": { "type": "array", "items": { "type": "object" } },
     "figures": { "type": "array", "items": { "type": "string" } },
+    "scientificContext": { "type": "object" },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
     "warnings": { "type": "array", "items": { "type": "string" } }
   }
 }

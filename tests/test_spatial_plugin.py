@@ -156,6 +156,9 @@ class TestSpatialPlugin020(unittest.TestCase):
         self.assertIn("0", res["ripley"]["per_cluster"])
         self.assertTrue(os.path.exists(out_h5))
         self.assertGreaterEqual(len(res["figures"]), 5)
+        self.assertGreaterEqual(len(res["artifacts"]), 5)
+        for art in res["artifacts"]:
+            self.assertTrue(os.path.exists(art + ".phi-artifact.json"))
 
     def test_02_niche_and_stratified_communication(self):
         niche_h5 = os.path.join(self.work, "niche_out.h5ad")

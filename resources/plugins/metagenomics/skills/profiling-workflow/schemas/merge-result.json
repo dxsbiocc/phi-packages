@@ -11,6 +11,7 @@
     "taxa_after": { "type": "integer" },
     "output": { "type": "string" },
     "sgb_species": { "type": "object", "additionalProperties": { "type": "string" } },
+    "scientificContext": { "type": "object" },
     "artifacts": { "type": "array", "items": { "type": "string" } }
   }
 }

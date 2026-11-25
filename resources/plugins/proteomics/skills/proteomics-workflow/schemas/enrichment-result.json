@@ -8,6 +8,7 @@
     "mode": { "type": "string" },
     "ora": { "type": "object" },
     "gsea": { "type": "object" },
-    "figures": { "type": "array", "items": { "type": "string" } }
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
   }
 }

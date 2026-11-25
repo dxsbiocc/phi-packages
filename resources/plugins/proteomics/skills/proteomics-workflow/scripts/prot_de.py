@@ -25,6 +25,7 @@ from _common import (
     load_metadata,
     moderated_t_test,
     read_table,
+    write_artifact,
 )
 
 
@@ -181,10 +182,43 @@ def main() -> None:
         for _, r in out_df[out_df["regulation"] != "ns"].head(15).iterrows()
     ]
 
+    params_meta = {
+        "contrast": f"{args.case}_vs_{args.control}",
+        "method": args.method,
+        "fdr": args.fdr,
+        "log2fc": args.log2fc,
+    }
+    in_files = (args.input, args.metadata)
+    artifacts = [
+        write_artifact(
+            volcano_path,
+            "prot_de",
+            f"Proteomics volcano plot ({args.case} vs {args.control}, {args.method})",
+            inputs=in_files,
+            parameters=params_meta,
+        ),
+        write_artifact(
+            ma_path,
+            "prot_de",
+            f"Proteomics MA plot ({args.case} vs {args.control})",
+            inputs=in_files,
+            parameters=params_meta,
+        ),
+        write_artifact(
+            de_path,
+            "prot_de",
+            f"Differential protein abundance ({args.case} vs {args.control})",
+            inputs=in_files,
+            parameters=params_meta,
+            shape=out_df.shape,
+        ),
+    ]
+    de_abs = os.path.abspath(de_path)
+
     emit(
         {
             "input": os.path.abspath(args.input),
-            "de_table": os.path.abspath(de_path),
+            "de_table": de_abs,
             "contrast": f"{args.case}_vs_{args.control}",
             "method": args.method,
             "n_case": len(case_cols),
@@ -197,6 +231,12 @@ def main() -> None:
             "empirical_bayes": eb_meta,
             "top_regulated": top_hits,
             "figures": [os.path.abspath(volcano_path), os.path.abspath(ma_path)],
+            "scientificContext": {
+                de_abs: {
+                    "valueSemantics": "de_stats",
+                }
+            },
+            "artifacts": artifacts,
             "warnings": warnings,
         }
     )

@@ -25,6 +25,7 @@ from _common import (
     moderated_t_test,
     normalize_gene_id,
     read_table,
+    write_artifact,
 )
 
 
@@ -230,10 +231,57 @@ def main() -> None:
         else:
             ksea_summary = {"skipped": f"no kinase had >= {args.min_substrates} quantified substrates"}
 
+    params_meta = {
+        "contrast": f"{args.case}_vs_{args.control}",
+        "protein_normalized": protein_normalized,
+        "fdr": args.fdr,
+        "log2fc": args.log2fc,
+    }
+    in_files = (args.ptm_matrix, args.protein_matrix, args.metadata, args.kinase_table)
+    artifacts = [
+        write_artifact(
+            volc_path,
+            "prot_ptm",
+            f"PTM differential volcano plot ({args.case} vs {args.control})",
+            inputs=in_files,
+            parameters=params_meta,
+        ),
+        write_artifact(
+            ptm_de_path,
+            "prot_ptm",
+            f"PTM differential results ({args.case} vs {args.control})",
+            inputs=in_files,
+            parameters=params_meta,
+            shape=ptm_out.shape,
+        ),
+    ]
+    if ksea_path is not None:
+        if len(figures) > 1:
+            artifacts.append(
+                write_artifact(
+                    figures[1],
+                    "prot_ptm",
+                    "Kinase-Substrate Enrichment Analysis (KSEA) barplot",
+                    inputs=in_files,
+                    parameters=params_meta,
+                )
+            )
+        artifacts.append(
+            write_artifact(
+                ksea_path,
+                "prot_ptm",
+                "Kinase-Substrate Enrichment Analysis (KSEA) table",
+                inputs=in_files,
+                parameters=params_meta,
+                shape=ksea_df.shape,
+            )
+        )
+    ptm_de_abs = os.path.abspath(ptm_de_path)
+
     emit(
         {
             "ptm_matrix": os.path.abspath(args.ptm_matrix),
-            "ptm_de_table": os.path.abspath(ptm_de_path),
+            "ptm_de_table": ptm_de_abs,
             "protein_normalized": protein_normalized,
             "n_sites_protein_normalized": n_sites_normalized,
             "contrast": f"{args.case}_vs_{args.control}",
@@ -242,6 +290,12 @@ def main() -> None:
             "n_down": int((ptm_out["regulation"] == "down").sum()),
             "ksea": ksea_summary,
             "figures": [os.path.abspath(f) for f in figures],
+            "scientificContext": {
+                ptm_de_abs: {
+                    "valueSemantics": "de_stats",
+                }
+            },
+            "artifacts": artifacts,
             "warnings": warnings,
         }
     )

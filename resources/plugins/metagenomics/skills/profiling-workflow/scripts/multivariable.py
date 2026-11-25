@@ -243,6 +243,11 @@ def main():
                 "table": str(tsv_path),
                 "volcano_figure": str(fig_path),
             },
+            "scientificContext": {
+                str(tsv_path): {
+                    "valueSemantics": "de_stats",
+                }
+            },
             "artifacts": artifacts,
             "caveat": "CLR + OLS linear regression adjusts for compositional closure and listed "
                       "covariates under Gaussian residual assumptions; it is a lightweight Python "

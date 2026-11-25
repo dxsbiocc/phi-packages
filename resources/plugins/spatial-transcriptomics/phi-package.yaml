@@ -1,7 +1,7 @@
 schemaVersion: 1
 id: spatial-transcriptomics
 type: plugin
-version: 0.2.0
+version: 0.2.1
 title: Spatial Transcriptomics
 summary: >-
   Spatial transcriptomics (scanpy/squidpy/spatialdata, st_py_) for 10x Visium

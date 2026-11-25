@@ -5,9 +5,9 @@
 ## 分工边界
 
 - **重型计算（GPU 推理、批量结构预测与流水线调度）**：统一由 `resources/wrappers/` 中的 Nextflow Wrapper 执行，通过 `wrapper_search` / `wrapper_inspect` / `wrapper_plan_run` 调度：
-  - 模块：`local/modules/rfd3`、`local/modules/ligandmpnn`、`local/modules/boltz2`、`local/modules/alphafold3`、`local/modules/protein-metrics`、`local/modules/design-filter`
-  - 子工作流：`local/subworkflows/seq-fold-eval`（支持 `predictor: boltz2 | alphafold3`）、`local/subworkflows/design-postprocess`
-  - 端到端工作流：`local/workflows/protein-binder-design`
+  - 模块：`local/modules/rfd3`、`local/modules/ligandmpnn`、`local/modules/boltz2`、`local/modules/alphafold3`、`local/modules/protenix`、`local/modules/chai1`、`local/modules/esmfold2`、`local/modules/bindcraft`、`local/modules/foldseek-easysearch`、`local/modules/foldseek-easycluster`、`local/modules/protein-metrics`、`local/modules/design-filter`
+  - 子工作流：`local/subworkflows/seq-fold-eval`（支持 `predictor: boltz2 | alphafold3 | protenix | chai1`）、`local/subworkflows/design-postprocess`（支持可选 Foldseek 结构聚类去冗余）
+  - 端到端工作流：`local/workflows/protein-binder-design`（支持四选一结构预测器与可选 `FOLDSEEK_EASYCLUSTER` 结构去冗余）
 - **领域插件（本目录）**：提供专属专家智能体 `ProteinDesign`、三大使用教程与决策手册 Skill，以及无第三方依赖的轻量确定性 Python 校验/诊断工具（`pd_*` 前缀，复用共享 `phi:python@1` 环境）。
 
 ## 内置组件

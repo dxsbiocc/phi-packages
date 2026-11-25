@@ -71,7 +71,7 @@ class TestMetagenomicsStaticAndContracts(unittest.TestCase):
 
     def test_schemas_and_plugin_manifest_wiring(self) -> None:
         manifest = (MG_PLUGIN / "phi-package.yaml").read_text(encoding="utf-8")
-        self.assertIn("version: 0.3.0", manifest)
+        self.assertIn("version: 0.3.1", manifest)
         self.assertIn("skills/amplicon-workflow", manifest)
 
         schemas = [

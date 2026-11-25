@@ -1,4 +1,4 @@
-# metagenomics (metagenomic analysis) · 0.3.0
+# metagenomics (metagenomic analysis) · 0.3.1
 
 **Downstream analysis chains + knowledge layer** for three microbiome routes
 sharing one private locked Python environment (`plugin:metagenomics`, Python

@@ -38,7 +38,7 @@ share one tree (§ 4).
 | `name`    | yes      | 1–80 characters, shown to the user and the agent                                                                  |
 | `summary` | yes      | 1–300 characters                                                                                                  |
 | `params`  | yes      | map `<name>` → param (below); names `^[a-z][a-z0-9_]*$`                                                           |
-| `outputs` | yes      | map `<name>` → `{ type, path, primary? }`; `path` may reference params as `${name}`; at least one `primary: true` |
+| `outputs` | yes      | map `<name>` → `{ type, path, primary?, scientificContext? }`; `path` may reference params as `${name}`; at least one `primary: true`; optional `scientificContext` declares semantic matrix/table hints (such as `valueSemantics` and `samplesheetParam`) for downstream tools |
 
 A param is `{ kind, type, required?, description?, minimum?, maximum?, enum? }`:
 `kind` is `input`, `output`, or `option`; `type` is a non-empty string (`path`,

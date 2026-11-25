@@ -134,6 +134,11 @@ def main():
         "fdr_threshold": args.fdr,
         "fc_threshold": args.fc_threshold if two_group else None,
         "top_taxa": df.head(10).reset_index().to_dict(orient="records"),
+        "scientificContext": {
+            str(table_path): {
+                "valueSemantics": "de_stats",
+            }
+        },
         "artifacts": artifacts,
     })
 

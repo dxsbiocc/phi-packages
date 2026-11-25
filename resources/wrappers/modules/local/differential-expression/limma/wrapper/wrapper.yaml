@@ -85,6 +85,9 @@ outputs:
     type: file
     path: '${outdir}/limma_differential/${prefix}.limma.results.tsv'
     primary: true
+    scientificContext:
+      valueSemantics: de_stats
+      samplesheetParam: samplesheet
   model:
     type: file
     path: '${outdir}/limma_differential/${prefix}.limma.model.txt'

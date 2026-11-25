@@ -34,6 +34,7 @@
         "volcano_figure": { "type": "string" }
       }
     },
+    "scientificContext": { "type": "object" },
     "artifacts": { "type": "array", "items": { "type": "string" } },
     "caveat": { "type": "string" }
   }

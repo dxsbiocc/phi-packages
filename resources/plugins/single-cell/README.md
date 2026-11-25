@@ -1,4 +1,4 @@
-# single-cell (single-cell analysis) · 0.6.0
+# single-cell (single-cell analysis) · 0.6.1
 
 Two parallel single-cell RNA-seq toolchains: **R/Seurat 6** and **Python/scanpy 1.13**, each
 with a private locked environment, routed by user preference. Includes a map of the 13 teaching

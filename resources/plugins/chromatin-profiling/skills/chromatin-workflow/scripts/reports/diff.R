@@ -20,6 +20,13 @@ if (is.null(result)) {
     note = result$note,
     error = result$error,
     figures = chr(unlist(figure_paths, use.names = FALSE)),
-    steps = chr(analysis_steps)
+    steps = chr(analysis_steps),
+    scientificContext = if (!is.null(result$table) && nzchar(result$table)) {
+      ctx <- list()
+      ctx[[result$table]] <- list(valueSemantics = "de_stats")
+      ctx
+    } else {
+      NULL
+    }
   ))
 }

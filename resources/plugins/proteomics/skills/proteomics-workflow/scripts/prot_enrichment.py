@@ -15,7 +15,7 @@ import pandas as pd
 from scipy import stats
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from _common import bh_fdr, emit, fail, normalize_gene_id, read_gmt, read_table
+from _common import bh_fdr, emit, fail, normalize_gene_id, read_gmt, read_table, write_artifact
 
 
 def run_ora(
@@ -179,6 +179,9 @@ def main() -> None:
     universe = set(de["_gene"])
 
     figures: list[str] = []
+    artifacts: list[str] = []
+    in_files = (args.de_table, args.gmt)
+    params_meta = {"mode": args.mode, "direction": args.direction, "fdr": args.fdr}
     ora_summary = {"skipped": "mode=gsea"}
     gsea_summary = {"skipped": "mode=ora"}
 
@@ -195,6 +198,16 @@ def main() -> None:
         ora_df = run_ora(fg, universe, gmt, args.min_set_size, args.max_set_size)
         ora_path = os.path.join(args.output_dir, "ora_results.tsv")
         ora_df.to_csv(ora_path, sep="\t", index=False)
+        artifacts.append(
+            write_artifact(
+                ora_path,
+                "prot_enrichment",
+                "Proteomics over-representation analysis (ORA) results",
+                inputs=in_files,
+                parameters=params_meta,
+                shape=ora_df.shape,
+            )
+        )
         ora_summary = {
             "ora_table": os.path.abspath(ora_path),
             "universe_size": len(universe),
@@ -230,6 +243,16 @@ def main() -> None:
         )
         gsea_path = os.path.join(args.output_dir, "gsea_results.tsv")
         gsea_df.to_csv(gsea_path, sep="\t", index=False)
+        artifacts.append(
+            write_artifact(
+                gsea_path,
+                "prot_enrichment",
+                "Proteomics pre-ranked GSEA results",
+                inputs=in_files,
+                parameters=params_meta,
+                shape=gsea_df.shape,
+            )
+        )
         gsea_summary = {
             "gsea_table": os.path.abspath(gsea_path),
             "n_ranked_proteins": int(len(de_rank)),
@@ -257,6 +280,16 @@ def main() -> None:
             fig.savefig(fig_path, dpi=150)
             plt.close(fig)
             figures.append(fig_path)
+            artifacts.insert(
+                0,
+                write_artifact(
+                    fig_path,
+                    "prot_enrichment",
+                    "Proteomics pre-ranked GSEA NES barplot",
+                    inputs=in_files,
+                    parameters=params_meta,
+                ),
+            )
 
     emit(
         {
@@ -266,6 +299,7 @@ def main() -> None:
             "ora": ora_summary,
             "gsea": gsea_summary,
             "figures": [os.path.abspath(f) for f in figures],
+            "artifacts": artifacts,
         }
     )
 

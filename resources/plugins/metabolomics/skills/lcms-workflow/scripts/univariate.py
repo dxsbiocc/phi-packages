@@ -180,6 +180,11 @@ def main():
                                       else float(r["log2_fold_change"]))}
                 for i, r in top.iterrows()],
         "output_dir": str(out),
+        "scientificContext": {
+            str(table_path): {
+                "valueSemantics": "de_stats",
+            }
+        },
         "artifacts": artifacts,
     })
 

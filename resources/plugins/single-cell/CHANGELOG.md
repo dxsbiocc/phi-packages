@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.1 (2026-11-24)
+
+- R 路 `sc_pseudobulk` 与 Python 路 `sc_py_pseudobulk` 在导出样本级聚合计数矩阵时同步返回 `scientificContext`（`valueSemantics: "raw_counts"`、`sampleIds` 与 `donorBySample` 映射），与下游差异表达 Wrapper 的矩阵语义契约对齐。
+- R 路与 Python 路报告层统一为所有产出的图表与表格自动生成 `1.0.0` 版 `.phi-artifact.json` 旁注并返回 `artifacts` 展示列表（上限 8 项）。
+
 ## 0.6.0 (2026-11-19)
 
 每路只有**一份分析代码**，知识按功能归位：片段库既是 notebook 的细胞，也是

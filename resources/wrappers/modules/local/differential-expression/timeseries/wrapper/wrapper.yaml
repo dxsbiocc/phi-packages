@@ -79,6 +79,9 @@ outputs:
     type: file
     path: '${outdir}/dream/${prefix}.dream.results.tsv'
     primary: true
+    scientificContext:
+      valueSemantics: de_stats
+      samplesheetParam: samplesheet
   model:
     type: file
     path: '${outdir}/dream/${prefix}.dream.model.txt'

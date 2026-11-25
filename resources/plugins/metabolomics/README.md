@@ -1,4 +1,4 @@
-# metabolomics (metabolomic analysis) · 0.1.0
+# metabolomics (metabolomic analysis) · 0.1.1
 
 **Downstream analysis chain + knowledge layer** for untargeted LC-MS feature
 tables: vendor export inspection (xcms/MZmine/MS-DIAL/MetaboAnalyst) → QC

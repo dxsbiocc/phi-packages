@@ -74,9 +74,15 @@ outputs:
     type: file
     path: '${outdir}/edger_differential/${prefix}.edger.results.tsv'
     primary: true
+    scientificContext:
+      valueSemantics: de_stats
+      samplesheetParam: samplesheet
   normalised_counts:
     type: file
     path: '${outdir}/edger_differential/${prefix}.normalised_counts.tsv'
+    scientificContext:
+      valueSemantics: cpm
+      samplesheetParam: samplesheet
   bcv_plot:
     type: file
     path: '${outdir}/edger_differential/${prefix}.edger.bcv.pdf'

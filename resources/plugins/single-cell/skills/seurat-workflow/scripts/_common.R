@@ -36,7 +36,109 @@ fail <- function(...) {
   quit(status = 1, save = "no")
 }
 
+.seurat_tool_map <- c(
+  "project_inspect.R" = "sc_inspect",
+  "qc_filter.R" = "sc_qc",
+  "preprocess_cluster.R" = "sc_preprocess",
+  "find_markers.R" = "sc_markers",
+  "annotate_clusters.R" = "sc_annotate",
+  "pseudobulk.R" = "sc_pseudobulk",
+  "env_probe.R" = "sc_env_probe"
+)
+
+.running_tool_name <- function(tool_map, prefix) {
+  args <- commandArgs(trailingOnly = FALSE)
+  file <- sub("^--file=", "", args[startsWith(args, "--file=")])
+  if (length(file) == 0) return(paste0(prefix, "_tool"))
+  base <- basename(file[[1]])
+  if (base %in% names(tool_map)) unname(tool_map[[base]]) else paste0(prefix, "_", tools::file_path_sans_ext(base))
+}
+
+.png_dims <- function(path) {
+  con <- file(path, "rb")
+  on.exit(close(con), add = TRUE)
+  hdr <- readBin(con, what = "raw", n = 24L)
+  if (length(hdr) < 24L || !identical(as.integer(hdr[1:8]), c(137L, 80L, 78L, 71L, 13L, 10L, 26L, 10L))) return(NULL)
+  b <- as.numeric(hdr[17:24])
+  w <- ((b[1] * 256 + b[2]) * 256 + b[3]) * 256 + b[4]
+  h <- ((b[5] * 256 + b[6]) * 256 + b[7]) * 256 + b[8]
+  list(widthPx = as.integer(w), heightPx = as.integer(h))
+}
+
+write_artifact_sidecar <- function(path, tool, skill = "seurat-workflow") {
+  if (is.null(path) || !nzchar(path) || !file.exists(path) || dir.exists(path)) return(NULL)
+  ext <- tolower(tools::file_ext(path))
+  if (ext %in% c("png", "pdf", "svg")) {
+    kind <- "figure"
+    media <- switch(ext, png = "image/png", pdf = "application/pdf", svg = "image/svg+xml")
+  } else if (ext %in% c("tsv", "csv")) {
+    kind <- "table"
+    media <- if (ext == "csv") "text/csv" else "text/tab-separated-values"
+  } else {
+    return(NULL)
+  }
+  stem <- gsub("[-_]+", " ", tools::file_path_sans_ext(basename(path)))
+  title <- substr(if (nzchar(trimws(stem))) paste0(tool, ": ", trimws(stem)) else tool, 1L, 200L)
+  desc <- list(
+    contractVersion = "1.0.0",
+    kind = kind,
+    file = basename(path),
+    mediaType = media,
+    title = title,
+    provenance = list(
+      createdAt = format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"),
+      tool = tool,
+      skill = skill
+    )
+  )
+  if (kind == "figure") {
+    fig_block <- list(format = ext)
+    if (ext == "png") {
+      dims <- tryCatch(.png_dims(path), error = function(e) NULL)
+      if (!is.null(dims)) {
+        fig_block$widthPx <- dims$widthPx
+        fig_block$heightPx <- dims$heightPx
+      }
+    }
+    desc$figure <- fig_block
+  } else if (kind == "table") {
+    sep <- if (ext == "csv") "," else "\t"
+    lines <- tryCatch(readLines(path, warn = FALSE), error = function(e) character(0))
+    if (length(lines) > 0) {
+      n_cols <- length(strsplit(lines[[1]], sep, fixed = TRUE)[[1]])
+      desc$table <- list(rows = as.integer(max(0L, length(lines) - 1L)), columns = as.integer(n_cols))
+    }
+  }
+  sidecar <- paste0(path, ".phi-artifact.json")
+  tmp <- paste0(sidecar, ".tmp")
+  writeLines(jsonlite::toJSON(desc, auto_unbox = TRUE, null = "null", pretty = TRUE), tmp, useBytes = TRUE)
+  file.rename(tmp, sidecar)
+  path
+}
+
+attach_artifacts <- function(result, tool_map = .seurat_tool_map, prefix = "sc", skill = "seurat-workflow") {
+  if (!is.list(result) || !is.null(result$artifacts) || !is.null(result$error)) return(result)
+  cands <- character(0)
+  for (key in c("figures", "table", "tables", "outputs")) {
+    val <- result[[key]]
+    if (is.character(val)) cands <- c(cands, as.character(val))
+  }
+  cands <- unique(cands[nzchar(cands)])
+  if (length(cands) == 0) return(result)
+  tool <- .running_tool_name(tool_map, prefix)
+  written <- character(0)
+  for (p in cands) {
+    art <- write_artifact_sidecar(p, tool = tool, skill = skill)
+    if (!is.null(art)) written <- c(written, art)
+  }
+  if (length(written) > 0) {
+    result$artifacts <- chr(head(written, 8L))
+  }
+  result
+}
+
 emit <- function(result) {
+  result <- attach_artifacts(result)
   cat(jsonlite::toJSON(result, auto_unbox = TRUE, null = "null", digits = NA, pretty = TRUE))
   cat("\n")
   invisible(result)

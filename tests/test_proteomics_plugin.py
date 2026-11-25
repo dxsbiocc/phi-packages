@@ -175,7 +175,11 @@ class TestProteomicsPlugin(unittest.TestCase):
         self.assertEqual(qc["n_features_kept"], 80)
         self.assertTrue(qc["log2_transformed"])
         self.assertEqual(len(qc["figures"]), 3)
+        self.assertEqual(len(qc["artifacts"]), 5)
+        for art in qc["artifacts"]:
+            self.assertTrue(os.path.exists(art + ".phi-artifact.json"))
         proc_mat = qc["processed_matrix"]
+        self.assertEqual(qc["scientificContext"][proc_mat]["valueSemantics"], "log_transformed")
         self.assertTrue(os.path.exists(proc_mat))
 
         # 3. prot_de (empirical-Bayes moderated t-test)
@@ -195,7 +199,9 @@ class TestProteomicsPlugin(unittest.TestCase):
         self.assertGreaterEqual(de["n_down"], 10)
         self.assertTrue(de["empirical_bayes"]["shrunk"])
         self.assertEqual(len(de["figures"]), 2)
+        self.assertEqual(len(de["artifacts"]), 3)
         de_table = de["de_table"]
+        self.assertEqual(de["scientificContext"][de_table]["valueSemantics"], "de_stats")
 
         # 4. prot_ptm (with total-protein normalization + KSEA)
         ptm_dir = os.path.join(self.work, "ptm")

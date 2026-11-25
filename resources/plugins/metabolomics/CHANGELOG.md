@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1 (2026-11-24)
+
+- `mb_preprocess` 与 `mb_univariate` 新增 `scientificContext` 语义输出（按处理步骤自动标记 `log_transformed` / `normalized` / `raw_intensity` + `sampleIds`，以及单变量检验表的 `de_stats`），同步更新输出 JSON Schema。
+
 ## 0.1.0 (2026-11-20)
 
 首个版本：非靶向 LC-MS 特征表下游脚本链 + 知识层，不做 notebook 渲染器，

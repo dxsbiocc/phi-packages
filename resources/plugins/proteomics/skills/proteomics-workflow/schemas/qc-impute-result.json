@@ -29,6 +29,8 @@
     "imputation": { "type": "string" },
     "missing_fraction_before_impute": { "type": "number" },
     "pca": { "type": ["object", "null"] },
-    "figures": { "type": "array", "items": { "type": "string" } }
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "scientificContext": { "type": "object" },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
   }
 }

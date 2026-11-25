@@ -23,6 +23,7 @@ from _common import (
     emit,
     fail,
     read_table,
+    write_artifact,
 )
 
 
@@ -177,6 +178,39 @@ def main() -> None:
     fig.savefig(hm_path, dpi=150)
     plt.close(fig)
 
+    params_meta = {
+        "method": args.method,
+        "top_n": args.top_n,
+        "min_abs_corr": args.min_abs_corr,
+        "fdr": args.fdr,
+    }
+    in_files = (args.input, args.de_table)
+    artifacts = [
+        write_artifact(
+            hm_path,
+            "prot_network",
+            f"Protein co-abundance correlation heatmap ({n_p} proteins)",
+            inputs=in_files,
+            parameters=params_meta,
+        ),
+        write_artifact(
+            edges_path,
+            "prot_network",
+            "Protein co-abundance network edge list",
+            inputs=in_files,
+            parameters=params_meta,
+            shape=edges_df.shape,
+        ),
+        write_artifact(
+            hubs_path,
+            "prot_network",
+            "Protein co-abundance module and hub scores",
+            inputs=in_files,
+            parameters=params_meta,
+            shape=hub_df.shape,
+        ),
+    ]
+
     n_nontrivial_modules = int(sum(1 for _, grp in hub_df.groupby("module") if len(grp) >= 2))
     emit(
         {
@@ -197,6 +231,7 @@ def main() -> None:
                 for _, r in hub_df.head(10).iterrows()
             ],
             "figures": [os.path.abspath(hm_path)],
+            "artifacts": artifacts,
         }
     )
 

@@ -177,6 +177,8 @@ directory, and `timeoutSeconds`.
 - An output may list files it produced under `artifacts: [<project path>, …]`; each needs a
   `<file>.phi-artifact.json` descriptor (artifact contract, step 4 of the implementation plan).
   Until that contract exists, the engine passes `artifacts` through unchanged.
+- An output may include `scientificContext: { "<project path>": { valueSemantics, sampleIds?, donorBySample?, … } }`
+  to attach machine-readable matrix/table semantics to written files for downstream validation and plotting.
 
 ### 5.6 Approval
 

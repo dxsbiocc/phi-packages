@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.1 (2026-11-24)
+
+- `mg_merge`、`mg_differential` 与 `mg_multivariable` 新增 `scientificContext` 语义输出（区分 `raw_counts` 与 `relative_abundance` 并附带 `sampleIds`，差异分析表标记 `de_stats`），同步更新对应输出 JSON Schema。
+
 ## 0.3.0 (2026-11-23)
 
 在现有 `plugin:metagenomics` 锁定环境内继续补齐两项高频下游能力（无新增包依赖）：

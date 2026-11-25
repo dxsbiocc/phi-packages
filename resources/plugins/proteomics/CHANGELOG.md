@@ -1,5 +1,10 @@
 # Changelog — proteomics
 
+## 0.2.1 (2026-11-24)
+
+- Add contract-1.0.0 `.phi-artifact.json` descriptors and `artifacts` lists across all file-producing tools (`prot_rollup`, `prot_qc_impute`, `prot_de`, `prot_ptm`, `prot_enrichment`, `prot_network`).
+- Add `scientificContext` annotations (`log_transformed` + `sampleIds` on `prot_rollup` and `prot_qc_impute`; `de_stats` on `prot_de` and `prot_ptm`) and update output JSON schemas.
+
 ## 0.2.0 (2026-11-24)
 
 - `prot_rollup`: added peptide/precursor-to-protein rollup (`rrollup` reference-scaled log2 rollup, `top3`/Hi3, `median`, `sum`) with `unique_only` vs Occam's `razor` shared-peptide handling, contaminant removal, per-protein peptide counts, and histogram output.

@@ -90,12 +90,21 @@ outputs:
     type: file
     path: '${outdir}/deseq2_differential/${prefix}.deseq2.results.tsv'
     primary: true
+    scientificContext:
+      valueSemantics: de_stats
+      samplesheetParam: samplesheet
   normalised_counts:
     type: file
     path: '${outdir}/deseq2_differential/${prefix}.normalised_counts.tsv'
+    scientificContext:
+      valueSemantics: normalized
+      samplesheetParam: samplesheet
   vst_counts:
     type: file
     path: '${outdir}/deseq2_differential/${prefix}.vst.tsv'
+    scientificContext:
+      valueSemantics: log_transformed
+      samplesheetParam: samplesheet
   size_factors:
     type: file
     path: '${outdir}/deseq2_differential/${prefix}.deseq2.sizefactors.tsv'

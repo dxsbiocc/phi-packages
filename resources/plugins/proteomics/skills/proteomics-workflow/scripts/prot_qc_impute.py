@@ -25,6 +25,7 @@ from _common import (
     infer_scale,
     load_metadata,
     read_table,
+    write_artifact,
 )
 
 
@@ -267,10 +268,55 @@ def main() -> None:
         plt.close(fig)
         figures.append(p_pca)
 
+    params_meta = {
+        "min_valid_frac": args.min_valid_frac,
+        "filter_mode": used_filter_mode,
+        "normalization": args.normalization,
+        "imputation": args.imputation,
+    }
+    in_files = (args.input, args.metadata)
+    fig_titles = {
+        "qc-missingness.png": "Per-sample missingness barplot",
+        "qc-intensity-boxplot.png": f"Normalized log2 intensity distributions ({args.normalization}, {args.imputation})",
+        "qc-pca.png": "Proteomics sample PCA",
+    }
+    artifacts = [
+        write_artifact(
+            f,
+            "prot_qc_impute",
+            fig_titles.get(os.path.basename(f), os.path.basename(f)),
+            inputs=in_files,
+            parameters=params_meta,
+        )
+        for f in figures
+    ]
+    proc_out_df = mat_proc.reset_index()
+    artifacts.extend(
+        [
+            write_artifact(
+                proc_path,
+                "prot_qc_impute",
+                f"Processed log2 protein matrix ({mat_proc.shape[0]} proteins x {mat_proc.shape[1]} samples)",
+                inputs=in_files,
+                parameters=params_meta,
+                shape=proc_out_df.shape,
+            ),
+            write_artifact(
+                qc_path,
+                "prot_qc_impute",
+                "Proteomics per-sample QC summary",
+                inputs=in_files,
+                parameters=params_meta,
+                shape=qc_df.shape,
+            ),
+        ]
+    )
+    proc_abs = os.path.abspath(proc_path)
+
     emit(
         {
             "input": os.path.abspath(args.input),
-            "processed_matrix": os.path.abspath(proc_path),
+            "processed_matrix": proc_abs,
             "sample_qc_table": os.path.abspath(qc_path),
             "detected_format": det["format"],
             "n_features_raw": n_raw,
@@ -285,6 +331,13 @@ def main() -> None:
             "missing_fraction_before_impute": missing_frac_before_impute,
             "pca": pca_info,
             "figures": [os.path.abspath(f) for f in figures],
+            "scientificContext": {
+                proc_abs: {
+                    "valueSemantics": "log_transformed",
+                    "sampleIds": [str(s) for s in mat_proc.columns],
+                }
+            },
+            "artifacts": artifacts,
         }
     )
 

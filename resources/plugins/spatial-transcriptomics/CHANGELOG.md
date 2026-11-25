@@ -1,5 +1,9 @@
 # Changelog — spatial-transcriptomics
 
+## 0.2.1 (2026-11-24)
+
+- 在报告输出层统一为所有工具产出的图像与结果表写入 `1.0.0` 版 `.phi-artifact.json` 描述旁注并附带 `artifacts` 展示列表（上限 8 项）。
+
 ## 0.2.0 (2026-11-23)
 
 纯 conda-forge 零新依赖的空间分析升级（保持 `plugin:spatial` 锁环境不变）：

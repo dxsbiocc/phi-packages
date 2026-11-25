@@ -11,6 +11,7 @@
     "fdr_threshold": { "type": "number" },
     "fc_threshold": { "type": ["number", "null"] },
     "top_taxa": { "type": "array", "items": { "type": "object" } },
+    "scientificContext": { "type": "object" },
     "artifacts": { "type": "array", "items": { "type": "string" } }
   }
 }

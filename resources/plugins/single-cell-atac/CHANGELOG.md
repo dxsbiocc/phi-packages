@@ -1,6 +1,10 @@
 # Changelog — single-cell-atac
 
-## 0.1.0 (unreleased)
+## 0.1.1 (2026-11-24)
+
+- 在报告输出层自动为产出的图表（含交互式 Plotly `.html` 报告及 `.png`/`.svg`）与结果表生成 `1.0.0` 版 `.phi-artifact.json` 旁注并返回 `artifacts` 列表（上限 8 项）。
+
+## 0.1.0 (2026-11-20)
 
 首个版本：Python 单路单细胞 ATAC 分析插件，镜像 single-cell / spatial 的片段库契约。
 
