@@ -9,16 +9,16 @@ Phi 的独立公开内容仓库，保存可安装领域能力的源码。
 | 内容 | 数量 |
 | --- | ---: |
 | 独立 skills | 16 |
-| MCP connector 定义 | 27 |
-| Phi 复合插件 | 12 |
-| 插件内 skills | 19 |
-| Wrapper 适配器 | 654 |
+| MCP connector 定义 | 24 |
+| Phi 复合插件 | 13 |
+| 插件内 skills | 20 |
+| Wrapper 适配器 | 2202 |
 
 ```text
 resources/
   skills/                独立技能、参考资料和脚本
   connectors/            MCP 连接器声明
-  plugins/               Visualization、literature-library、single-cell、single-cell-atac、chromatin-profiling、metagenomics、spatial-transcriptomics、metabolomics、protein-design、bulk-rna-seq、proteomics 与 genomics 插件及其组件
+  plugins/               Visualization、literature-library、single-cell、single-cell-atac、chromatin-profiling、metagenomics、spatial-transcriptomics、metabolomics、protein-design、bulk-rna-seq、proteomics、genomics 与 clinical-survival 插件及其组件
   wrappers/              Nextflow module、subworkflow、workflow 和适配器
 docs/
   contracts/             Phi 内容契约参考快照
@@ -84,4 +84,4 @@ Phi 官方共享环境和应用级色板由主程序提供，本仓库不复制�
 
 ## 组学 MCP 服务
 
-`mcp-servers/` 是六个自建的只读组学 MCP 服务（转录组与单细胞、癌症组学、表观基因组、蛋白质组、代谢组、药物基因组），另有一个文献服务。其中五个组学服务的公开 HTTPS 网关已部署在 `https://phi.omicsagent.cn/{transcriptomics,cancer,epigenomics,proteomics,metabolomics}/mcp`，对应 connector 在 `resources/connectors/`。药物基因组服务读取 `data-pipelines/pharmacogenomics` 产出的 Parquet。文献服务挂在 `/literature/mcp`。这两条路径都还没有公开 HTTPS 地址，因此 connector 计数保持 27。本地 stdio/HTTP、Docker 见 [mcp-servers/README.md](mcp-servers/README.md)。
+`mcp-servers/` 是六个自建的只读组学 MCP 服务（转录组与单细胞、癌症组学、表观基因组、蛋白质组、代谢组、药物基因组），另有一个文献服务。其中五个组学服务的公开 HTTPS 网关已部署在 `https://phi.omicsagent.cn/{transcriptomics,cancer,epigenomics,proteomics,metabolomics}/mcp`，对应 connector 在 `resources/connectors/`。药物基因组服务读取 `data-pipelines/pharmacogenomics` 产出的 Parquet。文献服务挂在 `/literature/mcp`。这两条路径都还没有公开 HTTPS 地址，因此 connector 计数保持 24。本地 stdio/HTTP、Docker 见 [mcp-servers/README.md](mcp-servers/README.md)。

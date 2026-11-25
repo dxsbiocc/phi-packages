@@ -1,0 +1,19 @@
+schemaVersion: 1
+id: clinical-survival
+type: plugin
+version: 0.1.0
+title: Clinical & Survival Biostatistics
+summary: >-
+  Clinical cohort and survival biostatistics (clin_): follow-up & EPV inspection,
+  stratified Table 1 with normality/SMD checks, Kaplan-Meier curves with risk
+  tables & log-rank tests, univariable/multivariable Cox regression with
+  Schoenfeld PH diagnostics & forest plots, and time-dependent ROC.
+toolPrefix: clin
+components:
+  agents:
+    - agents/ClinicalSurvival.md
+  skills:
+    - skills/survival-workflow
+environments:
+  clinical:
+    spec: environments/clinical/environment.yml

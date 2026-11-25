@@ -1,10 +1,75 @@
 import assert from 'node:assert/strict'
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import test from 'node:test'
 
 const root = process.env.PHI_PACKAGES_TEST_ROOT ?? fileURLToPath(new URL('..', import.meta.url))
+
+function listSubdirs(dir) {
+  return readdirSync(dir)
+    .filter(name => name !== '.DS_Store' && statSync(join(dir, name)).isDirectory())
+    .sort()
+}
+
+function countWrapperAdapters(dir) {
+  let total = 0
+  const stack = [dir]
+  while (stack.length > 0) {
+    const current = stack.pop()
+    for (const entry of readdirSync(current, { withFileTypes: true })) {
+      if (entry.name === '.DS_Store') continue
+      const full = join(current, entry.name)
+      if (entry.isDirectory()) stack.push(full)
+      else if (entry.name === 'wrapper.yaml' && current.endsWith('/wrapper')) total += 1
+    }
+  }
+  return total
+}
+
+test('READMEs and SOURCE.json counts stay synchronized with repository directories', () => {
+  const provenance = JSON.parse(readFileSync(join(root, 'SOURCE.json'), 'utf8'))
+  const readmeZh = readFileSync(join(root, 'README.md'), 'utf8')
+  const readmeEn = readFileSync(join(root, 'README.en.md'), 'utf8')
+
+  const skills = listSubdirs(join(root, 'resources/skills')).length
+  const connectors = listSubdirs(join(root, 'resources/connectors')).length
+  const plugins = listSubdirs(join(root, 'resources/plugins'))
+  const pluginSkills = plugins.reduce((sum, plugin) => {
+    const skillsDir = join(root, 'resources/plugins', plugin, 'skills')
+    return sum + (existsSync(skillsDir) ? listSubdirs(skillsDir).filter(s => existsSync(join(skillsDir, s, 'SKILL.md'))).length : 0)
+  }, 0)
+  const wrappers = countWrapperAdapters(join(root, 'resources/wrappers'))
+
+  assert.equal(provenance.counts.standaloneSkills, skills)
+  assert.equal(provenance.counts.connectors, connectors)
+  assert.equal(provenance.counts.plugins, plugins.length)
+  assert.equal(provenance.counts.pluginSkills, pluginSkills)
+  assert.equal(provenance.counts.wrapperAdapters, wrappers)
+
+  assert.match(readmeZh, new RegExp(`\\| MCP connector 定义 \\| ${connectors} \\|`))
+  assert.match(readmeZh, new RegExp(`\\| Phi 复合插件 \\| ${plugins.length} \\|`))
+  assert.match(readmeZh, new RegExp(`\\| Wrapper 适配器 \\| ${wrappers} \\|`))
+  assert.match(readmeEn, new RegExp(`\\| MCP connector definitions \\| ${connectors} \\|`))
+  assert.match(readmeEn, new RegExp(`\\| Composite Phi plugins \\| ${plugins.length} \\|`))
+  assert.match(readmeEn, new RegExp(`\\| Wrapper adapters \\| ${wrappers} \\|`))
+
+  const addedByPath = new Map((provenance.addedContent ?? []).map(item => [item.path.replace(/\/$/, ''), item]))
+  for (const plugin of plugins) {
+    const pluginDir = join(root, 'resources/plugins', plugin)
+    const manifestPath = join(pluginDir, 'phi-package.yaml')
+    assert.ok(existsSync(manifestPath), `${plugin} missing phi-package.yaml`)
+    assert.ok(existsSync(join(pluginDir, 'README.md')), `${plugin} missing README.md`)
+    assert.ok(existsSync(join(pluginDir, 'CHANGELOG.md')), `${plugin} missing CHANGELOG.md`)
+    assert.ok(readdirSync(pluginDir).some(f => /^icon\.(svg|png|webp|jpg|jpeg)$/.test(f)), `${plugin} missing icon`)
+    if (plugin !== 'visualization') {
+      const entry = addedByPath.get(`resources/plugins/${plugin}`)
+      assert.ok(entry, `${plugin} missing in SOURCE.json addedContent`)
+      const manifestVer = readFileSync(manifestPath, 'utf8').match(/^version:\s*(\S+)$/m)?.[1]
+      assert.equal(entry.packageVersion, manifestVer, `${plugin} version mismatch between phi-package.yaml and SOURCE.json`)
+    }
+  }
+})
 
 test('content source omits Phi-owned shared runtime and palette trees', () => {
   for (const relative of ['resources/palettes', 'resources/runtime']) {

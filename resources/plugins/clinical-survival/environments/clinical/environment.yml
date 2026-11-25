@@ -1,0 +1,16 @@
+name: clinical
+description: >-
+  Private clinical biostatistics and survival modeling environment: Python 3.13 +
+  pandas/numpy/scipy/scikit-learn/matplotlib-base for clinical cohort QC,
+  Table 1 baseline tests, Kaplan-Meier & log-rank survival analysis, Breslow Cox
+  proportional-hazards regression with Schoenfeld PH diagnostics, and IPCW
+  time-dependent ROC evaluation.
+channels:
+  - conda-forge
+dependencies:
+  - python=3.13
+  - pandas
+  - numpy
+  - scipy
+  - scikit-learn
+  - matplotlib-base

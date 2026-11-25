@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "clinical",
+    "evaluation_mode",
+    "n_samples",
+    "n_events",
+    "c_index",
+    "landmarks",
+    "scores_table",
+    "auc_table",
+    "figures",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "clinical": { "type": "string" },
+    "evaluation_mode": { "type": "string", "enum": ["precomputed_score", "oof_cv_l2_cox"] },
+    "n_samples": { "type": "integer" },
+    "n_events": { "type": "integer" },
+    "c_index": { "type": "number" },
+    "oof_km_logrank_pvalue": { "type": ["number", "null"] },
+    "feature_weights": { "type": ["object", "null"] },
+    "landmarks": { "type": "array", "items": { "type": "object" } },
+    "scores_table": { "type": "string" },
+    "auc_table": { "type": "string" },
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

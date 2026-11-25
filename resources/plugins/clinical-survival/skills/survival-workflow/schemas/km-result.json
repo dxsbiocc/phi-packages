@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "clinical",
+    "summary_table",
+    "curves_table",
+    "stratifier",
+    "n_samples",
+    "n_events",
+    "groups",
+    "figures",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "clinical": { "type": "string" },
+    "summary_table": { "type": "string" },
+    "curves_table": { "type": "string" },
+    "stratifier": { "type": "string" },
+    "cutoff_applied": { "type": ["object", "null"] },
+    "n_samples": { "type": "integer" },
+    "n_events": { "type": "integer" },
+    "logrank_chisq": { "type": ["number", "null"] },
+    "logrank_df": { "type": ["integer", "null"] },
+    "logrank_pvalue": { "type": ["number", "null"] },
+    "groups": { "type": "array", "items": { "type": "object" } },
+    "landmark_survival": { "type": "array", "items": { "type": "object" } },
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "clinical",
+    "time_col",
+    "event_col",
+    "n_rows_total",
+    "n_valid_survival",
+    "n_events",
+    "n_censored",
+    "censoring_fraction",
+    "inferred_time_unit",
+    "epv_max_parameters_at_10",
+    "warnings"
+  ],
+  "properties": {
+    "clinical": { "type": "string" },
+    "time_col": { "type": "string" },
+    "event_col": { "type": "string" },
+    "sample_col": { "type": "string" },
+    "n_rows_total": { "type": "integer" },
+    "n_valid_survival": { "type": "integer" },
+    "n_nonpositive_time_dropped": { "type": "integer" },
+    "n_events": { "type": "integer" },
+    "n_censored": { "type": "integer" },
+    "event_rate": { "type": "number" },
+    "censoring_fraction": { "type": "number" },
+    "time_summary": { "type": "object" },
+    "inferred_time_unit": { "type": "string" },
+    "median_followup_reverse_km": { "type": ["number", "null"] },
+    "epv_max_parameters_at_10": { "type": "integer" },
+    "missingness": { "type": "object" },
+    "matrix_overlap": { "type": ["object", "null"] },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

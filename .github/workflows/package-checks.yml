@@ -36,8 +36,10 @@ jobs:
         env:
           MPLBACKEND: Agg
         run: |
+          python tests/test_bridging_tools.py -v
           python tests/test_bulk_rnaseq_plugin.py -v
           python tests/test_chromatin_and_scatac_plugins.py -v
+          python tests/test_clinical_survival_plugin.py -v
           python tests/test_genomics_plugin.py -v
           python tests/test_metabolomics_plugin.py -v
           python tests/test_metagenomics_enhancements.py -v
@@ -48,6 +50,41 @@ jobs:
           python tests/test_protein_design_protenix_chai1.py -v
           python tests/test_protein_design_wrappers.py -v
           python tests/test_proteomics_plugin.py -v
+          python tests/test_single_cell_and_literature_plugins.py -v
+
+  scanpy-plugin-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-name: phi-scanpy-ci
+          create-args: >-
+            --file resources/plugins/single-cell/environments/scanpy/locks/linux-x64.txt
+      - name: Run single-cell Scanpy end-to-end tests
+        shell: bash -el {0}
+        env:
+          MPLBACKEND: Agg
+        run: |
+          micromamba activate phi-scanpy-ci
+          python tests/test_single_cell_and_literature_plugins.py -v
+
+  scatac-plugin-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-name: phi-scatac-ci
+          create-args: >-
+            --file resources/plugins/single-cell-atac/environments/scatac/locks/linux-x64.txt
+      - name: Run single-cell-atac locked environment tests
+        shell: bash -el {0}
+        env:
+          MPLBACKEND: Agg
+        run: |
+          micromamba activate phi-scatac-ci
+          python tests/test_chromatin_and_scatac_plugins.py -v
 
   spatial-plugin-tests:
     runs-on: ubuntu-latest
