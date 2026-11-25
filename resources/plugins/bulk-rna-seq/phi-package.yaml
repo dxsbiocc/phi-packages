@@ -1,12 +1,13 @@
 schemaVersion: 1
 id: bulk-rna-seq
 type: plugin
-version: 0.1.0
+version: 0.2.0
 title: Bulk RNA-seq
 summary: >-
-  Downstream bulk RNA-seq interpretation and pathway analysis (rna_): matrix/DE
-  design inspection, sample QC/PCA, multi-contrast DEG integration, offline ORA
-  with explicit universe, pre-ranked GSEA, and single-sample pathway scoring.
+  Downstream bulk RNA-seq workflow (rna_): GEO Series Matrix import, Ensembl
+  version stripping & GTF gene ID mapping, matrix/DE inspection, sample QC/PCA,
+  multi-contrast DEG integration, offline ORA with explicit universe, pre-ranked
+  GSEA, and single-sample pathway scoring.
 toolPrefix: rna
 components:
   agents:

@@ -23,6 +23,7 @@ from _common import (
     fail,
     load_clinical,
     read_maf,
+    write_artifact,
 )
 
 
@@ -227,6 +228,34 @@ def main() -> None:
             "top": cmp_df.head(10).to_dict(orient="records"),
         }
 
+    params_meta = {"top_genes": args.top_genes, "min_mut": args.min_mut, "fdr": args.fdr}
+    in_files = (args.maf, args.compare_maf, args.clinical)
+    fig_titles = {
+        "oncogenic-pathways.png": "Sanchez-Vega 10 canonical oncogenic pathways",
+        "somatic-interactions.png": "Pairwise somatic co-occurrence and exclusivity matrix",
+    }
+    artifacts = [
+        write_artifact(f, "gen_interactions", fig_titles.get(os.path.basename(f), os.path.basename(f)), inputs=in_files, parameters=params_meta)
+        for f in figures
+    ]
+    artifacts.extend(
+        [
+            write_artifact(inter_path, "gen_interactions", "Pairwise somatic interactions table", inputs=in_files, parameters=params_meta, shape=inter_df.shape),
+            write_artifact(pw_path, "gen_interactions", "Canonical oncogenic signaling pathways summary", inputs=in_files, parameters=params_meta, shape=pw_df.shape),
+        ]
+    )
+    if "table" in cohort_cmp:
+        artifacts.append(
+            write_artifact(
+                os.path.join(args.output_dir, "cohort_comparison.tsv"),
+                "gen_interactions",
+                "Differential somatic mutation cohort comparison",
+                inputs=in_files,
+                parameters=params_meta,
+                shape=cmp_df.shape,
+            )
+        )
+
     emit(
         {
             "maf": os.path.abspath(args.maf),
@@ -239,6 +268,7 @@ def main() -> None:
             "pathways": pw_df.to_dict(orient="records"),
             "cohort_comparison": cohort_cmp,
             "figures": [os.path.abspath(f) for f in figures],
+            "artifacts": artifacts,
         }
     )
 

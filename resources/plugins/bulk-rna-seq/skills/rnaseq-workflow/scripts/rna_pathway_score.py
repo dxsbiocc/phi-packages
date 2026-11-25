@@ -138,6 +138,12 @@ def main():
             "n_pathways_scored": int(len(score_df)),
             "top_group_tests": diff_rows[:10],
             "outputs": outputs,
+            "scientificContext": {
+                str(score_path): {
+                    "valueSemantics": "zscore",
+                    "sampleIds": [str(s) for s in samples],
+                }
+            },
             "artifacts": artifacts,
         }
     )

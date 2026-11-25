@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "tool",
+    "n_samples",
+    "metadata_columns",
+    "n_features_raw",
+    "n_features_output",
+    "inferred_scale",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "tool": { "type": "string", "const": "rna_geo_import" },
+    "series_accession": { "type": ["string", "null"] },
+    "series_title": { "type": ["string", "null"] },
+    "platform_id": { "type": ["string", "null"] },
+    "n_samples": { "type": "integer" },
+    "metadata_columns": { "type": "array", "items": { "type": "string" } },
+    "n_features_raw": { "type": "integer" },
+    "n_features_output": { "type": "integer" },
+    "inferred_scale": { "type": "string" },
+    "outputs": {
+      "type": "object",
+      "required": ["samplesheet", "expression_matrix"],
+      "properties": {
+        "samplesheet": { "type": "string" },
+        "expression_matrix": { "type": ["string", "null"] }
+      }
+    },
+    "scientificContext": { "type": "object" },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

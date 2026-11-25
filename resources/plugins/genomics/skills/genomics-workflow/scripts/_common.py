@@ -2,9 +2,13 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
+import struct
 import sys
+from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 
 import numpy as np
@@ -259,3 +263,75 @@ def load_clinical(path: str, sample_col: str | None = None) -> tuple[pd.DataFram
         scol = clin.columns[0]
     clin[scol] = clin[scol].astype(str).str.strip()
     return clin, scol
+
+
+def write_artifact(
+    path: str | os.PathLike[str],
+    tool: str,
+    title: str,
+    *,
+    skill: str = "genomics-workflow",
+    inputs: tuple[str | None, ...] | list[str | None] = (),
+    parameters: dict[str, Any] | None = None,
+    shape: tuple[int, int] | None = None,
+) -> str:
+    """Write a contract-1.0.0 .phi-artifact.json sidecar beside path and return path."""
+    p = Path(path)
+    ext = p.suffix.lower()
+    figures = {".png": "image/png", ".pdf": "application/pdf", ".svg": "image/svg+xml"}
+    tables = {".tsv": "text/tab-separated-values", ".csv": "text/csv"}
+    if ext in figures:
+        kind, media = "figure", figures[ext]
+    elif ext in tables:
+        kind, media = "table", tables[ext]
+    else:
+        raise ValueError(f"unsupported artifact extension: {ext}")
+
+    descriptor: dict[str, Any] = {
+        "contractVersion": "1.0.0",
+        "kind": kind,
+        "file": p.name,
+        "mediaType": media,
+        "title": title[:200],
+        "provenance": {
+            "createdAt": datetime.now(timezone.utc).isoformat(),
+            "tool": tool,
+            "skill": skill,
+        },
+    }
+    if kind == "figure":
+        block: dict[str, Any] = {"format": ext[1:]}
+        if ext == ".png":
+            with open(p, "rb") as fh:
+                header = fh.read(24)
+            if header[:8] == b"\x89PNG\r\n\x1a\n":
+                w, h = struct.unpack(">II", header[16:24])
+                block["widthPx"], block["heightPx"] = int(w), int(h)
+        descriptor["figure"] = block
+    elif shape is not None:
+        descriptor["table"] = {"rows": int(shape[0]), "columns": int(shape[1])}
+
+    cwd = Path.cwd().resolve()
+    prov_inputs = []
+    for ip_raw in inputs:
+        if not ip_raw:
+            continue
+        ip = Path(ip_raw)
+        try:
+            rel = ip.resolve().relative_to(cwd)
+        except ValueError:
+            continue
+        entry: dict[str, Any] = {"path": str(rel)}
+        if ip.is_file():
+            entry["sha256"] = hashlib.sha256(ip.read_bytes()).hexdigest()
+        prov_inputs.append(entry)
+    if prov_inputs:
+        descriptor["provenance"]["inputs"] = prov_inputs
+    if parameters:
+        descriptor["provenance"]["parameters"] = parameters
+
+    target = p.with_name(p.name + ".phi-artifact.json")
+    tmp = target.with_name(target.name + ".tmp")
+    tmp.write_text(json.dumps(descriptor, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    os.replace(tmp, target)
+    return str(p)

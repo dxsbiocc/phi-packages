@@ -158,6 +158,9 @@ class TestGenomicsPlugin(unittest.TestCase):
         self.assertEqual(summ["n_samples"], 20)
         self.assertIsNotNone(summ["titv_ratio"])
         self.assertEqual(len(summ["figures"]), 2)
+        self.assertEqual(len(summ["artifacts"]), 5)
+        for art in summ["artifacts"]:
+            self.assertTrue(os.path.exists(art + ".phi-artifact.json"))
 
         # 3. gen_tmb_ith (with CNV exclusion + clinical group test)
         tmb_dir = os.path.join(self.work, "tmb_ith")

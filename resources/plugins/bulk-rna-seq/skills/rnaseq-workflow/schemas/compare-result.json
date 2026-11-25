@@ -12,6 +12,7 @@
     "n_discordant": { "type": "integer" },
     "pairwise": { "type": "array", "items": { "type": "object" } },
     "outputs": { "type": "object" },
+    "scientificContext": { "type": "object" },
     "artifacts": { "type": "array", "items": { "type": "string" } }
   }
 }

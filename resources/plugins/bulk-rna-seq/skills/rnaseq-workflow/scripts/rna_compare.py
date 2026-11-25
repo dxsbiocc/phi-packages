@@ -197,6 +197,11 @@ def main():
                 "pairwise_overlap": str(pair_path),
                 "comparison_figure": str(fig_path),
             },
+            "scientificContext": {
+                str(deg_path): {
+                    "valueSemantics": "de_stats",
+                }
+            },
             "artifacts": artifacts,
         }
     )

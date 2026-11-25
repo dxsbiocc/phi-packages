@@ -11,6 +11,10 @@ environment `plugin:genomics`).
 - **Live database queries**: GDC, cBioPortal, and PDC lookups run via the
   `cancer-omics` MCP connector.
 - **This plugin (`gen_*`)**:
+  0. `gen_vcf2maf` — convert annotated somatic VCFs (`.vcf`/`.vcf.gz` from
+     `nf-core/sarek` VEP `CSQ`, SnpEff `ANN`, or ANNOVAR) to GDC-compliant MAF
+     tables with severity-prioritized transcript selection, VAF/depth extraction,
+     and optional FASTA 3-mer `Context` extraction for SBS96 signatures.
   1. `gen_inspect` — validate GDC MAF fields, non-synonymous/silent breakdown,
      VAF/depth coverage, clinical table alignment, and optional CNV `.seg` file.
   2. `gen_summary` — cohort mutation summary, 6-class substitution spectrum and

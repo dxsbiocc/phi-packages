@@ -1,7 +1,7 @@
 schemaVersion: 1
 id: genomics
 type: plugin
-version: 0.1.0
+version: 0.2.0
 title: Genomics
 summary: >-
   Downstream somatic cancer genomics in Python (gen_): MAF/VCF inspection,

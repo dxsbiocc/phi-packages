@@ -24,6 +24,7 @@
     "titv_ratio": { "type": ["number", "null"] },
     "substitution_counts": { "type": "object" },
     "top_genes": { "type": "array", "items": { "type": "object" } },
-    "figures": { "type": "array", "items": { "type": "string" } }
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
   }
 }

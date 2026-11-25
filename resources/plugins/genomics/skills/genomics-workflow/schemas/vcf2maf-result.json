@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "vcf",
+    "output_maf",
+    "ncbi_build",
+    "annotators_detected",
+    "n_vcf_records",
+    "n_filtered_out",
+    "n_maf_variants",
+    "n_samples",
+    "tumor_samples",
+    "context_extracted",
+    "variant_classifications",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "vcf": { "type": "string" },
+    "output_maf": { "type": "string" },
+    "ncbi_build": { "type": "string" },
+    "annotators_detected": { "type": "array", "items": { "type": "string" } },
+    "n_vcf_records": { "type": "integer" },
+    "n_filtered_out": { "type": "integer" },
+    "n_maf_variants": { "type": "integer" },
+    "n_samples": { "type": "integer" },
+    "tumor_samples": { "type": "array", "items": { "type": "string" } },
+    "matched_normal": { "type": ["string", "null"] },
+    "context_extracted": { "type": "boolean" },
+    "variant_classifications": { "type": "object" },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

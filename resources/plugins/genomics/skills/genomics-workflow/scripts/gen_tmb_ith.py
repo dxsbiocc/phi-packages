@@ -23,6 +23,7 @@ from _common import (
     load_clinical,
     read_maf,
     read_seg,
+    write_artifact,
 )
 
 
@@ -164,6 +165,17 @@ def main() -> None:
     fig.savefig(fig_path, dpi=150)
     plt.close(fig)
 
+    params_meta = {
+        "capture_size_mb": args.capture_size_mb,
+        "min_vaf": args.min_vaf,
+        "cnv_filtered_for_math": cnv_filtered,
+    }
+    in_files = (args.maf, args.seg, args.clinical)
+    artifacts = [
+        write_artifact(fig_path, "gen_tmb_ith", "Cohort TMB and MATH heterogeneity distributions", inputs=in_files, parameters=params_meta),
+        write_artifact(out_path, "gen_tmb_ith", "Per-sample TMB and MATH scores", inputs=in_files, parameters=params_meta, shape=out_df.shape),
+    ]
+
     emit(
         {
             "maf": os.path.abspath(args.maf),
@@ -179,6 +191,7 @@ def main() -> None:
             "math_median": round(float(np.median(math_vals)), 4) if len(math_vals) else None,
             "group_comparison": group_tests,
             "figures": [os.path.abspath(fig_path)],
+            "artifacts": artifacts,
             "warnings": warnings,
         }
     )

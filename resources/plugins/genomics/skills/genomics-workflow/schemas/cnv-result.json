@@ -20,6 +20,7 @@
     "median_fga": { "type": "number" },
     "top_altered_chromosomes": { "type": "array", "items": { "type": "object" } },
     "group_comparison": { "type": ["object", "null"] },
-    "figures": { "type": "array", "items": { "type": "string" } }
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
   }
 }

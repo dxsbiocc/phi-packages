@@ -1,5 +1,10 @@
 # Changelog — genomics
 
+## 0.2.0 (2026-11-25)
+
+- Add `gen_vcf2maf`: deterministic converter from VEP (`CSQ`), SnpEff (`ANN`), or ANNOVAR annotated somatic VCFs (`.vcf`/`.vcf.gz`, e.g. `nf-core/sarek` outputs) to GDC-compliant MAF tables, including canonical/severity transcript prioritization, Mutect2/Strelka2 VAF & depth extraction, and optional reference FASTA 3-mer `Context` extraction for downstream `gen_signatures` SBS96 refitting.
+- Add contract-1.0.0 `.phi-artifact.json` descriptors and `artifacts` lists across all file-producing tools (`gen_vcf2maf`, `gen_summary`, `gen_tmb_ith`, `gen_interactions`, `gen_signatures`, `gen_cnv`) and update output JSON schemas.
+
 ## 0.1.0 (2026-11-24)
 
 Initial release: pure conda-forge downstream somatic cancer genomics plugin

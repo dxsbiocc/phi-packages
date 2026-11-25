@@ -25,6 +25,7 @@ from _common import (
     pyrimidine_sub,
     read_maf,
     read_table,
+    write_artifact,
 )
 
 
@@ -78,6 +79,7 @@ def main() -> None:
                 "substitution_counts": counts,
                 "titv_ratio": round(n_ti / n_tv, 4) if n_tv > 0 else None,
                 "figures": [],
+                "artifacts": [],
                 "warnings": warnings,
             }
         )
@@ -174,6 +176,27 @@ def main() -> None:
         else:
             refit_summary = {"skipped": f"no sample had >= {args.min_snvs} SNVs for NNLS refitting"}
 
+    params_meta = {"min_snvs": args.min_snvs}
+    in_files = (args.maf, args.ref_signatures)
+    fig_titles = {
+        "sbs96-spectrum.png": "Cohort 96-channel SBS mutational spectrum",
+        "signature-exposures.png": "Per-sample SBS96 NNLS signature exposures",
+    }
+    artifacts = [
+        write_artifact(f, "gen_signatures", fig_titles.get(os.path.basename(f), os.path.basename(f)), inputs=in_files, parameters=params_meta)
+        for f in figures
+    ]
+    artifacts.append(
+        write_artifact(catalog_path, "gen_signatures", "SBS96 mutational catalog (96 channels x samples)", inputs=in_files, parameters=params_meta, shape=(96, len(all_samples) + 1))
+    )
+    if args.ref_signatures and os.path.exists(os.path.join(args.output_dir, "signature_exposures.tsv")):
+        artifacts.append(
+            write_artifact(exp_path, "gen_signatures", "Per-sample SBS96 signature exposures", inputs=in_files, parameters=params_meta, shape=exp_df.shape)
+        )
+        artifacts.append(
+            write_artifact(cos_path, "gen_signatures", "SBS96 signature reconstruction cosine similarity", inputs=in_files, parameters=params_meta, shape=cos_df.shape)
+        )
+
     emit(
         {
             "maf": os.path.abspath(args.maf),
@@ -184,6 +207,7 @@ def main() -> None:
             "n_samples": len(all_samples),
             "refitting": refit_summary,
             "figures": [os.path.abspath(f) for f in figures],
+            "artifacts": artifacts,
             "warnings": warnings,
         }
     )

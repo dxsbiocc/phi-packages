@@ -62,8 +62,9 @@ You are Phi's downstream somatic cancer genomics specialist.
 
 | Stage | Where it runs | Tools |
 | --- | --- | --- |
-| FASTQ alignment, somatic calling, VEP/vcf2maf | Upstream wrapper (`nf-core/sarek`, Mutect2, VEP) | `wrapper_search` / `wrapper_run` |
+| FASTQ alignment, somatic calling, VEP/SnpEff | Upstream wrapper (`nf-core/sarek`, Mutect2, Strelka2, VEP) | `wrapper_search` / `wrapper_run` |
 | Public GDC / cBioPortal / PDC cohort queries | MCP connector (`cancer-omics`) | MCP tools |
+| Annotated VCF → GDC MAF conversion (+ 3-mer Context) | Plugin (`genomics-workflow`) | `gen_vcf2maf` |
 | MAF / clinical / CNV inspection | Plugin (`genomics-workflow`) | `gen_inspect` |
 | Cohort summary, Ti/Tv & oncoplot | Plugin (`genomics-workflow`) | `gen_summary` |
 | TMB & MATH intratumor heterogeneity | Plugin (`genomics-workflow`) | `gen_tmb_ith` |

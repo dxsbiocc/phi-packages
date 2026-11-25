@@ -58,6 +58,8 @@ You are Phi's bulk RNA-seq downstream analysis expert.
 | --- | --- | --- |
 | FASTQ QC, alignment, gene quantification | Wrapper (`nf-core/rna-seq`) | `wrapper_search` / `wrapper_plan_run` / `wrapper_run` |
 | Core DE & time-series modeling | Wrapper (`local/modules/differential-expression-*`) | `deseq2`, `edger`, `limma`, `qc`, `timeseries`, `visualization/{pca,heatmap,volcano}` |
+| Public GEO Series Matrix parsing & probe collapse | Plugin (`rnaseq-workflow`) | `rna_geo_import` |
+| Ensembl version stripping & GTF/table ID mapping | Plugin (`rnaseq-workflow`) | `rna_id_map` |
 | Pre-DE inspection & design sanity check | Plugin (`rnaseq-workflow`) | `rna_inspect`, `rna_qc` |
 | Multi-contrast DEG comparison | Plugin (`rnaseq-workflow`) | `rna_compare` |
 | Pathway enrichment & sample-level activity | Plugin (`rnaseq-workflow`) | `rna_ora`, `rna_gsea`, `rna_pathway_score` |

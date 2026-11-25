@@ -1,22 +1,118 @@
 ---
 name: rnaseq-workflow
 description: >-
-  Downstream bulk RNA-seq interpretation and pathway analysis: inspect count
-  or normalized matrices, DE tables, sample metadata, and GMT gene sets
-  (detecting TPM-as-count traps and batch-condition collinearity); run sample
-  QC/PCA/correlation outlier diagnostics; integrate multi-contrast DESeq2 /
-  edgeR / limma DEG tables; perform offline hypergeometric ORA with explicit
-  background universe; run deterministic pre-ranked GSEA (ES/NES/FDR +
-  leading-edge + enrichment curves); and compute single-sample pathway
-  activity scores. Use for bulk RNA-seq, 转录组, 差异表达下游, GSEA, ORA,
-  通路富集, 多对比差异整合, or pathway activity scoring. Raw FASTQ alignment
-  runs in nf-core/rna-seq and core DE models run in
-  local/differential-expression wrappers.
+  Downstream bulk RNA-seq interpretation, identifier/GEO bridging, and pathway
+  analysis: import NCBI GEO Series Matrix cohorts (GSE*_series_matrix.txt/.gz)
+  into samplesheets and expression matrices; strip Ensembl versions and map
+  gene IDs via GTF/GFF3 or mapping tables with collision-aware aggregation;
+  inspect matrices, DE tables, metadata, and GMT sets; run sample QC/PCA/outlier
+  diagnostics; integrate multi-contrast DESeq2/edgeR/limma DEG tables; run
+  offline hypergeometric ORA with explicit universe, pre-ranked GSEA (ES/NES/FDR
+  + leading-edge), and single-sample pathway activity scoring. Use for bulk
+  RNA-seq, 转录组, 基因ID转换, Ensembl转Symbol, GEO数据导入, series_matrix,
+  差异表达下游, GSEA, ORA, 通路富集, 多对比差异整合. Raw alignment runs on
+  nf-core/rna-seq and core DE runs on local/differential-expression wrappers.
 phi:
   environment: plugin:rnaseq
   attachTo:
     - BulkRnaSeq
   scripts:
+    - name: id_map
+      description: >-
+        Clean versioned Ensembl/RefSeq gene IDs (e.g. ENSG00000141510.18 ->
+        ENSG00000141510), optionally filter by GTF biotype (e.g. protein_coding),
+        and map gene identifiers using a reference GTF/GFF3 or custom 2-column
+        mapping table with collision-aware aggregation (sum for raw counts,
+        max_mean for normalized matrices, min_pvalue for DE tables).
+      run: [python, ./scripts/rna_id_map.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [input, output]
+        properties:
+          input:
+            type: string
+            format: input-path
+            description: Expression matrix or DE result table TSV/CSV.
+          output:
+            type: string
+            format: project-path
+            description: Output mapped TSV/CSV path.
+          gtf:
+            type: string
+            format: input-path
+            description: Optional reference GTF/GFF3 (.gtf/.gtf.gz/.gff3) for gene_id -> gene_name mapping.
+          mapping_table:
+            type: string
+            format: input-path
+            description: Optional 2-column TSV/CSV mapping file.
+          from_col:
+            type: string
+            description: Optional source column name in mapping_table.
+          to_col:
+            type: string
+            description: Optional target column name in mapping_table.
+          id_col:
+            type: string
+            description: Optional gene ID column in input (default first column).
+          keep_version:
+            type: boolean
+            description: Retain Ensembl/RefSeq '.version' suffixes instead of stripping them before lookup (default false).
+          table_kind:
+            type: string
+            enum: [auto, matrix, de]
+            description: Input table type (default auto).
+          agg_method:
+            type: string
+            enum: [auto, sum, mean, max_mean, min_pvalue, first]
+            description: Many-to-one symbol collision aggregation strategy (default auto).
+          unmapped:
+            type: string
+            enum: [keep, drop]
+            description: Whether to retain cleaned unmapped IDs or drop them (default keep).
+          biotype:
+            type: string
+            description: Optional GTF gene_biotype filter (e.g. protein_coding).
+      approval: write
+      output: ./schemas/id-map-result.json
+      timeoutSeconds: 300
+    - name: geo_import
+      description: >-
+        Parse an NCBI GEO Series Matrix file (GSE*_series_matrix.txt or .txt.gz)
+        into a structured samplesheet.tsv (parsing !Sample_characteristics_ch1
+        key:value pairs into clean columns) and expression_matrix.tsv, with
+        optional GPL platform probe-to-symbol mapping and value-scale detection.
+      run: [python, ./scripts/rna_geo_import.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [series_matrix, output_dir]
+        properties:
+          series_matrix:
+            type: string
+            format: input-path
+            description: GEO GSE*_series_matrix.txt or .txt.gz file.
+          output_dir:
+            type: string
+            format: project-path
+            description: Output directory for samplesheet.tsv and expression_matrix.tsv.
+          platform_table:
+            type: string
+            format: input-path
+            description: Optional GPL platform annotation TSV/CSV for probe-to-gene mapping.
+          probe_col:
+            type: string
+            description: Optional probe ID column in platform_table (default ID or first column).
+          gene_col:
+            type: string
+            description: Optional gene symbol column in platform_table.
+          multi_gene_probes:
+            type: string
+            enum: [primary, drop]
+            description: Handling of 'GENE1 /// GENE2' multi-mapped probes (default primary).
+      approval: write
+      output: ./schemas/geo-import-result.json
+      timeoutSeconds: 300
     - name: inspect
       description: >-
         Inspect an expression matrix (inferring raw_counts vs tpm_or_cpm vs

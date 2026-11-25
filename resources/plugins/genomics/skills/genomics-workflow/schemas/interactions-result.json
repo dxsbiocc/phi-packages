@@ -23,6 +23,7 @@
     "top_interactions": { "type": "array", "items": { "type": "object" } },
     "pathways": { "type": "array", "items": { "type": "object" } },
     "cohort_comparison": { "type": "object" },
-    "figures": { "type": "array", "items": { "type": "string" } }
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
   }
 }

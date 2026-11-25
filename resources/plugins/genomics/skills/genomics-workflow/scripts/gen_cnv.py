@@ -15,7 +15,7 @@ import pandas as pd
 from scipy import stats
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from _common import emit, fail, load_clinical, read_seg
+from _common import emit, fail, load_clinical, read_seg, write_artifact
 
 
 def main() -> None:
@@ -133,6 +133,19 @@ def main() -> None:
     fig.savefig(fig_path, dpi=150)
     plt.close(fig)
 
+    params_meta = {
+        "gain_threshold": args.gain_threshold,
+        "loss_threshold": args.loss_threshold,
+        "amp_threshold": args.amp_threshold,
+        "del_threshold": args.del_threshold,
+    }
+    in_files = (args.seg, args.clinical)
+    artifacts = [
+        write_artifact(fig_path, "gen_cnv", "Cohort CNV Fraction Genome Altered and chromosome landscape", inputs=in_files, parameters=params_meta),
+        write_artifact(fga_path, "gen_cnv", "Per-sample Fraction Genome Altered (FGA)", inputs=in_files, parameters=params_meta, shape=fga_df.shape),
+        write_artifact(chr_path, "gen_cnv", "Chromosome-level recurrent CNV gain/loss summary", inputs=in_files, parameters=params_meta, shape=chr_df.shape),
+    ]
+
     emit(
         {
             "seg": os.path.abspath(args.seg),
@@ -146,6 +159,7 @@ def main() -> None:
             ).head(8).to_dict(orient="records"),
             "group_comparison": group_test,
             "figures": [os.path.abspath(fig_path)],
+            "artifacts": artifacts,
         }
     )
 

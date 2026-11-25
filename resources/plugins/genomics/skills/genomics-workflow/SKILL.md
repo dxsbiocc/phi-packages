@@ -1,25 +1,62 @@
 ---
 name: genomics-workflow
 description: >-
-  Downstream somatic cancer genomics workflow in Python: validate MAF/annotated
-  variant tables, clinical metadata, and CNV segments; summarize cohort
-  mutations, 6-class substitution spectra, Ti/Tv ratios, and waterfall oncoplots
-  (with Multi_Hit); compute FoCR-compliant TMB (explicit capture_size_mb +
-  min_vaf) and Mroz/Rocco MATH intratumor heterogeneity (with optional CNV
-  segment exclusion); test pairwise somatic co-occurrence/mutual exclusivity,
-  Sanchez-Vega 10 canonical oncogenic signaling pathways, and cohort/clinical
-  differential mutations; extract SBS96 trinucleotide spectra and refit against
-  COSMIC reference signatures via NNLS; and quantify CBS/CNVkit Fraction Genome
+  Downstream somatic cancer genomics workflow in Python: convert annotated
+  somatic VCFs (VEP CSQ, SnpEff ANN, ANNOVAR, e.g. from nf-core/sarek) into GDC
+  MAF tables with optional FASTA 3-mer context; validate MAF tables, clinical
+  metadata, and CNV segments; summarize cohort mutations, Ti/Tv spectra, and
+  oncoplots; compute FoCR TMB (explicit capture_size_mb + min_vaf) and MATH
+  heterogeneity (with CNV exclusion); test somatic co-occurrence/exclusivity,
+  10 Sanchez-Vega oncogenic pathways, and cohort differential mutations; refit
+  SBS96 trinucleotide signatures via NNLS; and quantify CNV Fraction Genome
   Altered (FGA) and recurrent gain/loss segments. Use for genomics, 基因组,
-  肿瘤基因组, 体细胞突变, MAF, maftools, oncoplot, TMB, 突变负荷, MATH,
-  mutational signature, SBS96, COSMIC, CNV, FGA. Raw FASTQ alignment and
-  variant calling run upstream (nf-core/sarek, Mutect2, VEP); live GDC and
-  cBioPortal queries use the cancer-omics MCP connector.
+  肿瘤基因组, 体细胞突变, VCF转MAF, vcf2maf, MAF, maftools, oncoplot, TMB,
+  突变负荷, MATH, mutational signature, SBS96, COSMIC, CNV, FGA.
 phi:
   environment: plugin:genomics
   attachTo:
     - Genomics
   scripts:
+    - name: vcf2maf
+      description: >-
+        Convert an annotated somatic VCF (.vcf or .vcf.gz from nf-core/sarek,
+        VEP CSQ, SnpEff ANN, or ANNOVAR) into a GDC-compliant MAF TSV with
+        severity-prioritized transcript selection, t_depth/t_ref_count/t_alt_count/t_vaf
+        extraction, and optional 3-mer Context extraction from a reference FASTA
+        for downstream SBS96 signature refitting.
+      run: [python, ./scripts/gen_vcf2maf.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [vcf, output_maf]
+        properties:
+          vcf:
+            type: string
+            format: input-path
+            description: Annotated somatic VCF file (.vcf or .vcf.gz).
+          output_maf:
+            type: string
+            format: project-path
+            description: Output GDC MAF TSV path (.maf or .tsv).
+          tumor_sample:
+            type: string
+            description: Optional explicit tumor sample column or barcode.
+          normal_sample:
+            type: string
+            description: Optional matched normal sample column name in the VCF.
+          include_filtered:
+            type: boolean
+            description: Retain non-PASS VCF records instead of filtering to PASS / '.' only (default false).
+          ref_fasta:
+            type: string
+            format: input-path
+            description: Optional reference genome FASTA (.fa/.fasta) to populate 3-mer Context for SBS96.
+          ncbi_build:
+            type: string
+            description: Genome build identifier written to NCBI_Build (default GRCh38).
+      approval: write
+      output: ./schemas/vcf2maf-result.json
+      timeoutSeconds: 600
     - name: inspect
       description: >-
         Inspect a MAF (.maf/.maf.gz/.tsv) somatic mutation table, optional

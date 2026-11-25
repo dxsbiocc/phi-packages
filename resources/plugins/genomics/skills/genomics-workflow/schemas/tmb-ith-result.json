@@ -26,6 +26,7 @@
     "math_median": { "type": ["number", "null"] },
     "group_comparison": { "type": ["object", "null"] },
     "figures": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
     "warnings": { "type": "array", "items": { "type": "string" } }
   }
 }

@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "tool",
+    "input",
+    "output",
+    "table_kind",
+    "agg_method",
+    "strip_version",
+    "n_input_rows",
+    "n_versions_stripped",
+    "n_mapped",
+    "n_unmapped",
+    "n_collisions_merged",
+    "n_output_genes",
+    "scientificContext",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "tool": { "type": "string", "const": "rna_id_map" },
+    "input": { "type": "string" },
+    "output": { "type": "string" },
+    "collision_report": { "type": ["string", "null"] },
+    "table_kind": { "type": "string", "enum": ["matrix", "de"] },
+    "agg_method": { "type": "string" },
+    "strip_version": { "type": "boolean" },
+    "biotype_filter": { "type": ["string", "null"] },
+    "n_input_rows": { "type": "integer" },
+    "n_versions_stripped": { "type": "integer" },
+    "n_biotype_filtered": { "type": "integer" },
+    "n_mapped": { "type": "integer" },
+    "n_unmapped": { "type": "integer" },
+    "n_collisions_merged": { "type": "integer" },
+    "n_output_genes": { "type": "integer" },
+    "scientificContext": { "type": "object" },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

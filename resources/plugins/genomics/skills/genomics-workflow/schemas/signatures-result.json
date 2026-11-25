@@ -14,6 +14,7 @@
     "substitution_counts": { "type": "object" },
     "titv_ratio": { "type": ["number", "null"] },
     "figures": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
     "warnings": { "type": "array", "items": { "type": "string" } }
   }
 }

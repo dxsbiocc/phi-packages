@@ -22,6 +22,7 @@ from _common import (
     fail,
     pyrimidine_sub,
     read_maf,
+    write_artifact,
 )
 
 VC_COLORS = {
@@ -159,6 +160,15 @@ def main() -> None:
     fig.savefig(onco_fig, dpi=150)
     plt.close(fig)
 
+    params_meta = {"top_genes": args.top_genes, "include_silent": args.include_silent}
+    artifacts = [
+        write_artifact(onco_fig, "gen_summary", f"Somatic waterfall oncoplot (top {len(top_g)} genes)", inputs=(args.maf,), parameters=params_meta),
+        write_artifact(summary_fig, "gen_summary", "Cohort MAF summary and SNV Ti/Tv spectrum", inputs=(args.maf,), parameters=params_meta),
+        write_artifact(gene_path, "gen_summary", "Per-gene somatic mutation summary", inputs=(args.maf,), parameters=params_meta, shape=gene_df.shape),
+        write_artifact(samp_path, "gen_summary", "Per-sample non-synonymous mutation counts", inputs=(args.maf,), parameters=params_meta, shape=samp_df.shape),
+        write_artifact(titv_path, "gen_summary", "6-class SNV substitution and Ti/Tv summary", inputs=(args.maf,), parameters=params_meta, shape=titv_df.shape),
+    ]
+
     emit(
         {
             "maf": os.path.abspath(args.maf),
@@ -172,6 +182,7 @@ def main() -> None:
             "substitution_counts": sub_counts,
             "top_genes": gene_df.head(10).to_dict(orient="records"),
             "figures": [os.path.abspath(summary_fig), os.path.abspath(onco_fig)],
+            "artifacts": artifacts,
         }
     )
 
