@@ -44,6 +44,7 @@ jobs:
           python tests/test_metabolomics_plugin.py -v
           python tests/test_metagenomics_enhancements.py -v
           python tests/test_metagenomics_plugin.py -v
+          python tests/test_mr_pgx_and_rnaseq_v3.py -v
           python tests/test_multiomics_and_methylation_plugins.py -v
           python tests/test_protein_design_composites.py -v
           python tests/test_protein_design_extra_modules.py -v

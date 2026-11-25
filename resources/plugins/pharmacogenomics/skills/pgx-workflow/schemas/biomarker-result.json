@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "detected_feature_type",
+    "higher_is_sensitive",
+    "n_samples_overlap",
+    "n_drugs_tested",
+    "n_features_tested",
+    "n_tests_total",
+    "n_significant_fdr",
+    "top_biomarkers",
+    "outputs",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "pgx_biomarker" },
+    "detected_feature_type": { "type": "string", "enum": ["maf", "binary", "continuous"] },
+    "higher_is_sensitive": { "type": "boolean" },
+    "n_samples_overlap": { "type": "integer" },
+    "n_drugs_tested": { "type": "integer" },
+    "n_features_tested": { "type": "integer" },
+    "n_tests_total": { "type": "integer" },
+    "n_significant_fdr": { "type": "integer" },
+    "top_biomarkers": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": ["biomarkers_table", "biomarkers_plot"],
+      "properties": {
+        "biomarkers_table": { "type": "string" },
+        "biomarkers_plot": { "type": "string" }
+      }
+    },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

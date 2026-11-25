@@ -1,0 +1,19 @@
+schemaVersion: 1
+id: mendelian-randomization
+type: plugin
+version: 0.1.0
+title: GWAS, Colocalization & Mendelian Randomization
+summary: >-
+  Genetic epidemiology & causal inference (mr_): GWAS summary-stat QC with
+  genomic inflation lambda_GC & Manhattan/QQ plots, exposure-outcome allele &
+  palindromic harmonization, IVW/MR-Egger/Weighted-Median/Mode MR with pleiotropy
+  & LOO diagnostics, and Wakefield ABF colocalization (PP.H4).
+toolPrefix: mr
+components:
+  agents:
+    - agents/MendelianRandomization.md
+  skills:
+    - skills/mr-workflow
+environments:
+  mr:
+    spec: environments/mr/environment.yml

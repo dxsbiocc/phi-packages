@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["tool", "n_exposure_candidates", "n_matched_outcome", "n_harmonized_retained", "mean_f_stat", "outputs", "artifacts", "warnings"],
+  "properties": {
+    "tool": { "const": "mr_harmonize" },
+    "n_exposure_candidates": { "type": "integer" },
+    "n_matched_outcome": { "type": "integer" },
+    "n_palindromic_dropped": { "type": "integer" },
+    "n_incompatible_dropped": { "type": "integer" },
+    "n_weak_f_dropped": { "type": "integer" },
+    "n_steiger_dropped": { "type": "integer" },
+    "n_harmonized_retained": { "type": "integer" },
+    "mean_f_stat": { "type": "number" },
+    "min_f_stat": { "type": "number" },
+    "outputs": { "type": "object" },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

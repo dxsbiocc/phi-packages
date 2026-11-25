@@ -1,0 +1,19 @@
+schemaVersion: 1
+id: pharmacogenomics
+type: plugin
+version: 0.1.0
+title: Pharmacogenomics & Drug Response
+summary: >-
+  Pharmacogenomics & drug screening workflow (pgx_): 4-parameter Hill
+  dose-response curve fitting (IC50/EC50/AUC/AAC with extrapolation censoring
+  guards), 2D drug-combination synergy scoring (ZIP/Bliss/Loewe/HSA), and
+  multi-omics drug sensitivity biomarker discovery.
+toolPrefix: pgx
+components:
+  agents:
+    - agents/Pharmacogenomics.md
+  skills:
+    - skills/pgx-workflow
+environments:
+  pgx:
+    spec: environments/pgx/environment.yml

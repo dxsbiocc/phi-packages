@@ -1,0 +1,15 @@
+name: pgx
+description: >-
+  Private pharmacogenomics and drug-response environment: Python 3.13 +
+  pandas/numpy/scipy/scikit-learn/matplotlib-base for 4PL Hill dose-response
+  fitting, 2D drug-combination synergy modeling (ZIP/Bliss/Loewe/HSA), and
+  multi-omics drug sensitivity biomarker discovery.
+channels:
+  - conda-forge
+dependencies:
+  - python=3.13
+  - pandas
+  - numpy
+  - scipy
+  - scikit-learn
+  - matplotlib-base

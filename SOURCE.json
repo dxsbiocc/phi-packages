@@ -10,8 +10,8 @@
   "counts": {
     "standaloneSkills": 16,
     "connectors": 24,
-    "plugins": 15,
-    "pluginSkills": 22,
+    "plugins": 17,
+    "pluginSkills": 24,
     "wrapperAdapters": 2202,
     "importedFiles": 7885,
     "importedBytes": 85272892
@@ -68,7 +68,8 @@
     "Added scientificContext semantic matrix/table annotations and contract-1.0.0 .phi-artifact.json sidecars across domain plugins: bulk-rna-seq (0.1.1 -> 0.2.0), chromatin-profiling (0.1.1), single-cell (0.6.1), single-cell-atac (0.1.1), spatial-transcriptomics (0.2.1), metabolomics (0.1.1), metagenomics (0.3.1), proteomics (0.2.1), genomics (0.1.1 -> 0.2.0), and local differential-expression wrappers (deseq2, edger, limma, timeseries).",
     "Upgraded genomics to 0.2.0 (gen_vcf2maf annotated VCF to GDC MAF converter with optional FASTA 3-mer Context extraction) and bulk-rna-seq to 0.2.0 (rna_id_map Ensembl/RefSeq version stripping, GTF/table gene mapping, biotype filtering, and collision-aware aggregation; rna_geo_import NCBI GEO Series Matrix + GPL platform importer).",
     "Added clinical-survival (0.1.0, toolPrefix clin, agent ClinicalSurvival, skill survival-workflow) as the thirteenth bundled plugin (counts.plugins 12 to 13, counts.pluginSkills 19 to 20) in locked Python 3.13 environment plugin:clinical: clin_inspect (cohort event/time polarity, reverse-KM follow-up, EPV budget), clin_table1 (stratified Table 1 with Shapiro-Wilk normality routing, Welch/ANOVA/Mann-Whitney/Kruskal-Wallis, Fisher/chi-square, SMD), clin_km (Kaplan-Meier curves, log-log Greenwood 95% CIs, log-rank test, aligned Number-at-Risk subplot), clin_cox (Breslow univariable/multivariable Cox PH, Harrell C-index, Schoenfeld PH diagnostics, HR forest plot), and clin_time_roc (IPCW time-dependent ROC at clinical landmarks + leak-free stratified K-fold L2-penalized Cox signature).",
-    "Added multi-omics (0.1.0, toolPrefix mo, agent MultiOmics, skill multiomics-workflow) and methylation (0.1.0, toolPrefix meth, agent Methylation, skill methylation-workflow) as the fourteenth and fifteenth bundled plugins (counts.plugins 13 to 15, counts.pluginSkills 20 to 22), upgraded single-cell to 0.7.0 (sc_py_communication heteromeric ligand-receptor permutation screening + Preset 8), and updated chromatin-profiling to 0.1.2 (pointing CUT&Tag peak calling to the vendored nf-core/seacr/callpeak module wrapper)."
+    "Added multi-omics (0.1.0 -> 0.1.1, toolPrefix mo, agent MultiOmics, skill multiomics-workflow) and methylation (0.1.0 -> 0.1.1, toolPrefix meth, agent Methylation, skill methylation-workflow) as the fourteenth and fifteenth bundled plugins (counts.plugins 13 to 15, counts.pluginSkills 20 to 22), upgraded single-cell to 0.7.0 -> 0.7.1 (sc_py_communication heteromeric ligand-receptor permutation screening + Preset 8 + output schemas), and updated chromatin-profiling to 0.1.2 -> 0.1.3 (pointing CUT&Tag peak calling to the vendored nf-core/seacr/callpeak module wrapper + output schemas).",
+    "Added mendelian-randomization (0.1.0, toolPrefix mr, agent MendelianRandomization, skill mr-workflow: mr_gwas_qc, mr_harmonize, mr_estimate, mr_coloc) and pharmacogenomics (0.1.0, toolPrefix pgx, agent Pharmacogenomics, skill pgx-workflow: pgx_dose_response, pgx_synergy, pgx_biomarker) as the sixteenth and seventeenth bundled plugins (counts.plugins 15 to 17, counts.pluginSkills 22 to 24), upgraded bulk-rna-seq to 0.3.0 (adding rna_coexpression WGCNA-style co-expression modules/hubs and rna_tme_deconv ESTIMATE + NNLS immune deconvolution), enforced 100% script output JSON schemas across literature-library (0.7.1), single-cell (0.7.1), single-cell-atac (0.1.3), spatial-transcriptomics (0.2.2), and chromatin-profiling (0.1.3), removed the broken duplicate nf-core/rna-seq/wrapper/workflows file, and added tests/contracts.test.mjs."
   ],
   "initialImportCounts": {
     "standaloneSkills": 14,
@@ -79,7 +80,7 @@
     "importedFiles": 7885,
     "importedBytes": 85619915
   },
-  "scopeUpdatedAt": "2026-11-25T06:40:00+00:00",
+  "scopeUpdatedAt": "2026-11-25T07:55:00+00:00",
   "transformedPaths": [
     "resources/wrappers/modules/local/differential-expression/deseq2/environment.yml",
     "resources/wrappers/modules/local/differential-expression/deseq2/main.nf",
@@ -272,12 +273,12 @@
       "path": "resources/plugins/literature-library/",
       "kind": "plugin",
       "origin": "First packaged landing of literature-library 0.6.0 (demo trees excluded), restructured in 0.7.0 into two task-oriented skills and 12 tools. Project-scoped literature library: HTTP search over open sources, file import, deduplication, export, wiki compiled by the invoking agent. No commercial gateways, embeddings, MCP server or plugin API keys. research-evidence is not merged.",
-      "packageVersion": "0.7.0"
+      "packageVersion": "0.7.1"
     },
     {
       "path": "resources/plugins/single-cell/",
       "origin": "Authored in phi-packages. Ports the executable analysis steps of the scNotebooks single-cell curriculum (https://github.com/integrativebioinformatics/scNotebooks, commit 55229bb496f5b6b96eae266ac867e5068d600464) into a Phi plugin: seven Seurat script tools in skills/seurat-workflow, plus a reference-only curriculum map in skills/scnotebooks-curriculum. No notebook text, image, or data file is copied; the upstream notebooks remain CC BY 4.0 (Rojas-Hidalgo et al., Nat Genet, 2026). 0.2.0 adds a notebook path (tool sc_notebook): it generates a runnable R notebook in the user's project with real inline Seurat code plus explanations, for modules 4, 5, 8, and 9, and can execute every cell once as a self check. No .ipynb is stored in this repository: the skill contract forbids executing anything from assets/, and Phi's notebook tools operate on the user's project, so the notebook is generated there against the already-installed phi-r R kernel. 0.3.0 refactors sc_notebook into a fragment library (assets/fragments) plus a deterministic renderer: the agent passes steps and parameter values, the renderer fills placeholders into one finished notebook with a single config cell, inject/merge sources, relative paths, and render provenance; step selection and threshold decisions stay with the agent per SKILL.md rules. The plugin id is renamed from single-cell-training to single-cell to match its analysis scope, title, agent, and tool prefix. 0.4.0 ships a plugin-private environment (environments/seurat: R 4.5 + Seurat 6.0.0 + IRkernel, with three-platform explicit locks; Seurat 6.0.0, RcppThread 2.4.0 and GenomeInfoDbData pinned as sourcePackages because no usable conda build exists) instead of borrowing phi:r@1, so the script chain and the notebook stay on one pinned version. The notebook kernel becomes plugin-single-cell-seurat, synced by Phi's managed-kernel sync for enabled plugin environments that ship r-irkernel or ipykernel. 0.5.0 adds a parallel Python toolkit in the same plugin: skills/scanpy-workflow (ten sc_py_* tools) with its own private environment (environments/scanpy: Python 3.13 + scanpy 1.13 + ipykernel, three-platform explicit locks; bbknn reported as a gap because bioconda has no py313 build), notebook presets 1-7 adapted from the NBIS workshop-scRNAseq scanpy labs (https://nbisweden.github.io/workshop-scRNAseq/, CC-BY-4.0 per the repository LICENSE — the site footer's GPL-3 label contradicts it; reference-only: fragment code is original and attribution is carried in preset intros and these notes), and a byte-identical shared build_notebook.py renderer across both skills (asserted by a repository test). The SingleCell agent routes by the user's R/Python preference and declares no session environment, because each skill's phi.environment wins over the agent binding. The former standalone resources/skills/scanpy skill (K-Dense, BSD-3-Clause) is absorbed into scanpy-workflow and removed. 0.6.0 unifies each route on one analysis source: assets/fragments is the teaching code executed by both the notebook renderer and the script tools (scripts/_fragments runs the same fragments; tool scripts are thin flag-to-config adapters; scripts/reports only serializes JSON; fragment chatter goes to stderr so stdout stays one JSON). Field-by-field parity against the pre-refactor reports: R 7/7 and Python 10/10 identical modulo output paths. The scnotebooks-curriculum skill is folded into seurat-workflow/references (plugin skills 3 to 2, repo plugin skills 7 to 6, total skills 23 to 22). A knowledge layer is added: 30 per-step notes in references/step-notes/ (purpose/principle/interpretation/pitfalls, the notebook's teaching cells, paired to fragments by step id) and references/analysis-playbook.md in both skills — the agent's decision manual, per stage call/read/decide/red-lines with threshold starting points grounded in the tools' JSON contracts — plus references/README.md indexing by function (agent decision docs, step notes and cross-route handoff vs maintainers/ provenance); skill directories are organized by function (assets holds only render source material: flat assets/fragments code plus assets/steps.json presets; all Markdown lives in references); original prose distilled from OSCA (CC BY 4.0), sc-best-practices (Apache 2.0; Heumos, Schaar, Lance et al., Nat Rev Genet 2023, DOI 10.1038/s41576-023-00586-w), the Cambridge/Hemberg singlecellcourse.org course (GPL-3, not OSCA), and the NBIS labs. The NBIS license is corrected everywhere to CC-BY-4.0 per the repository LICENSE (the site footer's GPL-3 label contradicts it). The renderer gains bool/list parameter types and stays byte-identical across skills; show_plot prints inline only under IRkernel so Rscript runs no longer leave Rplots.pdf in the working directory.",
-      "packageVersion": "0.7.0"
+      "packageVersion": "0.7.1"
     },
     {
       "path": "resources/plugins/metagenomics/",
@@ -294,13 +295,13 @@
       "path": "resources/plugins/single-cell-atac/",
       "kind": "plugin",
       "origin": "Authored in phi-packages. Single-cell ATAC plugin (toolPrefix scatac, agent SingleCellAtac) with one Python-route skill (scatac-workflow, ten scatac_* tools: inspect/qc/preprocess/peaks/markers/annotate/motif/integrate/notebook/env_probe) and one private locked environment plugin:scatac (Python 3.12 + snapatac2 2.10 + scanpy 1.12 + ipykernel, pure conda, three-platform explicit locks solved against the tuna mirror and rewritten to official conda.anaconda.org URLs; macs3 3.1.0 ships as a snapatac2 dependency, no pip). Starts from 10x Cell Ranger ATAC fragments.tsv.gz (or BAM via make_fragment_file, a saved .h5ad, or a peak/tile matrix). assets/fragments (16 steps, 48 parameters, 6 presets) is the single analysis source shared by thin flag-to-config script adapters and the language-neutral notebook renderer (RENDERER_VERSION=3): QC/TSSe, scrublet doublet removal, spectral embedding, kNN/Leiden/UMAP, per-cluster MACS3 peaks + merged peak set + peak-count matrix, marker_regions (cluster-vs-rest) with opt-in pairwise diff_test, gene-activity annotation (panel scoring / scRNA-reference kNN label transfer / explicit mapping), motif enrichment on marker regions, and harmony/scanorama/mnc integration. chrom_sizes bundled offline hg38/mm10/hg19/mm39; ENCODE hg38/mm10 blacklist inlined base64-gzip in assets/fragments/blacklist.py; gene annotation (GFF3 ~50MB) and genome FASTA (~845MB) are snapatac2 lazy downloads supplied by user input-path or reported as gaps, never installed/downloaded into the read-only environment. The TF layer is motif enrichment (sequence-level prediction), not chromVAR per-cell deviations; gene activity is an accessibility proxy, not measured RNA. Raw-read alignment/Cell Ranger ATAC stay on nf-core wrappers; bulk ChIP/CUT&Tag belong to the planned sibling chromatin-profiling plugin. chromVAR/ArchR/Signac (R route), episcanpy (numpy 2 incompatible), scvi-tools/magic-impute (pip-only) and a TF-gene GRN are env_probe project-environment gaps. Knowledge layer: analysis-playbook.md (call/read/decide/red-lines), red-line-cheatsheet.md, 16 step-notes, references README and maintainers/implementation-notes.md, originally distilled from the SnapATAC2 documentation (MIT) and sc-best-practices (Apache 2.0; Heumos, Schaar, Lance et al., Nat Rev Genet 2023, DOI 10.1038/s41576-023-00586-w); ENCODE blacklist doi:10.1038/s41598-019-45839-z. All scripts and prose are original; no upstream text, images or data are copied. v0.1.0.",
-      "packageVersion": "0.1.2"
+      "packageVersion": "0.1.3"
     },
     {
       "path": "resources/plugins/chromatin-profiling/",
       "kind": "plugin",
       "origin": "Authored in phi-packages. Chromatin profiling plugin (toolPrefix chip, agent ChromatinProfiling) with one R-route skill (chromatin-workflow, nine chip_* tools: inspect/qc/consensus/count/diff/annotate/visualize/notebook/env_probe) and one private locked environment plugin:chip (R 4.5 + DiffBind 3.20 + DESeq2 + edgeR + csaw 1.44 + ChIPseeker 1.46 + GenomicAlignments + Rsamtools + GenomicFeatures + ComplexHeatmap + jsonlite, three-platform explicit locks; csaw platform-gated off darwin-arm64 because bioconda has no osx-arm64 build). Bulk ChIP-seq / CUT&Tag / CUT&RUN, PURE DOWNSTREAM: starts from already-called peaks (BED/narrowPeak/broadPeak), a DiffBind sample sheet, a peak x sample count table, indexed BAMs, a bigWig or a saved .rds; never aligns reads or calls peaks (ChIP upstream is the nf-core/chipseq wrapper; CUT&Tag SEACR upstream has no wrapper and is a reported gap). assets/fragments (19 steps) is the single analysis source shared by thin flag-to-config Rscript adapters and the language-neutral notebook renderer (RENDERER_VERSION=3): inspect -> QC (FRiP + replicate peak-overlap reproducibility) -> blacklist filtering -> consensus peakset -> read counting + normalization -> PCA/UpSet -> differential binding (DiffBind/DESeq2/edgeR primary for TF/narrow marks and CUT&Tag; csaw window-based for broad marks) -> ChIPseeker annotation / TSS profiles. Annotation is lean by design: no target-genome TxDb/org.db bundled, ChIPseeker uses makeTxDbFromGFF on the user GTF/GFF3 or loadDb on a user TxDb .sqlite (hg19 never a silent default); gene-symbol org.db mapping is a reported gap. ENCODE v2 hg38 (636 regions) / mm10 (3435 regions) blacklist inlined base64-gzip inside assets/fragments/blacklist-filter.R for offline self-containment (doi:10.1038/s41598-019-45839-z). csaw on darwin-arm64, IDR, profileplyr, HOMER/MEME motif discovery and org.db gene symbols are chip_env_probe project-environment gaps. Knowledge layer: analysis-playbook.md (call/read/decide/red-lines), red-line-cheatsheet.md (12 hard red lines), 19 step-notes, references README and maintainers/implementation-notes.md, originally distilled from the DiffBind / csaw / ChIPseeker vignettes (Artistic-2.0) and ENCODE ChIP-seq guidelines (Landt doi:10.1101/gr.136184.111). All scripts and prose are original; no upstream text, images or data are copied. Single-cell ATAC belongs to the sibling single-cell-atac plugin. v0.1.0.",
-      "packageVersion": "0.1.2"
+      "packageVersion": "0.1.3"
     },
     {
       "path": "resources/wrappers/modules/local/protein_metrics/",
@@ -403,14 +404,14 @@
       "path": "resources/plugins/bulk-rna-seq/",
       "kind": "plugin",
       "license": "MIT",
-      "packageVersion": "0.2.0",
-      "origin": "Authored in phi-packages. Downstream bulk RNA-seq interpretation and pathway analysis plugin (toolPrefix rna, agent BulkRnaSeq, skill rnaseq-workflow) with eight deterministic Python tools (rna_id_map, rna_geo_import, rna_inspect, rna_qc, rna_compare, rna_ora, rna_gsea, rna_pathway_score) in plugin:rnaseq (Python 3.13 + pandas/numpy/scipy/matplotlib-base). Raw FASTQ alignment stays on nf-core/rna-seq and core DE/time-series modeling stays on local/differential-expression wrappers."
+      "packageVersion": "0.3.0",
+      "origin": "Authored in phi-packages. Downstream bulk RNA-seq interpretation, co-expression network, TME deconvolution, and pathway analysis plugin (toolPrefix rna, agent BulkRnaSeq, skill rnaseq-workflow) with ten deterministic Python tools (rna_id_map, rna_geo_import, rna_inspect, rna_qc, rna_compare, rna_ora, rna_gsea, rna_pathway_score, rna_coexpression, rna_tme_deconv) in plugin:rnaseq (Python 3.13 + pandas/numpy/scipy/matplotlib-base). Raw FASTQ alignment stays on nf-core/rna-seq and core DE/time-series modeling stays on local/differential-expression wrappers."
     },
     {
       "path": "resources/plugins/spatial-transcriptomics/",
       "kind": "plugin",
       "license": "MIT",
-      "packageVersion": "0.2.1",
+      "packageVersion": "0.2.2",
       "origin": "Authored in phi-packages. Spatial transcriptomics downstream plugin (toolPrefix st, agent SpatialTranscriptomics, skill spatial-workflow) in plugin:spatial (Python 3.12 + scanpy 1.12 + squidpy 1.8 + spatialdata 0.8, three-platform explicit locks) covering 10x Visium/Visium HD and BGI Stereo-seq QC, spatial graphs, SVGs, neighborhood/interaction/Ripley topology, UTAG-style spatial niches, spatial PAGA/DPT trajectory, NNLS deconvolution, and stratified ligand-receptor communication. Knowledge layer originally distilled from OSTA (CC-BY-4.0) and seven Stereo-seq papers; no upstream text, figures, or data copied."
     },
     {
@@ -438,15 +439,29 @@
       "path": "resources/plugins/multi-omics/",
       "kind": "plugin",
       "license": "MIT",
-      "packageVersion": "0.1.0",
+      "packageVersion": "0.1.1",
       "origin": "Authored in phi-packages. Cross-modality multi-omics integration plugin (toolPrefix mo, agent MultiOmics, skill multiomics-workflow) with four deterministic Python tools (mo_inspect, mo_rna_protein, mo_pair_assoc, mo_factor_integration) in plugin:multiomics (Python 3.13 + pandas/numpy/scipy/scikit-learn/matplotlib-base, three-platform explicit locks). Covers multi-block sample/scale/barcode inspection, RNA-protein 9-quadrant DE concordance and across-sample gene-wise correlation, CLR/log1p Symmetric Procrustes + Mantel + covariate-adjusted Partial Spearman cross-block networks, and singular-value-balanced Multiple Factor Analysis / Consensus SVD joint latent factor decomposition."
     },
     {
       "path": "resources/plugins/methylation/",
       "kind": "plugin",
       "license": "MIT",
-      "packageVersion": "0.1.0",
+      "packageVersion": "0.1.1",
       "origin": "Authored in phi-packages. Downstream DNA methylation analysis plugin (toolPrefix meth, agent Methylation, skill methylation-workflow) with five deterministic Python tools (meth_inspect, meth_merge, meth_qc, meth_dmr, meth_annotate) in plugin:methylation (Python 3.13 + pandas/numpy/scipy/scikit-learn/matplotlib-base, three-platform explicit locks). Pairs with upstream nf-core/methylseq, bismark, and methyldackel wrappers (plus Illumina 450K/EPIC beta matrices) for coverage-filtered beta/depth merging, bimodal beta & logit M-value PCA QC, confounder-adjusted empirical-Bayes M-value DMC and Stouffer DMR calling with delta-beta cutoffs, and GTF promoter/gene-body + CpG Island/Shore/Shelf annotation with GMT ORA."
+    },
+    {
+      "path": "resources/plugins/mendelian-randomization/",
+      "kind": "plugin",
+      "license": "MIT",
+      "packageVersion": "0.1.0",
+      "origin": "Authored in phi-packages. Genetic epidemiology, Two-Sample Mendelian Randomization, and Bayesian locus colocalization plugin (toolPrefix mr, agent MendelianRandomization, skill mr-workflow) with four deterministic Python tools (mr_gwas_qc, mr_harmonize, mr_estimate, mr_coloc) in plugin:mr (Python 3.13 + pandas/numpy/scipy/scikit-learn/matplotlib-base, three-platform explicit locks). Covers GWAS summary-statistic column standardization, genomic inflation lambda_GC, distance-window clumping, and F-statistic weak-instrument filtering; strand-aware exposure-outcome allele harmonization with ambiguous palindromic SNP rejection; IVW (multiplicative random effects), MR-Egger, Weighted Median, Weighted Mode, Cochran Q, Leave-One-Out, and Steiger directionality testing; and Wakefield approximate Bayes factor colocalization (PP.H0-PP.H4)."
+    },
+    {
+      "path": "resources/plugins/pharmacogenomics/",
+      "kind": "plugin",
+      "license": "MIT",
+      "packageVersion": "0.1.0",
+      "origin": "Authored in phi-packages. Pharmacogenomics, dose-response curve modeling, and drug-combination synergy plugin (toolPrefix pgx, agent Pharmacogenomics, skill pgx-workflow) with three deterministic Python tools (pgx_dose_response, pgx_synergy, pgx_biomarker) in plugin:pgx (Python 3.13 + pandas/numpy/scipy/scikit-learn/matplotlib-base, three-platform explicit locks). Covers 4-parameter log-logistic Hill curve fitting (EC50, absolute IC50, AUC, AAC, R^2, and beyond_tested_range censoring guards), 2D drug-combination synergy scoring across ZIP, Bliss, Loewe, and HSA models, and multi-omics drug sensitivity biomarker discovery with explicit drug-metric polarity enforcement and BH FDR."
     },
     {
       "path": "resources/wrappers/workflows/nf-core/sarek/",

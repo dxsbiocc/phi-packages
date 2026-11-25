@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "dose_unit",
+    "detected_viability_scale",
+    "n_combinations",
+    "combinations",
+    "outputs",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "pgx_synergy" },
+    "dose_unit": { "type": "string" },
+    "detected_viability_scale": { "type": "string", "enum": ["fraction", "percent"] },
+    "n_combinations": { "type": "integer" },
+    "combinations": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": ["synergy_summary", "synergy_grid", "synergy_plot"],
+      "properties": {
+        "synergy_summary": { "type": "string" },
+        "synergy_grid": { "type": "string" },
+        "synergy_plot": { "type": "string" }
+      }
+    },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

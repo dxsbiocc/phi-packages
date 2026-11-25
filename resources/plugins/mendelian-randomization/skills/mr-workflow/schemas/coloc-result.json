@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["tool", "n_shared_snps", "posteriors", "coloc_call", "credible_set_95", "outputs", "artifacts", "warnings"],
+  "properties": {
+    "tool": { "const": "mr_coloc" },
+    "n_shared_snps": { "type": "integer" },
+    "priors": { "type": "object" },
+    "posteriors": { "type": "object" },
+    "coloc_call": { "type": "string" },
+    "top_snp": { "type": "object" },
+    "credible_set_95": { "type": "array", "items": { "type": "object" } },
+    "outputs": { "type": "object" },
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

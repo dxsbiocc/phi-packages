@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["tool", "n_snps", "methods", "pleiotropy", "heterogeneity", "outputs", "artifacts", "warnings"],
+  "properties": {
+    "tool": { "const": "mr_estimate" },
+    "exposure": { "type": "string" },
+    "outcome": { "type": "string" },
+    "n_snps": { "type": "integer" },
+    "methods": { "type": "array", "items": { "type": "object" } },
+    "pleiotropy": { "type": "object" },
+    "heterogeneity": { "type": "object" },
+    "steiger_directionality": { "type": ["object", "null"] },
+    "outlier_snps": { "type": "array", "items": { "type": "string" } },
+    "outputs": { "type": "object" },
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

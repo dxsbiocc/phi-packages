@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "dose_unit",
+    "detected_viability_scale",
+    "n_curves_fitted",
+    "n_beyond_tested_range",
+    "median_r2",
+    "curves",
+    "outputs",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "pgx_dose_response" },
+    "dose_unit": { "type": "string" },
+    "detected_viability_scale": { "type": "string", "enum": ["fraction", "percent"] },
+    "n_curves_fitted": { "type": "integer" },
+    "n_beyond_tested_range": { "type": "integer" },
+    "median_r2": { "type": "number" },
+    "curves": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": ["dose_response_fits", "curves_plot"],
+      "properties": {
+        "dose_response_fits": { "type": "string" },
+        "curves_plot": { "type": "string" }
+      }
+    },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}
