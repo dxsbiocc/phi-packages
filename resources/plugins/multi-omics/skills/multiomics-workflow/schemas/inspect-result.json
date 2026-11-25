@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["tool", "n_modalities", "n_shared_samples", "modalities", "warnings"],
+  "properties": {
+    "tool": { "const": "mo_inspect" },
+    "n_modalities": { "type": "integer" },
+    "n_shared_samples": { "type": "integer" },
+    "shared_samples_preview": { "type": "array", "items": { "type": "string" } },
+    "modalities": { "type": "array", "items": { "type": "object" } },
+    "pairwise_feature_overlap": { "type": "array", "items": { "type": "object" } },
+    "group_counts_on_shared": { "type": ["object", "null"] },
+    "barcode_prefix_hint": { "type": ["string", "null"] },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

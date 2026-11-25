@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["tool", "input_scale", "n_samples", "n_cpgs", "per_sample", "outliers", "outputs", "artifacts", "warnings"],
+  "properties": {
+    "tool": { "const": "meth_qc" },
+    "input_scale": { "type": "string" },
+    "n_samples": { "type": "integer" },
+    "n_cpgs": { "type": "integer" },
+    "pca_variance_explained_pct": { "type": "array", "items": { "type": "number" } },
+    "per_sample": { "type": "array", "items": { "type": "object" } },
+    "outliers": { "type": "array", "items": { "type": "string" } },
+    "outputs": { "type": "object" },
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,0 +1,19 @@
+schemaVersion: 1
+id: methylation
+type: plugin
+version: 0.1.0
+title: DNA Methylation (WGBS/RRBS/Array)
+summary: >-
+  Downstream DNA methylation analysis (meth_): Bismark/MethylDackel coverage &
+  array beta inspection/merging, bimodal beta & M-value PCA QC, moderated M-value
+  DMC & sliding-window DMR calling with delta-beta thresholds, and GTF/CpG-island
+  genomic annotation.
+toolPrefix: meth
+components:
+  agents:
+    - agents/Methylation.md
+  skills:
+    - skills/methylation-workflow
+environments:
+  methylation:
+    spec: environments/methylation/environment.yml

@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["tool", "n_regions_annotated", "genomic_feature_counts", "outputs", "artifacts", "warnings"],
+  "properties": {
+    "tool": { "const": "meth_annotate" },
+    "n_regions_annotated": { "type": "integer" },
+    "genomic_feature_counts": { "type": "object" },
+    "cpg_island_context_counts": { "type": ["object", "null"] },
+    "ora_summary": { "type": ["object", "null"] },
+    "outputs": { "type": "object" },
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

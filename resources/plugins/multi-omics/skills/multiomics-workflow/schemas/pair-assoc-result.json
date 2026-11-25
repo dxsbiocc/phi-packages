@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["tool", "n_shared_samples", "procrustes", "mantel", "network", "outputs", "artifacts", "warnings"],
+  "properties": {
+    "tool": { "const": "mo_pair_assoc" },
+    "n_shared_samples": { "type": "integer" },
+    "block_x": { "type": "object" },
+    "block_y": { "type": "object" },
+    "covariates_adjusted": { "type": "array", "items": { "type": "string" } },
+    "procrustes": { "type": "object" },
+    "mantel": { "type": "object" },
+    "network": { "type": "object" },
+    "outputs": { "type": "object" },
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

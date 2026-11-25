@@ -1,0 +1,15 @@
+name: multiomics
+description: >-
+  Private multi-omics integration environment: Python 3.13 +
+  pandas/numpy/scipy/scikit-learn/matplotlib-base for RNA-protein 9-quadrant
+  concordance, Procrustes/Mantel & covariate-adjusted partial correlation
+  networks, and block-balanced joint latent factor decomposition.
+channels:
+  - conda-forge
+dependencies:
+  - python=3.13
+  - pandas
+  - numpy
+  - scipy
+  - scikit-learn
+  - matplotlib-base

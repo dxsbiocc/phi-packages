@@ -44,6 +44,7 @@ jobs:
           python tests/test_metabolomics_plugin.py -v
           python tests/test_metagenomics_enhancements.py -v
           python tests/test_metagenomics_plugin.py -v
+          python tests/test_multiomics_and_methylation_plugins.py -v
           python tests/test_protein_design_composites.py -v
           python tests/test_protein_design_extra_modules.py -v
           python tests/test_protein_design_plugin.py -v
@@ -102,3 +103,45 @@ jobs:
         run: |
           micromamba activate phi-spatial-ci
           python tests/test_spatial_plugin.py -v
+
+  chip-plugin-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-name: phi-chip-ci
+          create-args: >-
+            --file resources/plugins/chromatin-profiling/environments/chip/locks/linux-x64.txt
+      - name: Install pinned R sourcePackages and run chromatin-profiling tests
+        shell: bash -el {0}
+        run: |
+          micromamba activate phi-chip-ci
+          curl -fsSL https://codeload.github.com/Bioconductor/GenomeInfoDbData/tar.gz/b5339e03cc0c9c188e773a7ec2b80a146601595a -o /tmp/GenomeInfoDbData.tar.gz
+          echo "1eccebf119d4de560b4f601eddb863436889630fdee3d0185f89e32ca4e14125  /tmp/GenomeInfoDbData.tar.gz" | sha256sum -c -
+          R CMD INSTALL --no-multiarch /tmp/GenomeInfoDbData.tar.gz
+          python tests/test_chromatin_and_scatac_plugins.py TestChromatinProfilingPlugin -v
+
+  seurat-plugin-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-name: phi-seurat-ci
+          create-args: >-
+            --file resources/plugins/single-cell/environments/seurat/locks/linux-x64.txt
+      - name: Install pinned R sourcePackages and run Seurat route tests
+        shell: bash -el {0}
+        run: |
+          micromamba activate phi-seurat-ci
+          curl -fsSL https://codeload.github.com/Bioconductor/GenomeInfoDbData/tar.gz/b5339e03cc0c9c188e773a7ec2b80a146601595a -o /tmp/GenomeInfoDbData.tar.gz
+          echo "1eccebf119d4de560b4f601eddb863436889630fdee3d0185f89e32ca4e14125  /tmp/GenomeInfoDbData.tar.gz" | sha256sum -c -
+          R CMD INSTALL --no-multiarch /tmp/GenomeInfoDbData.tar.gz
+          (curl -fsSL https://cloud.r-project.org/src/contrib/RcppThread_2.4.0.tar.gz -o /tmp/RcppThread.tar.gz || curl -fsSL https://cloud.r-project.org/src/contrib/Archive/RcppThread/RcppThread_2.4.0.tar.gz -o /tmp/RcppThread.tar.gz)
+          echo "29e8955a0e1cad0775bcb6f29bde76f34cc2e1fa9c5f5d5d8d4962b91c3feaeb  /tmp/RcppThread.tar.gz" | sha256sum -c -
+          R CMD INSTALL --no-multiarch /tmp/RcppThread.tar.gz
+          (curl -fsSL https://cloud.r-project.org/src/contrib/Seurat_6.0.0.tar.gz -o /tmp/Seurat.tar.gz || curl -fsSL https://cloud.r-project.org/src/contrib/Archive/Seurat/Seurat_6.0.0.tar.gz -o /tmp/Seurat.tar.gz)
+          echo "a2273d1828059ae1ec19e84c25838facbec4b6e97c17a6ca4e6cb6b5d5a8387a  /tmp/Seurat.tar.gz" | sha256sum -c -
+          R CMD INSTALL --no-multiarch /tmp/Seurat.tar.gz
+          python tests/test_single_cell_and_literature_plugins.py TestSingleCellPlugin -v

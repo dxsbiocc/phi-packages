@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["tool", "contrast", "n_samples", "n_cpgs_tested", "dmc_summary", "dmr_summary", "outputs", "artifacts", "warnings"],
+  "properties": {
+    "tool": { "const": "meth_dmr" },
+    "contrast": { "type": "string" },
+    "n_samples": { "type": "integer" },
+    "covariates_adjusted": { "type": "array", "items": { "type": "string" } },
+    "n_cpgs_tested": { "type": "integer" },
+    "prior_df_d0": { "type": "number" },
+    "dmc_summary": { "type": "object" },
+    "dmr_summary": { "type": "object" },
+    "outputs": { "type": "object" },
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "scientificContext": { "type": "object" },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

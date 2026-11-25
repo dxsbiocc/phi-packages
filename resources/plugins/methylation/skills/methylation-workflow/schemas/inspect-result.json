@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["tool", "input_kind", "n_samples", "warnings"],
+  "properties": {
+    "tool": { "const": "meth_inspect" },
+    "input_kind": { "type": "string" },
+    "n_samples": { "type": "integer" },
+    "samples_preview": { "type": "array", "items": { "type": "string" } },
+    "n_cpgs_sampled_or_total": { "type": "integer" },
+    "coordinate_anchored_ids": { "type": "boolean" },
+    "value_summary": { "type": "object" },
+    "metadata_overlap": { "type": ["object", "null"] },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}
