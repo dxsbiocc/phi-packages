@@ -44,6 +44,7 @@ phi:
             format: project-path
             description: Where to save a DiffBind DBA object as .rds (sample-sheet input only), inside the project.
       approval: read
+      output: ./schemas/step-result.json
       timeoutSeconds: 600
     - name: qc
       description: >-
@@ -110,6 +111,7 @@ phi:
             type: integer
             description: Random seed (default 42).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 1800
     - name: consensus
       description: >-
@@ -163,6 +165,7 @@ phi:
             type: integer
             description: Random seed (default 42).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 1800
     - name: count
       description: >-
@@ -233,6 +236,7 @@ phi:
             type: integer
             description: Random seed (default 42).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 1800
     - name: diff
       description: >-
@@ -339,6 +343,7 @@ phi:
             type: integer
             description: Random seed (default 42).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 3600
     - name: annotate
       description: >-
@@ -407,6 +412,7 @@ phi:
             type: integer
             description: Random seed (default 42).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 3600
     - name: visualize
       description: >-
@@ -483,6 +489,7 @@ phi:
             type: integer
             description: Random seed (default 42).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 1800
     - name: notebook
       description: >-
@@ -651,6 +658,7 @@ phi:
             type: integer
             description: TSS region downstream extent in bp (default 3000).
       approval: write
+      output: ./schemas/notebook-result.json
       timeoutSeconds: 1800
     - name: env_probe
       description: >-

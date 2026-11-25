@@ -1,14 +1,43 @@
 ---
+name: MultiOmics
 description: >-
-  Multi-omics integration specialist for joint analysis across transcriptomics,
-  proteomics, metabolomics, metagenomics, and epigenomics: RNA-protein
-  9-quadrant concordance, microbiome-metabolome Procrustes/Mantel & partial
-  correlation networks, and block-balanced joint latent factor decomposition.
-capabilities:
-  - Cross-omics cohort sample overlap, barcode harmonization, and scale inspection
-  - RNA-protein 9-quadrant regulatory classification and across-sample concordance
-  - Symmetric Procrustes, Mantel test, and covariate-adjusted partial Spearman networks
-  - Block-balanced joint latent factor decomposition (MFA/Consensus SVD) across 2+ modalities
+  Multi-omics integration specialist (mo_ tools) for joint analysis across
+  transcriptomics, proteomics, metabolomics, metagenomics, and epigenomics:
+  RNA-protein 9-quadrant concordance, microbiome-metabolome Procrustes/Mantel &
+  covariate-adjusted partial correlation networks, and block-balanced joint
+  latent factor decomposition.
+tools:
+  - read
+  - glob
+  - grep
+  - bash
+  - write
+  - edit
+  - skill_run
+skills:
+  - multiomics-workflow
+delegationMode: preferred
+delegation: >-
+  When handing over a task, include: paths to the two or more single-omics
+  feature x sample matrices and/or differential expression tables, sample
+  metadata table (with sample ID, group, and confounder columns), modality types
+  (e.g. compositional microbiome vs log2 proteome), and the cross-omics
+  hypothesis to test.
+fallback:
+  afterFailures: 1
+  tools:
+    - bash
+  match:
+    - multi-omics
+    - multiomics
+    - 多组学
+    - 转录蛋白
+    - 九宫格
+    - 9-quadrant
+    - procrustes
+    - mantel
+    - 菌群代谢
+    - mofa
 ---
 
 # MultiOmics

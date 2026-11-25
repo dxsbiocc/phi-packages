@@ -66,6 +66,7 @@ phi:
             enum: [gene_symbols, gene_ids]
             description: Which 10x feature column becomes var_names (default gene_symbols).
       approval: read
+      output: ./schemas/step-result.json
       timeoutSeconds: 600
     - name: py_qc
       description: >-
@@ -127,6 +128,7 @@ phi:
             type: string
             description: obs column naming each unit's sample, for a per-sample breakdown.
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 1800
     - name: py_preprocess
       description: >-
@@ -195,6 +197,7 @@ phi:
             type: integer
             description: Random seed (default 42).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 3600
     - name: py_spatial
       description: >-
@@ -270,6 +273,7 @@ phi:
             type: integer
             description: Random seed (default 42).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 3600
     - name: py_niche
       description: >-
@@ -336,6 +340,7 @@ phi:
             type: integer
             description: Random seed (default 42).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 3600
     - name: py_trajectory
       description: >-
@@ -388,6 +393,7 @@ phi:
             type: integer
             description: Random seed (default 42).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 3600
     - name: py_markers
       description: >-
@@ -438,6 +444,7 @@ phi:
             type: integer
             description: Top genes to report per domain (default 10).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 3600
     - name: py_annotate
       description: >-
@@ -487,6 +494,7 @@ phi:
             type: string
             description: obsm key holding spatial coordinates (default spatial).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 3600
     - name: py_deconvolve
       description: >-
@@ -537,6 +545,7 @@ phi:
             type: integer
             description: Neighbours for knn adjacency (default 6).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 3600
     - name: py_communication
       description: >-
@@ -598,6 +607,7 @@ phi:
             type: integer
             description: Random seed (default 42).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 3600
     - name: py_notebook
       description: >-
@@ -767,6 +777,7 @@ phi:
             type: boolean
             description: Execute every cell once in the output directory and fail if one breaks.
       approval: write
+      output: ./schemas/notebook-result.json
       timeoutSeconds: 1800
     - name: py_env_probe
       description: >-

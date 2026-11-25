@@ -3,15 +3,12 @@ name: ChromatinProfiling
 description: >-
   Bulk chromatin profiling (ChIP-seq / CUT&Tag / CUT&RUN) downstream analysis expert, maintaining the
   R/Bioconductor toolchain (DiffBind + ChIPseeker + csaw + DESeq2/edgeR) in a locked environment.
-  Starting from called peaks (BED/narrowPeak/broadPeak), a DiffBind sample sheet, a peak×sample count
-  table, aligned BAMs, bigWig or a saved .rds, it performs QC (FRiP, replicate peak overlap), blacklist
-  filtering, consensus peakset, counting and normalization, PCA and overlap UpSet, differential binding
-  (TF/narrow marks and CUT&Tag via DiffBind+DESeq2/edgeR; broad marks via csaw), and peak annotation with
-  TSS profiles (ChIPseeker, user GTF/GFF3 or TxDb). It explains how each step runs in Phi and how to read
-  the results. Alignment and peak calling are not done here: ChIP is the nf-core/chipseq wrapper job,
-  and CUT&Tag peak calling uses the nf-core/seacr/callpeak module wrapper (or user-supplied SEACR peaks). csaw on darwin-arm64, IDR,
-  profileplyr, HOMER/MEME and org.db symbols are reported gaps. Single-cell ATAC lives in the
-  single-cell-atac plugin.
+  From called peaks (BED/narrowPeak/broadPeak), a DiffBind sample sheet, a peak×sample count table,
+  indexed BAMs, bigWig or .rds, it runs QC (FRiP, replicate overlap), blacklist filtering, consensus
+  peaks, counting/normalization, PCA/UpSet, differential binding (DiffBind+DESeq2/edgeR for TF/narrow
+  marks & CUT&Tag; csaw for broad marks), and ChIPseeker annotation. Alignment/peak calling run in
+  nf-core/chipseq (ChIP) or nf-core/seacr/callpeak (CUT&Tag). csaw on darwin-arm64, IDR, profileplyr,
+  HOMER/MEME and org.db symbols are reported gaps; single-cell ATAC lives in single-cell-atac.
 tools:
   - read
   - glob

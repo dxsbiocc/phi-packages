@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.1 (2026-11-25)
+
+- 为 `seurat-workflow` 与 `scanpy-workflow` 全部脚本工具与 Notebook 渲染工具补齐 `output` JSON Schema 声明（`step-result.json`、`notebook-result.json`）。
+
 ## 0.7.0 (2026-11-25)
 
 - Python 路（`scanpy-workflow`）新增配受体细胞通讯推断能力：新增片段 `assets/fragments/communication.py`、教学笔记 `references/step-notes/communication.md`、工具 `sc_py_communication` 及 Notebook Preset 8（基于未缩放 `lognorm` 层实现 CellPhoneDB 多亚基最小表达法则 + 细胞标签置换检验 + BH FDR，内置精选人类/小鼠跨物种配受体复合物起始库并支持用户传入自定义 `interactions_path`，自动产出互作计数热图、气泡图及结果表）。

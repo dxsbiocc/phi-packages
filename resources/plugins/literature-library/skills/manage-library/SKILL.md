@@ -32,6 +32,7 @@ phi:
             description: Limit to one collection; default all
         required: [project_root]
       approval: read
+      output: ./schemas/tool-result.json
       timeoutSeconds: 60
     - name: collection
       description: >-
@@ -59,6 +60,7 @@ phi:
             description: Do not create the wiki vault
         required: [project_root, action]
       approval: write
+      output: ./schemas/tool-result.json
       timeoutSeconds: 60
     - name: search
       description: >-
@@ -95,6 +97,7 @@ phi:
             description: Fetch and write hits.jsonl only; do not save into the library
         required: [project_root, query]
       approval: write
+      output: ./schemas/tool-result.json
       timeoutSeconds: 180
     - name: import
       description: >-
@@ -129,6 +132,7 @@ phi:
             description: Check whether candidate open-access links really serve a PDF
         required: [project_root, input_path]
       approval: write
+      output: ./schemas/tool-result.json
       timeoutSeconds: 300
     - name: expand
       description: >-
@@ -160,6 +164,7 @@ phi:
             description: Save the hits into the collection (default is preview only)
         required: [project_root, seed_id]
       approval: write
+      output: ./schemas/tool-result.json
       timeoutSeconds: 180
     - name: query
       description: >-
@@ -189,6 +194,7 @@ phi:
             type: boolean
         required: [project_root]
       approval: read
+      output: ./schemas/tool-result.json
       timeoutSeconds: 60
     - name: get
       description: >-
@@ -214,6 +220,7 @@ phi:
             type: boolean
         required: [project_root, publication_id]
       approval: read
+      output: ./schemas/tool-result.json
       timeoutSeconds: 120
     - name: export
       description: >-
@@ -246,6 +253,7 @@ phi:
             type: boolean
         required: [project_root]
       approval: write
+      output: ./schemas/tool-result.json
       timeoutSeconds: 60
     - name: curate
       description: >-
@@ -301,6 +309,7 @@ phi:
             description: enrich - look papers up again even if already looked up
         required: [project_root, action]
       approval: write
+      output: ./schemas/tool-result.json
       timeoutSeconds: 300
     - name: wiki_pending
       description: >-
@@ -332,6 +341,7 @@ phi:
             type: integer
         required: [project_root]
       approval: write
+      output: ./schemas/tool-result.json
       timeoutSeconds: 120
     - name: wiki_apply
       description: >-
@@ -353,6 +363,7 @@ phi:
             description: Default is raw/compile_batch_response.json in the vault
         required: [project_root]
       approval: write
+      output: ./schemas/tool-result.json
       timeoutSeconds: 120
     - name: wiki_lint
       description: >-
@@ -370,6 +381,7 @@ phi:
             type: string
         required: [project_root]
       approval: read
+      output: ./schemas/tool-result.json
       timeoutSeconds: 60
 ---
 

@@ -46,7 +46,7 @@ class TestMultiOmicsAndMethylationContracts(unittest.TestCase):
     def test_multiomics_layout_locks_schemas_and_ast(self):
         manifest = (MO_DIR / "phi-package.yaml").read_text(encoding="utf-8")
         self.assertIn("id: multi-omics", manifest)
-        self.assertIn("version: 0.1.0", manifest)
+        self.assertIn("version: 0.1.1", manifest)
         self.assertIn("toolPrefix: mo", manifest)
         for req in ("icon.svg", "README.md", "CHANGELOG.md", "agents/MultiOmics.md"):
             self.assertTrue((MO_DIR / req).is_file(), f"missing {req}")
@@ -67,7 +67,7 @@ class TestMultiOmicsAndMethylationContracts(unittest.TestCase):
     def test_methylation_layout_locks_schemas_and_ast(self):
         manifest = (METH_DIR / "phi-package.yaml").read_text(encoding="utf-8")
         self.assertIn("id: methylation", manifest)
-        self.assertIn("version: 0.1.0", manifest)
+        self.assertIn("version: 0.1.1", manifest)
         self.assertIn("toolPrefix: meth", manifest)
         for req in ("icon.svg", "README.md", "CHANGELOG.md", "agents/Methylation.md"):
             self.assertTrue((METH_DIR / req).is_file(), f"missing {req}")

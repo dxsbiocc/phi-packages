@@ -61,6 +61,7 @@ phi:
             minimum: 0
             description: Minimum fragments per barcode at import (default 200); below this a barcode is dropped as empty.
       approval: read
+      output: ./schemas/step-result.json
       timeoutSeconds: 600
     - name: qc
       description: >-
@@ -129,6 +130,7 @@ phi:
             type: string
             description: obs column naming each cell's sample, for a per-sample breakdown.
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 1800
     - name: preprocess
       description: >-
@@ -223,6 +225,7 @@ phi:
             type: integer
             description: Worker processes (default 1 for reproducibility; raise for large fragment files).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 3600
     - name: peaks
       description: >-
@@ -292,6 +295,7 @@ phi:
             type: integer
             description: Worker processes for MACS3 (default 1).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 3600
     - name: markers
       description: >-
@@ -359,6 +363,7 @@ phi:
             type: integer
             description: Random seed (default 0).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 3600
     - name: annotate
       description: >-
@@ -438,6 +443,7 @@ phi:
             type: integer
             description: Random seed (default 0).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 3600
     - name: motif
       description: >-
@@ -499,6 +505,7 @@ phi:
             type: integer
             description: Random seed (default 0).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 3600
     - name: integrate
       description: >-
@@ -550,6 +557,7 @@ phi:
             type: integer
             description: Random seed (default 0).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 3600
     - name: notebook
       description: >-
@@ -709,6 +717,7 @@ phi:
             type: boolean
             description: Execute every cell once in the output directory and fail if one breaks.
       approval: write
+      output: ./schemas/notebook-result.json
       timeoutSeconds: 1800
     - name: env_probe
       description: >-

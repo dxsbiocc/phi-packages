@@ -1,5 +1,9 @@
 # Changelog — multi-omics
 
+## 0.1.1 (2026-11-25)
+
+- Aligned `agents/MultiOmics.md` YAML frontmatter with the Phi Agent contract (`name`, `tools`, `skills`, `delegationMode`, `delegation`, `fallback`).
+
 ## 0.1.0 (2026-11-25)
 
 - Initial release of the `multi-omics` plugin (`toolPrefix: mo`, agent `MultiOmics`, skill `multiomics-workflow`) in locked Python 3.13 environment `plugin:multiomics` (`darwin-arm64`, `darwin-x64`, `linux-x64`).

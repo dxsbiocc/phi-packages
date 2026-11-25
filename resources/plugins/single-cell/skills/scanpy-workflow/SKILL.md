@@ -50,6 +50,7 @@ phi:
             enum: [gene_symbols, gene_ids]
             description: Which 10x feature column becomes var_names (default gene_symbols).
       approval: read
+      output: ./schemas/step-result.json
       timeoutSeconds: 600
     - name: py_qc
       description: >-
@@ -106,6 +107,7 @@ phi:
               type: number
             description: Quantiles to report per metric (default 0.01 and 0.99).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 1800
     - name: py_preprocess
       description: >-
@@ -176,6 +178,7 @@ phi:
             type: integer
             description: Random seed (default 42).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 3600
     - name: py_integrate
       description: >-
@@ -222,6 +225,7 @@ phi:
             type: integer
             description: Random seed (default 42).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 3600
     - name: py_markers
       description: >-
@@ -274,6 +278,7 @@ phi:
             type: boolean
             description: Draw the marker heatmap (default true).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 3600
     - name: py_annotate
       description: >-
@@ -323,6 +328,7 @@ phi:
             type: number
             description: Minimum panel score to accept a label (default 0).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 3600
     - name: py_pseudobulk
       description: >-
@@ -370,6 +376,7 @@ phi:
             type: integer
             description: Replicates expected per group for a valid comparison (default 2).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 1800
     - name: py_trajectory
       description: >-
@@ -406,6 +413,7 @@ phi:
             type: integer
             description: Diffusion components for pseudotime (default 10).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 1800
     - name: py_communication
       description: >-
@@ -458,6 +466,7 @@ phi:
             type: integer
             description: Random seed (default 42).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 1800
     - name: py_notebook
       description: >-
@@ -577,6 +586,7 @@ phi:
             type: boolean
             description: Execute every cell once in the output directory and fail if one breaks.
       approval: write
+      output: ./schemas/notebook-result.json
       timeoutSeconds: 1800
     - name: py_env_probe
       description: >-

@@ -1,7 +1,7 @@
 schemaVersion: 1
 id: methylation
 type: plugin
-version: 0.1.0
+version: 0.1.1
 title: DNA Methylation (WGBS/RRBS/Array)
 summary: >-
   Downstream DNA methylation analysis (meth_): Bismark/MethylDackel coverage &

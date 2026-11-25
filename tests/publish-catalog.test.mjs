@@ -95,3 +95,21 @@ test('publish-catalog rejects corrupted assets before any upload', () => {
     rmSync(dir, { recursive: true, force: true })
   }
 })
+
+test('publish-catalog detects unbumped immutable release asset digest/size conflicts', () => {
+  const dir = makeFixtureCatalog()
+  try {
+    const verified = verifyCatalogAssets(dir)
+    assert.throws(
+      () =>
+        planUpload(
+          verified.immutableAssets,
+          [{ name: 'plugin-a-1.0.0.tar.gz', size: 999999, digest: 'sha256:0000' }],
+          verified.assetMeta
+        ),
+      /immutable release asset conflict/
+    )
+  } finally {
+    rmSync(dir, { recursive: true, force: true })
+  }
+})

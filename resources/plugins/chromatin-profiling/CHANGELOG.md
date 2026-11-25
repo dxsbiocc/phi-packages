@@ -1,5 +1,9 @@
 # Changelog — chromatin-profiling
 
+## 0.1.3 (2026-11-25)
+
+- 为 `chromatin-workflow` 全部脚本工具与 `chip_notebook` 补齐 `output` JSON Schema 声明（`step-result.json`、`notebook-result.json`）并收敛 Agent 描述长度在契约上限内。
+
 ## 0.1.2 (2026-11-25)
 
 - 对齐上游 Wrapper 目录状态：将 `chip_env_probe`、Agent、Skill、Notebook 预设说明与红线手册中过时的“SEACR 无 Wrapper”表述更新为指向仓库已内置的 `nf-core/seacr/callpeak` 模块 Wrapper（ChIP 端到端走 `nf-core/chipseq`，CUT&Tag 低背景寻峰走 `seacr/callpeak` 模块或直接导入已有 SEACR peaks）。

@@ -1,7 +1,7 @@
 schemaVersion: 1
 id: literature-library
 type: plugin
-version: 0.7.0
+version: 0.7.1
 title: Literature Library
 summary: >-
   Project-level literature library: search PubMed, Europe PMC, OpenAlex and

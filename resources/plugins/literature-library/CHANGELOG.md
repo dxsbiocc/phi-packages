@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.1 (2026-11-25)
+
+- Added `output: ./schemas/tool-result.json` JSON Schema validation across all 12 script tools in `skills/manage-library`.
+
 ## 0.7.0
 
 Restructured around tasks instead of scripts. **Tool names changed; there are no aliases.**

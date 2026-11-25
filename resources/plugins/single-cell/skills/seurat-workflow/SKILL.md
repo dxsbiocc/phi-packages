@@ -50,6 +50,7 @@ phi:
             minimum: 0
             description: Drop cells with fewer genes (CreateSeuratObject min.features).
       approval: read
+      output: ./schemas/step-result.json
       timeoutSeconds: 600
     - name: qc
       description: >-
@@ -106,6 +107,7 @@ phi:
               type: number
             description: Quantiles to report per metric (default 0.01 and 0.99).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 1800
     - name: preprocess
       description: >-
@@ -171,6 +173,7 @@ phi:
             type: integer
             description: Random seed (default 42).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 3600
     - name: markers
       description: >-
@@ -222,6 +225,7 @@ phi:
             type: string
             description: Assay name; default the object's active assay.
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 3600
     - name: annotate
       description: >-
@@ -271,6 +275,7 @@ phi:
             type: number
             description: Minimum panel score to accept a label (default 0).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 3600
     - name: pseudobulk
       description: >-
@@ -318,6 +323,7 @@ phi:
             type: integer
             description: Replicates expected per group for a valid comparison (default 2).
       approval: write
+      output: ./schemas/step-result.json
       timeoutSeconds: 1800
     - name: notebook
       description: >-
@@ -432,6 +438,7 @@ phi:
             type: boolean
             description: Execute every cell once in the output directory and fail if one breaks.
       approval: write
+      output: ./schemas/notebook-result.json
       timeoutSeconds: 1800
     - name: env_probe
       description: >-

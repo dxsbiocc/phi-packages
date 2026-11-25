@@ -1,5 +1,9 @@
 # Changelog — methylation
 
+## 0.1.1 (2026-11-25)
+
+- Aligned `agents/Methylation.md` YAML frontmatter with the Phi Agent contract (`name`, `tools`, `skills`, `delegationMode`, `delegation`, `fallback`).
+
 ## 0.1.0 (2026-11-25)
 
 - Initial release of the `methylation` plugin (`toolPrefix: meth`, agent `Methylation`, skill `methylation-workflow`) in locked Python 3.13 environment `plugin:methylation` (`darwin-arm64`, `darwin-x64`, `linux-x64`), providing the downstream statistical counterpart to `nf-core/methylseq`, `bismark`, and `methyldackel` wrappers.

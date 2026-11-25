@@ -1,5 +1,9 @@
 # Changelog — spatial-transcriptomics
 
+## 0.2.2 (2026-11-25)
+
+- 为 `spatial-workflow` 全部脚本工具与 `st_py_notebook` 补齐 `output` JSON Schema 声明（`step-result.json`、`notebook-result.json`）。
+
 ## 0.2.1 (2026-11-24)
 
 - 在报告输出层统一为所有工具产出的图像与结果表写入 `1.0.0` 版 `.phi-artifact.json` 描述旁注并附带 `artifacts` 展示列表（上限 8 项）。

@@ -64,7 +64,7 @@ export function verifyCatalogAssets(assetsDir) {
     throw new Error('index.json is missing packages array')
   }
 
-  const referenced = new Set()
+  const referenced = new Map()
   const check = (asset) => {
     const filePath = join(assetsDir, asset.path)
     if (!existsSync(filePath)) {
@@ -78,7 +78,7 @@ export function verifyCatalogAssets(assetsDir) {
     if (digest !== asset.sha256) {
       throw new Error(`sha256 mismatch for ${asset.path}: expected ${asset.sha256}, got ${digest}`)
     }
-    referenced.add(asset.path)
+    referenced.set(asset.path, { size: asset.size, sha256: asset.sha256 })
   }
 
   for (const pkg of index.packages) {
@@ -87,18 +87,48 @@ export function verifyCatalogAssets(assetsDir) {
     if (pkg.manifestAsset) check(pkg.manifestAsset)
   }
 
+  const immutableAssets = [...referenced.keys()].sort()
   return {
     packageCount: index.packages.length,
-    immutableAssets: [...referenced].sort()
+    immutableAssets,
+    assetMeta: referenced
   }
 }
 
-export function planUpload(immutableAssets, existingNames) {
-  const existing = new Set(existingNames)
+export function planUpload(immutableAssets, existingAssets, localMeta = new Map()) {
+  const existingMap = new Map()
+  for (const item of existingAssets) {
+    if (typeof item === 'string') {
+      existingMap.set(item, null)
+    } else if (item && typeof item === 'object' && item.name) {
+      const rawDigest = typeof item.digest === 'string' && item.digest.startsWith('sha256:')
+        ? item.digest.slice('sha256:'.length).toLowerCase()
+        : (typeof item.sha256 === 'string' ? item.sha256.toLowerCase() : undefined)
+      existingMap.set(item.name, {
+        size: typeof item.size === 'number' ? item.size : undefined,
+        sha256: rawDigest
+      })
+    }
+  }
+
   const skipped = []
   const toUpload = []
   for (const name of immutableAssets) {
-    if (existing.has(name)) {
+    if (existingMap.has(name)) {
+      const remote = existingMap.get(name)
+      const local = localMeta instanceof Map ? localMeta.get(name) : undefined
+      if (remote && local) {
+        if (remote.size !== undefined && remote.size !== local.size) {
+          throw new Error(
+            `immutable release asset conflict for ${name}: remote size ${remote.size} != local size ${local.size} (bump package version or pass --wrapper-version)`
+          )
+        }
+        if (remote.sha256 && remote.sha256 !== local.sha256) {
+          throw new Error(
+            `immutable release asset conflict for ${name}: remote sha256 ${remote.sha256} != local sha256 ${local.sha256} (bump package version or pass --wrapper-version)`
+          )
+        }
+      }
       skipped.push(name)
     } else {
       toUpload.push(name)
@@ -116,35 +146,39 @@ function runGh(args) {
   return res.stdout
 }
 
-function fetchExistingAssetNames(tag, repo) {
+function fetchExistingAssets(tag, repo) {
   const args = ['release', 'view', tag, '--json', 'assets']
   if (repo) args.push('--repo', repo)
   const out = runGh(args)
   const data = JSON.parse(out)
-  return (data.assets || []).map((a) => a.name)
+  return (data.assets || []).map((a) => ({
+    name: a.name,
+    size: a.size,
+    digest: a.digest
+  }))
 }
 
 function main() {
   const opts = parseArgs(process.argv.slice(2))
   const verified = verifyCatalogAssets(opts.assetsDir)
 
-  let existingNames = []
+  let existingAssets = []
   if (opts.existingAssetsJson) {
-    existingNames = JSON.parse(readFileSync(resolve(opts.existingAssetsJson), 'utf8'))
+    existingAssets = JSON.parse(readFileSync(resolve(opts.existingAssetsJson), 'utf8'))
   } else {
     try {
-      existingNames = fetchExistingAssetNames(opts.tag, opts.repo)
+      existingAssets = fetchExistingAssets(opts.tag, opts.repo)
     } catch (err) {
       if (opts.dryRun) {
         console.error(`[publish-catalog] warning: could not query release '${opts.tag}' (${err.message}); assuming 0 existing assets for dry-run`)
-        existingNames = []
+        existingAssets = []
       } else {
         throw err
       }
     }
   }
 
-  const plan = planUpload(verified.immutableAssets, existingNames)
+  const plan = planUpload(verified.immutableAssets, existingAssets, verified.assetMeta)
   const summary = {
     tag: opts.tag,
     dryRun: opts.dryRun,

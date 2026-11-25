@@ -1,5 +1,9 @@
 # Changelog — single-cell-atac
 
+## 0.1.3 (2026-11-25)
+
+- 为 `scatac-workflow` 全部脚本工具与 `scatac_notebook` 补齐 `output` JSON Schema 声明（`step-result.json`、`notebook-result.json`）。
+
 ## 0.1.2 (2026-11-25)
 
 - 将 `scripts/_common.py` 中对 `numpy` 的导入改为按需容错加载，使 `scatac_env_probe` 与 `scatac_notebook` 在纯标准库 Python 环境下也可独立运行自检。

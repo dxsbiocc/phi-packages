@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["output", "language", "steps", "code_cells"],
+  "properties": {
+    "output": { "type": "string" },
+    "language": { "type": "string", "enum": ["python", "r"] },
+    "steps": { "type": "array", "items": { "type": "string" } },
+    "code_cells": { "type": "integer", "minimum": 1 },
+    "markdown_cells": { "type": "integer", "minimum": 0 },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -57,7 +57,7 @@ last. Phi validates the signature and every asset's SHA-256 and size before atom
 Keep an existing package version's archive immutable; bump the package version when its contents change.
 
 wrapper 默认版本为 `1.0.0`，必须与 Phi 内置 wrapper 树的版本一致，否则在线条目会被当作降级且依赖范围无法满足。
-后续可显式使用 `--wrapper-version` 提升该组生成软件包版本；其他软件包使用各自 manifest 的版本。
+后续只要修改了任意 wrapper 文件（例如本地 `differential-expression` 或新增模块），发布时必须显式传入新的 `--wrapper-version`（例如 `1.0.1`）提升该组生成软件包版本；`scripts/publish-catalog.mjs` 会比对远端已有 release 资产的字节大小与 `sha256` 摘要，若发现同名不可变归档内容发生变化但未升版，会在上传前直接报错中止。其他软件包使用各自 manifest 的版本。
 
 Wrappers default to `1.0.0`, which must match the wrapper tree bundled with Phi; a lower version looks like a downgrade and breaks dependency ranges.
 For later changes, pass an explicit `--wrapper-version`; other packages retain their manifest versions.

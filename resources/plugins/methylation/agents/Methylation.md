@@ -1,14 +1,51 @@
 ---
+name: Methylation
 description: >-
-  DNA methylation downstream specialist for WGBS, RRBS, EM-seq (nf-core/methylseq,
-  Bismark, MethylDackel), and Illumina 450K/EPIC beta matrices: coverage merging,
-  beta/M-value QC, moderated M-value DMC & Stouffer DMR calling, and promoter/CpG
-  island annotation.
-capabilities:
-  - Bismark/MethylDackel coverage merging and depth/missingness filtering
-  - Global methylation bimodal distribution and M-value PCA quality control
-  - Confounder-adjusted moderated M-value DMC and coordinate-merged DMR calling
-  - Promoter/GeneBody/Intergenic, CpG Island/Shore/Shelf annotation, and pathway ORA
+  DNA methylation downstream specialist (meth_ tools) for WGBS, RRBS, EM-seq
+  (nf-core/methylseq, Bismark, MethylDackel), and Illumina 450K/EPIC beta
+  matrices: coverage merging, bimodal beta & logit M-value PCA QC,
+  confounder-adjusted moderated M-value DMC & Stouffer DMR calling, and
+  promoter/CpG island annotation.
+tools:
+  - read
+  - glob
+  - grep
+  - bash
+  - write
+  - edit
+  - skill_run
+  - wrapper_search
+  - wrapper_inspect
+  - wrapper_plan_run
+  - wrapper_run
+  - wrapper_status
+  - wrapper_wait
+  - wrapper_cancel
+skills:
+  - methylation-workflow
+delegationMode: preferred
+delegation: >-
+  When handing over a task, include: paths to Bismark .cov(.gz) / MethylDackel
+  .bedGraph(.gz) files or the CpG/probe beta-value matrix, sample metadata table
+  (group, case/control labels, age/sex/purity covariates), reference GTF/GFF3
+  and optional CpG Island BED or array probe coordinate table.
+fallback:
+  afterFailures: 1
+  tools:
+    - bash
+  match:
+    - methylation
+    - 甲基化
+    - wgbs
+    - rrbs
+    - em-seq
+    - bismark
+    - methyldackel
+    - dmr
+    - dmc
+    - cpg岛
+    - 450k
+    - epic
 ---
 
 # Methylation
