@@ -152,7 +152,17 @@ def setup_matplotlib():
     return plt
 
 
-def write_artifact(path, tool, title, *, skill="rnaseq-workflow", inputs=(), parameters=None, shape=None):
+def write_artifact(
+    path,
+    tool,
+    title,
+    *,
+    skill="rnaseq-workflow",
+    inputs=(),
+    parameters=None,
+    shape=None,
+    scientific_context=None,
+):
     p = Path(path)
     ext = p.suffix.lower()
     figures = {".png": "image/png", ".pdf": "application/pdf", ".svg": "image/svg+xml"}
@@ -185,7 +195,14 @@ def write_artifact(path, tool, title, *, skill="rnaseq-workflow", inputs=(), par
                 block["widthPx"], block["heightPx"] = int(w), int(h)
         descriptor["figure"] = block
     elif shape is not None:
-        descriptor["table"] = {"rows": int(shape[0]), "columns": int(shape[1])}
+        if isinstance(shape, dict):
+            rows_n = int(shape.get("rows", 0))
+            cols_n = int(shape.get("columns", shape.get("cols", 0)))
+        else:
+            rows_n, cols_n = int(shape[0]), int(shape[1])
+        descriptor["table"] = {"rows": rows_n, "columns": cols_n}
+    if scientific_context:
+        descriptor["scientificContext"] = scientific_context
     cwd = Path.cwd().resolve()
     prov_inputs = []
     for ip in inputs:

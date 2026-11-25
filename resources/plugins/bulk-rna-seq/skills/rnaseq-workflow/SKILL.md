@@ -1,17 +1,16 @@
 ---
 name: rnaseq-workflow
 description: >-
-  Downstream bulk RNA-seq interpretation, identifier/GEO bridging, and pathway
-  analysis: import NCBI GEO Series Matrix cohorts (GSE*_series_matrix.txt/.gz)
-  into samplesheets and expression matrices; strip Ensembl versions and map
-  gene IDs via GTF/GFF3 or mapping tables with collision-aware aggregation;
-  inspect matrices, DE tables, metadata, and GMT sets; run sample QC/PCA/outlier
-  diagnostics; integrate multi-contrast DESeq2/edgeR/limma DEG tables; run
-  offline hypergeometric ORA with explicit universe, pre-ranked GSEA (ES/NES/FDR
-  + leading-edge), and single-sample pathway activity scoring. Use for bulk
-  RNA-seq, 转录组, 基因ID转换, Ensembl转Symbol, GEO数据导入, series_matrix,
-  差异表达下游, GSEA, ORA, 通路富集, 多对比差异整合. Raw alignment runs on
-  nf-core/rna-seq and core DE runs on local/differential-expression wrappers.
+  Downstream bulk RNA-seq interpretation, identifier/GEO bridging, co-expression
+  networks, TME deconvolution, and pathway analysis: import NCBI GEO Series
+  Matrix cohorts; strip Ensembl versions and map gene IDs via GTF/GFF3 or tables;
+  inspect matrices, DE tables, metadata, and GMT sets; run sample QC/PCA; compare
+  multi-contrast DEGs; run hypergeometric ORA, pre-ranked GSEA, single-sample
+  pathway scoring, WGCNA-style weighted gene co-expression module & hub-gene
+  detection, and ESTIMATE/NNLS tumor microenvironment immune deconvolution. Use
+  for bulk RNA-seq, 转录组, 基因ID转换, GEO数据导入, 差异表达下游, GSEA, ORA,
+  WGCNA, 共表达网络, 枢纽基因, 免疫浸润, 肿瘤微环境去卷积. Raw alignment runs on
+  nf-core/rna-seq and core DE on local/differential-expression wrappers.
 phi:
   environment: plugin:rnaseq
   attachTo:
@@ -371,6 +370,102 @@ phi:
       approval: write
       output: ./schemas/pathway-score-result.json
       timeoutSeconds: 600
+    - name: coexpression
+      description: >-
+        Run WGCNA-style weighted gene co-expression network analysis on a bulk
+        cohort (N >= 6, recommended >= 12): evaluate scale-free topology R^2 to
+        select soft-threshold power beta, build signed/unsigned TOM hierarchical
+        modules, merge correlated Module Eigengenes, rank intramodular kME hub
+        genes, and test Module Eigengene-phenotype associations with BH FDR.
+      run: [python, ./scripts/rna_coexpression.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [input, output_dir]
+        properties:
+          input:
+            type: string
+            format: input-path
+            description: Gene x sample expression matrix TSV/CSV (raw counts or normalized).
+          output_dir:
+            type: string
+            format: project-path
+            description: Directory for scale_free_fit.tsv, module_eigengenes.tsv, gene_modules_hubs.tsv, and summary plot.
+          metadata:
+            type: string
+            format: input-path
+            description: Optional sample metadata TSV/CSV for Module Eigengene-trait correlations.
+          sample_col:
+            type: string
+            description: Optional sample ID column in metadata.
+          trait_cols:
+            type: array
+            items:
+              type: string
+            description: Optional clinical/phenotype trait columns in metadata to correlate with Module Eigengenes.
+          top_genes:
+            type: integer
+            minimum: 50
+            description: Number of top variable genes (by MAD) included in TOM construction (default 1500).
+          network_type:
+            type: string
+            enum: [signed, unsigned]
+            description: Co-expression similarity type (default signed).
+          power:
+            type: integer
+            minimum: 0
+            description: Soft-threshold power beta (0 = automatic scale-free R^2 selection, default 0).
+          sft_r2_cutoff:
+            type: number
+            description: Scale-free topology R^2 threshold for automatic power selection (default 0.80).
+          min_module_size:
+            type: integer
+            minimum: 5
+            description: Minimum genes per co-expression module (default 25).
+          merge_cut_height:
+            type: number
+            description: Merge modules with eigengene correlation > 1 - merge_cut_height (default 0.20).
+      approval: write
+      output: ./schemas/coexpression-result.json
+      timeoutSeconds: 900
+    - name: tme_deconv
+      description: >-
+        Estimate tumor microenvironment stromal/immune infiltration and purity
+        (ESTIMATE-style StromalScore, ImmuneScore, ESTIMATEScore, TumorPurity)
+        plus non-negative least squares (NNLS) relative immune cell fractions
+        across 10 canonical leukocyte lineages (or a custom signature matrix),
+        with optional group differential infiltration testing.
+      run: [python, ./scripts/rna_tme_deconv.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [input, output_dir]
+        properties:
+          input:
+            type: string
+            format: input-path
+            description: Gene x sample expression matrix TSV/CSV (HGNC/MGI gene symbols; map Ensembl IDs via rna_id_map first).
+          output_dir:
+            type: string
+            format: project-path
+            description: Directory for tme_cell_fractions.tsv, tme_microenvironment_scores.tsv, and summary plot.
+          signature_matrix:
+            type: string
+            format: input-path
+            description: Optional custom linear reference signature matrix TSV/CSV (genes x cell_types).
+          metadata:
+            type: string
+            format: input-path
+            description: Optional sample metadata TSV/CSV for group infiltration comparison.
+          sample_col:
+            type: string
+            description: Optional sample ID column in metadata.
+          group_col:
+            type: string
+            description: Optional condition/group column in metadata for Mann-Whitney/Kruskal + BH FDR tests.
+      approval: write
+      output: ./schemas/tme-deconv-result.json
+      timeoutSeconds: 600
 ---
 
 # Bulk RNA-seq — downstream interpretation & pathway chain
@@ -389,7 +484,9 @@ counts + metadata ──rna_inspect──▶ verify raw counts & batch-group des
 multiple DE tables ──rna_compare──▶ shared / discordant / specific DEGs
 full DE table + GMT ──┬─ rna_ora  (hypergeometric ORA with explicit universe)
                       └─ rna_gsea (threshold-free pre-ranked GSEA + leading-edge)
-expression + GMT ──rna_pathway_score──▶ sample-level pathway activity matrix + heatmap
+expression + GMT ──────rna_pathway_score──▶ sample-level pathway activity matrix + heatmap
+expression (+ traits) ─rna_coexpression───▶ WGCNA-style TOM modules, Module Eigengenes & kME hubs
+symbol expression ─────rna_tme_deconv─────▶ ESTIMATE Stromal/Immune/Purity + NNLS immune cell fractions
 ```
 
 ## Hard red lines

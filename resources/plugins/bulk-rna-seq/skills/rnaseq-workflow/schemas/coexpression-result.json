@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "inferred_value_kind",
+    "n_samples",
+    "n_genes_input",
+    "n_genes_network",
+    "n_genes_assigned",
+    "n_genes_unassigned",
+    "network_type",
+    "selected_power",
+    "power_selection_mode",
+    "scale_free_r2",
+    "n_modules",
+    "modules",
+    "outputs",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "rna_coexpression" },
+    "inferred_value_kind": { "type": "string" },
+    "n_samples": { "type": "integer" },
+    "n_genes_input": { "type": "integer" },
+    "n_genes_network": { "type": "integer" },
+    "n_genes_assigned": { "type": "integer" },
+    "n_genes_unassigned": { "type": "integer" },
+    "network_type": { "type": "string", "enum": ["signed", "unsigned"] },
+    "selected_power": { "type": "integer" },
+    "power_selection_mode": { "type": "string" },
+    "scale_free_r2": { "type": "number" },
+    "n_modules": { "type": "integer" },
+    "modules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["module", "n_genes", "variance_explained", "top_hub_genes"],
+        "properties": {
+          "module": { "type": "string" },
+          "n_genes": { "type": "integer" },
+          "variance_explained": { "type": "number" },
+          "top_hub_genes": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "top_trait_associations": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": ["scale_free_fit", "module_eigengenes", "gene_modules_hubs", "summary_plot"],
+      "properties": {
+        "scale_free_fit": { "type": "string" },
+        "module_eigengenes": { "type": "string" },
+        "gene_modules_hubs": { "type": "string" },
+        "module_trait_associations": { "type": ["string", "null"] },
+        "summary_plot": { "type": "string" }
+      }
+    },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

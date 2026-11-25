@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "inferred_value_kind",
+    "signature_source",
+    "n_samples",
+    "n_cell_types",
+    "n_signature_genes_matched",
+    "n_stromal_genes_matched",
+    "n_immune_genes_matched",
+    "median_deconv_fit_r",
+    "median_tumor_purity",
+    "mean_cell_fractions",
+    "outputs",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "rna_tme_deconv" },
+    "inferred_value_kind": { "type": "string" },
+    "signature_source": { "type": "string" },
+    "n_samples": { "type": "integer" },
+    "n_cell_types": { "type": "integer" },
+    "n_signature_genes_matched": { "type": "integer" },
+    "n_stromal_genes_matched": { "type": "integer" },
+    "n_immune_genes_matched": { "type": "integer" },
+    "median_deconv_fit_r": { "type": "number" },
+    "median_tumor_purity": { "type": "number" },
+    "mean_cell_fractions": { "type": "object" },
+    "top_group_differences": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": ["cell_fractions", "microenvironment_scores", "summary_plot"],
+      "properties": {
+        "cell_fractions": { "type": "string" },
+        "microenvironment_scores": { "type": "string" },
+        "group_comparisons": { "type": ["string", "null"] },
+        "summary_plot": { "type": "string" }
+      }
+    },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

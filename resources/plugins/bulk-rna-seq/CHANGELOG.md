@@ -1,5 +1,10 @@
 # Changelog — bulk-rna-seq
 
+## 0.3.0 (2026-11-25)
+
+- Add `rna_coexpression`: WGCNA-style weighted gene co-expression network analysis with automatic scale-free topology $R^2$ soft-threshold ($\beta$) selection, signed/unsigned Topological Overlap Matrix (TOM) hierarchical clustering, correlated Module Eigengene merging, intramodular `kME` hub-gene ranking, and Module Eigengene–trait association testing with BH FDR.
+- Add `rna_tme_deconv`: ESTIMATE-style stromal/immune enrichment scoring (`StromalScore`, `ImmuneScore`, `ESTIMATEScore`, and inferred `TumorPurity`) paired with non-negative least squares (`NNLS`) relative immune cell-type deconvolution across 10 canonical leukocyte populations (or custom reference signature matrices) and optional group differential infiltration tests.
+
 ## 0.2.0 (2026-11-25)
 
 - Add `rna_id_map`: deterministic Ensembl/RefSeq version stripping (`ENSG00000141510.18` -> `ENSG00000141510`), GTF/GFF3 or custom 2-column gene ID mapping, optional GTF `gene_biotype` filtering, and collision-aware aggregation (`sum` for raw counts, `max_mean` for normalized matrices, `min_pvalue` for DE tables).
