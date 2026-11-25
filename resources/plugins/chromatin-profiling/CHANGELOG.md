@@ -1,5 +1,9 @@
 # Changelog — chromatin-profiling
 
+## 0.1.2 (2026-11-25)
+
+- 对齐上游 Wrapper 目录状态：将 `chip_env_probe`、Agent、Skill、Notebook 预设说明与红线手册中过时的“SEACR 无 Wrapper”表述更新为指向仓库已内置的 `nf-core/seacr/callpeak` 模块 Wrapper（ChIP 端到端走 `nf-core/chipseq`，CUT&Tag 低背景寻峰走 `seacr/callpeak` 模块或直接导入已有 SEACR peaks）。
+
 ## 0.1.1 (2026-11-24)
 
 - `chip_diff` 在产出差异结合结果表时返回 `scientificContext`（`valueSemantics: "de_stats"`），供下游绘图与语义校验读取。

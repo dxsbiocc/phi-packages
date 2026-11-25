@@ -166,7 +166,7 @@ class TestSingleCellPlugin(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             dummy_h5 = Path(tmp) / "sample.h5ad"
             dummy_h5.write_bytes(b"")
-            for mod in range(1, 8):
+            for mod in range(1, 9):
                 out_nb = Path(tmp) / f"scanpy_m{mod}.ipynb"
                 res = _run_json(
                     [
@@ -266,7 +266,10 @@ class TestSingleCellPlugin(unittest.TestCase):
             counts = rng.poisson(lam=2.0, size=(n_cells, n_genes)).astype(np.float32)
             counts[:60, :10] += rng.poisson(18, size=(60, 10))
             counts[60:, 10:20] += rng.poisson(18, size=(60, 10))
-            genes = [f"MT-CO{i}" if i < 3 else f"GENE{i:02d}" for i in range(n_genes)]
+            genes = [
+                "MT-CO1", "MT-CO2", "MT-CO3",
+                "TGFB1", "TGFBR1", "TGFBR2", "CCL5", "CCR5", "CXCL12", "CXCR4",
+            ] + [f"GENE{i:02d}" for i in range(10, n_genes)]
             samples = [f"S{1 + (i % 4)}" for i in range(n_cells)]
             conds = ["treated" if (i % 4) < 2 else "control" for i in range(n_cells)]
             adata = ad.AnnData(
@@ -348,6 +351,44 @@ class TestSingleCellPlugin(unittest.TestCase):
             self.assertEqual(len(pb_res["artifacts"]), 2)
             for art in pb_res["artifacts"]:
                 self.assertTrue(Path(art + ".phi-artifact.json").is_file())
+
+            ccc_tsv = tdir / "ccc_interactions.tsv"
+            ccc_res = _run_json(
+                [
+                    sys.executable,
+                    str(SCANPY_SKILL / "scripts" / "communication.py"),
+                    "--input",
+                    str(pp_h5),
+                    "--group_by",
+                    "leiden",
+                    "--interactions_output",
+                    str(ccc_tsv),
+                    "--figures_dir",
+                    str(tdir / "figs_ccc"),
+                    "--n_perms",
+                    "100",
+                ]
+            )
+            self.assertEqual(ccc_res["method"], "heteromeric_permutation")
+            self.assertGreater(ccc_res["n_pairs_in_resource_matched"], 0)
+            self.assertTrue(ccc_tsv.is_file())
+            for art in ccc_res.get("artifacts", []):
+                self.assertTrue(Path(art + ".phi-artifact.json").is_file())
+
+    def test_04_live_seurat_env_probe_when_seurat_installed(self) -> None:
+        rscript = shutil.which("Rscript")
+        if not rscript:
+            self.skipTest("Rscript not installed")
+        chk = subprocess.run(
+            [rscript, "-e", 'quit(status = if (requireNamespace("Seurat", quietly=TRUE)) 0 else 1)'],
+            capture_output=True,
+            text=True,
+        )
+        if chk.returncode != 0:
+            self.skipTest("Seurat not installed in active R environment")
+        res = _run_json([rscript, str(SEURAT_SKILL / "scripts" / "env_probe.R")])
+        self.assertGreaterEqual(res["packages_installed"], 5)
+        self.assertIn("4", res["core_ready_modules"])
 
 
 if __name__ == "__main__":

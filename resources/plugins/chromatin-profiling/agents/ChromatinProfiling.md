@@ -9,7 +9,7 @@ description: >-
   (TF/narrow marks and CUT&Tag via DiffBind+DESeq2/edgeR; broad marks via csaw), and peak annotation with
   TSS profiles (ChIPseeker, user GTF/GFF3 or TxDb). It explains how each step runs in Phi and how to read
   the results. Alignment and peak calling are not done here: ChIP is the nf-core/chipseq wrapper job,
-  CUT&Tag relies on the user SEACR run (no wrapper, reported as a gap). csaw on darwin-arm64, IDR,
+  and CUT&Tag peak calling uses the nf-core/seacr/callpeak module wrapper (or user-supplied SEACR peaks). csaw on darwin-arm64, IDR,
   profileplyr, HOMER/MEME and org.db symbols are reported gaps. Single-cell ATAC lives in the
   single-cell-atac plugin.
 tools:
@@ -81,7 +81,7 @@ single-cell ATAC goes to single-cell-atac (Python/snapatac2), not here.
 - **The input starting point is called peaks**: BED/narrowPeak/broadPeak (preferred), a DiffBind sample sheet CSV
   (SampleID/Condition/Replicate/Peaks/PeakCaller/bamReads), a peak×sample count table, indexed BAM, bigWig, a
   saved .rds. **Raw read alignment/peak calling is not done here**: ChIP goes to the nf-core/chipseq wrapper,
-  CUT&Tag to the user's SEACR run (no wrapper yet, a gap). narrowPeak/broadPeak carry signal columns, which
+  and CUT&Tag peak calling goes to the nf-core/seacr/callpeak module wrapper (or user SEACR peaks). narrowPeak/broadPeak carry signal columns, which
   rtracklayer keeps as metadata; a plain BED is three columns.
 - **The genome reference is a prerequisite for annotation**: blacklist BED (ENCODE hg38/mm10 inlined in
   `assets/fragments/blacklist-filter.R`, base64-gzip, so both the scripts and the notebook can filter offline),

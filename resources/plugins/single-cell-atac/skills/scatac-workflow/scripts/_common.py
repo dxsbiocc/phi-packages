@@ -26,7 +26,10 @@ import os
 import struct
 import sys
 
-import numpy as np
+try:
+    import numpy as np
+except ImportError:
+    np = None
 
 TOOL_MAP = {
     "project_inspect.py": "scatac_inspect",
@@ -58,9 +61,9 @@ def fail(*parts):
 
 
 def _clean(value):
-    if isinstance(value, np.generic):
+    if np is not None and isinstance(value, np.generic):
         return value.item()
-    if isinstance(value, np.ndarray):
+    if np is not None and isinstance(value, np.ndarray):
         return [_clean(v) for v in value.tolist()]
     if isinstance(value, dict):
         return {str(k): _clean(v) for k, v in value.items()}

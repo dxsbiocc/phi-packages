@@ -16,7 +16,10 @@ import os
 import struct
 import sys
 
-import numpy as np
+try:
+    import numpy as np
+except ImportError:
+    np = None
 
 TOOL_MAP = {
     "project_inspect.py": "sc_py_inspect",
@@ -27,6 +30,7 @@ TOOL_MAP = {
     "annotate_clusters.py": "sc_py_annotate",
     "pseudobulk.py": "sc_py_pseudobulk",
     "trajectory.py": "sc_py_trajectory",
+    "communication.py": "sc_py_communication",
     "build_notebook.py": "sc_py_notebook",
     "env_probe.py": "sc_py_env_probe",
 }
@@ -48,9 +52,9 @@ def fail(*parts):
 
 
 def _clean(value):
-    if isinstance(value, np.generic):
+    if np is not None and isinstance(value, np.generic):
         return value.item()
-    if isinstance(value, np.ndarray):
+    if np is not None and isinstance(value, np.ndarray):
         return [_clean(v) for v in value.tolist()]
     if isinstance(value, dict):
         return {str(k): _clean(v) for k, v in value.items()}

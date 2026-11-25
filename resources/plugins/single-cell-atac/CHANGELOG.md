@@ -1,5 +1,9 @@
 # Changelog — single-cell-atac
 
+## 0.1.2 (2026-11-25)
+
+- 将 `scripts/_common.py` 中对 `numpy` 的导入改为按需容错加载，使 `scatac_env_probe` 与 `scatac_notebook` 在纯标准库 Python 环境下也可独立运行自检。
+
 ## 0.1.1 (2026-11-24)
 
 - 在报告输出层自动为产出的图表（含交互式 Plotly `.html` 报告及 `.png`/`.svg`）与结果表生成 `1.0.0` 版 `.phi-artifact.json` 旁注并返回 `artifacts` 列表（上限 8 项）。

@@ -128,6 +128,50 @@ class TestChromatinProfilingPlugin(unittest.TestCase):
         self.assertIn("min_occupancy", config_code)
         self.assertIn("3", config_code)
 
+    def test_03_live_chip_env_probe_and_consensus_when_diffbind_installed(self):
+        rscript = shutil.which("Rscript")
+        if not rscript:
+            self.skipTest("Rscript not installed")
+        chk = subprocess.run(
+            [
+                rscript,
+                "-e",
+                'quit(status = if (requireNamespace("DiffBind", quietly=TRUE) && requireNamespace("ChIPseeker", quietly=TRUE)) 0 else 1)',
+            ],
+            capture_output=True,
+            text=True,
+        )
+        if chk.returncode != 0:
+            self.skipTest("DiffBind/ChIPseeker not installed in active R environment")
+
+        probe = os.path.join(CHIP_SKILL, "scripts", "env_probe.R")
+        proc = subprocess.run([rscript, probe], capture_output=True, text=True, timeout=120)
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        res = json.loads(proc.stdout)
+        self.assertGreaterEqual(res["packages_installed"], 6)
+        self.assertTrue(any("seacr/callpeak" in g.get("next_step", "") for g in res.get("gaps", [])))
+
+        # Run live chip_consensus on two synthetic BED files
+        pdir = os.path.join(self.work, "peaks_dir")
+        os.makedirs(pdir, exist_ok=True)
+        for sname in ("S1", "S2"):
+            with open(os.path.join(pdir, f"{sname}.narrowPeak"), "w", encoding="utf-8") as fh:
+                fh.write("chr1\t10000\t10500\tp1\t100\t.\t5.0\t10.0\t8.0\t250\n")
+                fh.write("chr1\t20000\t20600\tp2\t100\t.\t6.0\t12.0\t9.0\t300\n")
+        out_bed = os.path.join(self.work, "consensus.bed")
+        cons_script = os.path.join(CHIP_SKILL, "scripts", "consensus_peaks.R")
+        cproc = subprocess.run(
+            [rscript, cons_script, "--input", pdir, "--genome", "hg38", "--min_occupancy", "2", "--bed_output", out_bed],
+            capture_output=True,
+            text=True,
+            timeout=180,
+        )
+        self.assertEqual(cproc.returncode, 0, f"STDOUT:\n{cproc.stdout}\nSTDERR:\n{cproc.stderr}")
+        cres = json.loads(cproc.stdout)
+        self.assertTrue(os.path.isfile(out_bed))
+        self.assertTrue(os.path.isfile(out_bed + ".phi-artifact.json"))
+        self.assertGreaterEqual(len(cres.get("artifacts", [])), 1)
+
 
 class TestSingleCellAtacPlugin(unittest.TestCase):
     @classmethod

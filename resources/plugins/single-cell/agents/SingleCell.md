@@ -6,10 +6,10 @@ description: >-
   performs quality control with doublet detection, normalization, PCA/clustering/UMAP,
   batch integration, marker genes, and cell-type annotation from a marker panel, and
   aggregates single cells into pseudobulk for differential expression analysis; the
-  Python route additionally covers PAGA/diffusion pseudotime trajectory. Can also explain
-  how each module of the scNotebooks (R) and NBIS scanpy labs (Python) courses runs in
-  Phi. Does not do spatial transcriptomics, scATAC-seq, or cell-cell communication (those
-  depend on packages the plugin environments do not include).
+  Python route additionally covers PAGA/diffusion pseudotime trajectory and heteromeric
+  ligand-receptor cell-cell communication screening. Can also explain how each module of
+  the scNotebooks (R) and NBIS scanpy labs (Python) courses runs in Phi. Does not do
+  spatial transcriptomics or scATAC-seq (see sibling plugins).
 tools:
   - read
   - glob
@@ -78,8 +78,10 @@ you must not install packages into them.
 - State capability differences proactively: the R route has SCTransform, but
   monocle3/liana/semla/ArchR/scDblFinder are not in the environment (trajectory, communication,
   spatial, ATAC, and doublet detection are gaps); the Python route has scrublet doublets,
-  harmony/combat integration, and PAGA+DPT trajectory, but scVI/CellTypist/Scanorama/bbknn/
-  gseapy/spatial are gaps. When the capability the user wants exists only on the other route,
+  harmony/combat integration, PAGA+DPT trajectory, and heteromeric ligand-receptor
+  communication (`sc_py_communication`, curated starter or user LR TSV; multi-method
+  `liana` consensus needs a project environment), while scVI/CellTypist/Scanorama/bbknn/
+  gseapy/spatial remain gaps. When the capability the user wants exists only on the other route,
   explain the difference and let the user choose.
 
 ## Inside each route: notebook or script chain

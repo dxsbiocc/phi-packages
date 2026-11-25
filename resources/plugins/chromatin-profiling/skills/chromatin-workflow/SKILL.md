@@ -11,8 +11,8 @@ description: >-
   profiling, 组蛋白修饰, 转录因子结合, DiffBind, csaw, ChIPseeker, FRiP, 差异结合,
   broad mark, H3K27me3, H3K4me3, peak 注释, .narrowPeak, .broadPeak. R/Bioconductor
   route (DiffBind 3.20 + ChIPseeker 1.46 + csaw 1.44). Pure downstream:
-  alignment/peak calling are the nf-core/chipseq wrapper (ChIP) or user SEACR
-  (CUT&Tag, no wrapper). csaw on darwin-arm64, IDR, profileplyr, HOMER/MEME motif
+  alignment/peak calling are the nf-core/chipseq wrapper (ChIP) or
+  nf-core/seacr/callpeak module wrapper (CUT&Tag). csaw on darwin-arm64, IDR, profileplyr, HOMER/MEME motif
   and org.db gene symbols are reported gaps. Not for single-cell ATAC (the
   single-cell-atac sibling).
 phi:
@@ -696,7 +696,7 @@ source: the script tools and the rendered notebook run the same fragments.
 - This plugin is **pure downstream**. It starts from called peaks
   (BED/narrowPeak/broadPeak), a DiffBind sample sheet, a count table, aligned BAMs
   or a bigWig. FASTQ → alignment → peak calling belongs to the nf-core/chipseq
-  wrapper (ChIP) or the user's SEACR run (CUT&Tag — no wrapper yet, a gap).
+  wrapper (ChIP) or the nf-core/seacr/callpeak module wrapper (CUT&Tag).
 
 ## The chain
 

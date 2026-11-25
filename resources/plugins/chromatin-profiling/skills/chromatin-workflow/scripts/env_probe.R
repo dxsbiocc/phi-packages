@@ -116,7 +116,7 @@ add_gap("motif enrichment (HOMER / MEME)",
         "run HOMER/MEME upstream or request a project environment (env_request)")
 add_gap("upstream FASTQ -> BAM -> peak calling",
         "this plugin is pure downstream: it starts from called peaks / counts / BAM / bigWig",
-        "ChIP: nf-core/chipseq wrapper; CUT&Tag: user SEACR run (no wrapper yet)")
+        "ChIP: nf-core/chipseq wrapper; CUT&Tag peak calling: nf-core/seacr/callpeak module wrapper (or pass called SEACR peaks directly)")
 
 installed_count <- sum(vapply(packages, function(entry) entry$installed, logical(1)))
 

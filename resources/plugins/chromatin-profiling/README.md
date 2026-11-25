@@ -15,8 +15,8 @@ cell. **Pure downstream**: starts from already-called peaks/counts/indexed BAM/b
 | bigWig | coverage track | profile / visualization |
 | saved `.rds` (DBA/GRanges) | this plugin's save | Resume diff/annotate |
 
-**Alignment / peak calling is not done here**: ChIP belongs to the nf-core/chipseq wrapper; CUT&Tag upstream
-SEACR has no wrapper, which is a gap, so the plugin consumes the peaks produced by the user's SEACR run directly.
+**Alignment / peak calling is not done here**: ChIP belongs to the `nf-core/chipseq` workflow wrapper, and
+CUT&Tag low-background peak calling belongs to the `nf-core/seacr/callpeak` module wrapper (this plugin consumes the called peaks directly).
 
 ## Design principles
 
@@ -107,8 +107,7 @@ tuna mirror, then the host is rewritten back to the official one.
 - **motif enrichment (HOMER/MEME)**: not in the R downstream stack, a gap; motif hits are sequence
   predictions, not measured TF binding.
 - **org.db gene symbols**: needs the user's org.db; when missing, gene ids are reported.
-- **CUT&Tag upstream SEACR**: no wrapper; the plugin consumes the user's SEACR peaks; alignment/peak calling
-  are an upstream gap.
+- **CUT&Tag upstream pipeline**: `nf-core/seacr/callpeak` covers low-background bedGraph peak calling, while full FASTQ-to-SEACR `nf-core/cutandrun` workflow orchestration is not vendored yet; this plugin consumes called SEACR peaks directly.
 
 ## Relationship to other plugins
 

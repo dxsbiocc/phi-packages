@@ -5,13 +5,12 @@ description: >-
   matrix: inspect the input, quality control with scrublet, normalization,
   variable genes, PCA, batch integration (harmony/combat), Leiden clustering,
   UMAP, marker genes, cell-type annotation from a marker panel, pseudobulk
-  aggregation, and PAGA/diffusion-pseudotime trajectory inference. Use for
-  单细胞分析, scRNA-seq, scanpy, Python, 质控, 降维聚类, 批次整合, marker 基因,
-  细胞类型注释, pseudobulk, 轨迹推断, or when a .h5ad / 10x matrix needs a
-  reproducible analysis chain. The Python counterpart of seurat-workflow;
-  prefer it when the user works in Python or the input is .h5ad. Not for
-  spatial transcriptomics or scATAC-seq (run env_probe first and see the lab
-  notes).
+  aggregation, PAGA/diffusion-pseudotime trajectory inference, and heteromeric
+  ligand-receptor cell-cell communication screening. Use for 单细胞分析,
+  scRNA-seq, scanpy, Python, 质控, 降维聚类, 批次整合, marker 基因, 细胞类型注释,
+  pseudobulk, 轨迹推断, 细胞通讯, 配受体, or when a .h5ad / 10x matrix needs a
+  reproducible analysis chain. The Python counterpart of seurat-workflow; not
+  for spatial transcriptomics or scATAC-seq.
 phi:
   environment: plugin:scanpy
   attachTo:
@@ -408,6 +407,58 @@ phi:
             description: Diffusion components for pseudotime (default 10).
       approval: write
       timeoutSeconds: 1800
+    - name: py_communication
+      description: >-
+        Infer putative heteromeric ligand-receptor cell-cell communication axes
+        between annotated clusters or cell types on the unscaled lognorm layer
+        (CellPhoneDB subunit-minimum expression rule + cell-label permutation
+        p-values and BH FDR), writing an interactions TSV, a sender-receiver hub
+        heatmap, and a top L-R dotplot. Uses a curated starter catalog unless an
+        OmniPath/CellPhoneDB TSV/CSV is supplied via interactions_path.
+      run: [python, ./scripts/communication.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [input]
+        properties:
+          input:
+            type: string
+            format: input-path
+            description: AnnData saved as .h5ad, after clustering/annotation.
+          output:
+            type: string
+            format: project-path
+            description: Optional .h5ad path to save the object with communication metadata attached.
+          interactions_output:
+            type: string
+            format: project-path
+            description: Optional TSV path for all active tested ligand-receptor interactions.
+          figures_dir:
+            type: string
+            format: project-path
+            description: Directory for communication-heatmap.png and communication-dotplot.png.
+          group_by:
+            type: string
+            description: obs column defining sender/receiver populations (default cell_type).
+          interactions_path:
+            type: string
+            format: input-path
+            description: Optional custom ligand-receptor TSV/CSV (ligand, receptor or source, target; '+' for heteromers).
+          min_pct:
+            type: number
+            description: Minimum expressed cell fraction per subunit in sender and receiver groups (default 0.10).
+          n_perms:
+            type: integer
+            minimum: 50
+            description: Cell-label permutations for empirical p-value estimation (default 500).
+          fdr:
+            type: number
+            description: BH FDR cutoff for significant interactions (default 0.05).
+          seed:
+            type: integer
+            description: Random seed (default 42).
+      approval: write
+      timeoutSeconds: 1800
     - name: py_notebook
       description: >-
         Render a runnable analysis notebook into the project from the fragment
@@ -416,7 +467,8 @@ phi:
         input data and the requested steps, and every tunable value lands in one
         config cell at the top that the analysis cells reference. Pick a preset
         with module (1 QC, 2 plus clustering, 3 plus integration, 4 plus
-        markers, 5 plus pseudobulk, 6 plus annotation, 7 plus trajectory) or
+        markers, 5 plus pseudobulk, 6 plus annotation, 7 plus trajectory, 8 plus
+        communication) or
         name steps directly; dependencies are added automatically. inject adds
         an external Python or R script as a code cell; merge splices in another
         notebook, whole or a cell range. All sources must match the notebook
@@ -432,13 +484,13 @@ phi:
         properties:
           module:
             type: integer
-            enum: [1, 2, 3, 4, 5, 6, 7]
-            description: NBIS lab preset. Pass module or steps, not both.
+            enum: [1, 2, 3, 4, 5, 6, 7, 8]
+            description: NBIS/extended lab preset (1-8). Pass module or steps, not both.
           steps:
             type: array
             items:
               type: string
-              enum: [setup, load, qc-metrics, qc-plots, doublets, filter, normalize, hvg, scale, pca, integrate, batch-compare, cluster, markers, annotate, assign-labels, trajectory, pseudobulk, save]
+              enum: [setup, load, qc-metrics, qc-plots, doublets, filter, normalize, hvg, scale, pca, integrate, batch-compare, cluster, markers, annotate, assign-labels, trajectory, communication, pseudobulk, save]
             description: >-
               Steps to render instead of a preset; declared dependencies are
               added automatically. Pass module or steps, not both.
@@ -585,6 +637,7 @@ step; never install packages inside the read-only environment.
 6. `sc_py_annotate` — labels from a marker panel or an explicit mapping.
 7. `sc_py_pseudobulk` — sample-level counts for differential expression.
 8. `sc_py_trajectory` — PAGA and diffusion pseudotime (when the question is a process, not groups).
+9. `sc_py_communication` — heteromeric ligand-receptor permutation screening across cell types.
 
 Skip a step only when the object already contains its result; `sc_py_inspect`
 says which results are present.

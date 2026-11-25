@@ -55,6 +55,11 @@
     "samples_output": { "type": "string", "default": "pseudobulk/samples.tsv", "comment": "pseudobulk sample sheet for the deseq2 wrapper" },
     "root_cluster": { "type": "string", "default": null, "comment": "trajectory root; null takes the first cluster — choose from biology" },
     "n_dcs": { "type": "int", "default": 10, "comment": "diffusion components used for pseudotime" },
+    "interactions_path": { "type": "string", "default": null, "comment": "optional ligand-receptor TSV/CSV (ligand, receptor); null uses curated starter pairs" },
+    "ccc_min_pct": { "type": "number", "default": 0.1, "comment": "minimum fraction of cells expressing every subunit in sender/receiver group" },
+    "ccc_perms": { "type": "int", "default": 500, "comment": "cell-label permutations for ligand-receptor empirical p-values" },
+    "ccc_fdr": { "type": "number", "default": 0.05, "comment": "BH FDR cutoff for significant ligand-receptor interactions" },
+    "ccc_output": { "type": "string", "default": "communication/interactions.tsv", "comment": "output TSV path for tested ligand-receptor interactions" },
     "figures_dir": { "type": "string", "default": "figures", "comment": "directory for the PNG copies of every plot" },
     "plot_tag": { "type": "string", "default": "before", "comment": "suffix for the QC plots; the filter pass re-tags them after" }
   },
@@ -76,6 +81,7 @@
     { "id": "annotate", "title": "Score clusters against a marker panel", "requires": ["markers"] },
     { "id": "assign-labels", "title": "Assign cell types", "requires": ["annotate"] },
     { "id": "trajectory", "title": "Trajectory inference", "requires": ["cluster"] },
+    { "id": "communication", "title": "Cell-cell communication", "requires": ["cluster"] },
     { "id": "pseudobulk", "title": "Aggregate to pseudobulk", "requires": ["cluster"] },
     { "id": "save", "title": "Save the object", "requires": ["load"] }
   ],
@@ -114,6 +120,11 @@
       "title": "Lab 07 — Trajectory inference",
       "intro": "The annotated chain plus PAGA and diffusion pseudotime: a coarse graph of\ncluster relationships and a pseudotime ordering rooted in the first cluster.\nEdit the root in the cell if biology says another cluster starts the process.\n\nAdapted from the NBIS workshop-scRNAseq scanpy labs (CC-BY-4.0).",
       "steps": ["setup", "load", "qc-metrics", "qc-plots", "doublets", "filter", "normalize", "hvg", "scale", "pca", "integrate", "batch-compare", "cluster", "markers", "annotate", "assign-labels", "trajectory", "save"]
+    },
+    "8": {
+      "title": "Lab 08 — Cell-cell communication",
+      "intro": "The annotated chain plus heteromeric ligand-receptor cell-cell communication\nscreening (CellPhoneDB subunit-minimum rule + cell-label permutation FDR) on the\nunscaled lognorm snapshot, producing a sender-receiver hub heatmap and top L-R\ndotplot. Pass interactions_path for an exhaustive OmniPath/CellPhoneDB catalog.",
+      "steps": ["setup", "load", "qc-metrics", "qc-plots", "doublets", "filter", "normalize", "hvg", "scale", "pca", "integrate", "batch-compare", "cluster", "markers", "annotate", "assign-labels", "communication", "save"]
     }
   }
 }

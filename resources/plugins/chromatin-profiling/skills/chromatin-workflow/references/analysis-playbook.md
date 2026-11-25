@@ -21,7 +21,7 @@ engine is R/Bioconductor: DiffBind 3.20 (occupancy + affinity), DESeq2/edgeR
 (annotation), ComplexHeatmap (UpSet), ggplot2 (PCA/MA). This is **pure
 downstream**: it starts from called peaks, count matrices, indexed BAMs or
 bigWigs — never FASTQ. Alignment and peak calling belong to the nf-core/chipseq
-wrapper (ChIP) or the user's SEACR run (CUT&Tag, which has no wrapper — a gap).
+wrapper (ChIP) or the `nf-core/seacr/callpeak` module wrapper (CUT&Tag).
 
 ## 0. The decision loop
 
@@ -351,7 +351,7 @@ Before delivering, walk the table in
 [`red-line-cheatsheet.md`](red-line-cheatsheet.md) (12 rows). The short version:
 
 1. Pure downstream — called peaks/counts/BAM/bigWig in; no FASTQ, alignment or
-   peak calling (ChIP → nf-core/chipseq wrapper; CUT&Tag → user SEACR, a gap).
+   peak calling (ChIP → nf-core/chipseq wrapper; CUT&Tag → nf-core/seacr/callpeak module wrapper).
 2. Read-only env — missing package/reference → gap report + project-env next
    step, never an in-place install or large download.
 3. Lean annotation — target-genome TxDb from the user (gtf/txdb); the bundled

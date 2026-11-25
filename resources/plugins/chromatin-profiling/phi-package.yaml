@@ -1,7 +1,7 @@
 schemaVersion: 1
 id: chromatin-profiling
 type: plugin
-version: 0.1.1
+version: 0.1.2
 title: Chromatin Profiling (ChIP/CUT&Tag)
 summary: >-
   Downstream bulk ChIP-seq/CUT&Tag/CUT&RUN analysis in R/Bioconductor (chip_),
