@@ -418,7 +418,7 @@
       "path": "resources/plugins/proteomics/",
       "kind": "plugin",
       "license": "MIT",
-      "packageVersion": "0.2.1",
+      "packageVersion": "0.2.2",
       "origin": "Authored in phi-packages. Quantitative MS-based proteomics and PTM/phosphoproteomics downstream plugin (toolPrefix prot, agent Proteomics, skill proteomics-workflow) with seven deterministic Python tools (prot_rollup, prot_inspect, prot_qc_impute, prot_de, prot_ptm, prot_enrichment, prot_network) in plugin:proteomics (three-platform explicit locks). Raw spectrum searching stays on DIA-NN/MaxQuant/FragPipe or nf-core/quantms."
     },
     {

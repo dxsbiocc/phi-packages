@@ -1,5 +1,9 @@
 # Changelog — proteomics
 
+## 0.2.2 (2026-11-25)
+
+- Fix pandas 3.0 Copy-on-Write read-only NumPy array mutation in `prot_qc_impute` (`minprob_impute`).
+
 ## 0.2.1 (2026-11-24)
 
 - Add contract-1.0.0 `.phi-artifact.json` descriptors and `artifacts` lists across all file-producing tools (`prot_rollup`, `prot_qc_impute`, `prot_de`, `prot_ptm`, `prot_enrichment`, `prot_network`).

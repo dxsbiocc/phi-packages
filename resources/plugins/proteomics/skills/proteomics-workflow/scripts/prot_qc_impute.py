@@ -62,7 +62,7 @@ def minprob_impute(df: pd.DataFrame, downshift: float, width: float, seed: int) 
     rng = np.random.default_rng(seed)
     out = df.copy()
     for col in out.columns:
-        vals = out[col].to_numpy(dtype=float)
+        vals = out[col].to_numpy(dtype=float).copy()
         miss = ~np.isfinite(vals)
         if not np.any(miss):
             continue
