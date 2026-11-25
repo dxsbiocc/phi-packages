@@ -360,7 +360,7 @@ class TestSingleCellPlugin(unittest.TestCase):
                     "--input",
                     str(pp_h5),
                     "--group_by",
-                    "leiden",
+                    "condition",
                     "--interactions_output",
                     str(ccc_tsv),
                     "--figures_dir",

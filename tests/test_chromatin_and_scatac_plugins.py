@@ -158,19 +158,37 @@ class TestChromatinProfilingPlugin(unittest.TestCase):
             with open(os.path.join(pdir, f"{sname}.narrowPeak"), "w", encoding="utf-8") as fh:
                 fh.write("chr1\t50000000\t50000500\tp1\t100\t.\t5.0\t10.0\t8.0\t250\n")
                 fh.write("chr1\t50100000\t50100600\tp2\t100\t.\t6.0\t12.0\t9.0\t300\n")
+        out_rds = os.path.join(self.work, "consensus.rds")
         out_bed = os.path.join(self.work, "consensus.bed")
+        figs_dir = os.path.join(self.work, "figs_chip")
         cons_script = os.path.join(CHIP_SKILL, "scripts", "consensus_peaks.R")
         cproc = subprocess.run(
-            [rscript, cons_script, "--input", pdir, "--genome", "hg38", "--min_occupancy", "2", "--bed_output", out_bed],
+            [
+                rscript,
+                cons_script,
+                "--input",
+                pdir,
+                "--genome",
+                "hg38",
+                "--min_occupancy",
+                "2",
+                "--output",
+                out_rds,
+                "--figures_dir",
+                figs_dir,
+            ],
             capture_output=True,
             text=True,
             timeout=180,
         )
         self.assertEqual(cproc.returncode, 0, f"STDOUT:\n{cproc.stdout}\nSTDERR:\n{cproc.stderr}")
         cres = json.loads(cproc.stdout)
+        self.assertEqual(cres["n_consensus"], 2)
+        self.assertTrue(os.path.isfile(out_rds))
         self.assertTrue(os.path.isfile(out_bed))
-        self.assertTrue(os.path.isfile(out_bed + ".phi-artifact.json"))
         self.assertGreaterEqual(len(cres.get("artifacts", [])), 1)
+        for art in cres.get("artifacts", []):
+            self.assertTrue(os.path.isfile(art + ".phi-artifact.json"))
 
 
 class TestSingleCellAtacPlugin(unittest.TestCase):

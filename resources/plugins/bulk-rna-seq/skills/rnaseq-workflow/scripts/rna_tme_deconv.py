@@ -250,7 +250,7 @@ def main() -> None:
     S_sub = S_sub[valid_cts]
 
     # Normalize each signature column to unit L1 sum so NNLS coefficients represent comparable cell abundance
-    col_sums = S_sub.sum(axis=0).to_numpy(dtype=float)
+    col_sums = S_sub.sum(axis=0).to_numpy(dtype=float).copy()
     col_sums[col_sums <= 0] = 1.0
     S_mat = S_sub.to_numpy(dtype=float) / col_sums[None, :]
     Y_mat = lin_upper.loc[shared_genes, samples].to_numpy(dtype=float)
