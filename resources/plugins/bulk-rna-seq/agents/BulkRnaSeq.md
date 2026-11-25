@@ -44,7 +44,7 @@ fallback:
     - deseq2
     - edger
     - limma
-   - gsea
+    - gsea
     - ora
     - wgcna
     - 共表达网络

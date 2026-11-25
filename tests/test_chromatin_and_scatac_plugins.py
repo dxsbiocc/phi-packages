@@ -151,13 +151,13 @@ class TestChromatinProfilingPlugin(unittest.TestCase):
         self.assertGreaterEqual(res["packages_installed"], 6)
         self.assertTrue(any("seacr/callpeak" in g.get("next_step", "") for g in res.get("gaps", [])))
 
-        # Run live chip_consensus on two synthetic BED files
+        # Run live chip_consensus on two synthetic euchromatic hg38 BED files (outside ENCODE telomere/centromere blacklist)
         pdir = os.path.join(self.work, "peaks_dir")
         os.makedirs(pdir, exist_ok=True)
         for sname in ("S1", "S2"):
             with open(os.path.join(pdir, f"{sname}.narrowPeak"), "w", encoding="utf-8") as fh:
-                fh.write("chr1\t10000\t10500\tp1\t100\t.\t5.0\t10.0\t8.0\t250\n")
-                fh.write("chr1\t20000\t20600\tp2\t100\t.\t6.0\t12.0\t9.0\t300\n")
+                fh.write("chr1\t50000000\t50000500\tp1\t100\t.\t5.0\t10.0\t8.0\t250\n")
+                fh.write("chr1\t50100000\t50100600\tp2\t100\t.\t6.0\t12.0\t9.0\t300\n")
         out_bed = os.path.join(self.work, "consensus.bed")
         cons_script = os.path.join(CHIP_SKILL, "scripts", "consensus_peaks.R")
         cproc = subprocess.run(

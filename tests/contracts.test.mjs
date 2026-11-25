@@ -34,7 +34,18 @@ function extractFrontmatter(text, fileLabel) {
   assert.equal(text.startsWith('---\n'), true, `${fileLabel}: missing YAML frontmatter`)
   const end = text.indexOf('\n---\n', 4)
   assert.notEqual(end, -1, `${fileLabel}: unclosed YAML frontmatter`)
-  return text.slice(4, end)
+  const fm = text.slice(4, end)
+  for (const [idx, line] of fm.split('\n').entries()) {
+    const seqMatch = line.match(/^( +)-\s/)
+    if (seqMatch) {
+      assert.equal(
+        seqMatch[1].length % 2,
+        0,
+        `${fileLabel}: odd-space YAML sequence indentation on frontmatter line ${idx + 2}: ${line}`
+      )
+    }
+  }
+  return fm
 }
 
 function topYamlKeys(yamlText) {

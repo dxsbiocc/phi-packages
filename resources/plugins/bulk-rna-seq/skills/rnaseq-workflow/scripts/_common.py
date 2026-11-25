@@ -41,6 +41,36 @@ def read_expression_matrix(path):
     return num
 
 
+def infer_value_kind(df):
+    """Classify an expression matrix as raw_counts, log_normalized, or tpm_or_cpm."""
+    x = df.to_numpy(dtype=float)
+    finite = x[np.isfinite(x)]
+    if finite.size == 0:
+        return "log_normalized"
+    if (finite < 0).any():
+        return "log_normalized"
+    max_v = float(np.max(finite))
+    p99 = float(np.percentile(finite, 99))
+    if max_v <= 35.0 and p99 <= 25.0:
+        return "log_normalized"
+    frac_int = float(np.mean(np.abs(finite - np.round(finite)) < 1e-6))
+    if frac_int >= 0.98 and max_v >= 20.0:
+        return "raw_counts"
+    return "tpm_or_cpm"
+
+
+def to_log2_cpm(df, value_kind=None):
+    """Return a DataFrame on log2(CPM + 1) scale (or unchanged if already log_normalized)."""
+    kind = value_kind or infer_value_kind(df)
+    if kind == "log_normalized":
+        return df.copy()
+    x = np.clip(df.to_numpy(dtype=float), 0.0, None)
+    col_sums = x.sum(axis=0, keepdims=True)
+    safe_sums = np.where(col_sums > 0, col_sums, 1.0)
+    cpm = x / safe_sums * 1e6
+    return pd.DataFrame(np.log2(cpm + 1.0), index=df.index, columns=df.columns)
+
+
 def read_metadata(path, samples=None, sample_col=None):
     sep = "," if str(path).lower().endswith(".csv") else "\t"
     if sample_col:

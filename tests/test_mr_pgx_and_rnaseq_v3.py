@@ -177,46 +177,51 @@ class TestMendelianRandomizationRuntime(unittest.TestCase):
                 [
                     sys.executable,
                     str(scripts / "mr_gwas_qc.py"),
-                    "--input",
+                    "--gwas",
                     str(exp_path),
+                    "--clump_kb",
+                    "500",
                     "--output_dir",
                     str(tmp_dir / "qc"),
                 ]
             )
-            self.assertEqual(qc_res["status"], "ok")
-            self.assertGreaterEqual(qc_res["n_instruments_selected"], 18)
+            self.assertEqual(qc_res["tool"], "mr_gwas_qc")
+            self.assertGreaterEqual(qc_res["n_lead_loci"], 18)
 
             harm_res = _run_json(
                 [
                     sys.executable,
                     str(scripts / "mr_harmonize.py"),
                     "--exposure",
-                    qc_res["outputs"]["instruments_table"],
+                    qc_res["outputs"]["lead_instruments"],
                     "--outcome",
                     str(out_path),
+                    "--clump_kb",
+                    "500",
                     "--output_dir",
                     str(tmp_dir / "harm"),
                 ]
             )
-            self.assertEqual(harm_res["status"], "ok")
-            self.assertGreaterEqual(harm_res["n_instruments_kept"], 18)
-            self.assertGreaterEqual(harm_res["n_ambiguous_palindromic_dropped"], 1)
+            self.assertEqual(harm_res["tool"], "mr_harmonize")
+            self.assertGreaterEqual(harm_res["n_harmonized_retained"], 18)
+            self.assertGreaterEqual(harm_res["n_palindromic_dropped"], 1)
 
             est_res = _run_json(
                 [
                     sys.executable,
                     str(scripts / "mr_estimate.py"),
-                    "--input",
+                    "--harmonized",
                     harm_res["outputs"]["harmonized_table"],
                     "--output_dir",
                     str(tmp_dir / "est"),
                 ]
             )
-            self.assertEqual(est_res["status"], "ok")
-            self.assertAlmostEqual(est_res["ivw_beta"], true_causal, delta=0.08)
-            self.assertLess(est_res["ivw_pval"], 1e-6)
-            self.assertTrue(est_res["steiger_direction_ok"])
-            self.assertTrue(Path(est_res["outputs"]["mr_plots"] + ".phi-artifact.json").is_file())
+            self.assertEqual(est_res["tool"], "mr_estimate")
+            ivw_row = est_res["methods"][0]
+            self.assertAlmostEqual(ivw_row["beta"], true_causal, delta=0.08)
+            self.assertLess(ivw_row["pvalue"], 1e-6)
+            self.assertTrue(est_res["steiger_directionality"]["correct_causal_direction"])
+            self.assertTrue(Path(est_res["figures"][0] + ".phi-artifact.json").is_file())
 
             # Regional colocalization with shared causal variant at index 25
             reg1 = ["SNP\tCHR\tPOS\tEA\tNEA\tEAF\tBETA\tSE\tP\tN"]
@@ -251,9 +256,9 @@ class TestMendelianRandomizationRuntime(unittest.TestCase):
                     str(tmp_dir / "coloc"),
                 ]
             )
-            self.assertEqual(coloc_res["status"], "ok")
-            self.assertGreater(coloc_res["posteriors"]["PP_H4"], 0.85)
-            self.assertEqual(coloc_res["lead_coloc_snp"], "rs90025")
+            self.assertEqual(coloc_res["tool"], "mr_coloc")
+            self.assertGreater(coloc_res["posteriors"]["PP.H4"], 0.85)
+            self.assertEqual(coloc_res["top_snp"]["SNP"], "rs90025")
 
 
 @unittest.skipUnless(HAS_SCIPY_STACK, "Requires numpy/pandas/scipy/scikit-learn/matplotlib")
@@ -419,6 +424,8 @@ class TestBulkRnaSeqV3Runtime(unittest.TestCase):
             self.assertTrue(Path(coex_res["outputs"]["module_eigengenes"] + ".phi-artifact.json").is_file())
 
             # 2. TME Deconvolution: 10 samples (5 Hot CD8_T/Immune-high vs 5 Cold Stromal-high)
+            if str(scripts) not in sys.path:
+                sys.path.insert(0, str(scripts))
             from rna_tme_deconv import BUILTIN_IMMUNE_PANEL, IMMUNE_GENES, STROMAL_GENES  # type: ignore
 
             all_markers = sorted(
@@ -456,7 +463,6 @@ class TestBulkRnaSeqV3Runtime(unittest.TestCase):
                 encoding="utf-8",
             )
 
-            sys.path.insert(0, str(scripts))
             tme_res = _run_json(
                 [
                     sys.executable,

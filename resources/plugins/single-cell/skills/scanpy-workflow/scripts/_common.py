@@ -241,6 +241,9 @@ def flag_num(flags, name, default=None):
         fail("--" + name.replace("_", "-") + " must be a number, got " + value)
 
 
+flag_float = flag_num
+
+
 def flag_bool(flags, name, default=False):
     value = flags.get(name)
     if value is None:

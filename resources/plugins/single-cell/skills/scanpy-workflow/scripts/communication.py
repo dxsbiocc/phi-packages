@@ -5,7 +5,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from _common import emit, fail, flag_float, flag_int, flag_req, flag_str, parse_flags
+from _common import emit, fail, flag_int, flag_num, flag_req, flag_str, parse_flags
 from _fragments import run_fragments, run_report
 
 flags = parse_flags()
@@ -20,9 +20,9 @@ namespace = {
     "min_genes": None,
     "group_by": flag_str(flags, "group_by", "cell_type"),
     "interactions_path": flag_str(flags, "interactions_path"),
-    "ccc_min_pct": flag_float(flags, "min_pct", 0.10),
+    "ccc_min_pct": flag_num(flags, "min_pct", 0.10),
     "ccc_perms": flag_int(flags, "n_perms", 500),
-    "ccc_fdr": flag_float(flags, "fdr", 0.05),
+    "ccc_fdr": flag_num(flags, "fdr", 0.05),
     "ccc_output": flag_str(flags, "interactions_output"),
     "seed": flag_int(flags, "seed", 42),
     "plot_tag": "before",
