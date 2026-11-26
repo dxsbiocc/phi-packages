@@ -16,4 +16,4 @@ Load this reference ONLY when auditing bulk RNA-seq, single-cell/spatial transcr
 ## 2. Worked Figure-Legend Upgrade
 
 - *Before*: *"Fig. 2B. Expression of Gene X is higher in tumors (`*P < 0.05`, SEM shown)."*
-- *After*: *"Fig. 2B. Normalized *GENE X* expression in matched tumor vs adjacent normal tissue (`n = 16` independent patients; dots = individual patients, center line = median, box = IQR, whiskers = `1.5 x IQR`). Two-sided paired Wilcoxon test (`W = 118`, `P = 0.0042`, `BH-FDR = 0.018`, median paired difference `+1.42 log2CPM`, `95% CI [0.58, 2.24]`)."*
+- *After*: *"Fig. 2B. Normalized *GENE X* expression in matched tumor vs adjacent normal tissue (`n = 16` independent patients; dots = individual patients, center line = median, box = IQR, whiskers = `1.5 x IQR`). Two-sided paired Wilcoxon test (`W = 121`, `P = 0.0042`, `BH-FDR = 0.018`, median paired difference `+1.42 log2CPM`, `95% CI [0.58, 2.24]`)."*

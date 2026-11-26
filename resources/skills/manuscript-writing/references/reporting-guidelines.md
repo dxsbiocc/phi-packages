@@ -6,7 +6,7 @@ Load this reference when drafting or auditing Methods, Results compliance, Ethic
 
 | Study Design | Standard | Mandatory Items to Include in Methods & Results |
 | --- | --- | --- |
-| **Randomized Controlled Trial** | **CONSORT** | Trial registration ID, randomization sequence, allocation concealment, blinding, ITT vs per-protocol, participant flow, harms |
+| **Randomized Controlled Trial** | **CONSORT 2025** | Trial registration ID, randomization sequence, allocation concealment, blinding, ITT vs per-protocol, participant flow, harms |
 | **Observational (Cohort / Case-Control / Cross-Sectional)** | **STROBE** | Eligibility criteria, confounder selection rationale, missing-data handling, sensitivity analyses, follow-up completeness |
 | **Animal / Preclinical** | **ARRIVE 2.0** | Species/strain/sex/age, randomization, outcome-assessor blinding, sample-size justification, exclusions, welfare/IACUC |
 | **Clinical Prediction / ML / AI** | **TRIPOD+AI** | Leak-free train/val/test split, external validation cohort, discrimination (`AUC`/`PR-AUC`) + calibration, class balance, code availability |

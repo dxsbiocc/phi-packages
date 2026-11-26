@@ -1,6 +1,6 @@
 ---
 name: paper-to-slides
-description: Convert a verified scientific paper, manuscript, or analysis report into a visual-first presentation deck (group meeting, conference talk, thesis defense, or journal club) with timed speaker notes and Q&A backup slides. Defaults to zero-dependency Marp Markdown or Reveal HTML; emits python-pptx scripts only after pre-checking the Python environment. Use for 论文转PPT, 组会汇报, 学术答辩, 会议报告, presentation deck, and slide outline. Not for drafting manuscripts (use manuscript-writing) or deep critical paper appraisal (use paper-reading).
+description: Convert a verified scientific paper, manuscript, or analysis report into a visual-first presentation deck (group meeting, conference talk, thesis defense, or journal club) with timed speaker notes and Q&A backup slides. Defaults to zero-dependency Marp Markdown or Reveal HTML; emits python-pptx scripts only after pre-checking the Python environment. Use for 论文转PPT, 组会汇报, 学术答辩, 会议报告, presentation deck, and slide outline. Not for drafting manuscripts (use manuscript-writing) or deep critical paper appraisal (use literature-review).
 license: MIT
 metadata: {"version": "1.1.0", "category": "论文写作", "license": "MIT"}
 ---
@@ -14,7 +14,7 @@ Transform verified manuscripts or computational analysis reports into crisp, vis
 - **Use for**: Converting a verified paper, manuscript draft, or analysis report into a timed talk deck (5 / 10 / 15 / 30 min) with assertion-evidence titles, layout hints, speaker notes, and Q&A backup slides.
 - **Not for (Handoff)**:
   - Drafting or restructuring the manuscript itself -> `manuscript-writing`.
-  - Deep critical appraisal of an unfamiliar paper before presenting -> `paper-reading` first.
+  - Deep critical appraisal of an unfamiliar paper before presenting -> `literature-review` (Deep Reading Mode) first.
   - Statistical validity audit -> `statistical-review`.
 
 ## 2. Epistemic Contract & Stop Gates
@@ -29,7 +29,7 @@ Transform verified manuscripts or computational analysis reports into crisp, vis
 - **Format Routing**:
   - **Default (Zero-Dependency)**: **Marp Markdown** (`slides.md` with `marp: true` frontmatter and relative workspace figure paths) or **Reveal.js HTML**.
   - **Editable `.pptx` Request**: Pre-check `python -c "import pptx"` first. If available, generate `.pptx`; if unavailable, deliver `slides.md` immediately + standalone `generate_deck.py` with an explicit note (never `pip install` into read-only managed envs).
-- **Workspace Scan**: Inspect `.phi-artifact.json` and `figures/` / `results/` when present to pull verified figure paths and sample sizes.
+- **Workspace Scan**: Inspect `*.phi-artifact.json` sidecars and `figures/` / `results/` when present to pull verified figure paths and sample sizes.
 
 ## 4. Core Workflow & Pacing Matrix
 

@@ -16,7 +16,7 @@ Load this reference ONLY when cleaning up LaTeX/Markdown layout, journal typogra
 | Human gene vs protein | Gene: ALL CAPS *italic*; Protein: ALL CAPS roman | *TP53* gene; TP53 protein |
 | Mouse gene vs protein | Gene: Title Case *italic*; Protein: ALL CAPS roman | *Trp53* gene; TRP53 protein |
 | Species & Latin terms | *Italicized* | *Homo sapiens*, *Mus musculus*, *in vitro*, *in vivo*, *de novo* |
-| Units & spaces | Space between value and unit (except `%` and `°C` per journal) | `5 mg/mL`, `37 °C`, `24.3%`, `P < 0.001` |
+| Units & spaces | Space between value and unit (except `%`; `°C` varies by journal: `37 °C` SI/Nature vs `37°C` Cell/AMA) | `5 mg/mL`, `37 °C`, `24.3%`, `P < 0.001` |
 
 ## 3. Tense Consistency Quick Check
 

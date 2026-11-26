@@ -26,7 +26,7 @@ Improve clarity, conciseness, and idiomatic academic prose of existing manuscrip
 
 ## 3. Phi Runtime & Context Routing
 
-- **Workspace Terminology Lock**: Inspect existing manuscript files, `.bib`, or `.phi-artifact.json` (if present) to preserve exact gene casing, abbreviations, and US vs UK spelling.
+- **Workspace Terminology Lock**: Inspect existing manuscript files, `.bib`, or `*.phi-artifact.json` sidecars (if present) to preserve exact gene casing, abbreviations, and US vs UK spelling.
 - **Exact Word Counting**: When tightening to a hard word limit (`<= 150` or `<= 200` words), verify word count via Python/shell if available.
 - **On-Demand Branch References** (load ONLY if the user's mode matches):
   - **CN <-> EN Academic Translation** -> read [references/zh-en-translation.md](references/zh-en-translation.md).

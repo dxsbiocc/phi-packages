@@ -26,7 +26,7 @@ Turn critical peer-review reports into a calm, structured, evidence-backed **Poi
 
 ## 3. Phi Runtime & Context Routing
 
-- **Workspace Diff Grounding**: When original/revised manuscripts, new tables, or `.phi-artifact.json` are in the workspace, inspect them to cite exact sections, figure panels, and verified numbers.
+- **Workspace Diff Grounding**: When original/revised manuscripts, new tables, or `*.phi-artifact.json` sidecars are in the workspace, inspect them to cite exact sections, figure panels, and verified numbers.
 - **Standalone**: Works with zero external plugins or sibling skills.
 
 ## 4. Core Workflow & Triage Strategy Matrix

@@ -27,7 +27,7 @@ Draft and restructure scientific manuscripts across any journal tier strictly gr
 
 ## 3. Phi Runtime & Context Routing
 
-- **Artifact Context First**: Inspect workspace files and `.phi-artifact.json` (`scientificContext`: `valueSemantics`, `sampleIds`, `donorBySample`) so Results/Methods match exact upstream biological units.
+- **Artifact Context First**: Inspect workspace files, upstream tool outputs (`scientificContext`: `valueSemantics`, `sampleIds`, `donorBySample`), and `*.phi-artifact.json` sidecars (`provenance`, `parameters`, `figure`/`table` metadata) so Results/Methods match exact upstream biological units.
 - **Standalone**: Works without sibling skills or literature connectors.
 - **On-Demand Branch References** (load ONLY the file needed for the user's request):
   - Targeting specific journal formats (*Nature/Science/Cell*, clinical, bioinformatics) or drafting an Initial Cover Letter -> read [references/journal-tiers.md](references/journal-tiers.md).

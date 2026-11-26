@@ -13,6 +13,7 @@ Audit the statistical validity, assumption compliance, and reporting rigor of sc
 
 - **Use for**: Auditing experimental units (`biological` vs `technical`), test selection, assumption checks, multiple-testing corrections, uncertainty reporting, domain-specific statistical redlines, and writing rigorous Statistical Methods / figure legends.
 - **Not for (Handoff)**:
+  - Pre-data-collection hypothesis framing, batch design, or power planning -> `study-design`.
   - Broad editorial/novelty mock peer review -> `manuscript-review`.
   - Drafting IMRaD narratives -> `manuscript-writing`.
   - Polishing prose -> `manuscript-polishing`.
@@ -26,7 +27,7 @@ Audit the statistical validity, assumption compliance, and reporting rigor of sc
 
 ## 3. Phi Runtime & Context Routing
 
-- **Artifact & Code Grounding**: Inspect `.phi-artifact.json` (`scientificContext`: `valueSemantics`, `sampleIds`, `donorBySample`, `batch`) and workspace scripts (`*.R`, `*.py`, `*.ipynb`) when available.
+- **Artifact & Code Grounding**: Inspect upstream tool outputs (`scientificContext`: `valueSemantics`, `sampleIds`, `donorBySample`, `batch`), `*.phi-artifact.json` sidecars (`provenance`, `parameters`), and workspace scripts (`*.R`, `*.py`, `*.ipynb`) when available.
 - **On-Demand Domain References** (load ONLY the branch matching the user's study):
   - **Survival / Clinical / Epidemiology** (Cox, KM, competing risks, immortal time, EPV, subgroups, confounding) -> read [references/survival-clinical.md](references/survival-clinical.md).
   - **Bulk RNA-seq / scRNA-seq / Spatial / Microbiome / Proteomics** (pseudoreplication, raw counts vs TPM, compositional data, double dipping, LOD/MNAR) -> read [references/omics-singlecell.md](references/omics-singlecell.md).
