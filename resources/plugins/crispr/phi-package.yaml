@@ -1,0 +1,20 @@
+schemaVersion: 1
+id: crispr
+type: plugin
+version: 0.1.0
+title: CRISPR Gene Editing, Guide Design & Screening
+summary: >-
+  CRISPR gene-editing & functional genomics workflow (crispr_): multi-nuclease
+  sgRNA design with MMEJ frameshift & base-editor scoring, MIT/CFD off-target
+  scanning, pooled library QC, MAGeCK-style screen QC & alpha-RRA hit calling,
+  and post-editing indel/HDR/base-editing quantification.
+toolPrefix: crispr
+components:
+  agents:
+    - agents/Crispr.md
+  skills:
+    - skills/guide-design-workflow
+    - skills/screen-editing-workflow
+environments:
+  crispr:
+    spec: environments/crispr/environment.yml

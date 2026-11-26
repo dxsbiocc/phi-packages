@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "clinical",
+    "outcome_col",
+    "evaluation_mode",
+    "n_samples",
+    "n_positive",
+    "prevalence",
+    "calibration",
+    "dca",
+    "calibration_table",
+    "dca_table",
+    "figures",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "clinical": { "type": "string" },
+    "outcome_col": { "type": "string" },
+    "evaluation_mode": { "type": "string", "enum": ["precomputed_prob", "oof_cv_logistic"] },
+    "n_samples": { "type": "integer" },
+    "n_positive": { "type": "integer" },
+    "prevalence": { "type": "number" },
+    "roc_auc": { "type": "number" },
+    "calibration": { "type": "object" },
+    "dca": { "type": "object" },
+    "calibration_table": { "type": "string" },
+    "dca_table": { "type": "string" },
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

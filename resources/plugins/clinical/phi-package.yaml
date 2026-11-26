@@ -1,0 +1,20 @@
+schemaVersion: 1
+id: clinical
+type: plugin
+version: 0.1.0
+title: Clinical Biostatistics, Survival & Causal Inference
+summary: >-
+  Unified clinical biostatistics plugin (clin_): survival cohort QC, Table 1,
+  Kaplan-Meier, Cox PH with Schoenfeld diagnostics, time-dependent ROC,
+  Aalen-Johansen/Fine-Gray competing risks, DeLong diagnostic ROC, TRIPOD
+  calibration & DCA, PSM/IPTW causal inference, Harrell RCS, and meta-analysis.
+toolPrefix: clin
+components:
+  agents:
+    - agents/Clinical.md
+  skills:
+    - skills/prediction-causal-workflow
+    - skills/survival-workflow
+environments:
+  clinical:
+    spec: environments/clinical/environment.yml

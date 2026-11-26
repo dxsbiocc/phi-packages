@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "n_sgrnas",
+    "n_genes",
+    "n_samples",
+    "reference_sample",
+    "samples",
+    "nnmd_summaries",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "crispr_screen_qc" },
+    "n_sgrnas": { "type": "integer" },
+    "n_genes": { "type": "integer" },
+    "n_samples": { "type": "integer" },
+    "reference_sample": { "type": "string" },
+    "samples": { "type": "array", "items": { "type": "object" } },
+    "nnmd_summaries": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": ["screen_sample_qc", "qc_dashboard"],
+      "properties": {
+        "screen_sample_qc": { "type": "string" },
+        "qc_dashboard": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

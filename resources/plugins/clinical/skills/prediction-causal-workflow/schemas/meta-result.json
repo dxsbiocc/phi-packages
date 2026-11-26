@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "studies",
+    "n_studies",
+    "scale",
+    "fixed_effect",
+    "random_effects_dl",
+    "random_effects_pm",
+    "hksj",
+    "heterogeneity",
+    "summary_table",
+    "leave_one_out_table",
+    "figures",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "studies": { "type": "string" },
+    "n_studies": { "type": "integer" },
+    "scale": { "type": "string" },
+    "is_ratio_scale": { "type": "boolean" },
+    "fixed_effect": { "type": "object" },
+    "random_effects_dl": { "type": "object" },
+    "random_effects_pm": { "type": "object" },
+    "hksj": { "type": "object" },
+    "prediction_interval_95": { "type": ["object", "null"] },
+    "heterogeneity": { "type": "object" },
+    "eggers_test": { "type": ["object", "null"] },
+    "subgroups": { "type": ["object", "null"] },
+    "study_results": { "type": "array", "items": { "type": "object" } },
+    "leave_one_out": { "type": "array", "items": { "type": "object" } },
+    "summary_table": { "type": "string" },
+    "leave_one_out_table": { "type": "string" },
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

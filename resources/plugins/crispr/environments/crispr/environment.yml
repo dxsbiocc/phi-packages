@@ -1,0 +1,15 @@
+name: crispr
+description: >-
+  Private CRISPR gene-editing and functional screening environment: Python 3.13 +
+  pandas/numpy/scipy/scikit-learn/matplotlib-base for guide design, MIT/CFD
+  off-target scoring, library QC, pooled screen QC & alpha-RRA hit calling, and
+  post-editing indel/HDR/base-editing quantification.
+channels:
+  - conda-forge
+dependencies:
+  - python=3.13
+  - pandas
+  - numpy
+  - scipy
+  - scikit-learn
+  - matplotlib-base

@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "clinical",
+    "time_col",
+    "status_col",
+    "n_samples",
+    "n_primary_events",
+    "n_competing_events",
+    "n_censored",
+    "naive_1_minus_km_overestimation",
+    "cif_table",
+    "figures",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "clinical": { "type": "string" },
+    "time_col": { "type": "string" },
+    "status_col": { "type": "string" },
+    "primary_code": { "type": "string" },
+    "status_mapping": { "type": "object" },
+    "n_samples": { "type": "integer" },
+    "n_primary_events": { "type": "integer" },
+    "n_competing_events": { "type": "integer" },
+    "n_censored": { "type": "integer" },
+    "overall_cif": { "type": "object" },
+    "naive_1_minus_km_overestimation": { "type": "object" },
+    "group_col": { "type": ["string", "null"] },
+    "groups": { "type": "array", "items": { "type": "object" } },
+    "grays_test": { "type": ["object", "null"] },
+    "landmark_cif": { "type": "array", "items": { "type": "object" } },
+    "fine_gray_model": { "type": ["object", "null"] },
+    "cif_table": { "type": "string" },
+    "fine_gray_table": { "type": ["string", "null"] },
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

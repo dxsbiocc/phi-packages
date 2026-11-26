@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "norm_method",
+    "paired",
+    "alpha_cutoff",
+    "n_permutations",
+    "n_sgrnas",
+    "n_genes",
+    "n_depleted_fdr05",
+    "n_enriched_fdr05",
+    "top_depleted_genes",
+    "top_enriched_genes",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "crispr_screen_hits" },
+    "norm_method": { "type": "string" },
+    "paired": { "type": "boolean" },
+    "alpha_cutoff": { "type": "number" },
+    "n_permutations": { "type": "integer" },
+    "n_sgrnas": { "type": "integer" },
+    "n_genes": { "type": "integer" },
+    "n_depleted_fdr05": { "type": "integer" },
+    "n_enriched_fdr05": { "type": "integer" },
+    "top_depleted_genes": { "type": "array", "items": { "type": "object" } },
+    "top_enriched_genes": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": ["sgrna_summary", "gene_hits_summary", "hits_plot"],
+      "properties": {
+        "sgrna_summary": { "type": "string" },
+        "gene_hits_summary": { "type": "string" },
+        "hits_plot": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

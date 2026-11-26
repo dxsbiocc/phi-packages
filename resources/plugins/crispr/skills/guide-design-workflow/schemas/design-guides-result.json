@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "nuclease",
+    "mode",
+    "cloning_backbone",
+    "n_targets",
+    "n_total_candidates",
+    "n_passing_candidates",
+    "top_guides",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "crispr_design_guides" },
+    "nuclease": { "type": "string" },
+    "mode": { "type": "string" },
+    "cloning_backbone": { "type": "string" },
+    "n_targets": { "type": "integer" },
+    "n_total_candidates": { "type": "integer" },
+    "n_passing_candidates": { "type": "integer" },
+    "top_guides": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": ["designed_guides", "overview_plot"],
+      "properties": {
+        "designed_guides": { "type": "string" },
+        "overview_plot": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

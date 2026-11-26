@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "input_mode",
+    "editor_mode",
+    "guide_strand",
+    "cut_site_bp",
+    "n_samples",
+    "total_reads",
+    "samples",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "crispr_editing_quant" },
+    "input_mode": { "type": "string", "enum": ["alleles", "crispresso2"] },
+    "editor_mode": { "type": "string", "enum": ["nuclease", "CBE", "ABE"] },
+    "guide_strand": { "type": "string", "enum": ["+", "-"] },
+    "cut_site_bp": { "type": "integer" },
+    "n_samples": { "type": "integer" },
+    "total_reads": { "type": "integer" },
+    "samples": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": [
+        "editing_allele_summary",
+        "indel_size_distribution",
+        "protospacer_base_matrix",
+        "outcomes_plot"
+      ],
+      "properties": {
+        "editing_allele_summary": { "type": "string" },
+        "indel_size_distribution": { "type": "string" },
+        "protospacer_base_matrix": { "type": "string" },
+        "outcomes_plot": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

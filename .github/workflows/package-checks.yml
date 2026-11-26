@@ -39,7 +39,8 @@ jobs:
           python tests/test_bridging_tools.py -v
           python tests/test_bulk_rnaseq_plugin.py -v
           python tests/test_chromatin_and_scatac_plugins.py -v
-          python tests/test_clinical_survival_plugin.py -v
+          python tests/test_clinical_plugin.py -v
+          python tests/test_crispr_plugin.py -v
           python tests/test_genomics_plugin.py -v
           python tests/test_metabolomics_plugin.py -v
           python tests/test_metagenomics_enhancements.py -v

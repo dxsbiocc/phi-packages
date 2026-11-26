@@ -1,0 +1,14 @@
+name: clinical
+description: >-
+  Private clinical biostatistics, survival modeling, prediction validation,
+  causal inference, and meta-analysis environment: Python 3.13 +
+  pandas/numpy/scipy/scikit-learn/matplotlib-base.
+channels:
+  - conda-forge
+dependencies:
+  - python=3.13
+  - pandas
+  - numpy
+  - scipy
+  - scikit-learn
+  - matplotlib-base

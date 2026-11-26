@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "n_guides",
+    "n_genes",
+    "n_control_guides",
+    "control_fraction",
+    "n_duplicate_ids",
+    "n_duplicate_sequences",
+    "n_invalid_sequences",
+    "n_pol3_tttt",
+    "n_enzyme_collisions",
+    "n_gc_outliers",
+    "n_genes_low_coverage",
+    "qc_status",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "crispr_library_check" },
+    "n_guides": { "type": "integer" },
+    "n_genes": { "type": "integer" },
+    "n_control_guides": { "type": "integer" },
+    "control_fraction": { "type": "number" },
+    "n_duplicate_ids": { "type": "integer" },
+    "n_duplicate_sequences": { "type": "integer" },
+    "n_invalid_sequences": { "type": "integer" },
+    "n_pol3_tttt": { "type": "integer" },
+    "n_enzyme_collisions": { "type": "integer" },
+    "n_gc_outliers": { "type": "integer" },
+    "n_genes_low_coverage": { "type": "integer" },
+    "qc_status": { "type": "string", "enum": ["pass", "warn", "fail"] },
+    "outputs": {
+      "type": "object",
+      "required": ["library_qc_per_gene", "library_flagged_guides", "qc_plot"],
+      "properties": {
+        "library_qc_per_gene": { "type": "string" },
+        "library_flagged_guides": { "type": "string" },
+        "qc_plot": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

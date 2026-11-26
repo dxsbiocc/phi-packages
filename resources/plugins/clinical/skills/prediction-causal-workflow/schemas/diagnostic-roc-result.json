@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "clinical",
+    "outcome_col",
+    "n_samples",
+    "n_positive",
+    "n_negative",
+    "prevalence",
+    "predictors",
+    "delong_comparisons",
+    "metrics_table",
+    "figures",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "clinical": { "type": "string" },
+    "outcome_col": { "type": "string" },
+    "outcome_mapping": { "type": "object" },
+    "n_samples": { "type": "integer" },
+    "n_positive": { "type": "integer" },
+    "n_negative": { "type": "integer" },
+    "prevalence": { "type": "number" },
+    "reference_predictor": { "type": "string" },
+    "predictors": { "type": "array", "items": { "type": "object" } },
+    "delong_comparisons": { "type": "array", "items": { "type": "object" } },
+    "metrics_table": { "type": "string" },
+    "delong_table": { "type": ["string", "null"] },
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "clinical",
+    "exposure_col",
+    "outcome_col",
+    "model_type",
+    "n_samples",
+    "n_knots",
+    "knots",
+    "ref_value",
+    "p_overall",
+    "p_nonlinear",
+    "curve_table",
+    "figures",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "clinical": { "type": "string" },
+    "exposure_col": { "type": "string" },
+    "outcome_col": { "type": "string" },
+    "model_type": { "type": "string", "enum": ["linear", "logistic", "cox"] },
+    "effect_measure": { "type": "string" },
+    "n_samples": { "type": "integer" },
+    "n_events": { "type": ["integer", "null"] },
+    "n_knots": { "type": "integer" },
+    "knots": { "type": "array", "items": { "type": "number" } },
+    "ref_value": { "type": "number" },
+    "chisq_overall": { "type": "number" },
+    "df_overall": { "type": "integer" },
+    "p_overall": { "type": "number" },
+    "chisq_nonlinear": { "type": "number" },
+    "df_nonlinear": { "type": "integer" },
+    "p_nonlinear": { "type": "number" },
+    "nonlinear_inflection": { "type": ["object", "null"] },
+    "curve_table": { "type": "string" },
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}
