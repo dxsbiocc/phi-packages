@@ -8,10 +8,10 @@
     "resources/connectors/cbioportal/phi-package.yaml"
   ],
   "counts": {
-    "standaloneSkills": 16,
+    "standaloneSkills": 22,
     "connectors": 24,
-    "plugins": 17,
-    "pluginSkills": 24,
+    "plugins": 18,
+    "pluginSkills": 27,
     "wrapperAdapters": 2202,
     "importedFiles": 7885,
     "importedBytes": 85272892
@@ -70,7 +70,9 @@
     "Added clinical-survival (0.1.0, toolPrefix clin, agent ClinicalSurvival, skill survival-workflow) as the thirteenth bundled plugin (counts.plugins 12 to 13, counts.pluginSkills 19 to 20) in locked Python 3.13 environment plugin:clinical: clin_inspect (cohort event/time polarity, reverse-KM follow-up, EPV budget), clin_table1 (stratified Table 1 with Shapiro-Wilk normality routing, Welch/ANOVA/Mann-Whitney/Kruskal-Wallis, Fisher/chi-square, SMD), clin_km (Kaplan-Meier curves, log-log Greenwood 95% CIs, log-rank test, aligned Number-at-Risk subplot), clin_cox (Breslow univariable/multivariable Cox PH, Harrell C-index, Schoenfeld PH diagnostics, HR forest plot), and clin_time_roc (IPCW time-dependent ROC at clinical landmarks + leak-free stratified K-fold L2-penalized Cox signature).",
     "Added multi-omics (0.1.0 -> 0.1.1, toolPrefix mo, agent MultiOmics, skill multiomics-workflow) and methylation (0.1.0 -> 0.1.1, toolPrefix meth, agent Methylation, skill methylation-workflow) as the fourteenth and fifteenth bundled plugins (counts.plugins 13 to 15, counts.pluginSkills 20 to 22), upgraded single-cell to 0.7.0 -> 0.7.1 (sc_py_communication heteromeric ligand-receptor permutation screening + Preset 8 + output schemas), and updated chromatin-profiling to 0.1.2 -> 0.1.3 (pointing CUT&Tag peak calling to the vendored nf-core/seacr/callpeak module wrapper + output schemas).",
     "Added mendelian-randomization (0.1.0, toolPrefix mr, agent MendelianRandomization, skill mr-workflow: mr_gwas_qc, mr_harmonize, mr_estimate, mr_coloc) and pharmacogenomics (0.1.0, toolPrefix pgx, agent Pharmacogenomics, skill pgx-workflow: pgx_dose_response, pgx_synergy, pgx_biomarker) as the sixteenth and seventeenth bundled plugins (counts.plugins 15 to 17, counts.pluginSkills 22 to 24), upgraded bulk-rna-seq to 0.3.0 (adding rna_coexpression WGCNA-style co-expression modules/hubs and rna_tme_deconv ESTIMATE + NNLS immune deconvolution), enforced 100% script output JSON schemas across literature-library (0.7.1), single-cell (0.7.1), single-cell-atac (0.1.3), spatial-transcriptomics (0.2.2), and chromatin-profiling (0.1.3), removed the broken duplicate nf-core/rna-seq/wrapper/workflows file, and added tests/contracts.test.mjs.",
-    "Decoupled specialty visualization and domain packages from Phi's shared base environments (phi:python@1, phi:r@1): upgraded visualization to 1.3.0 with its own locked multi-platform private environment plugin:viz (environments/viz/environment.yml + three-platform explicit locks covering R 4.4, Python 3.12, 45 visualization CRAN/Bioconductor packages, and 8 pinned GitHub sourcePackages), and gave standalone skills rdkit and scvelo self-contained skill-local environments (./environment.yml + three-platform explicit locks) so phi-python and phi-r stay lean general-purpose Notebook/Office/data-science bases."
+    "Decoupled specialty visualization and domain packages from Phi's shared base environments (phi:python@1, phi:r@1): upgraded visualization to 1.3.0 with its own locked multi-platform private environment plugin:viz (environments/viz/environment.yml + three-platform explicit locks covering R 4.4, Python 3.12, 45 visualization CRAN/Bioconductor packages, and 8 pinned GitHub sourcePackages), and gave standalone skills rdkit and scvelo self-contained skill-local environments (./environment.yml + three-platform explicit locks) so phi-python and phi-r stay lean general-purpose Notebook/Office/data-science bases.",
+    "Curated standalone research skills catalog (counts.standaloneSkills 16 to 22): removed four misplaced single-library manuals (anndata, scvelo, scikit-survival, pysam) whose domains are covered by plugins/wrappers and removed from phi-python, and added ten zero-dependency MIT-licensed research workflow skills (manuscript-writing, manuscript-polishing, humanizer, peer-review-response, manuscript-review, nsfc-proposal, literature-review, paper-reading, statistical-review, paper-to-slides) built on a unified first-principles SKILL.md standard with true on-demand references/ for multi-branch skills.",
+    "Replaced the single-skill clinical-survival plugin with the unified clinical plugin (0.1.0, toolPrefix clin, agent Clinical, private environment plugin:clinical, two skills survival-workflow + prediction-causal-workflow covering 11 clin_* tools: inspect, table1, km, cox, time_roc, competing_risk, diagnostic_roc, calibration_dca, psm_iptw, rcs, meta) and added the crispr plugin (0.1.0, toolPrefix crispr, agent Crispr, private environment plugin:crispr, two skills guide-design-workflow + screen-editing-workflow covering 6 crispr_* tools: design_guides, offtarget_scan, library_check, screen_qc, screen_hits, editing_quant, paired with upstream nf-core mageck/crisprcleanr/crispresso2/bowtie wrappers). counts.plugins 17 to 18, counts.pluginSkills 24 to 27."
   ],
   "initialImportCounts": {
     "standaloneSkills": 14,
@@ -81,7 +83,7 @@
     "importedFiles": 7885,
     "importedBytes": 85619915
   },
-  "scopeUpdatedAt": "2026-11-25T13:00:00+00:00",
+  "scopeUpdatedAt": "2026-11-26T12:25:00+00:00",
   "transformedPaths": [
     "resources/wrappers/modules/local/differential-expression/deseq2/environment.yml",
     "resources/wrappers/modules/local/differential-expression/deseq2/main.nf",
@@ -430,11 +432,11 @@
       "origin": "Authored in phi-packages. Somatic cancer genomics downstream plugin (toolPrefix gen, agent Genomics, skill genomics-workflow) with seven deterministic Python tools (gen_vcf2maf, gen_inspect, gen_summary, gen_tmb_ith, gen_interactions, gen_signatures, gen_cnv) in plugin:genomics (three-platform explicit locks). Raw alignment and variant calling stay on nf-core/sarek."
     },
     {
-      "path": "resources/plugins/clinical-survival/",
+      "path": "resources/plugins/clinical/",
       "kind": "plugin",
       "license": "MIT",
       "packageVersion": "0.1.0",
-      "origin": "Authored in phi-packages. Clinical cohort biostatistics and survival prognostic plugin (toolPrefix clin, agent ClinicalSurvival, skill survival-workflow) with five deterministic Python tools (clin_inspect, clin_table1, clin_km, clin_cox, clin_time_roc) in plugin:clinical (Python 3.13 + pandas/numpy/scipy/scikit-learn/matplotlib-base, three-platform explicit locks). Covers cohort EPV/reverse-KM audit, stratified Baseline Table 1 with Shapiro-Wilk normality routing and SMD, Kaplan-Meier curves with log-log Greenwood CIs and aligned Number-at-Risk subplots, Breslow Cox PH regression with Schoenfeld PH diagnostics and HR forest plots, and IPCW time-dependent ROC with leak-free K-fold L2-penalized Cox signature evaluation."
+      "origin": "Authored in phi-packages. Unified clinical biostatistics, survival modeling, prediction validation, causal inference, and meta-analysis plugin (toolPrefix clin, agent Clinical, skills survival-workflow and prediction-causal-workflow) with eleven deterministic Python tools (clin_inspect, clin_table1, clin_km, clin_cox, clin_time_roc, clin_competing_risk, clin_diagnostic_roc, clin_calibration_dca, clin_psm_iptw, clin_rcs, clin_meta) in plugin:clinical (Python 3.13 + pandas/numpy/scipy/scikit-learn/matplotlib-base, three-platform explicit locks). Replaces clinical-survival by adding Aalen-Johansen/Fine-Gray competing risks, Sun & Xu DeLong paired ROC/PR diagnostics, TRIPOD calibration & Vickers DCA, PSM/IPTW causal inference, Harrell restricted cubic splines, and Fixed/DL/PM/HKSJ meta-analysis."
     },
     {
       "path": "resources/plugins/multi-omics/",
@@ -463,6 +465,13 @@
       "license": "MIT",
       "packageVersion": "0.1.0",
       "origin": "Authored in phi-packages. Pharmacogenomics, dose-response curve modeling, and drug-combination synergy plugin (toolPrefix pgx, agent Pharmacogenomics, skill pgx-workflow) with three deterministic Python tools (pgx_dose_response, pgx_synergy, pgx_biomarker) in plugin:pgx (Python 3.13 + pandas/numpy/scipy/scikit-learn/matplotlib-base, three-platform explicit locks). Covers 4-parameter log-logistic Hill curve fitting (EC50, absolute IC50, AUC, AAC, R^2, and beyond_tested_range censoring guards), 2D drug-combination synergy scoring across ZIP, Bliss, Loewe, and HSA models, and multi-omics drug sensitivity biomarker discovery with explicit drug-metric polarity enforcement and BH FDR."
+    },
+    {
+      "path": "resources/plugins/crispr/",
+      "kind": "plugin",
+      "license": "MIT",
+      "packageVersion": "0.1.0",
+      "origin": "Authored in phi-packages. CRISPR gene-editing design, off-target specificity scoring, pooled functional screening, and post-editing outcome quantification plugin (toolPrefix crispr, agent Crispr, skills guide-design-workflow and screen-editing-workflow) with six deterministic Python tools (crispr_design_guides, crispr_offtarget_scan, crispr_library_check, crispr_screen_qc, crispr_screen_hits, crispr_editing_quant) in plugin:crispr (Python 3.13 + pandas/numpy/scipy/scikit-learn/matplotlib-base, three-platform explicit locks), paired with upstream nf-core mageck, crisprcleanr, crispresso2, and bowtie wrappers."
     },
     {
       "path": "resources/wrappers/workflows/nf-core/sarek/",

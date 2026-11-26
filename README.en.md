@@ -8,17 +8,17 @@ Phi's independent public content repository, containing source files for install
 
 | Content | Count |
 | --- | ---: |
-| Standalone skills | 16 |
+| Standalone skills | 22 |
 | MCP connector definitions | 24 |
-| Composite Phi plugins | 17 |
-| Skills within plugins | 24 |
+| Composite Phi plugins | 18 |
+| Skills within plugins | 27 |
 | Wrapper adapters | 2202 |
 
 ```text
 resources/
   skills/                Standalone skills, references, and scripts
   connectors/            MCP connector declarations
-  plugins/               Visualization, literature-library, single-cell, single-cell-atac, chromatin-profiling, metagenomics, spatial-transcriptomics, metabolomics, protein-design, bulk-rna-seq, proteomics, genomics, clinical-survival, multi-omics, methylation, mendelian-randomization, and pharmacogenomics plugins and their components
+  plugins/               Visualization, literature-library, single-cell, single-cell-atac, chromatin-profiling, metagenomics, spatial-transcriptomics, metabolomics, protein-design, bulk-rna-seq, proteomics, genomics, clinical, multi-omics, methylation, mendelian-randomization, pharmacogenomics, and crispr plugins and their components
   wrappers/              Nextflow modules, subworkflows, workflows, and adapters
 docs/
   contracts/             Reference snapshots of Phi content contracts

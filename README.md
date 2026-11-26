@@ -8,17 +8,17 @@ Phi 的独立公开内容仓库，保存可安装领域能力的源码。
 
 | 内容 | 数量 |
 | --- | ---: |
-| 独立 skills | 16 |
+| 独立 skills | 22 |
 | MCP connector 定义 | 24 |
-| Phi 复合插件 | 17 |
-| 插件内 skills | 24 |
+| Phi 复合插件 | 18 |
+| 插件内 skills | 27 |
 | Wrapper 适配器 | 2202 |
 
 ```text
 resources/
   skills/                独立技能、参考资料和脚本
   connectors/            MCP 连接器声明
-  plugins/               Visualization、literature-library、single-cell、single-cell-atac、chromatin-profiling、metagenomics、spatial-transcriptomics、metabolomics、protein-design、bulk-rna-seq、proteomics、genomics、clinical-survival、multi-omics、methylation、mendelian-randomization 与 pharmacogenomics 插件及其组件
+  plugins/               Visualization、literature-library、single-cell、single-cell-atac、chromatin-profiling、metagenomics、spatial-transcriptomics、metabolomics、protein-design、bulk-rna-seq、proteomics、genomics、clinical、multi-omics、methylation、mendelian-randomization、pharmacogenomics 与 crispr 插件及其组件
   wrappers/              Nextflow module、subworkflow、workflow 和适配器
 docs/
   contracts/             Phi 内容契约参考快照
