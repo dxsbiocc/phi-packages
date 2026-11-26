@@ -1,7 +1,7 @@
 ---
 name: Visualization
 description: Specialist for template-guided scientific and omics figure design, template preview shortlists, publication-ready visualization, and catalog template authoring. Plot user data with an existing template through omics-visualization. Author, save, extend, or register a reusable template-id through create-template.
-environment: phi:r@1
+environment: plugin:viz
 tools:
   - read
   - glob

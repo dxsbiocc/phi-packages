@@ -3,10 +3,10 @@ name: rdkit
 description: Cheminformatics toolkit for fine-grained molecular control. SMILES/SDF parsing, descriptors (MW, LogP, TPSA), fingerprints, substructure search, 2D/3D generation, similarity, reactions. For standard workflows with simpler interface, use datamol (wrapper around RDKit). Use rdkit for advanced control, custom sanitization, specialized algorithms.
 license: BSD-3-Clause license
 allowed-tools: Read Write Edit Bash
-compatibility: Examples target RDKit 2026.03.x. The skill runs in phi:python@1, where rdkit is already installed. rdkit-pypi is the legacy PyPI name.
-metadata: {"version": "1.1", "skill-author": "K-Dense Inc."}
+compatibility: Examples target RDKit 2026.03.x. The skill runs in its own managed environment (./environment.yml), where rdkit is installed. rdkit-pypi is the legacy PyPI name.
+metadata: {"version": "1.2", "skill-author": "K-Dense Inc."}
 phi:
-  environment: phi:python@1
+  environment: ./environment.yml
 ---
 
 # RDKit Cheminformatics Toolkit
@@ -19,7 +19,7 @@ RDKit is a comprehensive cheminformatics library providing Python APIs for molec
 
 ## Installation and Setup
 
-This skill runs in the managed `phi:python@1` environment; `rdkit` is already there. Do not install a second copy of `rdkit` or `rdkit-pypi` into this environment.
+This skill runs in its own managed `./environment.yml` environment (`skill:rdkit`); `rdkit` is already installed there. Do not install a second copy of `rdkit` or `rdkit-pypi` into this environment.
 
 ## Core Capabilities
 

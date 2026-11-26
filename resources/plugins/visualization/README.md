@@ -1,14 +1,13 @@
 # Scientific Plotting Plugin
 
-This built-in plugin provides:
+This plugin provides:
 
 - `agents/Visualization.md`: the dedicated Visualization plotting agent.
 - `skills/omics-visualization/`: the scientific plotting templates and scripts that draw user data with existing templates.
 - `skills/create-template/`: turns a figure into a reusable template and registers it in the omics-visualization catalog. It does not draw user data with existing templates and has no scripts of its own.
-- `resources/runtime/environments/phi-r/`: the built-in R environment `phi:r@1` (`phi-r`) shared by the agent and the omics-visualization skill, providing both `Rscript` and Python.
+- `environments/viz/`: the plugin-private R 4.4 + Python 3.12 environment (`plugin:viz`) used by the `Visualization` agent and the `omics-visualization` skill across all 211 plotting templates.
 
-The plugin declares no private hosted environment; the plotting skills share `phi:r@1` with the other built-in skills.
-`create-template` declares no environment. Validation commands such as `python3 scripts/validate_template_contracts.py` run from the installed `omics-visualization` skill root.
+`create-template` declares no environment of its own. Validation commands such as `python3 scripts/validate_template_contracts.py` run from the installed `omics-visualization` skill root inside `plugin:viz`.
 
 ## Plot template gallery
 

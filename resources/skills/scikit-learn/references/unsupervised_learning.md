@@ -296,7 +296,7 @@ plt.title('t-SNE visualization')
 **UMAP (not in scikit-learn, but compatible)**
 - Uniform Manifold Approximation and Projection
 - Faster than t-SNE, preserves global structure better
-- `umap-learn` is already in `phi:python@1`
+- Requires `umap-learn` (request via `env_request` in a project environment if needed)
 - Example:
 ```python
 from umap import UMAP

@@ -415,7 +415,7 @@ Modern fingerprint generation API. Prefer this over legacy `AllChem.GetMorganFin
 
 ## Installation
 
-This skill runs in the managed `phi:python@1` environment; `rdkit` is already there. `rdkit-pypi` is the legacy PyPI name. Do not install a second copy into this environment.
+This skill runs in its own managed `./environment.yml` environment (`skill:rdkit`); `rdkit` is already installed there. `rdkit-pypi` is the legacy PyPI name. Do not install a second copy into this environment.
 
 ## Importing
 

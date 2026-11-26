@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.0 (2026-11-25)
+
+- 将组学绘图专精 R/Bioconductor/GitHub 源码包环境从共享 `phi:r@1` 迁回插件私有锁定环境 `plugin:viz`（`environments/viz/`），使基础 `phi-r` 保持轻量，同时允许绘图模板依赖随插件独立演进。
+
 ## 1.2.2 (2026-11-11)
 
 - `tree-phylo-rings` 把扇形开口锁成精确 90°（原先 ggtree `open.angle` 会多出约半个 tip）。

@@ -53,20 +53,23 @@ Example:
 schemaVersion: 1
 id: visualization
 type: plugin
-version: 1.0.2
+version: 1.3.0
 title: 科研绘图
 summary: 用模板生成可直接发表的组学图表，配有专属绘图智能体。
 toolPrefix: viz
 components:
   agents: [agents/Visualization.md]
-  skills: [skills/omics-visualization]
+  skills: [skills/omics-visualization, skills/create-template]
+environments:
+  viz:
+    spec: environments/viz/environment.yml
 ```
 
-The bundled visualization plugin deliberately omits `environments`: its agent
-and `omics-visualization` skill both declare `phi:r@1`. The shared `phi-r`
-environment contains R, the visualization packages, and Python 3.12 for the
-plugin's standard-library-only command-line scripts. Other plugins may still
-declare private environments through the optional field above.
+The visualization plugin declares a private `viz` environment (`plugin:viz` in
+`Visualization.md` and `omics-visualization/SKILL.md`) containing R, Python 3.12,
+and its catalog visualization packages and pinned `sourcePackages`, keeping the
+shared `phi-r` base environment lean. Lightweight plugins without specialty native
+dependencies may omit `environments` and bind to `phi:python@1` or `phi:r@1`.
 
 ## 3. Rules across components
 

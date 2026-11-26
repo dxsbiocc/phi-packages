@@ -82,6 +82,27 @@ test('all plugins, agents, and private environments satisfy docs/contracts/*', (
 
   for (const s of listDirs(join(root, 'resources/skills'))) {
     seenSkillNames.set(s, `standalone:${s}`)
+    const sdir = join(root, 'resources/skills', s)
+    const specFile = join(sdir, 'environment.yml')
+    if (existsSync(specFile)) {
+      const fm = extractFrontmatter(readFileSync(join(sdir, 'SKILL.md'), 'utf8'), `skills/${s}/SKILL.md`)
+      const sEnv = (fm.match(/^\s+environment:\s+(\S+)/m) ?? [])[1]
+      assert.equal(sEnv, './environment.yml', `skills/${s}: SKILL.md must declare environment: ./environment.yml when environment.yml exists`)
+      const specText = readFileSync(specFile, 'utf8')
+      assert.equal(yamlScalar(specText, 'name'), s, `skills/${s}: environment.yml name must equal skill directory '${s}'`)
+      for (const plat of PLATFORMS) {
+        const lockPath = join(sdir, 'locks', `${plat}.txt`)
+        assert.equal(existsSync(lockPath), true, `skills/${s}: missing lock ${plat}.txt`)
+        const lines = readFileSync(lockPath, 'utf8')
+          .split(/\r?\n/)
+          .map(l => l.trim())
+          .filter(l => l && !l.startsWith('#'))
+        assert.equal(lines[0], '@EXPLICIT', `skills/${s}/${plat}: first non-comment line must be @EXPLICIT`)
+        for (const urlLine of lines.slice(1)) {
+          assert.match(urlLine, /^https:\/\/.+#[0-9a-f]{32}$/, `skills/${s}/${plat}: invalid lock URL '${urlLine}'`)
+        }
+      }
+    }
   }
 
   for (const plugin of plugins) {

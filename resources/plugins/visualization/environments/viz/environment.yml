@@ -1,0 +1,119 @@
+name: viz
+description: >-
+  Private scientific plotting environment for visualization (R 4.4 + Python 3.12
+  stdlib helper runtime + CRAN/Bioconductor/GitHub plotting packages for all
+  omics-visualization templates).
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.12
+  - r-base=4.4
+  - r-tidyverse
+  - bioconductor-complexheatmap
+  - bioconductor-ggtree
+  - r-ade4
+  - r-ape
+  - r-aplot
+  - r-circlize
+  - r-cli
+  - r-deldir
+  - r-digest
+  - r-dplyr
+  - r-forcats
+  - r-geomtextpath
+  - r-ggbeeswarm
+  - r-ggextra
+  - r-ggforce
+  - r-ggh4x
+  - r-gghalves
+  - r-ggnewscale
+  - r-ggplot2
+  - r-ggprism
+  - r-ggpubr
+  - r-ggraph
+  - r-ggrepel
+  - r-ggridges
+  - r-ggsignif
+  - r-ggtern
+  - r-ggvenn
+  - r-glue
+  - r-graphlayouts
+  - r-gridextra
+  - r-gtable
+  - r-hexbin
+  - r-igraph
+  - r-jsonlite
+  - r-magrittr
+  - r-patchwork
+  - r-polyclip
+  - r-purrr
+  - r-quantreg
+  - r-rcolorbrewer
+  - r-readr
+  - r-rlang
+  - r-rsvg
+  - r-scales
+  - r-sf
+  - r-stringr
+  - r-survival
+  - r-survminer
+  - r-tibble
+  - r-tidygraph
+  - r-tidyr
+  - r-tidytree
+  - r-vctrs
+  - r-vegan
+  - r-yaml
+sourcePackages:
+  # Visualization packages. Order matters: an entry depends only on conda packages or
+  # on an earlier entry. The seven template packages are independent; gridGeometry is
+  # immediately before ggmagnify because ggmagnify Imports it and no conda build exists.
+  - language: r
+    name: gground
+    source: github
+    repo: dxsbiocc/gground
+    ref: 524dc93dfb34cfd267a6a829ce796c1a8aa694f7
+    sha256: 50b4c839e949d2f1b16bdaa9880a1ddd37731c3836869e6ecdc98b21cd15053b
+  - language: r
+    name: ggideogram
+    source: github
+    repo: dxsbiocc/ggideogram
+    ref: 57867ec3a570e5091fdbeb194c1e02bf519cf9b3
+    sha256: 45712ba8e2d6d5cb62f8f31fde30e85ff12eaa7420a239067420d1fc64d792da
+  - language: r
+    name: ggcor
+    source: github
+    repo: yoyobattle/ggcor
+    ref: 0d60364b873e2c871e8da9641e103203c2eed2f1
+    sha256: ca46d9b94e429edfa8f5d394ae05a30f1d0cb7cc4a4fa78a2981963d58814c0d
+  - language: r
+    name: linkET
+    source: github
+    repo: Hy4m/linkET
+    ref: fa26a874b59cffad730f8fadc860d3750f59c37b
+    sha256: a33c3863a83988ac06b244c7960e92da72efb0fa5122285b45172fc3a3647bd0
+  - language: r
+    name: ggsankey
+    source: github
+    repo: davidsjoberg/ggsankey
+    ref: b675d0d5144b1b5758d3b2b41e86ceee66a1e071
+    sha256: d77a38fb5136b89c03110dcf90f45b33efbf80c5162b4153190e22cc13db8adb
+  - language: r
+    name: ggsvg
+    source: github
+    repo: coolbutuseless/ggsvg
+    ref: 340fd565fa9d6d832f44e8a07dc5ceed04cec5c5
+    sha256: a33f02a5b2ba7d34fd844ae1b4b7666afa26641e54e95f3695ebc1b6e6631112
+  - language: r
+    name: gridGeometry
+    source: github
+    repo: pmur002/gridgeometry
+    ref: 70486784531119c4ee93aa90b94c1a47a21a9c92
+    sha256: db4b83884a2872a37e2630b5c095d358acbe03c1a4c959814572325a60fae69b
+  - language: r
+    name: ggmagnify
+    source: github
+    repo: hughjonesd/ggmagnify
+    ref: c5da7ddec923f1c717c4fe2e2f730a0528bdf9bf
+    sha256: 254350cd0dd851451af9a8a104456c2fde213292f263d80b85f5c5caa666029d
