@@ -396,10 +396,125 @@ def fetch_pride_delta(conn: sqlite3.Connection, since_dt: datetime, max_items: i
     return fetched
 
 
+def fetch_cellxgene_delta(conn: sqlite3.Connection, since_dt: datetime, max_items: int | None) -> int:
+    """Fetch CZ CELLxGENE Curation datasets published or revised since `since_dt`."""
+    since_str = since_dt.strftime("%Y-%m-%d")
+    api = "https://api.cellxgene.cziscience.com/curation/v1/datasets"
+    data = _http_get_json(api, timeout=60)
+    if not isinstance(data, list):
+        return 0
+    fetched = 0
+    ts = now_iso()
+    for d in data:
+        if max_items and fetched >= max_items:
+            break
+        if not isinstance(d, dict):
+            continue
+        pub_at = str(d.get("published_at") or "")[:10]
+        rev_at = str(d.get("revised_at") or "")[:10]
+        latest_dt = max(pub_at, rev_at)
+        if latest_dt and latest_dt < since_str:
+            continue
+        ds_uuid = str(d.get("dataset_id") or "").strip()
+        if not ds_uuid:
+            continue
+        cid = f"cellxgene:{ds_uuid}"
+        title = d.get("title") or ds_uuid
+        orgs = "; ".join(str(x.get("label") or "") for x in (d.get("organism") or []) if isinstance(x, dict) and x.get("label")) or None
+        tissues = "; ".join(str(x.get("label") or "") for x in (d.get("tissue") or []) if isinstance(x, dict) and x.get("label")) or None
+        diseases = [str(x.get("label")) for x in (d.get("disease") or []) if isinstance(x, dict) and x.get("label")]
+        assays = "; ".join(str(x.get("label") or "") for x in (d.get("assay") or []) if isinstance(x, dict) and x.get("label")) or "scRNA-seq"
+        n_cells = int(d.get("cell_count") or 0) or None
+        ch = chash({"id": ds_uuid, "title": title, "rev": rev_at or pub_at, "n": n_cells})
+        conn.execute(
+            """
+            INSERT OR REPLACE INTO datasets(
+                canonical_id, title, title_norm, organism, tissue, disease_tags,
+                assay, platforms, n_samples, access, license, confidence,
+                content_hash, first_seen_at, updated_at, probe_status, last_checked
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, NULL, ?, 'public', 'CC-BY-4.0', 'metadata_only', ?, ?, ?, 'metadata_fetched', ?)
+            """,
+            (cid, title, tnorm(title), orgs, tissues, json.dumps(diseases) if diseases else None, assays, n_cells, ch, ts, ts, ts),
+        )
+        conn.execute(
+            "INSERT OR IGNORE INTO dataset_members(dataset_id, source, accession, role, external_url) VALUES (?, 'cellxgene', ?, 'dataset', ?)",
+            (cid, ds_uuid, f"https://cellxgene.cziscience.com/e/{ds_uuid}.cxg/"),
+        )
+        fetched += 1
+    conn.commit()
+    log.info("CELLxGENE window since %s: fetched=%d", since_str, fetched)
+    return fetched
+
+
+def fetch_metabolights_delta(conn: sqlite3.Connection, since_dt: datetime, max_items: int | None) -> int:
+    """Fetch MetaboLights studies released since `since_dt` via EBI Search."""
+    start_str = since_dt.strftime("%Y%m%d")
+    end_str = (now_dt() + timedelta(days=1)).strftime("%Y%m%d")
+    api = "https://www.ebi.ac.uk/ebisearch/ws/rest/metabolights"
+    query = f"publication_date:[{start_str} TO {end_str}]"
+    fetched = 0
+    start_offset = 0
+    size = 100
+    ts = now_iso()
+
+    while True:
+        res = _http_get_json(
+            api,
+            {
+                "query": query,
+                "format": "json",
+                "size": size,
+                "start": start_offset,
+                "fields": "name,description,omics_type,Organism,Organism_Part",
+            },
+        )
+        entries = (res or {}).get("entries") or []
+        hit_count = int((res or {}).get("hitCount") or 0)
+        cap = min(hit_count, max_items) if max_items else hit_count
+        if not entries or fetched >= cap:
+            break
+        for e in entries:
+            if fetched >= cap:
+                break
+            acc = str(e.get("id") or "").strip().upper()
+            if not acc.startswith("MTBLS"):
+                continue
+            fields = e.get("fields") or {}
+            title = ((fields.get("name") or [acc])[0]) if isinstance(fields.get("name"), list) else acc
+            org = "; ".join(fields.get("Organism") or []) or None
+            tissue = "; ".join(fields.get("Organism_Part") or []) or None
+            cid = f"mtbls:{acc}"
+            ch = chash({"acc": acc, "title": title, "org": org})
+            conn.execute(
+                """
+                INSERT OR REPLACE INTO datasets(
+                    canonical_id, title, title_norm, organism, tissue, disease_tags,
+                    assay, platforms, n_samples, access, license, confidence,
+                    content_hash, first_seen_at, updated_at, probe_status, last_checked
+                ) VALUES (?, ?, ?, ?, ?, NULL, 'metabolomics', NULL, NULL, 'public', NULL, 'metadata_only', ?, ?, ?, 'metadata_fetched', ?)
+                """,
+                (cid, title, tnorm(title), org, tissue, ch, ts, ts, ts),
+            )
+            conn.execute(
+                "INSERT OR IGNORE INTO dataset_members(dataset_id, source, accession, role, external_url) VALUES (?, 'metabolights', ?, 'study', ?)",
+                (cid, acc, f"https://www.ebi.ac.uk/metabolights/{acc}"),
+            )
+            fetched += 1
+        conn.commit()
+        start_offset += len(entries)
+        if start_offset >= cap:
+            break
+        time.sleep(0.25)
+    log.info("MetaboLights window %s..%s: fetched=%d", start_str, end_str, fetched)
+    return fetched
+
+
 FETCHERS = {
     "geo": fetch_geo_delta,
     "arrayexpress": fetch_arrayexpress_delta,
     "pride": fetch_pride_delta,
+    "cellxgene": fetch_cellxgene_delta,
+    "metabolights": fetch_metabolights_delta,
 }
 
 

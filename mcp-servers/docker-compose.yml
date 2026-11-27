@@ -28,7 +28,7 @@ services:
     environment:
       PHI_OMICS_SNIFFER_STATE_DIR: /var/lib/phi-omics-sniffer
       PHI_OMICS_SNIFFER_DATA_DIR: /var/lib/phi-omics-sniffer/serving
-      SYNC_INTERVAL_SECONDS: "${OMICS_SNIFFER_SYNC_INTERVAL_SECONDS:-21600}"
+      SYNC_INTERVAL_SECONDS: "${OMICS_SNIFFER_SYNC_INTERVAL_SECONDS:-86400}"
     volumes:
       - ${PHI_OMICS_SNIFFER_STATE_DIR:-./omics-sniffer-state}:/var/lib/phi-omics-sniffer
     entrypoint:
@@ -37,7 +37,7 @@ services:
       - |
         while true; do
           /opt/phi-omics-sniffer/scripts/run_sync_pipeline.sh || true
-          sleep "$${SYNC_INTERVAL_SECONDS:-21600}"
+          sleep "$${SYNC_INTERVAL_SECONDS:-86400}"
         done
     restart: unless-stopped
 
