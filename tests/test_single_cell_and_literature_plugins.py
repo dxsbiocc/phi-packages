@@ -269,7 +269,9 @@ class TestSingleCellPlugin(unittest.TestCase):
             genes = [
                 "MT-CO1", "MT-CO2", "MT-CO3",
                 "TGFB1", "TGFBR1", "TGFBR2", "CCL5", "CCR5", "CXCL12", "CXCR4",
-            ] + [f"GENE{i:02d}" for i in range(10, n_genes)]
+                "CDKN1A", "MDM2", "BAX", "BBC3", "GADD45A",
+                "NFKBIA", "TNFAIP3", "IL1B", "IL6", "CCL2",
+            ] + [f"GENE{i:02d}" for i in range(20, n_genes)]
             samples = [f"S{1 + (i % 4)}" for i in range(n_cells)]
             conds = ["treated" if (i % 4) < 2 else "control" for i in range(n_cells)]
             adata = ad.AnnData(
@@ -397,6 +399,10 @@ class TestSingleCellPlugin(unittest.TestCase):
             self.assertEqual(reg_res["method"], "aucell")
             self.assertTrue(reg_tsv.is_file())
 
+    @unittest.skipIf(
+        importlib.util.find_spec("numpy") is None,
+        "numpy not installed in current Python environment",
+    )
     def test_03b_offline_regulon_aucell_and_ulm_math(self) -> None:
         import numpy as np
 
