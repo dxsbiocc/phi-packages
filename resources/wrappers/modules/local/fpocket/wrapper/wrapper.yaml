@@ -1,38 +1,38 @@
-schemaVersion: 1
-id: fpocket
-kind: module
-source: local
-category: drug-discovery
-title: fpocket
+# Agent-facing wrapper adapter for the local fpocket module at ../main.nf.
+# Follows docs/contracts/wrapper.md.
+id: local/modules/fpocket
+name: fpocket Binding Pocket Detection
 summary: Voronoi alpha-sphere binding pocket detection and druggability scoring with fpocket, emitting docking box coordinates for AutoDock Vina and GNINA.
-entrypoint: wrapper/main.nf
-config: wrapper/nextflow.config
-defaultsFile: wrapper/params.json
-parameters:
-  - name: id
+params:
+  id:
+    kind: option
     type: string
-    default: fpocket_scan
+    required: false
     description: Run identifier used as output filename prefix.
-  - name: receptor
+  receptor:
+    kind: input
     type: file
     required: true
     description: Protein target structure in PDB format.
-  - name: min_alpha_spheres
+  min_alpha_spheres:
+    kind: option
     type: integer
-    default: 35
+    required: false
+    minimum: 10
     description: Minimum alpha spheres per pocket (-i).
-  - name: box_padding
+  box_padding:
+    kind: option
     type: number
-    default: 6.0
+    required: false
+    minimum: 0
     description: Padding added around the pocket bounding box for docking grids (Angstrom).
-  - name: outdir
-    type: string
-    default: results/fpocket
+  outdir:
+    kind: output
+    type: path
+    required: true
     description: Output directory for ranked pockets TSV and docking box JSON.
 outputs:
-  - name: pockets_table
-    pattern: "*.pockets.tsv"
-    description: Ranked binding pockets with druggability scores and docking box coordinates.
-  - name: top_pocket_box
-    pattern: "*.top_pocket_box.json"
-    description: Ready-to-dock box parameters for AutoDock Vina or GNINA.
+  results:
+    type: directory
+    path: ${outdir}
+    primary: true

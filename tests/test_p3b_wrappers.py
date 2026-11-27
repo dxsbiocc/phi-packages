@@ -179,12 +179,13 @@ class TestP3BWrappers(unittest.TestCase):
         for rel_dir in rel_dirs:
             wdir = REPO_ROOT / rel_dir
             wyaml = yaml.safe_load((wdir / "wrapper/wrapper.yaml").read_text(encoding="utf-8"))
-            self.assertEqual(wyaml["schemaVersion"], 1)
-            self.assertTrue((wdir / wyaml["entrypoint"]).is_file())
-            self.assertTrue((wdir / wyaml["config"]).is_file())
-            defaults = json.loads((wdir / wyaml["defaultsFile"]).read_text(encoding="utf-8"))
+            self.assertEqual(set(wyaml.keys()), {"id", "name", "summary", "params", "outputs"})
+            self.assertTrue((wdir / "wrapper/main.nf").is_file())
+            self.assertTrue((wdir / "wrapper/nextflow.config").is_file())
+            defaults = json.loads((wdir / "wrapper/params.json").read_text(encoding="utf-8"))
             self.assertIsInstance(defaults, dict)
-            for nf in [wdir / "main.nf", wdir / wyaml["entrypoint"]]:
+            self.assertEqual(set(defaults.keys()), set(wyaml["params"].keys()))
+            for nf in [wdir / "main.nf", wdir / "wrapper/main.nf"]:
                 txt = nf.read_text(encoding="utf-8")
                 for syms_raw, inc in include_re.findall(txt):
                     resolved = (nf.parent / inc).resolve()

@@ -1,81 +1,97 @@
-schemaVersion: 1
-id: gnina
-kind: module
-source: local
-category: drug-discovery
-title: GNINA
-summary: Deep-learning CNN-rescored molecular docking with GNINA outputting SDF poses and a normalized score_table.tsv for chem_docking_eval.
-entrypoint: wrapper/main.nf
-config: wrapper/nextflow.config
-defaultsFile: wrapper/params.json
-parameters:
-  - name: id
+# Agent-facing wrapper adapter for the local gnina module at ../main.nf.
+# Follows docs/contracts/wrapper.md.
+id: local/modules/gnina
+name: GNINA Deep-Learning Molecular Docking
+summary: CNN-rescored molecular docking with GNINA outputting SDF poses and a normalized score_table.tsv for chem_docking_eval.
+params:
+  id:
+    kind: option
     type: string
-    default: gnina_screen
+    required: false
     description: Run identifier used as output filename prefix.
-  - name: receptor
+  receptor:
+    kind: input
     type: file
     required: true
     description: Receptor structure file (.pdb or .pdbqt).
-  - name: ligands
+  ligands:
+    kind: input
     type: file
     required: true
     description: Ligand library file (.sdf, .sdf.gz, .mol2, or .pdbqt).
-  - name: autobox_ligand
+  autobox_ligand:
+    kind: input
     type: file
+    required: false
     description: Optional reference co-crystal ligand for automatic pocket box sizing.
-  - name: center_x
+  center_x:
+    kind: option
     type: number
-    default: 0.0
+    required: false
     description: Docking box center X coordinate (Angstrom).
-  - name: center_y
+  center_y:
+    kind: option
     type: number
-    default: 0.0
+    required: false
     description: Docking box center Y coordinate (Angstrom).
-  - name: center_z
+  center_z:
+    kind: option
     type: number
-    default: 0.0
+    required: false
     description: Docking box center Z coordinate (Angstrom).
-  - name: size_x
+  size_x:
+    kind: option
     type: number
-    default: 22.0
+    required: false
+    minimum: 1
     description: Docking box size along X (Angstrom).
-  - name: size_y
+  size_y:
+    kind: option
     type: number
-    default: 22.0
+    required: false
+    minimum: 1
     description: Docking box size along Y (Angstrom).
-  - name: size_z
+  size_z:
+    kind: option
     type: number
-    default: 22.0
+    required: false
+    minimum: 1
     description: Docking box size along Z (Angstrom).
-  - name: cnn_scoring
+  cnn_scoring:
+    kind: option
     type: string
-    default: rescore
-    enum: [rescore, all, none, refinement]
+    required: false
     description: GNINA CNN scoring mode.
-  - name: exhaustiveness
+    enum:
+      - rescore
+      - all
+      - none
+      - refinement
+  exhaustiveness:
+    kind: option
     type: integer
-    default: 8
+    required: false
+    minimum: 1
     description: Monte Carlo search exhaustiveness.
-  - name: num_modes
+  num_modes:
+    kind: option
     type: integer
-    default: 9
+    required: false
+    minimum: 1
     description: Maximum binding modes saved per ligand.
-  - name: cpu_threads
+  cpu_threads:
+    kind: option
     type: integer
-    default: 4
+    required: false
+    minimum: 1
     description: CPU thread count alongside GPU acceleration.
-  - name: outdir
-    type: string
-    default: results/gnina
+  outdir:
+    kind: output
+    type: path
+    required: true
     description: Output directory for docked SDF poses and score tables.
 outputs:
-  - name: poses
-    pattern: "*.docked.sdf.gz"
-    description: Gzipped SDF file with GNINA poses and CNN scores.
-  - name: score_table
-    pattern: "*.score_table.tsv"
-    description: Normalized score table compatible with chem_docking_eval.
-  - name: summary
-    pattern: "*.gnina_summary.json"
-    description: Summary JSON of docked ligands and top CNN scores.
+  results:
+    type: directory
+    path: ${outdir}
+    primary: true

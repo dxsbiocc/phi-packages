@@ -278,6 +278,15 @@ test('all wrapper adapters keep required files and all Nextflow relative include
         assert.equal(existsSync(join(cur, 'main.nf')), true, `${cur}: missing main.nf`)
         assert.equal(existsSync(join(cur, 'params.json')), true, `${cur}: missing params.json`)
         JSON.parse(readFileSync(join(cur, 'params.json'), 'utf8'))
+        const wy = readFileSync(full, 'utf8')
+        const wKeys = topYamlKeys(wy)
+        const allowedWrapperKeys = new Set(['id', 'name', 'summary', 'params', 'outputs'])
+        for (const k of wKeys) {
+          assert.equal(allowedWrapperKeys.has(k), true, `${full}: unknown top-level key '${k}' (violates docs/contracts/wrapper.md)`)
+        }
+        for (const reqK of allowedWrapperKeys) {
+          assert.equal(wKeys.includes(reqK), true, `${full}: missing required top-level key '${reqK}'`)
+        }
       } else if (e.name.endsWith('.nf')) {
         const nfText = readFileSync(full, 'utf8')
         for (const m of nfText.matchAll(/^\s*include\s*\{[^}]+\}\s*from\s*["']([^"']+)["']/gm)) {
