@@ -1,6 +1,6 @@
 # Omics MCP servers
 
-Seven read-only MCP servers for public scientific databases that do not ship an official MCP endpoint. They share one entity model (`docs/schemas.md`). The remote servers share one HTTP client (timeouts, retries, per-host rate limit, on-disk cache). Pharmacogenomics reads local Parquet instead.
+Eleven read-only MCP servers for public scientific databases that do not ship an official MCP endpoint. They share one entity model (`docs/schemas.md`). The remote servers share one HTTP client (timeouts, retries, per-host rate limit, on-disk cache). Pharmacogenomics reads local Parquet instead.
 
 | Server | Package | Sources |
 | --- | --- | --- |
@@ -10,7 +10,11 @@ Seven read-only MCP servers for public scientific databases that do not ship an 
 | Proteomics | `phi-omics-proteomics` | PRIDE, Human Protein Atlas |
 | Metabolomics | `phi-omics-metabolomics` | MetaboLights |
 | Pharmacogenomics | `phi-omics-pharmacogenomics` | DepMap 24Q2, PRISM 19Q4 and Public 24Q2, GDSC 8.4, Cell Model Passports |
-| Literature | `phi-literature` | PubMed, Europe PMC, bioRxiv/medRxiv, Crossref, OpenAlex, Semantic Scholar, arXiv, Unpaywall, OpenCitations |
+| Literature | `phi-literature` | PubMed, PubTator 3.0, Europe PMC, bioRxiv/medRxiv, Crossref, OpenAlex, Semantic Scholar, arXiv, Unpaywall, OpenCitations |
+| Clinical variants | `phi-omics-variants` | NCBI ClinVar, gnomAD v4/v3/v2.1 GraphQL, CIViC v2 GraphQL |
+| Protein structure | `phi-omics-structures` | UniProtKB REST, AlphaFold DB |
+| Gene and pathway | `phi-omics-pathways` | Ensembl REST (gene lookup, Compara homologs, VEP), Reactome Content Service |
+| Drug chemistry | `phi-omics-chemistry` | EMBL-EBI ChEMBL REST, openFDA Drug Labels & FAERS |
 
 The same TypeScript runs locally over stdio or Streamable HTTP, and in Docker on one host. Packages are private workspace members. An npm scope and a publish workflow are intentionally not set up yet; `bin`, `files`, and `engines` are already in each package so that step can be added later without moving code.
 
@@ -48,7 +52,7 @@ PHI_PGX_DATA_DIR=/path/to/processed npm exec -w phi-omics-pharmacogenomics -- ph
 npm exec -w phi-literature -- phi-literature --http --port 8791
 ```
 
-The bins are `phi-omics-transcriptomics`, `phi-omics-cancer`, `phi-omics-epigenomics`, `phi-omics-proteomics`, `phi-omics-metabolomics`, `phi-omics-pharmacogenomics`, `phi-literature`, and `phi-omics-gateway`. Each server defaults to stdio and switches to HTTP with `--http`. The remote servers and literature have no native addons. Pharmacogenomics uses the DuckDB Node binding (`@duckdb/node-api`) to read Parquet.
+The bins are `phi-omics-transcriptomics`, `phi-omics-cancer`, `phi-omics-epigenomics`, `phi-omics-proteomics`, `phi-omics-metabolomics`, `phi-omics-pharmacogenomics`, `phi-literature`, `phi-omics-variants`, `phi-omics-structures`, `phi-omics-pathways`, `phi-omics-chemistry`, and `phi-omics-gateway`. Each server defaults to stdio and switches to HTTP with `--http`. The remote servers and literature have no native addons. Pharmacogenomics uses the DuckDB Node binding (`@duckdb/node-api`) to read Parquet.
 
 Example stdio entry for a desktop client, with paths adjusted to this checkout:
 
@@ -114,8 +118,12 @@ The image listens on port 8080:
 - `POST /metabolomics/mcp`
 - `POST /pharmacogenomics/mcp`
 - `POST /literature/mcp`
+- `POST /variants/mcp`
+- `POST /structures/mcp`
+- `POST /pathways/mcp`
+- `POST /chemistry/mcp`
 
-`MCP_SERVER=transcriptomics-single-cell` (or `cancer-omics`, `epigenomics`, `proteomics`, `metabolomics`, `pharmacogenomics`, `literature`) serves that one server at `/mcp` instead.
+`MCP_SERVER=transcriptomics-single-cell` (or `cancer-omics`, `epigenomics`, `proteomics`, `metabolomics`, `pharmacogenomics`, `literature`, `clinical-variants`, `protein-structure`, `gene-pathway`, `drug-chemistry`) serves that one server at `/mcp` instead.
 
 Mount the processed pharmacogenomics tables by setting `PHI_PGX_DATA_DIR` on the host to that directory. Compose maps it read-only to `/var/lib/phi-pgx`. The pipeline itself runs outside the image.
 
@@ -166,9 +174,25 @@ The server does not download releases. Build the tables with `data-pipelines/pha
 
 ### Literature
 
-`usage_terms`, `search_publications`, `get_publication`, `get_fulltext`, `related_publications`, `resolve_references`.
+`usage_terms`, `search_publications`, `get_publication`, `get_fulltext`, `related_publications`, `resolve_references`, `get_entity_annotations`.
 
-The tools follow the jobs a person actually does with the literature, not one tool per website. Search hits are short: at most eight authors and a 400-character abstract unless `include_abstract` is true. `get_publication` returns the abstract. Full text is inlined only when a Creative Commons or public-domain license is known; otherwise the response is links.
+The tools follow the jobs a person actually does with the literature, not one tool per website. Search hits are short: at most eight authors and a 400-character abstract unless `include_abstract` is true. `get_publication` returns the abstract. Full text is inlined only when a Creative Commons or public-domain license is known; otherwise the response is links. Entity queries with `@GENE_`, `@DISEASE_`, `@CHEMICAL_`, `@VARIANT_`, or `relations:` route automatically to NCBI PubTator 3.0, and `get_entity_annotations` exports BioCJSON entity annotations by PMID or DOI.
+
+### Clinical variants
+
+`usage_terms`, `clinvar_search_variants`, `clinvar_get_variant`, `gnomad_get_variant`, `gnomad_get_gene_constraint`, `civic_search_variants`, `civic_search_evidence`.
+
+### Protein structure
+
+`usage_terms`, `uniprot_search_proteins`, `uniprot_get_protein`, `alphafold_get_prediction`, `alphafold_list_files`, `alphafold_get_summary`.
+
+### Gene and pathway
+
+`usage_terms`, `ensembl_get_gene`, `ensembl_get_homologs`, `ensembl_vep_hgvs`, `reactome_search_pathways`, `reactome_get_pathway`, `reactome_protein_pathways`.
+
+### Drug chemistry
+
+`usage_terms`, `chembl_search_molecules`, `chembl_get_molecule`, `chembl_get_activities`, `chembl_get_mechanisms`, `openfda_search_labels`, `openfda_adverse_events`.
 
 | Tool | Task | Why this shape |
 | --- | --- | --- |
@@ -204,7 +228,7 @@ Designs were read from public docs and READMEs. No code was copied.
 - **ChIP-Atlas.** `https://chip-atlas.dbcls.jp/api/v1/experiment` returned AccessDenied, and the experiment-list keys that were tried were missing. Roadmap Epigenomics is queried through ENCODE instead.
 - **CELLxGENE Census matrices and controlled GDC/ENCODE/HCA/HuBMAP/MetaboLights files.** Responses stay metadata. Controlled files have `url: null`.
 - **A MetaboLights metabolite catalog.** `/studies/{id}/metabolites` is not a JSON table. The `metabolite` schema exists for a later source.
-- **Catalog manifests.** Added under `resources/connectors/` for the five omics servers after the HTTPS gateway went live on `phi.omicsagent.cn`. Pharmacogenomics and literature stay out of the catalog until `/pharmacogenomics/mcp` and `/literature/mcp` are on that host. The connector count stays at 24.
+- **Catalog manifests.** Added under `resources/connectors/` for the five omics servers after the HTTPS gateway went live on `phi.omicsagent.cn`. `pharmacogenomics`, `literature`, `clinical-variants`, `protein-structure`, `gene-pathway`, and `drug-chemistry` stay out of the catalog until those gateway paths are deployed live on `phi.omicsagent.cn`. The connector count stays at 24.
 - **Literature PDF parsing, paywalled text, and paid APIs.** `get_fulltext` does not download or parse PDFs. Closed and unknown licenses return links. Semantic Scholar and arXiv are opt-in. OpenCitations is only the fallback for citations and references. bioRxiv and medRxiv keyword search is not invented on top of their date API. A category filter on a bioRxiv date browse applies to the fetched page.
 
 ## Planned

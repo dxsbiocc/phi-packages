@@ -737,3 +737,135 @@ export async function europePmcXml(client: JsonClient, pmcid: string): Promise<s
     throw error;
   }
 }
+
+export interface PubtatorEntity {
+  text: string;
+  identifier: string | null;
+  normalized_name: string | null;
+  mentions: number;
+}
+
+export interface PubtatorEntities {
+  genes: PubtatorEntity[];
+  diseases: PubtatorEntity[];
+  chemicals: PubtatorEntity[];
+  variants: PubtatorEntity[];
+  species: PubtatorEntity[];
+  cell_lines: PubtatorEntity[];
+  other: PubtatorEntity[];
+}
+
+export async function searchPubtator3(client: JsonClient, query: Query): Promise<HitPage> {
+  const textQuery = query.query?.trim() ?? "";
+  if (!textQuery) throw new InputError("query is required for PubTator 3.0 search");
+  const pageSize = 10;
+  const startPage = Math.floor(query.offset / pageSize) + 1;
+  const endIndex = query.offset + query.limit;
+  const endPage = Math.max(startPage, Math.floor(Math.max(0, endIndex - 1) / pageSize) + 1);
+  if (endPage - startPage + 1 > 5) {
+    throw new InputError("PubTator 3.0 pagination span cannot exceed 50 results per request");
+  }
+  const collected: unknown[] = [];
+  let total: number | null = null;
+  for (let currentPage = startPage; currentPage <= endPage; currentPage += 1) {
+    const url = new URL("https://www.ncbi.nlm.nih.gov/research/pubtator3-api/search/");
+    url.searchParams.set("text", textQuery);
+    url.searchParams.set("page", String(currentPage));
+    const body = runtimeRecord(await client.getJson(url.toString()));
+    if (total == null) total = numberOrNull(body.count);
+    const rows = asArray(body.results);
+    collected.push(...rows);
+    if (rows.length < pageSize) break;
+  }
+  const sliceStart = query.offset - (startPage - 1) * pageSize;
+  const sliced = collected.slice(sliceStart, sliceStart + query.limit);
+  const items = sliced.map((node) => {
+    const row = runtimeRecord(node);
+    const pmid = text(row.pmid) ?? text(row._id);
+    const pmcid = text(row.pmcid);
+    const doi = text(row.doi);
+    const authors = asArray(row.authors)
+      .map(text)
+      .filter((name): name is string => name != null)
+      .map((name) => ({ name, orcid: null }));
+    return tryPublication({
+      doi,
+      pmid,
+      pmcid,
+      title: stripTags(text(row.title)),
+      authors,
+      venue: text(row.journal),
+      published: isoDate(text(row.date)),
+      type: "journal-article",
+      oa_urls: doi ? [oaLink(`https://doi.org/${doi.toLowerCase()}`, "landing")] : [],
+      source_extra: {
+        provider: "pubtator3",
+        score: numberOrNull(row.score),
+        highlight: stripTags(text(row.text_hl)),
+      },
+    });
+  }).filter((item): item is Publication => item != null);
+  return page("pubtator3", items, total, { query: textQuery });
+}
+
+export async function getPubtator3Annotations(client: JsonClient, pmid: string): Promise<PubtatorEntities | null> {
+  const url = `https://www.ncbi.nlm.nih.gov/research/pubtator3-api/publications/export/biocjson?pmids=${encodeURIComponent(pmid)}`;
+  const body = await client.getJson(url);
+  const docs = Array.isArray(body) ? body : asArray(runtimeRecord(body).PubTator3);
+  const doc = runtimeRecord(docs[0]);
+  const passages = asArray(doc.passages);
+  if (passages.length === 0) return null;
+
+  const grouped: Record<keyof PubtatorEntities, Map<string, PubtatorEntity>> = {
+    genes: new Map(),
+    diseases: new Map(),
+    chemicals: new Map(),
+    variants: new Map(),
+    species: new Map(),
+    cell_lines: new Map(),
+    other: new Map(),
+  };
+
+  for (const passageNode of passages) {
+    const passage = runtimeRecord(passageNode);
+    for (const annNode of asArray(passage.annotations)) {
+      const ann = runtimeRecord(annNode);
+      const infons = runtimeRecord(ann.infons);
+      const rawType = text(infons.type)?.toLowerCase() ?? "other";
+      const entityText = text(ann.text) ?? text(infons.name);
+      if (!entityText) continue;
+      const identifier = text(infons.identifier);
+      const normalizedName = text(infons.name);
+      const bucket: keyof PubtatorEntities =
+        rawType === "gene" ? "genes"
+          : rawType === "disease" ? "diseases"
+            : rawType === "chemical" ? "chemicals"
+              : rawType === "variant" || rawType === "mutation" || rawType === "dnamutation" || rawType === "proteinmutation" || rawType === "snp" ? "variants"
+                : rawType === "species" ? "species"
+                  : rawType === "cellline" || rawType === "cell_line" ? "cell_lines"
+                    : "other";
+      const dedupeKey = `${rawType}:${identifier ?? entityText.toLowerCase()}`;
+      const existing = grouped[bucket].get(dedupeKey);
+      if (existing) {
+        existing.mentions += 1;
+      } else {
+        grouped[bucket].set(dedupeKey, {
+          text: entityText,
+          identifier,
+          normalized_name: normalizedName,
+          mentions: 1,
+        });
+      }
+    }
+  }
+
+  return {
+    genes: [...grouped.genes.values()],
+    diseases: [...grouped.diseases.values()],
+    chemicals: [...grouped.chemicals.values()],
+    variants: [...grouped.variants.values()],
+    species: [...grouped.species.values()],
+    cell_lines: [...grouped.cell_lines.values()],
+    other: [...grouped.other.values()],
+  };
+}

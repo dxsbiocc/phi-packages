@@ -77,6 +77,45 @@ function doiIn(url: string): string {
 function client(): JsonClient {
   return {
     async getJson(url: string) {
+      if (url.includes("pubtator3-api/search/")) {
+        return {
+          count: 1,
+          page_size: 10,
+          current: 1,
+          total_pages: 1,
+          results: [{
+            _id: "22745249",
+            pmid: 22745249,
+            pmcid: "PMC6286148",
+            doi: "10.1126/science.1225829",
+            title: "A programmable <em>CRISPR</em> endonuclease.",
+            journal: "Science",
+            authors: ["Martin Jinek"],
+            date: "2012-08-17",
+            score: 120.5,
+            text_hl: "<em>TP53</em> and @GENE_CAS9 regulation.",
+          }],
+        };
+      }
+      if (url.includes("pubtator3-api/publications/export/biocjson")) {
+        return {
+          PubTator3: [{
+            _id: "22745249|None",
+            id: "22745249",
+            pmid: 22745249,
+            passages: [{
+              text: "TP53 mutations in melanoma respond to vemurafenib.",
+              annotations: [
+                { infons: { type: "Gene", identifier: "7157", name: "TP53" }, text: "TP53" },
+                { infons: { type: "Gene", identifier: "7157", name: "TP53" }, text: "p53" },
+                { infons: { type: "Disease", identifier: "MESH:D008545", name: "Melanoma" }, text: "melanoma" },
+                { infons: { type: "Chemical", identifier: "MESH:C551177", name: "vemurafenib" }, text: "vemurafenib" },
+                { infons: { type: "Variant", identifier: "rs113488022", name: "V600E" }, text: "V600E" },
+              ],
+            }],
+          }],
+        };
+      }
       if (url.includes("esearch.fcgi")) {
         return { esearchresult: { count: "1", idlist: ["22745249"], querytranslation: "CRISPR[Title]" } };
       }
@@ -186,11 +225,12 @@ const args: Record<string, Record<string, unknown>> = {
   get_fulltext: { id: "10.1111/scs.70325", section: "methods", max_chars: 800 },
   related_publications: { id: "10.1126/science.1225829", relation: "citations", limit: 2 },
   resolve_references: { references: ["10.1126/science.1225829", "PMID:22745249"] },
+  get_entity_annotations: { id: "pmid:22745249" },
 };
 
 test("every literature tool returns the shared schema", async () => {
   const http = client();
-  assert.equal(tools.length, 6);
+  assert.equal(tools.length, 7);
   for (const tool of tools) {
     const result = ToolResultSchema.parse(await tool.call(http, args[tool.name] ?? {}));
     assert.equal(result.entity_type, "page", `${tool.name} ${JSON.stringify(result).slice(0, 400)}`);
@@ -308,4 +348,40 @@ test("bioRxiv date browse and invalid routing return schema objects", async () =
   const keyword = ToolResultSchema.parse(await tools.find((tool) => tool.name === "search_publications")!.call(client(), { query: "alzheimers", sources: ["biorxiv"] }));
   assert.equal(keyword.entity_type, "error");
   if (keyword.entity_type === "error") assert.equal(keyword.code, "invalid_input");
+});
+
+test("PubTator 3.0 routes @GENE_ queries and deduplicates BioCJSON entities", async () => {
+  const searchRes = ToolResultSchema.parse(await tools.find((tool) => tool.name === "search_publications")!.call(client(), {
+    query: "@GENE_TP53",
+    limit: 5,
+  }));
+  assert.equal(searchRes.entity_type, "page");
+  if (searchRes.entity_type === "page") {
+    assert.equal(searchRes.source.id, "pubtator3");
+    const first = searchRes.items[0];
+    assert.equal(first?.entity_type, "publication");
+    if (first?.entity_type === "publication") {
+      assert.equal(first.id, "doi:10.1126/science.1225829");
+      assert.equal(first.title, "A programmable CRISPR endonuclease.");
+    }
+  }
+  const annRes = ToolResultSchema.parse(await tools.find((tool) => tool.name === "get_entity_annotations")!.call(client(), {
+    id: "pmid:22745249",
+  }));
+  assert.equal(annRes.entity_type, "page");
+  if (annRes.entity_type === "page") {
+    assert.equal(annRes.source.id, "pubtator3");
+    const entities = annRes.source_extra.entities as {
+      genes: Array<{ identifier: string; mentions: number }>;
+      diseases: Array<{ text: string }>;
+      chemicals: Array<{ text: string }>;
+      variants: Array<{ text: string }>;
+    };
+    assert.equal(entities.genes.length, 1);
+    assert.equal(entities.genes[0]?.identifier, "7157");
+    assert.equal(entities.genes[0]?.mentions, 2);
+    assert.equal(entities.diseases[0]?.text, "melanoma");
+    assert.equal(entities.chemicals[0]?.text, "vemurafenib");
+    assert.equal(entities.variants[0]?.text, "V600E");
+  }
 });

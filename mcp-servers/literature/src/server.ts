@@ -5,8 +5,8 @@ import { literatureSource } from "./util.js";
 
 const summary = [
   "Phi literature searches public bibliographic APIs and returns one publication record.",
-  "Default search is PubMed (MeSH and field tags, newest first). Preprint topics go to Europe PMC. bioRxiv and medRxiv are browsed by date. DOI lookup uses OpenAlex, then Crossref. A 10.1101 DOI uses the bioRxiv/medRxiv API so published_as can carry the journal DOI.",
-  "Search abstracts are truncated to 400 characters unless include_abstract is true. Open full text is inlined only for Creative Commons or public-domain XML from Europe PMC; otherwise the response contains links.",
+  "Default search is PubMed (MeSH and field tags, newest first). Queries containing PubTator 3.0 entity tags (@GENE_, @DISEASE_, @CHEMICAL_, @VARIANT_, relations:) route to PubTator 3.0 automatically. Preprint topics go to Europe PMC. bioRxiv and medRxiv are browsed by date. DOI lookup uses OpenAlex, then Crossref. A 10.1101 DOI uses the bioRxiv/medRxiv API so published_as can carry the journal DOI.",
+  "Search abstracts are truncated to 400 characters unless include_abstract is true. Open full text is inlined only for Creative Commons or public-domain XML from Europe PMC; otherwise the response contains links. get_entity_annotations returns BioCJSON gene, disease, chemical, variant, and species entities from PubTator 3.0.",
   "Optional NCBI_API_KEY raises the NCBI rate limit. PHI_LITERATURE_EMAIL is the contact address for the Crossref, OpenAlex, and Unpaywall polite pools. S2_API_KEY is optional and only used when sources includes semantic_scholar. No paid API key is required.",
 ].join(" ");
 

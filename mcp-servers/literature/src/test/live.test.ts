@@ -104,4 +104,20 @@ test("live reference list resolves a DOI and a PMID", async (t) => {
   });
 });
 
+test("live PubTator 3.0 entity search and BioCJSON annotations", async (t) => {
+  await live(t, "search_publications", { query: "@GENE_BRAF @DISEASE_Melanoma", limit: 2 }, (result) => {
+    assert.equal(result.entity_type, "page");
+    if (result.entity_type !== "page") return;
+    assert.equal(result.source.id, "pubtator3");
+    assert.ok(result.items.length > 0);
+  });
+  await live(t, "get_entity_annotations", { id: "pmid:22745249" }, (result) => {
+    assert.equal(result.entity_type, "page");
+    if (result.entity_type !== "page") return;
+    assert.equal(result.source.id, "pubtator3");
+    const entities = result.source_extra.entities as Record<string, unknown[]> | undefined;
+    assert.ok(entities != null);
+  });
+});
+
 test.after(async () => rm(dir, { recursive: true, force: true }));

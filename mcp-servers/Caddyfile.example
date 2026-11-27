@@ -8,6 +8,10 @@
 #   POST /metabolomics/mcp
 #   POST /pharmacogenomics/mcp
 #   POST /literature/mcp
+#   POST /variants/mcp
+#   POST /structures/mcp
+#   POST /pathways/mcp
+#   POST /chemistry/mcp
 omics.example.com {
 	reverse_proxy 127.0.0.1:8080
 }

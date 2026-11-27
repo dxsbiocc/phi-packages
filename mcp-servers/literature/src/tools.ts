@@ -1,7 +1,7 @@
 import type { ToolResult } from "phi-omics-schemas";
 import { failure, type OmicsTool } from "phi-omics-runtime";
 import { z } from "zod";
-import { getFullText, getPublication, relatedPublications, resolveReferences, searchPublications } from "./service.js";
+import { getEntityAnnotations, getFullText, getPublication, relatedPublications, resolveReferences, searchPublications } from "./service.js";
 import { literatureSource, LITERATURE_SOURCES, toFailure } from "./util.js";
 
 const pageArgs = {
@@ -26,10 +26,10 @@ export const literatureTools: OmicsTool[] = [
   {
     name: "search_publications",
     title: "Search publications",
-    description: "Find papers on a topic, gene, or disease, newest first. Default source is PubMed, so MeSH terms and field tags such as [ti], [au], and [pdat] work. Abstracts are truncated to 400 characters unless include_abstract is true. Set type to preprint to search Europe PMC preprints, including a bioRxiv or medRxiv journal filter via server. Omit query and pass server plus date_from/date_to to browse bioRxiv or medRxiv by date. sources overrides that routing and accepts at most 3 databases; the server does not query every API.",
+    description: "Find papers on a topic, gene, or disease, newest first. Default source is PubMed, so MeSH terms and field tags such as [ti], [au], and [pdat] work. Queries with PubTator 3.0 entity tags (@GENE_, @DISEASE_, @CHEMICAL_, @VARIANT_, relations:) automatically route to pubtator3. Abstracts are truncated to 400 characters unless include_abstract is true. Set type to preprint to search Europe PMC preprints, including a bioRxiv or medRxiv journal filter via server. Omit query and pass server plus date_from/date_to to browse bioRxiv or medRxiv by date. sources overrides that routing and accepts at most 3 databases; the server does not query every API.",
     inputSchema: z.object({
-      query: z.string().optional().describe("PubMed query, or free text for the selected source. Required except for bioRxiv/medRxiv date browse."),
-      sources: z.array(sourceArg).max(3).optional().describe("Override routing. pubmed, europepmc, biorxiv, medrxiv, crossref, openalex, semantic_scholar, arxiv."),
+      query: z.string().optional().describe("PubMed query, PubTator 3.0 entity query (@GENE_TP53), or free text for the selected source. Required except for bioRxiv/medRxiv date browse."),
+      sources: z.array(sourceArg).max(3).optional().describe("Override routing. pubmed, pubtator3, europepmc, biorxiv, medrxiv, crossref, openalex, semantic_scholar, arxiv."),
       date_from: z.string().regex(/^\d{4}(-\d{2}(-\d{2})?)?$/).optional().describe("Inclusive start date, YYYY, YYYY-MM, or YYYY-MM-DD."),
       date_to: z.string().regex(/^\d{4}(-\d{2}(-\d{2})?)?$/).optional().describe("Inclusive end date."),
       type: z.enum(["journal-article", "preprint", "review", "any"]).optional().describe("Publication type filter. preprint switches the default source to Europe PMC, or bioRxiv when query is empty."),
@@ -130,6 +130,21 @@ export const literatureTools: OmicsTool[] = [
       }).safeParse(args);
       if (!parsed.success) return failure(literatureSource, "invalid_input", issue(parsed.error), false);
       return resolveReferences(client, parsed.data);
+    }),
+  },
+  {
+    name: "get_entity_annotations",
+    title: "Get PubTator 3.0 entity annotations",
+    description: "Fetch PubTator 3.0 BioCJSON biomedical entity annotations (genes, diseases, chemicals, variants, species, cell lines) for one publication by PMID, DOI, or PMCID.",
+    inputSchema: z.object({
+      id: z.string().describe("PMID, DOI, PMCID, or other publication id."),
+    }),
+    call: (client, args) => run(async () => {
+      const parsed = z.object({
+        id: z.string(),
+      }).safeParse(args);
+      if (!parsed.success) return failure(literatureSource, "invalid_input", issue(parsed.error), false);
+      return getEntityAnnotations(client, parsed.data);
     }),
   },
 ];

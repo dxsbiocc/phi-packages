@@ -14,6 +14,7 @@ import {
 
 export const LITERATURE_SOURCES = [
   "pubmed",
+  "pubtator3",
   "europepmc",
   "biorxiv",
   "medrxiv",
@@ -32,6 +33,11 @@ export const providerMeta: Record<LiteratureSourceName, { source: Source; summar
     source: sourceOf("pubmed", "PubMed", "https://pubmed.ncbi.nlm.nih.gov/"),
     summary: "PubMed citations via NCBI E-utilities. Use MeSH and field tags. Abstracts in search hits are truncated.",
     url: "https://www.ncbi.nlm.nih.gov/home/about/policies/",
+  },
+  pubtator3: {
+    source: sourceOf("pubtator3", "NCBI PubTator 3.0", "https://www.ncbi.nlm.nih.gov/research/pubtator3/"),
+    summary: "PubTator 3.0 entity-normalized biomedical literature search and BioCJSON entity annotations (@GENE_, @DISEASE_, @CHEMICAL_, @VARIANT_, relations:).",
+    url: "https://www.ncbi.nlm.nih.gov/research/pubtator3/api",
   },
   europepmc: {
     source: sourceOf("europepmc", "Europe PMC", "https://europepmc.org/"),
