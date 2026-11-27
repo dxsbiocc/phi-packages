@@ -1,6 +1,6 @@
 # Omics MCP servers
 
-Eleven read-only MCP servers for public scientific databases that do not ship an official MCP endpoint. They share one entity model (`docs/schemas.md`). The remote servers share one HTTP client (timeouts, retries, per-host rate limit, on-disk cache). Pharmacogenomics reads local Parquet instead.
+Twelve read-only MCP servers for public scientific databases that do not ship an official MCP endpoint. They share one entity model (`docs/schemas.md`). The remote servers share one HTTP client (timeouts, retries, per-host rate limit, on-disk cache). Pharmacogenomics and Omics Sniffer read local Parquet instead.
 
 | Server | Package | Sources |
 | --- | --- | --- |
@@ -15,10 +15,11 @@ Eleven read-only MCP servers for public scientific databases that do not ship an
 | Protein structure | `phi-omics-structures` | UniProtKB REST, AlphaFold DB |
 | Gene and pathway | `phi-omics-pathways` | Ensembl REST (gene lookup, Compara homologs, VEP), Reactome Content Service |
 | Drug chemistry | `phi-omics-chemistry` | EMBL-EBI ChEMBL REST, openFDA Drug Labels & FAERS |
+| Omics Sniffer | `phi-omics-sniffer` | Cross-repository public omics index (GEO, SRA, ArrayExpress, PRIDE, CELLxGENE, ENCODE, GDC/TCGA, GTEx, MetaboLights, Zenodo, Figshare, etc. over local Parquet) |
 
 The same TypeScript runs locally over stdio or Streamable HTTP, and in Docker on one host. Packages are private workspace members. An npm scope and a publish workflow are intentionally not set up yet; `bin`, `files`, and `engines` are already in each package so that step can be added later without moving code.
 
-Public HTTPS endpoints for the five omics servers are live on `phi.omicsagent.cn`. Matching manifests live under `resources/connectors/` (`transcriptomics-single-cell`, `cancer-omics`, `epigenomics`, `proteomics`, `metabolomics`). Pharmacogenomics is mounted at `/pharmacogenomics/mcp` and reads local Parquet. Literature is mounted at `/literature/mcp`. Add those paths to the catalog only after they are deployed.
+Public HTTPS endpoints for six omics servers are live or co-deployed on `phi.omicsagent.cn`. Matching manifests live under `resources/connectors/` (`transcriptomics-single-cell`, `cancer-omics`, `epigenomics`, `proteomics`, `metabolomics`, `omics-sniffer`). Pharmacogenomics is mounted at `/pharmacogenomics/mcp` and reads local Parquet. Literature is mounted at `/literature/mcp`. Add those paths to the catalog only after they are deployed.
 
 ## Build and test
 
@@ -52,7 +53,7 @@ PHI_PGX_DATA_DIR=/path/to/processed npm exec -w phi-omics-pharmacogenomics -- ph
 npm exec -w phi-literature -- phi-literature --http --port 8791
 ```
 
-The bins are `phi-omics-transcriptomics`, `phi-omics-cancer`, `phi-omics-epigenomics`, `phi-omics-proteomics`, `phi-omics-metabolomics`, `phi-omics-pharmacogenomics`, `phi-literature`, `phi-omics-variants`, `phi-omics-structures`, `phi-omics-pathways`, `phi-omics-chemistry`, and `phi-omics-gateway`. Each server defaults to stdio and switches to HTTP with `--http`. The remote servers and literature have no native addons. Pharmacogenomics uses the DuckDB Node binding (`@duckdb/node-api`) to read Parquet.
+The bins are `phi-omics-transcriptomics`, `phi-omics-cancer`, `phi-omics-epigenomics`, `phi-omics-proteomics`, `phi-omics-metabolomics`, `phi-omics-pharmacogenomics`, `phi-literature`, `phi-omics-variants`, `phi-omics-structures`, `phi-omics-pathways`, `phi-omics-chemistry`, `phi-omics-sniffer`, and `phi-omics-gateway`. Each server defaults to stdio and switches to HTTP with `--http`. The remote servers and literature have no native addons. Pharmacogenomics and Omics Sniffer use the DuckDB Node binding (`@duckdb/node-api`) to read Parquet.
 
 Example stdio entry for a desktop client, with paths adjusted to this checkout:
 
@@ -93,6 +94,7 @@ Cache files go to `PHI_OMICS_CACHE_DIR`, or `$XDG_CACHE_HOME/phi-omics-mcp`, or 
 | `CELLGUIDE_SNAPSHOT` | `1692975365` | Pinned CellGuide public snapshot |
 | `MCP_SERVER` | `all` | Gateway only: one server name, or `all` |
 | `PHI_PGX_DATA_DIR` | unset | Pharmacogenomics only: directory of processed Parquet from `data-pipelines/pharmacogenomics` |
+| `PHI_OMICS_SNIFFER_DATA_DIR` | unset | Omics Sniffer only: `serving/` root (containing `current/` symlink) or direct Parquet directory produced by `data-pipelines/omics-sniffer` (fallback `OMICS_SNIFFER_SERVING_DIR`) |
 | `NCBI_API_KEY` | empty | Literature: NCBI E-utilities key. Without it, keep the shared rate near 3 requests/second |
 | `PHI_LITERATURE_EMAIL` | empty | Literature: contact email for the Crossref, OpenAlex, and Unpaywall polite pools. Also read from `NCBI_EMAIL` or `UNPAYWALL_EMAIL` |
 | `S2_API_KEY` | empty | Literature: Semantic Scholar key, used only when that source is requested |
@@ -122,10 +124,11 @@ The image listens on port 8080:
 - `POST /structures/mcp`
 - `POST /pathways/mcp`
 - `POST /chemistry/mcp`
+- `POST /omics-sniffer/mcp`
 
-`MCP_SERVER=transcriptomics-single-cell` (or `cancer-omics`, `epigenomics`, `proteomics`, `metabolomics`, `pharmacogenomics`, `literature`, `clinical-variants`, `protein-structure`, `gene-pathway`, `drug-chemistry`) serves that one server at `/mcp` instead.
+`MCP_SERVER=transcriptomics-single-cell` (or `cancer-omics`, `epigenomics`, `proteomics`, `metabolomics`, `pharmacogenomics`, `literature`, `clinical-variants`, `protein-structure`, `gene-pathway`, `drug-chemistry`, `omics-sniffer`) serves that one server at `/mcp` instead.
 
-Mount the processed pharmacogenomics tables by setting `PHI_PGX_DATA_DIR` on the host to that directory. Compose maps it read-only to `/var/lib/phi-pgx`. The pipeline itself runs outside the image.
+Mount the processed pharmacogenomics tables by setting `PHI_PGX_DATA_DIR` on the host to that directory. Compose maps it read-only to `/var/lib/phi-pgx`. For Omics Sniffer, set `PHI_OMICS_SNIFFER_STATE_DIR` on the host (default `./omics-sniffer-state`); Compose mounts `${PHI_OMICS_SNIFFER_STATE_DIR}/serving` read-only into `omics-mcp` at `/var/lib/phi-omics-sniffer/serving` and runs the companion `omics-sniffer-sync` container from `data-pipelines/omics-sniffer` on a background interval (`SYNC_INTERVAL_SECONDS=21600`) to atomically refresh `serving/current` without restarting the gateway.
 
 Put TLS on a reverse proxy. `Caddyfile.example` proxies a hostname to `127.0.0.1:8080`. Caddy obtains and renews certificates. Nginx or another proxy is the same pattern: forward `POST`, `GET`, and `DELETE` to the Node process, preserve `Authorization` and `Mcp-Session-Id` if you add auth later, and do not buffer streaming responses. This process does not terminate TLS and does not authenticate clients. It can limit request rates per client (`PHI_OMICS_INBOUND_RPM`), but a public deployment should also rate-limit at the proxy. Bind it to localhost when the proxy is on the same machine.
 
@@ -194,6 +197,12 @@ The tools follow the jobs a person actually does with the literature, not one to
 
 `usage_terms`, `chembl_search_molecules`, `chembl_get_molecule`, `chembl_get_activities`, `chembl_get_mechanisms`, `openfda_search_labels`, `openfda_adverse_events`.
 
+### Omics Sniffer
+
+`usage_terms`, `get_catalog_stats`, `search_omics_datasets`, `get_dataset`, `list_samples`, `list_artifacts`.
+
+Reads local Parquet snapshots (`datasets.parquet`, and optional `samples.parquet`, `artifacts.parquet`, `publications.parquet`, `manifest.json`) exported by `data-pipelines/omics-sniffer` via `@duckdb/node-api`. Resolves `serving/current` dynamically via `realpath` on each call so atomic release swaps take effect immediately without restarting the gateway. Controlled-access artifacts return `url: null`.
+
 | Tool | Task | Why this shape |
 | --- | --- | --- |
 | `usage_terms` | Same contract as the other servers | Names the routing rules and the optional email and API key |
@@ -228,7 +237,7 @@ Designs were read from public docs and READMEs. No code was copied.
 - **ChIP-Atlas.** `https://chip-atlas.dbcls.jp/api/v1/experiment` returned AccessDenied, and the experiment-list keys that were tried were missing. Roadmap Epigenomics is queried through ENCODE instead.
 - **CELLxGENE Census matrices and controlled GDC/ENCODE/HCA/HuBMAP/MetaboLights files.** Responses stay metadata. Controlled files have `url: null`.
 - **A MetaboLights metabolite catalog.** `/studies/{id}/metabolites` is not a JSON table. The `metabolite` schema exists for a later source.
-- **Catalog manifests.** Added under `resources/connectors/` for the five omics servers after the HTTPS gateway went live on `phi.omicsagent.cn`. `pharmacogenomics`, `literature`, `clinical-variants`, `protein-structure`, `gene-pathway`, and `drug-chemistry` stay out of the catalog until those gateway paths are deployed live on `phi.omicsagent.cn`. The connector count stays at 24.
+- **Catalog manifests.** Added under `resources/connectors/` for six omics servers (`transcriptomics-single-cell`, `cancer-omics`, `epigenomics`, `proteomics`, `metabolomics`, and `omics-sniffer`) deployed on `phi.omicsagent.cn`. `pharmacogenomics`, `literature`, `clinical-variants`, `protein-structure`, `gene-pathway`, and `drug-chemistry` stay out of the catalog until those gateway paths are deployed live on `phi.omicsagent.cn`. The connector count is 25.
 - **Literature PDF parsing, paywalled text, and paid APIs.** `get_fulltext` does not download or parse PDFs. Closed and unknown licenses return links. Semantic Scholar and arXiv are opt-in. OpenCitations is only the fallback for citations and references. bioRxiv and medRxiv keyword search is not invented on top of their date API. A category filter on a bioRxiv date browse applies to the fetched page.
 
 ## Planned

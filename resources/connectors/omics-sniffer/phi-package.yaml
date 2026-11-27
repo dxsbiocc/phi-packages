@@ -1,0 +1,13 @@
+schemaVersion: 1
+id: omics-sniffer
+type: mcp
+version: 1.0.0
+title: Omics Sniffer
+summary: 跨 GEO、SRA、ArrayExpress、PRIDE、CELLxGENE 等 30+ 数据库统一检索公开组学数据集、样本与文件
+connector:
+  transport: http
+  publisher: Phi Packages
+  category: 健康与生命科学
+  homepage: https://github.com/dxsbiocc/phi-packages
+  url: https://phi.omicsagent.cn/omics-sniffer/mcp
+  auth: none

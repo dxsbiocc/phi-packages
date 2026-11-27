@@ -121,7 +121,7 @@ These hashes preserve the original image bytes without a frontend asset dependen
 
 ## Phi omics MCP gateway icons
 
-Five original SVG marks were added on 2026-10-14 for the Phi-hosted omics MCP
+Six original SVG marks are used for the Phi-hosted omics MCP
 connectors. They are not part of the 18-icon migration. Each file sits beside its
 `phi-package.yaml` and is recorded in `SOURCE.json` `addedContent`.
 
@@ -132,4 +132,5 @@ connectors. They are not part of the 18-icon migration. Each file sits beside it
 | `resources/connectors/epigenomics/icon.svg` | `ae9ef5d433b0c32c2afb986fdd54df5a15e9c91f6d8fe95094307658b91b9cde` | 425 |
 | `resources/connectors/proteomics/icon.svg` | `73b619b9dd6f9fda5b8a32d05efe8c0a0e648bc65a08b4ad56f4c85d63deb41d` | 387 |
 | `resources/connectors/metabolomics/icon.svg` | `e30d3c4344a23b5c5179ec077f071ba5477b4dad305a1d6b947b7e708b04018f` | 338 |
+| `resources/connectors/omics-sniffer/icon.svg` | `3bb4d2e326329e643176062c4e3b5a6e7d0b0735a9145c873aab6999fde2ba88` | 442 |
 

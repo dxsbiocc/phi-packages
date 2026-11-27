@@ -15,6 +15,7 @@
     "mcp-servers/protein-structure",
     "mcp-servers/gene-pathway",
     "mcp-servers/drug-chemistry",
+    "mcp-servers/omics-sniffer",
     "mcp-servers/gateway"
   ],
   "scripts": {

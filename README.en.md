@@ -9,7 +9,7 @@ Phi's independent public content repository, containing source files for install
 | Content | Count |
 | --- | ---: |
 | Standalone skills | 19 |
-| MCP connector definitions | 24 |
+| MCP connector definitions | 25 |
 | Composite Phi plugins | 24 |
 | Skills within plugins | 33 |
 | Wrapper adapters | 2207 |
@@ -68,4 +68,4 @@ See [SOURCE.json](SOURCE.json) for the full scope and [VALIDATION.md](VALIDATION
 
 ## Omics MCP servers
 
-`mcp-servers/` holds six self-hosted read-only omics MCP servers (transcriptomics and single-cell, cancer omics, epigenomics, proteomics, metabolomics, and pharmacogenomics) plus a literature server. Five omics servers are live at `https://phi.omicsagent.cn/{transcriptomics,cancer,epigenomics,proteomics,metabolomics}/mcp`, with matching manifests under `resources/connectors/`. Pharmacogenomics reads Parquet produced by `data-pipelines/pharmacogenomics`. Literature is mounted at `/literature/mcp`. Neither path has a public HTTPS URL yet, so the connector count stays at 24. Local stdio/HTTP and Docker steps are in [mcp-servers/README.md](mcp-servers/README.md).
+`mcp-servers/` holds twelve self-hosted read-only biomedical and omics MCP servers (transcriptomics and single-cell, cancer omics, epigenomics, proteomics, metabolomics, pharmacogenomics, literature, clinical variants, protein structure, gene and pathway, drug chemistry, and the cross-repository Omics Sniffer catalog). Six servers map to public HTTPS gateway routes at `https://phi.omicsagent.cn/{transcriptomics,cancer,epigenomics,proteomics,metabolomics,omics-sniffer}/mcp`, with matching manifests under `resources/connectors/` (connector count is 25). Both Omics Sniffer and Pharmacogenomics keep code strictly separated from data, reading local Parquet snapshots produced by `data-pipelines/omics-sniffer` and `data-pipelines/pharmacogenomics`. Local stdio/HTTP, Docker co-deployment, and automated Parquet sync steps are in [mcp-servers/README.md](mcp-servers/README.md) and [data-pipelines/omics-sniffer/README.md](data-pipelines/omics-sniffer/README.md).

@@ -22,6 +22,7 @@
     "phi-omics-pharmacogenomics": "1.0.0",
     "phi-omics-proteomics": "1.0.0",
     "phi-omics-runtime": "1.0.0",
+    "phi-omics-sniffer": "1.0.0",
     "phi-omics-structures": "1.0.0",
     "phi-omics-transcriptomics": "1.0.0",
     "phi-omics-variants": "1.0.0"

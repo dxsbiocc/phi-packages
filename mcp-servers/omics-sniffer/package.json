@@ -1,0 +1,22 @@
+{
+  "name": "phi-omics-sniffer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Cross-repository public omics dataset, sample, and artifact catalog MCP server over source-partitioned Parquet",
+  "bin": { "phi-omics-sniffer": "./dist/cli.js" },
+  "files": ["dist"],
+  "engines": { "node": ">=20" },
+  "exports": { ".": { "types": "./dist/server.d.ts", "import": "./dist/server.js" } },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "test": "tsc -p tsconfig.json && node --test --test-timeout 180000 dist/test/*.test.js"
+  },
+  "dependencies": {
+    "@duckdb/node-api": "1.5.6-r.1",
+    "phi-omics-runtime": "1.0.0",
+    "phi-omics-schemas": "1.0.0",
+    "zod": "^4.1.12"
+  }
+}

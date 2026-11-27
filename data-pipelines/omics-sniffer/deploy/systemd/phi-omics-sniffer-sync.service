@@ -1,0 +1,15 @@
+[Unit]
+Description=Phi Omics Sniffer Tiered Incremental Parquet Sync (Code/Data Separated)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=phi
+WorkingDirectory=/opt/phi-packages/data-pipelines/omics-sniffer
+Environment=PHI_OMICS_SNIFFER_STATE_DIR=/var/lib/phi-omics-sniffer
+Environment=PHI_OMICS_SNIFFER_DATA_DIR=/var/lib/phi-omics-sniffer/serving
+ExecStart=/bin/bash /opt/phi-packages/data-pipelines/omics-sniffer/scripts/run_sync_pipeline.sh
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=6
