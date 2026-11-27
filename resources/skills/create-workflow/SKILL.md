@@ -1,9 +1,6 @@
 ---
 name: create-workflow
-description: |
-  INVOKE THIS SKILL IMMEDIATELY when user asks to: write/create/build a Nextflow pipeline or workflow,
-  create any bioinformatics pipeline (RNA-seq, DNA-seq, variant calling, ChIP-seq, etc.),
-  or compose/chain Nextflow modules (process or workflow modules) from the Nextflow Registry. This skill handles all Nextflow workflow creation tasks.
+description: "INVOKE THIS SKILL IMMEDIATELY when user asks to: write/create/build a Nextflow pipeline or workflow, create any bioinformatics pipeline (RNA-seq, DNA-seq, variant calling, ChIP-seq, etc.), or compose/chain Nextflow modules (process or workflow modules) from the Nextflow Registry. This skill handles all Nextflow workflow creation tasks."
 allowed-tools: Bash, Read, Edit, Write, Glob, Grep, Skill
 ---
 
