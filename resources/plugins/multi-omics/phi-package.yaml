@@ -1,13 +1,13 @@
 schemaVersion: 1
 id: multi-omics
 type: plugin
-version: 0.1.1
+version: 0.2.0
 title: Multi-Omics Integration
 summary: >-
   Cross-omics joint integration (mo_): multi-block sample/scale inspection,
   RNA-protein 9-quadrant concordance & post-transcriptional buffering,
-  Procrustes/Mantel & covariate-adjusted partial correlation networks, and
-  block-balanced joint latent factor decomposition.
+  Procrustes/Mantel & partial correlation networks, block-balanced latent
+  factors, and SNF molecular subtyping.
 toolPrefix: mo
 components:
   agents:

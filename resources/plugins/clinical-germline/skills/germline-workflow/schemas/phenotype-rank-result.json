@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "query_hpo_terms",
+    "resolved_hpo_ids",
+    "n_variants",
+    "n_genes",
+    "top_genes",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "germ_phenotype_rank" },
+    "query_hpo_terms": { "type": "array", "items": { "type": "string" } },
+    "resolved_hpo_ids": { "type": "array", "items": { "type": "string" } },
+    "n_variants": { "type": "integer" },
+    "n_genes": { "type": "integer" },
+    "top_genes": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": [
+        "diagnostic_gene_ranking",
+        "phenotype_matched_variants",
+        "diagnostic_prioritization_plot"
+      ],
+      "properties": {
+        "diagnostic_gene_ranking": { "type": "string" },
+        "phenotype_matched_variants": { "type": "string" },
+        "diagnostic_prioritization_plot": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

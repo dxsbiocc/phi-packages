@@ -1,13 +1,12 @@
 schemaVersion: 1
 id: metabolomics
 type: plugin
-version: 0.1.1
+version: 0.2.0
 title: Metabolomics
 summary: >-
-  Downstream untargeted LC-MS metabolomics: feature-table QC (RSD, detection
-  rate), imputation and normalisation (TIC/median/PQN), PCA/PLS-DA (VIP,
-  permutation), Welch/Wilcoxon with BH FDR, adduct/isotope grouping, MSP/MGF
-  matching, pathway enrichment and heatmaps. Peak extraction is out of scope.
+  Downstream untargeted LC-MS metabolomics: feature-table QC, QC-RLSC
+  LOESS drift correction, imputation/normalisation, PCA/PLS-DA, Welch/Wilcoxon
+  with BH FDR, adduct/isotope grouping, MSP/MGF matching, pathways & heatmaps.
 toolPrefix: mb
 components:
   agents:

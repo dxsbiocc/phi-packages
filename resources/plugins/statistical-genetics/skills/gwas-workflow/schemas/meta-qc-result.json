@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "tool",
+    "n_cohorts",
+    "cohort_names",
+    "n_snps_total",
+    "n_snps_meta",
+    "n_alleles_flipped",
+    "n_incompatible_dropped",
+    "n_eaf_outliers",
+    "n_genome_wide_sig_fe",
+    "n_genome_wide_sig_re",
+    "median_i2",
+    "outputs",
+    "figures",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "tool": { "const": "gwas_meta_qc" },
+    "n_cohorts": { "type": "integer" },
+    "cohort_names": { "type": "array", "items": { "type": "string" } },
+    "n_snps_total": { "type": "integer" },
+    "n_snps_meta": { "type": "integer" },
+    "n_alleles_flipped": { "type": "integer" },
+    "n_incompatible_dropped": { "type": "integer" },
+    "n_palindromic_ambiguous_dropped": { "type": "integer" },
+    "n_eaf_outliers": { "type": "integer" },
+    "n_high_heterogeneity": { "type": "integer" },
+    "n_genome_wide_sig_fe": { "type": "integer" },
+    "n_genome_wide_sig_re": { "type": "integer" },
+    "median_i2": { "type": "number" },
+    "per_cohort_counts": { "type": "object" },
+    "top_hits": { "type": "array", "items": { "type": "object" } },
+    "outputs": { "type": "object" },
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

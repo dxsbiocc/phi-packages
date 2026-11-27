@@ -1,4 +1,4 @@
-# multi-omics · 0.1.0
+# multi-omics · 0.2.0
 
 Cross-modality multi-omics joint integration plugin (`toolPrefix: mo`, agent
 `MultiOmics`, private pure-conda environment `plugin:multiomics` with
@@ -9,7 +9,7 @@ three-platform explicit locks).
 - **Single-modality QC, normalization, and differential testing**: run first in
   the respective domain plugins (`bulk-rna-seq`, `proteomics`, `metabolomics`,
   `metagenomics`, `chromatin-profiling`, `methylation`).
-- **Cross-modality integration (this plugin, 4 `mo_*` tools)**:
+- **Cross-modality integration (this plugin, 5 `mo_*` tools)**:
   1. `mo_inspect` — audit 2+ omics feature×sample matrices and optional sample
      metadata: check shared sample intersection (`n_shared_samples`), detect
      barcode mismatches (e.g., TCGA `-01A` vs patient IDs), infer per-block
@@ -35,3 +35,9 @@ three-platform explicit locks).
      smaller blocks (200 metabolites), outputs shared sample factor scores,
      per-block variance explained (`shared` vs modality-specific), top signed
      loadings per block, and group association tests.
+  5. `mo_subtype` — **Similarity Network Fusion (`SNF`) Multi-Omics Subtyping**:
+     constructs scaled exponential sample-similarity kernels across matched
+     omics blocks, iteratively fuses modality networks via K-NN message
+     passing (Wang et al. 2014), selects optimal $K$ via eigengap +
+     silhouette, reports per-modality NMI concordance, and renders cluster-ordered
+     fused heatmaps and spectral embeddings.

@@ -4,8 +4,9 @@ description: >-
   Multi-omics integration specialist (mo_ tools) for joint analysis across
   transcriptomics, proteomics, metabolomics, metagenomics, and epigenomics:
   RNA-protein 9-quadrant concordance, microbiome-metabolome Procrustes/Mantel &
-  covariate-adjusted partial correlation networks, and block-balanced joint
-  latent factor decomposition.
+  covariate-adjusted partial correlation networks, block-balanced joint
+  latent factor decomposition, and Similarity Network Fusion (SNF) patient
+  subtyping.
 tools:
   - read
   - glob
@@ -38,6 +39,10 @@ fallback:
     - mantel
     - 菌群代谢
     - mofa
+    - snf
+    - molecular subtype
+    - 分子分型
+    - similarity network fusion
 ---
 
 # MultiOmics

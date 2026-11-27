@@ -8,10 +8,10 @@
     "resources/connectors/cbioportal/phi-package.yaml"
   ],
   "counts": {
-    "standaloneSkills": 17,
+    "standaloneSkills": 19,
     "connectors": 24,
-    "plugins": 22,
-    "pluginSkills": 31,
+    "plugins": 24,
+    "pluginSkills": 33,
     "wrapperAdapters": 2202,
     "importedFiles": 7885,
     "importedBytes": 85272892
@@ -76,7 +76,8 @@
     "Consolidated standalone research workflow skills into 10 high-cohesion zero-dependency MIT skills (counts.standaloneSkills 22): study-design (hypotheses + experimental/power design), statistical-review, literature-review (1-3 paper deep reading + >=5 paper synthesis), grant-proposal (NSFC + NIH/NSF/ERC), manuscript-writing, manuscript-polishing, manuscript-review (mock review + citation audit + FAIR data/code availability), peer-review-response, humanizer, and paper-to-slides.",
     "Removed the remaining five single-library Python API manuals (rdkit, networkx, matplotlib, seaborn, scikit-learn) from standalone skills (counts.standaloneSkills 22 to 17): general Python APIs are native LLM knowledge or covered by the visualization/clinical plugins, and specialized cheminformatics belongs to a dedicated future plugin rather than standalone skills.",
     "Completed P0 wet-lab & clinical ecosystem expansion (counts.plugins 18 to 20, counts.pluginSkills 27 to 29): added molecular-cloning (0.1.0, toolPrefix mc, agent MolecularCloning, skill cloning-workflow: mc_design_primers, mc_codon_optimize, mc_assemble_construct, mc_sanger_verify with pure-Python SantaLucia/Owczarzy Tm, GenBank I/O, and binary ABIF .ab1 chromatogram parsing) and wetlab-assay (0.1.0, toolPrefix wa, agent WetlabAssay, skill assay-workflow: wa_qpcr_quant, wa_immunoassay_curve, wa_enzyme_kinetics, wa_binding_kinetics), upgraded clinical to 0.2.0 (+clin_sample_size, clin_subgroup_interaction, clin_nomogram; 14 tools), upgraded crispr to 0.2.0 (+crispr_design_pegrna, crispr_drugz; 8 tools), upgraded protein-design to 0.2.0 (+pd_developability_audit pre-synthesis biophysical & chemical-liability gate), and synced single-cell README/manifest to 0.7.2 (documenting sc_py_communication).",
-    "Completed P1 translational immunology, cheminformatics, and cancer genomics expansion (counts.plugins 20 to 22, counts.pluginSkills 29 to 31): added immunoinformatics (0.1.0, toolPrefix imm, agent Immunoinformatics, skill immuno-workflow: imm_repertoire_inspect, imm_diversity, imm_clonotype_tracking, imm_hla_summary, imm_neoantigen_prioritize, paired with vendored nf-core trust4/optitype/arcashla/seq2hla/hlala wrappers) and drug-discovery (0.1.0, toolPrefix chem, agent DrugDiscovery, skill chem-workflow: chem_standardize, chem_medchem_triage, chem_sar_cliff, chem_admet_profile, chem_docking_eval in three-platform locked plugin:chem RDKit environment with deterministic pure-Python SMILES graph fallback), upgraded genomics to 0.3.0 (+gen_hrd_msi scarHRD LOH/TAI/LST & MSI stratification, +gen_clonality purity/ploidy/CN Cancer Cell Fraction & neutral tail evolution; 9 tools), upgraded bulk-rna-seq to 0.4.0 (+rna_regulon ULM/MLM TF & pathway footprint inference, +rna_splicing rMATS/SUPPA2 alternative splicing downstream; 12 tools), and upgraded pharmacogenomics to 0.2.0 (+pgx_hts_qc Z'-factor/SSMD/Tukey B-score plate QC, +pgx_predict_cohort RidgeCV clinical cohort drug-response translation; 5 tools)."
+    "Completed P1 translational immunology, cheminformatics, and cancer genomics expansion (counts.plugins 20 to 22, counts.pluginSkills 29 to 31): added immunoinformatics (0.1.0, toolPrefix imm, agent Immunoinformatics, skill immuno-workflow: imm_repertoire_inspect, imm_diversity, imm_clonotype_tracking, imm_hla_summary, imm_neoantigen_prioritize, paired with vendored nf-core trust4/optitype/arcashla/seq2hla/hlala wrappers) and drug-discovery (0.1.0, toolPrefix chem, agent DrugDiscovery, skill chem-workflow: chem_standardize, chem_medchem_triage, chem_sar_cliff, chem_admet_profile, chem_docking_eval in three-platform locked plugin:chem RDKit environment with deterministic pure-Python SMILES graph fallback), upgraded genomics to 0.3.0 (+gen_hrd_msi scarHRD LOH/TAI/LST & MSI stratification, +gen_clonality purity/ploidy/CN Cancer Cell Fraction & neutral tail evolution; 9 tools), upgraded bulk-rna-seq to 0.4.0 (+rna_regulon ULM/MLM TF & pathway footprint inference, +rna_splicing rMATS/SUPPA2 alternative splicing downstream; 12 tools), and upgraded pharmacogenomics to 0.2.0 (+pgx_hts_qc Z'-factor/SSMD/Tukey B-score plate QC, +pgx_predict_cohort RidgeCV clinical cohort drug-response translation; 5 tools).",
+    "Completed P2 quantitative genetics, clinical rare-disease germline interpretation, multi-omics/metabolomics depth, lab automation & provenance skills, and Biomni-Eval1 cross-plugin benchmarks (counts.plugins 22 to 24, counts.pluginSkills 31 to 33, counts.standaloneSkills 17 to 19): added statistical-genetics (0.1.0, toolPrefix gwas, agent StatisticalGenetics, skill gwas-workflow: gwas_sumstats_harmonize, gwas_ldsc_interpret, gwas_finemap SuSiE-RSS & Wakefield ABF, gwas_meta_qc, gwas_prs_eval), added clinical-germline (0.1.0, toolPrefix germ, agent ClinicalGermline, skill germline-workflow: germ_vcf_filter trio/singleton inheritance, germ_acmg_prioritize Tavtigian Bayesian ACMG/AMP 2015 + ACMG SF v3.2, germ_phenotype_rank HPO semantic similarity, germ_pgx_star_allele CPIC diplotypes, germ_cnv_sv_integrate ClinGen Riggs + SNV+DEL compound heterozygotes), upgraded multi-omics to 0.2.0 (+mo_subtype Wang 2014 Similarity Network Fusion), upgraded metabolomics to 0.2.0 (+mb_drift_correct QC-RLSC pure-NumPy robust LOESS injection-order drift correction), added MIT standalone skills lab-automation (Opentrons Flex/OT-2 + PyLabRobot) and research-provenance (run ledger + cross-experiment contradiction triage), and added 4 cross-plugin E2E chains in tests/test_biomni_eval_benchmark.py."
   ],
   "initialImportCounts": {
     "standaloneSkills": 14,
@@ -87,7 +88,7 @@
     "importedFiles": 7885,
     "importedBytes": 85619915
   },
-  "scopeUpdatedAt": "2026-11-27T02:55:00+00:00",
+  "scopeUpdatedAt": "2026-11-27T06:10:00+00:00",
   "transformedPaths": [
     "resources/wrappers/modules/local/differential-expression/deseq2/environment.yml",
     "resources/wrappers/modules/local/differential-expression/deseq2/main.nf",
@@ -295,8 +296,8 @@
     {
       "path": "resources/plugins/metabolomics/",
       "kind": "plugin",
-      "origin": "Authored in phi-packages. Metabolomics plugin (toolPrefix mb, agent Metabolomics) with one downstream script-chain skill (lcms-workflow, nine mb_* tools: inspect/qc/preprocess/multivariate/univariate/annotate/ms2_match/pathway/plot) and one private locked environment (Python 3.13 + pandas/numpy/scipy/matplotlib-base; three-platform explicit locks solved with micromamba 2.1.1 dry-run against the tuna mirror and rewritten to official conda.anaconda.org URLs; only fontconfig differs from the metagenomics locks due to an upstream rebuild). Untargeted LC-MS feature tables only: vendor export recognition (xcms/MZmine/MS-DIAL/MetaboAnalyst), QC RSD/detection filtering, deterministic impute->normalize->transform, PCA and original numpy NIPALS PLS-DA with VIP and seeded permutation Q2, Welch/Wilcoxon/Kruskal-Wallis + BH FDR + volcano, deterministic m/z relationship annotation (isotopes/adducts/neutral losses, union-find pseudospectra, MSI level 3), MSP/MGF cosine spectral matching (MSI level 2), and pathway enrichment without built-in databases (ID hypergeometric or mummichog-style m/z permutation against user-supplied licensed mappings). Upstream peak picking has no wrapper here and is reported as a gap; OPLS-DA, drift correction, GSimp, CAMERA full, SIRIUS/MetFrag/GNPS, GC-MS RI, NMR and targeted MRM are documented gaps. Knowledge layer distilled from the RforMassSpectrometry Metabolomics Book (CC-BY-4.0; ideas and structure only, no text or code copied) plus idea-level classical citations (xcms, CAMERA, mummichog, Schymanski MSI levels, PQN, MetaboAnalyst, MassBank/GNPS); the two user-requested Zhihu tutorials were inaccessible (HTTP 403) and are recorded as such. All scripts and prose are original; every produced file carries a contract-1.0.0 artifact descriptor. v0.1.0 is script chain plus knowledge only, no notebook renderer.",
-      "packageVersion": "0.1.1"
+      "origin": "Authored in phi-packages. Metabolomics plugin (toolPrefix mb, agent Metabolomics) with one downstream script-chain skill (lcms-workflow, ten mb_* tools: inspect/qc/drift_correct/preprocess/multivariate/univariate/annotate/ms2_match/pathway/plot) and one private locked environment (Python 3.13 + pandas/numpy/scipy/matplotlib-base; three-platform explicit locks solved with micromamba 2.1.1 dry-run against the tuna mirror and rewritten to official conda.anaconda.org URLs; only fontconfig differs from the metagenomics locks due to an upstream rebuild). Untargeted LC-MS feature tables only: vendor export recognition (xcms/MZmine/MS-DIAL/MetaboAnalyst), QC RSD/detection filtering, QC-RLSC robust NumPy LOESS injection-order drift correction (mb_drift_correct), deterministic impute->normalize->transform, PCA and original numpy NIPALS PLS-DA with VIP and seeded permutation Q2, Welch/Wilcoxon/Kruskal-Wallis + BH FDR + volcano, deterministic m/z relationship annotation (isotopes/adducts/neutral losses, union-find pseudospectra, MSI level 3), MSP/MGF cosine spectral matching (MSI level 2), and pathway enrichment without built-in databases (ID hypergeometric or mummichog-style m/z permutation against user-supplied licensed mappings). Upstream peak picking has no wrapper here and is reported as a gap; OPLS-DA, GSimp, CAMERA full, SIRIUS/MetFrag/GNPS, GC-MS RI, NMR and targeted MRM are documented gaps. Knowledge layer distilled from the RforMassSpectrometry Metabolomics Book (CC-BY-4.0; ideas and structure only, no text or code copied) plus idea-level classical citations; all scripts and prose are original; every produced file carries a contract-1.0.0 artifact descriptor.",
+      "packageVersion": "0.2.0"
     },
     {
       "path": "resources/plugins/single-cell-atac/",
@@ -446,8 +447,8 @@
       "path": "resources/plugins/multi-omics/",
       "kind": "plugin",
       "license": "MIT",
-      "packageVersion": "0.1.1",
-      "origin": "Authored in phi-packages. Cross-modality multi-omics integration plugin (toolPrefix mo, agent MultiOmics, skill multiomics-workflow) with four deterministic Python tools (mo_inspect, mo_rna_protein, mo_pair_assoc, mo_factor_integration) in plugin:multiomics (Python 3.13 + pandas/numpy/scipy/scikit-learn/matplotlib-base, three-platform explicit locks). Covers multi-block sample/scale/barcode inspection, RNA-protein 9-quadrant DE concordance and across-sample gene-wise correlation, CLR/log1p Symmetric Procrustes + Mantel + covariate-adjusted Partial Spearman cross-block networks, and singular-value-balanced Multiple Factor Analysis / Consensus SVD joint latent factor decomposition."
+      "packageVersion": "0.2.0",
+      "origin": "Authored in phi-packages. Cross-modality multi-omics integration plugin (toolPrefix mo, agent MultiOmics, skill multiomics-workflow) with five deterministic Python tools (mo_inspect, mo_rna_protein, mo_pair_assoc, mo_factor_integration, mo_subtype) in plugin:multiomics (Python 3.13 + pandas/numpy/scipy/scikit-learn/matplotlib-base, three-platform explicit locks). Covers multi-block sample/scale/barcode inspection, RNA-protein 9-quadrant DE concordance and across-sample gene-wise correlation, CLR/log1p Symmetric Procrustes + Mantel + covariate-adjusted Partial Spearman cross-block networks, singular-value-balanced Multiple Factor Analysis / Consensus SVD joint latent factor decomposition, and Wang et al. (2014) Similarity Network Fusion (SNF) patient/sample subtyping with spectral clustering and silhouette QC."
     },
     {
       "path": "resources/plugins/methylation/",
@@ -504,6 +505,34 @@
       "license": "MIT",
       "packageVersion": "0.1.0",
       "origin": "Authored in phi-packages. Cheminformatics, medicinal chemistry triage, SAR activity-cliff, ADMET profiling, and virtual screening evaluation plugin (toolPrefix chem, agent DrugDiscovery, skill chem-workflow) with five deterministic pure-MIT Python tools (chem_standardize, chem_medchem_triage, chem_sar_cliff, chem_admet_profile, chem_docking_eval) in plugin:chem (Python 3.12 + rdkit + numpy/pandas/scipy/matplotlib-base, three-platform explicit locks, plus a pure-Python SMILES molecular graph fallback)."
+    },
+    {
+      "path": "resources/plugins/statistical-genetics/",
+      "kind": "plugin",
+      "license": "MIT",
+      "packageVersion": "0.1.0",
+      "origin": "Authored in phi-packages. Statistical genetics and post-GWAS locus interpretation plugin (toolPrefix gwas, agent StatisticalGenetics, skill gwas-workflow) with five deterministic pure-MIT Python tools (gwas_sumstats_harmonize, gwas_ldsc_interpret, gwas_finemap, gwas_meta_qc, gwas_prs_eval) in plugin:gwas (Python 3.13 + pandas/numpy/scipy/scikit-learn/matplotlib-base, three-platform explicit locks). Covers PLINK2/REGENIE/SAIGE/BOLT-LMM/GWAS Catalog summary-statistic QC and genomic control (lambda_GC/lambda_1000), univariate & cross-trait LDSC heritability and genetic correlation with block-jackknife SE, SuSiE-RSS multi-causal statistical fine-mapping with Wakefield ABF fallback, EasyQC-style multi-cohort meta-QC (inverse-variance weighted fixed/DerSimonian-Laird random effects, Cochran Q/I^2, EAF outlier & allele-flip audit), and polygenic risk score evaluation (OR per SD, AUC with DeLong CI, incremental R^2, risk decile stratification)."
+    },
+    {
+      "path": "resources/plugins/clinical-germline/",
+      "kind": "plugin",
+      "license": "MIT",
+      "packageVersion": "0.1.0",
+      "origin": "Authored in phi-packages. Clinical rare-disease & hereditary germline genomics downstream plugin (toolPrefix germ, agent ClinicalGermline, skill germline-workflow) with five deterministic pure-MIT Python tools (germ_vcf_filter, germ_acmg_prioritize, germ_phenotype_rank, germ_pgx_star_allele, germ_cnv_sv_integrate) in plugin:germ (Python 3.13 + pandas/numpy/scipy/scikit-learn/matplotlib-base, three-platform explicit locks), paired with vendored nf-core/sarek, ensemblvep, snpeff, clair3, deepvariant, and manta wrappers. Covers trio/singleton inheritance classification (de novo, phased in-trans compound het, AR homozygous, AD, X-linked), Tavtigian Bayesian ACMG/AMP 2015 point scoring + ClinVar/pLI/REVEL/SpliceAI evidence + ACMG SF v3.2 flagging, HPO Information-Content phenotype matching, germline CPIC star-allele & diplotype pharmacogenomics alerts, and ClinGen/ACMG 2020 Riggs CNV/SV dosage scoring with SNV+DEL compound heterozygote detection."
+    },
+    {
+      "path": "resources/skills/lab-automation/",
+      "kind": "skill",
+      "license": "MIT",
+      "packageVersion": "1.0.0",
+      "origin": "Authored in phi-packages. Zero-dependency protocol skill for liquid-handling deck planning, Opentrons Flex/OT-2 Protocol API v2 scripting, PyLabRobot cross-vendor hardware-agnostic orchestration, pipetting volume/tip/dead-volume rules, and dry-run simulation before bench execution."
+    },
+    {
+      "path": "resources/skills/research-provenance/",
+      "kind": "skill",
+      "license": "MIT",
+      "packageVersion": "1.0.0",
+      "origin": "Authored in phi-packages. Zero-dependency scientific provenance ledger, quantitative decision-gate, and cross-experiment contradiction-triage workflow skill tracking artifact lineage, hypothesis verdicts, biological-system scope mismatches, and batch/assay divergence."
     },
     {
       "path": "resources/wrappers/workflows/nf-core/sarek/",

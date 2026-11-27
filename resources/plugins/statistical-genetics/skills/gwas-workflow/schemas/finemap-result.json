@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "tool",
+    "method",
+    "n_snps",
+    "sample_size",
+    "max_causal",
+    "coverage",
+    "min_abs_corr",
+    "n_credible_sets",
+    "credible_sets",
+    "top_pip_snps",
+    "outputs",
+    "figures",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "tool": { "const": "gwas_finemap" },
+    "method": { "type": "string" },
+    "n_snps": { "type": "integer" },
+    "sample_size": { "type": "number" },
+    "max_causal": { "type": "integer" },
+    "coverage": { "type": "number" },
+    "min_abs_corr": { "type": "number" },
+    "ld_regularization_lambda": { "type": ["number", "null"] },
+    "converged": { "type": "boolean" },
+    "n_iterations": { "type": "integer" },
+    "n_credible_sets": { "type": "integer" },
+    "n_snps_in_cs": { "type": "integer" },
+    "credible_sets": { "type": "array", "items": { "type": "object" } },
+    "top_pip_snps": { "type": "array", "items": { "type": "object" } },
+    "outputs": { "type": "object" },
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "input_format",
+    "trio_mode",
+    "proband_id",
+    "proband_sex",
+    "total_variants_input",
+    "proband_carrier_variants",
+    "qc_pass_variants",
+    "coding_or_splice_variants",
+    "n_candidates",
+    "n_candidate_genes",
+    "inheritance_counts",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "germ_vcf_filter" },
+    "input_format": { "type": "string", "enum": ["vcf", "tabular"] },
+    "trio_mode": { "type": "boolean" },
+    "proband_id": { "type": "string" },
+    "mother_id": { "type": ["string", "null"] },
+    "father_id": { "type": ["string", "null"] },
+    "proband_sex": { "type": "string", "enum": ["unknown", "male", "female"] },
+    "total_variants_input": { "type": "integer" },
+    "proband_carrier_variants": { "type": "integer" },
+    "qc_pass_variants": { "type": "integer" },
+    "coding_or_splice_variants": { "type": "integer" },
+    "n_candidates": { "type": "integer" },
+    "n_candidate_genes": { "type": "integer" },
+    "inheritance_counts": { "type": "object" },
+    "outputs": {
+      "type": "object",
+      "required": [
+        "filtered_germline_candidates",
+        "inheritance_gene_summary",
+        "germline_inheritance_funnel"
+      ],
+      "properties": {
+        "filtered_germline_candidates": { "type": "string" },
+        "inheritance_gene_summary": { "type": "string" },
+        "germline_inheritance_funnel": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

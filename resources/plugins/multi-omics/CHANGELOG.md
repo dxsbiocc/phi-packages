@@ -1,5 +1,9 @@
 # Changelog — multi-omics
 
+## 0.2.0 (2026-11-27)
+
+- Added `mo_subtype` (`skills/multiomics-workflow/scripts/mo_subtype.py` + `schemas/subtype-result.json`): Wang et al. (2014) **Similarity Network Fusion (`SNF`)** for multi-omics molecular subtyping with automatic eigengap + silhouette $K$ selection, per-modality NMI concordance, optional metadata ARI/NMI/$\chi^2$ validation, and cluster-ordered similarity heatmap + spectral embedding figure.
+
 ## 0.1.1 (2026-11-25)
 
 - Aligned `agents/MultiOmics.md` YAML frontmatter with the Phi Agent contract (`name`, `tools`, `skills`, `delegationMode`, `delegation`, `fallback`).

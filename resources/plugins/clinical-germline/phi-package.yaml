@@ -1,0 +1,19 @@
+schemaVersion: 1
+id: clinical-germline
+type: plugin
+version: 0.1.0
+title: Rare-Disease Germline Variant ACMG & Clinical PGx
+summary: >-
+  Downstream clinical germline & PGx workflow (germ_): Mendelian inheritance
+  filtering, ACMG/AMP 2015 & Tavtigian Bayesian variant classification, HPO
+  phenotype prioritization, CPIC star-allele & dosing alerts, and germline
+  CNV/SV + SNV integration.
+toolPrefix: germ
+components:
+  agents:
+    - agents/ClinicalGermline.md
+  skills:
+    - skills/germline-workflow
+environments:
+  germ:
+    spec: environments/germ/environment.yml

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Contract, layout, AST, and end-to-end tests for multi-omics (0.1.0) and methylation (0.1.0)."""
+"""Contract, layout, AST, and end-to-end tests for multi-omics (0.2.0) and methylation (0.1.1)."""
 
 from __future__ import annotations
 
@@ -29,7 +29,7 @@ HAS_SCIPY_STACK = all(
 
 def run_json(script: Path, args: list[str], cwd: Path) -> dict:
     proc = subprocess.run(
-        [sys.executable, str(script), *args],
+        [sys.executable, "-B", str(script), *args],
         cwd=str(cwd),
         capture_output=True,
         text=True,
@@ -46,7 +46,7 @@ class TestMultiOmicsAndMethylationContracts(unittest.TestCase):
     def test_multiomics_layout_locks_schemas_and_ast(self):
         manifest = (MO_DIR / "phi-package.yaml").read_text(encoding="utf-8")
         self.assertIn("id: multi-omics", manifest)
-        self.assertIn("version: 0.1.1", manifest)
+        self.assertIn("version: 0.2.0", manifest)
         self.assertIn("toolPrefix: mo", manifest)
         for req in ("icon.svg", "README.md", "CHANGELOG.md", "agents/MultiOmics.md"):
             self.assertTrue((MO_DIR / req).is_file(), f"missing {req}")
@@ -57,7 +57,13 @@ class TestMultiOmicsAndMethylationContracts(unittest.TestCase):
 
         self.assertEqual(
             {p.name for p in MO_SCHEMAS.glob("*.json")},
-            {"inspect-result.json", "rna-protein-result.json", "pair-assoc-result.json", "factor-integration-result.json"},
+            {
+                "inspect-result.json",
+                "rna-protein-result.json",
+                "pair-assoc-result.json",
+                "factor-integration-result.json",
+                "subtype-result.json",
+            },
         )
         for sp in MO_SCHEMAS.glob("*.json"):
             self.assertEqual(json.loads(sp.read_text(encoding="utf-8"))["type"], "object")
@@ -216,6 +222,29 @@ class TestMultiOmicsAndMethylationE2E(unittest.TestCase):
             )
             self.assertEqual(fi["n_factors"], 3)
             self.assertEqual(fi["factor_variance_explained"][0]["kind"], "shared_multiomics")
+
+            # 5) mo_subtype (SNF multi-omics molecular subtyping)
+            snf = run_json(
+                MO_SCRIPTS / "mo_subtype.py",
+                [
+                    "--matrices", f"rna={rna_p}",
+                    "--matrices", f"protein={prot_p}",
+                    "--matrices", f"microbiome={taxa_p}",
+                    "--metadata", str(meta_p),
+                    "--group_col", "group",
+                    "--n_neighbors", "8",
+                    "--n_iters", "12",
+                    "--output_dir", str(tdir / "snf_out"),
+                ],
+                cwd=tdir,
+            )
+            self.assertEqual(snf["tool"], "mo_subtype")
+            self.assertEqual(snf["n_shared_samples"], n)
+            self.assertEqual(snf["n_modalities"], 3)
+            self.assertGreater(snf["silhouette_score"], 0.2)
+            self.assertGreater(snf["group_association"]["ari"], 0.75)
+            for art in snf["artifacts"]:
+                self.assertTrue(Path(art + ".phi-artifact.json").is_file())
 
     def test_methylation_full_chain(self):
         import pandas as pd

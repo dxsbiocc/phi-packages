@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "tool",
+    "n_variants_input",
+    "n_variants_harmonized",
+    "n_dropped_qc",
+    "effect_scale_input",
+    "lambda_gc",
+    "n_genome_wide_sig",
+    "n_lead_loci",
+    "outputs",
+    "figures",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "tool": { "const": "gwas_sumstats_harmonize" },
+    "n_variants_input": { "type": "integer" },
+    "n_variants_harmonized": { "type": "integer" },
+    "n_dropped_qc": { "type": "integer" },
+    "effect_scale_input": { "type": "string" },
+    "lambda_gc": { "type": "number" },
+    "lambda_1000": { "type": ["number", "null"] },
+    "n_cases": { "type": ["integer", "null"] },
+    "n_controls": { "type": ["integer", "null"] },
+    "n_eff": { "type": ["number", "null"] },
+    "n_genome_wide_sig": { "type": "integer" },
+    "n_lead_loci": { "type": "integer" },
+    "qc_breakdown": { "type": "object" },
+    "top_leads": { "type": "array", "items": { "type": "object" } },
+    "outputs": { "type": "object" },
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

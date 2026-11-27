@@ -68,8 +68,10 @@ vendor export before trusting the inference.
   features; `median` is robust; `pqn` (median-of-ratios to a reference
   sample, Dieterle 2006) is the usual choice for urine/biofluids; `is`
   divides by an internal-standard column when one was spiked in.
-  QC-based drift correction (crmn / MetNormalizer / NormalizeMets) is a
-  gap; report it for long batches.
+  For long multi-batch runs showing injection-order signal drift, run
+  `mb_drift_correct` (QC-RLSC robust LOESS) on raw intensities before
+  `mb_qc` / `mb_preprocess`; internal-standard-only `crmn` normalization
+  remains a gap.
 - Transform: `log2` for statistics and figures. The tool refuses log on
   zeros/missing — impute first. After a log transform, pass `logged: true`
   to `mb_univariate`.
@@ -160,7 +162,7 @@ vendor export before trusting the inference.
 ## Red lines (report, never fake)
 
 - Upstream peak picking / alignment (msconvert, xcms, MZmine, MS-DIAL).
-- OPLS-DA; QC drift correction (crmn/MetNormalizer); GSimp/QRILC imputation.
+- OPLS-DA; multi-batch crmn modeling; GSimp/QRILC imputation.
 - CAMERA full pseudospectra, formula assignment (Rdisop/enviPat),
   SIRIUS / MetFrag / GNPS networking.
 - GC-MS retention indices; NMR; targeted MRM; lipid-species naming.

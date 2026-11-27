@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "input_mode",
+    "n_samples",
+    "n_gene_calls",
+    "n_recommendations",
+    "n_actionable_alerts",
+    "action_tier_counts",
+    "gene_calls",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "germ_pgx_star_allele" },
+    "input_mode": { "type": "string", "enum": ["diplotype_table", "rsid_table", "vcf"] },
+    "n_samples": { "type": "integer" },
+    "n_gene_calls": { "type": "integer" },
+    "n_recommendations": { "type": "integer" },
+    "n_actionable_alerts": { "type": "integer" },
+    "action_tier_counts": { "type": "object" },
+    "gene_calls": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": [
+        "cpic_diplotype_phenotypes",
+        "cpic_drug_recommendations",
+        "cpic_actionability_overview"
+      ],
+      "properties": {
+        "cpic_diplotype_phenotypes": { "type": "string" },
+        "cpic_drug_recommendations": { "type": "string" },
+        "cpic_actionability_overview": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "n_variants",
+    "tier_counts",
+    "n_pathogenic_or_likely",
+    "n_acmg_sf_v32_genes_hit",
+    "n_acmg_sf_reportable",
+    "top_variants",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "germ_acmg_prioritize" },
+    "n_variants": { "type": "integer" },
+    "tier_counts": { "type": "object" },
+    "n_pathogenic_or_likely": { "type": "integer" },
+    "n_acmg_sf_v32_genes_hit": { "type": "integer" },
+    "n_acmg_sf_reportable": { "type": "integer" },
+    "top_variants": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": [
+        "acmg_classified_variants",
+        "acmg_evidence_summary"
+      ],
+      "properties": {
+        "acmg_classified_variants": { "type": "string" },
+        "acmg_evidence_summary": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

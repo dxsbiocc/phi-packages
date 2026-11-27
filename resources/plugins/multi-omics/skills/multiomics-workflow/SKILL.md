@@ -9,8 +9,9 @@ description: >-
   tests plus covariate-adjusted Partial Spearman cross-omics networks (e.g.
   microbiome-metabolome with CLR); and fit block-balanced joint latent factor
   models (MFA/Consensus SVD) reporting per-block variance explained and top
-  multi-omics loadings. Use for 多组学联合, multi-omics, 转录蛋白联合, 九宫格,
-  9-quadrant, 菌群代谢联合, Procrustes, Mantel, 偏相关网络, MOFA, CCA, or cross-omics
+  multi-omics loadings, and Similarity Network Fusion (SNF) patient/sample
+  subtyping with silhouette QC. Use for 多组学联合, multi-omics, 转录蛋白联合, 九宫格,
+  9-quadrant, 菌群代谢联合, Procrustes, Mantel, 偏相关网络, MOFA, CCA, SNF, or cross-omics
   integration.
 phi:
   environment: plugin:multiomics
@@ -226,6 +227,65 @@ phi:
       approval: write
       output: ./schemas/factor-integration-result.json
       timeoutSeconds: 600
+    - name: subtype
+      description: >-
+        Discover multi-omics molecular subtypes via Wang et al. (2014) Similarity
+        Network Fusion (SNF): constructs scaled exponential affinity networks across
+        2+ matched modalities, performs iterative K-NN message-passing network fusion,
+        auto-selects optimal K via normalized Laplacian eigengap + silhouette (or
+        uses fixed k_clusters), reports per-modality NMI concordance, and exports
+        cluster assignments, fused similarity matrix, and heatmap + spectral plots.
+      run: [python, ./scripts/mo_subtype.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [matrices, output_dir]
+        properties:
+          matrices:
+            type: array
+            items:
+              type: string
+            description: Two or more feature x sample TSV/CSV paths, optionally formatted 'modality=path'.
+          output_dir:
+            type: string
+            format: project-path
+            description: Output directory for snf_cluster_assignments.tsv, snf_fused_similarity.tsv, and snf_fused_heatmap_embedding.png.
+          transforms:
+            type: array
+            items:
+              type: string
+            description: Optional per-block transforms ('auto', 'none', 'log1p', 'clr') matching matrices order.
+          metadata:
+            type: string
+            format: input-path
+            description: Optional sample metadata TSV/CSV for external label concordance checks.
+          sample_col:
+            type: string
+            description: Sample ID column in metadata (default first column).
+          group_col:
+            type: string
+            description: Optional reference label column in metadata to evaluate ARI, NMI, and chi-square association.
+          k_clusters:
+            type: integer
+            minimum: 2
+            maximum: 8
+            description: Optional fixed number of molecular subtypes (if omitted, selected via eigengap + silhouette).
+          n_neighbors:
+            type: integer
+            minimum: 3
+            maximum: 50
+            description: Local K-nearest neighbors bandwidth for SNF affinity & sparse kernel construction (default 15).
+          n_iters:
+            type: integer
+            minimum: 1
+            maximum: 50
+            description: Iterative SNF cross-modality network fusion steps (default 15).
+          seed:
+            type: integer
+            description: Deterministic random seed for spectral K-means clustering (default 42).
+      approval: write
+      output: ./schemas/subtype-result.json
+      timeoutSeconds: 600
 ---
 
 # Multi-Omics Integration Workflow
@@ -241,7 +301,8 @@ Single-omics matrices / DE tables (from bulk-rna-seq, proteomics, metabolomics, 
   ├── mo_inspect ────────────▶ verify shared sample intersection, barcode format & value scales
   ├── mo_rna_protein ────────▶ 9-quadrant RNA-Protein DE concordance + across-sample r & FDR
   ├── mo_pair_assoc ─────────▶ Symmetric Procrustes + Mantel + Partial Spearman cross-block network
-  └── mo_factor_integration ─▶ MFA / Consensus SVD joint latent factors + per-block R² & loadings
+  ├── mo_factor_integration ─▶ MFA / Consensus SVD joint latent factors + per-block R² & loadings
+  └── mo_subtype ────────────▶ Similarity Network Fusion (SNF) multi-omics subtypes + concordance NMI
 ```
 
 ## Hard Red Lines

@@ -1,4 +1,4 @@
-# metabolomics (metabolomic analysis) · 0.1.1
+# metabolomics (metabolomic analysis) · 0.2.0
 
 **Downstream analysis chain + knowledge layer** for untargeted LC-MS feature
 tables: vendor export inspection (xcms/MZmine/MS-DIAL/MetaboAnalyst) → QC
@@ -33,7 +33,7 @@ Python environment.
 | Component | Role |
 |--|--|
 | Agent `Metabolomics` | Route decision (feature-table downstream vs upstream gap), QC/threshold decisions, how to phrase MSI identification levels, database license confirmation |
-| Skill `lcms-workflow` | 9 `mb_*` tools (inspect/qc/preprocess/multivariate/univariate/annotate/ms2_match/pathway/plot) |
+| Skill `lcms-workflow` | 10 `mb_*` tools (inspect/qc/drift_correct/preprocess/multivariate/univariate/annotate/ms2_match/pathway/plot) |
 | Environment `metabolomics` | Python 3.13 + pandas/numpy/scipy/matplotlib-base, three-platform locks (same stack as metagenomics) |
 
 The spec and the three-platform locks are in `environments/metabolomics/`.
@@ -47,8 +47,8 @@ v0.1.0 has only the script chain, with no notebook renderer.
   xcms/MZmine/MS-DIAL export table; do not pretend to do peak picking.
 - GC-MS feature tables work mechanically, but retention indices (RI) are not
   supported; NMR, targeted MRM and lipid species naming are out of scope.
-- OPLS-DA, QC drift correction (crmn/MetNormalizer), GSimp imputation, full
-  CAMERA pseudospectra, molecular formula elucidation, SIRIUS/MetFrag/GNPS →
+- OPLS-DA, GSimp imputation, full CAMERA pseudospectra, molecular formula
+  elucidation, SIRIUS/MetFrag/GNPS →
   the knowledge layer reports the gap instead of faking it.
 - Pathway/compound/spectral libraries are **not built in**: KEGG/HMDB
   mappings, mass databases and MSP/MGF libraries come from the user; confirm

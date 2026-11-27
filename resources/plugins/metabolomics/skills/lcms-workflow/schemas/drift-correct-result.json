@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "n_features",
+    "n_samples_total",
+    "n_qc_samples",
+    "median_qc_rsd_before",
+    "median_qc_rsd_after",
+    "n_features_below_cutoff_before",
+    "n_features_below_cutoff_after",
+    "n_features_rescued",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "mb_drift_correct" },
+    "input": { "type": "string" },
+    "sample_sheet": { "type": "string" },
+    "n_features": { "type": "integer" },
+    "n_samples_total": { "type": "integer" },
+    "n_qc_samples": { "type": "integer" },
+    "n_biological_samples": { "type": "integer" },
+    "span": { "type": "number" },
+    "rsd_cutoff": { "type": "number" },
+    "median_qc_rsd_before": { "type": "number" },
+    "median_qc_rsd_after": { "type": "number" },
+    "n_features_below_cutoff_before": { "type": "integer" },
+    "n_features_below_cutoff_after": { "type": "integer" },
+    "n_features_rescued": { "type": "integer" },
+    "outputs": {
+      "type": "object",
+      "required": ["drift_corrected_matrix", "feature_qc_metrics", "drift_qc_plot"],
+      "properties": {
+        "drift_corrected_matrix": { "type": "string" },
+        "feature_qc_metrics": { "type": "string" },
+        "drift_qc_plot": { "type": "string" }
+      }
+    },
+    "scientificContext": { "type": "object" },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

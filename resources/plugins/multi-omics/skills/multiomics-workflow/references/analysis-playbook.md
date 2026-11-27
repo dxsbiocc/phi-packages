@@ -30,3 +30,10 @@
   1. Each modality $X_k \in \mathbb{R}^{n \times p_k}$ is pre-transformed, median-imputed for residual NAs, and feature-standardized (zero mean, unit variance).
   2. Each standardized block is divided by its first singular value $\sigma_1(X_k)$ so its maximum axial inertia equals $1.0$.
   3. SVD on concatenated $[ \tilde{X}_1, \dots, \tilde{X}_K ]$ yields shared sample scores $F$ and per-block variance explained $R^2_{k,f} = \| \hat{X}_{k,f} \|_F^2 / \| \tilde{X}_k \|_F^2$, distinguishing **shared multi-omics factors** (high $R^2$ in $\ge 2$ blocks) from **modality-specific factors** (high $R^2$ in 1 block only).
+
+## Stage 5 — Similarity Network Fusion Subtyping (`mo_subtype`)
+
+- **Call**: `mo_subtype(matrices=["rna=...", "protein=...", ...], metadata=..., group_col=..., output_dir=...)`
+- **Read**: `k_clusters`, `silhouette_score`, `modalities[*].modality_concordance_nmi`, `group_association`.
+- **Decide & Red Lines**:
+  - Prefer `silhouette_score >= 0.25` and check `modality_concordance_nmi`: if one modality has near-zero NMI with the fused subtypes while others align strongly, report that fused clustering is driven primarily by the concordant modalities.

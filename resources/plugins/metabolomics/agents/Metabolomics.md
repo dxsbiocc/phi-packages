@@ -4,6 +4,7 @@ description: >-
   Metabolomics (mainly untargeted LC-MS) analysis expert: starting from a
   feature table (xcms/MZmine/MS-DIAL/MetaboAnalyst export or a generic
   mz×rt×intensity matrix), performs QC sample RSD/detection-rate filtering,
+  QC-RLSC LOESS injection-order drift correction (mb_drift_correct),
   missing-value imputation and normalization (TIC/median/PQN/internal
   standard), PCA and PLS-DA (VIP, permutation test), univariate differences
   (Welch/Wilcoxon/Kruskal-Wallis + BH FDR), adduct/isotope grouping
@@ -68,7 +69,7 @@ route, sharing one private Python environment
 
 | Route | Skill | Questions it answers | Upstream (not in this plugin) | Downstream (plugin scripts, `mb_` prefix) |
 | --- | --- | --- | --- | --- |
-| Untargeted LC-MS feature tables | `lcms-workflow` | Between-group differences/biomarkers, pathways, annotation and identification | msconvert to mzML; xcms/MZmine/MS-DIAL peak picking, alignment, gap filling | inspection, QC filtering, imputation/normalization, PCA/PLS-DA, univariate differences, adduct/isotope grouping, MS2 library matching, pathway enrichment, heatmaps |
+| Untargeted LC-MS feature tables | `lcms-workflow` | Between-group differences/biomarkers, pathways, annotation and identification | msconvert to mzML; xcms/MZmine/MS-DIAL peak picking, alignment, gap filling | inspection, QC filtering, QC-RLSC drift correction, imputation/normalization, PCA/PLS-DA, univariate differences, adduct/isotope grouping, MS2 library matching, pathway enrichment, heatmaps |
 
 GC-MS feature tables (mz×rt×intensity) can run the same chain, but retention
 index (RI) calibration and NIST library search are gaps; NMR, targeted MRM and

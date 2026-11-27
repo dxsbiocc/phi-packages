@@ -1,0 +1,19 @@
+schemaVersion: 1
+id: statistical-genetics
+type: plugin
+version: 0.1.0
+title: Statistical Genetics, GWAS Fine-Mapping & Polygenic Risk
+summary: >-
+  Statistical genetics & GWAS workflow (gwas_): summary-stat harmonization &
+  lambda_GC/lambda_1000 QC, univariate/bivariate LDSC heritability & rg,
+  SuSiE-RSS multi-causal fine-mapping, fixed/random-effects meta-analysis, and
+  PRS risk stratification.
+toolPrefix: gwas
+components:
+  agents:
+    - agents/StatisticalGenetics.md
+  skills:
+    - skills/gwas-workflow
+environments:
+  gwas:
+    spec: environments/gwas/environment.yml

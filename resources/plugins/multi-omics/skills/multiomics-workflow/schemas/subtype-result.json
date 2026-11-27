@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "n_shared_samples",
+    "n_modalities",
+    "k_clusters",
+    "k_selection_mode",
+    "silhouette_score",
+    "subtype_counts",
+    "modalities",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "mo_subtype" },
+    "n_shared_samples": { "type": "integer" },
+    "n_modalities": { "type": "integer" },
+    "k_clusters": { "type": "integer" },
+    "k_selection_mode": { "type": "string", "enum": ["user_specified", "auto_eigengap_silhouette"] },
+    "silhouette_score": { "type": "number" },
+    "subtype_counts": { "type": "object" },
+    "k_candidates": { "type": "array", "items": { "type": "object" } },
+    "modalities": { "type": "array", "items": { "type": "object" } },
+    "group_association": { "type": ["object", "null"] },
+    "outputs": {
+      "type": "object",
+      "required": ["cluster_assignments", "fused_similarity_matrix", "snf_plot"],
+      "properties": {
+        "cluster_assignments": { "type": "string" },
+        "fused_similarity_matrix": { "type": "string" },
+        "snf_plot": { "type": "string" }
+      }
+    },
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -192,7 +192,7 @@ class PluginStructureTests(unittest.TestCase):
                 sp = (sd / tool["output"]).resolve()
                 self.assertTrue(sp.is_file())
                 jsonschema.Draft7Validator.check_schema(json.loads(sp.read_text()))
-        self.assertEqual(len(final_names), 9)
+        self.assertEqual(len(final_names), 10)
 
     def test_markdown_links_resolve(self):
         for sd in sorted((PLUGIN / "skills").iterdir()):
@@ -602,6 +602,79 @@ class ScriptFunctionalTests(unittest.TestCase):
         self.assertEqual(obj["n_features_shown"], 8)
         self.assertEqual(obj["n_samples"], 12)
         self.assertTrue(Path(self.o("hm", "feature-heatmap.png")).is_file())
+
+    def test_drift_correct(self):
+        # 24 injections (6 QC interleaved with 18 biological samples) with
+        # strong multiplicative signal attenuation along injection order (~60% drop)
+        rng = np.random.default_rng(2026)
+        n_inj = 24
+        orders = np.arange(1, n_inj + 1, dtype=float)
+        qc_indices = {0, 4, 9, 14, 18, 23}
+        sample_names = []
+        sample_types = []
+        for idx in range(n_inj):
+            if idx in qc_indices:
+                sample_names.append(f"QC_{idx+1}")
+                sample_types.append("QC")
+            else:
+                grp = "Case" if idx % 2 == 0 else "Ctrl"
+                sample_names.append(f"{grp}_{idx+1}")
+                sample_types.append(grp)
+
+        sheet_path = Path(self.o("drift_sample_sheet.tsv"))
+        sheet_path.parent.mkdir(parents=True, exist_ok=True)
+        sheet_lines = ["sample\tinjection_order\tsample_type"]
+        for s_name, ord_v, st in zip(sample_names, orders, sample_types):
+            sheet_lines.append(f"{s_name}\t{int(ord_v)}\t{st}")
+        sheet_path.write_text("\n".join(sheet_lines) + "\n")
+
+        drift_factor = 1.0 - 0.58 * ((orders - 1.0) / (n_inj - 1.0)) + 0.08 * np.sin(orders / 3.5)
+        rows = ["feature\tmz\trt\t" + "\t".join(sample_names)]
+        for f_i in range(25):
+            base = 1e5 * (1.0 + 0.25 * (f_i % 5))
+            vals = []
+            for j in range(n_inj):
+                bio_mult = 1.35 if (sample_types[j] == "Case" and f_i < 6) else 1.0
+                noise = rng.normal(1.0, 0.025)
+                vals.append(f"{base * bio_mult * drift_factor[j] * noise:.4f}")
+            rows.append(f"feat_{f_i:02d}\t{150.0 + f_i * 12.5:.4f}\t{60.0 + f_i * 8.0:.2f}\t" + "\t".join(vals))
+
+        mat_path = Path(self.o("drift_raw_matrix.tsv"))
+        mat_path.write_text("\n".join(rows) + "\n")
+
+        out_dir = self.o("drift_out")
+        obj = self.run_tool("drift_correct", [
+            "--input", str(mat_path),
+            "--sample_sheet", str(sheet_path),
+            "--output_dir", out_dir,
+            "--qc_label", "QC",
+            "--span", "0.75",
+            "--rsd_cutoff", "15.0",
+        ])
+        self.assertEqual(obj["tool"], "mb_drift_correct")
+        self.assertEqual(obj["n_features"], 25)
+        self.assertEqual(obj["n_qc_samples"], 6)
+        self.assertLess(obj["median_qc_rsd_after"], 0.5 * obj["median_qc_rsd_before"])
+        self.assertGreater(obj["n_features_rescued"], 0)
+        corr_mat_path = Path(obj["outputs"]["drift_corrected_matrix"])
+        self.assertTrue(corr_mat_path.is_file())
+        self.assertTrue(Path(obj["outputs"]["feature_qc_metrics"]).is_file())
+        self.assertTrue(Path(obj["outputs"]["drift_qc_plot"]).is_file())
+        hdr = corr_mat_path.read_text().splitlines()[0].split("\t")
+        self.assertIn("mz", hdr)
+        self.assertIn("rt", hdr)
+        sc_ctx = obj.get("scientificContext", {})
+        self.assertIn(str(corr_mat_path), sc_ctx)
+        self.assertEqual(sc_ctx[str(corr_mat_path)]["valueSemantics"], "normalized")
+        for art in obj["artifacts"]:
+            ap = Path(art)
+            self.assertTrue(ap.is_file())
+            sidecar = ap.with_name(ap.name + ".phi-artifact.json")
+            self.assertTrue(sidecar.is_file())
+            meta = json.loads(sidecar.read_text())
+            self.assertEqual(meta["contractVersion"], "1.0.0")
+            self.assertEqual(meta["provenance"]["tool"], "mb_drift_correct")
+            self.assertEqual(meta["provenance"]["skill"], "lcms-workflow")
 
 
 if __name__ == "__main__":

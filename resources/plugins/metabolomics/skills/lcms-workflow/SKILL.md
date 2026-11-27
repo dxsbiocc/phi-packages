@@ -3,6 +3,7 @@ name: lcms-workflow
 description: >-
   Downstream analysis of untargeted LC-MS feature tables: inspect xcms /
   MZmine / MS-DIAL / MetaboAnalyst exports, QC-sample RSD filtering,
+  QC-RLSC LOESS injection-order drift correction (mb_drift_correct),
   imputation, normalization (TIC / median / PQN / internal standard) and log
   transform, PCA and PLS-DA with VIP and permutation Q2, univariate tests
   (Welch / Wilcoxon / Kruskal-Wallis + BH FDR) with volcano plots,
@@ -73,6 +74,46 @@ phi:
             description: Minimum non-missing fraction across biological samples (default 0.8).
       approval: write
       output: ./schemas/qc-result.json
+      timeoutSeconds: 600
+    - name: drift_correct
+      description: >-
+        QC-RLSC (Quality Control-based Robust LOESS Signal Correction) for
+        long LC-MS runs with injection-order drift: fits pure-NumPy tricube
+        + bisquare IRLS LOESS per feature on pooled QC injections sorted by
+        run order, rescues features whose QC RSD drops below cutoff, and writes
+        the corrected matrix, per-feature RSD metrics, and PCA/RSD QC plot.
+      run: [python, ./scripts/drift_correct.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [input, sample_sheet, output_dir]
+        properties:
+          input:
+            type: string
+            format: input-path
+            description: Feature x sample intensity table (mz/rt columns optional).
+          sample_sheet:
+            type: string
+            format: input-path
+            description: Metadata CSV/TSV with sample ID and injection_order columns.
+          output_dir:
+            type: string
+            format: project-path
+            description: Directory for drift-corrected matrix, metrics, and figure.
+          qc_label:
+            type: string
+            description: Sample-type label identifying pooled QC injections (default QC).
+          span:
+            type: number
+            minimum: 0.25
+            maximum: 1.0
+            description: LOESS smoothing span in [0.25, 1.0] (default 0.75).
+          rsd_cutoff:
+            type: number
+            minimum: 0
+            description: QC RSD cutoff in percent for precision rescue (default 30).
+      approval: write
+      output: ./schemas/drift-correct-result.json
       timeoutSeconds: 600
     - name: preprocess
       description: >-
@@ -421,8 +462,8 @@ as a gap and ask the user for the exported feature table.
 ## Chain
 
 ```
-feature table ──mb_qc──▶ filtered ──mb_preprocess──▶ processed matrix
-   (QC RSD + detection)      (impute → normalize → transform)
+feature table ──[mb_drift_correct]──▶ ──mb_qc──▶ filtered ──mb_preprocess──▶ processed matrix
+  (QC-RLSC LOESS drift)      (QC RSD + detection)    (impute → normalize → transform)
 processed ──┬─ mb_multivariate  (PCA, PLS-DA, VIP, permutation Q2)
             ├─ mb_univariate    (Welch/Wilcoxon/KW + BH FDR, volcano)
             └─ mb_plot          (clustered heatmap)

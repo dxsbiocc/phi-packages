@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.0 (2026-11-27)
+
+- 新增 `mb_drift_correct`（QC-RLSC 鲁棒 LOESS 信号漂移校正）：按进样顺序对每个特征在 QC 样本上拟合纯 NumPy tricube + bisquare IRLS 局部加权回归趋势，并归一化全样本信号，输出校正后特征矩阵（`valueSemantics: normalized`）、校正前后 QC RSD 对比与拯救特征统计，以及 QC RSD 散点/PCA 紧缩对比图。
+
 ## 0.1.1 (2026-11-24)
 
 - `mb_preprocess` 与 `mb_univariate` 新增 `scientificContext` 语义输出（按处理步骤自动标记 `log_transformed` / `normalized` / `raw_intensity` + `sampleIds`，以及单变量检验表的 `de_stats`），同步更新输出 JSON Schema。

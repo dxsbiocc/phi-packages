@@ -37,8 +37,10 @@ jobs:
           MPLBACKEND: Agg
         run: |
           python tests/test_bridging_tools.py -v
+          python tests/test_biomni_eval_benchmark.py -v
           python tests/test_bulk_rnaseq_plugin.py -v
           python tests/test_chromatin_and_scatac_plugins.py -v
+          python tests/test_clinical_germline_plugin.py -v
           python tests/test_clinical_plugin.py -v
           python tests/test_crispr_plugin.py -v
           python tests/test_drug_discovery_plugin.py -v
@@ -57,6 +59,7 @@ jobs:
           python tests/test_protein_design_wrappers.py -v
           python tests/test_proteomics_plugin.py -v
           python tests/test_single_cell_and_literature_plugins.py -v
+          python tests/test_statistical_genetics_plugin.py -v
           python tests/test_wetlab_assay_plugin.py -v
 
   chem-plugin-tests:
