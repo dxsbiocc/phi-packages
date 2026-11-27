@@ -19,3 +19,8 @@
    - Run `rna_ora` separately for `direction: up` and `direction: down` (mixing up and down in `both` dilutes directional pathways).
    - Run `rna_gsea` on the full unfiltered DE table ranked by `stat` to capture coordinated subtle shifts missed by hard DEG cutoffs.
    - Run `rna_pathway_score` when sample-level pathway heatmaps or covariate correlations are needed.
+6. **TF/pathway regulon activity (`rna_regulon`)**:
+   - Prefer `method: ulm` for independent pathway/TF testing and `method: mlm` when dissecting correlated regulons (e.g., CollecTRI/PROGENy) simultaneously.
+   - Ensure gene symbols (not unmapped Ensembl IDs) are used; run `rna_id_map` first if needed.
+7. **Differential alternative splicing (`rna_splicing`)**:
+   - Pass all five rMATS `*.MATS.JC.txt` tables (`SE`, `A5SS`, `A3SS`, `MXE`, `RI`) or SUPPA2 `.dpsi` outputs together via `splicing_inputs` for unified FDR filtering, `frameshift_candidate` (`exon_len_bp % 3 != 0`) annotation, and multi-hit gene ranking.

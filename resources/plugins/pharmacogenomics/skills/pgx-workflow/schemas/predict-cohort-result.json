@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "response_polarity",
+    "min_cv_r",
+    "n_train_samples",
+    "n_clinical_samples",
+    "n_shared_genes",
+    "n_drugs_modeled",
+    "n_drugs_reliable",
+    "n_drugs_low_predictability",
+    "drug_metrics",
+    "outputs",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "pgx_predict_cohort" },
+    "response_polarity": { "type": "string", "enum": ["lower_is_sensitive", "higher_is_sensitive"] },
+    "min_cv_r": { "type": "number" },
+    "n_train_samples": { "type": "integer" },
+    "n_clinical_samples": { "type": "integer" },
+    "n_shared_genes": { "type": "integer" },
+    "n_drugs_modeled": { "type": "integer" },
+    "n_drugs_reliable": { "type": "integer" },
+    "n_drugs_low_predictability": { "type": "integer" },
+    "drug_metrics": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": ["predicted_response", "drug_cv_metrics", "overview_plot"],
+      "properties": {
+        "predicted_response": { "type": "string" },
+        "drug_cv_metrics": { "type": "string" },
+        "overview_plot": { "type": "string" }
+      }
+    },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

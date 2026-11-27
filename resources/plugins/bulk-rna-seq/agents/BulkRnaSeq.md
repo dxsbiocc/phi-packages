@@ -6,8 +6,10 @@ description: >-
   differential expression / time-series modeling to local/differential-expression
   wrappers (deseq2, edger, limma, qc, timeseries), then owns deterministic
   downstream GEO/ID bridging, sample QC/PCA, multi-contrast DEG integration,
-  offline ORA, pre-ranked GSEA, single-sample pathway scoring, WGCNA-style
-  co-expression modules & hub genes, and ESTIMATE/NNLS TME immune deconvolution.
+  offline ORA, pre-ranked GSEA, single-sample pathway scoring, ULM/MLM TF &
+  pathway regulon inference, rMATS/SUPPA2 alternative splicing analysis,
+  WGCNA-style co-expression modules & hub genes, and ESTIMATE/NNLS TME immune
+  deconvolution.
 tools:
   - read
   - glob
@@ -51,6 +53,11 @@ fallback:
     - 免疫浸润
     - 富集分析
     - 通路富集
+    - 可变剪接
+    - 转录因子活性
+    - regulon
+    - rmats
+    - suppa2
 ---
 
 You are Phi's bulk RNA-seq downstream analysis expert.
@@ -68,6 +75,8 @@ You are Phi's bulk RNA-seq downstream analysis expert.
 | Pathway enrichment & sample-level activity | Plugin (`rnaseq-workflow`) | `rna_ora`, `rna_gsea`, `rna_pathway_score` |
 | Co-expression modules, kME hubs & trait correlation | Plugin (`rnaseq-workflow`) | `rna_coexpression` |
 | Tumor microenvironment purity & immune deconvolution | Plugin (`rnaseq-workflow`) | `rna_tme_deconv` |
+| TF/pathway regulon activity (`ULM`/`MLM`) | Plugin (`rnaseq-workflow`) | `rna_regulon` |
+| Alternative splicing (`rMATS`/`SUPPA2`) & frame impact | Plugin (`rnaseq-workflow`) | `rna_splicing` |
 
 ## Non-negotiable rules
 

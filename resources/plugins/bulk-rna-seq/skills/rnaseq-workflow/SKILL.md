@@ -6,11 +6,14 @@ description: >-
   Matrix cohorts; strip Ensembl versions and map gene IDs via GTF/GFF3 or tables;
   inspect matrices, DE tables, metadata, and GMT sets; run sample QC/PCA; compare
   multi-contrast DEGs; run hypergeometric ORA, pre-ranked GSEA, single-sample
-  pathway scoring, WGCNA-style weighted gene co-expression module & hub-gene
-  detection, and ESTIMATE/NNLS tumor microenvironment immune deconvolution. Use
-  for bulk RNA-seq, 转录组, 基因ID转换, GEO数据导入, 差异表达下游, GSEA, ORA,
-  WGCNA, 共表达网络, 枢纽基因, 免疫浸润, 肿瘤微环境去卷积. Raw alignment runs on
-  nf-core/rna-seq and core DE on local/differential-expression wrappers.
+  pathway scoring, ULM/MLM TF and pathway regulon inference, rMATS/SUPPA2
+  differential alternative splicing harmonization, WGCNA-style weighted gene
+  co-expression module & hub-gene detection, and ESTIMATE/NNLS tumor
+  microenvironment immune deconvolution. Use for bulk RNA-seq, 转录组,
+  基因ID转换, GEO数据导入, 差异表达下游, GSEA, ORA, regulon, 转录因子活性,
+  可变剪接, rMATS, SUPPA2, WGCNA, 共表达网络, 枢纽基因, 免疫浸润,
+  肿瘤微环境去卷积. Raw alignment runs on nf-core/rna-seq and core DE on
+  local/differential-expression wrappers.
 phi:
   environment: plugin:rnaseq
   attachTo:
@@ -466,6 +469,75 @@ phi:
       approval: write
       output: ./schemas/tme-deconv-result.json
       timeoutSeconds: 600
+    - name: regulon
+      description: >-
+        Infer signed transcription factor and signaling pathway regulon
+        activities from an expression matrix or DE result table using
+        decoupler-style Univariate (ULM) or ridge-stabilized Multivariate (MLM)
+        linear models with a built-in 14-pathway human/mouse footprint network
+        or custom CollecTRI/DoRothEA/PROGENy regulons.
+      run: [python, ./scripts/rna_regulon.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [input, output_dir]
+        properties:
+          input:
+            type: string
+            format: input-path
+            description: Expression matrix (genes x samples) or DE result table TSV/CSV.
+          output_dir:
+            type: string
+            format: project-path
+            description: Directory for regulon_activities.tsv, regulon_pvalues.tsv, regulon_fdr.tsv, and heatmap.
+          network:
+            type: string
+            format: input-path
+            description: Optional signed regulon TSV/CSV (source, target, optional mor/weight); uses built-in 14-pathway footprint resource if omitted.
+          method:
+            type: string
+            enum: [ulm, mlm]
+            description: Linear regression model (ulm or mlm, default ulm).
+          min_targets:
+            type: integer
+            minimum: 3
+            description: Minimum matched targets required per regulon (default 5).
+          stat_col:
+            type: string
+            description: Optional statistic/log2FC column name when input is a DE table.
+      approval: write
+      output: ./schemas/regulon-result.json
+      timeoutSeconds: 600
+    - name: splicing
+      description: >-
+        Harmonize rMATS (SE, A5SS, A3SS, MXE, RI), SUPPA2 (.dpsi), and generic
+        differential alternative splicing tables; compute exon lengths and flag
+        frameshift_candidate (len % 3 != 0) vs in_frame_modular events; and
+        summarize event classes and multi-hit spliced genes.
+      run: [python, ./scripts/rna_splicing.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [splicing_inputs, output_dir]
+        properties:
+          splicing_inputs:
+            type: array
+            items:
+              type: string
+            description: One or more rMATS, SUPPA2, or generic differential splicing TSV/CSV tables.
+          output_dir:
+            type: string
+            format: project-path
+            description: Directory for splicing_significant_events.tsv, splicing_event_class_summary.tsv, multi_hit_genes, and volcano plot.
+          dpsi_cutoff:
+            type: number
+            description: Minimum |dPSI| / |IncLevelDifference| threshold (default 0.10).
+          fdr_cutoff:
+            type: number
+            description: Maximum FDR significance cutoff (default 0.05).
+      approval: write
+      output: ./schemas/splicing-result.json
+      timeoutSeconds: 600
 ---
 
 # Bulk RNA-seq — downstream interpretation & pathway chain
@@ -485,6 +557,8 @@ multiple DE tables ──rna_compare──▶ shared / discordant / specific DEG
 full DE table + GMT ──┬─ rna_ora  (hypergeometric ORA with explicit universe)
                       └─ rna_gsea (threshold-free pre-ranked GSEA + leading-edge)
 expression + GMT ──────rna_pathway_score──▶ sample-level pathway activity matrix + heatmap
+expression / DE ───────rna_regulon────────▶ ULM/MLM TF & pathway regulon activity t-scores + FDR
+rMATS / SUPPA2 ────────rna_splicing───────▶ harmonized splicing events, frame impact & multi-hit genes
 expression (+ traits) ─rna_coexpression───▶ WGCNA-style TOM modules, Module Eigengenes & kME hubs
 symbol expression ─────rna_tme_deconv─────▶ ESTIMATE Stromal/Immune/Purity + NNLS immune cell fractions
 ```

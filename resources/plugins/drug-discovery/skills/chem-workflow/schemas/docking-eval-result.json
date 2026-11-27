@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "backend",
+    "score_col",
+    "higher_is_better",
+    "n_input_rows",
+    "n_unique_compounds",
+    "n_pains_filtered",
+    "n_selected_hits",
+    "top_n",
+    "best_score",
+    "mean_le_dock",
+    "mean_sile",
+    "top_hits",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "chem_docking_eval" },
+    "backend": { "type": "string", "enum": ["rdkit", "pure_python_smiles"] },
+    "score_col": { "type": "string" },
+    "aux_score_col": { "type": ["string", "null"] },
+    "higher_is_better": { "type": "boolean" },
+    "n_input_rows": { "type": "integer" },
+    "n_unique_compounds": { "type": "integer" },
+    "n_pains_filtered": { "type": "integer" },
+    "n_selected_hits": { "type": "integer" },
+    "top_n": { "type": "integer" },
+    "best_score": { "type": "number" },
+    "mean_le_dock": { "type": "number" },
+    "mean_sile": { "type": "number" },
+    "top_hits": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": ["docking_hit_list", "docking_le_pareto"],
+      "properties": {
+        "docking_hit_list": { "type": "string" },
+        "docking_le_pareto": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

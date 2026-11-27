@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "locus",
+    "n_samples",
+    "n_public_clonotypes",
+    "top_public_clonotypes",
+    "enriched_4mer_motifs",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "imm_clonotype_tracking" },
+    "locus": { "type": "string" },
+    "n_samples": { "type": "integer" },
+    "baseline_sample": { "type": ["string", "null"] },
+    "followup_sample": { "type": ["string", "null"] },
+    "n_public_clonotypes": { "type": "integer" },
+    "n_expanded": { "type": ["integer", "null"] },
+    "n_contracted": { "type": ["integer", "null"] },
+    "mean_morisita_horn": { "type": "number" },
+    "mean_jaccard": { "type": "number" },
+    "top_public_clonotypes": { "type": "array", "items": { "type": "object" } },
+    "enriched_4mer_motifs": { "type": "array", "items": { "type": "object" } },
+    "top_differential_clones": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": [
+        "repertoire_overlap_matrix",
+        "clonotype_tracking_overlap"
+      ],
+      "properties": {
+        "repertoire_overlap_matrix": { "type": "string" },
+        "clonotype_differential_tracking": { "type": ["string", "null"] },
+        "clonotype_tracking_overlap": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

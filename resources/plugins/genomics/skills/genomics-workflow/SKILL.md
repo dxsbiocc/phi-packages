@@ -2,16 +2,15 @@
 name: genomics-workflow
 description: >-
   Downstream somatic cancer genomics workflow in Python: convert annotated
-  somatic VCFs (VEP CSQ, SnpEff ANN, ANNOVAR, e.g. from nf-core/sarek) into GDC
-  MAF tables with optional FASTA 3-mer context; validate MAF tables, clinical
-  metadata, and CNV segments; summarize cohort mutations, Ti/Tv spectra, and
-  oncoplots; compute FoCR TMB (explicit capture_size_mb + min_vaf) and MATH
-  heterogeneity (with CNV exclusion); test somatic co-occurrence/exclusivity,
-  10 Sanchez-Vega oncogenic pathways, and cohort differential mutations; refit
-  SBS96 trinucleotide signatures via NNLS; and quantify CNV Fraction Genome
-  Altered (FGA) and recurrent gain/loss segments. Use for genomics, 基因组,
-  肿瘤基因组, 体细胞突变, VCF转MAF, vcf2maf, MAF, maftools, oncoplot, TMB,
-  突变负荷, MATH, mutational signature, SBS96, COSMIC, CNV, FGA.
+  somatic VCFs (VEP CSQ, SnpEff ANN, ANNOVAR) into GDC MAF tables; validate MAF
+  tables, clinical metadata, and CNV segments; summarize cohort mutations,
+  Ti/Tv spectra, and oncoplots; compute FoCR TMB and MATH heterogeneity; test
+  co-occurrence/exclusivity and 10 Sanchez-Vega pathways; refit SBS96 signatures
+  via NNLS; quantify CNV FGA; score scarHRD (LOH/TAI/LST) and MSI biomarker
+  strata; and estimate CCF clonal vs subclonal architecture. Use for genomics,
+  基因组, 肿瘤基因组, 体细胞突变, VCF转MAF, vcf2maf, MAF, maftools, oncoplot,
+  TMB, 突变负荷, MATH, mutational signature, SBS96, COSMIC, CNV, FGA, HRD, LOH,
+  TAI, LST, MSI, clonality, CCF, subclonal, 同源重组缺陷, 微卫星不稳定, 克隆演化.
 phi:
   environment: plugin:genomics
   attachTo:
@@ -308,23 +307,109 @@ phi:
       approval: write
       output: ./schemas/cnv-result.json
       timeoutSeconds: 600
+    - name: hrd_msi
+      description: >-
+        Compute scarHRD/Marquard genomic scar Homologous Recombination Deficiency
+        scores (HRD-LOH, TAI, LST, and hrd_sum on hg38/hg19 autosomes) from
+        allele-specific CNV segments (ASCAT/Sequenza/FACETS/PURPLE) and integrate
+        MSIsensor-pro/Mantis MSI tables or somatic MAF indel/frameshift surrogates
+        to classify combined HRD/MSI biomarker strata.
+      run: [python, ./scripts/gen_hrd_msi.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [output_dir]
+        properties:
+          segments:
+            type: string
+            format: input-path
+            description: Optional allele-specific CNV segment TSV/CSV (sample, chrom, start, end, nMajor/nMinor or total_cn/minor_cn).
+          msi_table:
+            type: string
+            format: input-path
+            description: Optional MSIsensor-pro or Mantis MSI summary TSV/CSV.
+          maf:
+            type: string
+            format: input-path
+            description: Optional somatic MAF/TSV for frameshift indel rate and indel-to-SNV MSI surrogate.
+          genome:
+            type: string
+            enum: [hg38, hg19]
+            description: Reference genome assembly for chromosome lengths and centromeres (default hg38).
+          hrd_cutoff:
+            type: integer
+            description: HRD sum threshold for HRD-positive status (default 42).
+          msi_pct_cutoff:
+            type: number
+            description: Unstable microsatellite percentage threshold for MSI-H (default 3.5).
+          output_dir:
+            type: string
+            format: project-path
+            description: Directory for hrd_msi_summary.tsv and hrd_msi_landscape.png.
+      approval: write
+      output: ./schemas/hrd-msi-result.json
+      timeoutSeconds: 600
+    - name: clonality
+      description: >-
+        Estimate McGranahan/PyClone-inspired Cancer Cell Fraction (CCF) with
+        Binomial multiplicity MLE and exact Clopper-Pearson 95% confidence
+        intervals from somatic variant counts, sample purity, and local copy
+        number; classify clonal vs subclonal driver mutations; and test
+        Williams et al. (2016) neutral tail linearity M(f) ~ 1/f.
+      run: [python, ./scripts/gen_clonality.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [maf, output_dir]
+        properties:
+          maf:
+            type: string
+            format: input-path
+            description: Somatic MAF/TSV with Hugo_Symbol, Tumor_Sample_Barcode, Chromosome, Start_Position, and counts or VAF+depth.
+          output_dir:
+            type: string
+            format: project-path
+            description: Directory for clonality_variants.tsv, clonality_sample_summary.tsv, and ccf_clonal_architecture.png.
+          purity_table:
+            type: string
+            format: input-path
+            description: Optional sample purity/ploidy TSV/CSV (sample, purity, ploidy).
+          segments:
+            type: string
+            format: input-path
+            description: Optional CNV segment TSV/CSV (sample, chrom, start, end, total_cn or nMajor+nMinor).
+          default_purity:
+            type: number
+            description: Fallback tumor purity when purity_table is omitted or sample is absent (default 0.70).
+          default_cn:
+            type: integer
+            description: Fallback local total copy number when segments are omitted or locus uncovered (default 2).
+          clonal_ccf_cutoff:
+            type: number
+            description: CCF threshold for clonal classification alongside 95% CI upper bound >= 0.95 (default 0.85).
+      approval: write
+      output: ./schemas/clonality-result.json
+      timeoutSeconds: 600
 ---
 
 # Genomics — somatic cancer genomics downstream chain
 
 Read [references/analysis-playbook.md](references/analysis-playbook.md) before
-interpreting TMB, MATH heterogeneity, oncogenic pathways, or SBS96 signatures.
+interpreting TMB, MATH heterogeneity, oncogenic pathways, SBS96 signatures,
+HRD/MSI stratification, or CCF clonality.
 
 ## Chain
 
 ```
-FASTQ ──(nf-core/sarek / Mutect2 / VEP / vcf2maf)──▶ MAF + CNV .seg
+FASTQ ──(nf-core/sarek / Mutect2 / VEP / vcf2maf)──▶ MAF + CNV .seg / ASCAT + MSI
 MAF (+ clinical + seg) ──gen_inspect───────▶ validate GDC MAF fields, VAF, sample overlap
                        ──gen_summary───────▶ cohort summary, Ti/Tv spectrum & oncoplot
                        ──gen_tmb_ith───────▶ FoCR TMB (explicit Mb) & MATH heterogeneity
                        ──gen_interactions──▶ co-occurrence/exclusivity, 10 pathways & cohort diff
                        ──gen_signatures────▶ SBS96 catalog & COSMIC NNLS refitting
+                       ──gen_clonality─────▶ CCF multiplicity MLE, clonal/subclonal drivers & 1/f tail
 CNV .seg (+ clinical)  ──gen_cnv───────────▶ per-sample FGA & recurrent gain/loss summary
+ASCAT/MSI/MAF          ──gen_hrd_msi───────▶ scarHRD (LOH/TAI/LST), MSI & biomarker strata
 ```
 
 ## Hard red lines
@@ -334,3 +419,5 @@ CNV .seg (+ clinical)  ──gen_cnv───────────▶ per-sam
 3. **Separate oncogenicity from clinical actionability**: pathway hits are biological driver evidence, not Tier I clinical therapy recommendations.
 4. **Never fabricate SBS96 exposures**: without trinucleotide context and a reference signature matrix, report the 6-class Ti/Tv fallback and the exact gap.
 5. **Control for CNV in MATH**: pass `--seg` to `gen_tmb_ith` whenever copy-number segments are available.
+6. **Disclose HRD/MSI modality limits**: allele-specific segments are required for scarHRD (`LOH`/`TAI`/`LST`), and MAF indel ratios without an MSIsensor-pro/Mantis table are proxy surrogates only.
+7. **State purity/CN inputs in CCF clonality**: report whether purity and local copy number came from measured tables or `default_purity`/`default_cn` fallbacks.

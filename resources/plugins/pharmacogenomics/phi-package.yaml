@@ -1,13 +1,13 @@
 schemaVersion: 1
 id: pharmacogenomics
 type: plugin
-version: 0.1.0
+version: 0.2.0
 title: Pharmacogenomics & Drug Response
 summary: >-
-  Pharmacogenomics & drug screening workflow (pgx_): 4-parameter Hill
-  dose-response curve fitting (IC50/EC50/AUC/AAC with extrapolation censoring
-  guards), 2D drug-combination synergy scoring (ZIP/Bliss/Loewe/HSA), and
-  multi-omics drug sensitivity biomarker discovery.
+  Pharmacogenomics & drug screening workflow (pgx_): HTS plate QC & B-score
+  hit calling, 4PL Hill dose-response fitting (IC50/EC50/AUC/AAC), 2D drug
+  synergy (ZIP/Bliss/Loewe/HSA), biomarker screening, and RidgeCV cohort
+  sensitivity prediction.
 toolPrefix: pgx
 components:
   agents:

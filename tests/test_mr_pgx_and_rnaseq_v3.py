@@ -1,7 +1,7 @@
 """Contract, compilation, and end-to-end runtime tests for:
   - mendelian-randomization 0.1.0 (mr_gwas_qc, mr_harmonize, mr_estimate, mr_coloc)
-  - pharmacogenomics 0.1.0 (pgx_dose_response, pgx_synergy, pgx_biomarker)
-  - bulk-rna-seq 0.3.0 upgrades (rna_coexpression, rna_tme_deconv)
+  - pharmacogenomics 0.2.0 (pgx_dose_response, pgx_synergy, pgx_biomarker, pgx_hts_qc, pgx_predict_cohort)
+  - bulk-rna-seq 0.4.0 upgrades (rna_coexpression, rna_tme_deconv, rna_regulon, rna_splicing)
 """
 from __future__ import annotations
 
@@ -73,7 +73,7 @@ class TestPluginManifestsAndOfflineCompilation(unittest.TestCase):
     def test_pharmacogenomics_layout_and_compilation(self) -> None:
         manifest = (PGX_DIR / "phi-package.yaml").read_text(encoding="utf-8")
         self.assertIn("id: pharmacogenomics", manifest)
-        self.assertIn("version: 0.1.0", manifest)
+        self.assertIn("version: 0.2.0", manifest)
         self.assertIn("toolPrefix: pgx", manifest)
         self.assertTrue((PGX_DIR / "icon.svg").is_file())
         self.assertTrue((PGX_DIR / "README.md").is_file())
@@ -85,11 +85,27 @@ class TestPluginManifestsAndOfflineCompilation(unittest.TestCase):
             self.assertTrue((locks_dir / plat).is_file(), f"Missing lock {plat}")
 
         skill_dir = PGX_DIR / "skills" / "pgx-workflow"
-        for schema in ("dose-response-result.json", "synergy-result.json", "biomarker-result.json"):
+        skill_md = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("- name: hts_qc", skill_md)
+        self.assertIn("- name: predict_cohort", skill_md)
+        for schema in (
+            "dose-response-result.json",
+            "synergy-result.json",
+            "biomarker-result.json",
+            "hts-qc-result.json",
+            "predict-cohort-result.json",
+        ):
             obj = json.loads((skill_dir / "schemas" / schema).read_text(encoding="utf-8"))
             self.assertEqual(obj["type"], "object")
 
-        for script in ("_common.py", "pgx_dose_response.py", "pgx_synergy.py", "pgx_biomarker.py"):
+        for script in (
+            "_common.py",
+            "pgx_dose_response.py",
+            "pgx_synergy.py",
+            "pgx_biomarker.py",
+            "pgx_hts_qc.py",
+            "pgx_predict_cohort.py",
+        ):
             p = skill_dir / "scripts" / script
             self.assertTrue(p.is_file(), f"Missing script {script}")
             ast.parse(p.read_text(encoding="utf-8"), filename=str(p))
@@ -98,20 +114,35 @@ class TestPluginManifestsAndOfflineCompilation(unittest.TestCase):
 
     def test_bulk_rnaseq_v3_layout_and_compilation(self) -> None:
         manifest = (RNA_DIR / "phi-package.yaml").read_text(encoding="utf-8")
-        self.assertIn("version: 0.3.0", manifest)
+        self.assertIn("version: 0.4.0", manifest)
         skill_dir = RNA_DIR / "skills" / "rnaseq-workflow"
         skill_md = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
         self.assertIn("- name: coexpression", skill_md)
         self.assertIn("- name: tme_deconv", skill_md)
+        self.assertIn("- name: regulon", skill_md)
+        self.assertIn("- name: splicing", skill_md)
 
-        for schema in ("coexpression-result.json", "tme-deconv-result.json"):
+        for schema in (
+            "coexpression-result.json",
+            "tme-deconv-result.json",
+            "regulon-result.json",
+            "splicing-result.json",
+        ):
             obj = json.loads((skill_dir / "schemas" / schema).read_text(encoding="utf-8"))
             self.assertEqual(obj["type"], "object")
 
-        for script in ("_common.py", "rna_coexpression.py", "rna_tme_deconv.py"):
+        for script in (
+            "_common.py",
+            "rna_coexpression.py",
+            "rna_tme_deconv.py",
+            "rna_regulon.py",
+            "rna_splicing.py",
+        ):
             p = skill_dir / "scripts" / script
             self.assertTrue(p.is_file(), f"Missing script {script}")
-            ast.parse(p.read_text(encoding="utf-8"), filename=str(p))
+            src = p.read_text(encoding="utf-8")
+            self.assertNotIn("sklearn", src, f"bulk-rna-seq script {script} must not import sklearn")
+            ast.parse(src, filename=str(p))
             with tempfile.TemporaryDirectory() as tmp:
                 py_compile.compile(str(p), cfile=str(Path(tmp) / f"{script}.pyc"), doraise=True)
 
@@ -371,6 +402,117 @@ class TestPharmacogenomicsRuntime(unittest.TestCase):
             self.assertGreater(top_hit["sensitivity_effect"], 2.0)
             self.assertLess(top_hit["padj"], 0.01)
 
+    def test_pgx_hts_qc_and_predict_cohort(self) -> None:
+        scripts = PGX_DIR / "skills" / "pgx-workflow" / "scripts"
+        rng = random.Random(202602)
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_dir = Path(tmp)
+
+            # 1. HTS 96-well plate with row/edge bias + 2 potent inhibitor hits
+            plate_rows = ["plate\twell\twell_type\tsignal"]
+            for r_idx in range(8):
+                row_ch = chr(ord("A") + r_idx)
+                row_drift = (r_idx - 3.5) * 180.0
+                for c_idx in range(1, 13):
+                    well = f"{row_ch}{c_idx:02d}"
+                    if c_idx == 1:
+                        wtype = "pos_ctrl"
+                        sig = 800.0 + rng.gauss(0, 35.0)
+                    elif c_idx == 12:
+                        wtype = "neg_ctrl"
+                        sig = 10000.0 + rng.gauss(0, 140.0)
+                    else:
+                        wtype = "sample"
+                        sig = 10000.0 + row_drift + rng.gauss(0, 120.0)
+                        if well in ("D05", "F08"):
+                            sig = 1400.0 + row_drift
+                    plate_rows.append(f"Plate_A\t{well}\t{wtype}\t{sig:.2f}")
+
+            plate_path = tmp_dir / "hts_plates.tsv"
+            plate_path.write_text("\n".join(plate_rows) + "\n", encoding="utf-8")
+
+            hts_res = _run_json(
+                [
+                    sys.executable,
+                    str(scripts / "pgx_hts_qc.py"),
+                    "--plates",
+                    str(plate_path),
+                    "--apply_bscore",
+                    "--output_dir",
+                    str(tmp_dir / "hts_out"),
+                ]
+            )
+            self.assertEqual(hts_res["status"], "ok")
+            self.assertEqual(hts_res["tool"], "pgx_hts_qc")
+            self.assertTrue(hts_res["apply_bscore"])
+            self.assertEqual(hts_res["n_passed_plates"], 1)
+            self.assertGreater(hts_res["plate_summaries"][0]["z_prime"], 0.7)
+            self.assertTrue(hts_res["plate_summaries"][0]["spatial_bias_detected"])
+            self.assertGreaterEqual(hts_res["n_hits_total"], 2)
+            hit_wells = {h["well"] for h in hts_res["top_hits"]}
+            self.assertIn("D05", hit_wells)
+            self.assertIn("F08", hit_wells)
+            self.assertTrue(Path(hts_res["outputs"]["plate_qc_summary"] + ".phi-artifact.json").is_file())
+            self.assertTrue(Path(hts_res["outputs"]["plate_heatmap_qc"] + ".phi-artifact.json").is_file())
+
+            # 2. Cross-cohort drug sensitivity prediction (RidgeCV)
+            n_lines, n_clin, n_genes = 36, 14, 40
+            train_lines = [f"CL_{i:02d}" for i in range(n_lines)]
+            clin_patients = [f"PT_{i:02d}" for i in range(n_clin)]
+            lat_tr = [(-1.5 if i < 18 else 1.5) + rng.gauss(0, 0.2) for i in range(n_lines)]
+            lat_cl = [(-1.4 if i < 7 else 1.4) + rng.gauss(0, 0.2) for i in range(n_clin)]
+
+            tr_expr_lines = ["gene\t" + "\t".join(train_lines)]
+            cl_expr_lines = ["gene\t" + "\t".join(clin_patients)]
+            for g in range(n_genes):
+                w = 1.6 if g < 15 else 0.0
+                tr_vals = [7.0 + w * lat_tr[i] + rng.gauss(0, 0.4) for i in range(n_lines)]
+                # Shifted baseline in clinical cohort to test cross-platform Z-score harmonization
+                cl_vals = [10.5 + 1.4 * w * lat_cl[i] + rng.gauss(0, 0.5) for i in range(n_clin)]
+                tr_expr_lines.append(f"G_{g:03d}\t" + "\t".join(f"{v:.4f}" for v in tr_vals))
+                cl_expr_lines.append(f"G_{g:03d}\t" + "\t".join(f"{v:.4f}" for v in cl_vals))
+
+            resp_lines = ["sample\tPredictableDrug\tNoiseDrug"]
+            for i, s in enumerate(train_lines):
+                y_pred = 1.2 * lat_tr[i] + rng.gauss(0, 0.25)
+                y_noise = rng.gauss(0, 1.0)
+                resp_lines.append(f"{s}\t{y_pred:.4f}\t{y_noise:.4f}")
+
+            tr_expr_p = tmp_dir / "train_expr.tsv"
+            cl_expr_p = tmp_dir / "clin_expr.tsv"
+            resp_p = tmp_dir / "train_resp.tsv"
+            tr_expr_p.write_text("\n".join(tr_expr_lines) + "\n", encoding="utf-8")
+            cl_expr_p.write_text("\n".join(cl_expr_lines) + "\n", encoding="utf-8")
+            resp_p.write_text("\n".join(resp_lines) + "\n", encoding="utf-8")
+
+            pred_res = _run_json(
+                [
+                    sys.executable,
+                    str(scripts / "pgx_predict_cohort.py"),
+                    "--train_expr",
+                    str(tr_expr_p),
+                    "--train_response",
+                    str(resp_p),
+                    "--clinical_expr",
+                    str(cl_expr_p),
+                    "--min_cv_r",
+                    "0.30",
+                    "--output_dir",
+                    str(tmp_dir / "pred_out"),
+                ]
+            )
+            self.assertEqual(pred_res["status"], "ok")
+            self.assertEqual(pred_res["tool"], "pgx_predict_cohort")
+            self.assertEqual(pred_res["n_drugs_modeled"], 2)
+            self.assertGreaterEqual(pred_res["n_drugs_reliable"], 1)
+            self.assertGreaterEqual(pred_res["n_drugs_low_predictability"], 1)
+            by_drug = {m["drug"]: m for m in pred_res["drug_metrics"]}
+            self.assertTrue(by_drug["PredictableDrug"]["reliable"])
+            self.assertGreater(by_drug["PredictableDrug"]["cv_pearson_r"], 0.70)
+            self.assertTrue(by_drug["NoiseDrug"]["low_predictability_warning"])
+            self.assertTrue(Path(pred_res["outputs"]["predicted_response"] + ".phi-artifact.json").is_file())
+            self.assertTrue(Path(pred_res["outputs"]["overview_plot"] + ".phi-artifact.json").is_file())
+
 
 @unittest.skipUnless(HAS_SCIPY_STACK, "Requires numpy/pandas/scipy/scikit-learn/matplotlib")
 class TestBulkRnaSeqV3Runtime(unittest.TestCase):
@@ -482,6 +624,122 @@ class TestBulkRnaSeqV3Runtime(unittest.TestCase):
             self.assertGreater(tme_res["mean_cell_fractions"]["CD8_T"], 0.15)
             self.assertTrue(len(tme_res["top_group_differences"]) >= 3)
             self.assertTrue(Path(tme_res["outputs"]["cell_fractions"] + ".phi-artifact.json").is_file())
+
+    def test_rna_regulon_and_splicing(self) -> None:
+        scripts = RNA_DIR / "skills" / "rnaseq-workflow" / "scripts"
+        rng = random.Random(4242)
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_dir = Path(tmp)
+
+            # 1. rna_regulon: built-in 14-pathway network (ULM matrix mode + MLM DE mode)
+            if str(scripts) not in sys.path:
+                sys.path.insert(0, str(scripts))
+            from rna_regulon import BUILTIN_REGULON_NETWORK  # type: ignore
+
+            all_genes = sorted({g for pairs in BUILTIN_REGULON_NETWORK.values() for g, _ in pairs} | {f"BG_{i}" for i in range(40)})
+            hypoxia_map = dict(BUILTIN_REGULON_NETWORK["Hypoxia"])
+            p53_map = dict(BUILTIN_REGULON_NETWORK["p53"])
+
+            reg_samples = [f"H_{i}" for i in range(4)] + [f"N_{i}" for i in range(4)]
+            mat_lines = ["gene\t" + "\t".join(reg_samples)]
+            de_lines = ["gene\tlog2FoldChange\tstat\tpvalue\tpadj"]
+            for g in all_genes:
+                vals = []
+                for s_i in range(8):
+                    v = 6.0 + rng.gauss(0, 0.25)
+                    if s_i < 4 and g in hypoxia_map:
+                        v += 3.2 * hypoxia_map[g]
+                    if s_i >= 4 and g in p53_map:
+                        v += 2.6 * p53_map[g]
+                    vals.append(f"{v:.3f}")
+                mat_lines.append(f"{g}\t" + "\t".join(vals))
+
+                stat_v = rng.gauss(0, 0.4)
+                if g in hypoxia_map:
+                    stat_v += 5.5 * hypoxia_map[g]
+                de_lines.append(f"{g}\t{stat_v * 0.4:.3f}\t{stat_v:.3f}\t0.001\t0.01")
+
+            mat_path = tmp_dir / "reg_expr.tsv"
+            de_path = tmp_dir / "reg_de.tsv"
+            mat_path.write_text("\n".join(mat_lines) + "\n", encoding="utf-8")
+            de_path.write_text("\n".join(de_lines) + "\n", encoding="utf-8")
+
+            ulm_res = _run_json(
+                [
+                    sys.executable,
+                    str(scripts / "rna_regulon.py"),
+                    "--input",
+                    str(mat_path),
+                    "--method",
+                    "ulm",
+                    "--output_dir",
+                    str(tmp_dir / "reg_ulm"),
+                ]
+            )
+            self.assertEqual(ulm_res["status"], "ok")
+            self.assertEqual(ulm_res["input_mode"], "matrix")
+            self.assertEqual(ulm_res["n_regulons_tested"], 14)
+            self.assertGreaterEqual(ulm_res["n_significant_fdr"], 2)
+            self.assertTrue(Path(ulm_res["outputs"]["activities_table"] + ".phi-artifact.json").is_file())
+            self.assertTrue(Path(ulm_res["outputs"]["heatmap_plot"] + ".phi-artifact.json").is_file())
+
+            mlm_res = _run_json(
+                [
+                    sys.executable,
+                    str(scripts / "rna_regulon.py"),
+                    "--input",
+                    str(de_path),
+                    "--method",
+                    "mlm",
+                    "--output_dir",
+                    str(tmp_dir / "reg_mlm"),
+                ]
+            )
+            self.assertEqual(mlm_res["status"], "ok")
+            self.assertEqual(mlm_res["input_mode"], "de")
+            self.assertEqual(mlm_res["top_regulons"][0]["source"], "Hypoxia")
+            self.assertEqual(mlm_res["top_regulons"][0]["direction"], "activated")
+
+            # 2. rna_splicing: rMATS SE + SUPPA2 dPSI combined
+            rmats_rows = [
+                "ID\tGeneID\tgeneSymbol\tchr\tstrand\texonStart_0base\texonEnd\tupstreamES\tupstreamEE\tdownstreamES\tdownstreamEE\tPValue\tFDR\tIncLevel1\tIncLevel2\tIncLevelDifference",
+                "1\tENSG1\tTP53\tchr17\t-\t1000\t1100\t500\t700\t1500\t1700\t1e-8\t1e-6\t0.85,0.82\t0.25,0.28\t0.57",
+                "2\tENSG2\tFGFR2\tchr10\t-\t2000\t2150\t1600\t1800\t2500\t2700\t2e-6\t2e-4\t0.15,0.18\t0.70,0.72\t-0.54",
+                "3\tENSG3\tGAPDH\tchr12\t+\t3000\t3090\t2600\t2800\t3400\t3600\t0.45\t0.72\t0.50,0.52\t0.48,0.50\t0.02",
+            ]
+            suppa_rows = [
+                "event_id\tdPSI\tp-val",
+                "TP53;RI:chr17:500:700-1500:1700:-\t-0.31\t1e-5",
+                "MDM2;A5:chr12:100-200:250-350:+\t0.24\t4e-4",
+            ]
+            rmats_p = tmp_dir / "SE.MATS.JC.txt"
+            suppa_p = tmp_dir / "events.dpsi"
+            rmats_p.write_text("\n".join(rmats_rows) + "\n", encoding="utf-8")
+            suppa_p.write_text("\n".join(suppa_rows) + "\n", encoding="utf-8")
+
+            sp_res = _run_json(
+                [
+                    sys.executable,
+                    str(scripts / "rna_splicing.py"),
+                    "--splicing_inputs",
+                    str(rmats_p),
+                    str(suppa_p),
+                    "--output_dir",
+                    str(tmp_dir / "sp_out"),
+                ]
+            )
+            self.assertEqual(sp_res["status"], "ok")
+            self.assertEqual(sp_res["tool"], "rna_splicing")
+            self.assertEqual(sp_res["n_input_files"], 2)
+            self.assertEqual(sp_res["n_events_total"], 5)
+            self.assertEqual(sp_res["n_events_significant"], 4)
+            # TP53 SE exon_len = 100 (frameshift_candidate); FGFR2 SE exon_len = 150 (in_frame_modular); TP53 RI intron = 799 (frameshift_candidate)
+            self.assertGreaterEqual(sp_res["n_frameshift_candidates"], 1)
+            self.assertGreaterEqual(sp_res["n_in_frame_modular"], 1)
+            self.assertGreaterEqual(sp_res["n_multi_hit_genes"], 1)
+            self.assertEqual(sp_res["top_multi_hit_genes"][0]["gene"], "TP53")
+            self.assertTrue(Path(sp_res["outputs"]["significant_events"] + ".phi-artifact.json").is_file())
+            self.assertTrue(Path(sp_res["outputs"]["volcano_plot"] + ".phi-artifact.json").is_file())
 
 
 if __name__ == "__main__":

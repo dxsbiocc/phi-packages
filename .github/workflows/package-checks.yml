@@ -41,7 +41,9 @@ jobs:
           python tests/test_chromatin_and_scatac_plugins.py -v
           python tests/test_clinical_plugin.py -v
           python tests/test_crispr_plugin.py -v
+          python tests/test_drug_discovery_plugin.py -v
           python tests/test_genomics_plugin.py -v
+          python tests/test_immunoinformatics_plugin.py -v
           python tests/test_metabolomics_plugin.py -v
           python tests/test_metagenomics_enhancements.py -v
           python tests/test_metagenomics_plugin.py -v
@@ -56,6 +58,23 @@ jobs:
           python tests/test_proteomics_plugin.py -v
           python tests/test_single_cell_and_literature_plugins.py -v
           python tests/test_wetlab_assay_plugin.py -v
+
+  chem-plugin-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-name: phi-chem-ci
+          create-args: >-
+            --file resources/plugins/drug-discovery/environments/chem/locks/linux-x64.txt
+      - name: Run drug-discovery RDKit locked environment tests
+        shell: bash -el {0}
+        env:
+          MPLBACKEND: Agg
+        run: |
+          micromamba activate phi-chem-ci
+          python tests/test_drug_discovery_plugin.py -v
 
   scanpy-plugin-tests:
     runs-on: ubuntu-latest

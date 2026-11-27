@@ -25,3 +25,16 @@
 ## 6. Copy-Number Segments (`gen_cnv`)
 - **Fraction Genome Altered (FGA)**: sum of segment lengths with `|Segment_Mean| >= gain/loss_threshold` divided by total profiled genomic length per sample.
 - Distinguishes broad low-level gain/loss (`±0.2`) from high-level amplification/deep deletion (`±0.8`).
+
+## 7. Genomic Scar HRD & MSI Stratification (`gen_hrd_msi`)
+- **scarHRD / Marquard Three-Component Score (autosomes `1–22`, `hg38`/`hg19`)**:
+  - **HRD-LOH** (Abkevich et al., 2012): contiguous LOH regions (`minor_cn == 0`, `total_cn >= 1`) strictly `> 15 Mb` that do not span an entire chromosome.
+  - **TAI** (Birkbak et al., 2012): allelic-imbalance segments (`major_cn != minor_cn`) extending to within `2 Mb` of a telomere with length `>= 11 Mb`, excluding centromere-crossing and whole-arm/whole-chromosome events.
+  - **LST** (Popova et al., 2012): chromosomal breaks between adjacent segments each `>= 10 Mb` (after smoothing segments `< 3 Mb`) separated by `<= 3 Mb` on the same chromosome arm (`p` or `q`).
+  - **`hrd_sum = LOH + TAI + LST`**: clinical positivity evaluated at `hrd_cutoff = 42` (Myriad/Marquard threshold).
+- **MSI & Combined Biomarker Strata**: integrates MSIsensor-pro/Mantis `%` unstable sites (`msi_pct >= 3.5` → `MSI-H`) or, when absent, somatic MAF `frameshift_indel_rate` and `indel_to_snv_ratio` (`MSI-H_proxy` surrogate) to stratify `HRD_pos_MSS` (PARP-inhibitor candidate), `MSI_H` (immunotherapy candidate), and `HR_proficient_MSS`.
+
+## 8. Cancer Cell Fraction (CCF) & Clonal Architecture (`gen_clonality`)
+- **Expected Clonal VAF & Multiplicity MLE (McGranahan et al. / PyClone model)**: for tumor purity $\rho$ and local total copy number $C_{\text{tot}}$, $f_{\text{exp}}(m) = \frac{\rho m}{\rho C_{\text{tot}} + 2(1-\rho)}$ for $m \in \{1, \dots, \max(1, C_{\text{tot}})\}$. Selects $\hat{m} = \arg\max_{m \ge 1} \text{Binom}(k_{\text{alt}} \mid N_{\text{depth}}, \min(0.999, f_{\text{exp}}(m)))$ when $k_{\text{alt}}/N \ge f_{\text{exp}}(1)$ (else $\hat{m} = 1$), and estimates $\widehat{\text{CCF}} = \min\left(1.5, \frac{\text{VAF} [\rho C_{\text{tot}} + 2(1-\rho)]}{\rho \hat{m}}\right)$ with exact Clopper-Pearson 95% confidence bounds.
+- **Clonality Call**: **`clonal`** if `ccf_ci_high >= 0.95` or `ccf >= clonal_ccf_cutoff` (`0.85`), else **`subclonal`**.
+- **Neutral Tail Test (Williams et al., Nature Genetics 2016)**: evaluates linearity of cumulative mutation count $M(f) \propto 1/f - 1/f_{\max}$ across $0.12 \le \text{VAF} \le 0.24$, reporting $R^2_{\text{neutral}}$.

@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "apply_bscore",
+    "zscore_hit_cutoff",
+    "n_plates",
+    "n_wells_total",
+    "n_passed_plates",
+    "n_marginal_plates",
+    "n_failed_plates",
+    "n_hits_total",
+    "plate_summaries",
+    "top_hits",
+    "outputs",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "pgx_hts_qc" },
+    "apply_bscore": { "type": "boolean" },
+    "zscore_hit_cutoff": { "type": "number" },
+    "n_plates": { "type": "integer" },
+    "n_wells_total": { "type": "integer" },
+    "n_passed_plates": { "type": "integer" },
+    "n_marginal_plates": { "type": "integer" },
+    "n_failed_plates": { "type": "integer" },
+    "n_hits_total": { "type": "integer" },
+    "plate_summaries": { "type": "array", "items": { "type": "object" } },
+    "top_hits": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": ["plate_qc_summary", "well_scored", "plate_heatmap_qc"],
+      "properties": {
+        "plate_qc_summary": { "type": "string" },
+        "well_scored": { "type": "string" },
+        "plate_heatmap_qc": { "type": "string" }
+      }
+    },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

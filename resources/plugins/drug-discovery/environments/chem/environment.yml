@@ -1,0 +1,11 @@
+name: chem
+description: Cheminformatics environment for the drug-discovery plugin (Python 3.12 + RDKit + NumPy/pandas/SciPy/Matplotlib).
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - rdkit
+  - numpy
+  - pandas
+  - scipy
+  - matplotlib-base

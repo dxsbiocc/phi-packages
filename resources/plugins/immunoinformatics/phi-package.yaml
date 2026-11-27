@@ -1,0 +1,19 @@
+schemaVersion: 1
+id: immunoinformatics
+type: plugin
+version: 0.1.0
+title: Immune Repertoire (TCR/BCR), HLA & Neoantigen Analysis
+summary: >-
+  Downstream immunoinformatics workflow (imm_): AIRR/10x/TRUST4/MiXCR
+  repertoire QC, diversity & clonal homeostasis, Morisita-Horn/Fisher
+  clonotype tracking, 2-field HLA consensus & approximate HED, and neoantigen
+  IC50/DAI/TESLA prioritization.
+toolPrefix: imm
+components:
+  agents:
+    - agents/Immunoinformatics.md
+  skills:
+    - skills/immuno-workflow
+environments:
+  imm:
+    spec: environments/imm/environment.yml

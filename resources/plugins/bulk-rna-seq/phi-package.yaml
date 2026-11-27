@@ -1,13 +1,13 @@
 schemaVersion: 1
 id: bulk-rna-seq
 type: plugin
-version: 0.3.0
+version: 0.4.0
 title: Bulk RNA-seq
 summary: >-
-  Downstream bulk RNA-seq workflow (rna_): GEO Series Matrix import, Ensembl/GTF
-  ID mapping, matrix/DE inspection, sample QC/PCA, multi-contrast DEG
-  comparison, ORA, pre-ranked GSEA, pathway scoring, WGCNA-style co-expression
-  modules & hubs, and ESTIMATE/NNLS TME immune deconvolution.
+  Downstream bulk RNA-seq workflow (rna_): GEO/ID bridging, matrix/DE QC & PCA,
+  multi-contrast DEGs, ORA/GSEA/pathway scores, ULM/MLM TF/pathway regulons,
+  rMATS/SUPPA2 alternative splicing, WGCNA co-expression modules, and
+  ESTIMATE/NNLS TME deconvolution.
 toolPrefix: rna
 components:
   agents:

@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "backend",
+    "potency_col",
+    "potency_scale",
+    "similarity_threshold",
+    "n_compounds",
+    "n_pairs",
+    "n_activity_cliffs",
+    "max_sali",
+    "mean_pic50",
+    "mean_le",
+    "mean_lle",
+    "top_cliffs",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "chem_sar_cliff" },
+    "backend": { "type": "string", "enum": ["rdkit", "pure_python_smiles"] },
+    "potency_col": { "type": "string" },
+    "potency_scale": { "type": "string", "enum": ["nM", "uM", "pIC50"] },
+    "similarity_threshold": { "type": "number" },
+    "n_compounds": { "type": "integer" },
+    "n_pairs": { "type": "integer" },
+    "n_activity_cliffs": { "type": "integer" },
+    "max_sali": { "type": ["number", "null"] },
+    "mean_pic50": { "type": "number" },
+    "mean_le": { "type": "number" },
+    "mean_lle": { "type": "number" },
+    "top_cliffs": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": ["sar_metrics", "activity_cliffs", "sar_lle_cliff_landscape"],
+      "properties": {
+        "sar_metrics": { "type": "string" },
+        "activity_cliffs": { "type": "string" },
+        "sar_lle_cliff_landscape": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

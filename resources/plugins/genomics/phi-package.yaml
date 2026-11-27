@@ -1,13 +1,12 @@
 schemaVersion: 1
 id: genomics
 type: plugin
-version: 0.2.0
+version: 0.3.0
 title: Genomics
 summary: >-
-  Downstream somatic cancer genomics in Python (gen_): MAF/VCF inspection,
-  Ti/Tv & oncoplots, FoCR-compliant TMB & MATH tumor heterogeneity, pairwise
-  co-occurrence/mutual-exclusivity, Sanchez-Vega oncogenic pathways, SBS96
-  mutational signature NNLS refitting, and CBS/CNVkit FGA & arm-level CNV.
+  Downstream somatic cancer genomics (gen_): VCF-to-MAF, MAF/CNV QC, Ti/Tv &
+  oncoplots, FoCR TMB & MATH, co-occurrence & Sanchez-Vega pathways, SBS96 NNLS
+  signatures, CNV FGA, scarHRD/MSI scoring, and CCF clonality.
 toolPrefix: gen
 components:
   agents:

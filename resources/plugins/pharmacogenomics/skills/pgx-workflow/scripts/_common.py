@@ -17,9 +17,9 @@ def emit(payload: dict) -> None:
 
 
 def fail(message: str, code: int = 1) -> "NoReturn":
-    sys.stderr.write(f"[pgx-workflow error] {message}\n")
-    sys.stderr.flush()
-    raise SystemExit(code)
+    sys.stdout.write(json.dumps({"error": str(message)}, ensure_ascii=False) + "\n")
+    sys.stdout.flush()
+    sys.exit(code)
 
 
 def bool_arg(val) -> bool:
@@ -65,6 +65,7 @@ def bh_fdr(pvals) -> list[float]:
 
 
 def setup_matplotlib():
+    os.environ.setdefault("MPLBACKEND", "Agg")
     import matplotlib
 
     matplotlib.use("Agg")

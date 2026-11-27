@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "backend",
+    "n_compounds",
+    "n_valid",
+    "boiled_egg_counts",
+    "n_cns_mpo_pass",
+    "esol_class_counts",
+    "n_pfizer_3_75_flagged",
+    "n_gsk_4_400_flagged",
+    "n_herg_flagged",
+    "mean_esol_logs",
+    "mean_cns_mpo",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "chem_admet_profile" },
+    "backend": { "type": "string", "enum": ["rdkit", "pure_python_smiles"] },
+    "n_compounds": { "type": "integer" },
+    "n_valid": { "type": "integer" },
+    "boiled_egg_counts": { "type": "object" },
+    "n_cns_mpo_pass": { "type": "integer" },
+    "esol_class_counts": { "type": "object" },
+    "n_pfizer_3_75_flagged": { "type": "integer" },
+    "n_gsk_4_400_flagged": { "type": "integer" },
+    "n_herg_flagged": { "type": "integer" },
+    "mean_esol_logs": { "type": "number" },
+    "mean_cns_mpo": { "type": "number" },
+    "outputs": {
+      "type": "object",
+      "required": ["admet_profile", "boiled_egg_admet"],
+      "properties": {
+        "admet_profile": { "type": "string" },
+        "boiled_egg_admet": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -174,6 +174,7 @@ def bh_fdr(pvals):
 
 
 def setup_matplotlib():
+    os.environ.setdefault("MPLBACKEND", "Agg")
     import matplotlib
 
     matplotlib.use("Agg")

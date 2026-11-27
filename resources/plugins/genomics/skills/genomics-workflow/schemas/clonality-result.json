@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "maf",
+    "variants_table",
+    "sample_summary_table",
+    "n_samples",
+    "n_variants",
+    "n_clonal_variants",
+    "n_subclonal_variants",
+    "median_ccf",
+    "median_clonal_fraction",
+    "samples",
+    "figures",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "maf": { "type": "string" },
+    "variants_table": { "type": "string" },
+    "sample_summary_table": { "type": "string" },
+    "n_samples": { "type": "integer" },
+    "n_variants": { "type": "integer" },
+    "n_clonal_variants": { "type": "integer" },
+    "n_subclonal_variants": { "type": "integer" },
+    "median_ccf": { "type": "number" },
+    "median_clonal_fraction": { "type": "number" },
+    "median_r2_neutral": { "type": ["number", "null"] },
+    "samples": { "type": "array", "items": { "type": "object" } },
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -10,8 +10,8 @@
   "counts": {
     "standaloneSkills": 17,
     "connectors": 24,
-    "plugins": 20,
-    "pluginSkills": 29,
+    "plugins": 22,
+    "pluginSkills": 31,
     "wrapperAdapters": 2202,
     "importedFiles": 7885,
     "importedBytes": 85272892
@@ -75,7 +75,8 @@
     "Replaced the single-skill clinical-survival plugin with the unified clinical plugin (0.1.0, toolPrefix clin, agent Clinical, private environment plugin:clinical, two skills survival-workflow + prediction-causal-workflow covering 11 clin_* tools: inspect, table1, km, cox, time_roc, competing_risk, diagnostic_roc, calibration_dca, psm_iptw, rcs, meta) and added the crispr plugin (0.1.0, toolPrefix crispr, agent Crispr, private environment plugin:crispr, two skills guide-design-workflow + screen-editing-workflow covering 6 crispr_* tools: design_guides, offtarget_scan, library_check, screen_qc, screen_hits, editing_quant, paired with upstream nf-core mageck/crisprcleanr/crispresso2/bowtie wrappers). counts.plugins 17 to 18, counts.pluginSkills 24 to 27.",
     "Consolidated standalone research workflow skills into 10 high-cohesion zero-dependency MIT skills (counts.standaloneSkills 22): study-design (hypotheses + experimental/power design), statistical-review, literature-review (1-3 paper deep reading + >=5 paper synthesis), grant-proposal (NSFC + NIH/NSF/ERC), manuscript-writing, manuscript-polishing, manuscript-review (mock review + citation audit + FAIR data/code availability), peer-review-response, humanizer, and paper-to-slides.",
     "Removed the remaining five single-library Python API manuals (rdkit, networkx, matplotlib, seaborn, scikit-learn) from standalone skills (counts.standaloneSkills 22 to 17): general Python APIs are native LLM knowledge or covered by the visualization/clinical plugins, and specialized cheminformatics belongs to a dedicated future plugin rather than standalone skills.",
-    "Completed P0 wet-lab & clinical ecosystem expansion (counts.plugins 18 to 20, counts.pluginSkills 27 to 29): added molecular-cloning (0.1.0, toolPrefix mc, agent MolecularCloning, skill cloning-workflow: mc_design_primers, mc_codon_optimize, mc_assemble_construct, mc_sanger_verify with pure-Python SantaLucia/Owczarzy Tm, GenBank I/O, and binary ABIF .ab1 chromatogram parsing) and wetlab-assay (0.1.0, toolPrefix wa, agent WetlabAssay, skill assay-workflow: wa_qpcr_quant, wa_immunoassay_curve, wa_enzyme_kinetics, wa_binding_kinetics), upgraded clinical to 0.2.0 (+clin_sample_size, clin_subgroup_interaction, clin_nomogram; 14 tools), upgraded crispr to 0.2.0 (+crispr_design_pegrna, crispr_drugz; 8 tools), upgraded protein-design to 0.2.0 (+pd_developability_audit pre-synthesis biophysical & chemical-liability gate), and synced single-cell README/manifest to 0.7.2 (documenting sc_py_communication)."
+    "Completed P0 wet-lab & clinical ecosystem expansion (counts.plugins 18 to 20, counts.pluginSkills 27 to 29): added molecular-cloning (0.1.0, toolPrefix mc, agent MolecularCloning, skill cloning-workflow: mc_design_primers, mc_codon_optimize, mc_assemble_construct, mc_sanger_verify with pure-Python SantaLucia/Owczarzy Tm, GenBank I/O, and binary ABIF .ab1 chromatogram parsing) and wetlab-assay (0.1.0, toolPrefix wa, agent WetlabAssay, skill assay-workflow: wa_qpcr_quant, wa_immunoassay_curve, wa_enzyme_kinetics, wa_binding_kinetics), upgraded clinical to 0.2.0 (+clin_sample_size, clin_subgroup_interaction, clin_nomogram; 14 tools), upgraded crispr to 0.2.0 (+crispr_design_pegrna, crispr_drugz; 8 tools), upgraded protein-design to 0.2.0 (+pd_developability_audit pre-synthesis biophysical & chemical-liability gate), and synced single-cell README/manifest to 0.7.2 (documenting sc_py_communication).",
+    "Completed P1 translational immunology, cheminformatics, and cancer genomics expansion (counts.plugins 20 to 22, counts.pluginSkills 29 to 31): added immunoinformatics (0.1.0, toolPrefix imm, agent Immunoinformatics, skill immuno-workflow: imm_repertoire_inspect, imm_diversity, imm_clonotype_tracking, imm_hla_summary, imm_neoantigen_prioritize, paired with vendored nf-core trust4/optitype/arcashla/seq2hla/hlala wrappers) and drug-discovery (0.1.0, toolPrefix chem, agent DrugDiscovery, skill chem-workflow: chem_standardize, chem_medchem_triage, chem_sar_cliff, chem_admet_profile, chem_docking_eval in three-platform locked plugin:chem RDKit environment with deterministic pure-Python SMILES graph fallback), upgraded genomics to 0.3.0 (+gen_hrd_msi scarHRD LOH/TAI/LST & MSI stratification, +gen_clonality purity/ploidy/CN Cancer Cell Fraction & neutral tail evolution; 9 tools), upgraded bulk-rna-seq to 0.4.0 (+rna_regulon ULM/MLM TF & pathway footprint inference, +rna_splicing rMATS/SUPPA2 alternative splicing downstream; 12 tools), and upgraded pharmacogenomics to 0.2.0 (+pgx_hts_qc Z'-factor/SSMD/Tukey B-score plate QC, +pgx_predict_cohort RidgeCV clinical cohort drug-response translation; 5 tools)."
   ],
   "initialImportCounts": {
     "standaloneSkills": 14,
@@ -86,7 +87,7 @@
     "importedFiles": 7885,
     "importedBytes": 85619915
   },
-  "scopeUpdatedAt": "2026-11-27T01:45:00+00:00",
+  "scopeUpdatedAt": "2026-11-27T02:55:00+00:00",
   "transformedPaths": [
     "resources/wrappers/modules/local/differential-expression/deseq2/environment.yml",
     "resources/wrappers/modules/local/differential-expression/deseq2/main.nf",
@@ -410,8 +411,8 @@
       "path": "resources/plugins/bulk-rna-seq/",
       "kind": "plugin",
       "license": "MIT",
-      "packageVersion": "0.3.0",
-      "origin": "Authored in phi-packages. Downstream bulk RNA-seq interpretation, co-expression network, TME deconvolution, and pathway analysis plugin (toolPrefix rna, agent BulkRnaSeq, skill rnaseq-workflow) with ten deterministic Python tools (rna_id_map, rna_geo_import, rna_inspect, rna_qc, rna_compare, rna_ora, rna_gsea, rna_pathway_score, rna_coexpression, rna_tme_deconv) in plugin:rnaseq (Python 3.13 + pandas/numpy/scipy/matplotlib-base). Raw FASTQ alignment stays on nf-core/rna-seq and core DE/time-series modeling stays on local/differential-expression wrappers."
+      "packageVersion": "0.4.0",
+      "origin": "Authored in phi-packages. Downstream bulk RNA-seq interpretation, co-expression network, TME deconvolution, regulon/footprint, alternative splicing, and pathway analysis plugin (toolPrefix rna, agent BulkRnaSeq, skill rnaseq-workflow) with twelve deterministic Python tools (rna_id_map, rna_geo_import, rna_inspect, rna_qc, rna_compare, rna_ora, rna_gsea, rna_pathway_score, rna_coexpression, rna_tme_deconv, rna_regulon, rna_splicing) in plugin:rnaseq (Python 3.13 + pandas/numpy/scipy/matplotlib-base). Raw FASTQ alignment stays on nf-core/rna-seq and core DE/time-series modeling stays on local/differential-expression wrappers."
     },
     {
       "path": "resources/plugins/spatial-transcriptomics/",
@@ -431,8 +432,8 @@
       "path": "resources/plugins/genomics/",
       "kind": "plugin",
       "license": "MIT",
-      "packageVersion": "0.2.0",
-      "origin": "Authored in phi-packages. Somatic cancer genomics downstream plugin (toolPrefix gen, agent Genomics, skill genomics-workflow) with seven deterministic Python tools (gen_vcf2maf, gen_inspect, gen_summary, gen_tmb_ith, gen_interactions, gen_signatures, gen_cnv) in plugin:genomics (three-platform explicit locks). Raw alignment and variant calling stay on nf-core/sarek."
+      "packageVersion": "0.3.0",
+      "origin": "Authored in phi-packages. Somatic cancer genomics downstream plugin (toolPrefix gen, agent Genomics, skill genomics-workflow) with nine deterministic Python tools (gen_vcf2maf, gen_inspect, gen_summary, gen_tmb_ith, gen_interactions, gen_signatures, gen_cnv, gen_hrd_msi, gen_clonality) in plugin:genomics (three-platform explicit locks). Raw alignment and variant calling stay on nf-core/sarek."
     },
     {
       "path": "resources/plugins/clinical/",
@@ -466,8 +467,8 @@
       "path": "resources/plugins/pharmacogenomics/",
       "kind": "plugin",
       "license": "MIT",
-      "packageVersion": "0.1.0",
-      "origin": "Authored in phi-packages. Pharmacogenomics, dose-response curve modeling, and drug-combination synergy plugin (toolPrefix pgx, agent Pharmacogenomics, skill pgx-workflow) with three deterministic Python tools (pgx_dose_response, pgx_synergy, pgx_biomarker) in plugin:pgx (Python 3.13 + pandas/numpy/scipy/scikit-learn/matplotlib-base, three-platform explicit locks). Covers 4-parameter log-logistic Hill curve fitting (EC50, absolute IC50, AUC, AAC, R^2, and beyond_tested_range censoring guards), 2D drug-combination synergy scoring across ZIP, Bliss, Loewe, and HSA models, and multi-omics drug sensitivity biomarker discovery with explicit drug-metric polarity enforcement and BH FDR."
+      "packageVersion": "0.2.0",
+      "origin": "Authored in phi-packages. Pharmacogenomics, HTS plate QC, dose-response curve modeling, drug-combination synergy, and cohort drug-sensitivity translation plugin (toolPrefix pgx, agent Pharmacogenomics, skill pgx-workflow) with five deterministic Python tools (pgx_dose_response, pgx_synergy, pgx_biomarker, pgx_hts_qc, pgx_predict_cohort) in plugin:pgx (Python 3.13 + pandas/numpy/scipy/scikit-learn/matplotlib-base, three-platform explicit locks). Covers Zhang Z'-factor/SSMD/Tukey B-score HTS plate QC, 4-parameter log-logistic Hill curve fitting (EC50, absolute IC50, AUC, AAC, R^2, and beyond_tested_range censoring guards), 2D drug-combination synergy scoring across ZIP, Bliss, Loewe, and HSA models, multi-omics drug sensitivity biomarker discovery, and RidgeCV cross-cohort clinical drug-response imputation."
     },
     {
       "path": "resources/plugins/crispr/",
@@ -489,6 +490,20 @@
       "license": "MIT",
       "packageVersion": "0.1.0",
       "origin": "Authored in phi-packages. Quantitative wet-lab benchtop assay and biochemical kinetics plugin (toolPrefix wa, agent WetlabAssay, skill assay-workflow) with four deterministic pure-MIT Python tools (wa_qpcr_quant, wa_immunoassay_curve, wa_enzyme_kinetics, wa_binding_kinetics) in plugin:wa (Python 3.13 + pandas/numpy/scipy/scikit-learn/matplotlib-base, three-platform explicit locks). Covers MIQE-compliant RT-qPCR Pfaffl & geNorm/Andersen multi-reference quantification, weighted 4PL/5PL ELISA/immunoassay calibration with AICc selection and FDA/EMA LLOQ/ULOQ censoring, steady-state Michaelis-Menten/Hill & AICc reversible inhibitor mechanism kinetics with Cheng-Prusoff Ki, and global 1:1 Langmuir SPR/BLI binding kinetics with steady-state KD_eq cross-validation."
+    },
+    {
+      "path": "resources/plugins/immunoinformatics/",
+      "kind": "plugin",
+      "license": "MIT",
+      "packageVersion": "0.1.0",
+      "origin": "Authored in phi-packages. Downstream TCR/BCR immune repertoire, HLA genotyping consensus, and somatic neoantigen prioritization plugin (toolPrefix imm, agent Immunoinformatics, skill immuno-workflow) with five deterministic pure-MIT Python tools (imm_repertoire_inspect, imm_diversity, imm_clonotype_tracking, imm_hla_summary, imm_neoantigen_prioritize) in plugin:imm (Python 3.13 + pandas/numpy/scipy/scikit-learn/matplotlib-base, three-platform explicit locks), paired with vendored nf-core trust4, optitype, arcashla, seq2hla, and hlala wrappers."
+    },
+    {
+      "path": "resources/plugins/drug-discovery/",
+      "kind": "plugin",
+      "license": "MIT",
+      "packageVersion": "0.1.0",
+      "origin": "Authored in phi-packages. Cheminformatics, medicinal chemistry triage, SAR activity-cliff, ADMET profiling, and virtual screening evaluation plugin (toolPrefix chem, agent DrugDiscovery, skill chem-workflow) with five deterministic pure-MIT Python tools (chem_standardize, chem_medchem_triage, chem_sar_cliff, chem_admet_profile, chem_docking_eval) in plugin:chem (Python 3.12 + rdkit + numpy/pandas/scipy/matplotlib-base, three-platform explicit locks, plus a pure-Python SMILES molecular graph fallback)."
     },
     {
       "path": "resources/wrappers/workflows/nf-core/sarek/",

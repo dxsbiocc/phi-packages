@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "genome",
+    "hrd_cutoff",
+    "msi_pct_cutoff",
+    "modalities",
+    "summary_table",
+    "n_samples",
+    "stratum_counts",
+    "samples",
+    "figures",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "genome": { "type": "string", "enum": ["hg38", "hg19"] },
+    "hrd_cutoff": { "type": "integer" },
+    "msi_pct_cutoff": { "type": "number" },
+    "modalities": {
+      "type": "object",
+      "required": ["segments", "msi_table", "maf"],
+      "properties": {
+        "segments": { "type": "boolean" },
+        "msi_table": { "type": "boolean" },
+        "maf": { "type": "boolean" }
+      }
+    },
+    "summary_table": { "type": "string" },
+    "n_samples": { "type": "integer" },
+    "n_hrd_positive": { "type": ["integer", "null"] },
+    "hrd_sum_median": { "type": ["number", "null"] },
+    "n_msi_high": { "type": ["integer", "null"] },
+    "stratum_counts": { "type": "object" },
+    "samples": { "type": "array", "items": { "type": "object" } },
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

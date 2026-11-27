@@ -33,3 +33,13 @@ Convert fractional viability $y \in [0, 1]$ to fractional inhibition $E = 1 - y 
 `pgx_biomarker` reports standardized `sensitivity_effect` where **positive values always indicate increased drug sensitivity** and **negative values indicate drug resistance**:
 - When `higher_is_sensitive = false` (default for `IC50`, `LN_IC50`, `AUC`): `sensitivity_effect = -(mean_altered - mean_wt)` (or `-spearman_rho`).
 - When `higher_is_sensitive = true` (for `AAC`, `% inhibition`): `sensitivity_effect = +(mean_altered - mean_wt)` (or `+spearman_rho`).
+
+## 4. High-Throughput Screen Plate QC (`pgx_hts_qc`)
+
+- **Zhang's $Z'$-factor**: $Z' = 1 - \frac{3(\sigma_+ + \sigma_-)}{|\mu_+ - \mu_-|}$. Plates with $Z' \ge 0.5$ are **excellent**, $0 \le Z' < 0.5$ are **marginal**, and $Z' < 0$ are **failed** and should be excluded or repeated before secondary dose-response follow-up.
+- **Tukey Median Polish `B-score`**: fits additive row ($\alpha_r$) and column ($\beta_c$) medians on sample wells (masking positive/negative controls so extreme control values do not distort row/column estimates), then normalizes residuals by $1.4826 \cdot \text{MAD}$. Enable `--apply_bscore` whenever `row_anova_p < 0.01`, `col_anova_p < 0.01`, or `edge_vs_interior_p < 0.01`.
+
+## 5. Cross-Cohort Drug Sensitivity Imputation (`pgx_predict_cohort`)
+
+- Harmonizes gene-wise mean and variance between preclinical cell lines and patient tumors (applying empirical-Bayes shrinkage when clinical $n < 5$), then trains 5-fold cross-validated `RidgeCV` models per drug.
+- Always check `drug_model_cv_metrics.tsv`: drugs with `cv_pearson_r < min_cv_r` carry `low_predictability_warning = true` and should not be prioritized as clinical stratification biomarkers without external validation.

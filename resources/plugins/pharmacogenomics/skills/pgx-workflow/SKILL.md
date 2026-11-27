@@ -1,14 +1,17 @@
 ---
 name: pgx-workflow
 description: >-
-  Pharmacogenomics, high-throughput drug screening, and combination synergy
-  analysis: fit 4-parameter log-logistic Hill dose-response curves (EC50,
-  absolute IC50, E0, Einf, Hill slope, normalized AUC/AAC, R^2, and
-  beyond-tested-range censoring flags); score 2D drug-combination matrices with
-  ZIP, Bliss, Loewe, and HSA synergy models; and discover mutation/CNV or
-  gene-expression biomarkers of drug sensitivity with explicit polarity guards
-  and BH FDR. Use for pharmacogenomics, IC50, EC50, AUC, drug screening, 药敏分析,
-  剂量反应曲线, 药物联用协同, ZIP/Bliss/Loewe, GDSC/DepMap 药敏标志物.
+  Pharmacogenomics, high-throughput drug screening, cross-cohort sensitivity
+  imputation, and combination synergy analysis: score HTS plate QC (Zhang's
+  Z'-factor, SSMD, edge effects, Tukey B-score, MAD hit calling); fit
+  4-parameter log-logistic Hill dose-response curves (EC50, absolute IC50, E0,
+  Einf, Hill slope, normalized AUC/AAC, R^2, and beyond-tested-range censoring
+  flags); score 2D drug-combination matrices with ZIP, Bliss, Loewe, and HSA
+  synergy models; discover mutation/CNV or gene-expression biomarkers; and
+  translate cell-line drug response models to clinical cohorts via RidgeCV. Use
+  for pharmacogenomics, HTS plate QC, Z'-factor, B-score, IC50, EC50, AUC,
+  drug screening, oncoPredict, 药敏分析, 剂量反应曲线, 药物联用协同,
+  ZIP/Bliss/Loewe, GDSC/DepMap 药敏标志物, 患者药敏预测.
 phi:
   environment: plugin:pgx
   attachTo:
@@ -154,6 +157,74 @@ phi:
       approval: write
       output: ./schemas/biomarker-result.json
       timeoutSeconds: 600
+    - name: hts_qc
+      description: >-
+        Evaluate high-throughput drug screening plates (96/384-well) with
+        Zhang's Z'-factor, SSMD, signal-to-background (S/B), control CV%,
+        row/column ANOVA and edge-effect diagnostics, optional Tukey two-way
+        median polish B-score normalization, percent inhibition, and robust MAD
+        z_robust hit calling.
+      run: [python, ./scripts/pgx_hts_qc.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [plates, output_dir]
+        properties:
+          plates:
+            type: string
+            format: input-path
+            description: Plate screening TSV/CSV with plate (optional), well (e.g. A01..P24) or row+col, signal, and well_type (pos_ctrl, neg_ctrl, sample, blank).
+          output_dir:
+            type: string
+            format: project-path
+            description: Directory for hts_plate_qc_summary.tsv, hts_well_scored.tsv, and spatial QC heatmap.
+          apply_bscore:
+            type: boolean
+            description: Apply Tukey two-way median polish B-score spatial bias correction for hit calling (default false).
+          zscore_hit_cutoff:
+            type: number
+            description: Robust MAD |z_robust| cutoff for primary hit calling on sample wells (default 3.0).
+      approval: write
+      output: ./schemas/hts-qc-result.json
+      timeoutSeconds: 600
+    - name: predict_cohort
+      description: >-
+        Translate reference cell-line drug sensitivity models to clinical tumor
+        expression cohorts using cross-platform gene-wise Z-score /
+        empirical-Bayes harmonization and 5-fold cross-validated RidgeCV,
+        flagging drugs with CV Pearson r < min_cv_r as low_predictability_warning.
+      run: [python, ./scripts/pgx_predict_cohort.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [train_expr, train_response, clinical_expr, output_dir]
+        properties:
+          train_expr:
+            type: string
+            format: input-path
+            description: Reference cell-line expression matrix TSV/CSV (genes x cell_lines or cell_lines x genes).
+          train_response:
+            type: string
+            format: input-path
+            description: Reference cell-line drug response matrix or long table (sample, drug, response).
+          clinical_expr:
+            type: string
+            format: input-path
+            description: Target clinical patient cohort expression matrix TSV/CSV.
+          output_dir:
+            type: string
+            format: project-path
+            description: Directory for cohort_predicted_response.tsv, drug_model_cv_metrics.tsv, and overview plot.
+          min_cv_r:
+            type: number
+            description: Minimum 5-fold CV Pearson r on training cell lines to mark a drug model reliable (default 0.25).
+          response_polarity:
+            type: string
+            enum: [lower_is_sensitive, higher_is_sensitive]
+            description: Drug response polarity (lower_is_sensitive for IC50/AUC; higher_is_sensitive for AAC; default lower_is_sensitive).
+      approval: write
+      output: ./schemas/predict-cohort-result.json
+      timeoutSeconds: 900
 ---
 
 # Pharmacogenomics & Drug Screening Workflow
@@ -163,9 +234,11 @@ Read [references/analysis-playbook.md](references/analysis-playbook.md) for equa
 ## Workflow Chain
 
 ```
+Raw HTS plate readout           ──pgx_hts_qc─────────▶ Z'-factor, SSMD, edge bias, B-score & primary hits
 Raw plate / dose-viability data ──pgx_dose_response──▶ 4PL Hill fits (EC50, IC50, AUC, AAC, beyond_tested_range)
 2D combination matrix           ──pgx_synergy────────▶ ZIP / Bliss / Loewe / HSA delta grids & peak synergy window
 Drug IC50/AUC + MAF/Expression  ──pgx_biomarker──────▶ Sensitivity vs resistance biomarkers (Cohen's d / rho + FDR)
+Cell-line train + tumor expr    ──pgx_predict_cohort─▶ Cross-platform RidgeCV patient sensitivity & CV reliability
 ```
 
 ## Hard Red Lines

@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "detected_formats",
+    "chain_filter",
+    "productive_only",
+    "n_samples",
+    "total_reads_umis",
+    "total_unique_clonotypes",
+    "mean_productive_pct",
+    "samples",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "imm_repertoire_inspect" },
+    "detected_formats": { "type": "object" },
+    "chain_filter": { "type": "string", "enum": ["all", "TCR", "BCR", "TRB", "TRA", "IGH"] },
+    "productive_only": { "type": "boolean" },
+    "n_samples": { "type": "integer" },
+    "total_reads_umis": { "type": "number" },
+    "total_unique_clonotypes": { "type": "integer" },
+    "mean_productive_pct": { "type": "number" },
+    "samples": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": [
+        "harmonized_repertoire",
+        "repertoire_qc_summary",
+        "repertoire_spectratype_qc"
+      ],
+      "properties": {
+        "harmonized_repertoire": { "type": "string" },
+        "repertoire_qc_summary": { "type": "string" },
+        "repertoire_spectratype_qc": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

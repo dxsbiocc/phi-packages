@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "input_mode",
+    "method",
+    "network_source",
+    "n_samples",
+    "n_genes_matched",
+    "n_regulons_tested",
+    "n_significant_fdr",
+    "top_regulons",
+    "outputs",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "rna_regulon" },
+    "input_mode": { "type": "string", "enum": ["matrix", "de"] },
+    "method": { "type": "string", "enum": ["ulm", "mlm"] },
+    "network_source": { "type": "string" },
+    "n_samples": { "type": "integer" },
+    "n_genes_matched": { "type": "integer" },
+    "n_regulons_tested": { "type": "integer" },
+    "n_significant_fdr": { "type": "integer" },
+    "top_regulons": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": ["activities_table", "pvalues_table", "fdr_table", "heatmap_plot"],
+      "properties": {
+        "activities_table": { "type": "string" },
+        "pvalues_table": { "type": "string" },
+        "fdr_table": { "type": "string" },
+        "heatmap_plot": { "type": "string" }
+      }
+    },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

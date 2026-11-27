@@ -93,6 +93,72 @@ SANCHEZ_VEGA_PATHWAYS: dict[str, list[str]] = {
     ],
 }
 
+CANCER_DRIVER_GENES: set[str] = {
+    g for genes in SANCHEZ_VEGA_PATHWAYS.values() for g in genes
+} | {
+    "BRCA1", "BRCA2", "PALB2", "RAD51C", "RAD51D", "BARD1", "BRIP1", "CDK12",
+    "CHEK1", "ATR", "MLH1", "MSH2", "MSH6", "PMS2", "POLE", "POLD1",
+    "IDH1", "IDH2", "TERT", "VHL", "PBRM1", "SETD2", "BAP1", "ARID1A",
+    "ARID1B", "SMARCA4", "KMT2D", "KMT2C", "DNMT3A", "TET2", "ASXL1",
+    "NPM1", "SF3B1", "SRSF2", "U2AF1", "ESR1", "FOXA1", "SPOP", "GATA3", "CDH1",
+}
+
+# Standard UCSC hg38 (GRCh38) and hg19 (GRCh37) chromosome lengths & centromere intervals (bp).
+GENOME_CHR_INFO: dict[str, dict[str, tuple[int, int, int]]] = {
+    "hg38": {
+        "1": (248956422, 121700000, 125100000),
+        "2": (242193529, 91800000, 96000000),
+        "3": (198295559, 87800000, 94000000),
+        "4": (190214555, 48200000, 51800000),
+        "5": (181538259, 46100000, 51400000),
+        "6": (170805979, 58500000, 62600000),
+        "7": (159345973, 58100000, 62100000),
+        "8": (145138636, 43200000, 47200000),
+        "9": (138394717, 42200000, 45500000),
+        "10": (133797422, 38000000, 41600000),
+        "11": (135086622, 51000000, 55800000),
+        "12": (133275309, 33200000, 37800000),
+        "13": (114364328, 16500000, 18900000),
+        "14": (107043718, 16100000, 18200000),
+        "15": (101991189, 17500000, 20500000),
+        "16": (90338345, 35300000, 38400000),
+        "17": (83257441, 22700000, 27400000),
+        "18": (80373285, 15400000, 21500000),
+        "19": (58617616, 24200000, 28100000),
+        "20": (64444167, 25700000, 30400000),
+        "21": (46709983, 10900000, 13000000),
+        "22": (50818468, 13700000, 17400000),
+        "X": (156040895, 58100000, 63800000),
+        "Y": (57227415, 10300000, 10600000),
+    },
+    "hg19": {
+        "1": (249250621, 121535434, 124535434),
+        "2": (243199373, 92326171, 95326171),
+        "3": (198022430, 90504854, 93504854),
+        "4": (191154276, 49660117, 52660117),
+        "5": (180915260, 46405641, 49405641),
+        "6": (171115067, 58830166, 61830166),
+        "7": (159138663, 58054331, 61054331),
+        "8": (146364022, 43838887, 46838887),
+        "9": (141213431, 47367679, 50367679),
+        "10": (135534747, 39254935, 42254935),
+        "11": (135006516, 51644205, 54644205),
+        "12": (133851895, 34856694, 37856694),
+        "13": (115169878, 16000000, 19000000),
+        "14": (107349540, 16000000, 19000000),
+        "15": (102531392, 17000000, 20000000),
+        "16": (90354753, 35335801, 38335801),
+        "17": (81195210, 22263006, 25263006),
+        "18": (78077248, 15460898, 18460898),
+        "19": (59128983, 24681782, 27681782),
+        "20": (63025520, 26369569, 29369569),
+        "21": (48129895, 11288129, 14288129),
+        "22": (51304566, 13000000, 16000000),
+        "X": (155270560, 58632012, 61632012),
+        "Y": (59373566, 10104553, 13104553),
+    },
+}
+
 
 def emit(payload: dict[str, Any]) -> None:
     print(json.dumps(payload, indent=2, ensure_ascii=False))
@@ -151,6 +217,68 @@ def read_seg(path: str) -> pd.DataFrame:
             "Segment_Mean": pd.to_numeric(df[mean_c], errors="coerce"),
         }
     ).dropna()
+    return out
+
+
+def read_allele_segments(path: str, require_allele_cn: bool = False) -> pd.DataFrame:
+    """Parse allele-specific or total CNV segments (ASCAT, Sequenza, FACETS, PURPLE)."""
+    df = read_table(path)
+    lower = {c.lower(): c for c in df.columns}
+    sample_c = (
+        lower.get("sample")
+        or lower.get("tumor_sample_barcode")
+        or lower.get("id")
+        or lower.get("sample_id")
+    )
+    chr_c = lower.get("chrom") or lower.get("chromosome") or lower.get("chr") or lower.get("seqnames")
+    start_c = lower.get("start") or lower.get("startpos") or lower.get("loc.start") or lower.get("start_position")
+    end_c = lower.get("end") or lower.get("endpos") or lower.get("loc.end") or lower.get("end_position")
+    if not all([sample_c, chr_c, start_c, end_c]):
+        fail("CNV segment table must contain sample, chrom/chromosome, start, and end columns")
+
+    maj_c = next((lower[k] for k in ("nmajor", "major_cn", "cn_major", "major", "cna", "majorallelecopynumber") if k in lower), None)
+    min_c = next((lower[k] for k in ("nminor", "minor_cn", "cn_minor", "minor", "cnb", "minorallelecopynumber") if k in lower), None)
+    tot_c = next((lower[k] for k in ("total_cn", "tcn", "tcn.em", "cnt", "cn", "copynumber", "copy_number", "total") if k in lower), None)
+
+    if maj_c and min_c:
+        maj_raw = pd.to_numeric(df[maj_c], errors="coerce")
+        min_raw = pd.to_numeric(df[min_c], errors="coerce")
+        major_s = np.maximum(maj_raw, min_raw)
+        minor_s = np.minimum(maj_raw, min_raw)
+        total_s = pd.to_numeric(df[tot_c], errors="coerce") if tot_c else (major_s + minor_s)
+    elif tot_c and min_c:
+        total_s = pd.to_numeric(df[tot_c], errors="coerce")
+        min_raw = pd.to_numeric(df[min_c], errors="coerce")
+        maj_raw = total_s - min_raw
+        major_s = np.maximum(maj_raw, min_raw)
+        minor_s = np.minimum(maj_raw, min_raw)
+    elif tot_c and not require_allele_cn:
+        total_s = pd.to_numeric(df[tot_c], errors="coerce")
+        major_s = pd.Series(np.nan, index=df.index, dtype=float)
+        minor_s = pd.Series(np.nan, index=df.index, dtype=float)
+    else:
+        fail(
+            "CNV segment table must provide allele-specific copy numbers (nMajor+nMinor or total_cn+minor_cn)"
+            if require_allele_cn
+            else "CNV segment table must provide total_cn or nMajor+nMinor columns"
+        )
+
+    out = pd.DataFrame(
+        {
+            "sample": df[sample_c].astype(str).str.strip(),
+            "chrom": df[chr_c].astype(str).str.strip().str.replace("^chr", "", regex=True),
+            "start": pd.to_numeric(df[start_c], errors="coerce"),
+            "end": pd.to_numeric(df[end_c], errors="coerce"),
+            "major_cn": major_s,
+            "minor_cn": minor_s,
+            "total_cn": total_s,
+        }
+    )
+    req_cols = ["sample", "chrom", "start", "end", "total_cn"]
+    if require_allele_cn:
+        req_cols += ["major_cn", "minor_cn"]
+    out = out.dropna(subset=req_cols)
+    out = out[out["end"] > out["start"]].copy()
     return out
 
 

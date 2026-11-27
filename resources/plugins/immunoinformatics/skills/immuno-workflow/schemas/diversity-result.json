@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "locus",
+    "n_samples",
+    "samples",
+    "group_comparisons",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "imm_diversity" },
+    "locus": { "type": "string" },
+    "group_col": { "type": ["string", "null"] },
+    "n_samples": { "type": "integer" },
+    "samples": { "type": "array", "items": { "type": "object" } },
+    "group_comparisons": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": [
+        "diversity_metrics",
+        "vj_usage_matrix",
+        "repertoire_diversity_homeostasis"
+      ],
+      "properties": {
+        "diversity_metrics": { "type": "string" },
+        "vj_usage_matrix": { "type": "string" },
+        "diversity_group_comparisons": { "type": ["string", "null"] },
+        "repertoire_diversity_homeostasis": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

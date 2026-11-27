@@ -1,0 +1,19 @@
+schemaVersion: 1
+id: drug-discovery
+type: plugin
+version: 0.1.0
+title: Small-Molecule Drug Discovery, ADMET & Virtual Screening
+summary: >-
+  Cheminformatics & small-molecule drug discovery workflow (chem_): SMILES
+  standardization, Lipinski/QED/PAINS/Butina medchem triage, LE/LLE/SALI
+  activity cliffs, BOILED-Egg/ESOL/CNS-MPO/hERG ADMET profiling, and
+  size-normalized docking evaluation.
+toolPrefix: chem
+components:
+  agents:
+    - agents/DrugDiscovery.md
+  skills:
+    - skills/chem-workflow
+environments:
+  chem:
+    spec: environments/chem/environment.yml

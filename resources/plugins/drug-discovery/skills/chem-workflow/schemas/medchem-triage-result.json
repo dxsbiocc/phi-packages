@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "backend",
+    "n_compounds",
+    "n_valid",
+    "cluster_cutoff",
+    "similarity_cutoff",
+    "n_clusters",
+    "n_scaffolds",
+    "tier_counts",
+    "n_ro5_pass",
+    "n_veber_pass",
+    "n_alert_flagged",
+    "mean_qed",
+    "mean_sa_score",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "chem_medchem_triage" },
+    "backend": { "type": "string", "enum": ["rdkit", "pure_python_smiles"] },
+    "n_compounds": { "type": "integer" },
+    "n_valid": { "type": "integer" },
+    "cluster_cutoff": { "type": "number" },
+    "similarity_cutoff": { "type": "number" },
+    "n_clusters": { "type": "integer" },
+    "n_scaffolds": { "type": "integer" },
+    "tier_counts": { "type": "object" },
+    "n_ro5_pass": { "type": "integer" },
+    "n_veber_pass": { "type": "integer" },
+    "n_alert_flagged": { "type": "integer" },
+    "mean_qed": { "type": "number" },
+    "mean_sa_score": { "type": "number" },
+    "top_candidates": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": ["medchem_triage", "scaffold_summary", "chemical_space_qed"],
+      "properties": {
+        "medchem_triage": { "type": "string" },
+        "scaffold_summary": { "type": "string" },
+        "chemical_space_qed": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}
