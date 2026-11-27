@@ -5,7 +5,9 @@ import { fileURLToPath } from 'node:url'
 const sourceRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const argv = process.argv.slice(2)
 if (argv.includes('--help')) {
-  console.log('node scripts/prepare-catalog.mjs --phi ../Phi --out /tmp/phi-catalog --key ~/.phi/publishing/phi-packages-ed25519.pem [--wrapper-version <semver>]')
+  console.log(
+    'node scripts/prepare-catalog.mjs --phi ../Phi --out /tmp/phi-registry [--wrapper-version <semver>]'
+  )
   process.exit(0)
 }
 function argument(name, fallback) {
@@ -18,12 +20,16 @@ function argument(name, fallback) {
 try {
   const phiRoot = resolve(argument('--phi', resolve(sourceRoot, '../Phi')))
   const command = [
-    '--import', resolve(phiRoot, 'scripts/test-loader.mjs'),
-    resolve(phiRoot, 'scripts/packages/prepare-official-release.ts'),
-    '--source', sourceRoot,
-    '--out', resolve(argument('--out')),
-    '--key', resolve(argument('--key')),
-    ...(argv.includes('--wrapper-version') ? ['--wrapper-version', argument('--wrapper-version')] : [])
+    '--import',
+    resolve(phiRoot, 'scripts/test-loader.mjs'),
+    resolve(phiRoot, 'scripts/packages/build-registry.ts'),
+    '--source',
+    sourceRoot,
+    '--out',
+    resolve(argument('--out')),
+    ...(argv.includes('--wrapper-version')
+      ? ['--wrapper-version', argument('--wrapper-version')]
+      : [])
   ]
   const result = spawnSync(process.execPath, command, { cwd: phiRoot, stdio: 'inherit' })
   if (result.error) throw result.error

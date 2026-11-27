@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 /**
- * Incremental, integrity-checked publisher for Phi's catalog-v1 GitHub Release.
+ * Incremental, integrity-checked publisher for Phi's package release assets.
  *
  * Enforces docs/publishing.md invariants:
  *   1. Verifies every archive, iconAsset, and manifestAsset listed in index.json
  *      exists in --assets with exact byte size and SHA-256 before uploading.
  *   2. Treats existing package/icon/manifest assets on the release as immutable
  *      and uploads only new files (skipping already-published filenames).
- *   3. Uploads index.json and index.sig.json LAST with --clobber so clients
+ *   3. Uploads index.json LAST with --clobber so clients
  *      never observe a partial catalog generation.
  */
 
@@ -16,7 +16,7 @@ import { createHash } from 'node:crypto'
 import { existsSync, readFileSync, statSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 
-const INDEX_FILES = ['index.json', 'index.sig.json']
+const INDEX_FILES = ['index.json']
 
 function parseArgs(argv) {
   if (argv.includes('--help') || argv.includes('-h')) {
@@ -203,11 +203,11 @@ function main() {
     runGh(args)
   }
 
-  // 2. Upload index.json and index.sig.json LAST with --clobber
+  // 2. Upload index.json LAST with --clobber
   const indexPaths = plan.indexFiles.map((name) => join(opts.assetsDir, name))
   const finalArgs = ['release', 'upload', opts.tag, ...indexPaths, '--clobber']
   if (opts.repo) finalArgs.push('--repo', opts.repo)
-  console.error('[publish-catalog] uploading index.json and index.sig.json last...')
+  console.error('[publish-catalog] uploading index.json last...')
   runGh(finalArgs)
 
   console.log(JSON.stringify({ ...summary, published: true }, null, 2))

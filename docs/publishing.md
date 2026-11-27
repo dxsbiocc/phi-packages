@@ -1,66 +1,52 @@
-# 发布官方软件源 / Publishing the official catalog
+# 发布官方软件源 / Publishing the official registry
 
 [中文 README](../README.md) · [English README](../README.en.md)
 
-Phi 默认从本仓库的 `catalog-v1` GitHub Release 读取已签名的在线目录。
-启动或打开目录只获取 `index.json`、`index.sig.json`、图标和 connector manifest；
-点击安装时才下载所选软件包与必要依赖的归档。
-断网时只使用通过内置公钥验证的现有缓存，不回退到应用的领域内容源码。
+Phi 官方软件源由 `phi-site` 官网提供的 HTTP Registry API（`https://phi.omicsagent.cn/api/registry/`）直接分发标准无签名包目录，不再使用 Ed25519 签名或 `index.sig.json`。
 
-Phi uses this repository's `catalog-v1` GitHub Release as its default signed catalog.
-Catalog browsing fetches the index, signature, icons, and small connector manifest sidecars.
-Installation downloads only the selected package and its dependency closure.
-Offline browsing uses an existing verified cache.
+客户端浏览目录时请求 `index.json`、图标与 manifest；点击安装时按 `index.json` 中的 `archive`、`sha256` 与 `size` 下载所需 `.tar.gz` 归档及依赖并校验完整性。
 
-## 准备发布 / Prepare a release
+The official Phi package registry is served directly by `phi-site` via its HTTP Registry API (`https://phi.omicsagent.cn/api/registry/`) without Ed25519 signing or `index.sig.json`.
 
-两个仓库并排放置；构建、校验、签名实现使用 Phi 当前版本，不在内容仓库复制安装器。
-需要 Phi 的开发依赖和 Node.js 24。私钥保存在仓库外，绝不提交或上传。
+Clients fetch `index.json`, icons, and manifests while browsing, then download and SHA-256-verify only the selected `.tar.gz` archives and dependencies upon installation.
 
-Keep `Phi` and `phi-packages` side by side. The content repository calls Phi's current
-shared builder and validators. Install Phi's development dependencies and use Node.js 24.
-Store the signing private key outside both repositories; never commit or upload it.
+## API 端点 / Endpoints (`phi-site`)
+
+| 路径 / Path | 内容 / Content | 缓存策略 / Cache-Control |
+| --- | --- | --- |
+| `/api/registry/index.json` | 注册表索引（含包版本、`size` 与 `sha256`） | `no-cache` |
+| `/api/registry/<name>.tar.gz` | 不可变安装包归档 | `public, max-age=31536000, immutable` |
+| `/api/registry/icons/<name>` | 包图标 | `public, max-age=31536000, immutable` |
+| `/api/registry/manifests/<name>` | 包 manifest（`text/yaml`） | `public, max-age=31536000, immutable` |
+
+## 从 `phi-site` 构建与部署 / Build and deploy from `phi-site`
+
+生产服务器通过 `~/bin/sync-phi-packages.sh` 自动拉取 `phi-packages` `main` 分支、重新生成官网目录与注册表并重建站点；也可在并排放置的 `Phi`、`phi-packages` 与 `phi-site` 目录下手动执行：
+
+```sh
+PHI_DIR=../Phi \
+PHI_PACKAGES_DIR=. \
+PHI_REGISTRY_DIR=../phi-registry \
+../phi-site/scripts/build-registry.sh
+```
+
+`phi-site/scripts/build-registry.sh` 会在临时目录中调用构建器生成新的无签名注册表，校验 `index.json` 后通过 `carry-registry-assets.mjs` 为仍在上一代索引中的旧版本保留不可变归档，再原子替换服务目录；若构建失败则保持当前在线服务目录不变。
+
+On the production server, `~/bin/sync-phi-packages.sh` pulls `phi-packages`, rebuilds the catalog and registry via `phi-site/scripts/build-registry.sh`, carries forward previous-generation immutable assets if needed, and atomically swaps the served directory.
+
+## 本地构建与校验 / Local unsigned registry build & verification
+
+本地离线构建标准无签名注册表（需要并排放置的 `Phi` 仓库依赖与 Node.js 24，不需要任何私钥或签名配置）：
 
 ```sh
 node scripts/prepare-catalog.mjs \
   --phi ../Phi \
-  --out /tmp/phi-catalog-20261008 \
-  --key ~/.phi/publishing/phi-packages-ed25519.pem
+  --out /tmp/phi-registry
 ```
 
-输出的 `assets/` 包含扁平文件名的 `.tar.gz`、图标、connector YAML、索引与签名，
-可直接上传为 GitHub Release assets。GitHub Release 不支持目录路径，因此先扁平化再签名。
-输出目录必须是新的路径，防止混入旧版本文件。
+也可在 GitHub Actions 中手动触发 **Verify registry build**（`.github/workflows/publish-catalog.yml`）验证无签名目录的完整构建与 `SHA-256` / 大小一致性（若需要覆盖已有不可变版本，可可选传入 `--wrapper-version`）。
 
-The resulting `assets/` directory contains flat archive, icon, connector YAML, index,
-and signature filenames, ready for GitHub Release assets. Flattening happens before signing.
-Use a fresh output path to keep earlier release files out of the new catalog.
-
-上传所有 assets 到本仓库 `catalog-v1` release，索引与签名最后上传，避免客户端读取半成品。
-客户端验证签名以及每个 sidecar/归档的 SHA-256 和大小，并通过完整缓存代际原子切换。
-保留同一包版本的不可变归档；更改内容应提升包版本。
-
-可使用 `scripts/publish-catalog.mjs` 完成上传前全量 SHA-256 校验、跳过已有不可变归档的增量上传，并自动最后覆盖上传 `index.json` 与 `index.sig.json`：
-
-```sh
-# 先干跑核对增量上传清单
-node scripts/publish-catalog.mjs --assets /tmp/phi-catalog-20261008/assets --tag catalog-v1 --dry-run
-
-# 确认无误后执行增量发布
-node scripts/publish-catalog.mjs --assets /tmp/phi-catalog-20261008/assets --tag catalog-v1
-```
-
-也可直接在 GitHub Actions 中手动触发 **Publish catalog-v1**（`.github/workflows/publish-catalog.yml`，默认 `dry_run: true`）；正式发布需在仓库 Secrets 中配置 `CATALOG_ED25519_PRIVATE_KEY`（及私有 `dxsbiocc/phi` 访问令牌 `PHI_REPO_TOKEN`）。
-
-Upload all assets to the repository's `catalog-v1` release, uploading the index and signature
-last. Phi validates the signature and every asset's SHA-256 and size before atomic cache activation.
-Keep an existing package version's archive immutable; bump the package version when its contents change.
-
-wrapper 默认版本为 `1.0.0`，必须与 Phi 内置 wrapper 树的版本一致，否则在线条目会被当作降级且依赖范围无法满足。
-后续只要修改了任意 wrapper 文件（例如本地 `differential-expression` 或新增模块），发布时必须显式传入新的 `--wrapper-version`（例如 `1.0.1`）提升该组生成软件包版本；`scripts/publish-catalog.mjs` 会比对远端已有 release 资产的字节大小与 `sha256` 摘要，若发现同名不可变归档内容发生变化但未升版，会在上传前直接报错中止。其他软件包使用各自 manifest 的版本。
-
-Wrappers default to `1.0.0`, which must match the wrapper tree bundled with Phi; a lower version looks like a downgrade and breaks dependency ranges.
-For later changes, pass an explicit `--wrapper-version`; other packages retain their manifest versions.
+Run `node scripts/prepare-catalog.mjs --phi ../Phi --out /tmp/phi-registry` locally to build the unsigned registry directory without any signing key. No Ed25519 private key or `index.sig.json` file is required.
 
 ## 安装路径 / Installation paths
 
@@ -70,10 +56,8 @@ For later changes, pass an explicit `--wrapper-version`; other packages retain t
 | Skill | `~/.phi/packages/skill/<id>/<version>/` |
 | Connector | `~/.phi/packages/mcp/<id>/<version>/` |
 | Wrapper | `~/.phi/wrappers/tree/` 中保留依赖使用的目录结构 / preserved component tree |
-| 官方源缓存 / Official cache | `~/.phi/cache/registries/phi-packages/generations/<index-sha256>/` |
+| 注册表缓存 / Registry cache | `~/.phi/cache/registries/` |
 
-图标始终跟随内容安装到其入口旁，公共目录中的 sidecar 只供安装前预览。
-Connector credentials、运行环境和用户配置保留在用户数据目录，不进入 release。
+图标始终跟随内容安装到其入口旁，目录中的 manifest 供安装前预览。Connector credentials、运行环境和用户配置保留在用户数据目录，不进入发布目录。
 
-Icons install beside their content entry; catalog sidecars provide previews before installation.
-Connector credentials, installed runtimes, and user configuration never enter a release.
+Icons install beside their content entry; manifest sidecars provide previews before installation. Connector credentials, installed runtimes, and user configuration never enter the registry.

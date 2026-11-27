@@ -48,7 +48,6 @@ function makeFixtureCatalog() {
     ]
   }
   writeFileSync(join(dir, 'index.json'), JSON.stringify(index, null, 2))
-  writeFileSync(join(dir, 'index.sig.json'), JSON.stringify({ signature: 'test' }))
   return dir
 }
 
@@ -66,7 +65,7 @@ test('publish-catalog verifies SHA-256/sizes and plans incremental uploads with 
     const plan = planUpload(verified.immutableAssets, ['plugin-a-1.0.0.tar.gz', 'plugin-a-1.0.0.svg'])
     assert.deepEqual(plan.skipped, ['plugin-a-1.0.0.svg', 'plugin-a-1.0.0.tar.gz'])
     assert.deepEqual(plan.toUpload, ['plugin-b-2.0.0.tar.gz'])
-    assert.deepEqual(plan.indexFiles, ['index.json', 'index.sig.json'])
+    assert.deepEqual(plan.indexFiles, ['index.json'])
 
     const existingPath = join(dir, 'existing.json')
     writeFileSync(existingPath, JSON.stringify(['plugin-a-1.0.0.tar.gz']))
@@ -80,7 +79,7 @@ test('publish-catalog verifies SHA-256/sizes and plans incremental uploads with 
     assert.equal(out.packagesVerified, 2)
     assert.equal(out.skippedExisting, 1)
     assert.equal(out.toUploadNew, 2)
-    assert.deepEqual(out.indexFilesLast, ['index.json', 'index.sig.json'])
+    assert.deepEqual(out.indexFilesLast, ['index.json'])
   } finally {
     rmSync(dir, { recursive: true, force: true })
   }

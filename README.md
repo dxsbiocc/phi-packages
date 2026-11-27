@@ -35,12 +35,12 @@ SOURCE.json              导入来源、版本、范围和排除项
 主程序仓库：[dxsbiocc/phi](https://github.com/dxsbiocc/phi)。
 
 这次导入是当前受 Git 跟踪文件的工作区快照，来源提交及纳入的未提交内容见
-[SOURCE.json](SOURCE.json)。Phi 中可安装的领域内容默认从本仓库的已签名在线目录获取。
+[SOURCE.json](SOURCE.json)。Phi 中可安装的领域内容默认从官网 `phi-site` 提供的标准在线注册表获取。
 
-官方软件源使用 [catalog-v1 release](https://github.com/dxsbiocc/phi-packages/releases/tag/catalog-v1)。
-浏览目录时获取索引、签名、图标和 connector 元数据；点击安装后才下载对应归档与必要依赖，
-并安装到 `~/.phi` 的受管理路径。断网时使用已验证的缓存。
-发布脚本、签名与安装位置见[发布说明](docs/publishing.md)。
+官方软件源 API：`https://phi.omicsagent.cn/api/registry/`（[index.json](https://phi.omicsagent.cn/api/registry/index.json)）。
+浏览目录时获取索引、图标和 connector 元数据；点击安装后才下载对应归档（按 `sha256` 校验）与必要依赖，
+并安装到 `~/.phi` 的受管理路径。
+构建、校验与安装位置见[发布说明](docs/publishing.md)。
 核心运行时代码、安装器、校验器及应用界面留在 Phi 主仓库。
 
 Phi 官方共享环境和应用级色板由主程序提供，本仓库不复制其核心定义。
