@@ -13,6 +13,12 @@
           "preview": "scripts/scatter/basic/preview.png"
         },
         {
+          "id": "scatter-basic",
+          "title": "Basic scatter plot · rug",
+          "preview": "scripts/scatter/basic/preview_rug.png",
+          "variant": "rug"
+        },
+        {
           "id": "scatter-hist-rug",
           "title": "Grouped density histogram with rugs",
           "preview": "scripts/scatter/hist_rug/preview.png"
@@ -23,9 +29,81 @@
           "preview": "scripts/scatter/hist/preview.png"
         },
         {
+          "id": "scatter-hist",
+          "title": "1D histogram / frequency polygon · facet",
+          "preview": "scripts/scatter/hist/preview_facet.png",
+          "variant": "facet"
+        },
+        {
+          "id": "scatter-hist",
+          "title": "1D histogram / frequency polygon · facet overlay",
+          "preview": "scripts/scatter/hist/preview_facet_overlay.png",
+          "variant": "facet_overlay"
+        },
+        {
+          "id": "scatter-hist",
+          "title": "1D histogram / frequency polygon · freqpoly",
+          "preview": "scripts/scatter/hist/preview_freqpoly.png",
+          "variant": "freqpoly"
+        },
+        {
+          "id": "scatter-hist",
+          "title": "1D histogram / frequency polygon · mirror",
+          "preview": "scripts/scatter/hist/preview_mirror.png",
+          "variant": "mirror"
+        },
+        {
+          "id": "scatter-hist",
+          "title": "1D histogram / frequency polygon · overlay",
+          "preview": "scripts/scatter/hist/preview_overlay.png",
+          "variant": "overlay"
+        },
+        {
+          "id": "scatter-hist",
+          "title": "1D histogram / frequency polygon · stack",
+          "preview": "scripts/scatter/hist/preview_stack.png",
+          "variant": "stack"
+        },
+        {
           "id": "scatter-density1d",
           "title": "1D kernel density",
           "preview": "scripts/scatter/density1d/preview.png"
+        },
+        {
+          "id": "scatter-density1d",
+          "title": "1D kernel density · effect",
+          "preview": "scripts/scatter/density1d/preview_effect.png",
+          "variant": "effect"
+        },
+        {
+          "id": "scatter-density1d",
+          "title": "1D kernel density · facet",
+          "preview": "scripts/scatter/density1d/preview_facet.png",
+          "variant": "facet"
+        },
+        {
+          "id": "scatter-density1d",
+          "title": "1D kernel density · fill",
+          "preview": "scripts/scatter/density1d/preview_fill.png",
+          "variant": "fill"
+        },
+        {
+          "id": "scatter-density1d",
+          "title": "1D kernel density · group",
+          "preview": "scripts/scatter/density1d/preview_group.png",
+          "variant": "group"
+        },
+        {
+          "id": "scatter-density1d",
+          "title": "1D kernel density · mirror",
+          "preview": "scripts/scatter/density1d/preview_mirror.png",
+          "variant": "mirror"
+        },
+        {
+          "id": "scatter-density1d",
+          "title": "1D kernel density · stack",
+          "preview": "scripts/scatter/density1d/preview_stack.png",
+          "variant": "stack"
         },
         {
           "id": "scatter-group",
@@ -53,6 +131,18 @@
           "preview": "scripts/scatter/umap_atlas/preview.png"
         },
         {
+          "id": "scatter-umap-atlas",
+          "title": "Single-cell atlas with radial cluster hierarchy · celltype",
+          "preview": "scripts/scatter/umap_atlas/preview_celltype.png",
+          "variant": "celltype"
+        },
+        {
+          "id": "scatter-umap-atlas",
+          "title": "Single-cell atlas with radial cluster hierarchy · class subtype",
+          "preview": "scripts/scatter/umap_atlas/preview_class_subtype.png",
+          "variant": "class_subtype"
+        },
+        {
           "id": "scatter-umap-dot",
           "title": "UMAP with marker-gene dot plot",
           "preview": "scripts/scatter/umap_dot/preview.png"
@@ -63,6 +153,24 @@
           "preview": "scripts/scatter/voronoi/preview.png"
         },
         {
+          "id": "scatter-voronoi",
+          "title": "Voronoi scatter · bound",
+          "preview": "scripts/scatter/voronoi/preview_bound.png",
+          "variant": "bound"
+        },
+        {
+          "id": "scatter-voronoi",
+          "title": "Voronoi scatter · delaunay",
+          "preview": "scripts/scatter/voronoi/preview_delaunay.png",
+          "variant": "delaunay"
+        },
+        {
+          "id": "scatter-voronoi",
+          "title": "Voronoi scatter · radius",
+          "preview": "scripts/scatter/voronoi/preview_radius.png",
+          "variant": "radius"
+        },
+        {
           "id": "scatter-variate-panel",
           "title": "Faceted X-variate scatter with class background",
           "preview": "scripts/scatter/variate_panel/preview.png"
@@ -71,6 +179,12 @@
           "id": "scatter-bubble",
           "title": "Bubble scatter plot",
           "preview": "scripts/scatter/bubble/preview.png"
+        },
+        {
+          "id": "scatter-bubble",
+          "title": "Bubble scatter plot · methane",
+          "preview": "scripts/scatter/bubble/preview_methane.png",
+          "variant": "methane"
         },
         {
           "id": "scatter-xyerror",
@@ -93,9 +207,33 @@
           "preview": "scripts/scatter/volcano_multi/preview.png"
         },
         {
+          "id": "scatter-volcano-multi",
+          "title": "Multi-contrast signed volcano · polar",
+          "preview": "scripts/scatter/volcano_multi/preview_polar.png",
+          "variant": "polar"
+        },
+        {
+          "id": "scatter-volcano-multi",
+          "title": "Multi-contrast signed volcano · strip",
+          "preview": "scripts/scatter/volcano_multi/preview_strip.png",
+          "variant": "strip"
+        },
+        {
           "id": "scatter-volcano-barcode",
           "title": "Volcano with gene-set barcodes and signature boxes",
           "preview": "scripts/scatter/volcano_barcode/preview.png"
+        },
+        {
+          "id": "scatter-volcano-barcode",
+          "title": "Volcano with gene-set barcodes and signature boxes · regions",
+          "preview": "scripts/scatter/volcano_barcode/preview_regions.png",
+          "variant": "regions"
+        },
+        {
+          "id": "scatter-volcano-barcode",
+          "title": "Volcano with gene-set barcodes and signature boxes · sets",
+          "preview": "scripts/scatter/volcano_barcode/preview_sets.png",
+          "variant": "sets"
         },
         {
           "id": "scatter-volcano-go",
@@ -168,14 +306,50 @@
           "preview": "scripts/scatter/hex/preview.png"
         },
         {
+          "id": "scatter-hex",
+          "title": "Hexbin / 2D histogram · bin2d",
+          "preview": "scripts/scatter/hex/preview_bin2d.png",
+          "variant": "bin2d"
+        },
+        {
+          "id": "scatter-hex",
+          "title": "Hexbin / 2D histogram · marginal",
+          "preview": "scripts/scatter/hex/preview_marginal.png",
+          "variant": "marginal"
+        },
+        {
+          "id": "scatter-hex",
+          "title": "Hexbin / 2D histogram · square",
+          "preview": "scripts/scatter/hex/preview_square.png",
+          "variant": "square"
+        },
+        {
+          "id": "scatter-hex",
+          "title": "Hexbin / 2D histogram · xy",
+          "preview": "scripts/scatter/hex/preview_xy.png",
+          "variant": "xy"
+        },
+        {
           "id": "scatter-zoom",
           "title": "Scatter with zoomed panels",
           "preview": "scripts/scatter/zoom/preview.png"
         },
         {
+          "id": "scatter-zoom",
+          "title": "Scatter with zoomed panels · hull",
+          "preview": "scripts/scatter/zoom/preview_hull.png",
+          "variant": "hull"
+        },
+        {
           "id": "scatter-qq",
           "title": "Distribution Q-Q / P-P plot",
           "preview": "scripts/scatter/qq/preview.png"
+        },
+        {
+          "id": "scatter-qq",
+          "title": "Distribution Q-Q / P-P plot · pp",
+          "preview": "scripts/scatter/qq/preview_pp.png",
+          "variant": "pp"
         },
         {
           "id": "scatter-qq-pvalue",
@@ -188,6 +362,54 @@
           "preview": "scripts/scatter/manhattan/preview.png"
         },
         {
+          "id": "scatter-manhattan",
+          "title": "GWAS Manhattan plot · alternate",
+          "preview": "scripts/scatter/manhattan/preview_alternate.png",
+          "variant": "alternate"
+        },
+        {
+          "id": "scatter-manhattan",
+          "title": "GWAS Manhattan plot · circular",
+          "preview": "scripts/scatter/manhattan/preview_circular.png",
+          "variant": "circular"
+        },
+        {
+          "id": "scatter-manhattan",
+          "title": "GWAS Manhattan plot · density",
+          "preview": "scripts/scatter/manhattan/preview_density.png",
+          "variant": "density"
+        },
+        {
+          "id": "scatter-manhattan",
+          "title": "GWAS Manhattan plot · haqtl",
+          "preview": "scripts/scatter/manhattan/preview_haqtl.png",
+          "variant": "haqtl"
+        },
+        {
+          "id": "scatter-manhattan",
+          "title": "GWAS Manhattan plot · miami",
+          "preview": "scripts/scatter/manhattan/preview_miami.png",
+          "variant": "miami"
+        },
+        {
+          "id": "scatter-manhattan",
+          "title": "GWAS Manhattan plot · overlay",
+          "preview": "scripts/scatter/manhattan/preview_overlay.png",
+          "variant": "overlay"
+        },
+        {
+          "id": "scatter-manhattan",
+          "title": "GWAS Manhattan plot · qq inset",
+          "preview": "scripts/scatter/manhattan/preview_qq_inset.png",
+          "variant": "qq_inset"
+        },
+        {
+          "id": "scatter-manhattan",
+          "title": "GWAS Manhattan plot · traits",
+          "preview": "scripts/scatter/manhattan/preview_traits.png",
+          "variant": "traits"
+        },
+        {
           "id": "scatter-contour",
           "title": "Scatter with density contours",
           "preview": "scripts/scatter/contour/preview.png"
@@ -198,9 +420,57 @@
           "preview": "scripts/scatter/density2d/preview.png"
         },
         {
+          "id": "scatter-density2d",
+          "title": "2D kernel density plot · facet",
+          "preview": "scripts/scatter/density2d/preview_facet.png",
+          "variant": "facet"
+        },
+        {
+          "id": "scatter-density2d",
+          "title": "2D kernel density plot · group",
+          "preview": "scripts/scatter/density2d/preview_group.png",
+          "variant": "group"
+        },
+        {
+          "id": "scatter-density2d",
+          "title": "2D kernel density plot · labeled",
+          "preview": "scripts/scatter/density2d/preview_labeled.png",
+          "variant": "labeled"
+        },
+        {
+          "id": "scatter-density2d",
+          "title": "2D kernel density plot · lines",
+          "preview": "scripts/scatter/density2d/preview_lines.png",
+          "variant": "lines"
+        },
+        {
+          "id": "scatter-density2d",
+          "title": "2D kernel density plot · marginal",
+          "preview": "scripts/scatter/density2d/preview_marginal.png",
+          "variant": "marginal"
+        },
+        {
+          "id": "scatter-density2d",
+          "title": "2D kernel density plot · points",
+          "preview": "scripts/scatter/density2d/preview_points.png",
+          "variant": "points"
+        },
+        {
+          "id": "scatter-density2d",
+          "title": "2D kernel density plot · raster",
+          "preview": "scripts/scatter/density2d/preview_raster.png",
+          "variant": "raster"
+        },
+        {
           "id": "scatter-jitter",
           "title": "Jitter plot by category",
           "preview": "scripts/scatter/jitter/preview.png"
+        },
+        {
+          "id": "scatter-jitter",
+          "title": "Jitter plot by category · dotplot",
+          "preview": "scripts/scatter/jitter/preview_dotplot.png",
+          "variant": "dotplot"
         },
         {
           "id": "scatter-jitter-group",
@@ -213,6 +483,12 @@
           "preview": "scripts/scatter/beeswarm/preview.png"
         },
         {
+          "id": "scatter-beeswarm",
+          "title": "Beeswarm plot · ccl2",
+          "preview": "scripts/scatter/beeswarm/preview_ccl2.png",
+          "variant": "ccl2"
+        },
+        {
           "id": "scatter-beeswarm-group",
           "title": "Grouped beeswarm plot",
           "preview": "scripts/scatter/beeswarm_group/preview.png"
@@ -221,6 +497,12 @@
           "id": "scatter-cleveland",
           "title": "Cleveland dot plot",
           "preview": "scripts/scatter/cleveland/preview.png"
+        },
+        {
+          "id": "scatter-cleveland",
+          "title": "Cleveland dot plot · go",
+          "preview": "scripts/scatter/cleveland/preview_go.png",
+          "variant": "go"
         },
         {
           "id": "scatter-rank",
@@ -429,6 +711,18 @@
           "preview": "scripts/heatmap/circos_split/preview.png"
         },
         {
+          "id": "heatmap-circos-split",
+          "title": "Group-split circular heatmap · gwas",
+          "preview": "scripts/heatmap/circos_split/preview_gwas.png",
+          "variant": "gwas"
+        },
+        {
+          "id": "heatmap-circos-split",
+          "title": "Group-split circular heatmap · locus",
+          "preview": "scripts/heatmap/circos_split/preview_locus.png",
+          "variant": "locus"
+        },
+        {
           "id": "heatmap-circos-cohort",
           "title": "Circular per-sample cohort tracks with gap summaries",
           "preview": "scripts/heatmap/circos_cohort/preview.png"
@@ -458,6 +752,12 @@
           "id": "bar-stack",
           "title": "Stacked bar chart",
           "preview": "scripts/bar/stack/preview.png"
+        },
+        {
+          "id": "bar-stack",
+          "title": "Stacked bar chart · absolute",
+          "preview": "scripts/bar/stack/preview_absolute.png",
+          "variant": "absolute"
         },
         {
           "id": "bar-stack-donut",
@@ -508,6 +808,12 @@
           "id": "bar-waffle",
           "title": "Waffle chart",
           "preview": "scripts/bar/waffle/preview.png"
+        },
+        {
+          "id": "bar-waffle",
+          "title": "Waffle chart · parliament",
+          "preview": "scripts/bar/waffle/preview_parliament.png",
+          "variant": "parliament"
         },
         {
           "id": "bar-svg-icon",
@@ -605,6 +911,12 @@
           "preview": "scripts/bar/upset/preview.png"
         },
         {
+          "id": "bar-upset",
+          "title": "UpSet combination matrix · grouped",
+          "preview": "scripts/bar/upset/preview_grouped.png",
+          "variant": "grouped"
+        },
+        {
           "id": "bar-venn",
           "title": "Overlapping Venn circles",
           "preview": "scripts/bar/venn/preview.png"
@@ -615,9 +927,33 @@
           "preview": "scripts/bar/flower/preview.png"
         },
         {
+          "id": "bar-flower",
+          "title": "Multi-set flower / petal diagram · ellipse",
+          "preview": "scripts/bar/flower/preview_ellipse.png",
+          "variant": "ellipse"
+        },
+        {
+          "id": "bar-flower",
+          "title": "Multi-set flower / petal diagram · overlap",
+          "preview": "scripts/bar/flower/preview_overlap.png",
+          "variant": "overlap"
+        },
+        {
+          "id": "bar-flower",
+          "title": "Multi-set flower / petal diagram · pentagon",
+          "preview": "scripts/bar/flower/preview_pentagon.png",
+          "variant": "pentagon"
+        },
+        {
           "id": "bar-swimmer",
           "title": "Swimmer plot of patient treatment lanes",
           "preview": "scripts/bar/swimmer/preview.png"
+        },
+        {
+          "id": "bar-swimmer",
+          "title": "Swimmer plot of patient treatment lanes · dose",
+          "preview": "scripts/bar/swimmer/preview_dose.png",
+          "variant": "dose"
         },
         {
           "id": "bar-line-multiaxis",
@@ -636,6 +972,24 @@
           "preview": "scripts/boxplot/basic/preview.png"
         },
         {
+          "id": "boxplot-basic",
+          "title": "Basic boxplot · beeswarm",
+          "preview": "scripts/boxplot/basic/preview_beeswarm.png",
+          "variant": "beeswarm"
+        },
+        {
+          "id": "boxplot-basic",
+          "title": "Basic boxplot · cutrun",
+          "preview": "scripts/boxplot/basic/preview_cutrun.png",
+          "variant": "cutrun"
+        },
+        {
+          "id": "boxplot-basic",
+          "title": "Basic boxplot · notch",
+          "preview": "scripts/boxplot/basic/preview_notch.png",
+          "variant": "notch"
+        },
+        {
           "id": "boxplot-group",
           "title": "Grouped boxplot",
           "preview": "scripts/boxplot/group/preview.png"
@@ -644,6 +998,12 @@
           "id": "boxplot-violin",
           "title": "Violin plot",
           "preview": "scripts/boxplot/violin/preview.png"
+        },
+        {
+          "id": "boxplot-violin",
+          "title": "Violin plot · jitter",
+          "preview": "scripts/boxplot/violin/preview_jitter.png",
+          "variant": "jitter"
         },
         {
           "id": "boxplot-letter-value",
@@ -737,6 +1097,12 @@
           "preview": "scripts/line/group/preview.png"
         },
         {
+          "id": "line-group",
+          "title": "Grouped line chart · growth",
+          "preview": "scripts/line/group/preview_growth.png",
+          "variant": "growth"
+        },
+        {
           "id": "line-stack",
           "title": "Stacked area chart",
           "preview": "scripts/line/stack/preview.png"
@@ -772,6 +1138,12 @@
           "preview": "scripts/line/survival/preview.png"
         },
         {
+          "id": "line-survival",
+          "title": "Survival / Kaplan-Meier curve · multi",
+          "preview": "scripts/line/survival/preview_multi.png",
+          "variant": "multi"
+        },
+        {
           "id": "line-roc",
           "title": "ROC curve with confidence bands",
           "preview": "scripts/line/roc/preview.png"
@@ -782,14 +1154,50 @@
           "preview": "scripts/line/ridge/preview.png"
         },
         {
+          "id": "line-ridge",
+          "title": "Ridgeline / joyplot · facs",
+          "preview": "scripts/line/ridge/preview_facs.png",
+          "variant": "facs"
+        },
+        {
+          "id": "line-ridge",
+          "title": "Ridgeline / joyplot · tcell",
+          "preview": "scripts/line/ridge/preview_tcell.png",
+          "variant": "tcell"
+        },
+        {
           "id": "line-gsea",
           "title": "GSEA running enrichment plot",
           "preview": "scripts/line/gsea/preview.png"
         },
         {
+          "id": "line-gsea",
+          "title": "GSEA running enrichment plot · single",
+          "preview": "scripts/line/gsea/preview_single.png",
+          "variant": "single"
+        },
+        {
           "id": "line-spiral",
           "title": "Spiral plot of a periodic series",
           "preview": "scripts/line/spiral/preview.png"
+        },
+        {
+          "id": "line-spiral",
+          "title": "Spiral plot of a periodic series · area",
+          "preview": "scripts/line/spiral/preview_area.png",
+          "variant": "area"
+        },
+        {
+          "id": "line-spiral",
+          "title": "Spiral plot of a periodic series · bar",
+          "preview": "scripts/line/spiral/preview_bar.png",
+          "variant": "bar"
+        },
+        {
+          "id": "line-spiral",
+          "title": "Spiral plot of a periodic series · heatmap",
+          "preview": "scripts/line/spiral/preview_heatmap.png",
+          "variant": "heatmap"
         }
       ]
     },
@@ -806,6 +1214,12 @@
           "id": "pie-doughnut",
           "title": "Doughnut chart",
           "preview": "scripts/pie/doughnut/preview.png"
+        },
+        {
+          "id": "pie-doughnut",
+          "title": "Doughnut chart · chevron",
+          "preview": "scripts/pie/doughnut/preview_chevron.png",
+          "variant": "chevron"
         },
         {
           "id": "pie-doughnut-round",
@@ -836,6 +1250,12 @@
           "id": "pie-nightingale",
           "title": "Nightingale rose chart",
           "preview": "scripts/pie/nightingale/preview.png"
+        },
+        {
+          "id": "pie-nightingale",
+          "title": "Nightingale rose chart · petal",
+          "preview": "scripts/pie/nightingale/preview_petal.png",
+          "variant": "petal"
         }
       ]
     },
@@ -849,9 +1269,39 @@
           "preview": "scripts/radar/basic/preview.png"
         },
         {
+          "id": "radar-basic",
+          "title": "Basic radar chart · models",
+          "preview": "scripts/radar/basic/preview_models.png",
+          "variant": "models"
+        },
+        {
+          "id": "radar-basic",
+          "title": "Basic radar chart · smooth",
+          "preview": "scripts/radar/basic/preview_smooth.png",
+          "variant": "smooth"
+        },
+        {
+          "id": "radar-basic",
+          "title": "Basic radar chart · units",
+          "preview": "scripts/radar/basic/preview_units.png",
+          "variant": "units"
+        },
+        {
           "id": "radar-group",
           "title": "Faceted radar charts",
           "preview": "scripts/radar/group/preview.png"
+        },
+        {
+          "id": "radar-group",
+          "title": "Faceted radar charts · axis group",
+          "preview": "scripts/radar/group/preview_axis_group.png",
+          "variant": "axis_group"
+        },
+        {
+          "id": "radar-group",
+          "title": "Faceted radar charts · scores",
+          "preview": "scripts/radar/group/preview_scores.png",
+          "variant": "scores"
         },
         {
           "id": "radar-signif",
@@ -915,6 +1365,12 @@
           "preview": "scripts/graph/chord/preview.png"
         },
         {
+          "id": "graph-chord",
+          "title": "Weighted Circos chord · grid",
+          "preview": "scripts/graph/chord/preview_grid.png",
+          "variant": "grid"
+        },
+        {
           "id": "graph-arc",
           "title": "Linear arc diagram",
           "preview": "scripts/graph/arc/preview.png"
@@ -974,6 +1430,12 @@
           "id": "sankey-enrichment",
           "title": "Gene-to-term Sankey with enrichment panel",
           "preview": "scripts/sankey/enrichment/preview.png"
+        },
+        {
+          "id": "sankey-enrichment",
+          "title": "Gene-to-term Sankey with enrichment panel · bar",
+          "preview": "scripts/sankey/enrichment/preview_bar.png",
+          "variant": "bar"
         }
       ]
     },
@@ -1006,6 +1468,12 @@
           "id": "tree-basic",
           "title": "Vertical tree / dendrogram",
           "preview": "scripts/tree/basic/preview.png"
+        },
+        {
+          "id": "tree-basic",
+          "title": "Vertical tree / dendrogram · circular",
+          "preview": "scripts/tree/basic/preview_circular.png",
+          "variant": "circular"
         },
         {
           "id": "tree-dendrogram",
@@ -1089,9 +1557,21 @@
           "preview": "scripts/ideogram/coverage/preview.png"
         },
         {
+          "id": "ideogram-coverage",
+          "title": "Genomic locus coverage browser · linked",
+          "preview": "scripts/ideogram/coverage/preview_linked.png",
+          "variant": "linked"
+        },
+        {
           "id": "ideogram-lollipop",
           "title": "Protein mutation lollipop",
           "preview": "scripts/ideogram/lollipop/preview.png"
+        },
+        {
+          "id": "ideogram-lollipop",
+          "title": "Protein mutation lollipop · circular",
+          "preview": "scripts/ideogram/lollipop/preview_circular.png",
+          "variant": "circular"
         },
         {
           "id": "ideogram-dandelion",
@@ -1102,6 +1582,12 @@
           "id": "ideogram-circos",
           "title": "Multi-track genomic Circos",
           "preview": "scripts/ideogram/circos/preview.png"
+        },
+        {
+          "id": "ideogram-circos",
+          "title": "Multi-track genomic Circos · ribbons",
+          "preview": "scripts/ideogram/circos/preview_ribbons.png",
+          "variant": "ribbons"
         },
         {
           "id": "ideogram-synteny",
@@ -1122,6 +1608,12 @@
           "id": "ideogram-circos-heatmap",
           "title": "Genomic Circos heatmap with connectors",
           "preview": "scripts/ideogram/circos_heatmap/preview.png"
+        },
+        {
+          "id": "ideogram-circos-heatmap",
+          "title": "Genomic Circos heatmap with connectors · multitrack",
+          "preview": "scripts/ideogram/circos_heatmap/preview_multitrack.png",
+          "variant": "multitrack"
         },
         {
           "id": "ideogram-nested",

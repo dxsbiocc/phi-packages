@@ -12,6 +12,7 @@ scripts/<family>/<slug>/
   plot.R
   example.tsv          # or nodes.tsv + links.tsv, etc.
   preview.png          # required by catalog
+  preview_<name>.png   # optional other drawing of this template; the gallery lists it
   preview.pdf          # recommended
 ```
 
