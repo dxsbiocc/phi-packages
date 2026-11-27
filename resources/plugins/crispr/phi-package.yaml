@@ -2,7 +2,7 @@ schemaVersion: 1
 id: crispr
 type: plugin
 version: 0.2.0
-title: CRISPR Gene Editing, Guide Design & Screening
+title: CRISPR
 summary: >-
   CRISPR gene-editing & functional genomics plugin (crispr_): multi-nuclease
   sgRNA & Prime Editing pegRNA/ngRNA design, MIT/CFD off-target scanning,

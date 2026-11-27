@@ -73,7 +73,7 @@ class TestStatisticalGeneticsContract(unittest.TestCase):
         self.assertIn("id: statistical-genetics", manifest)
         self.assertIn("type: plugin", manifest)
         self.assertIn("version: 0.1.0", manifest)
-        self.assertIn("title: Statistical Genetics, GWAS Fine-Mapping & Polygenic Risk", manifest)
+        self.assertIn("title: Statistical Genetics", manifest)
         self.assertIn("toolPrefix: gwas", manifest)
         self.assertIn("- agents/StatisticalGenetics.md", manifest)
         self.assertIn("- skills/gwas-workflow", manifest)

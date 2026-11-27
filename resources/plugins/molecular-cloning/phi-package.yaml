@@ -2,7 +2,7 @@ schemaVersion: 1
 id: molecular-cloning
 type: plugin
 version: 0.1.0
-title: Molecular Cloning, Primer Design & Sanger Verification
+title: Molecular Cloning
 summary: >-
   Molecular cloning & construct verification workflow (mc_): SantaLucia/Owczarzy
   primer design (PCR/qPCR/Gibson/GoldenGate/SDM), host-specific codon

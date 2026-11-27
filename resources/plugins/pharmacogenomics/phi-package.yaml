@@ -2,7 +2,7 @@ schemaVersion: 1
 id: pharmacogenomics
 type: plugin
 version: 0.2.0
-title: Pharmacogenomics & Drug Response
+title: Pharmacogenomics
 summary: >-
   Pharmacogenomics & drug screening workflow (pgx_): HTS plate QC & B-score
   hit calling, 4PL Hill dose-response fitting (IC50/EC50/AUC/AAC), 2D drug

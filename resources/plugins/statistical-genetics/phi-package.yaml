@@ -2,7 +2,7 @@ schemaVersion: 1
 id: statistical-genetics
 type: plugin
 version: 0.1.0
-title: Statistical Genetics, GWAS Fine-Mapping & Polygenic Risk
+title: Statistical Genetics
 summary: >-
   Statistical genetics & GWAS workflow (gwas_): summary-stat harmonization &
   lambda_GC/lambda_1000 QC, univariate/bivariate LDSC heritability & rg,

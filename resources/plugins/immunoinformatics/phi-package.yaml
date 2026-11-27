@@ -2,7 +2,7 @@ schemaVersion: 1
 id: immunoinformatics
 type: plugin
 version: 0.1.0
-title: Immune Repertoire (TCR/BCR), HLA & Neoantigen Analysis
+title: Immunoinformatics
 summary: >-
   Downstream immunoinformatics workflow (imm_): AIRR/10x/TRUST4/MiXCR
   repertoire QC, diversity & clonal homeostasis, Morisita-Horn/Fisher

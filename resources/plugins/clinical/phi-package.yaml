@@ -2,7 +2,7 @@ schemaVersion: 1
 id: clinical
 type: plugin
 version: 0.2.0
-title: Clinical Biostatistics, Survival & Causal Inference
+title: Clinical Biostatistics
 summary: >-
   Unified clinical biostatistics plugin (clin_): survival QC, Table 1, KM, Cox
   PH, time-ROC, competing risks, DeLong ROC, TRIPOD calibration & DCA,

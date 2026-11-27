@@ -2,7 +2,7 @@ schemaVersion: 1
 id: multi-omics
 type: plugin
 version: 0.2.0
-title: Multi-Omics Integration
+title: Multi-Omics
 summary: >-
   Cross-omics joint integration (mo_): multi-block sample/scale inspection,
   RNA-protein 9-quadrant concordance & post-transcriptional buffering,

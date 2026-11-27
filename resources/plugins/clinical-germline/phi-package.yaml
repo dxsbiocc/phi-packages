@@ -2,7 +2,7 @@ schemaVersion: 1
 id: clinical-germline
 type: plugin
 version: 0.1.0
-title: Rare-Disease Germline Variant ACMG & Clinical PGx
+title: Clinical Germline
 summary: >-
   Downstream clinical germline & PGx workflow (germ_): Mendelian inheritance
   filtering, ACMG/AMP 2015 & Tavtigian Bayesian variant classification, HPO

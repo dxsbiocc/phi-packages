@@ -2,7 +2,7 @@ schemaVersion: 1
 id: mendelian-randomization
 type: plugin
 version: 0.1.0
-title: GWAS, Colocalization & Mendelian Randomization
+title: Mendelian Randomization
 summary: >-
   Genetic epidemiology & causal inference (mr_): GWAS summary-stat QC with
   genomic inflation lambda_GC & Manhattan/QQ plots, exposure-outcome allele &

@@ -2,7 +2,7 @@ schemaVersion: 1
 id: wetlab-assay
 type: plugin
 version: 0.1.0
-title: Wet-Lab Assay Quantification & Biochemical Kinetics
+title: Wet-Lab Assay
 summary: >-
   Quantitative wet-lab assay workflow (wa_): MIQE-compliant RT-qPCR relative
   quantification (Pfaffl, geNorm & Andersen reference stability), weighted
