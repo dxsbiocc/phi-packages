@@ -1,9 +1,9 @@
 schemaVersion: 1
 id: ols4
 type: mcp
-version: 1.0.1
+version: 1.0.2
 title: OLS4
-summary: 检索本体术语、层级与语义相似类
+summary: Search biomedical ontology terms, hierarchies, cross-references, and semantically similar classes
 connector:
   transport: http
   publisher: EMBL-EBI

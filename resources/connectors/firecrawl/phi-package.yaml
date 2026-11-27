@@ -1,9 +1,9 @@
 schemaVersion: 1
 id: firecrawl
 type: mcp
-version: 1.0.2
+version: 1.0.3
 title: Firecrawl
-summary: 抓取网页并提取结构化内容
+summary: Scrape web pages, crawl entire sites, and extract clean Markdown or structured data
 connector:
   transport: http
   publisher: Firecrawl

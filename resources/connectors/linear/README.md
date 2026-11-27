@@ -1,23 +1,21 @@
-Linear 是面向软件团队的 issue 与项目管理工具，用问题、项目、周期和路线图组织工作，强调快速检索与清晰的状态流转。
+Linear is an issue tracking and project management platform designed around structured issues, projects, cycles, and roadmaps with fast filtering and clear status workflows.
 
-### 能做什么
+### Capabilities
 
-- 检索团队的问题、项目和评论，按关键词、状态、负责人或标签定位工作项。
-- 创建和更新问题，设置标题、描述、优先级、状态和负责人。
-- 查看项目、周期和路线图，了解任务分组、进度和交付时间。
-- 添加评论、关联问题和整理待办，让讨论与具体工作项保持连接。
-- 通过连接器把开发任务、缺陷和论文修订事项纳入统一工作流。
-- 按团队和状态汇总待办，生成周报或迭代回顾所需的清单。
+- Search issues, projects, and comments by keyword, status, assignee, priority, or label.
+- Create and update issues with descriptions, priorities, workflow states, labels, and assignees.
+- Inspect projects, cycles, and milestones to review scope, progress, and blockers across teams.
+- Post comments, link related issues, and generate weekly status summaries or sprint retrospectives directly from chat.
 
-### 科研中的用法
+### Use Cases
 
-- 管理分析代码的开发任务、缺陷修复和版本发布，保留可追踪的讨论记录。
-- 把论文写作、图表制作和投稿检查拆成问题，分配给课题组成员。
-- 用项目和周期跟踪合作课题的里程碑，定期复盘延期和阻塞原因。
-- 记录数据申请、伦理审批和软件部署等流程性任务，避免遗漏关键步骤。
+- Track bioinformatics pipeline features, bug reports, benchmark runs, and release checklists alongside code repositories.
+- Break manuscript drafting, figure revisions, and reviewer point-by-point responses into assigned, trackable tasks.
+- Manage multi-lab project milestones, IRB or data-access application steps, and compute infrastructure deliverables.
+- Triage incoming backlog items and summarize open blockers before team standups or lab meetings.
 
-### 使用说明
+### Usage Notes
 
-- 首次连接需要通过 OAuth 登录 Linear 账号并授权，之后即可访问账号有权限的团队和项目。
-- 免费与付费方案在成员数、项目数量和功能权限上可能不同，具体额度和价格以官网为准。
-- 服务主页：[Linear](https://linear.app)。创建或修改工作项前，请确认团队的数据管理和通知规范。
+- Sign in with your Linear account via OAuth on first connection to access the workspaces and teams authorized for your user.
+- Member seats, team limits, and roadmap features depend on your Linear workspace plan.
+- Homepage: [Linear](https://linear.app). Confirm team conventions before bulk-creating or modifying shared issues.

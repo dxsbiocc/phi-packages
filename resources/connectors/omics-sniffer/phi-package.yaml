@@ -1,9 +1,9 @@
 schemaVersion: 1
 id: omics-sniffer
 type: mcp
-version: 1.0.0
+version: 1.0.1
 title: Omics Sniffer
-summary: 跨 GEO、SRA、ArrayExpress、PRIDE、CELLxGENE 等 30+ 数据库统一检索公开组学数据集、样本与文件
+summary: Search harmonized public multi-omics datasets, samples, and file artifacts across 30+ repositories
 connector:
   transport: http
   publisher: Phi Packages

@@ -1,9 +1,9 @@
 schemaVersion: 1
 id: cbioportal
 type: mcp
-version: 1.0.2
+version: 1.0.3
 title: cBioPortal
-summary: 查询癌症基因组研究、样本与临床数据
+summary: Explore cancer genomics studies, patient cohorts, somatic mutations, and clinical attributes
 connector:
   transport: http
   publisher: cBioPortal

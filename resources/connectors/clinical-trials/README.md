@@ -1,22 +1,29 @@
-ClinicalTrials.gov 由美国国家医学图书馆运营，收录全球临床试验的注册信息，包括研究设计、入排标准、终点、招募状态和部分结果。
+Clinical Trials queries the US National Library of Medicine's official ClinicalTrials.gov REST API v2, providing structured access to global interventional and observational clinical study registrations, eligibility criteria, study arms, endpoints, and posted summary results.
 
-### 能做什么
+### Capabilities
 
-- 按疾病或条件、干预措施、申办方、地点和招募状态检索临床试验。
-- 查看单个试验的详细记录，包括研究类型、分期、样本量和主要终点。
-- 查阅入排标准、干预方案和研究时间安排，判断试验与研究方向是否相关。
-- 了解试验的当前状态、开始和完成日期，以及已提交的结果信息。
-- 通过对话整理多个试验的共同点和差异，形成可比较的清单。
+- Search trials by disease/condition, drug or intervention, target/biomarker keyword, lead sponsor, facility location, recruitment status, phase (`PHASE1`–`PHASE4`), study type, and posted-results availability.
+- Retrieve full protocol records by NCT identifier (`NCT...`), including study design, masking/allocation, arms, primary and secondary outcome measures, enrollment counts, and linked PubMed citations.
+- Inspect complete inclusion and exclusion eligibility criteria, eligible age bounds, sex, and healthy-volunteer rules.
+- Read posted outcome measures, statistical analyses, and serious/other adverse-event summaries from `resultsSection` for completed trials.
 
-### 科研中的用法
+### Research & Workflow Use Cases
 
-- 在立项前梳理某适应症的临床试验格局，识别尚未被满足的临床需求。
-- 为患者队列研究寻找可参考的入排标准和终点定义。
-- 比较不同试验的设计、样本量和结局指标，辅助系统综述或荟萃分析。
-- 跟踪竞争药物或新疗法的试验进展，为课题选择和合作提供背景。
+- Landscape clinical development pipelines for a therapeutic target, drug modality, or oncology indication.
+- Compare inclusion/exclusion criteria, endpoints, and sample sizes when designing a new clinical protocol or statistical analysis plan.
+- Extract posted primary-endpoint and safety summaries across completed Phase 2/3 trials for meta-analysis and evidence synthesis.
 
-### 使用说明
+### Tools
 
-- 无需登录，也无需 API key，连接后即可检索公开注册信息。
-- ClinicalTrials.gov 是注册信息平台，记录不一定经过完整同行评审，也不构成医疗建议。
-- 服务主页：[Clinical Trials](https://clinicaltrials.gov)。数据更新时间和使用条款以 ClinicalTrials.gov 官网为准。
+| Tool | Description |
+| --- | --- |
+| `usage_terms` | Return usage terms and NLM ClinicalTrials.gov REST API v2 notes. |
+| `ctgov_search_studies` | Search ClinicalTrials.gov studies by condition, intervention, keyword, sponsor, location, status, phase, and posted results. |
+| `ctgov_get_study` | Retrieve the full study protocol, design, arms, endpoints, enrollment, locations, and linked PMIDs for one NCT ID. |
+| `ctgov_get_eligibility` | Retrieve full inclusion/exclusion criteria, age range, sex, and healthy-volunteer flags for one NCT ID. |
+| `ctgov_get_results` | Retrieve posted outcome measures, statistical analyses, and adverse-event summaries for completed trials with results. |
+
+### Usage Notes
+
+- No sign-in or API key is required. Hosted read-only by [Phi Packages](https://github.com/dxsbiocc/phi-packages) over the official [ClinicalTrials.gov API v2](https://clinicaltrials.gov/data-api/about-api).
+- Registry records are provided for scientific research and are not medical advice. Always cite `ClinicalTrials.gov` and the corresponding `NCT` identifier.

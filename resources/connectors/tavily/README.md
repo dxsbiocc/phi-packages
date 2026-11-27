@@ -1,24 +1,21 @@
-Tavily 是面向 AI 应用的搜索 API，提供联网搜索、网页内容提取和站点发现能力，返回适合大模型阅读的精简结果。
+Tavily is a web search and content extraction API built for AI agents, returning ranked search snippets, clean full-page text, and site link maps stripped of navigation clutter and ads.
 
-### 能做什么
+### Capabilities
 
-- 联网搜索最新信息，获取标题、链接、摘要和相关内容片段。
-- 提取指定网页的正文内容，去除导航和广告等无关部分。
-- 发现网站的主要页面和链接结构，为后续抓取建立范围。
-- 按主题或站点执行批量检索，整理多个来源的观点和事实。
-- 通过连接器把实时网络信息带入对话，补充文献数据库之外的资料。
-- 对多个来源的搜索结果进行归纳，形成带链接的调研摘要。
+- Search the live web by topic, domain filter, or recency window and retrieve titles, URLs, relevance-ranked snippets, and source metadata.
+- Extract clean body text from target URLs without boilerplate menus or scripts.
+- Map a website's primary pages and link hierarchy to scope targeted documentation or portal reviews.
+- Combine multi-query web searches into source-linked background briefs directly in chat.
 
-### 科研中的用法
+### Use Cases
 
-- 查找最新指南、会议通知、资助机会和实验室动态，弥补论文发表周期带来的滞后。
-- 核对论文相关的软件文档、数据可用性声明和补充材料页面。
-- 调研研究领域的产业合作、专利和转化进展，为课题定位提供背景。
-- 收集科普写作或 grant 申请所需的公开事实，并保留来源链接以便核查。
+- Look up recent clinical guidelines, regulatory announcements, funding calls, conference schedules, and software releases not yet indexed in literature archives.
+- Read package documentation, GitHub READMEs, data availability pages, and online supplementary notes referenced in papers.
+- Survey industry pipelines, clinical partnerships, and translational news around a therapeutic area or technology platform.
+- Collect verifiable web citations with URLs and access dates when drafting grant proposals or technical reviews.
 
-### 使用说明
+### Usage Notes
 
-- 需要 Tavily API key，并在连接器中配置后使用。
-- 免费额度、调用限制和付费套餐以 Tavily 官网为准；高频检索前应评估用量。
-- 网络内容可能过时或有误，重要结论请回到原始来源核实；建议保留查询记录和访问日期，便于复现调研过程。
-- 服务主页：[Tavily](https://github.com/tavily-ai/tavily-mcp)。检索时请遵守目标网站的服务条款和版权要求。
+- Requires a Tavily API key configured in the connector header settings.
+- Search depth (`basic` vs. `advanced`), page extractions, and crawls consume API credits according to your Tavily plan.
+- Homepage: [Tavily MCP](https://github.com/tavily-ai/tavily-mcp). Always verify critical claims against the original source URL and respect target websites' terms of service.

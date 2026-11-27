@@ -1,9 +1,9 @@
 schemaVersion: 1
 id: serpapi
 type: mcp
-version: 1.0.2
+version: 1.0.3
 title: SerpApi
-summary: 获取多个搜索引擎的实时结构化结果
+summary: Fetch real-time structured search results from Google, Google Scholar, and other search engines
 connector:
   transport: http
   publisher: SerpApi

@@ -1,23 +1,21 @@
-Firecrawl 是面向开发者和 AI 应用的网页数据工具，能把网页转换成干净的 Markdown 或结构化数据，并支持站点级抓取。
+Firecrawl is a web scraping and crawling engine built for AI workflows, converting single pages or entire websites into clean Markdown and schema-aligned JSON while handling dynamic rendering and link discovery.
 
-### 能做什么
+### Capabilities
 
-- 搜索网页并返回标题、链接和摘要，用于快速定位信息来源。
-- 抓取单个页面，提取正文、元数据和链接，输出适合阅读或分析的文本。
-- 爬取整个站点或指定路径，批量收集页面内容并控制抓取范围。
-- 发现站点中的页面和链接结构，为后续抓取建立清单。
-- 按给定字段提取结构化信息，把非结构化网页整理成可处理的数据。
-- 根据站点地图或页面发现结果规划抓取范围，减少重复请求和无关页面。
+- Search the web and return page titles, URLs, and snippets to pinpoint primary sources.
+- Scrape individual URLs into clean Markdown, stripping boilerplate navigation while preserving headings, tables, metadata, and links.
+- Map site URL structures and crawl specific path prefixes or domains with configurable depth and page limits.
+- Extract structured JSON fields from unstructured web pages using explicit field descriptions or schemas.
 
-### 科研中的用法
+### Use Cases
 
-- 收集实验室、平台、会议和资助机构的网页信息，整理成可检索的资料库。
-- 抓取论文补充材料页面、数据集说明和软件文档，辅助方法复现。
-- 监测研究领域相关网站的最新公告、招聘和会议信息。
-- 从多个来源提取统一字段，构建文献、样本或工具的比较清单。
+- Index documentation sites, database manuals, and software changelogs to support reproducible analysis workflows.
+- Harvest publicly available dataset landing pages, supplementary material indexes, and consortium announcements.
+- Track conference programs, funding calls, and consortium updates across institutional websites.
+- Extract standardized comparison tables of tools, reagents, cohorts, or benchmarks from multiple web sources.
 
-### 使用说明
+### Usage Notes
 
-- 需要 Firecrawl API key，并在连接器中配置后使用。
-- 免费额度和付费套餐以 Firecrawl 官网为准；大规模抓取前应评估调用量与成本，并设置合理的并发和重试策略。
-- 服务主页：[Firecrawl](https://docs.firecrawl.dev/mcp-server)。抓取时请遵守目标网站的 robots 协议、服务条款和版权要求。
+- Requires a Firecrawl API key configured in the connector header settings.
+- Page scrapes, crawls, and structured extractions consume credits based on your Firecrawl plan; scope path filters and page limits carefully before crawling large sites.
+- Homepage: [Firecrawl MCP Server](https://docs.firecrawl.dev/mcp-server). Respect target websites' `robots.txt` directives, terms of service, and copyright terms.

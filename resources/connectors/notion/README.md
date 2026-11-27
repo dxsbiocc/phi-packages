@@ -1,23 +1,21 @@
-Notion 是集文档、知识库和数据库于一体的协作工作区，适合把笔记、任务、项目资料和团队规范放在同一处管理。
+Notion combines documents, wikis, and relational databases in a shared workspace for managing notes, standard operating procedures, project trackers, and team knowledge bases.
 
-### 能做什么
+### Capabilities
 
-- 搜索工作区中的页面和数据库，按标题或内容定位已有资料。
-- 读取页面正文、子页面和数据库条目，把分散的信息汇总到对话中。
-- 创建或更新页面，整理标题、段落、列表和待办事项。
-- 查询数据库并根据属性筛选条目，例如按状态、负责人或日期查看任务。
-- 通过连接器把会议记录、文献笔记和项目进展沉淀为可检索的知识库。
-- 读取数据库视图和属性，把项目状态或样本清单整理成结构化摘要。
+- Search workspace pages and databases by title or body text to retrieve existing documentation.
+- Read page blocks, nested subpages, and database rows directly into chat context.
+- Create and update pages with structured headings, paragraphs, bulleted lists, and checklists.
+- Query databases and filter entries by properties such as status, assignee, tag, or date.
 
-### 科研中的用法
+### Use Cases
 
-- 建立实验室知识库，收录实验方案、仪器设置、试剂批次和故障排查记录。
-- 管理文献阅读笔记，把论文要点、图表和方法与项目页面关联起来。
-- 用数据库跟踪课题任务、样本清单、伦理审批和论文投稿进度。
-- 记录组会讨论和合作事项，形成可回溯的决策日志，方便新成员接手。
+- Maintain a lab handbook covering wet-lab protocols, instrument settings, reagent lots, and troubleshooting logs.
+- Organize literature reading notes and link key findings, figures, and methods back to active project pages.
+- Track sample inventories, ethics or data-access approvals, analysis tasks, and manuscript submission checklists in Notion databases.
+- Record lab meeting decisions and collaborator handoffs in searchable project logs.
 
-### 使用说明
+### Usage Notes
 
-- 首次连接需要通过 OAuth 登录 Notion 账号并授权，连接器只能访问已共享给集成的页面。
-- 免费与付费方案在页面历史、协作人数和数据库能力上可能不同，具体额度和价格以官网为准。
-- 服务主页：[Notion](https://www.notion.so)。写入前请确认页面权限，避免把敏感数据放入不应共享的工作区。
+- Sign in with your Notion account via OAuth on first connection; the connector only accesses pages and databases explicitly shared with the integration.
+- Version history retention, guest limits, and database automation features depend on your Notion workspace plan.
+- Homepage: [Notion](https://www.notion.so). Verify page sharing permissions before writing confidential or regulated study notes into shared workspaces.

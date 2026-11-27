@@ -1,6 +1,8 @@
 import type { HttpMount } from "phi-omics-runtime";
+import { serverModule as biorxiv } from "phi-omics-biorxiv";
 import { serverModule as cancer } from "phi-omics-cancer";
 import { serverModule as chemistry } from "phi-omics-chemistry";
+import { serverModule as clinicalTrials } from "phi-omics-clinical-trials";
 import { serverModule as clinicalVariants } from "phi-omics-variants";
 import { serverModule as epigenomics } from "phi-omics-epigenomics";
 import { serverModule as genePathway } from "phi-omics-pathways";
@@ -10,6 +12,7 @@ import { serverModule as omicsSniffer } from "phi-omics-sniffer";
 import { serverModule as pharmacogenomics } from "phi-omics-pharmacogenomics";
 import { serverModule as proteinStructure } from "phi-omics-structures";
 import { serverModule as proteomics } from "phi-omics-proteomics";
+import { serverModule as pubmed } from "phi-omics-pubmed";
 import { serverModule as transcriptomics } from "phi-omics-transcriptomics";
 
 export const gatewayMounts: HttpMount[] = [
@@ -20,6 +23,9 @@ export const gatewayMounts: HttpMount[] = [
   { path: "/metabolomics/mcp", module: metabolomics },
   { path: "/pharmacogenomics/mcp", module: pharmacogenomics },
   { path: "/literature/mcp", module: literature },
+  { path: "/pubmed/mcp", module: pubmed },
+  { path: "/biorxiv/mcp", module: biorxiv },
+  { path: "/clinical-trials/mcp", module: clinicalTrials },
   { path: "/variants/mcp", module: clinicalVariants },
   { path: "/structures/mcp", module: proteinStructure },
   { path: "/pathways/mcp", module: genePathway },

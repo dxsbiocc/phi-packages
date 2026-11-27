@@ -1,23 +1,21 @@
-Excalidraw 是开源的手绘风格虚拟白板，适合快速绘制流程图、架构图和示意图，让技术讨论和科研构思更直观。
+Excalidraw is an open-source virtual whiteboard that renders diagrams in a clean hand-drawn style, making it quick to sketch flowcharts, system architectures, and conceptual schematics from natural-language prompts.
 
-### 能做什么
+### Capabilities
 
-- 用矩形、箭头、线条和文字搭建流程图、思维导图和系统结构图。
-- 使用手绘风格呈现草图感，适合早期讨论、教学板书和概念表达。
-- 调整颜色、线宽和布局，突出重点步骤或不同模块之间的关系。
-- 导出 PNG、SVG 等格式，插入文档、网页或演示文稿。
-- 通过连接器生成和修改画布内容，把自然语言描述转成可编辑的示意图。
-- 使用分组和框架整理复杂画布，把实验流程拆成层次清晰的模块。
+- Generate flowcharts, block diagrams, mind maps, and system architectures using shapes, connectors, arrows, and text labels.
+- Organize multi-stage diagrams with frames, groups, stroke weights, and color accents to separate logical modules.
+- Edit existing canvas elements iteratively in chat to refine layout, labels, or directional relationships.
+- Export diagrams as SVG or PNG assets for documentation, slides, wikis, and manuscripts.
 
-### 科研中的用法
+### Use Cases
 
-- 绘制实验设计、样本处理流程和数据分析 pipeline，便于组内评审。
-- 梳理论文的研究框架、机制假设或因果链，在讨论中快速迭代。
-- 制作基金申请和教学材料中的流程图、技术路线图与概念图。
-- 把多组学分析步骤画成可共享的流程草图，标注输入、工具和输出。
+- Map out experimental designs, sample-processing workflows, and bioinformatics pipelines for lab reviews.
+- Sketch causal models, study hypotheses, and analytical frameworks during brainstorming sessions.
+- Produce clear technical roadmap diagrams and architecture overviews for grant proposals, READMEs, and lectures.
+- Document multi-omics data integration steps with labeled inputs, tools, quality-control gates, and outputs.
 
-### 使用说明
+### Usage Notes
 
-- 无需登录，也无需 API key，连接后即可创建和编辑手绘风格画布。
-- Excalidraw 是开源项目，具体部署方式、协作能力和数据存储位置以其官网说明为准；本地与云端部署的隐私边界可能不同。
-- 服务主页：[Excalidraw](https://github.com/excalidraw/excalidraw-mcp)。导出文件和分享链接前，请确认画布中是否包含敏感数据。
+- No sign-in or API key is required to generate and edit Excalidraw canvases through this connector.
+- Review whether a diagram contains unpublished or sensitive information before exporting or sharing public Excalidraw links.
+- Homepage: [Excalidraw MCP](https://github.com/excalidraw/excalidraw-mcp).

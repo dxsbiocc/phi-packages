@@ -1,22 +1,34 @@
-Epigenomics 连接 ENCODE 门户，提供 ENCODE 与 Roadmap Epigenomics 项目的公开表观基因组实验、文件与生物样本元数据，用于查找和筛选可用的表观遗传数据。
+Epigenomics queries the ENCODE Portal REST API to surface public experiment, file, and biosample metadata from the ENCODE Consortium and the NIH Roadmap Epigenomics Program.
 
-### 能做什么
+### Capabilities
 
-- 按关键词或 assay 检索已释放的 ENCODE 实验，例如 ChIP-seq、ATAC-seq 等常见类型。
-- 单独筛选 Roadmap Epigenomics 资助的实验，聚焦人体组织与细胞类型的表观遗传数据。
-- 查询实验对应的文件元数据，开放文件返回下载地址，受限或未释放文件不返回地址。
-- 检索生物样本，查看组织、细胞类型、供体和物种等注释信息。
-- 通过 accession 获取单个实验、文件或生物样本的详细记录。
+- Search released ENCODE experiments by free-text keyword or assay title (such as `ChIP-seq`, `ATAC-seq`, `DNase-seq`, or `WGBS`).
+- Filter specifically for Roadmap Epigenomics reference datasets (`award.rfa=Roadmap`) across human tissues and primary cell types.
+- Query file metadata by keyword, file format, or `ENCFF` accession, returning direct download URLs for released unrestricted files.
+- Search and inspect `ENCBS` biosample records with UBERON tissue and Cell Ontology (`CL`) annotations, donor links, and species identifiers.
 
-### 科研中的用法
+### Research & Workflow Use Cases
 
-- 查找转录因子结合、组蛋白修饰或染色质可及性的公共数据，用于二次分析。
-- 为课题匹配来源组织、细胞类型和发育阶段相近的 ENCODE 实验。
-- 在表观遗传分析流程开始前核对文件格式、释放状态和样本注释。
-- 结合 Roadmap 数据比较不同组织或细胞类型的表观遗传特征。
+- Locate public transcription factor ChIP-seq, histone modification, and chromatin accessibility tracks for regulatory element annotation.
+- Match reference epigenomes by tissue, primary cell ontology term, and assay before running peak colocalization or motif enrichment pipelines.
+- Audit file formats (`bigWig`, `bed`, `bam`), output types, and release status prior to batch downloading from ENCODE.
+- Compare chromatin state and accessibility datasets across human organs profiled in Roadmap Epigenomics.
 
-### 使用说明
+### Tools
 
-- 无需登录，也无需 API key，连接后即可检索公开元数据。
-- 连接器只返回元数据，不下载文件字节；受限或未释放文件的 url 为空，使用前请核对 ENCODE 的数据政策。
-- 服务主页：[Phi Packages](https://github.com/dxsbiocc/phi-packages)。ENCODE 与 Roadmap 数据的引用和使用要求以 ENCODE 官网为准。
+| Tool | Description |
+| --- | --- |
+| `usage_terms` | Return data usage policies and source notes for ENCODE and Roadmap Epigenomics metadata. |
+| `encode_search_experiments` | Search released ENCODE experiments by keyword or assay title (such as `ChIP-seq` or `ATAC-seq`). |
+| `encode_get_experiment` | Fetch metadata for a single ENCODE experiment by accession (for example, `ENCSR818VNL`). |
+| `encode_search_roadmap` | Search released ENCODE experiments funded under the Roadmap Epigenomics program (`award.rfa=Roadmap`). |
+| `encode_search_files` | Search released ENCODE file metadata by keyword or file format, omitting URLs for restricted files. |
+| `encode_get_file` | Fetch metadata for a single ENCODE file by `ENCFF` accession. |
+| `encode_search_biosamples` | Search released ENCODE biosamples with UBERON tissue and Cell Ontology annotations. |
+| `encode_get_biosample` | Fetch metadata for a single released ENCODE biosample by `ENCBS` accession. |
+
+### Usage Notes
+
+- No sign-in or API key is required. Search pagination via the ENCODE portal supports `offset + limit <= 100`.
+- Read-only metadata only: the server does not download raw file bytes, and restricted or unreleased ENCODE files return `url: null`.
+- Homepage: [Phi Packages](https://github.com/dxsbiocc/phi-packages). Follow [ENCODE data use and citation guidelines](https://www.encodeproject.org/help/getting-started/) when publishing analyses.

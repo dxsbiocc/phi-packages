@@ -1,20 +1,31 @@
-Omics Sniffer 是跨源公开组学数据检索引擎，统一汇总 GEO、SRA、ArrayExpress、BioStudies、PRIDE、Massive/ProteomeXchange、CZ CELLxGENE、ENCODE、GDC/TCGA、GTEx、MetaboLights、Metabolomics Workbench、Zenodo、Figshare 等 30+ 公共科学数据仓库的标准化数据集、样本与文件索引。
+Omics Sniffer is a cross-repository discovery engine indexing standardized dataset, sample, and file artifact metadata across 30+ public life-science archives, including GEO, SRA, ArrayExpress, BioStudies, PRIDE, MassIVE, CZ CELLxGENE, ENCODE, GTEx, GDC/TCGA, cBioPortal, CPTAC, DepMap, HuBMAP, Human Protein Atlas, ChIP-Atlas, GWAS Catalog, FinnGen, MetaboLights, Metabolomics Workbench, Zenodo, and Figshare.
 
-### 能做什么
+### Capabilities
 
-- 查看全局跨库目录规模与各数据源/组学模态覆盖度（`get_catalog_stats`）。
-- 按关键词、疾病、组织、细胞类型、物种、检测技术（Assay）、组学模态、仓库来源、开放权限及最低样本量多维组合检索数据集（`search_omics_datasets`）。
-- 根据统一数据集 ID 或原始入藏号（如 `GSE...`、`E-MTAB-...`、`PXD...`、`TCGA-...`）获取完整研究元数据、样本统计、文件统计与关联文献（`get_dataset`）。
-- 浏览数据集下的样本元数据（组织、疾病、性别、年龄等临床/生物学属性，`list_samples`）及可下载数据产物列表（矩阵、原始测序或受控状态标记，`list_artifacts`）。
+- Inspect active Parquet catalog release metadata, total indexed dataset counts, per-repository coverage, and incremental sync timestamps.
+- Filter public datasets simultaneously by keyword, organism, assay/modality, disease, tissue/organ, source repository, access tier, and minimum sample count.
+- Look up complete dataset records by canonical ID (e.g., `geo:GSE164760`) or bare repository accession (`GSE...`, `E-MTAB-...`, `PXD...`, `TCGA-...`), including cross-repository member accessions and linked PubMed/DOI publications.
+- Browse paginated sample-level attributes (organism, tissue, disease, experimental condition, sex, age, and SRA run IDs) and downloadable raw or processed file artifacts (`counts`, `TPM`, `h5ad`, `mtx`, `FASTQ`/FTP roots, clinical tables).
 
-### 科研中的用法
+### Research & Workflow Use Cases
 
-- 在课题立项或验证阶段一次性跨库盘点特定癌种、器官或罕见病的公开转录组、单细胞、空间组学、表观组、蛋白组与代谢组队列。
-- 快速筛选达到统计效能门槛（如 `min_samples >= 50`）且具备开放处理矩阵的数据集，直接衔接下游生物信息学分析流。
-- 通过 DOI 或 PubMed ID 反查论文对应的多模态公开原始数据与补充矩阵入藏号。
+- Survey all publicly available bulk RNA-seq, single-cell, spatial, epigenomic, proteomic, and metabolomic cohorts for a disease, organ, or rare condition in one query.
+- Pre-screen cohorts that meet statistical power thresholds (such as `min_samples >= 50`) and provide open processed count or `h5ad` matrices ready for downstream bioinformatics workflows.
+- Resolve cross-linked accessions (GEO, SRA, BioProject, PRIDE) and deposited supplementary matrices associated with a published study.
 
-### 使用说明
+### Tools
 
-- 无需登录，也无需 API key，连接后即可检索公开元数据快照。
-- 后端数据由 `data-pipelines/omics-sniffer` 增量同步管线定时拉取并原子发布为只读 Parquet 快照；受控访问数据（Controlled Access）仅返回元数据且 `url` 置空。
-- 服务主页：[Phi Packages](https://github.com/dxsbiocc/phi-packages)。复用各仓库原始数据时，请遵守对应数据仓库及原始作者的数据使用许可与引用规范。
+| Tool | Description |
+| --- | --- |
+| `usage_terms` | Return usage terms, repository coverage, and active Parquet snapshot status for Omics Sniffer. |
+| `get_catalog_stats` | Return active Parquet snapshot release info, total indexed datasets, per-repository dataset counts, and incremental auto-sync freshness. |
+| `search_omics_datasets` | Search curated public multi-omics datasets across 30+ repositories by keyword, organism, assay, disease, tissue, source, minimum sample count, and access level. |
+| `get_dataset` | Fetch full metadata, cross-repository member accessions, and linked PubMed/DOI publications for one dataset by canonical ID or bare accession. |
+| `list_samples` | List paginated sample-level metadata (organism, tissue, disease, condition, sex, age, attributes, and SRA run IDs) for a dataset. |
+| `list_artifacts` | List raw, processed, and supplementary file artifacts (`counts`, `TPM`, `h5ad`, `FASTQ`/FTP roots, clinical tables) for a dataset, omitting download URLs for controlled-access artifacts. |
+
+### Usage Notes
+
+- No sign-in or API key is required.
+- Queries run against read-only Parquet catalog snapshots updated incrementally; controlled-access records return metadata only and omit download URLs.
+- Homepage: [Phi Packages](https://github.com/dxsbiocc/phi-packages). Comply with the data use licenses and citation policies of each originating repository and study author when reusing datasets.

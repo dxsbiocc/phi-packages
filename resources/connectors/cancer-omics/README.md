@@ -1,22 +1,39 @@
-Cancer omics 汇总 NCI 基因组数据共享平台 GDC、cBioPortal 公共 REST 接口和 NCI 蛋白质组数据共享平台 PDC 的开放癌症组学元数据，便于在一个对话中跨库检索。
+Cancer Omics aggregates open cancer genomics and proteomics metadata from the NCI Genomic Data Commons (GDC), the public cBioPortal REST API, and the NCI Proteomic Data Commons (PDC), returning normalized donor, sample, gene, variant, dataset, and file records through a single MCP endpoint.
 
-### 能做什么
+### Capabilities
 
-- 按 case ID 或提交者 ID 检索 GDC 病例，查看肿瘤类型、原发部位和年龄等信息。
-- 查询 GDC 基因、简单体细胞突变和文件元数据，并区分开放文件与受控文件。
-- 浏览 cBioPortal 公开研究、样本、患者和基因信息，了解队列构成。
-- 检索 PDC 研究，覆盖 CPTAC 等蛋白质组计划及其疾病类型和分析组分。
-- 以统一的供体、样本、基因、变异、数据集和文件实体返回结果，方便后续整理。
+- Search and inspect NCI GDC donor cases by case UUID or submitter ID, including disease type, primary site, and age at index.
+- Query GDC gene annotations (GRCh38), simple somatic mutations (SSMs), and file metadata with explicit open vs. controlled access flags.
+- Browse public cBioPortal studies, patient cohorts, sample types, and HUGO/Entrez gene records.
+- List and inspect PDC proteogenomic studies across CPTAC and related programs, including disease types and analytical fractions.
 
-### 科研中的用法
+### Research & Workflow Use Cases
 
-- 为课题筛选 TCGA/GDC 队列和可用的组学文件，确认样本与数据是否匹配。
-- 比较 cBioPortal 不同研究中的样本和突变信息，寻找候选靶点或验证假设。
-- 从 PDC 查找 CPTAC 蛋白质组研究，与基因组或转录组结果进行对照。
-- 构建跨库的样本清单，为差异分析、生存分析或多组学整合准备元数据。
+- Screen TCGA and GDC cohorts to verify sample counts, data formats, and open vs. controlled file availability before downloading data.
+- Compare study designs, sample sizes, and reference genomes across public cBioPortal cohorts during target prioritization.
+- Pair CPTAC proteomics studies in PDC with matching genomic or transcriptomic cohorts for multi-omics integration.
+- Assemble harmonized cross-repository study and case manifests for survival, differential expression, or somatic mutation analyses.
 
-### 使用说明
+### Tools
 
-- 无需登录或 API key，直接检索公开元数据；本连接器使用 cBioPortal 公共 REST 接口，与单独的 cBioPortal OAuth 连接器不同。
-- 只返回元数据，不下载文件字节；GDC 受控文件的 url 为空，即使有访问令牌也不会被下载。
-- 服务主页：[Phi Packages](https://github.com/dxsbiocc/phi-packages)。各数据源的使用条款、受控数据申请流程和引用要求以 GDC、cBioPortal 与 PDC 官网为准。
+| Tool | Description |
+| --- | --- |
+| `usage_terms` | Return data usage policies and source links for NCI GDC, cBioPortal, and PDC. |
+| `gdc_search_cases` | Search NCI GDC donor cases by case UUID or submitter ID, returning disease type, primary site, and age at index. |
+| `gdc_get_case` | Fetch a single GDC donor case record by case UUID or submitter ID. |
+| `gdc_search_files` | Search GDC file metadata filtered by case ID or access tier (`open` or `controlled`). |
+| `gdc_get_gene` | Fetch a GDC gene record and GRCh38 genomic coordinates by gene symbol or Ensembl ID. |
+| `gdc_search_mutations` | Search GDC simple somatic mutation (SSM) variant records, optionally filtered by Ensembl gene ID. |
+| `cbioportal_list_studies` | List public cBioPortal cancer genomics studies with sample counts, cancer types, and reference genomes. |
+| `cbioportal_get_study` | Fetch metadata for a single cBioPortal study by `study_id`. |
+| `cbioportal_list_samples` | List sample identifiers and sample types within a cBioPortal study. |
+| `cbioportal_list_patients` | List patient donor records associated with a cBioPortal study. |
+| `cbioportal_get_gene` | Fetch a cBioPortal gene record and NCBI Entrez Gene CURIE by HUGO symbol. |
+| `pdc_list_studies` | List NCI Proteomic Data Commons studies across CPTAC and related proteogenomic programs. |
+| `pdc_get_study` | Fetch metadata for a single PDC study by `PDC` accession (for example, `PDC000759`). |
+
+### Usage Notes
+
+- No sign-in or API key is required. This connector queries the public cBioPortal REST API and is independent of the standalone cBioPortal OAuth connector.
+- Read-only metadata only: the server does not download raw file bytes, and controlled-access GDC or cBioPortal records return `url: null`.
+- Homepage: [Phi Packages](https://github.com/dxsbiocc/phi-packages). Follow the data access policies and citation guidelines of [NCI GDC](https://gdc.cancer.gov/), [cBioPortal](https://www.cbioportal.org/), and [NCI PDC](https://pdc.cancer.gov/).

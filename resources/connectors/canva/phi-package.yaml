@@ -1,9 +1,9 @@
 schemaVersion: 1
 id: canva
 type: mcp
-version: 1.0.2
+version: 1.0.3
 title: Canva
-summary: 在线搜索、创建设计并导出成品
+summary: Search templates, create and resize visual designs, and export finished assets in Canva
 connector:
   transport: http
   publisher: Canva

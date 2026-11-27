@@ -1,22 +1,30 @@
-bioRxiv 是生命科学预印本服务器，medRxiv 是健康科学预印本服务器，论文在同行评审前公开，便于快速了解最新研究进展。
+bioRxiv & medRxiv provides unified access to Cold Spring Harbor Laboratory's life-science (`bioRxiv`) and clinical/health-science (`medRxiv`) preprint servers, combining indexed keyword search via Europe PMC with the official `api.biorxiv.org` date-interval, version-history, and journal-publication APIs.
 
-### 能做什么
+### Capabilities
 
-- 按关键词、作者、日期和学科分类检索 bioRxiv 与 medRxiv 的预印本。
-- 查看标题、作者、摘要、版本、DOI 和发布日期等元数据，判断研究是否与课题相关。
-- 按日期浏览最新预印本，跟踪某一领域或某位作者的新工作。
-- 找到预印本与后续正式发表论文之间的联系，了解稿件的发表状态。
-- 保存检索结果中的题录信息，作为后续阅读、引用和追踪的线索。
+- Search bioRxiv and medRxiv preprints by keyword, gene, disease, method, or author with optional server, category, and date filters.
+- Browse newly posted or revised preprints over any date window and subject category (`bioinformatics`, `genomics`, `cancer biology`, `immunology`, `neuroscience`, and others).
+- Inspect full preprint metadata, abstracts, revision history (`v1` through latest version), corresponding institution, license, and direct PDF / JATS XML links.
+- Track whether a preprint has subsequently been published in a peer-reviewed journal and resolve its journal DOI (`published_as`).
 
-### 科研中的用法
+### Research & Workflow Use Cases
 
-- 在开题、基金申请和论文写作前快速扫描领域前沿，补充正式文献尚未覆盖的新结果。
-- 追踪竞争课题组或合作者的最新预印本，及时调整实验和分析计划。
-- 查找方法学预印本中的流程、参数和代码线索，作为复现或改进实验的参考。
-- 在系统综述中记录预印本证据，比较同一研究的不同预印本版本，并明确标注其未经同行评审的状态。
+- Monitor emerging computational methods, single-cell atlases, and clinical preprints ahead of journal publication.
+- Check whether a cited `10.1101/...` preprint now has a peer-reviewed journal version to cite in manuscripts.
+- Compare revision dates and version counts when evaluating rapidly evolving preprints.
 
-### 使用说明
+### Tools
 
-- 无需登录，也无需 API key，连接后即可检索公开预印本记录。
-- 预印本未经同行评审，结论应谨慎对待；引用时请核对版本和正式发表信息。
-- 服务主页：[bioRxiv](https://www.biorxiv.org)。数据使用和引用规范以 bioRxiv、medRxiv 官网为准。
+| Tool | Description |
+| --- | --- |
+| `usage_terms` | Return usage terms, preprint licensing notes, and routing details for bioRxiv and medRxiv. |
+| `biorxiv_search_preprints` | Search bioRxiv and medRxiv preprints by topic, gene, disease, or author with server, category, and date filters. |
+| `biorxiv_browse_recent` | Browse newly posted or revised preprints on bioRxiv or medRxiv over a date window via CSHL's official details API. |
+| `biorxiv_get_preprint` | Retrieve full preprint metadata, abstract, version history, PDF/XML links, and linked peer-reviewed journal DOI. |
+| `biorxiv_get_published` | Check peer-reviewed journal publication status for a preprint DOI or browse recent preprint-to-journal publications. |
+
+### Usage Notes
+
+- No sign-in or API key is required. Hosted read-only by [Phi Packages](https://github.com/dxsbiocc/phi-packages).
+- Preprints have not undergone peer review; always verify clinical or experimental claims and check `published_as` for peer-reviewed updates.
+- Respect each preprint's Creative Commons or author-selected license on [bioRxiv](https://www.biorxiv.org/) and [medRxiv](https://www.medrxiv.org/).

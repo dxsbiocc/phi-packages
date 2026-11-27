@@ -1,9 +1,9 @@
 schemaVersion: 1
 id: figma
 type: mcp
-version: 1.0.2
+version: 1.0.3
 title: Figma
-summary: 获取设计上下文并生成图表
+summary: Inspect Figma frames, components, and layout specs or generate diagrams in FigJam
 connector:
   transport: http
   publisher: Figma

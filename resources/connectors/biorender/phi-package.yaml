@@ -1,9 +1,9 @@
 schemaVersion: 1
 id: biorender
 type: mcp
-version: 1.0.2
+version: 1.0.3
 title: BioRender
-summary: 搜索科学素材并制作科研插图
+summary: Search biomedical icons and templates to build scientific figures in BioRender
 connector:
   transport: http
   publisher: BioRender

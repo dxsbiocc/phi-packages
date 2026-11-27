@@ -1,9 +1,9 @@
 schemaVersion: 1
 id: notion
 type: mcp
-version: 1.0.2
+version: 1.0.3
 title: Notion
-summary: 搜索、读取并整理工作区内容
+summary: Search, read, create, and organize pages and databases across a Notion workspace
 connector:
   transport: http
   publisher: Notion
