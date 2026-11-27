@@ -8,6 +8,9 @@
 #   POST /metabolomics/mcp
 #   POST /pharmacogenomics/mcp
 #   POST /literature/mcp
+#   POST /pubmed/mcp
+#   POST /biorxiv/mcp
+#   POST /clinical-trials/mcp
 #   POST /variants/mcp
 #   POST /structures/mcp
 #   POST /pathways/mcp

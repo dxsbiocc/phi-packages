@@ -1,23 +1,22 @@
-Canva 是在线平面设计平台，提供模板、素材、字体和协作工具，可制作海报、演示文稿、社交媒体图片等视觉内容。
+Canva is an online graphic design platform with templates, stock media, typography controls, and collaborative editing tools for presentations, posters, documents, and social graphics.
 
-### 能做什么
+### Capabilities
 
-- 按主题检索模板、图片、图标、字体和配色方案，快速搭建设计初稿。
-- 从空白画布开始创作，或基于模板调整文字、图片、图形和版式。
-- 复用品牌素材和团队模板，让多张图保持统一的视觉风格。
-- 导出常用图片和文档格式，用于网页、打印或演示。
-- 通过连接器搜索设计资源并获取设计链接，减少在多个页面之间切换。
-- 基于同一模板生成不同尺寸的版本，适配打印海报、幻灯片和屏幕发布。
+- Search templates, illustrations, icons, fonts, and color palettes by topic or format to draft layouts quickly.
+- Create new designs from scratch or adapt existing templates by updating text, imagery, and page structure.
+- Apply shared brand kits and team templates so decks, posters, and announcements maintain a consistent visual identity.
+- Resize designs across print poster, widescreen slide, and web dimensions from a single base layout.
+- Retrieve editable design links and export finished assets in standard image and PDF formats.
 
-### 科研中的用法
+### Use Cases
 
-- 制作会议海报、课题汇报幻灯片和实验室招募宣传图。
-- 为论文 graphical abstract 或科普文章制作版式和配图，再交由专业工具精修。
-- 统一课题组对外材料的配色、字体和标识，提升成果展示的一致性。
-- 快速制作学术会议的宣传图、日程卡片和社交媒体内容。
+- Build conference posters, lab meeting decks, seminar announcements, and recruitment flyers.
+- Draft layout concepts for graphical abstracts, outreach articles, and project summaries before final technical polishing.
+- Standardize colors, typography, and logos across a research group's external presentations and public materials.
+- Produce event schedules, speaker cards, and symposium graphics in multiple aspect ratios.
 
-### 使用说明
+### Usage Notes
 
-- 首次连接需要通过 OAuth 登录 Canva 账号并授权，之后即可在 Phi 中访问设计资源。
-- 免费版与付费版在模板、素材和导出权限上可能不同，具体额度和价格以官网为准。
-- 服务主页：[Canva](https://www.canva.com)。使用素材时请遵守 Canva 的授权条款，特别是商业用途和署名要求。
+- Sign in with your Canva account via OAuth on first connection to access your workspace designs and templates.
+- Access to premium stock assets, brand kits, resizing tools, and export options depends on your Canva plan.
+- Homepage: [Canva](https://www.canva.com). Check Canva's content license agreements regarding commercial use and attribution for stock elements.

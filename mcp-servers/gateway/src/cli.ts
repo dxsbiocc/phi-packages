@@ -24,6 +24,9 @@ if (options.help) {
   /metabolomics/mcp
   /pharmacogenomics/mcp
   /literature/mcp
+  /pubmed/mcp
+  /biorxiv/mcp
+  /clinical-trials/mcp
   /variants/mcp
   /structures/mcp
   /pathways/mcp

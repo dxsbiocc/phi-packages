@@ -1,22 +1,32 @@
-Proteomics 连接 PRIDE Archive 与 Human Protein Atlas，提供公开蛋白质组研究、文件、基因和蛋白摘要，便于查找可复用的数据与蛋白注释。
+Proteomics connects to the EMBL-EBI PRIDE Archive and the Human Protein Atlas (HPA), combining public mass-spectrometry dataset and file discovery with human gene tissue-specificity and UniProt protein annotations.
 
-### 能做什么
+### Capabilities
 
-- 按关键词检索 PRIDE 项目，查看标题、描述、提交日期和项目编号。
-- 获取单个 PRIDE 项目的详细信息，并列出其文件元数据。
-- 对公开文件返回 HTTPS 下载地址，便于后续获取原始数据；连接器本身不下载谱图。
-- 在 Human Protein Atlas 中按基因名或 Ensembl ID 检索基因，查看基因描述和组织特异性。
-- 列出与某个 HPA 基因关联的 UniProt 蛋白，获取蛋白分类等注释。
+- Search public PRIDE Archive projects by keyword and inspect project titles, descriptions, submission dates, and `PXD` accessions.
+- List file metadata within a PRIDE project, returning HTTPS download URLs converted from public PRIDE FTP locations.
+- Search Human Protein Atlas genes by symbol or keyword, returning Ensembl gene CURIEs, GRCh38 coordinates, UniProt cross-references, and RNA tissue specificity labels.
+- Retrieve single-gene HPA summaries and linked UniProt protein entries with protein class annotations by Ensembl ID.
 
-### 科研中的用法
+### Research & Workflow Use Cases
 
-- 为蛋白质组学课题寻找可复用的 PRIDE 数据集，比较样本类型和实验设计。
-- 在论文中核对蛋白或基因的组织表达特征，辅助候选标志物筛选。
-- 把 PRIDE 项目与 HPA 注释关联，理解蛋白的细胞和组织分布。
-- 为后续网络分析或功能富集准备标准化的基因与 UniProt 标识符。
+- Discover reusable public mass-spectrometry datasets in PRIDE across specific tissues, diseases, or instrumentation workflows.
+- Check baseline human RNA tissue specificity and distribution in HPA when evaluating candidate biomarkers or therapeutic targets.
+- Cross-reference PRIDE project cohorts with HPA protein classes and canonical Ensembl/UniProt identifiers before downstream network or pathway analysis.
 
-### 使用说明
+### Tools
 
-- 无需登录，也无需 API key，连接后即可检索公开元数据。
-- 连接器不下载原始谱图；PRIDE 文件的可访问性和 HPA 内容的使用范围以各自官网授权条款为准。
-- 服务主页：[Phi Packages](https://github.com/dxsbiocc/phi-packages)。引用 PRIDE 项目或 HPA 数据时，请同时引用原始研究和数据库资源。
+| Tool | Description |
+| --- | --- |
+| `usage_terms` | Return data usage and licensing policies for PRIDE Archive and the Human Protein Atlas. |
+| `pride_search_projects` | Search public PRIDE Archive proteomics projects by keyword. |
+| `pride_get_project` | Fetch metadata for a single PRIDE project by `PXD` accession (for example, `PXD001357`). |
+| `pride_list_files` | List file metadata and public HTTPS download URLs for a PRIDE project. |
+| `hpa_search_genes` | Search Human Protein Atlas genes by keyword or symbol, returning Ensembl IDs, UniProt cross-references, and RNA tissue specificity. |
+| `hpa_get_gene` | Fetch a single Human Protein Atlas gene summary and GRCh38 locus by Ensembl gene ID. |
+| `hpa_list_proteins` | List UniProt protein records and protein classes linked to an Ensembl gene in the Human Protein Atlas. |
+
+### Usage Notes
+
+- No sign-in or API key is required.
+- Read-only metadata only: the server does not download raw mass spectra, and non-public PRIDE files return `url: null`.
+- Homepage: [Phi Packages](https://github.com/dxsbiocc/phi-packages). Cite the originating study alongside [PRIDE Archive](https://www.ebi.ac.uk/pride/) and the [Human Protein Atlas](https://www.proteinatlas.org/about/licence).

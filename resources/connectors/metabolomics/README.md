@@ -1,22 +1,31 @@
-Metabolomics 连接 EMBL-EBI 的 MetaboLights 数据库，提供公开代谢组学研究的编号、描述、状态、文件和测定（assay）元数据，便于查找可复用的研究记录。
+Metabolomics connects to the EMBL-EBI MetaboLights repository to retrieve public metabolomics study accessions, ISA-Tab study descriptions, release status flags, assay metadata files, and public FTP file manifests.
 
-### 能做什么
+### Capabilities
 
-- 浏览 MetaboLights 的公开研究编号，并获取单个研究的标题、描述和公开状态。
-- 列出研究中的文件，查看文件名、类型和目录信息，开放研究会返回下载地址。
-- 单独列出测定文件，快速了解研究包含哪些代谢组学实验。
-- 区分公开研究与私有研究；私有研究不返回文件地址。
-- 通过对话整理研究清单，为后续数据下载、方法比较和引用核对做准备。
+- List public MetaboLights study accessions (`MTBLS...`) and inspect individual study titles, descriptions, and release status.
+- List files associated with a study, including file names, types, and public EMBL-EBI FTP download URLs.
+- List ISA-Tab assay files (`a_*.txt`) within a study to inspect analytical modalities and experimental runs.
+- Distinguish public studies from private submissions, omitting download URLs when a study is marked private.
 
-### 科研中的用法
+### Research & Workflow Use Cases
 
-- 查找 LC-MS、GC-MS 等代谢组学研究的公开数据和实验描述，用于二次分析。
-- 在开展代谢组学实验前参考同类研究的设计、样本类型和测定方案。
-- 为代谢物、暴露组或疾病标志物研究收集可比较的公开数据集。
-- 核对论文关联的 MetaboLights 研究编号和文件清单，确认数据可用性。
+- Locate open LC-MS, GC-MS, and NMR metabolomics datasets and study designs for reanalysis or benchmarking.
+- Review assay layouts and file inventories from comparable studies before designing sample-prep or mass spectrometry protocols.
+- Assemble public reference cohorts for biomarker discovery, exposomics, or metabolic pathway studies.
+- Verify MetaboLights accession numbers and deposited file manifests cited in manuscripts.
 
-### 使用说明
+### Tools
 
-- 无需登录，也无需 API key，连接后即可检索公开元数据。
-- 连接器只返回研究和文件元数据，不下载原始数据，也不提供解析后的代谢物定量表；具体代谢物信息需查看研究文件。
-- 服务主页：[Phi Packages](https://github.com/dxsbiocc/phi-packages)。MetaboLights 数据的使用条款、隐私限制和引用要求以 EMBL-EBI 官网为准。
+| Tool | Description |
+| --- | --- |
+| `usage_terms` | Return data usage policies and API notes for EMBL-EBI MetaboLights. |
+| `metabolights_list_studies` | List public MetaboLights study accessions (`MTBLS...`) with pagination. |
+| `metabolights_get_study` | Fetch the title, description, and release status for a single MetaboLights study by `MTBLS` accession. |
+| `metabolights_list_files` | List file records and public FTP URLs for a MetaboLights study, omitting URLs for private studies. |
+| `metabolights_list_assays` | List assay metadata file records associated with a MetaboLights study. |
+
+### Usage Notes
+
+- No sign-in or API key is required.
+- Read-only metadata only: the server does not download raw spectral files or expose parsed metabolite abundance matrices (metabolite assignment tables `m_*.tsv` must be retrieved from the listed study files).
+- Homepage: [Phi Packages](https://github.com/dxsbiocc/phi-packages). Follow [EMBL-EBI MetaboLights](https://www.ebi.ac.uk/metabolights/about) data reuse and citation guidelines.

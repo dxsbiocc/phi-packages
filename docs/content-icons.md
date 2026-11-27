@@ -45,9 +45,6 @@ this attribution does not change their owners' licensing or trademark terms.
 | Figma                 | https://claude.com/marketplace/connectors/figma                                                         |
 | Canva                 | https://claude.com/marketplace/connectors/canva                                                         |
 | BioRender             | https://claude.com/marketplace/connectors/biorender                                                     |
-| PubMed                | https://claude.com/marketplace/connectors/pubmed                                                        |
-| bioRxiv               | https://claude.com/marketplace/connectors/biorxiv                                                       |
-| Clinical Trials       | https://claude.com/marketplace/connectors/clinical-trials                                               |
 | cBioPortal            | https://www.cbioportal.org/images/cbioportal_icon.png (official website favicon, retrieved 2026-10-08)  |
 | Open Targets Platform | https://opentargets.org/branding (official helix SVG); MCP: https://github.com/opentargets/platform-mcp |
 
@@ -104,25 +101,22 @@ These hashes preserve the original image bytes without a frontend asset dependen
 | Package file                                    | SHA-256                                                            | Bytes |
 | ----------------------------------------------- | ------------------------------------------------------------------ | ----: |
 | `resources/connectors/biorender/icon.jpg`       | `5058279cd72d517919bce9623c803c0d334a918740b2785ac1b47ea87c33b311` |  3566 |
-| `resources/connectors/biorxiv/icon.png`         | `ce412025016e5535bbb5aa1d8a3b7e84c67f22dfe2c638d7eb2447188df80d52` | 59601 |
 | `resources/connectors/browser-use/icon.png`     | `c0da08801542a6c68f9837530c93820b80da0dcdf086c009866e119f9e13c109` | 43719 |
 | `resources/connectors/canva/icon.jpg`           | `ecfbe1a4a05cd342b14b9d7b2323a5637a72a3469b5ce6462a75c37b33af4012` |  2512 |
 | `resources/connectors/cbioportal/icon.png`      | `d19e84d8f61376ffec1408a882ed38447a0ba168ddf75a947b2b0c9a0d7522f0` |  2587 |
-| `resources/connectors/clinical-trials/icon.png` | `6136f7db817a75fd75a5ef4dfeb548733bfa7d875c2d7e917a2d1485943e0420` | 24196 |
 | `resources/connectors/composio/icon.svg`        | `8da32432515f89f3f81992340ae2feda38c6e2f2b807a1a509922a8ca8d1cd53` |  7479 |
 | `resources/connectors/figma/icon.jpg`           | `bdece31fd7626aaad1f75c9b96026a867d0d34bebb0ba85cff280f573b0cd604` |  1834 |
 | `resources/connectors/firecrawl/icon.png`       | `37e85b43b4b9cdbd689e9e710410caa4c8a240b42dd21ef8edd5edde9a6116df` |  8927 |
 | `resources/connectors/linear/icon.svg`          | `a213893f4d76eba22c3bebe05e9627704a3469e0f81f8a732bdf7ebbebf6f4d7` |   499 |
 | `resources/connectors/notion/icon.svg`          | `f34ddba7d44c7c8701b73c43dd3762355e460c54f6eb0f0f628e01af4629aeb8` |  1472 |
 | `resources/connectors/open-targets/icon.svg`    | `319081e74bcb3d6c2dd2d472e0699cff39488b93713576441c54285ed4c2bb94` |   745 |
-| `resources/connectors/pubmed/icon.svg`          | `a677ecb9865f7a0dbfff9863672a05acdb642af1774da954145c83140ddc51cf` |   886 |
 | `resources/connectors/serpapi/icon.svg`         | `53656f8526033e4323a0d6c502cf1caf3f4ab17be72c2f83be37bd0cec9163e8` |  1848 |
 | `resources/connectors/tavily/icon.svg`          | `320ef37b5a13331bee4d756c6aed45422e61e73a02816ac3a4768815f6ed5153` |  2282 |
 
 ## Phi omics MCP gateway icons
 
-Six original SVG marks are used for the Phi-hosted omics MCP
-connectors. They are not part of the 18-icon migration. Each file sits beside its
+Nine original SVG marks are used for the Phi-hosted omics and biomedical MCP
+connectors. They are not part of the initial icon migration. Each file sits beside its
 `phi-package.yaml` and is recorded in `SOURCE.json` `addedContent`.
 
 | Package file | SHA-256 | Bytes |
@@ -133,4 +127,7 @@ connectors. They are not part of the 18-icon migration. Each file sits beside it
 | `resources/connectors/proteomics/icon.svg` | `73b619b9dd6f9fda5b8a32d05efe8c0a0e648bc65a08b4ad56f4c85d63deb41d` | 387 |
 | `resources/connectors/metabolomics/icon.svg` | `e30d3c4344a23b5c5179ec077f071ba5477b4dad305a1d6b947b7e708b04018f` | 338 |
 | `resources/connectors/omics-sniffer/icon.svg` | `3bb4d2e326329e643176062c4e3b5a6e7d0b0735a9145c873aab6999fde2ba88` | 442 |
+| `resources/connectors/pubmed/icon.svg` | `400404ddc6ed5778e34041c3e77f3315aeffae953187dd4ed80cfc3ce68a5ba1` | 389 |
+| `resources/connectors/biorxiv/icon.svg` | `3450545ba54d2c8e8f3966f86191b29127389803a5fd7d4c97008894ab1ec875` | 430 |
+| `resources/connectors/clinical-trials/icon.svg` | `d2fad068c419fdbcb7479313889034bbde73757ec16ecc1c76d023fef7241525` | 448 |
 

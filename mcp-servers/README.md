@@ -1,6 +1,6 @@
 # Omics MCP servers
 
-Twelve read-only MCP servers for public scientific databases that do not ship an official MCP endpoint. They share one entity model (`docs/schemas.md`). The remote servers share one HTTP client (timeouts, retries, per-host rate limit, on-disk cache). Pharmacogenomics and Omics Sniffer read local Parquet instead.
+Fifteen read-only MCP servers for public scientific databases and registries that do not ship an official MCP endpoint (or replace withdrawn third-party wrappers). They share one entity model (`docs/schemas.md`). The remote servers share one HTTP client (timeouts, retries, per-host rate limit, on-disk cache). Pharmacogenomics and Omics Sniffer read local Parquet instead.
 
 | Server | Package | Sources |
 | --- | --- | --- |
@@ -11,6 +11,9 @@ Twelve read-only MCP servers for public scientific databases that do not ship an
 | Metabolomics | `phi-omics-metabolomics` | MetaboLights |
 | Pharmacogenomics | `phi-omics-pharmacogenomics` | DepMap 24Q2, PRISM 19Q4 and Public 24Q2, GDSC 8.4, Cell Model Passports |
 | Literature | `phi-literature` | PubMed, PubTator 3.0, Europe PMC, bioRxiv/medRxiv, Crossref, OpenAlex, Semantic Scholar, arXiv, Unpaywall, OpenCitations |
+| PubMed | `phi-omics-pubmed` | NCBI E-utilities (PubMed/MEDLINE), PMC / Europe PMC open JATS XML, NCBI PubTator 3.0 |
+| bioRxiv & medRxiv | `phi-omics-biorxiv` | CSHL `api.biorxiv.org` (`details` & `pubs`), Europe PMC `SRC:PPR` preprint index |
+| Clinical Trials | `phi-omics-clinical-trials` | NLM ClinicalTrials.gov REST API v2 (`studies`, eligibility, posted results) |
 | Clinical variants | `phi-omics-variants` | NCBI ClinVar, gnomAD v4/v3/v2.1 GraphQL, CIViC v2 GraphQL |
 | Protein structure | `phi-omics-structures` | UniProtKB REST, AlphaFold DB |
 | Gene and pathway | `phi-omics-pathways` | Ensembl REST (gene lookup, Compara homologs, VEP), Reactome Content Service |
@@ -19,7 +22,7 @@ Twelve read-only MCP servers for public scientific databases that do not ship an
 
 The same TypeScript runs locally over stdio or Streamable HTTP, and in Docker on one host. Packages are private workspace members. An npm scope and a publish workflow are intentionally not set up yet; `bin`, `files`, and `engines` are already in each package so that step can be added later without moving code.
 
-Public HTTPS endpoints for six omics servers are live or co-deployed on `phi.omicsagent.cn`. Matching manifests live under `resources/connectors/` (`transcriptomics-single-cell`, `cancer-omics`, `epigenomics`, `proteomics`, `metabolomics`, `omics-sniffer`). Pharmacogenomics is mounted at `/pharmacogenomics/mcp` and reads local Parquet. Literature is mounted at `/literature/mcp`. Add those paths to the catalog only after they are deployed.
+Public HTTPS endpoints for nine servers are live on `phi.omicsagent.cn`. Matching manifests live under `resources/connectors/` (`transcriptomics-single-cell`, `cancer-omics`, `epigenomics`, `proteomics`, `metabolomics`, `omics-sniffer`, `pubmed`, `biorxiv`, `clinical-trials`). Pharmacogenomics is mounted at `/pharmacogenomics/mcp` and reads local Parquet. Unified Literature is mounted at `/literature/mcp`.
 
 ## Build and test
 
@@ -53,7 +56,7 @@ PHI_PGX_DATA_DIR=/path/to/processed npm exec -w phi-omics-pharmacogenomics -- ph
 npm exec -w phi-literature -- phi-literature --http --port 8791
 ```
 
-The bins are `phi-omics-transcriptomics`, `phi-omics-cancer`, `phi-omics-epigenomics`, `phi-omics-proteomics`, `phi-omics-metabolomics`, `phi-omics-pharmacogenomics`, `phi-literature`, `phi-omics-variants`, `phi-omics-structures`, `phi-omics-pathways`, `phi-omics-chemistry`, `phi-omics-sniffer`, and `phi-omics-gateway`. Each server defaults to stdio and switches to HTTP with `--http`. The remote servers and literature have no native addons. Pharmacogenomics and Omics Sniffer use the DuckDB Node binding (`@duckdb/node-api`) to read Parquet.
+The bins are `phi-omics-transcriptomics`, `phi-omics-cancer`, `phi-omics-epigenomics`, `phi-omics-proteomics`, `phi-omics-metabolomics`, `phi-omics-pharmacogenomics`, `phi-literature`, `phi-omics-pubmed`, `phi-omics-biorxiv`, `phi-omics-clinical-trials`, `phi-omics-variants`, `phi-omics-structures`, `phi-omics-pathways`, `phi-omics-chemistry`, `phi-omics-sniffer`, and `phi-omics-gateway`. Each server defaults to stdio and switches to HTTP with `--http`. The remote servers and literature have no native addons. Pharmacogenomics and Omics Sniffer use the DuckDB Node binding (`@duckdb/node-api`) to read Parquet.
 
 Example stdio entry for a desktop client, with paths adjusted to this checkout:
 
@@ -120,13 +123,16 @@ The image listens on port 8080:
 - `POST /metabolomics/mcp`
 - `POST /pharmacogenomics/mcp`
 - `POST /literature/mcp`
+- `POST /pubmed/mcp`
+- `POST /biorxiv/mcp`
+- `POST /clinical-trials/mcp`
 - `POST /variants/mcp`
 - `POST /structures/mcp`
 - `POST /pathways/mcp`
 - `POST /chemistry/mcp`
 - `POST /omics-sniffer/mcp`
 
-`MCP_SERVER=transcriptomics-single-cell` (or `cancer-omics`, `epigenomics`, `proteomics`, `metabolomics`, `pharmacogenomics`, `literature`, `clinical-variants`, `protein-structure`, `gene-pathway`, `drug-chemistry`, `omics-sniffer`) serves that one server at `/mcp` instead.
+`MCP_SERVER=transcriptomics-single-cell` (or `cancer-omics`, `epigenomics`, `proteomics`, `metabolomics`, `pharmacogenomics`, `literature`, `pubmed`, `biorxiv`, `clinical-trials`, `clinical-variants`, `protein-structure`, `gene-pathway`, `drug-chemistry`, `omics-sniffer`) serves that one server at `/mcp` instead.
 
 Mount the processed pharmacogenomics tables by setting `PHI_PGX_DATA_DIR` on the host to that directory. Compose maps it read-only to `/var/lib/phi-pgx`. For Omics Sniffer, set `PHI_OMICS_SNIFFER_STATE_DIR` on the host (default `./omics-sniffer-state`); Compose mounts `${PHI_OMICS_SNIFFER_STATE_DIR}/serving` read-only into `omics-mcp` at `/var/lib/phi-omics-sniffer/serving` and runs the companion `omics-sniffer-sync` container from `data-pipelines/omics-sniffer` once daily (`SYNC_INTERVAL_SECONDS=86400`, executing GEO/ArrayExpress every 48h, PRIDE/CELLxGENE/MetaboLights monthly, and leaving static releases manual) to atomically refresh `serving/current` without restarting the gateway.
 
@@ -178,6 +184,18 @@ The server does not download releases. Build the tables with `data-pipelines/pha
 ### Literature
 
 `usage_terms`, `search_publications`, `get_publication`, `get_fulltext`, `related_publications`, `resolve_references`, `get_entity_annotations`.
+
+### PubMed
+
+`usage_terms`, `pubmed_search_articles`, `pubmed_get_article`, `pubmed_get_fulltext`, `pubmed_related_articles`, `pubmed_lookup_citations`, `pubmed_entity_annotations`.
+
+### bioRxiv & medRxiv
+
+`usage_terms`, `biorxiv_search_preprints`, `biorxiv_browse_recent`, `biorxiv_get_preprint`, `biorxiv_get_published`.
+
+### Clinical Trials
+
+`usage_terms`, `ctgov_search_studies`, `ctgov_get_study`, `ctgov_get_eligibility`, `ctgov_get_results`.
 
 The tools follow the jobs a person actually does with the literature, not one tool per website. Search hits are short: at most eight authors and a 400-character abstract unless `include_abstract` is true. `get_publication` returns the abstract. Full text is inlined only when a Creative Commons or public-domain license is known; otherwise the response is links. Entity queries with `@GENE_`, `@DISEASE_`, `@CHEMICAL_`, `@VARIANT_`, or `relations:` route automatically to NCBI PubTator 3.0, and `get_entity_annotations` exports BioCJSON entity annotations by PMID or DOI.
 

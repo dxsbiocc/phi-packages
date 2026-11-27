@@ -1,22 +1,22 @@
-BioRender 是面向生命科学的在线科学插图平台，提供专业绘制的生物医学图标、模板和画布工具，用于制作论文、基金申请与教学材料中的示意图。
+BioRender is an online scientific illustration platform for the life sciences, offering curated biomedical icons, figure templates, and canvas layout tools for manuscripts, grant proposals, posters, and teaching materials.
 
-### 能做什么
+### Capabilities
 
-- 按细胞、分子、组织、疾病和实验技术等主题检索图标与模板，快速找到可用的科研素材。
-- 在画布上组合图标、箭头和标注，绘制信号通路、实验流程与机制模型。
-- 复用模板并调整配色和版式，导出 PNG、PDF 等常用格式，适配投稿和演示场景。
-- 通过连接器在对话中查找素材和作图思路，减少在素材库中逐页翻找的时间。
-- 在同一项目中复用已整理的元素和布局，逐步搭建设计库，方便后续反复修改。
+- Search biomedical icons and templates by cell type, molecule, tissue, disease, or experimental technique.
+- Assemble icons, directional arrows, and annotations on a canvas to illustrate signaling pathways, experimental workflows, and mechanistic models.
+- Customize template color palettes and layouts, then export publication-ready figures in PNG, PDF, or SVG formats.
+- Find relevant visual assets and layout references directly from chat instead of browsing icon libraries page by page.
+- Reuse grouped elements across projects to keep visual conventions consistent within a lab or manuscript series.
 
-### 科研中的用法
+### Research & Workflow Use Cases
 
-- 绘制信号通路、细胞结构、动物实验和样本处理流程，用于论文方法或结果部分。
-- 制作 graphical abstract、基金申请插图、会议海报和教学幻灯片。
-- 为课题组建立风格统一的示意图模板，减少重复作图并保持视觉一致。
-- 在课题讨论和组会上快速画出概念图，再根据反馈迭代细节。
+- Illustrate signaling cascades, cellular architecture, animal study designs, and sample-processing protocols for Methods or Results sections.
+- Prepare graphical abstracts, grant proposal schematics, conference posters, and lecture slides.
+- Maintain shared figure templates across a research group so multi-panel figures follow uniform styling.
+- Sketch preliminary mechanism diagrams during lab meetings and refine them iteratively from colleague feedback.
 
-### 使用说明
+### Usage Notes
 
-- 首次连接需要通过 OAuth 登录 BioRender 账号并授权，之后即可在 Phi 中调用。
-- 免费与付费方案在模板、导出和协作权限上可能不同，具体额度和价格以官网为准。
-- 服务主页：[BioRender](https://www.biorender.com)。素材的授权范围和引用要求请以 BioRender 的服务条款为准。
+- Sign in with your BioRender account via OAuth on first connection to authorize workspace access.
+- Template availability, export resolution, collaboration features, and publication licensing depend on your BioRender subscription tier.
+- Homepage: [BioRender](https://www.biorender.com). Review BioRender's terms of service for figure licensing and journal attribution requirements.

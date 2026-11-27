@@ -1,22 +1,43 @@
-Transcriptomics and single-cell 汇总 GTEx、CZ CELLxGENE、CellGuide、Human Cell Atlas 和 HuBMAP 的公开转录组与单细胞元数据，覆盖组织表达、eQTL、细胞类型标记和解剖图谱。
+Transcriptomics and Single-Cell unifies public bulk tissue expression, eQTL, and single-cell/spatial atlas metadata across the GTEx Portal, CZ CELLxGENE Discover, CZ CellGuide, the Human Cell Atlas (HCA), and HuBMAP.
 
-### 能做什么
+### Capabilities
 
-- 检索 GTEx 基因和组织，查看跨组织的 median TPM 表达、eGene 和单组织 eQTL。
-- 浏览 CELLxGENE 的集合与数据集，查看细胞数、组织、疾病和细胞类型注释。
-- 查询 CellGuide 固定快照中的 canonical marker 基因，辅助细胞类型注释。
-- 检索 Human Cell Atlas 项目，按器官过滤并查看项目描述和样本信息。
-- 检索 HuBMAP 的数据集、样本和供体，了解公开级别和数据集类型。
+- Query GTEx reference genes, tissue sites, median tissue expression (in TPM), tissue-level eGenes, and single-tissue eQTL variants.
+- Browse CZ CELLxGENE Discover collections and constituent datasets with cell counts, assays, and standardized UBERON, Cell Ontology (`CL`), and MONDO annotations.
+- Look up canonical cell-type marker genes and supporting publications from the pinned CZ CellGuide snapshot by Cell Ontology ID.
+- Search Human Cell Atlas projects via Azul by organ or project ID, inspecting species, specimen organs, estimated cell counts, and data-use restrictions.
+- Search public HuBMAP datasets, samples, and donors across spatial and single-cell assay modalities.
 
-### 科研中的用法
+### Research & Workflow Use Cases
 
-- 比较候选基因在正常组织中的表达模式，为疾病与对照研究提供基线。
-- 查找与性状相关的 eQTL，结合表达证据解释遗传关联信号。
-- 为单细胞聚类寻找 canonical marker，核对注释是否与组织来源一致。
-- 发现可复用的单细胞或空间图谱数据集，规划二次分析和验证实验。
+- Establish baseline expression profiles across healthy human tissues in GTEx before comparing disease vs. control cohorts.
+- Colocalize GWAS risk loci or candidate regulatory variants with GTEx single-tissue eQTLs and allelic fold-change estimates.
+- Cross-check cluster annotations in scRNA-seq analyses against canonical CellGuide marker genes for matching `CL` ontology terms.
+- Discover open reference single-cell and spatial datasets across CELLxGENE, HCA, and HuBMAP for label transfer, integration, or replication.
 
-### 使用说明
+### Tools
 
-- 无需登录，也无需 API key，连接后即可检索公开元数据。
-- 连接器返回聚合表达、注释和元数据，不下载表达矩阵或原始测序文件；受控数据不会返回访问地址。
-- 服务主页：[Phi Packages](https://github.com/dxsbiocc/phi-packages)。使用 GTEx、CELLxGENE、HCA 或 HuBMAP 数据时，请遵守各自的使用条款并引用原始资源。
+| Tool | Description |
+| --- | --- |
+| `usage_terms` | Return usage policies and data access notes for GTEx, CZ CELLxGENE, CellGuide, Human Cell Atlas, and HuBMAP. |
+| `gtex_search_genes` | Search GTEx reference genes by gene symbol or Ensembl ID. |
+| `gtex_list_tissues` | List GTEx tissue sites with RNA-seq sample counts and UBERON ontology mappings. |
+| `gtex_gene_expression` | Fetch median GTEx gene expression (in TPM) across tissues or for a specific tissue site. |
+| `gtex_list_egenes` | List GTEx eGenes and log2 allelic fold changes for a specified tissue site. |
+| `gtex_list_eqtls` | List single-tissue GTEx eQTL variants, normalized effect sizes, and p-values for a gene and tissue. |
+| `cellxgene_list_collections` | List public CZ CELLxGENE Discover collections with DOIs and dataset counts. |
+| `cellxgene_get_collection` | Fetch metadata for a single CELLxGENE collection by collection UUID. |
+| `cellxgene_list_datasets` | List single-cell datasets embedded in a CELLxGENE collection, including cell counts, assays, and ontology terms. |
+| `cellxgene_get_dataset` | Fetch metadata and Explorer URL for a single dataset within a CELLxGENE collection. |
+| `cellguide_cell_type` | Look up canonical marker genes and supporting publications for a Cell Ontology (`CL`) ID in the pinned CellGuide snapshot. |
+| `hca_search_projects` | Search Human Cell Atlas projects via Azul, optionally filtered by organ or project ID. |
+| `hca_get_project` | Fetch metadata, species, organ annotations, and access status for a single HCA project. |
+| `hubmap_search_datasets` | Search public HuBMAP datasets by keyword, returning assay types and portal links. |
+| `hubmap_search_samples` | Search HuBMAP sample metadata and linked donor identifiers. |
+| `hubmap_search_donors` | Search HuBMAP donor metadata and access levels. |
+
+### Usage Notes
+
+- No sign-in or API key is required. HCA searches via Azul support `offset + limit <= 100`, and CellGuide queries read from a pinned public snapshot (`CELLGUIDE_SNAPSHOT`).
+- Read-only aggregate and metadata access only: the server does not download `h5ad` matrices or raw sequencing files, and controlled-access HCA (non-`NRES`) or non-public HuBMAP records omit data URLs.
+- Homepage: [Phi Packages](https://github.com/dxsbiocc/phi-packages). Cite [GTEx](https://gtexportal.org/), [CZ CELLxGENE](https://cellxgene.cziscience.com/), [Human Cell Atlas](https://data.humancellatlas.org/), and [HuBMAP](https://portal.hubmapconsortium.org/) alongside the primary study authors.

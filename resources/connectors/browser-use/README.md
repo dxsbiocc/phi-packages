@@ -1,22 +1,22 @@
-Browser Use 提供云端浏览器自动化能力，让智能体像人一样打开网页、点击链接、填写表单并读取页面内容。
+Browser Use runs a cloud-hosted headless browser that lets agents navigate live websites, click links, fill out forms, paginate through listings, and extract structured content from dynamic pages.
 
-### 能做什么
+### Capabilities
 
-- 用自然语言描述目标，由云端浏览器执行打开页面、搜索、点击和翻页等多步操作。
-- 填写表单、选择选项、提交查询，并从结果页提取所需信息。
-- 处理没有公开 API 的网站，把网页上的表格、列表和正文整理成可读结果。
-- 查看任务执行过程和结果，在页面结构变化时调整指令或补充步骤。
-- 把网页中的多列信息整理成清单或表格，便于后续筛选、核对和存档。
+- Execute multi-step browser tasks from natural-language instructions, including navigation, search, clicking, and pagination.
+- Fill inputs, select dropdown options, submit queries, and capture results from interactive web applications.
+- Extract tables, lists, and body text from JavaScript-rendered portals that do not expose a public REST API.
+- Inspect execution steps and refine instructions when page layouts or form fields change.
+- Consolidate multi-column web listings into structured tables for downstream filtering and verification.
 
-### 科研中的用法
+### Use Cases
 
-- 在样本库、试剂商、会议和资助机构网站之间批量查询信息，减少重复手工操作。
-- 下载或整理论文补充材料、数据集说明和实验方案页面中的公开内容。
-- 跟踪领域会议、招聘和合作机会，把分散在多个站点的信息汇总到一处。
-- 自动完成信息填报、材料核对和页面巡检等多步网页流程，把异常页面反馈给研究人员。
+- Query biobanks, reagent catalogs, conference schedules, and funding agency portals without repetitive manual clicking.
+- Collect publicly posted supplementary notes, dataset documentation, and protocol pages across publisher sites.
+- Monitor calls for papers, grant deadlines, and job postings scattered across institutional websites.
+- Run recurring page checks or multi-step form workflows and flag layout changes or broken links for review.
 
-### 使用说明
+### Usage Notes
 
-- 需要在 Browser Use 获取 API key，并在连接器中配置后使用。
-- 云端浏览器任务可能消耗账户额度或产生费用，具体套餐、额度和价格以官网为准。
-- 服务主页：[Browser Use](https://docs.browser-use.com/cloud/guides/mcp-server)。使用自动化访问时，请遵守目标网站的服务条款和访问频率限制。
+- Requires a Browser Use API key configured in the connector header settings.
+- Cloud browser sessions consume account credits according to your Browser Use plan; review pricing and concurrency limits before running large batches.
+- Homepage: [Browser Use MCP Server](https://docs.browser-use.com/cloud/guides/mcp-server). Respect target websites' terms of service and rate limits when automating access.

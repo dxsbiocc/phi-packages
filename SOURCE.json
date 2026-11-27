@@ -80,7 +80,8 @@
     "Completed P2 quantitative genetics, clinical rare-disease germline interpretation, multi-omics/metabolomics depth, lab automation & provenance skills, and Biomni-Eval1 cross-plugin benchmarks (counts.plugins 22 to 24, counts.pluginSkills 31 to 33, counts.standaloneSkills 17 to 19): added statistical-genetics (0.1.0, toolPrefix gwas, agent StatisticalGenetics, skill gwas-workflow: gwas_sumstats_harmonize, gwas_ldsc_interpret, gwas_finemap SuSiE-RSS & Wakefield ABF, gwas_meta_qc, gwas_prs_eval), added clinical-germline (0.1.0, toolPrefix germ, agent ClinicalGermline, skill germline-workflow: germ_vcf_filter trio/singleton inheritance, germ_acmg_prioritize Tavtigian Bayesian ACMG/AMP 2015 + ACMG SF v3.2, germ_phenotype_rank HPO semantic similarity, germ_pgx_star_allele CPIC diplotypes, germ_cnv_sv_integrate ClinGen Riggs + SNV+DEL compound heterozygotes), upgraded multi-omics to 0.2.0 (+mo_subtype Wang 2014 Similarity Network Fusion), upgraded metabolomics to 0.2.0 (+mb_drift_correct QC-RLSC pure-NumPy robust LOESS injection-order drift correction), added MIT standalone skills lab-automation (Opentrons Flex/OT-2 + PyLabRobot) and research-provenance (run ledger + cross-experiment contradiction triage), and added 4 cross-plugin E2E chains in tests/test_biomni_eval_benchmark.py.",
     "Completed P3 (MCP PubTator3 support + four biomedical MCP connectors in catalog) and zero-new-Conda-dependency plugin upgrades plus five heavy Nextflow wrappers (counts.wrapperAdapters 2202 to 2207): upgraded single-cell to 0.8.0 (+sc_py_regulon AUCell/ULM + Preset 9, +sc_communication + Preset 10), single-cell-atac to 0.2.0 (+scatac_tf_deviation chromVAR GC-matched Z-scores, +scatac_peak2gene cis linkage + Preset 7), chromatin-profiling to 0.2.0 (+chip_super_enhancer ROSE enhancer stitching & tangent inflection + Preset 7), and bulk-rna-seq to 0.5.0 (+rna_nine_quadrant cross-modal 9-quadrant DE integration); added local module wrappers autodock_vina, gnina, and fpocket (drug-discovery upstream) plus local workflow wrappers rnasplice (rMATS prep + SUPPA2) and cutandrun (Bowtie2 + SEACR + MACS2).",
     "Visualization plugin 1.3.1 lists preview_<name>.png drawings next to each catalog preview.png in template_gallery.json. A variant keeps the template id. Layout audit images and symlinks escaping the template directory stay out of the gallery.",
-    "Added omics-sniffer across three decoupled layers (counts.connectors 24 to 25): data-pipelines/omics-sniffer (37 public repository scanners, incremental Parquet auto-sync pipeline, staging merger, DuckDB Parquet exporter, watchdog scripts, Docker sync container, and systemd timer, strictly separated from runtime SQLite/Parquet data via PHI_OMICS_SNIFFER_STATE_DIR / OMICS_SNIFFER_DATA_DIR / OMICS_SNIFFER_SERVING_DIR), mcp-servers/omics-sniffer (read-only @duckdb/node-api Parquet MCP server mounted at /omics-sniffer/mcp in phi-omics-gateway with live atomic serving/current symlink resolution), and resources/connectors/omics-sniffer (HTTP MCP connector pointing at https://phi.omicsagent.cn/omics-sniffer/mcp)."
+    "Added omics-sniffer across three decoupled layers (counts.connectors 24 to 25): data-pipelines/omics-sniffer (37 public repository scanners, incremental Parquet auto-sync pipeline, staging merger, DuckDB Parquet exporter, watchdog scripts, Docker sync container, and systemd timer, strictly separated from runtime SQLite/Parquet data via PHI_OMICS_SNIFFER_STATE_DIR / OMICS_SNIFFER_DATA_DIR / OMICS_SNIFFER_SERVING_DIR), mcp-servers/omics-sniffer (read-only @duckdb/node-api Parquet MCP server mounted at /omics-sniffer/mcp in phi-omics-gateway with live atomic serving/current symlink resolution), and resources/connectors/omics-sniffer (HTTP MCP connector pointing at https://phi.omicsagent.cn/omics-sniffer/mcp).",
+    "Withdrew the three Anthropic-hosted MCP connector endpoints (pubmed.mcp.claude.com, hcls.mcp.claude.com/biorxiv, hcls.mcp.claude.com/clinical_trials) along with their migrated icons, re-implemented all three as self-hosted TypeScript MCP servers in mcp-servers/{pubmed,biorxiv,clinical-trials} mounted on phi-omics-gateway (/pubmed/mcp, /biorxiv/mcp, /clinical-trials/mcp on phi.omicsagent.cn, connectors bumped to 2.0.0 with original SVG marks), and standardized all 25 MCP connector summaries and READMEs to English."
   ],
   "initialImportCounts": {
     "standaloneSkills": 14,
@@ -237,13 +238,49 @@
     {
       "path": "resources/connectors/omics-sniffer/",
       "kind": "connector",
-      "packageVersion": "1.0.0",
+      "packageVersion": "1.0.1",
       "note": "Phi omics MCP gateway over HTTPS on phi.omicsagent.cn (Parquet snapshots synced by data-pipelines/omics-sniffer)",
       "icon": {
         "path": "resources/connectors/omics-sniffer/icon.svg",
         "format": "svg",
         "sha256": "3bb4d2e326329e643176062c4e3b5a6e7d0b0735a9145c873aab6999fde2ba88",
         "size": 442
+      }
+    },
+    {
+      "path": "resources/connectors/pubmed/",
+      "kind": "connector",
+      "packageVersion": "2.0.0",
+      "note": "Self-hosted PubMed, PMC & PubTator 3.0 MCP server on phi.omicsagent.cn/pubmed/mcp (replaces withdrawn Anthropic endpoint)",
+      "icon": {
+        "path": "resources/connectors/pubmed/icon.svg",
+        "format": "svg",
+        "sha256": "400404ddc6ed5778e34041c3e77f3315aeffae953187dd4ed80cfc3ce68a5ba1",
+        "size": 389
+      }
+    },
+    {
+      "path": "resources/connectors/biorxiv/",
+      "kind": "connector",
+      "packageVersion": "2.0.0",
+      "note": "Self-hosted bioRxiv & medRxiv preprint MCP server on phi.omicsagent.cn/biorxiv/mcp (replaces withdrawn Anthropic endpoint)",
+      "icon": {
+        "path": "resources/connectors/biorxiv/icon.svg",
+        "format": "svg",
+        "sha256": "3450545ba54d2c8e8f3966f86191b29127389803a5fd7d4c97008894ab1ec875",
+        "size": 430
+      }
+    },
+    {
+      "path": "resources/connectors/clinical-trials/",
+      "kind": "connector",
+      "packageVersion": "2.0.0",
+      "note": "Self-hosted ClinicalTrials.gov API v2 MCP server on phi.omicsagent.cn/clinical-trials/mcp (replaces withdrawn Anthropic endpoint)",
+      "icon": {
+        "path": "resources/connectors/clinical-trials/icon.svg",
+        "format": "svg",
+        "sha256": "d2fad068c419fdbcb7479313889034bbde73757ec16ecc1c76d023fef7241525",
+        "size": 448
       }
     },
     {
@@ -598,8 +635,8 @@
     "sourceDirectory": "src/renderer/src/features/mcp/assets/",
     "sourcePackageVersion": "1.0.0",
     "packageVersion": "1.0.1",
-    "assetCount": 15,
-    "assetBytes": 162153,
+    "assetCount": 12,
+    "assetBytes": 77470,
     "files": [
       {
         "id": "biorender",
@@ -607,13 +644,6 @@
         "sourcePath": "src/renderer/src/features/mcp/assets/biorender.jpg",
         "sha256": "5058279cd72d517919bce9623c803c0d334a918740b2785ac1b47ea87c33b311",
         "size": 3566
-      },
-      {
-        "id": "biorxiv",
-        "path": "resources/connectors/biorxiv/icon.png",
-        "sourcePath": "src/renderer/src/features/mcp/assets/biorxiv.png",
-        "sha256": "ce412025016e5535bbb5aa1d8a3b7e84c67f22dfe2c638d7eb2447188df80d52",
-        "size": 59601
       },
       {
         "id": "browser-use",
@@ -635,13 +665,6 @@
         "sourcePath": "src/renderer/src/features/mcp/assets/cbioportal.png",
         "sha256": "d19e84d8f61376ffec1408a882ed38447a0ba168ddf75a947b2b0c9a0d7522f0",
         "size": 2587
-      },
-      {
-        "id": "clinical-trials",
-        "path": "resources/connectors/clinical-trials/icon.png",
-        "sourcePath": "src/renderer/src/features/mcp/assets/clinical-trials.png",
-        "sha256": "6136f7db817a75fd75a5ef4dfeb548733bfa7d875c2d7e917a2d1485943e0420",
-        "size": 24196
       },
       {
         "id": "composio",
@@ -684,13 +707,6 @@
         "sourcePath": "src/renderer/src/features/mcp/assets/open-targets.svg",
         "sha256": "319081e74bcb3d6c2dd2d472e0699cff39488b93713576441c54285ed4c2bb94",
         "size": 745
-      },
-      {
-        "id": "pubmed",
-        "path": "resources/connectors/pubmed/icon.svg",
-        "sourcePath": "src/renderer/src/features/mcp/assets/pubmed.svg",
-        "sha256": "a677ecb9865f7a0dbfff9863672a05acdb642af1774da954145c83140ddc51cf",
-        "size": 886
       },
       {
         "id": "serpapi",

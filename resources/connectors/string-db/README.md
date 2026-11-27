@@ -1,24 +1,22 @@
-STRING 是蛋白质相互作用数据库，整合实验证据、数据库记录、文本挖掘和计算预测，覆盖大量物种的蛋白互作与功能关联信息。
+STRING is a database of known and predicted protein-protein interactions covering thousands of organisms, integrating physical binding experiments, curated pathway databases, co-expression, genomic neighborhood, and literature text mining.
 
-### 能做什么
+### Capabilities
 
-- 按蛋白名称或标识符检索物种内的蛋白，查看其互作伙伴和网络邻居。
-- 查看互作置信度评分，并按实验、数据库、文本挖掘、共表达等证据渠道拆分。
-- 浏览同源蛋白和跨物种对应关系，把模式生物结果映射到人类基因。
-- 对一组蛋白进行功能富集分析，查看显著的通路、疾病和功能条目。
-- 通过对话整理互作清单和证据来源，为网络图或后续实验提供输入。
-- 获取互作网络所需的节点和边信息，用于 Cytoscape 等工具绘图。
+- Resolve gene symbols or protein identifiers within a target species and retrieve interaction partners and local network neighborhoods.
+- Inspect combined interaction confidence scores alongside channel-specific scores (experiments, curated databases, co-expression, text mining, co-occurrence, neighborhood, fusion).
+- Query cross-species homologs and orthologous groups to map findings between model organisms and humans.
+- Run functional enrichment analysis on protein sets across GO, KEGG, Reactome, WikiPathways, UniProt keywords, and disease ontologies.
+- Export node and edge tables suitable for downstream network visualization in tools such as Cytoscape or igraph.
 
-### 科研中的用法
+### Research & Workflow Use Cases
 
-- 为差异表达基因构建蛋白质互作网络，识别枢纽基因和功能模块。
-- 查找候选蛋白的已知互作伙伴，辅助机制假设和免疫共沉淀实验设计。
-- 比较不同物种中的互作保守性，把动物模型结果外推到人类。
-- 对基因列表做功能富集，解释组学分析得到的模块和通路。
+- Build physical and functional interaction subnetworks from differentially expressed genes or proteomics hits to identify hub proteins and complexes.
+- Distinguish experimentally validated physical interactions from text-mining or co-expression associations before designing co-IP or proximity-labeling assays.
+- Check whether candidate interaction modules are conserved across mouse, zebrafish, fly, and human orthologs.
+- Interpret gene modules or clustering results via pathway and domain enrichment statistics.
 
-### 使用说明
+### Usage Notes
 
-- 无需登录，也无需 API key，连接后即可检索公开数据。
-- STRING 数据可免费访问；具体许可、版本和引用方式以官网为准。
-- 互作证据和置信度会随数据库版本更新，复现分析时应记录所用版本和查询参数。
-- 服务主页：[STRING](https://github.com/meringlab/string-mcp)。互作预测不等同于实验验证，关键结论应回到原始证据核对。
+- No sign-in or API key is required to query the official STRING MCP endpoint.
+- Interaction scores and enrichment backgrounds depend on the active STRING version and confidence threshold; record both parameters for reproducibility.
+- Homepage: [STRING MCP](https://github.com/meringlab/string-mcp). Predicted functional associations do not imply direct physical binding; verify critical edges against experimental evidence and cite [STRING](https://string-db.org/).

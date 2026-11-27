@@ -1,9 +1,9 @@
 schemaVersion: 1
 id: open-targets
 type: mcp
-version: 1.0.2
+version: 1.0.3
 title: Open Targets Platform
-summary: 检索靶点、疾病与药物关联证据
+summary: Query human genetics, pathway, expression, and clinical drug evidence linking targets and diseases
 connector:
   transport: http
   publisher: Open Targets

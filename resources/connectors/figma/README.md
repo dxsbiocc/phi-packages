@@ -1,23 +1,21 @@
-Figma 是在线界面设计与协作平台，支持设计文件、组件、原型和 FigJam 白板，常用于产品界面、视觉规范和团队评审。
+Figma is a collaborative interface design and whiteboarding platform supporting structured design files, reusable component libraries, interactive prototypes, and FigJam diagrams.
 
-### 能做什么
+### Capabilities
 
-- 读取设计文件的结构、画板、图层、组件、样式和文本内容。
-- 获取选中节点的布局、尺寸、颜色和字体等信息，理解设计意图。
-- 根据描述生成图表、界面草图或流程示意，并在 Figma 中继续编辑。
-- 对照设计稿检查实现细节，辅助设计评审和开发交接。
-- 通过连接器把设计上下文带入对话，减少手动截图和逐层查看的工作。
-- 查看组件的变体和样式定义，理解同一控件在不同状态下的设计规则。
+- Read file hierarchies, frames, layers, component definitions, design tokens, and text content from Figma URLs.
+- Inspect node dimensions, auto-layout rules, colors, and typography specs without manually taking screenshots.
+- Examine component variants and state definitions to keep frontend implementations aligned with design systems.
+- Generate flowcharts, user journeys, and architecture diagrams directly in FigJam from conversational descriptions.
 
-### 科研中的用法
+### Use Cases
 
-- 设计课题组网站、数据门户和内部工具界面，并保持组件与样式一致。
-- 为论文图、海报或幻灯片制作版式草图，再导出到其他工具精修。
-- 绘制分析流程、软件架构和实验设计图，方便跨学科成员讨论。
-- 在科研软件迭代中对照设计稿验收界面，记录需要调整的细节。
+- Build and audit interfaces for data portals, visualization dashboards, lab websites, and internal research software.
+- Draft multi-panel figure grids, poster layouts, and presentation templates before importing vector assets for final publication layout.
+- Diagram software architectures, clinical trial flows, and cross-team workflows in FigJam for collaborative review.
+- Compare implemented UI screens against Figma specs during engineering handoff and QA.
 
-### 使用说明
+### Usage Notes
 
-- 首次连接需要通过 OAuth 登录 Figma 账号并授权，之后即可访问有权限的设计文件。
-- 免费与付费方案在文件数量、协作和版本历史等权限上可能不同，具体额度和价格以官网为准。
-- 服务主页：[Figma](https://www.figma.com)。访问他人文件时，请确认账号权限和团队的数据共享规范。
+- Sign in with your Figma account via OAuth on first connection; the connector can only read files and teams your account has permission to access.
+- File limits, version history, and Dev Mode or FigJam capabilities depend on your Figma workspace plan.
+- Homepage: [Figma](https://www.figma.com). Confirm workspace sharing policies before exposing private design files to external collaborators.

@@ -1,9 +1,9 @@
 schemaVersion: 1
 id: epigenomics
 type: mcp
-version: 1.0.1
+version: 1.0.2
 title: Epigenomics
-summary: 检索 ENCODE 与 Roadmap 表观基因组数据
+summary: Search ENCODE and Roadmap Epigenomics experiments, files, and biosample metadata
 connector:
   transport: http
   publisher: Phi Packages

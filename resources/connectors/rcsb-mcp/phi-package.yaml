@@ -1,9 +1,9 @@
 schemaVersion: 1
 id: rcsb-mcp
 type: mcp
-version: 1.0.1
+version: 1.0.2
 title: RCSB PDB
-summary: 检索 PDB 结构、配体与序列数据
+summary: Search experimental 3D macromolecular structures, ligands, sequences, and metadata in RCSB PDB
 connector:
   transport: http
   publisher: RCSB PDB

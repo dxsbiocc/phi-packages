@@ -1,23 +1,22 @@
-OLS4（Ontology Lookup Service）是 EMBL-EBI 提供的本体查询服务，汇集基因本体、细胞本体、疾病本体、解剖学本体等生命科学本体资源。
+OLS4 (Ontology Lookup Service v4) from EMBL-EBI indexes hundreds of biomedical and life-science ontologies, including Gene Ontology (GO), Cell Ontology (CL), Uberon, Mondo Disease Ontology (MONDO), Human Phenotype Ontology (HPO), EFO, and ChEBI.
 
-### 能做什么
+### Capabilities
 
-- 跨本体检索术语，查看术语名称、定义、同义词、注释和外部标识符。
-- 浏览本体的层级结构，查询父类、子类、祖先和后代，理解概念之间的关系。
-- 按本体来源筛选结果，定位特定本体中的标准术语和版本信息。
-- 查找语义相似的类，辅助处理不同本体之间的术语映射和注释。
-- 通过对话把自由文本中的细胞类型、组织或疾病名称对应到本体标识符。
-- 查看本体本身的名称、版本和描述等元数据，确认数据来源和更新情况。
+- Search ontology terms across all indexed ontologies or within a specific ontology, returning labels, definitions, synonyms, and CURIE/IRI identifiers.
+- Traverse class hierarchies to inspect parent, child, ancestor, and descendant relationships.
+- Find semantically similar classes across ontologies to assist with cross-ontology term alignment and harmonization.
+- Map free-text cell type, tissue, phenotype, or disease descriptions to standardized ontology identifiers.
+- Inspect ontology-level metadata, version strings, and release timestamps.
 
-### 科研中的用法
+### Research & Workflow Use Cases
 
-- 为单细胞注释、组织分类和疾病标签选择标准本体术语，减少命名不一致。
-- 在富集分析或知识图谱构建中核对本体 ID、同义词和上下位关系。
-- 把论文中的描述性词汇映射到 CL、UBERON、MONDO 等本体，便于跨数据集整合。
-- 检查本体版本升级后术语的替代关系，维护分析流程中的注释表。
+- Standardize cell type (`CL`), anatomical tissue (`UBERON`), and disease (`MONDO` / `EFO`) labels for single-cell atlases and multi-cohort metadata tables.
+- Verify term definitions, exact synonyms, and parent-child relationships during pathway enrichment or knowledge-graph construction.
+- Harmonize author-supplied sample descriptions from public studies into controlled vocabularies prior to cross-dataset integration.
+- Check term obsolescence and replacement pointers when upgrading ontology versions in production pipelines.
 
-### 使用说明
+### Usage Notes
 
-- 无需登录，也无需 API key，连接后即可查询公开本体数据。
-- 各本体的版本、更新频率和许可条款不同，正式分析前请记录使用的本体版本。
-- 服务主页：[OLS4](https://www.ebi.ac.uk/ols4/mcp)。术语定义和引用信息以 EMBL-EBI OLS4 及各本体官网为准。
+- No sign-in or API key is required to query the public EMBL-EBI OLS4 MCP endpoint.
+- Individual ontologies follow distinct release schedules and licenses; record the ontology version used in formal analyses.
+- Homepage: [EMBL-EBI OLS4 MCP](https://www.ebi.ac.uk/ols4/mcp). Refer to OLS4 and each upstream ontology for licensing and citation details.

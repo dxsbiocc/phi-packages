@@ -1,13 +1,13 @@
 schemaVersion: 1
 id: clinical-trials
 type: mcp
-version: 1.0.2
+version: 2.0.0
 title: Clinical Trials
-summary: 检索 ClinicalTrials.gov 临床试验注册信息
+summary: Search ClinicalTrials.gov study protocols, eligibility criteria, interventions, endpoints, and posted trial results
 connector:
   transport: http
-  publisher: Anthropic
+  publisher: Phi Packages
   category: 健康与生命科学
-  homepage: https://clinicaltrials.gov
-  url: https://hcls.mcp.claude.com/clinical_trials/mcp
+  homepage: https://github.com/dxsbiocc/phi-packages
+  url: https://phi.omicsagent.cn/clinical-trials/mcp
   auth: none

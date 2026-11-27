@@ -1,9 +1,9 @@
 schemaVersion: 1
 id: linear
 type: mcp
-version: 1.0.2
+version: 1.0.3
 title: Linear
-summary: 管理问题、项目与团队工作流
+summary: Search, create, and update issues, projects, cycles, and team workflows in Linear
 connector:
   transport: http
   publisher: Linear

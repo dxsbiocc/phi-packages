@@ -1,9 +1,9 @@
 schemaVersion: 1
 id: browser-use
 type: mcp
-version: 1.0.2
+version: 1.0.3
 title: Browser Use
-summary: 让云端浏览器自动完成网页任务
+summary: Automate multi-step web browsing, form submission, and page extraction in a cloud browser
 connector:
   transport: http
   publisher: Browser Use

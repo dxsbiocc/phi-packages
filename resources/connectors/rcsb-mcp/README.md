@@ -1,23 +1,21 @@
-RCSB PDB 是 Protein Data Bank 的主要数据门户，保存实验解析的生物大分子三维结构，是结构生物学和药物发现的重要公共资源。
+RCSB PDB is the US data center for the global Protein Data Bank archive, providing open access to experimentally determined 3D structures of proteins, nucleic acids, macromolecular assemblies, and bound small-molecule ligands.
 
-### 能做什么
+### Capabilities
 
-- 按蛋白或核酸名称、序列、配体、物种和实验方法检索 PDB 条目。
-- 查看条目的标题、实验方法、分辨率、提交信息和关联文献。
-- 获取结构坐标、序列和配体信息，用于结构观察、比对和后续计算。
-- 浏览同一分子或复合物的相关结构，比较构象和结合模式。
-- 通过对话整理结构清单，快速定位可用于建模或对接的模板。
-- 查看结构中的链、配体和结合位点信息，为相互作用分析提供线索。
+- Search PDB entries by macromolecule name, UniProt/sequence query, chemical ligand ID, source organism, or experimental method (X-ray crystallography, cryo-EM, NMR).
+- Inspect entry metadata including resolution, experimental conditions, polymer chains, deposition dates, and primary citations.
+- Retrieve polymer sequences, ligand chemical descriptors, chain stoichiometries, and binding-site annotations.
+- Compare multiple structures of the same protein or complex across conformations, mutants, and co-crystallized ligands.
 
-### 科研中的用法
+### Research & Workflow Use Cases
 
-- 为突变位点、结构域和蛋白—配体相互作用寻找可用的实验结构。
-- 在分子对接或分子动力学模拟前筛选模板，核对分辨率与实验条件。
-- 比较同源蛋白或不同物种结构的保守性和差异，辅助功能推断。
-- 为药物设计寻找已知复合物结构，分析结合口袋和关键残基。
+- Map missense variants, post-translational modifications, and functional domains onto experimental 3D structures.
+- Select high-resolution receptor templates and verify co-crystallized ligands before molecular docking, free-energy calculations, or molecular dynamics simulations.
+- Compare active-site geometry and binding-pocket conservation across orthologs or protein family members.
+- Compile curated PDB accession tables with resolution, ligand IDs, and literature references for structural biology or medicinal chemistry studies.
 
-### 使用说明
+### Usage Notes
 
-- 无需登录，也无需 API key，连接后即可检索公开结构数据。
-- 连接器当前使用 beta 端点，接口和返回字段可能调整；正式流程请保留可复现的查询记录。
-- 服务主页：[RCSB PDB](https://github.com/rcsb/rcsb-mcp)。结构数据的引用、使用条款和版本信息以 RCSB PDB 官网为准，并记录访问日期与结构版本。
+- No sign-in or API key is required to query the public RCSB PDB MCP server.
+- This connector currently points to RCSB's beta MCP endpoint (`mcp-beta.rcsb.org`); tool schemas and response fields may evolve across upstream updates.
+- Homepage: [RCSB PDB MCP](https://github.com/rcsb/rcsb-mcp). Record PDB entry IDs, structure revision versions, and primary citations per [RCSB PDB policies](https://www.rcsb.org/pages/usage-policy).

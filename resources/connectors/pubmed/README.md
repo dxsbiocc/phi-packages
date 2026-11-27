@@ -1,23 +1,34 @@
-PubMed 是美国国家医学图书馆维护的生物医学文献数据库，收录 MEDLINE 与生命科学期刊文献，提供题录、摘要和部分开放全文。
+PubMed connects to NCBI E-utilities, PubMed Central (PMC) / Europe PMC open-access JATS XML, and NCBI PubTator 3.0 to search MEDLINE and life-science journal articles, retrieve structured abstracts and open full-text sections, traverse related or citing articles, and extract biomedical entity annotations.
 
-### 能做什么
+### Capabilities
 
-- 按主题、作者、期刊、发表年份和文献类型检索生物医学文献。
-- 使用 MeSH 主题词和字段标签精确限定检索范围，减少无关结果。
-- 查看标题、作者、期刊、卷期、页码、DOI 和 PMID 等题录信息。
-- 阅读摘要；对 PMC 中可开放的论文，可进一步获取全文内容。
-- 通过对话整理检索结果，提取研究设计、主要结论和引用线索。
-- 按 PMID 或 DOI 定位单篇文献，核对题录、摘要和关联信息。
+- Search PubMed/MEDLINE using native MeSH headings and field tags (`[ti]`, `[au]`, `[ta]`, `[pdat]`) as well as PubTator 3.0 entity queries (`@GENE_TP53`, `@DISEASE_`, `@CHEMICAL_`, `@VARIANT_`, `relations:`).
+- Retrieve complete bibliographic records, ORCID-linked authors, structured abstracts, and PMID/PMCID/DOI crosswalks.
+- Extract Creative Commons or public-domain full-text sections (`abstract`, `methods`, `results`, `discussion`) from PMC / Europe PMC JATS XML.
+- Expand from a key paper to related PubMed citations, citing works, or cited references, and batch-resolve raw reference lists.
+- Retrieve PubTator 3.0 BioCJSON entity mentions (genes, diseases, chemicals, variants, species, and cell lines) per article.
 
-### 科研中的用法
+### Research & Workflow Use Cases
 
-- 在开题和论文写作阶段快速了解某个基因、疾病或方法的研究现状。
-- 为系统综述和荟萃分析建立候选文献清单，记录检索式和纳入排除过程。
-- 查找实验方法、动物模型和对照设置的原始描述，辅助方案设计。
-- 跟踪领域内最新论文，核对引用信息并发现可延伸的研究问题。
+- Build systematic literature reviews with reproducible MeSH and publication-date filters.
+- Quote experimental parameters directly from open-access `Methods` sections without downloading PDFs.
+- Cross-check variant, drug, or gene relationships annotated across biomedical abstracts via PubTator 3.0.
+- Convert mixed lists of PMIDs, PMCIDs, DOIs, and formatted citations into normalized bibliography entries.
 
-### 使用说明
+### Tools
 
-- 无需登录，也无需 API key，连接后即可检索公开文献记录。
-- PubMed 是文献索引，不保证每篇论文都有开放全文；完整文本的可用性以出版商和 PMC 为准。
-- 服务主页：[PubMed](https://pubmed.ncbi.nlm.nih.gov)。请遵守 NLM 的使用政策与频率限制，引用时以原文和期刊要求为准。
+| Tool | Description |
+| --- | --- |
+| `usage_terms` | Return usage terms, NCBI E-utilities / PMC / PubTator 3.0 coverage, and rate-limit guidance. |
+| `pubmed_search_articles` | Search PubMed biomedical literature with MeSH/field tags or PubTator 3.0 entity queries, date bounds, and article-type filters. |
+| `pubmed_get_article` | Retrieve full article metadata, structured abstract, PMID/PMCID/DOI crosswalks, and open-access links. |
+| `pubmed_get_fulltext` | Fetch open-access PMC / Europe PMC JATS full text or a specific section when redistribution is permitted. |
+| `pubmed_related_articles` | Find similar PubMed citations, citing papers, or referenced works from a seed PMID or DOI. |
+| `pubmed_lookup_citations` | Batch-resolve up to 25 PMIDs, PMCIDs, DOIs, or citation strings with identifier conversion. |
+| `pubmed_entity_annotations` | Retrieve PubTator 3.0 BioCJSON gene, disease, chemical, variant, and species annotations for an article. |
+
+### Usage Notes
+
+- No sign-in or API key is required. Hosted read-only by [Phi Packages](https://github.com/dxsbiocc/phi-packages) over official public NCBI and Europe PMC APIs.
+- Full-text bodies are inlined only when a Creative Commons or public-domain license is confirmed; paywalled or restricted articles return links and metadata only.
+- Follow [NCBI Policies and Disclaimers](https://www.ncbi.nlm.nih.gov/home/about/policies/) and cite original authors and NLM resources.

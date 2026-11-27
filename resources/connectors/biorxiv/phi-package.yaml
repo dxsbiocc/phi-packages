@@ -1,13 +1,13 @@
 schemaVersion: 1
 id: biorxiv
 type: mcp
-version: 1.0.2
-title: bioRxiv
-summary: 检索 bioRxiv 与 medRxiv 预印本
+version: 2.0.0
+title: bioRxiv & medRxiv
+summary: Search and browse bioRxiv and medRxiv life-science preprints, version histories, and peer-reviewed journal links
 connector:
   transport: http
-  publisher: Anthropic
+  publisher: Phi Packages
   category: 健康与生命科学
-  homepage: https://www.biorxiv.org
-  url: https://hcls.mcp.claude.com/biorxiv/mcp
+  homepage: https://github.com/dxsbiocc/phi-packages
+  url: https://phi.omicsagent.cn/biorxiv/mcp
   auth: none

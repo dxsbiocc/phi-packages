@@ -1,4 +1,4 @@
-# Gateway paths: /transcriptomics/mcp /cancer/mcp /epigenomics/mcp /proteomics/mcp /metabolomics/mcp /pharmacogenomics/mcp /literature/mcp /variants/mcp /structures/mcp /pathways/mcp /chemistry/mcp /omics-sniffer/mcp
+# Gateway paths: /transcriptomics/mcp /cancer/mcp /epigenomics/mcp /proteomics/mcp /metabolomics/mcp /pharmacogenomics/mcp /literature/mcp /pubmed/mcp /biorxiv/mcp /clinical-trials/mcp /variants/mcp /structures/mcp /pathways/mcp /chemistry/mcp /omics-sniffer/mcp
 services:
   omics-mcp:
     build:
