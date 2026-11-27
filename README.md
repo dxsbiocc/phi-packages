@@ -9,7 +9,7 @@ Phi 的独立公开内容仓库，保存可安装领域能力的源码。
 | 内容 | 数量 |
 | --- | ---: |
 | 独立 skills | 19 |
-| MCP connector 定义 | 24 |
+| MCP connector 定义 | 25 |
 | Phi 复合插件 | 24 |
 | 插件内 skills | 33 |
 | Wrapper 适配器 | 2207 |
@@ -84,4 +84,4 @@ Phi 官方共享环境和应用级色板由主程序提供，本仓库不复制�
 
 ## 组学 MCP 服务
 
-`mcp-servers/` 是六个自建的只读组学 MCP 服务（转录组与单细胞、癌症组学、表观基因组、蛋白质组、代谢组、药物基因组），另有一个文献服务。其中五个组学服务的公开 HTTPS 网关已部署在 `https://phi.omicsagent.cn/{transcriptomics,cancer,epigenomics,proteomics,metabolomics}/mcp`，对应 connector 在 `resources/connectors/`。药物基因组服务读取 `data-pipelines/pharmacogenomics` 产出的 Parquet。文献服务挂在 `/literature/mcp`。这两条路径都还没有公开 HTTPS 地址，因此 connector 计数保持 24。本地 stdio/HTTP、Docker 见 [mcp-servers/README.md](mcp-servers/README.md)。
+`mcp-servers/` 是十二个自建的只读生物医学与组学 MCP 服务（转录组与单细胞、癌症组学、表观基因组、蛋白质组、代谢组、药物基因组、文献、临床变异、蛋白质结构、基因与通路、药物化学，以及跨源公开组学检索引擎 Omics Sniffer）。其中六个服务的公开 HTTPS 网关路径在 `https://phi.omicsagent.cn/{transcriptomics,cancer,epigenomics,proteomics,metabolomics,omics-sniffer}/mcp`，对应 connector 在 `resources/connectors/`（connector 计数为 25）。Omics Sniffer 与药物基因组服务均严格采用代码与数据分离设计，分别读取 `data-pipelines/omics-sniffer` 与 `data-pipelines/pharmacogenomics` 产出的只读 Parquet 快照。本地 stdio/HTTP、Docker 联合编排与自动同步见 [mcp-servers/README.md](mcp-servers/README.md) 与 [data-pipelines/omics-sniffer/README.md](data-pipelines/omics-sniffer/README.md)。

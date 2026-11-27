@@ -1,0 +1,129 @@
+{
+  "description": "Tiered incremental sync schedule for omics-sniffer (Parquet-native, no main SQLite required)",
+  "defaults": {
+    "memory_limit": "2GB",
+    "keep_releases": 2,
+    "overlap_days": 1
+  },
+  "sources": {
+    "geo": {
+      "tier": 1,
+      "interval_hours": 24,
+      "mode": "date_window",
+      "enabled": true,
+      "notes": "High-frequency daily updates via NCBI E-utilities mdat/pdat date window"
+    },
+    "arrayexpress": {
+      "tier": 1,
+      "interval_hours": 24,
+      "mode": "date_window",
+      "enabled": true,
+      "notes": "High-frequency daily updates via BioStudies release_date window"
+    },
+    "pride": {
+      "tier": 1,
+      "interval_hours": 24,
+      "mode": "reverse_early_stop",
+      "enabled": true,
+      "notes": "High-frequency daily updates via PRIDE /projects sorted descending with early stop"
+    },
+    "sra": {
+      "tier": 1,
+      "interval_hours": 24,
+      "mode": "delta_sqlite",
+      "enabled": false,
+      "notes": "Enable when running sra_orphan_scan delta staging"
+    },
+    "massive": {
+      "tier": 2,
+      "interval_hours": 168,
+      "mode": "delta_sqlite",
+      "enabled": false,
+      "notes": "Weekly cadence"
+    },
+    "metabolights": {
+      "tier": 2,
+      "interval_hours": 168,
+      "mode": "delta_sqlite",
+      "enabled": false,
+      "notes": "Weekly cadence"
+    },
+    "mw": {
+      "tier": 2,
+      "interval_hours": 168,
+      "mode": "delta_sqlite",
+      "enabled": false,
+      "notes": "Weekly cadence"
+    },
+    "cellxgene": {
+      "tier": 2,
+      "interval_hours": 168,
+      "mode": "delta_sqlite",
+      "enabled": false,
+      "notes": "Weekly cadence"
+    },
+    "encode": {
+      "tier": 2,
+      "interval_hours": 168,
+      "mode": "delta_sqlite",
+      "enabled": false,
+      "notes": "Weekly cadence"
+    },
+    "cbioportal": {
+      "tier": 2,
+      "interval_hours": 168,
+      "mode": "delta_sqlite",
+      "enabled": false,
+      "notes": "Weekly cadence"
+    },
+    "hubmap": {
+      "tier": 2,
+      "interval_hours": 168,
+      "mode": "delta_sqlite",
+      "enabled": false,
+      "notes": "Weekly cadence"
+    },
+    "proteomicsdb": {
+      "tier": 2,
+      "interval_hours": 168,
+      "mode": "delta_sqlite",
+      "enabled": false,
+      "notes": "Weekly cadence"
+    },
+    "gtex": {
+      "tier": 3,
+      "interval_hours": 0,
+      "mode": "manual",
+      "enabled": false,
+      "notes": "Static/release-based (GTEx v10)"
+    },
+    "gdc_tcga": {
+      "tier": 3,
+      "interval_hours": 0,
+      "mode": "manual",
+      "enabled": false,
+      "notes": "Static/quarterly release"
+    },
+    "icgc": {
+      "tier": 3,
+      "interval_hours": 0,
+      "mode": "manual",
+      "enabled": false,
+      "notes": "Static cohort"
+    },
+    "depmap": {
+      "tier": 3,
+      "interval_hours": 2160,
+      "mode": "manual",
+      "enabled": false,
+      "notes": "Quarterly release"
+    },
+    "finngen": {
+      "tier": 3,
+      "interval_hours": 2160,
+      "mode": "manual",
+      "enabled": false,
+      "notes": "Release-based (R13+)"
+    }
+  }
+}

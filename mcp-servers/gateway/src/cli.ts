@@ -28,6 +28,7 @@ if (options.help) {
   /structures/mcp
   /pathways/mcp
   /chemistry/mcp
+  /omics-sniffer/mcp
 
 Set MCP_SERVER to one server name to serve only that server at /mcp.
 Default mode is HTTP. --host defaults to 127.0.0.1; set HOST=0.0.0.0 when deploying.

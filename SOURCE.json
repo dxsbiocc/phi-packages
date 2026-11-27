@@ -9,7 +9,7 @@
   ],
   "counts": {
     "standaloneSkills": 19,
-    "connectors": 24,
+    "connectors": 25,
     "plugins": 24,
     "pluginSkills": 33,
     "wrapperAdapters": 2207,
@@ -79,7 +79,8 @@
     "Completed P1 translational immunology, cheminformatics, and cancer genomics expansion (counts.plugins 20 to 22, counts.pluginSkills 29 to 31): added immunoinformatics (0.1.0, toolPrefix imm, agent Immunoinformatics, skill immuno-workflow: imm_repertoire_inspect, imm_diversity, imm_clonotype_tracking, imm_hla_summary, imm_neoantigen_prioritize, paired with vendored nf-core trust4/optitype/arcashla/seq2hla/hlala wrappers) and drug-discovery (0.1.0, toolPrefix chem, agent DrugDiscovery, skill chem-workflow: chem_standardize, chem_medchem_triage, chem_sar_cliff, chem_admet_profile, chem_docking_eval in three-platform locked plugin:chem RDKit environment with deterministic pure-Python SMILES graph fallback), upgraded genomics to 0.3.0 (+gen_hrd_msi scarHRD LOH/TAI/LST & MSI stratification, +gen_clonality purity/ploidy/CN Cancer Cell Fraction & neutral tail evolution; 9 tools), upgraded bulk-rna-seq to 0.4.0 (+rna_regulon ULM/MLM TF & pathway footprint inference, +rna_splicing rMATS/SUPPA2 alternative splicing downstream; 12 tools), and upgraded pharmacogenomics to 0.2.0 (+pgx_hts_qc Z'-factor/SSMD/Tukey B-score plate QC, +pgx_predict_cohort RidgeCV clinical cohort drug-response translation; 5 tools).",
     "Completed P2 quantitative genetics, clinical rare-disease germline interpretation, multi-omics/metabolomics depth, lab automation & provenance skills, and Biomni-Eval1 cross-plugin benchmarks (counts.plugins 22 to 24, counts.pluginSkills 31 to 33, counts.standaloneSkills 17 to 19): added statistical-genetics (0.1.0, toolPrefix gwas, agent StatisticalGenetics, skill gwas-workflow: gwas_sumstats_harmonize, gwas_ldsc_interpret, gwas_finemap SuSiE-RSS & Wakefield ABF, gwas_meta_qc, gwas_prs_eval), added clinical-germline (0.1.0, toolPrefix germ, agent ClinicalGermline, skill germline-workflow: germ_vcf_filter trio/singleton inheritance, germ_acmg_prioritize Tavtigian Bayesian ACMG/AMP 2015 + ACMG SF v3.2, germ_phenotype_rank HPO semantic similarity, germ_pgx_star_allele CPIC diplotypes, germ_cnv_sv_integrate ClinGen Riggs + SNV+DEL compound heterozygotes), upgraded multi-omics to 0.2.0 (+mo_subtype Wang 2014 Similarity Network Fusion), upgraded metabolomics to 0.2.0 (+mb_drift_correct QC-RLSC pure-NumPy robust LOESS injection-order drift correction), added MIT standalone skills lab-automation (Opentrons Flex/OT-2 + PyLabRobot) and research-provenance (run ledger + cross-experiment contradiction triage), and added 4 cross-plugin E2E chains in tests/test_biomni_eval_benchmark.py.",
     "Completed P3 (MCP PubTator3 support + four biomedical MCP connectors in catalog) and zero-new-Conda-dependency plugin upgrades plus five heavy Nextflow wrappers (counts.wrapperAdapters 2202 to 2207): upgraded single-cell to 0.8.0 (+sc_py_regulon AUCell/ULM + Preset 9, +sc_communication + Preset 10), single-cell-atac to 0.2.0 (+scatac_tf_deviation chromVAR GC-matched Z-scores, +scatac_peak2gene cis linkage + Preset 7), chromatin-profiling to 0.2.0 (+chip_super_enhancer ROSE enhancer stitching & tangent inflection + Preset 7), and bulk-rna-seq to 0.5.0 (+rna_nine_quadrant cross-modal 9-quadrant DE integration); added local module wrappers autodock_vina, gnina, and fpocket (drug-discovery upstream) plus local workflow wrappers rnasplice (rMATS prep + SUPPA2) and cutandrun (Bowtie2 + SEACR + MACS2).",
-    "Visualization plugin 1.3.1 lists preview_<name>.png drawings next to each catalog preview.png in template_gallery.json. A variant keeps the template id. Layout audit images and symlinks escaping the template directory stay out of the gallery."
+    "Visualization plugin 1.3.1 lists preview_<name>.png drawings next to each catalog preview.png in template_gallery.json. A variant keeps the template id. Layout audit images and symlinks escaping the template directory stay out of the gallery.",
+    "Added omics-sniffer across three decoupled layers (counts.connectors 24 to 25): data-pipelines/omics-sniffer (37 public repository scanners, incremental Parquet auto-sync pipeline, staging merger, DuckDB Parquet exporter, watchdog scripts, Docker sync container, and systemd timer, strictly separated from runtime SQLite/Parquet data via PHI_OMICS_SNIFFER_STATE_DIR / OMICS_SNIFFER_DATA_DIR / OMICS_SNIFFER_SERVING_DIR), mcp-servers/omics-sniffer (read-only @duckdb/node-api Parquet MCP server mounted at /omics-sniffer/mcp in phi-omics-gateway with live atomic serving/current symlink resolution), and resources/connectors/omics-sniffer (HTTP MCP connector pointing at https://phi.omicsagent.cn/omics-sniffer/mcp)."
   ],
   "initialImportCounts": {
     "standaloneSkills": 14,
@@ -231,6 +232,18 @@
         "format": "svg",
         "sha256": "e30d3c4344a23b5c5179ec077f071ba5477b4dad305a1d6b947b7e708b04018f",
         "size": 338
+      }
+    },
+    {
+      "path": "resources/connectors/omics-sniffer/",
+      "kind": "connector",
+      "packageVersion": "1.0.0",
+      "note": "Phi omics MCP gateway over HTTPS on phi.omicsagent.cn (Parquet snapshots synced by data-pipelines/omics-sniffer)",
+      "icon": {
+        "path": "resources/connectors/omics-sniffer/icon.svg",
+        "format": "svg",
+        "sha256": "3bb4d2e326329e643176062c4e3b5a6e7d0b0735a9145c873aab6999fde2ba88",
+        "size": 442
       }
     },
     {

@@ -1,4 +1,4 @@
-# Gateway paths: /transcriptomics/mcp /cancer/mcp /epigenomics/mcp /proteomics/mcp /metabolomics/mcp /pharmacogenomics/mcp /literature/mcp /variants/mcp /structures/mcp /pathways/mcp /chemistry/mcp
+# Gateway paths: /transcriptomics/mcp /cancer/mcp /epigenomics/mcp /proteomics/mcp /metabolomics/mcp /pharmacogenomics/mcp /literature/mcp /variants/mcp /structures/mcp /pathways/mcp /chemistry/mcp /omics-sniffer/mcp
 services:
   omics-mcp:
     build:
@@ -14,9 +14,31 @@ services:
       PHI_OMICS_CACHE_TTL_MS: "21600000"
       PHI_OMICS_TIMEOUT_MS: "30000"
       PHI_PGX_DATA_DIR: /var/lib/phi-pgx
+      PHI_OMICS_SNIFFER_DATA_DIR: /var/lib/phi-omics-sniffer/serving
     volumes:
       - omics-cache:/var/cache/phi-omics-mcp
       - ${PHI_PGX_DATA_DIR:-./pgx-data}:/var/lib/phi-pgx:ro
+      - ${PHI_OMICS_SNIFFER_STATE_DIR:-./omics-sniffer-state}/serving:/var/lib/phi-omics-sniffer/serving:ro
+    restart: unless-stopped
+
+  omics-sniffer-sync:
+    build:
+      context: ../data-pipelines/omics-sniffer
+      dockerfile: Dockerfile
+    environment:
+      PHI_OMICS_SNIFFER_STATE_DIR: /var/lib/phi-omics-sniffer
+      PHI_OMICS_SNIFFER_DATA_DIR: /var/lib/phi-omics-sniffer/serving
+      SYNC_INTERVAL_SECONDS: "${OMICS_SNIFFER_SYNC_INTERVAL_SECONDS:-21600}"
+    volumes:
+      - ${PHI_OMICS_SNIFFER_STATE_DIR:-./omics-sniffer-state}:/var/lib/phi-omics-sniffer
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        while true; do
+          /opt/phi-omics-sniffer/scripts/run_sync_pipeline.sh || true
+          sleep "$${SYNC_INTERVAL_SECONDS:-21600}"
+        done
     restart: unless-stopped
 
 volumes:

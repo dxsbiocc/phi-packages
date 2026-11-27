@@ -6,6 +6,7 @@ import { serverModule as epigenomics } from "phi-omics-epigenomics";
 import { serverModule as genePathway } from "phi-omics-pathways";
 import { serverModule as literature } from "phi-literature";
 import { serverModule as metabolomics } from "phi-omics-metabolomics";
+import { serverModule as omicsSniffer } from "phi-omics-sniffer";
 import { serverModule as pharmacogenomics } from "phi-omics-pharmacogenomics";
 import { serverModule as proteinStructure } from "phi-omics-structures";
 import { serverModule as proteomics } from "phi-omics-proteomics";
@@ -23,4 +24,5 @@ export const gatewayMounts: HttpMount[] = [
   { path: "/structures/mcp", module: proteinStructure },
   { path: "/pathways/mcp", module: genePathway },
   { path: "/chemistry/mcp", module: chemistry },
+  { path: "/omics-sniffer/mcp", module: omicsSniffer },
 ];

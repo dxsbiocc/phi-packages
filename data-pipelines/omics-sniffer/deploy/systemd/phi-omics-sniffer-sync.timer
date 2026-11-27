@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Phi Omics Sniffer incremental Parquet sync every 6 hours
+
+[Timer]
+OnCalendar=*-*-* 00,06,12,18:00:00
+Persistent=true
+RandomizedDelaySec=120
+
+[Install]
+WantedBy=timers.target

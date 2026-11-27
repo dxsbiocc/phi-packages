@@ -1,0 +1,29 @@
+[project]
+name = "phi-omics-sniffer-pipeline"
+version = "1.0.0"
+description = "Public omics dataset curation scanners and Parquet-native incremental auto-sync pipeline for Phi"
+requires-python = ">=3.11"
+dependencies = [
+  "duckdb>=1.1",
+  "requests>=2.31",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8"]
+
+[project.scripts]
+phi-omics-sniffer-sync = "pipeline.incremental_parquet_sync:main"
+phi-omics-sniffer-export = "pipeline.export_parquet:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["pipeline", "scanners"]
+
+[tool.setuptools.package-data]
+pipeline = ["sync_policy.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
