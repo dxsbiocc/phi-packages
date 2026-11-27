@@ -261,8 +261,8 @@ class TestDrugDiscoveryPureEngineAndE2E(unittest.TestCase):
                 # Alert flagged (PAINS catechol / rhodanine & Brenk nitroaromatic)
                 {"compound_id": "A1_RHOD", "smiles": "O=C1NC(=S)SC1=Cc2ccccc2"},
                 {"compound_id": "A2_NITRO", "smiles": "O=[N+]([O-])c1ccc(Cl)cc1"},
-                # Beyond Ro5 (MW > 500, cLogP > 5)
-                {"compound_id": "B1_BRO5", "smiles": "CCCCCCCCCCCCCCCCc1ccc(cc1)C(=O)Nc2ccc(cc2)C(=O)Oc3ccc(Cl)cc3Cl"},
+                # Beyond Ro5 (MW > 500, cLogP > 5, free of PAINS/Brenk alerts)
+                {"compound_id": "B1_BRO5", "smiles": "Cc1ccc(C(=O)Nc2ccc(C(C)(C)c3ccc(NC(=O)c4ccc(C(F)(F)F)cc4)cc3)cc2)cc1"},
             ]
             with open(in_tsv, "wt", encoding="utf-8", newline="") as fh:
                 w = csv.DictWriter(fh, fieldnames=["compound_id", "smiles"], delimiter="\t")

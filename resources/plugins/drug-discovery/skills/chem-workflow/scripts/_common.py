@@ -1498,17 +1498,20 @@ def tanimoto_similarity(fp1: int, fp2: int) -> float:
 # Unified Dual-Engine Molecule API (RDKit primary + Pure-Python fallback)
 # ==============================================================================
 
-_RDKIT_FILTER_CATALOG = None
+_RDKIT_PAINS_CATALOG = None
+_RDKIT_BRENK_CATALOG = None
 
 
-def _get_rdkit_filter_catalog():
-    global _RDKIT_FILTER_CATALOG
-    if _RDKIT_FILTER_CATALOG is None and HAS_RDKIT:
-        params = FilterCatalog.FilterCatalogParams()
-        params.AddCatalog(FilterCatalog.FilterCatalogParams.FilterCatalogs.PAINS)
-        params.AddCatalog(FilterCatalog.FilterCatalogParams.FilterCatalogs.BRENK)
-        _RDKIT_FILTER_CATALOG = FilterCatalog.FilterCatalog(params)
-    return _RDKIT_FILTER_CATALOG
+def _get_rdkit_filter_catalogs():
+    global _RDKIT_PAINS_CATALOG, _RDKIT_BRENK_CATALOG
+    if HAS_RDKIT and (_RDKIT_PAINS_CATALOG is None or _RDKIT_BRENK_CATALOG is None):
+        pains_params = FilterCatalog.FilterCatalogParams()
+        pains_params.AddCatalog(FilterCatalog.FilterCatalogParams.FilterCatalogs.PAINS)
+        _RDKIT_PAINS_CATALOG = FilterCatalog.FilterCatalog(pains_params)
+        brenk_params = FilterCatalog.FilterCatalogParams()
+        brenk_params.AddCatalog(FilterCatalog.FilterCatalogParams.FilterCatalogs.BRENK)
+        _RDKIT_BRENK_CATALOG = FilterCatalog.FilterCatalog(brenk_params)
+    return _RDKIT_PAINS_CATALOG, _RDKIT_BRENK_CATALOG
 
 
 def _rdkit_fp_int(mol) -> int:
@@ -1524,19 +1527,15 @@ def _rdkit_fp_int(mol) -> int:
 
 
 def _rdkit_alerts(mol) -> tuple[list[str], list[str]]:
-    cat = _get_rdkit_filter_catalog()
+    pains_cat, brenk_cat = _get_rdkit_filter_catalogs()
     pains: list[str] = []
     brenk: list[str] = []
-    if cat is not None:
-        for entry in cat.GetMatches(mol):
-            desc = str(entry.GetDescription())
-            prop = ""
-            if entry.HasProp("FilterSet"):
-                prop = str(entry.GetProp("FilterSet"))
-            if "PAINS" in prop.upper() or "PAINS" in desc.upper():
-                pains.append(desc)
-            else:
-                brenk.append(desc)
+    if pains_cat is not None:
+        for entry in pains_cat.GetMatches(mol):
+            pains.append(str(entry.GetDescription()))
+    if brenk_cat is not None:
+        for entry in brenk_cat.GetMatches(mol):
+            brenk.append(str(entry.GetDescription()))
     return sorted(set(pains)), sorted(set(brenk))
 
 
