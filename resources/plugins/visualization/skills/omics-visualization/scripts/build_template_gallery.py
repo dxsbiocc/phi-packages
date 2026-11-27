@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Build the plugin-page template gallery from the omics-visualization catalogs.
 
-The gallery lists every catalog template and its preview.png. Layout audit
-images under scripts/layouts/ are not plot templates and stay out of the file.
-Phi's plugin page reads references/template_gallery.json when the plugin is open.
+The gallery lists every catalog template, its preview.png, and any sibling
+preview_<name>.png drawings of that same template. Layout audit images under
+scripts/layouts/ are not plot templates and stay out of the file. Phi's plugin
+page reads references/template_gallery.json when the plugin is open.
 """
 
 from __future__ import annotations
@@ -17,8 +18,10 @@ from typing import Any
 
 SKILL_ROOT = Path(__file__).resolve().parents[1]
 GALLERY_PATH = SKILL_ROOT / "references" / "template_gallery.json"
-PREVIEW_PATH = re.compile(r"^scripts/[a-z0-9_]+/[a-z0-9_]+/preview\.png$")
+CATALOG_PREVIEW = re.compile(r"^scripts/[a-z0-9_]+/[a-z0-9_]+/preview\.png$")
+PREVIEW_FILE = re.compile(r"^preview(?:_([A-Za-z0-9][A-Za-z0-9_-]{0,63}))?\.png$")
 TEMPLATE_ID = re.compile(r"^[a-z][a-z0-9-]{0,80}$")
+VARIANT_LIMIT = 24
 
 
 def unquote(value: str) -> str:
@@ -77,8 +80,45 @@ def parse_templates(catalog_path: Path) -> list[dict[str, str]]:
     return templates
 
 
+def variant_title(title: str, variant: str) -> str:
+    return f"{title} · {re.sub(r'[_-]+', ' ', variant)}"
+
+
+def preview_variants(skill_root: Path, preview: str) -> list[tuple[str, str]]:
+    """Sibling preview_<name>.png files, in filename order, at most VARIANT_LIMIT.
+
+    A link that resolves outside the template directory is ignored. preview.png
+    itself is the catalog image and is not returned here.
+    """
+    folder = (skill_root / preview).parent
+    if not folder.is_dir():
+        return []
+    try:
+        folder_root = folder.resolve()
+    except OSError:
+        return []
+    found: list[tuple[str, str]] = []
+    for path in sorted(folder.iterdir(), key=lambda item: item.name):
+        if len(found) >= VARIANT_LIMIT:
+            break
+        match = PREVIEW_FILE.fullmatch(path.name)
+        variant = match.group(1) if match else None
+        if not variant:
+            continue
+        try:
+            if not path.is_file():
+                continue
+            resolved = path.resolve()
+            resolved.relative_to(folder_root)
+        except (OSError, ValueError):
+            continue
+        found.append((variant, path.relative_to(skill_root).as_posix()))
+    return found
+
+
 def gallery_document(skill_root: Path = SKILL_ROOT) -> tuple[dict[str, Any], list[str]]:
     errors: list[str] = []
+    skill_root = Path(skill_root)
     plots_path = skill_root / "references" / "plots.yaml"
     families = parse_families(plots_path)
     document_families: list[dict[str, Any]] = []
@@ -113,13 +153,22 @@ def gallery_document(skill_root: Path = SKILL_ROOT) -> tuple[dict[str, Any], lis
             if not template_title:
                 errors.append(f"{template_id}: missing title")
                 continue
-            if not PREVIEW_PATH.fullmatch(preview):
+            if not CATALOG_PREVIEW.fullmatch(preview):
                 errors.append(f"{template_id}: preview is not a template preview.png")
                 continue
             if not (skill_root / preview).is_file():
                 errors.append(f"{template_id}: preview file does not exist: {preview}")
                 continue
             templates.append({"id": template_id, "title": template_title, "preview": preview})
+            for variant, variant_preview in preview_variants(skill_root, preview):
+                templates.append(
+                    {
+                        "id": template_id,
+                        "title": variant_title(template_title, variant),
+                        "preview": variant_preview,
+                        "variant": variant,
+                    }
+                )
         document_families.append({"id": family_id, "title": title, "templates": templates})
 
     catalog_dir = skill_root / "references" / "catalog"

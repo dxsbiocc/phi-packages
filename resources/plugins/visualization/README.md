@@ -11,7 +11,7 @@ This plugin provides:
 
 ## Plot template gallery
 
-`skills/omics-visualization/references/template_gallery.json` lists every plotting template in the catalog together with its `preview.png`. When the installed scientific plotting plugin is viewed, the plugin page reads this list and shows the template gallery by figure family. Previews are transparent PNGs, and the gallery uses a white background so that blank areas are not mistaken for black. These images are template examples, not plots of user data. The layout audit images under `scripts/layouts/` are not plotting templates and do not enter the gallery.
+`skills/omics-visualization/references/template_gallery.json` lists every plotting template in the catalog, its `preview.png`, and any sibling `preview_<name>.png` drawings of that same template. Variants keep the same template `id` and suffix the title with the variant name. When the installed scientific plotting plugin is viewed, the plugin page reads this list and shows the template gallery by figure family. Previews are transparent PNGs, and the gallery uses a white background so that blank areas are not mistaken for black. These images are template examples, not plots of user data. The layout audit images under `scripts/layouts/` are not plotting templates and do not enter the gallery; symlinks escaping the template directory and unnamed `preview_.png` files are skipped.
 
 After adding or renaming a template, regenerate and validate from the omics-visualization skill root:
 

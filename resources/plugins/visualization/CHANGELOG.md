@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.1 (2026-11-27)
+
+- 模板画廊同时列出每个模板目录下的 `preview_<name>.png` CONFIG 变体图（沿用同一模板 id，标题带变体名），插件页现在能看到已有的 82 张变体；`scripts/layouts/` 的布局审核图仍排除在外，逃逸出模板目录的符号链接和 `preview_.png` 一类无名文件会被跳过。
+- `create-template` 注册清单补充可选的变体图说明。
+
 ## 1.3.0 (2026-11-25)
 
 - 将组学绘图专精 R/Bioconductor/GitHub 源码包环境从共享 `phi:r@1` 迁回插件私有锁定环境 `plugin:viz`（`environments/viz/`），使基础 `phi-r` 保持轻量，同时允许绘图模板依赖随插件独立演进。
