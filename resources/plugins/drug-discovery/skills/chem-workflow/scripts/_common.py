@@ -1500,10 +1500,11 @@ def tanimoto_similarity(fp1: int, fp2: int) -> float:
 
 _RDKIT_PAINS_CATALOG = None
 _RDKIT_BRENK_CATALOG = None
+_RDKIT_SUPPL_ALERTS = None
 
 
 def _get_rdkit_filter_catalogs():
-    global _RDKIT_PAINS_CATALOG, _RDKIT_BRENK_CATALOG
+    global _RDKIT_PAINS_CATALOG, _RDKIT_BRENK_CATALOG, _RDKIT_SUPPL_ALERTS
     if HAS_RDKIT and (_RDKIT_PAINS_CATALOG is None or _RDKIT_BRENK_CATALOG is None):
         pains_params = FilterCatalog.FilterCatalogParams()
         pains_params.AddCatalog(FilterCatalog.FilterCatalogParams.FilterCatalogs.PAINS)
@@ -1511,7 +1512,12 @@ def _get_rdkit_filter_catalogs():
         brenk_params = FilterCatalog.FilterCatalogParams()
         brenk_params.AddCatalog(FilterCatalog.FilterCatalogParams.FilterCatalogs.BRENK)
         _RDKIT_BRENK_CATALOG = FilterCatalog.FilterCatalog(brenk_params)
-    return _RDKIT_PAINS_CATALOG, _RDKIT_BRENK_CATALOG
+        _RDKIT_SUPPL_ALERTS = [
+            (name, pat)
+            for name, smarts in (("sulfonyl_halide", "[SX4](=O)(=O)[F,Cl,Br,I]"),)
+            if (pat := Chem.MolFromSmarts(smarts)) is not None
+        ]
+    return _RDKIT_PAINS_CATALOG, _RDKIT_BRENK_CATALOG, _RDKIT_SUPPL_ALERTS or []
 
 
 def _rdkit_fp_int(mol) -> int:
@@ -1527,7 +1533,7 @@ def _rdkit_fp_int(mol) -> int:
 
 
 def _rdkit_alerts(mol) -> tuple[list[str], list[str]]:
-    pains_cat, brenk_cat = _get_rdkit_filter_catalogs()
+    pains_cat, brenk_cat, suppl_alerts = _get_rdkit_filter_catalogs()
     pains: list[str] = []
     brenk: list[str] = []
     if pains_cat is not None:
@@ -1536,6 +1542,9 @@ def _rdkit_alerts(mol) -> tuple[list[str], list[str]]:
     if brenk_cat is not None:
         for entry in brenk_cat.GetMatches(mol):
             brenk.append(str(entry.GetDescription()))
+    for name, pat in suppl_alerts:
+        if mol.HasSubstructMatch(pat):
+            brenk.append(name)
     return sorted(set(pains)), sorted(set(brenk))
 
 

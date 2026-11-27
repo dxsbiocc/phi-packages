@@ -253,9 +253,9 @@ class TestDrugDiscoveryPureEngineAndE2E(unittest.TestCase):
             tdir = Path(tmp)
             in_tsv = tdir / "library.tsv"
             rows = [
-                # Lead-like clean analogs (same scaffold -> cluster together)
+                # Lead-like clean analogs (same scaffold -> cluster together, no long aliphatic chain)
                 {"compound_id": "L1", "smiles": "CC(=O)Nc1ccc(OCCC)cc1"},
-                {"compound_id": "L2", "smiles": "CC(=O)Nc1ccc(OCCCC)cc1"},
+                {"compound_id": "L2", "smiles": "CC(=O)Nc1ccc(OCC)cc1"},
                 # Drug-like clean (MW > 350 or higher cLogP)
                 {"compound_id": "D1", "smiles": "Cc1ccc(C(=O)Nc2ccc(C)c(Nc3nccc(-c4cccnc4)n3)c2)cc1"},
                 # Alert flagged (PAINS catechol / rhodanine & Brenk nitroaromatic)
