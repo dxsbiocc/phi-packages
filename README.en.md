@@ -8,7 +8,7 @@ Phi's independent public content repository, containing source files for install
 
 | Content | Count |
 | --- | ---: |
-| Standalone skills | 22 |
+| Standalone skills | 17 |
 | MCP connector definitions | 24 |
 | Composite Phi plugins | 18 |
 | Skills within plugins | 27 |
