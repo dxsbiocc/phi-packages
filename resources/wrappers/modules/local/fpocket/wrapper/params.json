@@ -1,0 +1,7 @@
+{
+  "id": "fpocket_scan",
+  "receptor": null,
+  "min_alpha_spheres": 35,
+  "box_padding": 6.0,
+  "outdir": "results/fpocket"
+}

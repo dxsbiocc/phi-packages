@@ -1,0 +1,50 @@
+name: fpocket
+description: Geometry-based binding pocket detection and druggability scoring with fpocket, emitting ranked pockets and AutoDock Vina/GNINA docking box coordinates.
+keywords:
+  - binding-site
+  - fpocket
+  - druggability
+  - docking-box
+tools:
+  - fpocket:
+      description: Protein cavity detection via Voronoi tessellation and alpha spheres
+      homepage: https://github.com/Discngine/fpocket
+      license: ["MIT"]
+input:
+  - - meta:
+        type: map
+        description: Groovy Map containing sample information e.g. [ id:'target' ]
+    - receptor_pdb:
+        type: file
+        description: Protein structure in PDB format
+        pattern: "*.pdb"
+  - min_alpha_spheres:
+      type: integer
+      description: Minimum number of alpha spheres per pocket (-i)
+  - box_padding:
+      type: float
+      description: Padding added on each side of the pocket bounding box for docking (Angstrom)
+output:
+  - out_dir:
+      - meta:
+          type: map
+      - "*_out":
+          type: directory
+          description: Full fpocket output directory with pocket PDBs and info file
+  - pockets_table:
+      - meta:
+          type: map
+      - "*.pockets.tsv":
+          type: file
+          description: Ranked binding pockets with druggability scores and docking box coordinates
+  - top_pocket_box:
+      - meta:
+          type: map
+      - "*.top_pocket_box.json":
+          type: file
+          description: Ready-to-dock center_x/y/z and size_x/y/z box parameters for AutoDock Vina and GNINA
+  - versions:
+      - "versions.yml":
+          type: file
+authors:
+  - "@phi-packages"

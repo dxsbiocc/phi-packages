@@ -1,0 +1,68 @@
+schemaVersion: 1
+id: rnasplice
+kind: workflow
+source: local
+category: transcriptomics
+title: rnasplice
+summary: Alternative splicing quantification workflow composing vendored nf-core rMATS prep and SUPPA2 modules; produces .rmats and .dpsi tables for rna_splicing.
+entrypoint: wrapper/main.nf
+config: wrapper/nextflow.config
+defaultsFile: wrapper/params.json
+parameters:
+  - name: id
+    type: string
+    default: rnasplice_run
+    description: Contrast identifier used as output prefix.
+  - name: gtf
+    type: file
+    required: true
+    description: Reference gene annotation GTF file.
+  - name: bam_samplesheet
+    type: file
+    description: Optional CSV samplesheet (sample,bam) for RMATS_PREP.
+  - name: tx_tpm_cond1
+    type: file
+    description: Optional transcript-level TPM matrix TSV for condition 1 (SUPPA2).
+  - name: tx_tpm_cond2
+    type: file
+    description: Optional transcript-level TPM matrix TSV for condition 2 (SUPPA2).
+  - name: condition1_name
+    type: string
+    default: cond1
+    description: Label for condition 1 in SUPPA2 diffSplice.
+  - name: condition2_name
+    type: string
+    default: cond2
+    description: Label for condition 2 in SUPPA2 diffSplice.
+  - name: run_rmats
+    type: boolean
+    default: true
+    description: Run RMATS_PREP when BAM inputs are provided.
+  - name: run_suppa
+    type: boolean
+    default: true
+    description: Run SUPPA2 event generation, PSI calculation, and diffSplice when TPM matrices are provided.
+  - name: read_length
+    type: integer
+    default: 150
+    description: RNA-seq read length for rMATS prep.
+  - name: suppa_event_type
+    type: string
+    default: SE SS MX RI FL
+    description: Space-separated SUPPA2 event types.
+  - name: suppa_method
+    type: string
+    default: empirical
+    enum: [empirical, classical]
+    description: Statistical test mode for SUPPA2 diffSplice.
+  - name: outdir
+    type: string
+    default: results/rnasplice
+    description: Output directory for rMATS and SUPPA2 deliverables.
+outputs:
+  - name: rmats
+    pattern: "rmats/*.rmats"
+    description: Prepared rMATS junction-count archives.
+  - name: dpsi
+    pattern: "suppa/*.dpsi"
+    description: SUPPA2 differential PSI table consumable by rna_splicing.

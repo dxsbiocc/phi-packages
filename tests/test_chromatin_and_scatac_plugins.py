@@ -101,7 +101,7 @@ class TestChromatinProfilingPlugin(unittest.TestCase):
 
     def test_02_render_all_presets_and_config_override(self):
         builder = os.path.join(CHIP_SKILL, "scripts", "build_notebook.py")
-        for mod in range(1, 7):
+        for mod in range(1, 8):
             out_nb = os.path.join(self.work, f"chip_mod{mod}.ipynb")
             res = run_python(builder, ["--module", str(mod), "--data", self.bed_path, "--output", out_nb])
             self.assertEqual(res["language"], "r")
@@ -190,6 +190,40 @@ class TestChromatinProfilingPlugin(unittest.TestCase):
         for art in cres.get("artifacts", []):
             self.assertTrue(os.path.isfile(art + ".phi-artifact.json"))
 
+        # Run live chip_super_enhancer on bimodal stitched enhancers + typical enhancers
+        se_bed = os.path.join(self.work, "enhancers.narrowPeak")
+        with open(se_bed, "w", encoding="utf-8") as fh:
+            for i in range(12):
+                pos = 1000000 + i * 50000
+                fh.write(f"chr2\t{pos}\t{pos + 500}\tte_{i}\t10\t.\t{2.0 + 0.1 * i}\t5.0\t3.0\t250\n")
+            for j in range(6):
+                pos = 5000000 + j * 2000
+                fh.write(f"chr2\t{pos}\t{pos + 600}\tse_const_{j}\t200\t.\t85.0\t20.0\t15.0\t300\n")
+        se_tsv = os.path.join(self.work, "super_enhancers.tsv")
+        se_script = os.path.join(CHIP_SKILL, "scripts", "super_enhancer.R")
+        se_proc = subprocess.run(
+            [
+                rscript,
+                se_script,
+                "--input",
+                se_bed,
+                "--se_output",
+                se_tsv,
+                "--figures_dir",
+                os.path.join(self.work, "figs_se"),
+                "--stitch_distance",
+                "12500",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+        self.assertEqual(se_proc.returncode, 0, f"STDOUT:\n{se_proc.stdout}\nSTDERR:\n{se_proc.stderr}")
+        se_res = json.loads(se_proc.stdout)
+        self.assertEqual(se_res["n_super_enhancers"], 1)
+        self.assertGreaterEqual(se_res["n_typical_enhancers"], 10)
+        self.assertTrue(os.path.isfile(se_tsv))
+
 
 class TestSingleCellAtacPlugin(unittest.TestCase):
     @classmethod
@@ -232,7 +266,7 @@ class TestSingleCellAtacPlugin(unittest.TestCase):
 
     def test_03_render_all_presets_and_compile_every_cell(self):
         builder = os.path.join(SCATAC_SKILL, "scripts", "build_notebook.py")
-        for mod in range(1, 7):
+        for mod in range(1, 8):
             out_nb = os.path.join(self.work, f"scatac_mod{mod}.ipynb")
             res = run_python(builder, ["--module", str(mod), "--data", self.frag_path, "--output", out_nb])
             self.assertEqual(res["language"], "python")
@@ -246,6 +280,98 @@ class TestSingleCellAtacPlugin(unittest.TestCase):
                 if cell["cell_type"] == "code":
                     src = "".join(cell["source"])
                     compile(src, f"scatac_mod{mod}_cell_{idx}", "exec")
+
+    def test_04_scatac_tf_deviation_and_peak2gene_end_to_end(self):
+        import numpy as np
+        import pandas as pd
+
+        rng = np.random.default_rng(42)
+        n_peaks, n_cells = 40, 24
+        peaks = [f"chr1:{100000 + i * 10000}-{100500 + i * 10000}" for i in range(30)] + [
+            f"chr2:{200000 + j * 10000}-{200500 + j * 10000}" for j in range(10)
+        ]
+        cells = [f"C{k:02d}" for k in range(n_cells)]
+        # Plant active TF1 peaks 0..7 in cells 0..11, and reciprocal ClusterB peaks 8..15 in cells 12..23
+        X = rng.poisson(2.0, size=(n_peaks, n_cells)).astype(float)
+        X[:8, :12] += 18.0
+        X[8:16, 12:] += 18.0
+        peak_df = pd.DataFrame(X, index=peaks, columns=cells)
+        peak_tsv = os.path.join(self.work, "peaks_counts.tsv")
+        peak_df.to_csv(peak_tsv, sep="\t")
+
+        meta_df = pd.DataFrame(
+            {"leiden": ["ClusterA" if k < 12 else "ClusterB" for k in range(n_cells)]},
+            index=cells,
+        )
+        meta_tsv = os.path.join(self.work, "atac_meta.tsv")
+        meta_df.to_csv(meta_tsv, sep="\t")
+
+        motif_df = pd.DataFrame(
+            {
+                "TF_ACTIVE": [1 if i < 8 else 0 for i in range(n_peaks)],
+                "TF_NOISE": [1 if 20 <= i < 28 else 0 for i in range(n_peaks)],
+            },
+            index=peaks,
+        )
+        motif_tsv = os.path.join(self.work, "motif_matches.tsv")
+        motif_df.to_csv(motif_tsv, sep="\t")
+
+        gc_df = pd.DataFrame({"peak": peaks, "gc": np.linspace(0.35, 0.65, n_peaks)})
+        gc_tsv = os.path.join(self.work, "peak_gc.tsv")
+        gc_df.to_csv(gc_tsv, sep="\t", index=False)
+
+        tfdev_tsv = os.path.join(self.work, "tf_dev.tsv")
+        tf_res = run_python(
+            os.path.join(SCATAC_SKILL, "scripts", "tf_deviation.py"),
+            [
+                "--input", peak_tsv,
+                "--meta_path", meta_tsv,
+                "--group_by", "leiden",
+                "--motif_matches", motif_tsv,
+                "--peak_gc", gc_tsv,
+                "--tfdev_output", tfdev_tsv,
+                "--figures_dir", os.path.join(self.work, "figs_tfdev"),
+                "--n_background", "30",
+            ],
+        )
+        self.assertEqual(tf_res["method"], "chromvar_gc_matched")
+        self.assertEqual(tf_res["gc_matching"], "peak_gc_table")
+        dev_mat = pd.read_csv(tfdev_tsv, sep="\t", index_col=0)
+        self.assertGreater(float(dev_mat.loc[cells[:12], "TF_ACTIVE"].mean()), 2.0)
+        self.assertTrue(os.path.isfile(tfdev_tsv + ".phi-artifact.json"))
+
+        # Plant cis enhancer link between peak 0 (chr1:100000-100500) and GENE_ cis on chr1 (TSS=150000)
+        rna_mat = rng.normal(5.0, 0.4, size=(4, n_cells))
+        rna_mat[0, :] = X[0, :] * 0.8 + rng.normal(0.0, 0.3, size=n_cells)
+        genes = ["GENE_TARGET", "GENE_NULL1", "GENE_NULL2", "GENE_CHR2"]
+        rna_tsv = os.path.join(self.work, "rna_counts.tsv")
+        pd.DataFrame(rna_mat, index=genes, columns=cells).to_csv(rna_tsv, sep="\t")
+
+        tss_tsv = os.path.join(self.work, "gene_tss.tsv")
+        pd.DataFrame({
+            "gene": genes,
+            "chrom": ["chr1", "chr1", "chr1", "chr2"],
+            "tss": [150000, 120000, 180000, 220000],
+        }).to_csv(tss_tsv, sep="\t", index=False)
+
+        p2g_tsv = os.path.join(self.work, "p2g_links.tsv")
+        p2g_res = run_python(
+            os.path.join(SCATAC_SKILL, "scripts", "peak2gene.py"),
+            [
+                "--input", peak_tsv,
+                "--rna_input", rna_tsv,
+                "--gene_tss", tss_tsv,
+                "--max_distance", "100000",
+                "--n_null", "200",
+                "--links_output", p2g_tsv,
+                "--figures_dir", os.path.join(self.work, "figs_p2g"),
+            ],
+        )
+        self.assertEqual(p2g_res["pairing_mode"], "paired_barcodes")
+        links_df = pd.read_csv(p2g_tsv, sep="\t")
+        top_hit = links_df[(links_df["gene"] == "GENE_TARGET") & (links_df["peak"] == peaks[0])].iloc[0]
+        self.assertGreater(float(top_hit["pearson_r"]), 0.7)
+        self.assertLess(float(top_hit["fdr"]), 0.05)
 
 
 if __name__ == "__main__":

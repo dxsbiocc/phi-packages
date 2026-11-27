@@ -1,0 +1,62 @@
+schemaVersion: 1
+id: cutandrun
+kind: workflow
+source: local
+category: epigenomics
+title: cutandrun
+summary: CUT&RUN and CUT&Tag alignment and peak-calling workflow (Bowtie2, SEACR, MACS2); called peaks feed directly into chromatin-profiling.
+entrypoint: wrapper/main.nf
+config: wrapper/nextflow.config
+defaultsFile: wrapper/params.json
+parameters:
+  - name: samplesheet
+    type: file
+    required: true
+    description: CSV samplesheet describing samples (sample, single_end, fastq_1, fastq_2, bedgraph, ctrl_bedgraph, bam, ctrl_bam).
+  - name: bowtie2_index
+    type: directory
+    description: Directory containing Bowtie2 index files (required if aligning FASTQs).
+  - name: fasta
+    type: file
+    description: Reference genome FASTA file (optional for BAM output).
+  - name: caller
+    type: string
+    default: seacr
+    enum: [seacr, macs2, both]
+    description: Peak caller to execute on normalized bedGraphs (seacr) or BAMs (macs2).
+  - name: seacr_threshold
+    type: number
+    default: 0.01
+    description: Top-fraction threshold for SEACR when IgG control bedGraph is omitted.
+  - name: seacr_mode
+    type: string
+    default: stringent
+    enum: [stringent, relaxed]
+    description: SEACR stringency mode.
+  - name: seacr_norm
+    type: string
+    default: norm
+    enum: [norm, non]
+    description: SEACR internal normalization mode (norm or non).
+  - name: macs2_gsize
+    type: string
+    default: hs
+    description: Effective genome size for MACS2 (hs, mm, or numeric value).
+  - name: run_align
+    type: boolean
+    default: false
+    description: Run BOWTIE2_ALIGN on fastq_1/fastq_2 entries before downstream peak calling.
+  - name: outdir
+    type: string
+    default: results/cutandrun
+    description: Output directory for aligned BAMs and SEACR/MACS2 peaks.
+outputs:
+  - name: bam
+    pattern: "bowtie2/*.bam"
+    description: Coordinate-sorted Bowtie2 BAM files.
+  - name: seacr_peaks
+    pattern: "seacr/*.bed"
+    description: SEACR CUT&RUN/CUT&Tag peak calls for chromatin-profiling.
+  - name: macs2_peaks
+    pattern: "macs2/*.{narrowPeak,broadPeak}"
+    description: Optional MACS2 peak calls.

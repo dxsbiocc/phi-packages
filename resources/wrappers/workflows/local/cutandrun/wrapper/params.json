@@ -1,0 +1,12 @@
+{
+  "samplesheet": null,
+  "bowtie2_index": null,
+  "fasta": null,
+  "caller": "seacr",
+  "seacr_threshold": 0.01,
+  "seacr_mode": "stringent",
+  "seacr_norm": "norm",
+  "macs2_gsize": "hs",
+  "run_align": false,
+  "outdir": "results/cutandrun"
+}

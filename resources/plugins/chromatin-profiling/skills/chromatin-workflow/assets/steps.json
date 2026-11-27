@@ -147,6 +147,31 @@
       "type": "int",
       "default": 3000,
       "comment": "bp downstream of TSS for promoter definition and coverage profiles"
+    },
+    "stitch_distance": {
+      "type": "int",
+      "default": 12500,
+      "comment": "ROSE maximum genomic gap (bp) to stitch constituent enhancer peaks"
+    },
+    "tss_exclude_bp": {
+      "type": "int",
+      "default": 2500,
+      "comment": "promoter exclusion radius (bp) around annotated TSS before ROSE stitching"
+    },
+    "tss_bed": {
+      "type": "string",
+      "default": null,
+      "comment": "optional TSS BED/GTF override for promoter peak exclusion in ROSE super-enhancers"
+    },
+    "se_signal_col": {
+      "type": "string",
+      "default": null,
+      "comment": "optional peak metadata column holding enhancer signal (default signalValue then score)"
+    },
+    "se_output": {
+      "type": "string",
+      "default": "super_enhancers.tsv",
+      "comment": "output TSV path for ranked ROSE stitched domains (and .bed for SEs)"
     }
   },
   "steps": [
@@ -168,6 +193,7 @@
     { "id": "annotate", "title": "Annotate peaks to features", "requires": ["load-peaks"] },
     { "id": "coverage-profile", "title": "TSS profile and peak heatmap", "requires": ["annotate"] },
     { "id": "upset", "title": "Peak overlap UpSet", "requires": ["setup"] },
+    { "id": "super-enhancer", "title": "ROSE super-enhancer calling", "requires": ["load-peaks"] },
     { "id": "save", "title": "Save object and tables", "requires": ["setup"] }
   ],
   "presets": {
@@ -216,6 +242,13 @@
       "intro": "Start from an existing peak x sample count matrix (featureCounts or a DiffBind\nexport) rather than BAMs: normalize for library size, run sample PCA to see whether\ncondition or batch dominates, and save the normalized table. A fast exploratory pass\nwhen counting already happened upstream.",
       "steps": [
         "setup", "load-counts", "normalize", "pca", "save"
+      ]
+    },
+    "7": {
+      "title": "Super-enhancer calling (ROSE)",
+      "intro": "Identify Super-Enhancers (SE) vs Typical Enhancers (TE) from called active enhancer\npeaks (H3K27ac / BRD4 / MED1) using ROSE stitching within 12.5 kb, optional promoter TSS\nexclusion, and exact geometric tangent inflection ranking.",
+      "steps": [
+        "setup", "load-peaks", "blacklist-filter", "super-enhancer", "save"
       ]
     }
   }

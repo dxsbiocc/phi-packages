@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.8.0 (2026-11-27)
+
+- Python 路（`scanpy-workflow`）新增单细胞 TF 调控子活性推断能力：新增片段 `assets/fragments/regulon.py`、教学笔记 `references/step-notes/regulon.md`、工具 `sc_py_regulon` 及 Notebook Preset 9（基于未缩放 `lognorm` 层实现纯向量化 AUCell 恢复曲线 AUC 与 ULM 单变量线性模型 $t$ 检验，内置 18-TF 精选靶基因面板并支持自定义 TSV/CSV/GMT，结果写入 `adata.obsm["X_regulon"]` 并计算组间 Mann-Whitney U + BH FDR 与热图）。
+- R 路（`seurat-workflow`）补齐配受体细胞通讯能力：新增片段 `assets/fragments/communication.R`、教学笔记 `references/step-notes/communication.md`、工具 `sc_communication` 及 Notebook Preset 10（基于标准化 RNA `data` 层实现纯 R/Matrix CellPhoneDB 多亚基最小表达置换检验与 BH FDR，对齐 Python 路 `curated_starter_v1` 并产出互作表、热图与气泡图）。
+
 ## 0.7.2 (2026-11-26)
 
 - 同步 `README.md` 与实际清单：版本号更新至 `0.7.2`，Python 路 `sc_py_*` 工具总数由 `10` 更新为 `11`，并在 Python 路工具表补齐 `sc_py_communication`（异源多亚基配受体置换检验 + Preset 8）。

@@ -31,6 +31,7 @@ TOOL_MAP = {
     "pseudobulk.py": "sc_py_pseudobulk",
     "trajectory.py": "sc_py_trajectory",
     "communication.py": "sc_py_communication",
+    "regulon.py": "sc_py_regulon",
     "build_notebook.py": "sc_py_notebook",
     "env_probe.py": "sc_py_env_probe",
 }

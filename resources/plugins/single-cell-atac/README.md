@@ -45,7 +45,8 @@ The same contract as the single-cell / spatial plugins:
 (per-cluster MACS3 peaks + merged peak set + peak-count matrix) → `scatac_markers` (per-cluster
 marker regions, optional pairwise differential accessibility `run_diff`) → `scatac_annotate` (gene activity +
 panel/scRNA reference/explicit mapping labels) → `scatac_motif` (motif enrichment on marker regions) →
-`scatac_integrate` (multi-sample batch integration, harmony/scanorama/mnc on the spectral embedding).
+`scatac_tf_deviation` (GC-matched chromVAR per-cell TF motif deviations) → `scatac_peak2gene` (cis
+Peak-to-Gene enhancer correlations against scRNA) → `scatac_integrate` (multi-sample batch integration).
 `scatac_notebook` is the parallel teaching path; `scatac_env_probe` probes before you promise heavy-dependency capabilities.
 
 ## Genome references
@@ -84,8 +85,7 @@ macs3 is distributed with the environment as a snapatac2 dependency.
 
 ## Gaps (reported as facts by `scatac_env_probe`, handled via a project environment)
 
-- **chromVAR/ArchR/Signac**: the R/Bioconductor route, not implemented. The plugin's TF layer is motif enrichment (sequence prediction),
-  **not chromVAR per-cell TF deviations**, and motif hits must not be treated as measured TF binding either.
+- **ArchR/Signac (R route)**: the R/Bioconductor scATAC suite is not implemented here; Python `scatac_tf_deviation` natively provides GC-matched chromVAR per-cell TF deviations in `plugin:scatac`, and `scatac_peak2gene` computes cis enhancer-gene links.
 - **episcanpy**: although it is on bioconda, at runtime `from numpy import NaN` is incompatible with numpy 2, so it is not distributed with the environment.
 - **scvi-tools / magic-impute**: pip-only, and the locked environment does not support pip.
 - **TF-gene GRN**: not implemented (a snapatac2 inject extension, not part of this plugin).

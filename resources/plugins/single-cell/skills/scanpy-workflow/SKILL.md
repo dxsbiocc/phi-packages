@@ -5,11 +5,12 @@ description: >-
   matrix: inspect the input, quality control with scrublet, normalization,
   variable genes, PCA, batch integration (harmony/combat), Leiden clustering,
   UMAP, marker genes, cell-type annotation from a marker panel, pseudobulk
-  aggregation, PAGA/diffusion-pseudotime trajectory inference, and heteromeric
-  ligand-receptor cell-cell communication screening. Use for 单细胞分析,
-  scRNA-seq, scanpy, Python, 质控, 降维聚类, 批次整合, marker 基因, 细胞类型注释,
-  pseudobulk, 轨迹推断, 细胞通讯, 配受体, or when a .h5ad / 10x matrix needs a
-  reproducible analysis chain. The Python counterpart of seurat-workflow; not
+  aggregation, PAGA/diffusion-pseudotime trajectory inference, heteromeric
+  ligand-receptor cell-cell communication screening, and AUCell/ULM TF regulon
+  activity inference. Use for 单细胞分析, scRNA-seq, scanpy, Python, 质控,
+  降维聚类, 批次整合, marker 基因, 细胞类型注释, pseudobulk, 轨迹推断, 细胞通讯,
+  配受体, 转录因子活性, regulon, AUCell, ULM, or when a .h5ad / 10x matrix needs
+  a reproducible analysis chain. The Python counterpart of seurat-workflow; not
   for spatial transcriptomics or scATAC-seq.
 phi:
   environment: plugin:scanpy
@@ -468,6 +469,59 @@ phi:
       approval: write
       output: ./schemas/step-result.json
       timeoutSeconds: 1800
+    - name: py_regulon
+      description: >-
+        Infer per-cell transcription factor (TF) regulon activity using AUCell
+        (normalized recovery AUC over top expressed genes) or weighted ULM linear
+        modeling on the unscaled lognorm layer, storing X_regulon in obsm and
+        computing per-group Mann-Whitney U differential activity (BH FDR) plus a
+        top-TF group heatmap.
+      run: [python, ./scripts/regulon.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [input]
+        properties:
+          input:
+            type: string
+            format: input-path
+            description: Clustered or annotated AnnData object saved as .h5ad.
+          output:
+            type: string
+            format: project-path
+            description: Where to save the updated AnnData object with obsm["X_regulon"].
+          regulon_output:
+            type: string
+            format: project-path
+            description: Output TSV path for cell-by-TF activity scores (default regulon/regulon_activity.tsv).
+          figures_dir:
+            type: string
+            format: project-path
+            description: Directory for TF regulon heatmap PNG; omit to skip figure.
+          group_by:
+            type: string
+            description: obs column grouping cells for differential regulon summary (default leiden).
+          regulons_path:
+            type: string
+            format: input-path
+            description: Optional TSV/CSV (source/tf, target/gene, weight) or .gmt; omit for curated 18-TF starter panel.
+          regulon_method:
+            type: string
+            enum: [aucell, ulm]
+            description: Regulon activity scoring algorithm (default aucell).
+          top_frac:
+            type: number
+            description: Top expressed gene fraction for AUCell recovery curve (default 0.05).
+          min_targets:
+            type: integer
+            minimum: 1
+            description: Minimum matched target genes required per TF (default 5).
+          seed:
+            type: integer
+            description: Random seed (default 42).
+      approval: write
+      output: ./schemas/step-result.json
+      timeoutSeconds: 1800
     - name: py_notebook
       description: >-
         Render a runnable analysis notebook into the project from the fragment
@@ -477,7 +531,7 @@ phi:
         config cell at the top that the analysis cells reference. Pick a preset
         with module (1 QC, 2 plus clustering, 3 plus integration, 4 plus
         markers, 5 plus pseudobulk, 6 plus annotation, 7 plus trajectory, 8 plus
-        communication) or
+        communication, 9 plus regulon) or
         name steps directly; dependencies are added automatically. inject adds
         an external Python or R script as a code cell; merge splices in another
         notebook, whole or a cell range. All sources must match the notebook
@@ -493,13 +547,13 @@ phi:
         properties:
           module:
             type: integer
-            enum: [1, 2, 3, 4, 5, 6, 7, 8]
-            description: NBIS/extended lab preset (1-8). Pass module or steps, not both.
+            enum: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+            description: NBIS/extended lab preset (1-9). Pass module or steps, not both.
           steps:
             type: array
             items:
               type: string
-              enum: [setup, load, qc-metrics, qc-plots, doublets, filter, normalize, hvg, scale, pca, integrate, batch-compare, cluster, markers, annotate, assign-labels, trajectory, communication, pseudobulk, save]
+              enum: [setup, load, qc-metrics, qc-plots, doublets, filter, normalize, hvg, scale, pca, integrate, batch-compare, cluster, markers, annotate, assign-labels, trajectory, communication, regulon, pseudobulk, save]
             description: >-
               Steps to render instead of a preset; declared dependencies are
               added automatically. Pass module or steps, not both.
@@ -648,6 +702,7 @@ step; never install packages inside the read-only environment.
 7. `sc_py_pseudobulk` — sample-level counts for differential expression.
 8. `sc_py_trajectory` — PAGA and diffusion pseudotime (when the question is a process, not groups).
 9. `sc_py_communication` — heteromeric ligand-receptor permutation screening across cell types.
+10. `sc_py_regulon` — AUCell or ULM TF regulon activity inference across single cells.
 
 Skip a step only when the object already contains its result; `sc_py_inspect`
 says which results are present.

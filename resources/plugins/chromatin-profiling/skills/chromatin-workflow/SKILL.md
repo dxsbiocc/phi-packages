@@ -1,20 +1,17 @@
 ---
 name: chromatin-workflow
 description: >-
-  Run a bulk ChIP-seq / CUT&Tag / CUT&RUN downstream workflow on called peaks
-  (BED/narrowPeak/broadPeak), a DiffBind sample sheet, a peak x sample count table,
-  indexed BAMs, a bigWig or a saved .rds: inspect, QC (FRiP + replicate
-  peak-overlap), blacklist filtering, consensus peakset, counting + normalization,
-  PCA + UpSet, differential binding (DiffBind/DESeq2/edgeR for TF/narrow marks +
-  CUT&Tag; csaw window-based for broad marks), and ChIPseeker annotation / TSS
-  profiles against a user GTF/GFF3 or TxDb. Use for ChIP-seq, CUT&Tag, 染色质
-  profiling, 组蛋白修饰, 转录因子结合, DiffBind, csaw, ChIPseeker, FRiP, 差异结合,
-  broad mark, H3K27me3, H3K4me3, peak 注释, .narrowPeak, .broadPeak. R/Bioconductor
-  route (DiffBind 3.20 + ChIPseeker 1.46 + csaw 1.44). Pure downstream:
-  alignment/peak calling are the nf-core/chipseq wrapper (ChIP) or
-  nf-core/seacr/callpeak module wrapper (CUT&Tag). csaw on darwin-arm64, IDR, profileplyr, HOMER/MEME motif
-  and org.db gene symbols are reported gaps. Not for single-cell ATAC (the
-  single-cell-atac sibling).
+  Bulk ChIP-seq / CUT&Tag / CUT&RUN downstream workflow on called peaks, DiffBind
+  sample sheets, count tables, BAMs, bigWigs, or .rds: QC (FRiP + replicate
+  overlap), blacklist filter, consensus peaks, counting/normalization, PCA/UpSet,
+  DiffBind/DESeq2/edgeR/csaw differential binding, ChIPseeker annotation/TSS
+  profiles, and ROSE-style super-enhancer calling (chip_super_enhancer). Use for
+  ChIP-seq, CUT&Tag, 染色质 profiling, 组蛋白修饰, 转录因子结合, DiffBind, csaw,
+  ChIPseeker, FRiP, 差异结合, broad mark, H3K27me3, H3K4me3, H3K27ac,
+  super-enhancer, ROSE, peak 注释, .narrowPeak, .broadPeak. Upstream peak calling
+  runs on nf-core/chipseq, local/workflows/cutandrun, or nf-core/seacr/callpeak.
+  csaw on darwin-arm64, IDR, profileplyr, HOMER/MEME motifs, and org.db symbols
+  are reported gaps; not for scATAC (single-cell-atac).
 phi:
   environment: plugin:chip
   attachTo:
@@ -491,6 +488,60 @@ phi:
       approval: write
       output: ./schemas/step-result.json
       timeoutSeconds: 1800
+    - name: super_enhancer
+      description: >-
+        Identify Super-Enhancers (SE) vs Typical Enhancers (TE) from called
+        enhancer peaks (H3K27ac / BRD4 / MED1 BED/narrowPeak/broadPeak) using
+        ROSE stitching (default 12.5 kb), optional promoter TSS exclusion, and
+        exact normalized tangent inflection ranking, writing super_enhancers.tsv,
+        super_enhancers.bed, and hockey-stick curve PNG.
+      run: [Rscript, ./scripts/super_enhancer.R]
+      args:
+        type: object
+        additionalProperties: false
+        required: [input]
+        properties:
+          input:
+            type: string
+            format: input-path
+            description: Enhancer peaks file (BED/narrowPeak/broadPeak/TSV).
+          se_output:
+            type: string
+            format: project-path
+            description: Output TSV path for stitched ROSE domains (default super_enhancers.tsv; companion .bed written alongside).
+          figures_dir:
+            type: string
+            format: project-path
+            description: Directory for ROSE hockey-stick PNG; omit to skip figure.
+          stitch_distance:
+            type: integer
+            minimum: 0
+            description: Maximum genomic distance (bp) to stitch constituent enhancers (default 12500).
+          tss_exclude_bp:
+            type: integer
+            minimum: 0
+            description: Promoter exclusion radius around annotated TSS when gtf/txdb/tss_bed is provided (default 2500).
+          tss_bed:
+            type: string
+            format: input-path
+            description: Optional TSS BED/GTF override for promoter exclusion.
+          gtf:
+            type: string
+            format: input-path
+            description: Optional gene annotation GTF/GFF3 for TSS exclusion.
+          txdb:
+            type: string
+            format: input-path
+            description: Optional prebuilt TxDb .sqlite for TSS exclusion.
+          signal_col:
+            type: string
+            description: Peak metadata column holding signal strength (default signalValue then score).
+          seed:
+            type: integer
+            description: Random seed (default 42).
+      approval: write
+      output: ./schemas/step-result.json
+      timeoutSeconds: 1800
     - name: notebook
       description: >-
         Render a runnable R analysis notebook into the project from the fragment
@@ -499,7 +550,7 @@ phi:
         input data and the requested steps, and every tunable value lands in one
         config cell at the top that the analysis cells reference. Pick a preset
         with module (1 TF/narrow DiffBind+DESeq2, 2 broad csaw, 3 CUT&Tag edgeR,
-        4 consensus, 5 annotation, 6 count exploration) or name steps directly;
+        4 consensus, 5 annotation, 6 count exploration, 7 ROSE super-enhancers) or name steps directly;
         dependencies are added automatically. inject adds an external R or Python
         script as a code cell; merge splices in another notebook, whole or a cell
         range. All sources must match the notebook language (one kernel per
@@ -515,13 +566,13 @@ phi:
         properties:
           module:
             type: integer
-            enum: [1, 2, 3, 4, 5, 6]
+            enum: [1, 2, 3, 4, 5, 6, 7]
             description: Analysis preset. Pass module or steps, not both.
           steps:
             type: array
             items:
               type: string
-              enum: [setup, load-peaks, load-bam, load-counts, load-sample-sheet, qc-frip, qc-reproducibility, blacklist-filter, consensus, count, normalize, pca, diff-deseq2, diff-edger, csaw, annotate, coverage-profile, upset, save]
+              enum: [setup, load-peaks, load-bam, load-counts, load-sample-sheet, qc-frip, qc-reproducibility, blacklist-filter, consensus, count, normalize, pca, diff-deseq2, diff-edger, csaw, annotate, coverage-profile, upset, super-enhancer, save]
             description: >-
               Steps to render instead of a preset; declared dependencies are added
               automatically. Pass module or steps, not both.
@@ -723,6 +774,7 @@ source: the script tools and the rendered notebook run the same fragments.
    coverage profile and heatmap against a **user** GTF/GFF3 or TxDb. Lean annotation:
    no target-genome TxDb is bundled; without one this step reports a gap.
 6. **Visualize** (`chip_visualize`) — sample PCA and overlap UpSet on a count matrix.
+7. **Super-Enhancers** (`chip_super_enhancer`) — ROSE stitching within `stitch_distance` (default 12.5 kb), TSS exclusion, and normalized tangent inflection calling.
 
 `chip_consensus`, `chip_count` and `chip_diff` accept a DiffBind sample sheet as
 `input`; the sheet's `Peaks`/`bamReads` columns drive peak and BAM loading. Relative

@@ -61,6 +61,7 @@ anno_df <- NULL
 txdb <- NULL
 sample_sheet <- NULL
 pca_result <- NULL
+se_result <- NULL
 
 # Show a plot inline and, when figures_dir is set, also write a PNG so a run
 # leaves reviewable figures behind. Returns the path (or NULL) invisibly.

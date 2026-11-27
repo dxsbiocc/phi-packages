@@ -1,0 +1,15 @@
+name: rnasplice
+description: Differential alternative splicing workflow composing vendored nf-core rMATS prep and SUPPA2 (generateEvents -> psiPerEvent -> diffSplice) modules; outputs feed directly into bulk-rna-seq's rna_splicing tool.
+keywords:
+  - splicing
+  - rmats
+  - suppa2
+  - alternative-splicing
+  - transcriptomics
+components:
+  - nf-core/rmats/prep
+  - nf-core/suppa/generateevents
+  - nf-core/suppa/psiperevent
+  - nf-core/suppa/diffsplice
+authors:
+  - "@phi-packages"

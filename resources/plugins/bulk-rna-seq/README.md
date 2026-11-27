@@ -1,12 +1,13 @@
-# bulk-rna-seq · 0.4.0
+# bulk-rna-seq · 0.5.0
 
-Downstream bulk RNA-seq interpretation, identifier/GEO bridging, regulon activity, alternative splicing, co-expression network, TME deconvolution, and pathway analysis plugin (`toolPrefix: rna`, agent `BulkRnaSeq`) in a lightweight Python environment (`plugin:rnaseq`: Python 3.13 + `pandas/numpy/scipy/matplotlib-base`).
+Downstream bulk RNA-seq interpretation, identifier/GEO bridging, regulon activity, alternative splicing, co-expression network, TME deconvolution, multi-omics 9-quadrant integration, and pathway analysis plugin (`toolPrefix: rna`, agent `BulkRnaSeq`) in a lightweight Python environment (`plugin:rnaseq`: Python 3.13 + `pandas/numpy/scipy/matplotlib-base`).
 
 ## Division of work with wrappers
 
 - **Upstream alignment & quantification**: `nf-core/rna-seq` wrapper.
+- **Alternative splicing quantification**: `local/workflows/rnasplice` wrapper (`rMATS` prep + `SUPPA2` PSI/diffSplice; feeds `rna_splicing`).
 - **Core differential expression & time-series modeling**: `local/modules/differential-expression-{qc,deseq2,edger,limma,timeseries}` and `visualization/{pca,heatmap,volcano}` wrappers.
-- **Downstream interpretation, network/TME, splicing & regulon layer (this plugin, 12 `rna_*` tools)**:
+- **Downstream interpretation, network/TME, splicing & regulon layer (this plugin, 13 `rna_*` tools)**:
   - `rna_geo_import`: parse NCBI GEO `GSE*_series_matrix.txt/.gz` files into structured `samplesheet.tsv` (`!Sample_characteristics_ch1` key-value columns) and `expression_matrix.tsv` (with optional GPL probe-to-symbol collapse).
   - `rna_id_map`: strip Ensembl/RefSeq `.version` suffixes, optionally filter by GTF `gene_biotype`, and map gene IDs via reference GTF/GFF3 or custom 2-column tables with collision-aware aggregation (`sum` / `max_mean` / `min_pvalue`).
   - `rna_inspect`: infer matrix value kind (`raw_counts` vs TPM/FPKM/log), validate sample alignment, detect low replicates and batch-condition collinearity.
@@ -19,3 +20,4 @@ Downstream bulk RNA-seq interpretation, identifier/GEO bridging, regulon activit
   - `rna_tme_deconv`: ESTIMATE-style `StromalScore`, `ImmuneScore`, `ESTIMATEScore`, and `TumorPurity` plus NNLS relative immune cell fraction deconvolution across 10 canonical leukocyte populations (or a custom signature matrix).
   - `rna_regulon`: `decoupler`-style Univariate (`ULM`) and ridge-stabilized Multivariate (`MLM`) linear model TF/pathway regulon activity inference from expression matrices or DE tables using a curated 14-pathway signed footprint network or custom CollecTRI/DoRothEA/PROGENy regulons.
   - `rna_splicing`: harmonize `rMATS`, `SUPPA2`, and generic differential alternative splicing tables (`SE`, `A5SS`, `A3SS`, `MXE`, `RI`, `AF`, `AL`), compute exon lengths, flag `frameshift_candidate` vs `in_frame_modular` events, and summarize multi-hit spliced genes.
+  - `rna_nine_quadrant`: cross-modal 9-quadrant integration (`Q1`–`Q9`) pairing bulk RNA-seq DEGs with ATAC-seq, ChIP-seq/CUT&Tag, proteomics, or methylation fold-changes, computing Pearson/Spearman concordance, 2×2 Fisher exact enrichment, peak-to-gene aggregation, and 3×3 thresholded scatter plots.

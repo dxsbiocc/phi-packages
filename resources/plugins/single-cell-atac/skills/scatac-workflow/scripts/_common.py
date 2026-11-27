@@ -39,6 +39,8 @@ TOOL_MAP = {
     "find_markers.py": "scatac_markers",
     "annotate_clusters.py": "scatac_annotate",
     "motif_enrichment.py": "scatac_motif",
+    "tf_deviation.py": "scatac_tf_deviation",
+    "peak2gene.py": "scatac_peak2gene",
     "integrate_samples.py": "scatac_integrate",
     "build_notebook.py": "scatac_notebook",
     "env_probe.py": "scatac_env_probe",

@@ -1,0 +1,79 @@
+name: gnina
+description: GPU/CPU CNN-rescored molecular docking with GNINA, extracting minimizedAffinity, CNNscore, CNNaffinity, and CNN_VS into a normalized score_table.tsv for chem_docking_eval.
+keywords:
+  - docking
+  - gnina
+  - cnn-rescoring
+  - virtual-screening
+tools:
+  - gnina:
+      description: GNINA deep-learning molecular docking and scoring engine
+      homepage: https://github.com/gnina/gnina
+      license: ["Apache-2.0"]
+input:
+  - - meta:
+        type: map
+        description: Groovy Map containing sample information e.g. [ id:'gnina_screen' ]
+    - receptor:
+        type: file
+        description: Receptor PDB or PDBQT structure
+    - ligands:
+        type: file
+        description: Ligand SDF / MOL2 / PDBQT library
+    - autobox_ligand:
+        type: file
+        description: Optional reference co-crystal ligand for automatic box definition
+  - center_x:
+      type: float
+      description: Docking box center X (ignored when autobox_ligand is given)
+  - center_y:
+      type: float
+      description: Docking box center Y
+  - center_z:
+      type: float
+      description: Docking box center Z
+  - size_x:
+      type: float
+      description: Docking box size X (Angstrom)
+  - size_y:
+      type: float
+      description: Docking box size Y (Angstrom)
+  - size_z:
+      type: float
+      description: Docking box size Z (Angstrom)
+  - cnn_scoring:
+      type: string
+      description: GNINA CNN mode (rescore, all, none, refinement)
+  - exhaustiveness:
+      type: integer
+      description: Monte Carlo search exhaustiveness
+  - num_modes:
+      type: integer
+      description: Maximum binding modes per ligand
+  - cpu_threads:
+      type: integer
+      description: CPU thread count
+output:
+  - poses:
+      - meta:
+          type: map
+      - "*.docked.sdf.gz":
+          type: file
+          description: Gzipped SDF file containing docked ligand poses and GNINA CNN SD tags
+  - score_table:
+      - meta:
+          type: map
+      - "*.score_table.tsv":
+          type: file
+          description: Normalized score table compatible with chem_docking_eval
+  - summary:
+      - meta:
+          type: map
+      - "*.gnina_summary.json":
+          type: file
+          description: Summary JSON of docked ligands and top CNN-rescored hits
+  - versions:
+      - "versions.yml":
+          type: file
+authors:
+  - "@phi-packages"

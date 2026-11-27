@@ -41,6 +41,7 @@ fail <- function(...) {
   "diff_binding.R" = "chip_diff",
   "annotate_peaks.R" = "chip_annotate",
   "visualize.R" = "chip_visualize",
+  "super_enhancer.R" = "chip_super_enhancer",
   "env_probe.R" = "chip_env_probe"
 )
 

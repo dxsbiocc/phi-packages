@@ -1,0 +1,7 @@
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - conda-forge::python=3.12
+  - bioconda::autodock-vina=1.2.5
+  - conda-forge::openbabel=3.1.1

@@ -52,6 +52,7 @@ jobs:
           python tests/test_molecular_cloning_plugin.py -v
           python tests/test_mr_pgx_and_rnaseq_v3.py -v
           python tests/test_multiomics_and_methylation_plugins.py -v
+          python tests/test_p3b_wrappers.py -v
           python tests/test_protein_design_composites.py -v
           python tests/test_protein_design_extra_modules.py -v
           python tests/test_protein_design_plugin.py -v

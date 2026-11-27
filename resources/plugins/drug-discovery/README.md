@@ -12,5 +12,6 @@ Small-molecule cheminformatics, medicinal chemistry triage, SAR activity-cliff a
 
 ## Scope & Division of Work with Related Modules
 
+- **`local/autodock_vina`, `local/gnina`, `local/fpocket`**: Structure-based binding-site detection (`fpocket` druggability/volume pockets) and molecular docking wrappers (`autodock_vina` CPU affinity poses and `gnina` CNN-rescored `CNNscore`/`CNNaffinity` poses) with normalized `score_table.tsv` outputs consumed directly by `chem_docking_eval`.
 - **`local/boltz2`, `local/chai1`, `local/protenix`, `local/alphafold3`**: GPU structural co-folding wrappers that predict 3D protein–ligand complex coordinates and raw binding confidence/affinity tables. `drug-discovery` consumes those ligand affinity/score tables via `chem_docking_eval` to strip PAINS artifacts, correct for molecular-weight bias (`LE_dock`, `SILE`), and pick structurally diverse leads.
 - **`pharmacogenomics`**: Owns raw concentration–response curve fitting (`IC50`, `EC50`, `Emax`, `AUC`) across cell lines/patients and PGx variant/star-allele associations. `drug-discovery` consumes already-fitted compound potency values (`IC50`, `Ki`, `pIC50`) in `chem_sar_cliff` to map structure–activity relationships, `LE`/`LLE`, and activity cliffs.

@@ -8,11 +8,13 @@ description: >-
   multi-contrast DEGs; run hypergeometric ORA, pre-ranked GSEA, single-sample
   pathway scoring, ULM/MLM TF and pathway regulon inference, rMATS/SUPPA2
   differential alternative splicing harmonization, WGCNA-style weighted gene
-  co-expression module & hub-gene detection, and ESTIMATE/NNLS tumor
-  microenvironment immune deconvolution. Use for bulk RNA-seq, 转录组,
+  co-expression module & hub-gene detection, ESTIMATE/NNLS tumor
+  microenvironment immune deconvolution, and cross-modal 9-quadrant integration
+  (RNA vs ATAC/ChIP/proteomics/methylation). Use for bulk RNA-seq, 转录组,
   基因ID转换, GEO数据导入, 差异表达下游, GSEA, ORA, regulon, 转录因子活性,
   可变剪接, rMATS, SUPPA2, WGCNA, 共表达网络, 枢纽基因, 免疫浸润,
-  肿瘤微环境去卷积. Raw alignment runs on nf-core/rna-seq and core DE on
+  肿瘤微环境去卷积, 九象限分析, 多组学联合. Raw alignment runs on nf-core/rna-seq,
+  splicing quantification on local/workflows/rnasplice, and core DE on
   local/differential-expression wrappers.
 phi:
   environment: plugin:rnaseq
@@ -538,6 +540,69 @@ phi:
       approval: write
       output: ./schemas/splicing-result.json
       timeoutSeconds: 600
+    - name: nine_quadrant
+      description: >-
+        Cross-modal 9-quadrant integration (Q1_rna_up_other_up to
+        Q9_rna_down_other_down) comparing bulk RNA-seq DEGs against ATAC-seq,
+        ChIP-seq/CUT&Tag, proteomics, or DNA methylation fold-changes, with
+        many-to-one feature aggregation (max_abs, mean, nearest_tss), Pearson
+        and Spearman correlations, 2x2 directional Fisher exact test, gene/summary
+        TSVs, and a labeled 3x3 scatter plot.
+      run: [python, ./scripts/rna_nine_quadrant.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [rna_de, other_de, output_dir]
+        properties:
+          rna_de:
+            type: string
+            format: input-path
+            description: Bulk RNA-seq DE table TSV/CSV.
+          other_de:
+            type: string
+            format: input-path
+            description: Second-omics DE/DA/diffPeak/proteomics TSV/CSV table.
+          other_label:
+            type: string
+            description: Display label for the second modality (default Other).
+          other_gene_col:
+            type: string
+            description: Optional gene symbol column name in other_de.
+          other_lfc_col:
+            type: string
+            description: Optional log2FC / effect-size column name in other_de.
+          other_padj_col:
+            type: string
+            description: Optional adjusted p-value / FDR column name in other_de.
+          other_dist_col:
+            type: string
+            description: Optional TSS distance column name for nearest_tss aggregation.
+          rna_lfc:
+            type: number
+            description: Abs log2FC threshold for RNA DEGs (default 1.0).
+          rna_padj:
+            type: number
+            description: Adjusted p-value threshold for RNA DEGs (default 0.05).
+          other_lfc:
+            type: number
+            description: Abs log2FC threshold for other modality (default 0.585).
+          other_padj:
+            type: number
+            description: Adjusted p-value threshold for other modality (default 0.05).
+          peak_agg:
+            type: string
+            enum: [max_abs, mean, nearest_tss]
+            description: Aggregation method when multiple features map to one gene (default max_abs).
+          top_labels:
+            type: integer
+            description: Number of top concordant/discordant genes to annotate on the plot (default 12).
+          output_dir:
+            type: string
+            format: project-path
+            description: Output directory for 9-quadrant tables and scatter plot.
+      approval: write
+      output: ./schemas/nine-quadrant-result.json
+      timeoutSeconds: 300
 ---
 
 # Bulk RNA-seq — downstream interpretation & pathway chain
@@ -558,9 +623,10 @@ full DE table + GMT ──┬─ rna_ora  (hypergeometric ORA with explicit univ
                       └─ rna_gsea (threshold-free pre-ranked GSEA + leading-edge)
 expression + GMT ──────rna_pathway_score──▶ sample-level pathway activity matrix + heatmap
 expression / DE ───────rna_regulon────────▶ ULM/MLM TF & pathway regulon activity t-scores + FDR
-rMATS / SUPPA2 ────────rna_splicing───────▶ harmonized splicing events, frame impact & multi-hit genes
+rMATS / SUPPA2 ────────(local/workflows/rnasplice)──▶ rna_splicing ──▶ harmonized splicing events & frame impact
 expression (+ traits) ─rna_coexpression───▶ WGCNA-style TOM modules, Module Eigengenes & kME hubs
 symbol expression ─────rna_tme_deconv─────▶ ESTIMATE Stromal/Immune/Purity + NNLS immune cell fractions
+RNA DE + ATAC/ChIP DE ─rna_nine_quadrant──▶ 9-quadrant concordance/discordance stats & 3x3 scatter plot
 ```
 
 ## Hard red lines

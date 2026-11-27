@@ -1,5 +1,10 @@
 # Changelog — bulk-rna-seq
 
+## 0.5.0 (2026-11-27)
+
+- Add `rna_nine_quadrant`: cross-modal 9-quadrant integration (`Q1_rna_up_other_up`–`Q9_rna_down_other_down`) linking bulk RNA-seq DEGs with ATAC-seq/ChIP-seq/CUT&Tag/proteomics/methylation tables, with peak-to-gene aggregation (`max_abs`, `mean`, `nearest_tss`), Pearson $r$, Spearman $\rho$, 2×2 directional Fisher exact test, summary/gene tables, and labeled 3×3 scatter plot.
+- Document `local/workflows/rnasplice` as the upstream alternative-splicing workflow paired with `rna_splicing`.
+
 ## 0.4.0 (2026-11-26)
 
 - Add `rna_regulon`: `decoupler`-style Univariate Linear Model (`ULM`) and ridge-stabilized Multivariate Linear Model (`MLM`) TF/pathway regulon activity scoring from expression matrices or DE tables, with a curated 14-pathway signed footprint resource (`NFkB`, `JAK_STAT`, `TGFb`, `TNFa`, `Hypoxia`, `p53`, `MAPK`, `PI3K`, `WNT`, `Estrogen`, `Androgen`, `VEGF`, `Trail`, `EGFR`) or custom `source/target/mor` networks, analytical $t$-statistics, two-sided $p$-values, BH FDR, and activity heatmaps.
