@@ -1,5 +1,11 @@
 # Changelog — chromatin-profiling
 
+## 0.2.0 (2026-11-27)
+
+- 新增 ROSE 超级增强子识别能力（零新增 Conda 依赖）：
+  - `chip_super_enhancer`（`assets/fragments/super-enhancer.R`）：基于 `GenomicRanges + ggplot2` 实现 Young Lab ROSE 逻辑——支持 TSS ±`tss_exclude_bp` 启动子区排除、`stitch_distance`（默认 12.5 kb）增强子拼接与信号累加，并在归一化排序曲线上精确定位切线拐点（斜率为 1）区分 Super-Enhancer (`SE`) 与 Typical Enhancer (`TE`)，输出 `super_enhancers.tsv`、`super_enhancers.bed` 与 hockey-stick 曲线 PNG。
+  - 新增 Preset 7、`references/step-notes/super-enhancer.md` 及上游 `local/workflows/cutandrun` 指针。
+
 ## 0.1.3 (2026-11-25)
 
 - 为 `chromatin-workflow` 全部脚本工具与 `chip_notebook` 补齐 `output` JSON Schema 声明（`step-result.json`、`notebook-result.json`）并收敛 Agent 描述长度在契约上限内。

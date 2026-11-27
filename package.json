@@ -9,8 +9,12 @@
     "mcp-servers/epigenomics",
     "mcp-servers/proteomics",
     "mcp-servers/metabolomics",
-        "mcp-servers/pharmacogenomics",
-        "mcp-servers/literature",
+    "mcp-servers/pharmacogenomics",
+    "mcp-servers/literature",
+    "mcp-servers/clinical-variants",
+    "mcp-servers/protein-structure",
+    "mcp-servers/gene-pathway",
+    "mcp-servers/drug-chemistry",
     "mcp-servers/gateway"
   ],
   "scripts": {

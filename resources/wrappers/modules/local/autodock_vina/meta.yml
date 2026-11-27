@@ -1,0 +1,74 @@
+name: autodock_vina
+description: Rigid-receptor structure-based molecular docking with AutoDock Vina and normalized score table extraction for chem_docking_eval.
+keywords:
+  - docking
+  - autodock-vina
+  - virtual-screening
+  - structure-based-drug-design
+tools:
+  - autodock-vina:
+      description: AutoDock Vina 1.2 molecular docking engine
+      homepage: https://autodock-vina.readthedocs.io/
+      license: ["Apache-2.0"]
+input:
+  - - meta:
+        type: map
+        description: Groovy Map containing sample information e.g. [ id:'target' ]
+    - receptor_pdbqt:
+        type: file
+        description: Prepared rigid receptor structure in PDBQT format
+        pattern: "*.pdbqt"
+    - ligands_dir:
+        type: directory
+        description: Directory containing ligand structures in PDBQT format
+  - center_x:
+      type: float
+      description: Docking box center X coordinate (Angstrom)
+  - center_y:
+      type: float
+      description: Docking box center Y coordinate (Angstrom)
+  - center_z:
+      type: float
+      description: Docking box center Z coordinate (Angstrom)
+  - size_x:
+      type: float
+      description: Docking box size X (Angstrom)
+  - size_y:
+      type: float
+      description: Docking box size Y (Angstrom)
+  - size_z:
+      type: float
+      description: Docking box size Z (Angstrom)
+  - exhaustiveness:
+      type: integer
+      description: Search exhaustiveness (default 8)
+  - num_modes:
+      type: integer
+      description: Maximum binding modes per ligand (default 9)
+  - cpu_per_ligand:
+      type: integer
+      description: CPUs per Vina call (default 4)
+output:
+  - poses:
+      - meta:
+          type: map
+      - "*_docked/*.pdbqt":
+          type: file
+          description: Docked ligand poses in PDBQT format
+  - score_table:
+      - meta:
+          type: map
+      - "*.score_table.tsv":
+          type: file
+          description: Normalized docking affinity table (ligand_id, pose_rank, score, affinity_kcal_mol, rmsd_lb, rmsd_ub)
+  - summary:
+      - meta:
+          type: map
+      - "*.vina_summary.json":
+          type: file
+          description: Summary JSON of docked ligands and best affinities
+  - versions:
+      - "versions.yml":
+          type: file
+authors:
+  - "@phi-packages"

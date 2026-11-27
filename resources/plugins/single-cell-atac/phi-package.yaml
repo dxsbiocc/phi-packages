@@ -1,13 +1,13 @@
 schemaVersion: 1
 id: single-cell-atac
 type: plugin
-version: 0.1.3
+version: 0.2.0
 title: Single-cell ATAC
 summary: >-
-  scATAC analysis in Python/snapatac2 + scanpy (scatac_), privately locked. From
-  10x fragments or peak/tile matrices: QC (TSSe, fragments, doublets), scrublet,
-  spectral embedding, Leiden/UMAP, per-cluster peak calling, markers, gene
-  activity, label transfer, motif enrichment and integration.
+  scATAC analysis in Python/snapatac2 + scanpy (scatac_), privately locked.
+  From 10x fragments or peak/tile matrices: QC (TSSe, doublets), clustering,
+  MACS3 peaks, markers, gene activity, motif enrichment, chromVAR TF
+  deviations and Peak-to-Gene links.
 toolPrefix: scatac
 components:
   agents:

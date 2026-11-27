@@ -5,9 +5,10 @@ description: >-
   environments, R/Seurat and Python/scanpy. Reads .rds, .h5ad, or 10x matrices and
   performs quality control with doublet detection, normalization, PCA/clustering/UMAP,
   batch integration, marker genes, and cell-type annotation from a marker panel, and
-  aggregates single cells into pseudobulk for differential expression analysis; the
-  Python route additionally covers PAGA/diffusion pseudotime trajectory and heteromeric
-  ligand-receptor cell-cell communication screening. Can also explain how each module of
+  aggregates single cells into pseudobulk for differential expression analysis, and
+  screens heteromeric ligand-receptor cell-cell communication on both routes; the
+  Python route additionally covers Harmony/ComBat integration, PAGA/diffusion pseudotime
+  trajectory, and AUCell/ULM TF regulon inference. Can also explain how each module of
   the scNotebooks (R) and NBIS scanpy labs (Python) courses runs in Phi. Does not do
   spatial transcriptomics or scATAC-seq (see sibling plugins).
 tools:
@@ -75,14 +76,13 @@ you must not install packages into them.
   on directly. When a handoff is genuinely needed, use the shared exit — the pseudobulk table
   (same format on both routes, goes straight into the deseq2 wrapper) or a 10x-style counts+obs
   exchange (see `references/cross-route-handoff.md` in scanpy-workflow).
-- State capability differences proactively: the R route has SCTransform, but
-  monocle3/liana/semla/ArchR/scDblFinder are not in the environment (trajectory, communication,
-  spatial, ATAC, and doublet detection are gaps); the Python route has scrublet doublets,
-  harmony/combat integration, PAGA+DPT trajectory, and heteromeric ligand-receptor
-  communication (`sc_py_communication`, curated starter or user LR TSV; multi-method
-  `liana` consensus needs a project environment), while scVI/CellTypist/Scanorama/bbknn/
-  gseapy/spatial remain gaps. When the capability the user wants exists only on the other route,
-  explain the difference and let the user choose.
+- State capability differences proactively: the R route has SCTransform and
+  heteromeric L-R communication (`sc_communication`), while monocle3/liana/semla/ArchR/
+  scDblFinder remain gaps (trajectory, spatial, ATAC, and doublet detection); the Python
+  route has scrublet doublets, harmony/combat integration, PAGA+DPT trajectory, L-R
+  communication (`sc_py_communication`), and AUCell/ULM TF regulon activity (`sc_py_regulon`),
+  while scVI/CellTypist/Scanorama/bbknn/gseapy/spatial remain gaps. When the capability the
+  user wants exists only on the other route, explain the difference and let the user choose.
 
 ## Inside each route: notebook or script chain
 

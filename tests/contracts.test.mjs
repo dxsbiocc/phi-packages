@@ -259,7 +259,7 @@ test('all MCP connectors satisfy docs/contracts/connector.md', () => {
   }
 })
 
-test('all 2202 wrapper adapters keep required files and all Nextflow relative includes resolve', () => {
+test('all wrapper adapters keep required files and all Nextflow relative includes resolve', () => {
   const wrapRoot = join(root, 'resources/wrappers')
   let adapterCount = 0
   let includeCount = 0

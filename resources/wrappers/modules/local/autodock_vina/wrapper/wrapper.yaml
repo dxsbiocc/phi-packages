@@ -1,0 +1,73 @@
+schemaVersion: 1
+id: autodock_vina
+kind: module
+source: local
+category: drug-discovery
+title: AutoDock Vina
+summary: Structure-based molecular docking with AutoDock Vina 1.2 outputting PDBQT poses and a normalized score_table.tsv for chem_docking_eval.
+entrypoint: wrapper/main.nf
+config: wrapper/nextflow.config
+defaultsFile: wrapper/params.json
+parameters:
+  - name: id
+    type: string
+    default: vina_screen
+    description: Run identifier used as output filename prefix.
+  - name: receptor
+    type: file
+    required: true
+    description: Prepared receptor structure in PDBQT format.
+  - name: ligands_dir
+    type: directory
+    required: true
+    description: Directory containing ligand structures in PDBQT format.
+  - name: center_x
+    type: number
+    required: true
+    description: Docking box center X coordinate (Angstrom).
+  - name: center_y
+    type: number
+    required: true
+    description: Docking box center Y coordinate (Angstrom).
+  - name: center_z
+    type: number
+    required: true
+    description: Docking box center Z coordinate (Angstrom).
+  - name: size_x
+    type: number
+    default: 22.0
+    description: Docking box size along X (Angstrom).
+  - name: size_y
+    type: number
+    default: 22.0
+    description: Docking box size along Y (Angstrom).
+  - name: size_z
+    type: number
+    default: 22.0
+    description: Docking box size along Z (Angstrom).
+  - name: exhaustiveness
+    type: integer
+    default: 8
+    description: Vina Monte Carlo search exhaustiveness.
+  - name: num_modes
+    type: integer
+    default: 9
+    description: Maximum docked binding modes saved per ligand.
+  - name: cpu_per_ligand
+    type: integer
+    default: 4
+    description: Threads allocated per ligand docking call.
+  - name: outdir
+    type: string
+    default: results/autodock_vina
+    description: Output directory for docked poses and score tables.
+outputs:
+  - name: poses
+    pattern: "*_docked/*.pdbqt"
+    description: Docked ligand poses in PDBQT format.
+  - name: score_table
+    pattern: "*.score_table.tsv"
+    description: Normalized Vina score table compatible with chem_docking_eval.
+  - name: summary
+    pattern: "*.vina_summary.json"
+    description: Summary JSON of docked ligands and best affinities.

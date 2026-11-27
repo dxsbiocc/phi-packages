@@ -1,7 +1,7 @@
 """Contract, compilation, and end-to-end runtime tests for:
   - mendelian-randomization 0.1.0 (mr_gwas_qc, mr_harmonize, mr_estimate, mr_coloc)
   - pharmacogenomics 0.2.0 (pgx_dose_response, pgx_synergy, pgx_biomarker, pgx_hts_qc, pgx_predict_cohort)
-  - bulk-rna-seq 0.4.0 upgrades (rna_coexpression, rna_tme_deconv, rna_regulon, rna_splicing)
+  - bulk-rna-seq 0.5.0 upgrades (rna_coexpression, rna_tme_deconv, rna_regulon, rna_splicing, rna_nine_quadrant)
 """
 from __future__ import annotations
 
@@ -114,19 +114,21 @@ class TestPluginManifestsAndOfflineCompilation(unittest.TestCase):
 
     def test_bulk_rnaseq_v3_layout_and_compilation(self) -> None:
         manifest = (RNA_DIR / "phi-package.yaml").read_text(encoding="utf-8")
-        self.assertIn("version: 0.4.0", manifest)
+        self.assertIn("version: 0.5.0", manifest)
         skill_dir = RNA_DIR / "skills" / "rnaseq-workflow"
         skill_md = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
         self.assertIn("- name: coexpression", skill_md)
         self.assertIn("- name: tme_deconv", skill_md)
         self.assertIn("- name: regulon", skill_md)
         self.assertIn("- name: splicing", skill_md)
+        self.assertIn("- name: nine_quadrant", skill_md)
 
         for schema in (
             "coexpression-result.json",
             "tme-deconv-result.json",
             "regulon-result.json",
             "splicing-result.json",
+            "nine-quadrant-result.json",
         ):
             obj = json.loads((skill_dir / "schemas" / schema).read_text(encoding="utf-8"))
             self.assertEqual(obj["type"], "object")

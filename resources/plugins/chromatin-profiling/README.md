@@ -51,7 +51,8 @@ The same contract as the single-cell / spatial / single-cell-atac plugins:
 (disjoin/reduce to build the consensus peakset; min_occupancy decides the region universe) → `chip_count`
 (summarizeOverlaps counting + normalization) → `chip_diff` (DiffBind DESeq2/edgeR for TF/narrow/CUT&Tag;
 csaw window method for broad marks) → `chip_annotate` (ChIPseeker genomic feature distribution/nearest gene/TSS
-distance + coverage profile/heatmap) → `chip_visualize` (sample PCA + peak overlap UpSet).
+distance + coverage profile/heatmap) → `chip_visualize` (sample PCA + peak overlap UpSet) →
+`chip_super_enhancer` (ROSE enhancer stitching within 12.5 kb and tangent inflection SE vs TE calling).
 `chip_notebook` is the parallel teaching path; `chip_env_probe` probes before you promise heavy-dependency capabilities.
 
 ## Genome references (lean strategy)
@@ -107,7 +108,7 @@ tuna mirror, then the host is rewritten back to the official one.
 - **motif enrichment (HOMER/MEME)**: not in the R downstream stack, a gap; motif hits are sequence
   predictions, not measured TF binding.
 - **org.db gene symbols**: needs the user's org.db; when missing, gene ids are reported.
-- **CUT&Tag upstream pipeline**: `nf-core/seacr/callpeak` covers low-background bedGraph peak calling, while full FASTQ-to-SEACR `nf-core/cutandrun` workflow orchestration is not vendored yet; this plugin consumes called SEACR peaks directly.
+- **CUT&Tag upstream pipeline**: `local/workflows/cutandrun` orchestrates `bowtie2` + `seacr`/`macs2` alignment and peak calling, while `nf-core/seacr/callpeak` runs standalone low-background peak calling; this plugin consumes called peaks directly.
 
 ## Relationship to other plugins
 

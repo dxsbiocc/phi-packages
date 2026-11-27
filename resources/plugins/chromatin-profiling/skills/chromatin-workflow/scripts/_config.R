@@ -39,6 +39,12 @@ org_db <- flag_str(flags, "org_db")
 tss_upstream <- flag_int(flags, "tss_upstream", 3000L)
 tss_downstream <- flag_int(flags, "tss_downstream", 3000L)
 
+stitch_distance <- flag_int(flags, "stitch_distance", 12500L)
+tss_exclude_bp <- flag_int(flags, "tss_exclude_bp", 2500L)
+tss_bed <- flag_str(flags, "tss_bed")
+se_signal_col <- flag_str(flags, "signal_col")
+se_output <- flag_str(flags, "se_output", "super_enhancers.tsv")
+
 # If the primary input is itself a DiffBind sample sheet, treat it as such so the
 # load-peaks / load-bam fragments derive their paths from its columns.
 if ((is.null(sample_sheet_path) || !nzchar(sample_sheet_path)) &&

@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "tool",
+    "other_label",
+    "peak_agg",
+    "n_shared_features",
+    "pearson_r",
+    "pearson_p",
+    "spearman_rho",
+    "spearman_p",
+    "fisher_concordance_or",
+    "fisher_concordance_p",
+    "quadrant_counts",
+    "top_concordant_up",
+    "top_concordant_down",
+    "top_discordant",
+    "outputs",
+    "artifacts"
+  ],
+  "properties": {
+    "tool": { "type": "string", "const": "rna_nine_quadrant" },
+    "other_label": { "type": "string" },
+    "peak_agg": { "type": "string" },
+    "thresholds": { "type": "object" },
+    "n_shared_features": { "type": "integer" },
+    "pearson_r": { "type": "number" },
+    "pearson_p": { "type": "number" },
+    "spearman_rho": { "type": "number" },
+    "spearman_p": { "type": "number" },
+    "fisher_concordance_or": { "type": "number" },
+    "fisher_concordance_p": { "type": "number" },
+    "quadrant_counts": { "type": "object" },
+    "top_concordant_up": { "type": "array", "items": { "type": "object" } },
+    "top_concordant_down": { "type": "array", "items": { "type": "object" } },
+    "top_discordant": { "type": "array", "items": { "type": "object" } },
+    "outputs": { "type": "object" },
+    "scientificContext": { "type": "object" },
+    "artifacts": { "type": "array", "items": { "type": "string" } }
+  }
+}

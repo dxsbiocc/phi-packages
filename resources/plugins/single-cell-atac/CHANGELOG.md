@@ -1,5 +1,12 @@
 # Changelog — single-cell-atac
 
+## 0.2.0 (2026-11-27)
+
+- 新增单细胞 TF Motif 偏差与增强子-基因关联分析（零新增 Conda 依赖）：
+  - `scatac_tf_deviation`（`assets/fragments/tf-deviation.py`）：纯 Python/NumPy 实现 Schep et al. 2017 chromVAR 模型——5×5 GC 含量与平均可及性分位数匹配背景峰抽样、偏倚校正及逐细胞 TF deviation z-score（写入 `obsm["X_tf_deviation"]` 与 `tf_variability.tsv`），支持 `peak×TF` 二值表或基于 `genome_fasta + motif_db (.meme)` 的内置 PWM 扫描。
+  - `scatac_peak2gene`（`assets/fragments/peak2gene.py`）：在 `±max_distance`（默认 250 kb）窗口内关联 scATAC peak 与配对/簇级 scRNA 表达（Pearson $r$、Spearman $\rho$），通过跨染色体经验零分布估计 p 值与 BH FDR 并标记启动子/远端增强子。
+  - 同步新增 Preset 7、`step-notes/{tf-deviation,peak2gene}.md` 及 `SKILL.md` / `Agent` 文档。
+
 ## 0.1.3 (2026-11-25)
 
 - 为 `scatac-workflow` 全部脚本工具与 `scatac_notebook` 补齐 `output` JSON Schema 声明（`step-result.json`、`notebook-result.json`）。

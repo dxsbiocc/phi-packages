@@ -4,14 +4,15 @@ description: >-
   Run a Seurat single-cell RNA-seq workflow on a Seurat object or 10x matrix:
   inspect the input, quality control and doublet detection, normalization,
   variable features, PCA, clustering, UMAP/t-SNE, marker genes, cell-type
-  annotation from a marker panel, and pseudobulk aggregation for sample-level
+  annotation from a marker panel, heteromeric ligand-receptor cell-cell
+  communication screening, and pseudobulk aggregation for sample-level
   comparison. Use for 单细胞分析, scRNA-seq, Seurat, 质控, 降维聚类, marker 基因,
-  细胞类型注释, pseudobulk, or when a .rds / 10x matrix needs a reproducible
-  analysis chain. Not for spatial transcriptomics, scATAC-seq, trajectory
-  inference, or cell-cell communication (those need packages the plugin
-  environment omits; run env_probe first and see the module notes). Also indexes
-  the scNotebooks teaching curriculum: use for 单细胞课程, scNotebooks, 教学,
-  培训材料, 模块 1-13, 学习路径 (references/maintainers/scnotebooks-curriculum.md).
+  细胞类型注释, 细胞通讯, 配受体, pseudobulk, or when a .rds / 10x matrix needs a
+  reproducible analysis chain. Not for spatial transcriptomics, scATAC-seq, or
+  trajectory inference (those need packages the plugin environment omits; run
+  env_probe first and see the module notes). Also indexes the scNotebooks
+  teaching curriculum: use for 单细胞课程, scNotebooks, 教学, 培训材料, 模块 1-13,
+  学习路径 (references/maintainers/scnotebooks-curriculum.md).
 phi:
   environment: plugin:seurat
   attachTo:
@@ -325,6 +326,56 @@ phi:
       approval: write
       output: ./schemas/step-result.json
       timeoutSeconds: 1800
+    - name: communication
+      description: >-
+        Screen heteromeric ligand-receptor cell-cell communication across
+        clusters/cell types using a pure-R CellPhoneDB subunit-minimum
+        permutation test (with BH FDR) on the unscaled RNA data layer, writing
+        interactions.tsv plus sender-receiver heatmap and dotplot PNGs.
+      run: [Rscript, ./scripts/communication.R]
+      args:
+        type: object
+        additionalProperties: false
+        required: [input]
+        properties:
+          input:
+            type: string
+            format: input-path
+            description: Clustered or annotated Seurat object saved as .rds.
+          interactions_output:
+            type: string
+            format: project-path
+            description: Output TSV path for tested interactions (default communication/interactions.tsv).
+          figures_dir:
+            type: string
+            format: project-path
+            description: Directory for communication heatmap and dotplot PNGs; omit to skip figures.
+          group_by:
+            type: string
+            description: Metadata column defining sender/receiver cell populations (default cell_type).
+          interactions_path:
+            type: string
+            format: input-path
+            description: Optional custom ligand-receptor TSV/CSV (ligand, receptor); omit for curated starter pairs.
+          assay:
+            type: string
+            description: Assay name to read normalized expression from (default active assay).
+          min_pct:
+            type: number
+            description: Minimum expressed cell fraction per subunit (default 0.10).
+          n_perms:
+            type: integer
+            minimum: 50
+            description: Cell-label permutations for empirical p-values (default 200).
+          fdr:
+            type: number
+            description: BH FDR cutoff for significant interactions (default 0.05).
+          seed:
+            type: integer
+            description: Random seed (default 42).
+      approval: write
+      output: ./schemas/step-result.json
+      timeoutSeconds: 1800
     - name: notebook
       description: >-
         Render a runnable analysis notebook into the project from the fragment
@@ -333,7 +384,7 @@ phi:
         input data and the requested steps, and every tunable value lands in one
         config cell at the top that the analysis cells reference. Pick a preset
         with module (4 QC-to-pseudobulk, 5 plus batch comparison, 8 plus protein
-        assay, 9 plus clonotype join) or name steps directly; dependencies are
+        assay, 9 plus clonotype join, 10 plus cell-cell communication) or name steps directly; dependencies are
         added automatically. inject adds an external R or Python script as a
         code cell; merge splices in another notebook, whole or a cell range.
         All sources must match the notebook language (one kernel per notebook).
@@ -349,13 +400,13 @@ phi:
         properties:
           module:
             type: integer
-            enum: [4, 5, 8, 9]
-            description: scNotebooks module preset. Pass module or steps, not both.
+            enum: [4, 5, 8, 9, 10]
+            description: scNotebooks/extended module preset. Pass module or steps, not both.
           steps:
             type: array
             items:
               type: string
-              enum: [setup, load, qc-metrics, qc-plots, doublets, filter, normalize, hvg, scale, pca, cluster, markers, annotate, assign-labels, pseudobulk, save, batch-compare, adt-assay, clonotypes]
+              enum: [setup, load, qc-metrics, qc-plots, doublets, filter, normalize, hvg, scale, pca, cluster, markers, annotate, assign-labels, pseudobulk, save, batch-compare, adt-assay, clonotypes, communication]
             description: >-
               Steps to render instead of a preset; declared dependencies are
               added automatically. Pass module or steps, not both.
@@ -493,6 +544,7 @@ install packages inside the read-only environment.
 4. `sc_markers` — marker genes per cluster, as tables.
 5. `sc_annotate` — labels from a marker panel or an explicit mapping.
 6. `sc_pseudobulk` — sample-level counts for differential expression.
+7. `sc_communication` — heteromeric ligand-receptor permutation screening across cell types.
 
 Skip a step only when the object already contains its result; `sc_inspect`
 says which results are present.

@@ -1,0 +1,15 @@
+name: cutandrun
+description: CUT&RUN and CUT&Tag alignment and peak-calling workflow composing vendored nf-core Bowtie2, SEACR, and MACS2 modules; called peaks feed directly into chromatin-profiling.
+keywords:
+  - cutandrun
+  - cutandtag
+  - seacr
+  - bowtie2
+  - macs2
+  - chromatin-profiling
+components:
+  - nf-core/bowtie2/align
+  - nf-core/seacr/callpeak
+  - nf-core/macs2/callpeak
+authors:
+  - "@phi-packages"

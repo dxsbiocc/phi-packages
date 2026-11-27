@@ -1,0 +1,15 @@
+{
+  "id": "rnasplice_run",
+  "gtf": null,
+  "bam_samplesheet": null,
+  "tx_tpm_cond1": null,
+  "tx_tpm_cond2": null,
+  "condition1_name": "cond1",
+  "condition2_name": "cond2",
+  "run_rmats": true,
+  "run_suppa": true,
+  "read_length": 150,
+  "suppa_event_type": "SE SS MX RI FL",
+  "suppa_method": "empirical",
+  "outdir": "results/rnasplice"
+}

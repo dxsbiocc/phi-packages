@@ -1,0 +1,15 @@
+{
+  "id": "vina_screen",
+  "receptor": null,
+  "ligands_dir": null,
+  "center_x": 0.0,
+  "center_y": 0.0,
+  "center_z": 0.0,
+  "size_x": 22.0,
+  "size_y": 22.0,
+  "size_z": 22.0,
+  "exhaustiveness": 8,
+  "num_modes": 9,
+  "cpu_per_ligand": 4,
+  "outdir": "results/autodock_vina"
+}

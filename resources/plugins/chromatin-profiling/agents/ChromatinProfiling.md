@@ -6,8 +6,8 @@ description: >-
   From called peaks (BED/narrowPeak/broadPeak), a DiffBind sample sheet, a peak×sample count table,
   indexed BAMs, bigWig or .rds, it runs QC (FRiP, replicate overlap), blacklist filtering, consensus
   peaks, counting/normalization, PCA/UpSet, differential binding (DiffBind+DESeq2/edgeR for TF/narrow
-  marks & CUT&Tag; csaw for broad marks), and ChIPseeker annotation. Alignment/peak calling run in
-  nf-core/chipseq (ChIP) or nf-core/seacr/callpeak (CUT&Tag). csaw on darwin-arm64, IDR, profileplyr,
+  marks & CUT&Tag; csaw for broad marks), ChIPseeker annotation, and ROSE super-enhancers. Alignment/peak calling run in
+  nf-core/chipseq (ChIP), local/workflows/cutandrun, or nf-core/seacr/callpeak (CUT&Tag). csaw on darwin-arm64, IDR, profileplyr,
   HOMER/MEME and org.db symbols are reported gaps; single-cell ATAC lives in single-cell-atac.
 tools:
   - read
@@ -78,7 +78,7 @@ single-cell ATAC goes to single-cell-atac (Python/snapatac2), not here.
 - **The input starting point is called peaks**: BED/narrowPeak/broadPeak (preferred), a DiffBind sample sheet CSV
   (SampleID/Condition/Replicate/Peaks/PeakCaller/bamReads), a peak×sample count table, indexed BAM, bigWig, a
   saved .rds. **Raw read alignment/peak calling is not done here**: ChIP goes to the nf-core/chipseq wrapper,
-  and CUT&Tag peak calling goes to the nf-core/seacr/callpeak module wrapper (or user SEACR peaks). narrowPeak/broadPeak carry signal columns, which
+  and CUT&Tag/CUT&RUN alignment + peak calling go to local/workflows/cutandrun or the nf-core/seacr/callpeak module wrapper (or user SEACR peaks). narrowPeak/broadPeak carry signal columns, which
   rtracklayer keeps as metadata; a plain BED is three columns.
 - **The genome reference is a prerequisite for annotation**: blacklist BED (ENCODE hg38/mm10 inlined in
   `assets/fragments/blacklist-filter.R`, base64-gzip, so both the scripts and the notebook can filter offline),

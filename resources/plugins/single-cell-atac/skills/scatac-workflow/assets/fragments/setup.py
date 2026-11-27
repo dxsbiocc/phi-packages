@@ -157,6 +157,8 @@ annotation_assignments = None
 annotation_automated = None
 motif_results = None
 integration_info = None
+tfdev_info = None
+peak2gene_info = None
 
 
 # snapatac2 plotting returns a plotly Figure ONLY with show=False; otherwise it

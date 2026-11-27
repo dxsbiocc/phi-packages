@@ -238,6 +238,69 @@ class TestBulkRnaSeqPlugin(unittest.TestCase):
             self.assertTrue((ps_dir / "pathway-group-tests.tsv").is_file())
             self.assertTrue((ps_dir / "pathway-activity-heatmap.png").is_file())
 
+    def test_04_nine_quadrant_cross_modal_integration(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            rna_tsv = tmp_path / "rna_de.tsv"
+            atac_tsv = tmp_path / "atac_peaks.tsv"
+            rna_rows = [
+                "gene\tlog2FoldChange\tpadj",
+                "TP53\t2.4\t1e-6",
+                "CDKN1A\t1.9\t2e-5",
+                "MYC\t-2.1\t5e-6",
+                "CDK4\t-1.6\t1e-4",
+                "FOXO3\t1.8\t3e-4",
+                "GAPDH\t0.1\t0.85",
+                "ACTB\t-0.2\t0.70",
+                "BCL2\t0.2\t0.65",
+            ]
+            atac_rows = [
+                "peak_id\tgene_name\tFold\tFDR\tdistanceToTSS",
+                "p1\tTP53\t1.5\t0.001\t120",
+                "p2\tTP53\t0.4\t0.40\t45000",
+                "p3\tCDKN1A\t1.1\t0.004\t300",
+                "p4\tMYC\t-1.4\t0.002\t80",
+                "p5\tCDK4\t-0.9\t0.01\t1500",
+                "p6\tFOXO3\t-1.2\t0.005\t210",
+                "p7\tGAPDH\t0.1\t0.90\t50",
+                "p8\tACTB\t-0.1\t0.80\t90",
+                "p9\tBCL2\t1.3\t0.002\t600",
+            ]
+            rna_tsv.write_text("\n".join(rna_rows) + "\n", encoding="utf-8")
+            atac_tsv.write_text("\n".join(atac_rows) + "\n", encoding="utf-8")
+
+            nq_dir = tmp_path / "nine_quadrant"
+            nq_res = _run_json(
+                [
+                    sys.executable,
+                    "-B",
+                    str(RNA_SCRIPTS / "rna_nine_quadrant.py"),
+                    "--rna_de",
+                    str(rna_tsv),
+                    "--other_de",
+                    str(atac_tsv),
+                    "--other_label",
+                    "ATAC",
+                    "--peak_agg",
+                    "nearest_tss",
+                    "--output_dir",
+                    str(nq_dir),
+                ]
+            )
+            self.assertEqual(nq_res["tool"], "rna_nine_quadrant")
+            self.assertEqual(nq_res["peak_agg"], "nearest_tss")
+            self.assertEqual(nq_res["n_shared_features"], 8)
+            counts = nq_res["quadrant_counts"]
+            self.assertEqual(counts["Q1_rna_up_other_up"], 2)
+            self.assertEqual(counts["Q9_rna_down_other_down"], 2)
+            self.assertEqual(counts["Q7_rna_up_other_down"], 1)
+            self.assertEqual(counts["Q2_rna_ns_other_up"], 1)
+            self.assertEqual(counts["Q5_rna_ns_other_ns"], 2)
+            self.assertTrue((nq_dir / "nine-quadrant-genes.tsv").is_file())
+            self.assertTrue((nq_dir / "nine-quadrant-summary.tsv").is_file())
+            self.assertTrue((nq_dir / "nine-quadrant-plot.png").is_file())
+            self.assertTrue((nq_dir / "nine-quadrant-plot.png.phi-artifact.json").is_file())
+
 
 if __name__ == "__main__":
     unittest.main()

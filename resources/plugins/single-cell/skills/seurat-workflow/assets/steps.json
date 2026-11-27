@@ -255,6 +255,31 @@
       "type": "string",
       "default": null,
       "comment": "assay to work on; null keeps the default"
+    },
+    "interactions_path": {
+      "type": "string",
+      "default": null,
+      "comment": "optional ligand-receptor TSV/CSV (ligand, receptor); null uses curated starter pairs"
+    },
+    "ccc_min_pct": {
+      "type": "number",
+      "default": 0.1,
+      "comment": "minimum fraction of cells expressing every subunit in sender/receiver group"
+    },
+    "ccc_perms": {
+      "type": "int",
+      "default": 200,
+      "comment": "cell-label permutations for ligand-receptor empirical p-values"
+    },
+    "ccc_fdr": {
+      "type": "number",
+      "default": 0.05,
+      "comment": "BH FDR cutoff for significant ligand-receptor interactions"
+    },
+    "ccc_output": {
+      "type": "string",
+      "default": "communication/interactions.tsv",
+      "comment": "output TSV path for tested ligand-receptor interactions"
     }
   },
   "steps": [
@@ -388,6 +413,13 @@
       "requires": [
         "cluster"
       ]
+    },
+    {
+      "id": "communication",
+      "title": "Cell-cell communication",
+      "requires": [
+        "cluster"
+      ]
     }
   ],
   "presets": {
@@ -480,6 +512,28 @@
         "pseudobulk",
         "save",
         "clonotypes"
+      ]
+    },
+    "10": {
+      "title": "Module 10 — Cell-cell communication",
+      "intro": "The annotated chain plus heteromeric ligand-receptor cell-cell communication\nscreening (CellPhoneDB subunit-minimum rule + cell-label permutation FDR) on the\nunscaled RNA data layer, producing a sender-receiver hub heatmap and top L-R\ndotplot without external LIANA dependencies.",
+      "steps": [
+        "setup",
+        "load",
+        "qc-metrics",
+        "qc-plots",
+        "doublets",
+        "filter",
+        "normalize",
+        "hvg",
+        "scale",
+        "pca",
+        "cluster",
+        "markers",
+        "annotate",
+        "assign-labels",
+        "communication",
+        "save"
       ]
     }
   }

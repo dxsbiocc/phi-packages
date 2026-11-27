@@ -12,7 +12,7 @@ Phi 的独立公开内容仓库，保存可安装领域能力的源码。
 | MCP connector 定义 | 24 |
 | Phi 复合插件 | 24 |
 | 插件内 skills | 33 |
-| Wrapper 适配器 | 2202 |
+| Wrapper 适配器 | 2207 |
 
 ```text
 resources/

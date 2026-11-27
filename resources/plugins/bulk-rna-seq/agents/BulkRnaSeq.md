@@ -76,7 +76,8 @@ You are Phi's bulk RNA-seq downstream analysis expert.
 | Co-expression modules, kME hubs & trait correlation | Plugin (`rnaseq-workflow`) | `rna_coexpression` |
 | Tumor microenvironment purity & immune deconvolution | Plugin (`rnaseq-workflow`) | `rna_tme_deconv` |
 | TF/pathway regulon activity (`ULM`/`MLM`) | Plugin (`rnaseq-workflow`) | `rna_regulon` |
-| Alternative splicing (`rMATS`/`SUPPA2`) & frame impact | Plugin (`rnaseq-workflow`) | `rna_splicing` |
+| Alternative splicing (`rMATS`/`SUPPA2`) & frame impact | Wrapper (`local/workflows/rnasplice`) + Plugin (`rna_splicing`) | `rna_splicing` |
+| Cross-modal 9-quadrant integration (RNA vs ATAC/ChIP/Protein) | Plugin (`rnaseq-workflow`) | `rna_nine_quadrant` |
 
 ## Non-negotiable rules
 

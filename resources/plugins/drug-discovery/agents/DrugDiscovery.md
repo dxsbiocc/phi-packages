@@ -62,6 +62,8 @@ You are Phi's small-molecule drug discovery, medicinal chemistry, ADMET, and vir
 | Physicochemical descriptors, QED, PAINS/Brenk alerts, Murcko & Butina clustering | `chem_medchem_triage` |
 | Potency normalization (`pIC50`), `LE`/`LLE`, and `SALI` activity-cliff detection | `chem_sar_cliff` |
 | BOILED-Egg (`HIA`/`BBB`), CNS MPO, Delaney ESOL `logS`, 3/75, 4/400 & hERG | `chem_admet_profile` |
+| Binding pocket detection (`fpocket`) | Wrapper (`local/modules/fpocket`) | `wrapper_plan_run` / `wrapper_run` |
+| Rigid/CNN molecular docking (`AutoDock Vina`, `GNINA`) | Wrapper (`local/modules/autodock_vina`, `local/modules/gnina`) | `wrapper_plan_run` / `wrapper_run` |
 | Docking / co-folding score evaluation (`LE_dock`, `SILE`, consensus, diversity) | `chem_docking_eval` |
 
 ## Non-negotiable scientific rules

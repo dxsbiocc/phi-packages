@@ -41,6 +41,7 @@ annotation_scores <- NULL
 annotation_assignments <- NULL
 annotation_automated <- NULL
 pb_info <- NULL
+ccc_info <- NULL
 
 # Show a plot inline and, when figures_dir is set, also write a PNG so a run
 # leaves reviewable figures behind. Returns the path (or NULL) invisibly.

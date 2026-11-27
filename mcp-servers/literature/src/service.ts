@@ -14,6 +14,7 @@ import {
   getCrossrefWork,
   getEuropePmcByQuery,
   getOpenAlexWork,
+  getPubtator3Annotations,
   getSemanticScholar,
   hydrateOpenAlex,
   openAlexByFilter,
@@ -25,6 +26,7 @@ import {
   searchEuropePmc,
   searchOpenAlex,
   searchPubmed,
+  searchPubtator3,
   searchSemanticScholar,
   unpaywall,
   type HitPage,
@@ -78,6 +80,8 @@ function queryOf(input: SearchInput): Query {
   };
 }
 
+const PUBTATOR_ENTITY_RE = /@(?:GENE|DISEASE|CHEMICAL|VARIANT|SPECIES|CELLLINE)_|\brelations:/i;
+
 function route(input: SearchInput): LiteratureSourceName[] {
   if (input.sources && input.sources.length > 0) {
     if (input.sources.length > 3) throw new InputError("Pass at most 3 sources. The default queries one database chosen for the task.");
@@ -87,11 +91,13 @@ function route(input: SearchInput): LiteratureSourceName[] {
     if (!input.query?.trim()) return [input.server ?? "biorxiv"];
     return ["europepmc"];
   }
+  if (input.query && PUBTATOR_ENTITY_RE.test(input.query)) return ["pubtator3"];
   return ["pubmed"];
 }
 
 async function searchOne(client: JsonClient, source: LiteratureSourceName, query: Query): Promise<HitPage> {
   if (source === "pubmed") return searchPubmed(client, query);
+  if (source === "pubtator3") return searchPubtator3(client, query);
   if (source === "europepmc") return searchEuropePmc(client, query);
   if (source === "openalex") return searchOpenAlex(client, query);
   if (source === "crossref") return searchCrossref(client, query);
@@ -395,4 +401,41 @@ export async function resolveReferences(client: JsonClient, input: { references:
     summary: "Batch resolution of a reference list. DOI and PMID lookups are batched. Unresolved lines are listed in source_extra.unresolved.",
     url: "https://github.com/dxsbiocc/phi-packages",
   }, { requested: input.references.length, unresolved });
+}
+
+export async function getEntityAnnotations(client: JsonClient, input: { id: string }): Promise<ToolResult> {
+  const parsed = classifyReference(input.id);
+  if (parsed.kind === "citation") {
+    return failure(providerMeta.pubtator3.source, "invalid_input", "get_entity_annotations requires a DOI, PMID, PMCID, arXiv, OpenAlex, or Semantic Scholar id", false);
+  }
+  const loaded = await loadParsed(client, parsed);
+  if (!loaded) {
+    return failure(providerMeta.pubtator3.source, "not_found", `No publication found for ${input.id}`, false);
+  }
+  let publication = loaded.publication;
+  let pmid = publication.id.startsWith("pmid:")
+    ? publication.id.slice(5)
+    : publication.xrefs.find((id) => id.startsWith("pmid:"))?.slice(5) ?? null;
+  if (!pmid && publication.doi) {
+    const europe = await getEuropePmcByQuery(client, `DOI:${publication.doi}`);
+    if (europe) {
+      publication = combinePublications(publication, europe);
+      pmid = publication.id.startsWith("pmid:")
+        ? publication.id.slice(5)
+        : publication.xrefs.find((id) => id.startsWith("pmid:"))?.slice(5) ?? null;
+    }
+  }
+  if (!pmid) {
+    return failure(providerMeta.pubtator3.source, "not_found", `No PMID is available for ${input.id}; PubTator 3.0 entity annotations require a PMID`, false);
+  }
+  const entities = await getPubtator3Annotations(client, pmid);
+  if (!entities) {
+    return failure(providerMeta.pubtator3.source, "not_found", `No PubTator 3.0 entity annotations found for pmid:${pmid}`, false);
+  }
+  const meta = providerMeta.pubtator3;
+  return makePage("publication", show([publication], false), 0, 1, 1, meta.source, { summary: meta.summary, url: meta.url }, {
+    provider: "pubtator3",
+    pmid,
+    entities,
+  });
 }

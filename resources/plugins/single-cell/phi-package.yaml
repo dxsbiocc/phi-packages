@@ -1,13 +1,13 @@
 schemaVersion: 1
 id: single-cell
 type: plugin
-version: 0.7.2
+version: 0.8.0
 title: Single-cell
 summary: >-
   Two parallel single-cell toolchains: R/Seurat 6 (sc_) and Python/scanpy 1.13
-  (sc_py_), privately locked. Shared fragment libraries drive scripts and
-  notebooks: QC, clustering, integration, markers, annotation and pseudobulk on
-  both routes, plus PAGA/pseudotime and L-R communication in Python.
+  (sc_py_), privately locked. Both routes cover QC, clustering, markers,
+  annotation, pseudobulk and L-R communication, plus PAGA trajectory and
+  AUCell/ULM TF regulons in Python.
 toolPrefix: sc
 components:
   agents:

@@ -1,20 +1,16 @@
 ---
 name: scatac-workflow
 description: >-
-  Run a single-cell ATAC-seq chromatin-accessibility workflow on 10x Cell Ranger
-  ATAC fragments.tsv.gz, a BAM, a saved .h5ad or a peak/tile matrix: inspect the
-  input and genome, QC (fragment count, duplication, mitochondrial fraction, TSS
-  enrichment), scrublet doublet removal, a tile matrix, feature selection,
-  spectral embedding (LSI-like), kNN/Leiden clustering, UMAP, per-cluster MACS3
-  peak calling and a merged peak matrix, marker regions and optional pairwise
-  differential accessibility, gene activity and cell-type annotation (marker
-  panel or scRNA label transfer), motif enrichment, and sample integration
-  (Harmony/Scanorama/MNN). Use for 单细胞ATAC, scATAC, ATAC-seq, 染色质可及性,
-  表观基因组, snapatac2, fragments, TSSe, peak calling, 差异可及性, motif 富集,
-  gene activity, .fragments.gz. Python route (snapatac2 2.10 + scanpy 1.12);
-  chromVAR/ArchR/Signac (R) and episcanpy (numpy 2 incompatible) are reported
-  gaps. Not for raw reads (cellranger-atac/chromap wrappers) or bulk ChIP/CUT&Tag
-  (the chromatin-profiling sibling).
+  Single-cell ATAC-seq downstream workflow (snapatac2 2.10 + scanpy 1.12) from
+  10x fragments.tsv.gz, BAM, .h5ad, or peak/tile matrices: inspect, QC (TSSe,
+  frac_mito), scrublet doublets, spectral embedding, kNN/Leiden/UMAP, MACS3 peaks,
+  marker regions & pairwise DA, gene activity & scRNA label transfer, motif
+  enrichment, GC-matched chromVAR TF deviations, cis Peak-to-Gene linkage, and
+  Harmony/Scanorama/MNN integration. Use for 单细胞ATAC, scATAC, ATAC-seq,
+  染色质可及性, 表观基因组, snapatac2, fragments, TSSe, peak calling, 差异可及性,
+  motif 富集, chromVAR, TF deviation, peak2gene, gene activity, .fragments.gz.
+  ArchR/Signac (R) and episcanpy (numpy 2) are gaps; raw reads run on wrappers
+  and bulk ChIP/CUT&Tag belongs to chromatin-profiling.
 phi:
   environment: plugin:scatac
   attachTo:
@@ -559,6 +555,128 @@ phi:
       approval: write
       output: ./schemas/step-result.json
       timeoutSeconds: 3600
+    - name: tf_deviation
+      description: >-
+        Compute GC- and accessibility-matched chromVAR-style per-cell TF motif
+        deviation z-scores (Schep et al. 2017) across peaks using either a peak
+        x TF match matrix or genome FASTA + MEME PWM scanning, writing
+        tf_deviations.tsv, tf_variability.tsv, and summary PNG.
+      run: [python, ./scripts/tf_deviation.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [input]
+        properties:
+          input:
+            type: string
+            format: input-path
+            description: Peak AnnData (.h5ad) or peak x cell TSV/CSV count matrix.
+          output:
+            type: string
+            format: project-path
+            description: Optional .h5ad output path when input is .h5ad.
+          tfdev_output:
+            type: string
+            format: project-path
+            description: Output TSV path for per-cell TF deviation z-scores (default regulon/tf_deviations.tsv).
+          figures_dir:
+            type: string
+            format: project-path
+            description: Directory for TF deviation summary PNG.
+          motif_matches:
+            type: string
+            format: input-path
+            description: Peak x TF binary/weight TSV/CSV matrix; alternative to genome_fasta + motif_db.
+          genome_fasta:
+            type: string
+            format: input-path
+            description: Genome FASTA for GC calculation and optional MEME motif scanning.
+          motif_db:
+            type: string
+            format: input-path
+            description: MEME motif database file when scanning genome_fasta.
+          peak_gc:
+            type: string
+            format: input-path
+            description: Optional peak GC fraction TSV/CSV (peak, gc).
+          meta_path:
+            type: string
+            format: input-path
+            description: Optional barcode metadata TSV/CSV for cluster heatmap when input is a matrix.
+          group_by:
+            type: string
+            description: Metadata column grouping cells (default leiden).
+          n_background:
+            type: integer
+            minimum: 10
+            description: Matched background peak draws per TF (default 50).
+          seed:
+            type: integer
+            description: Random seed (default 0).
+      approval: write
+      output: ./schemas/step-result.json
+      timeoutSeconds: 1800
+    - name: peak2gene
+      description: >-
+        Link cis candidate regulatory peaks to target genes within max_distance
+        bp of gene TSSs by correlating ATAC accessibility with paired/cluster-matched
+        scRNA expression, calibrated against a trans-chromosome empirical null and
+        BH FDR.
+      run: [python, ./scripts/peak2gene.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [input, rna_input]
+        properties:
+          input:
+            type: string
+            format: input-path
+            description: scATAC peak AnnData (.h5ad) or peak x cell TSV/CSV matrix.
+          rna_input:
+            type: string
+            format: input-path
+            description: Paired scRNA AnnData (.h5ad) or gene x cell TSV/CSV expression matrix.
+          gene_tss:
+            type: string
+            format: input-path
+            description: Gene TSS coordinate TSV/CSV (gene, chrom, tss); alternative to gene_anno.
+          gene_anno:
+            type: string
+            format: input-path
+            description: Gene annotation GTF/GFF3 used when gene_tss is omitted.
+          meta_path:
+            type: string
+            format: input-path
+            description: Optional ATAC barcode metadata TSV/CSV for cluster-level pairing.
+          rna_meta:
+            type: string
+            format: input-path
+            description: Optional RNA barcode metadata TSV/CSV for cluster-level pairing.
+          group_by:
+            type: string
+            description: Shared cluster column when cells are unpaired across modalities (default leiden).
+          max_distance:
+            type: integer
+            minimum: 1000
+            description: Maximum cis distance (bp) around gene TSS (default 250000).
+          n_null:
+            type: integer
+            minimum: 10
+            description: Trans-chromosome background random pairs for empirical FDR (default 200).
+          links_output:
+            type: string
+            format: project-path
+            description: Output TSV path for peak2gene links (default peak2gene/peak2gene_links.tsv).
+          figures_dir:
+            type: string
+            format: project-path
+            description: Directory for Peak2Gene summary PNG.
+          seed:
+            type: integer
+            description: Random seed (default 0).
+      approval: write
+      output: ./schemas/step-result.json
+      timeoutSeconds: 1800
     - name: notebook
       description: >-
         Render a runnable scATAC analysis notebook into the project from the
@@ -567,7 +685,7 @@ phi:
         from the input data and the requested steps, and every tunable value
         lands in one config cell at the top that the analysis cells reference.
         Pick a preset with module (1 QC, 2 preprocess+cluster, 3 peaks+markers,
-        4 gene activity+annotation, 5 motif+integration, 6 full chain) or name
+        4 gene activity+annotation, 5 motif+integration, 6 full chain, 7 TF deviations+peak2gene) or name
         steps directly; dependencies are added automatically. inject adds an
         external Python script as a code cell; merge splices in another
         notebook, whole or a cell range. Starts from fragments.tsv.gz, a BAM, a
@@ -582,13 +700,13 @@ phi:
         properties:
           module:
             type: integer
-            enum: [1, 2, 3, 4, 5, 6]
+            enum: [1, 2, 3, 4, 5, 6, 7]
             description: scATAC preset. Pass module or steps, not both.
           steps:
             type: array
             items:
               type: string
-              enum: [setup, blacklist, load, qc-metrics, qc-plots, filter, features, embed, cluster, peaks, markers, gene-activity, annotate, motif, integrate, save]
+              enum: [setup, blacklist, load, qc-metrics, qc-plots, filter, features, embed, cluster, peaks, markers, gene-activity, annotate, motif, tf-deviation, peak2gene, integrate, save]
             description: >-
               Steps to render instead of a preset; declared dependencies are
               added automatically. Pass module or steps, not both.
@@ -780,7 +898,9 @@ read-only environment.
 5. `scatac_markers` — marker regions per cluster; optional pairwise differential accessibility (run_diff).
 6. `scatac_annotate` — gene activity and labels from a panel, a scRNA reference or an explicit mapping.
 7. `scatac_motif` — motif enrichment on per-cluster marker regions.
-8. `scatac_integrate` — multi-sample batch integration on the spectral embedding.
+8. `scatac_tf_deviation` — GC-matched chromVAR per-cell TF motif deviations.
+9. `scatac_peak2gene` — cis Peak-to-Gene enhancer linkage against paired/cluster scRNA.
+10. `scatac_integrate` — multi-sample batch integration on the spectral embedding.
 
 Each tool re-runs its chain from the input you give it (snapatac2 objects are
 file-backed and heavy to hand off mid-chain), so pass the same raw input and the

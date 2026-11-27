@@ -54,6 +54,7 @@ pb_info = None
 integration_info = None
 traj_info = None
 ccc_info = None
+reg_info = None
 loaded_kind = None
 
 

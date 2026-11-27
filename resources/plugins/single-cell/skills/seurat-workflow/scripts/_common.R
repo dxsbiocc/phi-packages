@@ -43,6 +43,7 @@ fail <- function(...) {
   "find_markers.R" = "sc_markers",
   "annotate_clusters.R" = "sc_annotate",
   "pseudobulk.R" = "sc_pseudobulk",
+  "communication.R" = "sc_communication",
   "env_probe.R" = "sc_env_probe"
 )
 

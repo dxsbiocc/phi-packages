@@ -1,0 +1,81 @@
+schemaVersion: 1
+id: gnina
+kind: module
+source: local
+category: drug-discovery
+title: GNINA
+summary: Deep-learning CNN-rescored molecular docking with GNINA outputting SDF poses and a normalized score_table.tsv for chem_docking_eval.
+entrypoint: wrapper/main.nf
+config: wrapper/nextflow.config
+defaultsFile: wrapper/params.json
+parameters:
+  - name: id
+    type: string
+    default: gnina_screen
+    description: Run identifier used as output filename prefix.
+  - name: receptor
+    type: file
+    required: true
+    description: Receptor structure file (.pdb or .pdbqt).
+  - name: ligands
+    type: file
+    required: true
+    description: Ligand library file (.sdf, .sdf.gz, .mol2, or .pdbqt).
+  - name: autobox_ligand
+    type: file
+    description: Optional reference co-crystal ligand for automatic pocket box sizing.
+  - name: center_x
+    type: number
+    default: 0.0
+    description: Docking box center X coordinate (Angstrom).
+  - name: center_y
+    type: number
+    default: 0.0
+    description: Docking box center Y coordinate (Angstrom).
+  - name: center_z
+    type: number
+    default: 0.0
+    description: Docking box center Z coordinate (Angstrom).
+  - name: size_x
+    type: number
+    default: 22.0
+    description: Docking box size along X (Angstrom).
+  - name: size_y
+    type: number
+    default: 22.0
+    description: Docking box size along Y (Angstrom).
+  - name: size_z
+    type: number
+    default: 22.0
+    description: Docking box size along Z (Angstrom).
+  - name: cnn_scoring
+    type: string
+    default: rescore
+    enum: [rescore, all, none, refinement]
+    description: GNINA CNN scoring mode.
+  - name: exhaustiveness
+    type: integer
+    default: 8
+    description: Monte Carlo search exhaustiveness.
+  - name: num_modes
+    type: integer
+    default: 9
+    description: Maximum binding modes saved per ligand.
+  - name: cpu_threads
+    type: integer
+    default: 4
+    description: CPU thread count alongside GPU acceleration.
+  - name: outdir
+    type: string
+    default: results/gnina
+    description: Output directory for docked SDF poses and score tables.
+outputs:
+  - name: poses
+    pattern: "*.docked.sdf.gz"
+    description: Gzipped SDF file with GNINA poses and CNN scores.
+  - name: score_table
+    pattern: "*.score_table.tsv"
+    description: Normalized score table compatible with chem_docking_eval.
+  - name: summary
+    pattern: "*.gnina_summary.json"
+    description: Summary JSON of docked ligands and top CNN scores.

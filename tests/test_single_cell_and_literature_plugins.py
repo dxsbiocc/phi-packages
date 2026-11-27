@@ -166,7 +166,7 @@ class TestSingleCellPlugin(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             dummy_h5 = Path(tmp) / "sample.h5ad"
             dummy_h5.write_bytes(b"")
-            for mod in range(1, 9):
+            for mod in range(1, 10):
                 out_nb = Path(tmp) / f"scanpy_m{mod}.ipynb"
                 res = _run_json(
                     [
@@ -190,7 +190,7 @@ class TestSingleCellPlugin(unittest.TestCase):
 
             dummy_rds = Path(tmp) / "sample.rds"
             dummy_rds.write_bytes(b"")
-            for mod in (4, 5, 8, 9):
+            for mod in (4, 5, 8, 9, 10):
                 out_nb = Path(tmp) / f"seurat_m{mod}.ipynb"
                 res = _run_json(
                     [
@@ -269,7 +269,9 @@ class TestSingleCellPlugin(unittest.TestCase):
             genes = [
                 "MT-CO1", "MT-CO2", "MT-CO3",
                 "TGFB1", "TGFBR1", "TGFBR2", "CCL5", "CCR5", "CXCL12", "CXCR4",
-            ] + [f"GENE{i:02d}" for i in range(10, n_genes)]
+                "CDKN1A", "MDM2", "BAX", "BBC3", "GADD45A",
+                "NFKBIA", "TNFAIP3", "IL1B", "IL6", "CCL2",
+            ] + [f"GENE{i:02d}" for i in range(20, n_genes)]
             samples = [f"S{1 + (i % 4)}" for i in range(n_cells)]
             conds = ["treated" if (i % 4) < 2 else "control" for i in range(n_cells)]
             adata = ad.AnnData(
@@ -374,6 +376,54 @@ class TestSingleCellPlugin(unittest.TestCase):
             self.assertTrue(ccc_tsv.is_file())
             for art in ccc_res.get("artifacts", []):
                 self.assertTrue(Path(art + ".phi-artifact.json").is_file())
+
+            reg_tsv = tdir / "regulon_activity.tsv"
+            reg_res = _run_json(
+                [
+                    sys.executable,
+                    str(SCANPY_SKILL / "scripts" / "regulon.py"),
+                    "--input",
+                    str(pp_h5),
+                    "--group_by",
+                    "condition",
+                    "--regulon_method",
+                    "aucell",
+                    "--min_targets",
+                    "3",
+                    "--regulon_output",
+                    str(reg_tsv),
+                    "--figures_dir",
+                    str(tdir / "figs_reg"),
+                ]
+            )
+            self.assertEqual(reg_res["method"], "aucell")
+            self.assertTrue(reg_tsv.is_file())
+
+    @unittest.skipIf(
+        importlib.util.find_spec("numpy") is None,
+        "numpy not installed in current Python environment",
+    )
+    def test_03b_offline_regulon_aucell_and_ulm_math(self) -> None:
+        import numpy as np
+
+        frag_src = (SCANPY_SKILL / "assets" / "fragments" / "regulon.py").read_text(encoding="utf-8")
+        # Compile just the pure-NumPy/SciPy helper functions above the runtime block
+        helper_src = frag_src.split("if regulon_method not in", 1)[0]
+        ns = {"np": np}
+        exec(helper_src, ns)
+
+        rng = np.random.default_rng(7)
+        # 20 cells x 60 genes; first 10 cells strongly express genes 0..7 (TF1 targets)
+        expr = rng.normal(1.0, 0.2, size=(20, 60))
+        expr[:10, :8] += 6.0
+        aucell = ns["_compute_aucell_scores"](expr, [list(range(8))], top_frac=0.2)
+        self.assertGreater(float(aucell[:10, 0].mean()), float(aucell[10:, 0].mean()) + 0.3)
+
+        w = np.zeros((60, 1), dtype=np.float64)
+        w[:8, 0] = 1.0
+        ulm = ns["_compute_ulm_scores"](expr, w)
+        self.assertGreater(float(ulm[:10, 0].mean()), 3.0)
+        self.assertGreater(float(ulm[:10, 0].mean()), float(ulm[10:, 0].mean()) + 3.0)
 
     def test_04_live_seurat_env_probe_when_seurat_installed(self) -> None:
         rscript = shutil.which("Rscript")

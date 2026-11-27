@@ -1,13 +1,13 @@
 schemaVersion: 1
 id: chromatin-profiling
 type: plugin
-version: 0.1.3
+version: 0.2.0
 title: Chromatin Profiling
 summary: >-
   Downstream bulk ChIP-seq/CUT&Tag/CUT&RUN analysis in R/Bioconductor (chip_),
   privately locked. From peaks, counts, BAMs or bigWigs: FRiP and replicate QC,
-  consensus peaksets, read counting, DiffBind (DESeq2/edgeR) or csaw, ChIPseeker
-  annotation, PCA/UpSet. No alignment or peak calling.
+  consensus peaksets, DiffBind/csaw differential binding, ChIPseeker
+  annotation, PCA/UpSet, and ROSE super-enhancers.
 toolPrefix: chip
 components:
   agents:

@@ -60,6 +60,11 @@
     "ccc_perms": { "type": "int", "default": 500, "comment": "cell-label permutations for ligand-receptor empirical p-values" },
     "ccc_fdr": { "type": "number", "default": 0.05, "comment": "BH FDR cutoff for significant ligand-receptor interactions" },
     "ccc_output": { "type": "string", "default": "communication/interactions.tsv", "comment": "output TSV path for tested ligand-receptor interactions" },
+    "regulons_path": { "type": "string", "default": null, "comment": "optional TF regulon table (source/tf, target/gene, weight) or .gmt; null uses curated 18-TF starter panel" },
+    "regulon_method": { "type": "string", "default": "aucell", "comment": "TF regulon scoring method: aucell or ulm" },
+    "regulon_top_frac": { "type": "number", "default": 0.05, "comment": "top expressed gene fraction for AUCell recovery curve" },
+    "regulon_min_targets": { "type": "int", "default": 5, "comment": "minimum matched target genes to score a TF regulon" },
+    "regulon_output": { "type": "string", "default": "regulon/regulon_activity.tsv", "comment": "output TSV path for cell-by-TF regulon activity scores" },
     "figures_dir": { "type": "string", "default": "figures", "comment": "directory for the PNG copies of every plot" },
     "plot_tag": { "type": "string", "default": "before", "comment": "suffix for the QC plots; the filter pass re-tags them after" }
   },
@@ -82,6 +87,7 @@
     { "id": "assign-labels", "title": "Assign cell types", "requires": ["annotate"] },
     { "id": "trajectory", "title": "Trajectory inference", "requires": ["cluster"] },
     { "id": "communication", "title": "Cell-cell communication", "requires": ["cluster"] },
+    { "id": "regulon", "title": "TF regulon activity (AUCell / ULM)", "requires": ["cluster"] },
     { "id": "pseudobulk", "title": "Aggregate to pseudobulk", "requires": ["cluster"] },
     { "id": "save", "title": "Save the object", "requires": ["load"] }
   ],
@@ -125,6 +131,11 @@
       "title": "Lab 08 — Cell-cell communication",
       "intro": "The annotated chain plus heteromeric ligand-receptor cell-cell communication\nscreening (CellPhoneDB subunit-minimum rule + cell-label permutation FDR) on the\nunscaled lognorm snapshot, producing a sender-receiver hub heatmap and top L-R\ndotplot. Pass interactions_path for an exhaustive OmniPath/CellPhoneDB catalog.",
       "steps": ["setup", "load", "qc-metrics", "qc-plots", "doublets", "filter", "normalize", "hvg", "scale", "pca", "integrate", "batch-compare", "cluster", "markers", "annotate", "assign-labels", "communication", "save"]
+    },
+    "9": {
+      "title": "Lab 09 — TF regulon activity (AUCell / ULM)",
+      "intro": "The annotated chain plus transcription factor regulon activity scoring\n(AUCell recovery AUC or weighted ULM t-statistic) on the unscaled lognorm layer,\nstoring X_regulon in obsm and computing per-group differential activity (BH FDR)\nand a top-TF heatmap.",
+      "steps": ["setup", "load", "qc-metrics", "qc-plots", "doublets", "filter", "normalize", "hvg", "scale", "pca", "integrate", "batch-compare", "cluster", "markers", "annotate", "assign-labels", "regulon", "save"]
     }
   }
 }
