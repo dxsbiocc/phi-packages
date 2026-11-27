@@ -30,9 +30,9 @@ PHI_OMICS_SNIFFER_STATE_DIR=/var/lib/phi-omics-sniffer \
 1. Place initial Parquet snapshot under `/var/lib/phi-omics-sniffer/serving/releases/v_<timestamp>` with relative symlink `/var/lib/phi-omics-sniffer/serving/current -> releases/v_<timestamp>`.
 2. Start the unified MCP gateway (`mcp-servers/docker-compose.yml`) with `PHI_OMICS_SNIFFER_DATA_DIR=/var/lib/phi-omics-sniffer/serving`:
    - Because `serving/` is mounted as a parent directory and `current` is a relative symlink (`releases/v_...`), atomic swaps performed by `incremental_parquet_sync.py` become visible to `phi-omics-gateway` immediately with **zero container restarts**.
-3. Enable 6-hour automatic incremental updates either via:
-   - **Docker Compose**: `docker compose --profile sync up -d` in `mcp-servers/docker-compose.yml`, or
-   - **systemd timer**: copy `deploy/systemd/phi-omics-sniffer-sync.{service,timer}` to `/etc/systemd/system/` and run `systemctl enable --now phi-omics-sniffer-sync.timer`.
+3. Enable tiered automatic incremental updates (Tier-1 `geo` & `arrayexpress` every 2 days / 48h, Tier-2 `pride` / `cellxgene` / `metabolights` monthly / 30d, and static cohorts such as `gtex` / `gdc_tcga` / `icgc` / `depmap` / `finngen` manually via `--delta-sqlite`) either via:
+   - **Docker Compose**: `omics-sniffer-sync` in `mcp-servers/docker-compose.yml` (`SYNC_INTERVAL_SECONDS=86400`), or
+   - **systemd timer / cron**: copy `deploy/systemd/phi-omics-sniffer-sync.{service,timer}` (`03:30` daily check) to `/etc/systemd/system/` and run `systemctl enable --now phi-omics-sniffer-sync.timer`.
 
 ## Architecture
 

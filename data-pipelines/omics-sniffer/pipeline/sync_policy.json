@@ -1,129 +1,129 @@
 {
-  "description": "Tiered incremental sync schedule for omics-sniffer (Parquet-native, no main SQLite required)",
+  "description": "Tiered incremental sync schedule for omics-sniffer (GEO/AE every 2 days, active specialty repos monthly, static cohorts manual)",
   "defaults": {
     "memory_limit": "2GB",
     "keep_releases": 2,
-    "overlap_days": 1
+    "overlap_days": 2
   },
   "sources": {
     "geo": {
       "tier": 1,
-      "interval_hours": 24,
+      "interval_hours": 48,
       "mode": "date_window",
       "enabled": true,
-      "notes": "High-frequency daily updates via NCBI E-utilities mdat/pdat date window"
+      "notes": "Every 2 days via NCBI E-utilities PDAT window"
     },
     "arrayexpress": {
       "tier": 1,
-      "interval_hours": 24,
+      "interval_hours": 48,
       "mode": "date_window",
       "enabled": true,
-      "notes": "High-frequency daily updates via BioStudies release_date window"
+      "notes": "Every 2 days via BioStudies release_date window"
     },
     "pride": {
-      "tier": 1,
-      "interval_hours": 24,
+      "tier": 2,
+      "interval_hours": 720,
       "mode": "reverse_early_stop",
       "enabled": true,
-      "notes": "High-frequency daily updates via PRIDE /projects sorted descending with early stop"
-    },
-    "sra": {
-      "tier": 1,
-      "interval_hours": 24,
-      "mode": "delta_sqlite",
-      "enabled": false,
-      "notes": "Enable when running sra_orphan_scan delta staging"
-    },
-    "massive": {
-      "tier": 2,
-      "interval_hours": 168,
-      "mode": "delta_sqlite",
-      "enabled": false,
-      "notes": "Weekly cadence"
-    },
-    "metabolights": {
-      "tier": 2,
-      "interval_hours": 168,
-      "mode": "delta_sqlite",
-      "enabled": false,
-      "notes": "Weekly cadence"
-    },
-    "mw": {
-      "tier": 2,
-      "interval_hours": 168,
-      "mode": "delta_sqlite",
-      "enabled": false,
-      "notes": "Weekly cadence"
+      "notes": "Monthly (30d) updates via PRIDE /projects sorted descending with early stop"
     },
     "cellxgene": {
       "tier": 2,
-      "interval_hours": 168,
+      "interval_hours": 720,
+      "mode": "date_window",
+      "enabled": true,
+      "notes": "Monthly (30d) updates via CZ CELLxGENE Curation /datasets published_at/revised_at window"
+    },
+    "metabolights": {
+      "tier": 2,
+      "interval_hours": 720,
+      "mode": "date_window",
+      "enabled": true,
+      "notes": "Monthly (30d) updates via EBI Search metabolights publication_date window"
+    },
+    "sra": {
+      "tier": 2,
+      "interval_hours": 720,
       "mode": "delta_sqlite",
       "enabled": false,
-      "notes": "Weekly cadence"
+      "notes": "Monthly cadence when running sra_orphan_scan delta staging"
+    },
+    "massive": {
+      "tier": 2,
+      "interval_hours": 720,
+      "mode": "delta_sqlite",
+      "enabled": false,
+      "notes": "Monthly cadence"
+    },
+    "mw": {
+      "tier": 2,
+      "interval_hours": 720,
+      "mode": "delta_sqlite",
+      "enabled": false,
+      "notes": "Monthly cadence"
     },
     "encode": {
       "tier": 2,
-      "interval_hours": 168,
+      "interval_hours": 720,
       "mode": "delta_sqlite",
       "enabled": false,
-      "notes": "Weekly cadence"
+      "notes": "Monthly cadence"
     },
     "cbioportal": {
       "tier": 2,
-      "interval_hours": 168,
+      "interval_hours": 720,
       "mode": "delta_sqlite",
       "enabled": false,
-      "notes": "Weekly cadence"
+      "notes": "Monthly cadence"
     },
     "hubmap": {
       "tier": 2,
-      "interval_hours": 168,
+      "interval_hours": 720,
       "mode": "delta_sqlite",
       "enabled": false,
-      "notes": "Weekly cadence"
+      "notes": "Monthly cadence"
     },
     "proteomicsdb": {
       "tier": 2,
-      "interval_hours": 168,
+      "interval_hours": 720,
       "mode": "delta_sqlite",
       "enabled": false,
-      "notes": "Weekly cadence"
+      "notes": "Monthly cadence"
     },
     "gtex": {
       "tier": 3,
       "interval_hours": 0,
       "mode": "manual",
       "enabled": false,
-      "notes": "Static/release-based (GTEx v10)"
+      "notes": "Static/release-based (GTEx v10); update manually via --delta-sqlite"
     },
     "gdc_tcga": {
       "tier": 3,
       "interval_hours": 0,
       "mode": "manual",
       "enabled": false,
-      "notes": "Static/quarterly release"
+      "notes": "Static/release-based; update manually via --delta-sqlite"
     },
     "icgc": {
       "tier": 3,
       "interval_hours": 0,
       "mode": "manual",
       "enabled": false,
-      "notes": "Static cohort"
+      "notes": "Static cohort; manual only"
     },
     "depmap": {
       "tier": 3,
-      "interval_hours": 2160,
+      "interval_hours": 0,
       "mode": "manual",
       "enabled": false,
-      "notes": "Quarterly release"
+      "notes": "Release-based; manual only"
     },
     "finngen": {
       "tier": 3,
-      "interval_hours": 2160,
+      "interval_hours": 0,
       "mode": "manual",
       "enabled": false,
-      "notes": "Release-based (R13+)"
+      "notes": "Release-based (R13+); manual only"
     }
   }
 }
