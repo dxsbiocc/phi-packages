@@ -1,5 +1,12 @@
 # Changelog — crispr
 
+## 0.2.0 (2026-11-26)
+
+Expanded `crispr` from 6 to 8 tools with Prime Editing (`pegRNA`/`epegRNA` + `PE3`/`PE3b` `ngRNA`) design and chemogenetic DrugZ screening:
+
+- `crispr_design_pegrna` (`guide-design-workflow`): Prime Editing (`PE2`/`PE3`/`PE3b`) pegRNA and opposite-strand nicking sgRNA (`ngRNA`) design across `SpCas9` and `SpCas9-NG`, scoring SantaLucia PBS $T_m$ (target $37\text{--}42^\circ\text{C}$), penalizing RTT `5'-C` scaffold pairing, suggesting in-frame synonymous PAM-disrupting mutations when the edit leaves the PAM intact, optionally appending the 37-nt `tevopreQ1` epegRNA pseudoknot, and prioritizing edit-specific `PE3b` nicking guides.
+- `crispr_drugz` (`screen-editing-workflow`): Collimore & Hart (2019) DrugZ chemogenetic drug-vs-control pooled CRISPR screen scoring with 10M RPM scaling, abundance-ordered empirical-Bayes monotonic sliding-window variance estimation, paired/unpaired replicate modes, optional core-essential gene filtering, and gene-level `normZ` + BH FDR calling for synthetic-lethal sensitizers (`normZ < 0`) and drug-resistance suppressors (`normZ > 0`).
+
 ## 0.1.0 (2026-11-26)
 
 Initial release: CRISPR gene-editing design, off-target scoring, pooled functional screening, and post-editing outcome quantification plugin (`toolPrefix: crispr`, agent `Crispr`, private locked environment `plugin:crispr`).

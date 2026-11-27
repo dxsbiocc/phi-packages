@@ -46,3 +46,21 @@ Decision manual for the `Clinical` agent (`prediction-causal-workflow` tools).
 - **Bias & Sensitivity**:
   - Check **Leave-One-Out** (`meta_leave_one_out.tsv`) to verify no single study drives significance.
   - **Egger's regression asymmetry test** requires $k \ge 3$ and has low statistical power when $k < 10$.
+
+## 6. Sample Size & Power Calculation (`clin_sample_size`)
+- **Endpoint-matched formulas**:
+  - `survival_logrank`: **Schoenfeld (1983)** required events $E = \lceil (z_\alpha + z_\beta)^2 (1+k)^2 / (k [\ln \text{HR}]^2) \rceil$; converts to evaluable $N$ via either `event_rate_ctrl` or exponential Simpson integration across `accrual_time` + `followup_time`. Remember that survival power is governed by **events**, not patients alone.
+  - `two_proportions`: **Fleiss/Casagrande** continuity-corrected normal-binomial for superiority, or **Farrington-Manning (1990)** restricted-MLE variance under $H_0: p_E - p_C = -\Delta$ when `non_inferiority_margin` is supplied.
+  - `two_means`: exact **non-central $t$-distribution** (`scipy.stats.nct`, $df = n_1 + n_2 - 2$), avoiding large-sample $Z$ underestimation at small $N$.
+  - `diagnostic_auc`: **Hanley & McNeil (1982)** exponential-score variance accounting for case `prevalence`.
+- **Attrition guardrail**: Always inflate evaluable sample size by $N_{\text{enrolled}} = \lceil N_{\text{evaluable}} / (1 - d) \rceil$ (`dropout_rate` default `0.10`) and inspect the `0.8x` conservative effect-size power curve.
+
+## 7. Subgroup Interaction Forest Plots (`clin_subgroup_interaction`)
+- **Formal effect-modification testing (CONSORT / NEJM guidelines)**:
+  - Never compare a significant $p$-value in subgroup A against a non-significant $p$-value in subgroup B (an ~50% false-positive rate under equal true effects).
+  - Report the formal multiplicative **$P_{\text{interaction}}$** comparing $Y \sim T + S + (T \times S) + \text{adj}$ against $Y \sim T + S + \text{adj}$ (`df = L - 1`), and require **`padj_interaction < 0.05`** (BH-FDR) when scanning multiple exploratory subgroups.
+
+## 8. Clinical Prediction Nomograms (`clin_nomogram`)
+- **Point scaling & Breslow survival mapping**:
+  - The predictor spanning the largest linear-predictor range $\max_j \Delta(\beta_j X_j)$ defines `100` points; Total Points map linearly to $\hat{\eta}$ and nonlinearly to logistic probability $[1 + e^{-\hat{\eta}}]^{-1}$ or Cox landmark survival $S_0(t)^{\exp(\hat{\eta} - \bar{\eta})}$.
+- **TRIPOD guardrail**: Check `events_per_variable >= 10` (`EPV < 10` triggers overfitting warnings) and always validate calibration + clinical net benefit with `clin_calibration_dca`.

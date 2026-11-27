@@ -1,0 +1,19 @@
+schemaVersion: 1
+id: molecular-cloning
+type: plugin
+version: 0.1.0
+title: Molecular Cloning, Primer Design & Sanger Verification
+summary: >-
+  Molecular cloning & construct verification workflow (mc_): SantaLucia/Owczarzy
+  primer design (PCR/qPCR/Gibson/GoldenGate/SDM), host-specific codon
+  optimization, GoldenGate/Gibson/RestrictionLigation construct assembly, and
+  pure-Python ABIF .ab1 Sanger trace verification.
+toolPrefix: mc
+components:
+  agents:
+    - agents/MolecularCloning.md
+  skills:
+    - skills/cloning-workflow
+environments:
+  mc:
+    spec: environments/mc/environment.yml

@@ -10,8 +10,8 @@
   "counts": {
     "standaloneSkills": 17,
     "connectors": 24,
-    "plugins": 18,
-    "pluginSkills": 27,
+    "plugins": 20,
+    "pluginSkills": 29,
     "wrapperAdapters": 2202,
     "importedFiles": 7885,
     "importedBytes": 85272892
@@ -74,7 +74,8 @@
     "Curated standalone research skills catalog (counts.standaloneSkills 16 to 22): removed four misplaced single-library manuals (anndata, scvelo, scikit-survival, pysam) whose domains are covered by plugins/wrappers and removed from phi-python, and added ten zero-dependency MIT-licensed research workflow skills (manuscript-writing, manuscript-polishing, humanizer, peer-review-response, manuscript-review, nsfc-proposal, literature-review, paper-reading, statistical-review, paper-to-slides) built on a unified first-principles SKILL.md standard with true on-demand references/ for multi-branch skills.",
     "Replaced the single-skill clinical-survival plugin with the unified clinical plugin (0.1.0, toolPrefix clin, agent Clinical, private environment plugin:clinical, two skills survival-workflow + prediction-causal-workflow covering 11 clin_* tools: inspect, table1, km, cox, time_roc, competing_risk, diagnostic_roc, calibration_dca, psm_iptw, rcs, meta) and added the crispr plugin (0.1.0, toolPrefix crispr, agent Crispr, private environment plugin:crispr, two skills guide-design-workflow + screen-editing-workflow covering 6 crispr_* tools: design_guides, offtarget_scan, library_check, screen_qc, screen_hits, editing_quant, paired with upstream nf-core mageck/crisprcleanr/crispresso2/bowtie wrappers). counts.plugins 17 to 18, counts.pluginSkills 24 to 27.",
     "Consolidated standalone research workflow skills into 10 high-cohesion zero-dependency MIT skills (counts.standaloneSkills 22): study-design (hypotheses + experimental/power design), statistical-review, literature-review (1-3 paper deep reading + >=5 paper synthesis), grant-proposal (NSFC + NIH/NSF/ERC), manuscript-writing, manuscript-polishing, manuscript-review (mock review + citation audit + FAIR data/code availability), peer-review-response, humanizer, and paper-to-slides.",
-    "Removed the remaining five single-library Python API manuals (rdkit, networkx, matplotlib, seaborn, scikit-learn) from standalone skills (counts.standaloneSkills 22 to 17): general Python APIs are native LLM knowledge or covered by the visualization/clinical plugins, and specialized cheminformatics belongs to a dedicated future plugin rather than standalone skills."
+    "Removed the remaining five single-library Python API manuals (rdkit, networkx, matplotlib, seaborn, scikit-learn) from standalone skills (counts.standaloneSkills 22 to 17): general Python APIs are native LLM knowledge or covered by the visualization/clinical plugins, and specialized cheminformatics belongs to a dedicated future plugin rather than standalone skills.",
+    "Completed P0 wet-lab & clinical ecosystem expansion (counts.plugins 18 to 20, counts.pluginSkills 27 to 29): added molecular-cloning (0.1.0, toolPrefix mc, agent MolecularCloning, skill cloning-workflow: mc_design_primers, mc_codon_optimize, mc_assemble_construct, mc_sanger_verify with pure-Python SantaLucia/Owczarzy Tm, GenBank I/O, and binary ABIF .ab1 chromatogram parsing) and wetlab-assay (0.1.0, toolPrefix wa, agent WetlabAssay, skill assay-workflow: wa_qpcr_quant, wa_immunoassay_curve, wa_enzyme_kinetics, wa_binding_kinetics), upgraded clinical to 0.2.0 (+clin_sample_size, clin_subgroup_interaction, clin_nomogram; 14 tools), upgraded crispr to 0.2.0 (+crispr_design_pegrna, crispr_drugz; 8 tools), upgraded protein-design to 0.2.0 (+pd_developability_audit pre-synthesis biophysical & chemical-liability gate), and synced single-cell README/manifest to 0.7.2 (documenting sc_py_communication)."
   ],
   "initialImportCounts": {
     "standaloneSkills": 14,
@@ -85,7 +86,7 @@
     "importedFiles": 7885,
     "importedBytes": 85619915
   },
-  "scopeUpdatedAt": "2026-11-26T12:25:00+00:00",
+  "scopeUpdatedAt": "2026-11-27T01:45:00+00:00",
   "transformedPaths": [
     "resources/wrappers/modules/local/differential-expression/deseq2/environment.yml",
     "resources/wrappers/modules/local/differential-expression/deseq2/main.nf",
@@ -283,7 +284,7 @@
     {
       "path": "resources/plugins/single-cell/",
       "origin": "Authored in phi-packages. Ports the executable analysis steps of the scNotebooks single-cell curriculum (https://github.com/integrativebioinformatics/scNotebooks, commit 55229bb496f5b6b96eae266ac867e5068d600464) into a Phi plugin: seven Seurat script tools in skills/seurat-workflow, plus a reference-only curriculum map in skills/scnotebooks-curriculum. No notebook text, image, or data file is copied; the upstream notebooks remain CC BY 4.0 (Rojas-Hidalgo et al., Nat Genet, 2026). 0.2.0 adds a notebook path (tool sc_notebook): it generates a runnable R notebook in the user's project with real inline Seurat code plus explanations, for modules 4, 5, 8, and 9, and can execute every cell once as a self check. No .ipynb is stored in this repository: the skill contract forbids executing anything from assets/, and Phi's notebook tools operate on the user's project, so the notebook is generated there against the already-installed phi-r R kernel. 0.3.0 refactors sc_notebook into a fragment library (assets/fragments) plus a deterministic renderer: the agent passes steps and parameter values, the renderer fills placeholders into one finished notebook with a single config cell, inject/merge sources, relative paths, and render provenance; step selection and threshold decisions stay with the agent per SKILL.md rules. The plugin id is renamed from single-cell-training to single-cell to match its analysis scope, title, agent, and tool prefix. 0.4.0 ships a plugin-private environment (environments/seurat: R 4.5 + Seurat 6.0.0 + IRkernel, with three-platform explicit locks; Seurat 6.0.0, RcppThread 2.4.0 and GenomeInfoDbData pinned as sourcePackages because no usable conda build exists) instead of borrowing phi:r@1, so the script chain and the notebook stay on one pinned version. The notebook kernel becomes plugin-single-cell-seurat, synced by Phi's managed-kernel sync for enabled plugin environments that ship r-irkernel or ipykernel. 0.5.0 adds a parallel Python toolkit in the same plugin: skills/scanpy-workflow (ten sc_py_* tools) with its own private environment (environments/scanpy: Python 3.13 + scanpy 1.13 + ipykernel, three-platform explicit locks; bbknn reported as a gap because bioconda has no py313 build), notebook presets 1-7 adapted from the NBIS workshop-scRNAseq scanpy labs (https://nbisweden.github.io/workshop-scRNAseq/, CC-BY-4.0 per the repository LICENSE — the site footer's GPL-3 label contradicts it; reference-only: fragment code is original and attribution is carried in preset intros and these notes), and a byte-identical shared build_notebook.py renderer across both skills (asserted by a repository test). The SingleCell agent routes by the user's R/Python preference and declares no session environment, because each skill's phi.environment wins over the agent binding. The former standalone resources/skills/scanpy skill (K-Dense, BSD-3-Clause) is absorbed into scanpy-workflow and removed. 0.6.0 unifies each route on one analysis source: assets/fragments is the teaching code executed by both the notebook renderer and the script tools (scripts/_fragments runs the same fragments; tool scripts are thin flag-to-config adapters; scripts/reports only serializes JSON; fragment chatter goes to stderr so stdout stays one JSON). Field-by-field parity against the pre-refactor reports: R 7/7 and Python 10/10 identical modulo output paths. The scnotebooks-curriculum skill is folded into seurat-workflow/references (plugin skills 3 to 2, repo plugin skills 7 to 6, total skills 23 to 22). A knowledge layer is added: 30 per-step notes in references/step-notes/ (purpose/principle/interpretation/pitfalls, the notebook's teaching cells, paired to fragments by step id) and references/analysis-playbook.md in both skills — the agent's decision manual, per stage call/read/decide/red-lines with threshold starting points grounded in the tools' JSON contracts — plus references/README.md indexing by function (agent decision docs, step notes and cross-route handoff vs maintainers/ provenance); skill directories are organized by function (assets holds only render source material: flat assets/fragments code plus assets/steps.json presets; all Markdown lives in references); original prose distilled from OSCA (CC BY 4.0), sc-best-practices (Apache 2.0; Heumos, Schaar, Lance et al., Nat Rev Genet 2023, DOI 10.1038/s41576-023-00586-w), the Cambridge/Hemberg singlecellcourse.org course (GPL-3, not OSCA), and the NBIS labs. The NBIS license is corrected everywhere to CC-BY-4.0 per the repository LICENSE (the site footer's GPL-3 label contradicts it). The renderer gains bool/list parameter types and stays byte-identical across skills; show_plot prints inline only under IRkernel so Rscript runs no longer leave Rplots.pdf in the working directory.",
-      "packageVersion": "0.7.1"
+      "packageVersion": "0.7.2"
     },
     {
       "path": "resources/plugins/metagenomics/",
@@ -366,8 +367,8 @@
       "path": "resources/plugins/protein-design/",
       "kind": "plugin",
       "license": "MIT",
-      "packageVersion": "0.1.0",
-      "origin": "Authored in phi-packages. Protein design domain plugin (toolPrefix pd, agent ProteinDesign) with three skills: protein-design-workflow (playbook, block selection, scaling/iteration tutorials), structure-input-prep (contig/ligand guide plus pure-Python pd_inspect_structure and pd_validate_rfd3_spec), and design-evaluation (metrics/thresholds guide plus pure-Python pd_funnel_report). Uses shared phi:python@1; heavy GPU tools run exclusively via local Nextflow wrappers."
+      "packageVersion": "0.2.0",
+      "origin": "Authored in phi-packages. Protein design domain plugin (toolPrefix pd, agent ProteinDesign) with three skills: protein-design-workflow (playbook, block selection, scaling/iteration tutorials), structure-input-prep (contig/ligand guide plus pure-Python pd_inspect_structure and pd_validate_rfd3_spec), and design-evaluation (metrics/thresholds guide plus pure-Python pd_funnel_report and pd_developability_audit pre-wetlab biophysical/chemical-liability screening). Uses shared phi:python@1; heavy GPU tools run exclusively via local Nextflow wrappers."
     },
     {
       "path": "resources/wrappers/modules/local/bindcraft/",
@@ -437,8 +438,8 @@
       "path": "resources/plugins/clinical/",
       "kind": "plugin",
       "license": "MIT",
-      "packageVersion": "0.1.0",
-      "origin": "Authored in phi-packages. Unified clinical biostatistics, survival modeling, prediction validation, causal inference, and meta-analysis plugin (toolPrefix clin, agent Clinical, skills survival-workflow and prediction-causal-workflow) with eleven deterministic Python tools (clin_inspect, clin_table1, clin_km, clin_cox, clin_time_roc, clin_competing_risk, clin_diagnostic_roc, clin_calibration_dca, clin_psm_iptw, clin_rcs, clin_meta) in plugin:clinical (Python 3.13 + pandas/numpy/scipy/scikit-learn/matplotlib-base, three-platform explicit locks). Replaces clinical-survival by adding Aalen-Johansen/Fine-Gray competing risks, Sun & Xu DeLong paired ROC/PR diagnostics, TRIPOD calibration & Vickers DCA, PSM/IPTW causal inference, Harrell restricted cubic splines, and Fixed/DL/PM/HKSJ meta-analysis."
+      "packageVersion": "0.2.0",
+      "origin": "Authored in phi-packages. Unified clinical biostatistics, survival modeling, prediction validation, causal inference, trial design, and meta-analysis plugin (toolPrefix clin, agent Clinical, skills survival-workflow and prediction-causal-workflow) with fourteen deterministic Python tools (clin_inspect, clin_table1, clin_km, clin_cox, clin_time_roc, clin_competing_risk, clin_diagnostic_roc, clin_calibration_dca, clin_psm_iptw, clin_rcs, clin_meta, clin_sample_size, clin_subgroup_interaction, clin_nomogram) in plugin:clinical (Python 3.13 + pandas/numpy/scipy/scikit-learn/matplotlib-base, three-platform explicit locks). Replaces clinical-survival by adding Aalen-Johansen/Fine-Gray competing risks, Sun & Xu DeLong paired ROC/PR diagnostics, TRIPOD calibration & Vickers DCA, PSM/IPTW causal inference, Harrell restricted cubic splines, Fixed/DL/PM/HKSJ meta-analysis, Schoenfeld/Fleiss/Farrington-Manning/Hanley-McNeil sample-size & power calculation, formal multiplicative subgroup interaction forest plots, and Cox/Logistic 0-100 point clinical nomograms."
     },
     {
       "path": "resources/plugins/multi-omics/",
@@ -472,8 +473,22 @@
       "path": "resources/plugins/crispr/",
       "kind": "plugin",
       "license": "MIT",
+      "packageVersion": "0.2.0",
+      "origin": "Authored in phi-packages. CRISPR gene-editing design, Prime Editing pegRNA/ngRNA design, off-target specificity scoring, pooled functional & chemogenetic screening, and post-editing outcome quantification plugin (toolPrefix crispr, agent Crispr, skills guide-design-workflow and screen-editing-workflow) with eight deterministic Python tools (crispr_design_guides, crispr_design_pegrna, crispr_offtarget_scan, crispr_library_check, crispr_screen_qc, crispr_screen_hits, crispr_drugz, crispr_editing_quant) in plugin:crispr (Python 3.13 + pandas/numpy/scipy/scikit-learn/matplotlib-base, three-platform explicit locks), paired with upstream nf-core mageck, crisprcleanr, crispresso2, and bowtie wrappers."
+    },
+    {
+      "path": "resources/plugins/molecular-cloning/",
+      "kind": "plugin",
+      "license": "MIT",
       "packageVersion": "0.1.0",
-      "origin": "Authored in phi-packages. CRISPR gene-editing design, off-target specificity scoring, pooled functional screening, and post-editing outcome quantification plugin (toolPrefix crispr, agent Crispr, skills guide-design-workflow and screen-editing-workflow) with six deterministic Python tools (crispr_design_guides, crispr_offtarget_scan, crispr_library_check, crispr_screen_qc, crispr_screen_hits, crispr_editing_quant) in plugin:crispr (Python 3.13 + pandas/numpy/scipy/scikit-learn/matplotlib-base, three-platform explicit locks), paired with upstream nf-core mageck, crisprcleanr, crispresso2, and bowtie wrappers."
+      "origin": "Authored in phi-packages. Molecular cloning, primer design, codon optimization, construct assembly, and Sanger trace verification plugin (toolPrefix mc, agent MolecularCloning, skill cloning-workflow) with four deterministic pure-MIT Python tools (mc_design_primers, mc_codon_optimize, mc_assemble_construct, mc_sanger_verify) in plugin:mc (Python 3.13 + pandas/numpy/scipy/scikit-learn/matplotlib-base, three-platform explicit locks). Implements SantaLucia (1998) + Owczarzy (2008) nearest-neighbor Tm and hairpin/dimer dG37 scoring, Kazusa/CoCoPUTs host codon optimization with restriction-site elimination, Golden Gate / Gibson / Type II restriction-ligation construct assembly with GenBank .gb export and virtual agarose gel, and binary ABIF .ab1 chromatogram parsing with mixed-peak deconvolution."
+    },
+    {
+      "path": "resources/plugins/wetlab-assay/",
+      "kind": "plugin",
+      "license": "MIT",
+      "packageVersion": "0.1.0",
+      "origin": "Authored in phi-packages. Quantitative wet-lab benchtop assay and biochemical kinetics plugin (toolPrefix wa, agent WetlabAssay, skill assay-workflow) with four deterministic pure-MIT Python tools (wa_qpcr_quant, wa_immunoassay_curve, wa_enzyme_kinetics, wa_binding_kinetics) in plugin:wa (Python 3.13 + pandas/numpy/scipy/scikit-learn/matplotlib-base, three-platform explicit locks). Covers MIQE-compliant RT-qPCR Pfaffl & geNorm/Andersen multi-reference quantification, weighted 4PL/5PL ELISA/immunoassay calibration with AICc selection and FDA/EMA LLOQ/ULOQ censoring, steady-state Michaelis-Menten/Hill & AICc reversible inhibitor mechanism kinetics with Cheng-Prusoff Ki, and global 1:1 Langmuir SPR/BLI binding kinetics with steady-state KD_eq cross-validation."
     },
     {
       "path": "resources/wrappers/workflows/nf-core/sarek/",

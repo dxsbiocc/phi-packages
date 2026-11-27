@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "reference_id",
+    "reference_length_bp",
+    "n_traces",
+    "n_passed_traces",
+    "reference_coverage_pct",
+    "overall_pass",
+    "total_variants",
+    "total_mixed_peaks",
+    "trace_summaries",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "mc_sanger_verify" },
+    "reference_id": { "type": "string" },
+    "reference_length_bp": { "type": "integer" },
+    "n_traces": { "type": "integer" },
+    "n_passed_traces": { "type": "integer" },
+    "reference_coverage_pct": { "type": "number" },
+    "overall_pass": { "type": "boolean" },
+    "total_variants": { "type": "integer" },
+    "total_mixed_peaks": { "type": "integer" },
+    "trace_summaries": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": ["verification_summary", "variants_table", "chromatogram_plot"],
+      "properties": {
+        "verification_summary": { "type": "string" },
+        "variants_table": { "type": "string" },
+        "chromatogram_plot": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

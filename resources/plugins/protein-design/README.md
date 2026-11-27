@@ -1,4 +1,4 @@
-# Protein Design Plugin
+# Protein Design Plugin · 0.2.0
 
 专注从头蛋白设计、蛋白-蛋白结合体（PPI Binder）与蛋白-小分子结合体设计的 Phi 专属领域插件。
 
@@ -17,7 +17,7 @@
 | 专家智能体 | `agents/ProteinDesign.md` | 编排蛋白设计 Wrapper、执行烟雾测试 → Pilot → Campaign 推进与迭代优化 |
 | 端到端教程 Skill | `skills/protein-design-workflow/` | 工具选型、参数决策手册、分片扩展与多轮迭代策略 |
 | 输入准备 Skill | `skills/structure-input-prep/` | Contig/配体语法教程 + `pd_inspect_structure`、`pd_validate_rfd3_spec` |
-| 结果评估 Skill | `skills/design-evaluation/` | 置信度/RMSD/界面/亲和力阈值解读 + `pd_funnel_report` |
+| 结果评估 Skill | `skills/design-evaluation/` | 置信度/RMSD/界面/亲和力阈值解读 + `pd_funnel_report`、`pd_developability_audit` |
 
 ## 模型权重与许可说明
 

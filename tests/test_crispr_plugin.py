@@ -1,4 +1,4 @@
-"""Contract, offline compilation, and end-to-end runtime tests for the crispr plugin (0.1.0)."""
+"""Contract, offline compilation, and end-to-end runtime tests for the crispr plugin (0.2.0)."""
 from __future__ import annotations
 
 import ast
@@ -73,7 +73,7 @@ class TestCrisprPluginContractsAndCompilation(unittest.TestCase):
         self.assertIn("schemaVersion: 1", manifest)
         self.assertIn("id: crispr", manifest)
         self.assertIn("type: plugin", manifest)
-        self.assertIn("version: 0.1.0", manifest)
+        self.assertIn("version: 0.2.0", manifest)
         self.assertIn("toolPrefix: crispr", manifest)
         self.assertIn("- agents/Crispr.md", manifest)
         self.assertIn("- skills/guide-design-workflow", manifest)
@@ -116,14 +116,24 @@ class TestCrisprPluginContractsAndCompilation(unittest.TestCase):
             (
                 GD_SKILL,
                 "guide-design-workflow",
-                ["design_guides", "offtarget_scan", "library_check"],
-                ["design-guides-result.json", "offtarget-scan-result.json", "library-check-result.json"],
+                ["design_guides", "offtarget_scan", "library_check", "design_pegrna"],
+                [
+                    "design-guides-result.json",
+                    "offtarget-scan-result.json",
+                    "library-check-result.json",
+                    "design-pegrna-result.json",
+                ],
             ),
             (
                 SE_SKILL,
                 "screen-editing-workflow",
-                ["screen_qc", "screen_hits", "editing_quant"],
-                ["screen-qc-result.json", "screen-hits-result.json", "editing-quant-result.json"],
+                ["screen_qc", "screen_hits", "drugz", "editing_quant"],
+                [
+                    "screen-qc-result.json",
+                    "screen-hits-result.json",
+                    "drugz-result.json",
+                    "editing-quant-result.json",
+                ],
             ),
         ]
         for sdir, sname, tool_names, schema_names in skill_specs:
@@ -157,11 +167,13 @@ class TestCrisprPluginContractsAndCompilation(unittest.TestCase):
         scripts = [
             GD_SKILL / "scripts" / "_common.py",
             GD_SKILL / "scripts" / "crispr_design_guides.py",
+            GD_SKILL / "scripts" / "crispr_design_pegrna.py",
             GD_SKILL / "scripts" / "crispr_offtarget_scan.py",
             GD_SKILL / "scripts" / "crispr_library_check.py",
             SE_SKILL / "scripts" / "_common.py",
             SE_SKILL / "scripts" / "crispr_screen_qc.py",
             SE_SKILL / "scripts" / "crispr_screen_hits.py",
+            SE_SKILL / "scripts" / "crispr_drugz.py",
             SE_SKILL / "scripts" / "crispr_editing_quant.py",
         ]
         with tempfile.TemporaryDirectory() as tmp:
@@ -677,6 +689,102 @@ class TestCrisprPluginRuntime(unittest.TestCase):
             self.assertAlmostEqual(s_b["unmodified_pct"], 50.0, places=2)
             self.assertAlmostEqual(s_b["frameshift_indel_pct"], 35.0, places=2)
             self.assertAlmostEqual(s_b["in_frame_indel_pct"], 15.0, places=2)
+
+    def test_7_design_pegrna_pe3b_and_epgrna(self) -> None:
+        script = str(GD_SKILL / "scripts" / "crispr_design_pegrna.py")
+        schema = GD_SKILL / "schemas" / "design-pegrna-result.json"
+
+        # 120 bp WT CDS with SpCas9 PAM (AGG) right upstream of edit + '-' strand CCN enabling PE3b
+        left_flank = "ATGGCTGACCTGCTGGAGATGCTGGTGAAGCTGATCGATGCTAGCGACCTGCTGGAG"  # 57 bp
+        # Spacer region: 20 nt + PAM AGG; edit changes G->T 2 bp downstream of nick (disrupting seed!)
+        # Also creates a '-' strand PAM / seed match for PE3b!
+        core_wt = "ATGCAGACCTGATGGTGCTGAGG" + "CCTAGCTGACCTGCTGGAGATGCTGGTGAAGCTGAT"
+        core_ed = "ATGCAGACCTGATGGTGCATAGG" + "CCTAGCTGACCTGCTGGAGATGCTGGTGAAGCTGAT"
+        wt_seq = left_flank + core_wt
+        ed_seq = left_flank + core_ed
+
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_dir = Path(tmp)
+            res = _run_json(
+                [
+                    script,
+                    "--wt_seq",
+                    wt_seq,
+                    "--edited_seq",
+                    ed_seq,
+                    "--add_epgrna_motif",
+                    "--cds_frame_offset",
+                    "0",
+                    "--output_dir",
+                    str(tmp_dir / "pegrna_out"),
+                ]
+            )
+            _validate_schema_and_sidecars(res, schema)
+            self.assertEqual(res["edit_type"], "substitution")
+            self.assertTrue(res["epeg_motif_added"])
+            self.assertGreater(res["n_pegrna_candidates"], 5)
+            self.assertGreater(res["n_ngrna_candidates"], 0)
+            top_peg = res["top_pegrnas"][0]
+            self.assertIn("CGCGGTTCTATCTAGTTACGCGTTAAACCAACTAGAA", top_peg["extension_3prime"])
+
+    def test_8_drugz_chemogenetic_screen(self) -> None:
+        script = str(SE_SKILL / "scripts" / "crispr_drugz.py")
+        schema = SE_SKILL / "schemas" / "drugz-result.json"
+
+        rng = random.Random(2027)
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_dir = Path(tmp)
+            sl_truth = {"BRCA1", "BRCA2", "PALB2"}
+            sup_truth = {"TP53BP1", "SHLD2"}
+            neut_genes = [f"GENE_{i:03d}" for i in range(120)]
+            lines = ["sgRNA\tGene\tDMSO_1\tDMSO_2\tPARPi_1\tPARPi_2"]
+
+            for g in list(sl_truth) + list(sup_truth) + neut_genes + ["PAN_ESS"]:
+                for k in range(4):
+                    base = rng.randint(250, 900)
+                    d1 = max(20, int(base * rng.uniform(0.92, 1.08)))
+                    d2 = max(20, int(base * rng.uniform(0.92, 1.08)))
+                    if g in sl_truth:
+                        p1 = max(5, int(d1 * rng.uniform(0.12, 0.22)))
+                        p2 = max(5, int(d2 * rng.uniform(0.12, 0.22)))
+                    elif g in sup_truth:
+                        p1 = int(d1 * rng.uniform(4.2, 5.5))
+                        p2 = int(d2 * rng.uniform(4.2, 5.5))
+                    elif g == "PAN_ESS":
+                        d1, d2, p1, p2 = 12, 10, 11, 9
+                    else:
+                        p1 = max(20, int(d1 * rng.uniform(0.88, 1.12)))
+                        p2 = max(20, int(d2 * rng.uniform(0.88, 1.12)))
+                    lines.append(f"{g}_sg{k+1}\t{g}\t{d1}\t{d2}\t{p1}\t{p2}")
+
+            counts_path = tmp_dir / "parpi_counts.tsv"
+            counts_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+            res = _run_json(
+                [
+                    script,
+                    "--counts",
+                    str(counts_path),
+                    "--drug_cols",
+                    "PARPi_1",
+                    "--drug_cols",
+                    "PARPi_2",
+                    "--control_cols",
+                    "DMSO_1",
+                    "--control_cols",
+                    "DMSO_2",
+                    "--remove_genes",
+                    "PAN_ESS",
+                    "--output_dir",
+                    str(tmp_dir / "drugz_out"),
+                ]
+            )
+            _validate_schema_and_sidecars(res, schema)
+            self.assertEqual(res["mode"], "paired")
+            sl_hits = {r["gene"] for r in res["top_synthetic_lethal"] if r["fdr_synth"] < 0.05}
+            sup_hits = {r["gene"] for r in res["top_suppressors"] if r["fdr_supp"] < 0.05}
+            self.assertTrue(sl_truth.issubset(sl_hits), f"Expected {sl_truth} in {sl_hits}")
+            self.assertTrue(sup_truth.issubset(sup_hits), f"Expected {sup_truth} in {sup_hits}")
 
 
 if __name__ == "__main__":

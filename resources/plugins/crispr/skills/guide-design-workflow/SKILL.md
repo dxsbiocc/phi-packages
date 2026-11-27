@@ -1,15 +1,16 @@
 ---
 name: guide-design-workflow
 description: >-
-  CRISPR guide RNA design, off-target specificity scanning, and pooled sgRNA
-  library QC: design SpCas9, SpCas9-NG, SaCas9, or Cas12a guides on both strands
-  with sequence-context efficiency scoring, Bae et al. (2014) microhomology
-  out-of-frame knockout scoring, CBE/ABE base-editor window & bystander/stop
-  auditing, and Golden Gate cloning oligos; scan reference FASTAs for 0..4
-  mismatch + NAG/NGA off-targets with Hsu-Zhang MIT and Doench 2016 CFD scores;
-  and audit sgRNA libraries before oligo synthesis or mageck count. Use for
-  guide RNA design, sgRNA, Cas9, Cas12a, base editing, off-target CFD/MIT,
-  向导RNA设计, 脱靶评分, 文库质控.
+  CRISPR guide RNA & Prime Editing pegRNA design, off-target specificity
+  scanning, and pooled sgRNA library QC: design SpCas9, SpCas9-NG, SaCas9, or
+  Cas12a guides on both strands with sequence-context efficiency scoring, Bae et
+  al. (2014) microhomology out-of-frame knockout scoring, CBE/ABE base-editor
+  window & bystander/stop auditing, and Golden Gate cloning oligos; design
+  PE2/PE3/PE3b pegRNAs, epegRNAs (tevopreQ1), and nicking ngRNAs; scan reference
+  FASTAs for 0..4 mismatch + NAG/NGA off-targets with Hsu-Zhang MIT and Doench
+  2016 CFD scores; and audit sgRNA libraries before oligo synthesis or mageck
+  count. Use for guide RNA design, sgRNA, pegRNA, epegRNA, Prime Editing, Cas9,
+  Cas12a, base editing, off-target CFD/MIT, 向导RNA设计, 引导编辑, 脱靶评分, 文库质控.
 phi:
   environment: plugin:crispr
   attachTo:
@@ -145,16 +146,74 @@ phi:
       approval: write
       output: ./schemas/library-check-result.json
       timeoutSeconds: 300
+    - name: design_pegrna
+      description: >-
+        Design Prime Editing (PE2, PE3, and PE3b) pegRNAs, optional 3'-tevopreQ1
+        epegRNAs, and opposite-strand nicking sgRNAs (ngRNAs) from wild-type and
+        edited DNA sequences (>=60 bp), scoring SantaLucia PBS Tm, RTT 5'-C
+        scaffold-pairing penalties, Pol III TTTT motifs, and synonymous
+        PAM-disrupting codon hints.
+      run: [python, ./scripts/crispr_design_pegrna.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [wt_seq, edited_seq, output_dir]
+        properties:
+          wt_seq:
+            type: string
+            description: Unambiguous wild-type DNA sequence (>= 60 bp) flanking the desired edit (5'->3').
+          edited_seq:
+            type: string
+            description: Desired post-edit DNA sequence (>= 60 bp) sharing 5' and 3' flanks with wt_seq (5'->3').
+          output_dir:
+            type: string
+            format: project-path
+            description: Directory for pegrna_candidates.tsv, ngrna_candidates.tsv, and pegrna_architecture.png.
+          nuclease:
+            type: string
+            enum: [SpCas9, SpCas9-NG]
+            description: Prime editor nickase PAM architecture (default SpCas9).
+          pbs_min:
+            type: integer
+            minimum: 7
+            maximum: 20
+            description: Minimum Primer Binding Site (PBS) length in nt (default 10).
+          pbs_max:
+            type: integer
+            minimum: 8
+            maximum: 22
+            description: Maximum Primer Binding Site (PBS) length in nt (default 15).
+          rtt_homology_min:
+            type: integer
+            minimum: 5
+            maximum: 30
+            description: Minimum post-edit 3' flap homology length in the RT template in nt (default 8).
+          rtt_max:
+            type: integer
+            minimum: 10
+            maximum: 50
+            description: Maximum total RT template (RTT) length in nt (default 32).
+          add_epgrna_motif:
+            type: boolean
+            description: Append the structured 3' tevopreQ1 pseudoknot motif (with 4-nt linker) to protect epegRNAs from 3' exonucleases (default false).
+          cds_frame_offset:
+            type: integer
+            enum: [0, 1, 2]
+            description: Optional 0-based reading-frame start offset on edited_seq to suggest in-frame synonymous PAM-disrupting mutations.
+      approval: write
+      output: ./schemas/design-pegrna-result.json
+      timeoutSeconds: 300
 ---
 
-# Guide RNA Design, Off-Target Scoring & Library QC Workflow
+# Guide RNA & pegRNA Design, Off-Target Scoring & Library QC Workflow
 
-Read [references/analysis-playbook.md](references/analysis-playbook.md) for nuclease PAM geometries, Bae et al. MMEJ frameshift equations, MIT/CFD off-target scoring, and cloning oligo rules.
+Read [references/analysis-playbook.md](references/analysis-playbook.md) for nuclease PAM geometries, Bae et al. MMEJ frameshift equations, Prime Editing PBS/RTT/PE3b rules, MIT/CFD off-target scoring, and cloning oligo rules.
 
 ## Workflow Chain
 
 ```
 Target FASTA         ──crispr_design_guides───▶ Candidate guides + MMEJ KO / CBE-ABE window + Golden Gate oligos
+WT + Edited DNA      ──crispr_design_pegrna───▶ PE2/PE3/PE3b pegRNAs + epegRNA (tevopreQ1) + ngRNAs + PBS Tm
 Guides + Ref FASTA   ──crispr_offtarget_scan──▶ 0..4 mismatch + NAG/NGA scan → MIT & CFD specificity (0..100)
 Pooled sgRNA library ──crispr_library_check───▶ Pre-synthesis / pre-mageck-count audit (dups, TTTT, NTCs, enzymes)
 Whole genome (>250MB)──nf-core/modules/bowtie─▶ Genome-wide short-read / oligo alignment wrapper
@@ -163,6 +222,7 @@ Whole genome (>250MB)──nf-core/modules/bowtie─▶ Genome-wide short-read /
 ## Hard Red Lines
 
 1. **Knockout target position**: in `knockout` mode, flag guides cutting `<5%` (N-terminal alternative ATG re-initiation risk) or `>85%` (C-terminal NMD escape risk) along the target CDS.
-2. **Cloning & Pol III safety**: reject or flag `TTTT` Pol III termination motifs and internal `BsmBI`/`BbsI`/`SapI` cloning enzyme sites before oligo synthesis.
-3. **Specificity gate**: treat `MIT_specificity < 50` or `CFD_specificity < 50` or any off-target with `0` PAM-proximal seed mismatches as high off-target risk.
-4. **Whole-genome scale**: `crispr_offtarget_scan` is optimized for locus, panel, amplicon, and transcriptome FASTAs (<=100 MB; hard guard at 250 MB). For full mammalian genomes, use `nf-core/modules/bowtie` (`bowtie-build` + `bowtie-align`) or external `Cas-OFFinder`.
+2. **Prime Editing RTT & PE3b rules**: avoid pegRNA RTTs starting with `5'-C` (pairs with SpCas9 scaffold G81), target PBS $T_m \approx 37\text{--}42^\circ\text{C}$, and prefer edit-specific `PE3b` nicking guides over distal `PE3` nicking guides to minimize DSB indels.
+3. **Cloning & Pol III safety**: reject or flag `TTTT` Pol III termination motifs and internal `BsmBI`/`BbsI`/`SapI` cloning enzyme sites before oligo synthesis.
+4. **Specificity gate**: treat `MIT_specificity < 50` or `CFD_specificity < 50` or any off-target with `0` PAM-proximal seed mismatches as high off-target risk.
+5. **Whole-genome scale**: `crispr_offtarget_scan` is optimized for locus, panel, amplicon, and transcriptome FASTAs (<=100 MB; hard guard at 250 MB). For full mammalian genomes, use `nf-core/modules/bowtie` (`bowtie-build` + `bowtie-align`) or external `Cas-OFFinder`.

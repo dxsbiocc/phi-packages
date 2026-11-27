@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "selected_model",
+    "weighting",
+    "parameters",
+    "r2",
+    "aicc",
+    "lod_signal",
+    "lod_conc",
+    "lloq",
+    "uloq",
+    "n_standards",
+    "n_unknowns",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "wa_immunoassay_curve" },
+    "selected_model": { "type": "string", "enum": ["4PL", "5PL"] },
+    "weighting": { "type": "string", "enum": ["1_y2", "1_y", "none"] },
+    "parameters": { "type": "object" },
+    "model_comparison": { "type": "array", "items": { "type": "object" } },
+    "r2": { "type": "number" },
+    "aicc": { "type": "number" },
+    "lod_signal": { "type": "number" },
+    "lod_conc": { "type": ["number", "null"] },
+    "lloq": { "type": ["number", "null"] },
+    "uloq": { "type": ["number", "null"] },
+    "n_standards": { "type": "integer" },
+    "n_unknowns": { "type": "integer" },
+    "unknown_status_counts": { "type": "object" },
+    "outputs": {
+      "type": "object",
+      "required": ["standard_curve_recovery", "immunoassay_calibration"],
+      "properties": {
+        "standard_curve_recovery": { "type": "string" },
+        "interpolated_unknowns": { "type": ["string", "null"] },
+        "immunoassay_calibration": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

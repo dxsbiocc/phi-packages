@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "clinical",
+    "exposure_col",
+    "exposure_type",
+    "outcome_col",
+    "model_type",
+    "effect_measure",
+    "n_samples",
+    "overall",
+    "subgroups",
+    "summary_table",
+    "figures",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "clinical": { "type": "string" },
+    "exposure_col": { "type": "string" },
+    "exposure_type": { "type": "string", "enum": ["binary", "continuous"] },
+    "exposed_label": { "type": ["string", "null"] },
+    "reference_label": { "type": ["string", "null"] },
+    "outcome_col": { "type": "string" },
+    "model_type": { "type": "string", "enum": ["cox", "logistic", "linear"] },
+    "effect_measure": { "type": "string", "enum": ["HR", "OR", "beta"] },
+    "n_samples": { "type": "integer" },
+    "n_events": { "type": ["integer", "null"] },
+    "adjust_covariates": { "type": "array", "items": { "type": "string" } },
+    "overall": { "type": "object" },
+    "subgroups": { "type": "array", "items": { "type": "object" } },
+    "summary_table": { "type": "string" },
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

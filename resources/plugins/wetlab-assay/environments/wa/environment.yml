@@ -1,0 +1,15 @@
+name: wa
+description: >-
+  Private wet-lab assay quantification and biochemical kinetics environment:
+  Python 3.13 + pandas/numpy/scipy/scikit-learn/matplotlib-base for MIQE
+  RT-qPCR quantification, weighted 4PL/5PL immunoassay calibration, enzyme
+  kinetics & inhibition discrimination, and global 1:1 Langmuir SPR/BLI fitting.
+channels:
+  - conda-forge
+dependencies:
+  - python=3.13
+  - pandas
+  - numpy
+  - scipy
+  - scikit-learn
+  - matplotlib-base

@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "mode",
+    "template_id",
+    "template_length",
+    "n_candidates",
+    "top_pair",
+    "candidates_preview",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "mc_design_primers" },
+    "mode": { "type": "string" },
+    "template_id": { "type": "string" },
+    "template_length": { "type": "integer" },
+    "n_candidates": { "type": "integer" },
+    "top_pair": { "type": ["object", "null"] },
+    "candidates_preview": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": ["primer_candidates", "design_map"],
+      "properties": {
+        "primer_candidates": { "type": "string" },
+        "design_map": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

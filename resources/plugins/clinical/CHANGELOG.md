@@ -1,5 +1,13 @@
 # Changelog — clinical
 
+## 0.2.0 (2026-11-26)
+
+Expanded `prediction-causal-workflow` from 5 to 8 tools (14 `clin_*` tools total across the plugin):
+
+- `clin_sample_size`: prospective clinical trial & diagnostic accuracy sample-size and power calculator supporting `survival_logrank` (Schoenfeld 1983, event-rate or accrual + follow-up Simpson integration), `two_proportions` (Fleiss/Casagrande superiority & Farrington-Manning 1990 restricted-MLE non-inferiority), `two_means` (exact non-central $t$-distribution), and `diagnostic_auc` (Hanley & McNeil 1982), with dropout inflation and conservative/target/optimistic power-curve grids.
+- `clin_subgroup_interaction`: NEJM/Lancet-style subgroup forest plot with formal multiplicative interaction testing ($P_{\text{interaction}}$ via likelihood-ratio / joint Wald $\chi^2$) and BH-FDR multiplicity control across Cox PH, Logistic, and Linear models.
+- `clin_nomogram`: multivariable Cox PH (with Breslow baseline survival at landmark horizons) and Logistic clinical prediction nomogram builder exporting a `0–100` point scorecard, exact Total Points $\to$ predicted probability / landmark survival lookup table, EPV check, and alignment nomogram figure.
+
 ## 0.1.0 (2026-11-26)
 
 Initial unified release consolidating survival biostatistics and prediction/causal/meta-analysis workflows (`toolPrefix: clin`, agent `Clinical`, private locked environment `plugin:clinical`):

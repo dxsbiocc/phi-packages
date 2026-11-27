@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "nuclease",
+    "edit_type",
+    "edit_delta_bp",
+    "n_pegrna_candidates",
+    "n_ngrna_candidates",
+    "n_pe3b_candidates",
+    "top_pegrnas",
+    "top_ngrnas",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "crispr_design_pegrna" },
+    "nuclease": { "type": "string", "enum": ["SpCas9", "SpCas9-NG"] },
+    "edit_type": { "type": "string", "enum": ["substitution", "insertion", "deletion", "replacement"] },
+    "edit_start_0based": { "type": "integer" },
+    "edit_delta_bp": { "type": "integer" },
+    "epeg_motif_added": { "type": "boolean" },
+    "n_pegrna_candidates": { "type": "integer" },
+    "n_ngrna_candidates": { "type": "integer" },
+    "n_pe3b_candidates": { "type": "integer" },
+    "top_pegrnas": { "type": "array", "items": { "type": "object" } },
+    "top_ngrnas": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": ["pegrna_candidates", "ngrna_candidates", "architecture_plot"],
+      "properties": {
+        "pegrna_candidates": { "type": "string" },
+        "ngrna_candidates": { "type": "string" },
+        "architecture_plot": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

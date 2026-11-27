@@ -33,3 +33,12 @@
   - **Substitution Only**: `n_ins == 0, n_del == 0, n_sub > 0` (expected pure base-editing product).
   - **HDR / Imperfect HDR**: matches `hdr_seq` signature edits cleanly vs accompanied by unintended indels.
 - For `CBE` (`C->T`) and `ABE` (`A->G`), reports base conversion across protospacer positions `1..L`, target conversion % inside `[4..8]`, bystander edit %, and indel byproduct %.
+
+## 5. Chemogenetic Drug-vs-Vehicle Screening (`crispr_drugz`)
+
+- **When to prefer `crispr_drugz` over `crispr_screen_hits`**:
+  - In chemogenetic modifier screens comparing **Drug-treated vs. DMSO-treated** arms at the same endpoint (`IC20`–`IC30` sub-lethal drug dose), low-abundance sgRNAs exhibit inflated fold-change variance. **DrugZ** (Collimore & Hart, *Genome Medicine* 2019) normalizes each sample to $10^7$ reads, orders sgRNAs by descending control abundance, fits a **monotonically non-decreasing empirical-Bayes MAD variance** across sliding windows (`window_size=500`), and aggregates replicate/guide $z$-scores into centered unit-variance **`normZ`**:
+    $$\text{normZ}_g = \frac{\sum_{i \in g} z_i}{\sqrt{n_{\text{obs}, g}}} \quad (\text{re-centered and MAD-standardized across genes})$$
+  - **`normZ < 0` (`fdr_synth_lethal < 0.05`)**: synthetic-lethal **drug sensitizers** (knockout enhances drug killing).
+  - **`normZ > 0` (`fdr_suppressor < 0.05`)**: **drug-resistance suppressors** (knockout confers resistance, e.g., drug target, importer, or pro-drug activating enzyme).
+  - Pass `--remove_genes` for depleted core-essential genes if late-timepoint pan-essential dropout distorts low-count variance.

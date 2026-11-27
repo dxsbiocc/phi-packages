@@ -46,10 +46,15 @@ class TestProteinDesignPluginContract(unittest.TestCase):
 
         manifest = (PLUGIN_DIR / "phi-package.yaml").read_text(encoding="utf-8")
         self.assertIn("id: protein-design", manifest)
+        self.assertIn("version: 0.2.0", manifest)
         self.assertIn("toolPrefix: pd", manifest)
         for skill in ("protein-design-workflow", "structure-input-prep", "design-evaluation"):
             self.assertIn(f"skills/{skill}", manifest)
             self.assertTrue((PLUGIN_DIR / "skills" / skill / "SKILL.md").is_file())
+        eval_skill = (PLUGIN_DIR / "skills" / "design-evaluation" / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("    - name: developability_audit", eval_skill)
+        self.assertIn("      output: ./schemas/developability-audit-result.json", eval_skill)
+        self.assertTrue((PLUGIN_DIR / "skills" / "design-evaluation" / "schemas" / "developability-audit-result.json").is_file())
 
 
 class TestProteinDesignPluginScripts(unittest.TestCase):
@@ -165,6 +170,100 @@ class TestProteinDesignPluginScripts(unittest.TestCase):
             self.assertEqual(len(rep["top_candidates"]), 2)
             self.assertEqual(rep["top_candidates"][0]["design_id"], "d3")
             self.assertIn("iptm", rep["metric_quantiles_all"])
+
+    def test_developability_audit_fasta_and_tsv(self) -> None:
+        # Clean soluble binder: acidic/balanced pI far from 7.4, has Trp & Tyr, even Cys (0), no NG/DG/NXST
+        clean_seq = "MKLTVGDDAAKLTVGDDAAKLTVGDDAAWYA"
+        # Risky binder: UV-blind (no W/Y), unpaired Cys (1 C), NG deamidation, DG isomerization,
+        # N-X-S glycosylation sequon (NAS), and balanced K/E/H/R near pI ~7.4
+        risky_seq = "MAHCEDKAKHNGDGKNASTAEKKDALAALVALVALV"
+
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_dir = Path(tmp)
+            fa_path = tmp_dir / "candidates.fasta"
+            fa_path.write_text(
+                f">clean_binder\n{clean_seq}\n>risky_binder\n{risky_seq}\n",
+                encoding="utf-8",
+            )
+            out_fa = tmp_dir / "audit_fa"
+            proc_fa = subprocess.run(
+                [
+                    sys.executable,
+                    "-B",
+                    str(EVAL_SCRIPTS / "developability_audit.py"),
+                    "--sequences_input",
+                    str(fa_path),
+                    "--output_dir",
+                    str(out_fa),
+                    "--buffer_ph",
+                    "7.4",
+                ],
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            res_fa = json.loads(proc_fa.stdout)
+            self.assertEqual(res_fa["status"], "ok")
+            self.assertEqual(res_fa["tool"], "pd_developability_audit")
+            self.assertEqual(res_fa["input_format"], "fasta")
+            self.assertEqual(res_fa["n_sequences"], 2)
+            self.assertEqual(res_fa["n_uv280_blind"], 1)
+            self.assertEqual(res_fa["n_unpaired_cys"], 1)
+            self.assertEqual(res_fa["n_pi_clash"], 1)
+            self.assertEqual(res_fa["tier_counts"]["pass"], 1)
+            self.assertEqual(res_fa["tier_counts"]["high_risk"], 1)
+
+            tsv_out = Path(res_fa["outputs"]["developability_audit_tsv"])
+            self.assertTrue(tsv_out.is_file())
+            sidecar = tsv_out.with_name(tsv_out.name + ".phi-artifact.json")
+            self.assertTrue(sidecar.is_file())
+            meta = json.loads(sidecar.read_text(encoding="utf-8"))
+            self.assertEqual(meta["contractVersion"], "1.0.0")
+            self.assertEqual(meta["kind"], "table")
+            self.assertEqual(meta["provenance"]["tool"], "pd_developability_audit")
+            self.assertEqual(meta["provenance"]["skill"], "design-evaluation")
+
+            import csv
+
+            with tsv_out.open("r", encoding="utf-8") as fh:
+                rows_by_id = {r["design_id"]: r for r in csv.DictReader(fh, delimiter="\t")}
+            self.assertEqual(rows_by_id["clean_binder"]["developability_tier"], "pass")
+            self.assertGreater(float(rows_by_id["clean_binder"]["abs280_01pct_reduced"]), 0.5)
+            self.assertEqual(rows_by_id["risky_binder"]["developability_tier"], "high_risk")
+            self.assertEqual(rows_by_id["risky_binder"]["uv280_blind"], "True")
+            self.assertEqual(rows_by_id["risky_binder"]["unpaired_cys"], "True")
+            self.assertGreaterEqual(int(rows_by_id["risky_binder"]["n_deamidation_motifs"]), 1)
+            self.assertGreaterEqual(int(rows_by_id["risky_binder"]["n_isomerization_motifs"]), 1)
+            self.assertGreaterEqual(int(rows_by_id["risky_binder"]["n_nglycosylation_sequons"]), 1)
+
+            # Table input (filtered.tsv style)
+            filtered_tsv = tmp_dir / "filtered.tsv"
+            filtered_tsv.write_text(
+                "design_id\tparent_design_id\tiptm\tbinder_seq\n"
+                f"d_clean\tp1\t0.85\t{clean_seq}\n"
+                f"d_risky\tp2\t0.81\t{risky_seq}\n",
+                encoding="utf-8",
+            )
+            out_tbl = tmp_dir / "audit_tbl"
+            proc_tbl = subprocess.run(
+                [
+                    sys.executable,
+                    "-B",
+                    str(EVAL_SCRIPTS / "developability_audit.py"),
+                    "--sequences_input",
+                    str(filtered_tsv),
+                    "--output_dir",
+                    str(out_tbl),
+                ],
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            res_tbl = json.loads(proc_tbl.stdout)
+            self.assertEqual(res_tbl["input_format"], "table")
+            self.assertEqual(res_tbl["n_sequences"], 2)
+            self.assertEqual(res_tbl["tier_counts"]["pass"], 1)
+            self.assertEqual(res_tbl["tier_counts"]["high_risk"], 1)
 
 
 if __name__ == "__main__":

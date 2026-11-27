@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "host",
+    "input_type",
+    "sequence_id",
+    "aa_length",
+    "cds_length_bp",
+    "cai_before",
+    "cai_after",
+    "gc_before",
+    "gc_after",
+    "translation_identical",
+    "remaining_restriction_sites",
+    "remaining_homopolymers",
+    "remaining_shine_dalgarno",
+    "out_of_range_gc_windows",
+    "kozak_prepended",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "mc_codon_optimize" },
+    "host": { "type": "string" },
+    "input_type": { "type": "string" },
+    "sequence_id": { "type": "string" },
+    "aa_length": { "type": "integer" },
+    "cds_length_bp": { "type": "integer" },
+    "cai_before": { "type": ["number", "null"] },
+    "cai_after": { "type": "number" },
+    "gc_before": { "type": ["number", "null"] },
+    "gc_after": { "type": "number" },
+    "translation_identical": { "type": "boolean" },
+    "remaining_restriction_sites": { "type": "integer" },
+    "remaining_homopolymers": { "type": "integer" },
+    "remaining_shine_dalgarno": { "type": "integer" },
+    "out_of_range_gc_windows": { "type": "integer" },
+    "kozak_prepended": { "type": "boolean" },
+    "outputs": {
+      "type": "object",
+      "required": ["optimized_cds_fasta", "optimized_construct_gb", "codon_audit", "profile_plot"],
+      "properties": {
+        "optimized_cds_fasta": { "type": "string" },
+        "optimized_construct_gb": { "type": "string" },
+        "codon_audit": { "type": "string" },
+        "profile_plot": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,7 +1,7 @@
 schemaVersion: 1
 id: single-cell
 type: plugin
-version: 0.7.1
+version: 0.7.2
 title: Single-cell
 summary: >-
   Two parallel single-cell toolchains: R/Seurat 6 (sc_) and Python/scanpy 1.13

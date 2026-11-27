@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "input_format",
+    "buffer_ph",
+    "max_hydrophobic_patch",
+    "n_sequences",
+    "tier_counts",
+    "n_uv280_blind",
+    "n_pi_clash",
+    "n_unpaired_cys",
+    "n_instability_flagged",
+    "n_hydrophobic_patch_flagged",
+    "top_candidates",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "pd_developability_audit" },
+    "input_format": { "type": "string", "enum": ["fasta", "table"] },
+    "buffer_ph": { "type": "number" },
+    "max_hydrophobic_patch": { "type": "number" },
+    "n_sequences": { "type": "integer" },
+    "tier_counts": {
+      "type": "object",
+      "required": ["pass", "caution", "high_risk"],
+      "properties": {
+        "pass": { "type": "integer" },
+        "caution": { "type": "integer" },
+        "high_risk": { "type": "integer" }
+      }
+    },
+    "n_uv280_blind": { "type": "integer" },
+    "n_pi_clash": { "type": "integer" },
+    "n_unpaired_cys": { "type": "integer" },
+    "n_instability_flagged": { "type": "integer" },
+    "n_hydrophobic_patch_flagged": { "type": "integer" },
+    "top_candidates": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": ["developability_audit_tsv"],
+      "properties": {
+        "developability_audit_tsv": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Contract, layout, AST, schema, and end-to-end tests for the unified clinical plugin (0.1.0)."""
+"""Contract, layout, AST, schema, and end-to-end tests for the unified clinical plugin (0.2.0)."""
 
 from __future__ import annotations
 
@@ -94,7 +94,7 @@ class TestClinicalPluginContract(unittest.TestCase):
     def test_plugin_layout_frontmatter_locks_schemas_and_ast(self):
         manifest = (PLUGIN_DIR / "phi-package.yaml").read_text(encoding="utf-8")
         self.assertIn("id: clinical", manifest)
-        self.assertIn("version: 0.1.0", manifest)
+        self.assertIn("version: 0.2.0", manifest)
         self.assertIn("toolPrefix: clin", manifest)
         self.assertIn("- agents/Clinical.md", manifest)
         self.assertIn("- skills/prediction-causal-workflow", manifest)
@@ -134,8 +134,27 @@ class TestClinicalPluginContract(unittest.TestCase):
             (
                 PRED_DIR,
                 "prediction-causal-workflow",
-                {"diagnostic-roc-result.json", "calibration-dca-result.json", "psm-iptw-result.json", "rcs-result.json", "meta-result.json"},
-                {"_pred_common.py", "clin_diagnostic_roc.py", "clin_calibration_dca.py", "clin_psm_iptw.py", "clin_rcs.py", "clin_meta.py"},
+                {
+                    "diagnostic-roc-result.json",
+                    "calibration-dca-result.json",
+                    "psm-iptw-result.json",
+                    "rcs-result.json",
+                    "meta-result.json",
+                    "sample-size-result.json",
+                    "subgroup-interaction-result.json",
+                    "nomogram-result.json",
+                },
+                {
+                    "_pred_common.py",
+                    "clin_diagnostic_roc.py",
+                    "clin_calibration_dca.py",
+                    "clin_psm_iptw.py",
+                    "clin_rcs.py",
+                    "clin_meta.py",
+                    "clin_sample_size.py",
+                    "clin_subgroup_interaction.py",
+                    "clin_nomogram.py",
+                },
             ),
         ]
 
@@ -534,6 +553,160 @@ class TestClinicalWorkflowsE2E(unittest.TestCase):
             )
             validate_output_schema(m22, PRED_DIR / "schemas/meta-result.json")
             self.assertTrue(any("Haldane-Anscombe" in w for w in m22["warnings"]))
+
+            # 12) clin_sample_size (Schoenfeld survival log-rank, Farrington-Manning NI, exact nct, Hanley-McNeil AUC)
+            ss_surv = run_tool(
+                PRED_DIR,
+                "clin_sample_size.py",
+                [
+                    "--design", "survival_logrank",
+                    "--hr", "0.65",
+                    "--median_surv_ctrl", "18.0",
+                    "--accrual_time", "24.0",
+                    "--followup_time", "18.0",
+                    "--power", "0.80",
+                    "--dropout_rate", "0.10",
+                    "--output_dir", str(tdir / "ss_surv"),
+                ],
+                cwd=tdir,
+            )
+            validate_output_schema(ss_surv, PRED_DIR / "schemas/sample-size-result.json")
+            assert_artifacts_valid(self, ss_surv, "prediction-causal-workflow")
+            # Schoenfeld E = ceil((1.96 + 0.8416)^2 * 4 / (ln 0.65)^2) = ceil(31.396 / 0.1856) = 170 events
+            self.assertAlmostEqual(ss_surv["required_events"], 170, delta=2)
+            self.assertGreater(ss_surv["n_total_enrolled"], ss_surv["n_total_evaluable"])
+
+            ss_ni = run_tool(
+                PRED_DIR,
+                "clin_sample_size.py",
+                [
+                    "--design", "two_proportions",
+                    "--p_ctrl", "0.75",
+                    "--p_exp", "0.75",
+                    "--non_inferiority_margin", "0.10",
+                    "--one_sided",
+                    "--alpha", "0.025",
+                    "--power", "0.80",
+                    "--dropout_rate", "0.0",
+                    "--output_dir", str(tdir / "ss_ni"),
+                ],
+                cwd=tdir,
+            )
+            validate_output_schema(ss_ni, PRED_DIR / "schemas/sample-size-result.json")
+            self.assertIn("Farrington-Manning", ss_ni["method"])
+
+            ss_auc = run_tool(
+                PRED_DIR,
+                "clin_sample_size.py",
+                [
+                    "--design", "diagnostic_auc",
+                    "--auc_target", "0.80",
+                    "--auc_null", "0.65",
+                    "--prevalence", "0.25",
+                    "--output_dir", str(tdir / "ss_auc"),
+                ],
+                cwd=tdir,
+            )
+            validate_output_schema(ss_auc, PRED_DIR / "schemas/sample-size-result.json")
+            self.assertGreaterEqual(ss_auc["achieved_power"], 0.80)
+
+            # 13) clin_subgroup_interaction (true treatment x biomarker interaction vs null sex interaction)
+            n_sg = 320
+            treat_sg = rng.binomial(1, 0.5, size=n_sg)
+            biomarker_pos = rng.choice(["PDL1_High", "PDL1_Low"], size=n_sg)
+            sex_sg = rng.choice(["Female", "Male"], size=n_sg)
+            age_sg = np.round(rng.normal(62.0, 9.0, size=n_sg), 1)
+            # Strong benefit in PDL1_High (log-OR = +1.8), null/slight reverse in PDL1_Low (-0.2)
+            eff_vec = np.where(biomarker_pos == "PDL1_High", 1.8, -0.2) * treat_sg
+            lin_sg = -0.5 + eff_vec + 0.02 * (age_sg - 62.0)
+            y_sg = rng.binomial(1, 1.0 / (1.0 + np.exp(-lin_sg)))
+            sg_df = pd.DataFrame(
+                {
+                    "treat": np.where(treat_sg == 1, "Drug", "Placebo"),
+                    "response": y_sg,
+                    "pdl1_group": biomarker_pos,
+                    "sex": sex_sg,
+                    "age": age_sg,
+                }
+            )
+            sg_path = tdir / "subgroup.tsv"
+            sg_df.to_csv(sg_path, sep="\t", index=False)
+
+            sg_res = run_tool(
+                PRED_DIR,
+                "clin_subgroup_interaction.py",
+                [
+                    "--clinical", str(sg_path),
+                    "--exposure_col", "treat",
+                    "--exposed_label", "Drug",
+                    "--outcome_col", "response",
+                    "--subgroups", "pdl1_group",
+                    "--subgroups", "sex",
+                    "--adjust_covariates", "age",
+                    "--output_dir", str(tdir / "sg_out"),
+                ],
+                cwd=tdir,
+            )
+            validate_output_schema(sg_res, PRED_DIR / "schemas/subgroup-interaction-result.json")
+            assert_artifacts_valid(self, sg_res, "prediction-causal-workflow")
+            sg_map = {s["subgroup_var"]: s for s in sg_res["subgroups"]}
+            self.assertLess(sg_map["pdl1_group"]["p_interaction"], 0.01)
+            self.assertLess(sg_map["pdl1_group"]["padj_interaction"], 0.02)
+            self.assertGreater(sg_map["sex"]["p_interaction"], 0.10)
+
+            # 14) clin_nomogram (Logistic risk nomogram + Cox landmark survival nomogram)
+            nom_log = run_tool(
+                PRED_DIR,
+                "clin_nomogram.py",
+                [
+                    "--clinical", str(cal_path),
+                    "--predictors", "x1",
+                    "--predictors", "x2",
+                    "--outcome_col", "y",
+                    "--output_dir", str(tdir / "nom_log"),
+                ],
+                cwd=tdir,
+            )
+            validate_output_schema(nom_log, PRED_DIR / "schemas/nomogram-result.json")
+            assert_artifacts_valid(self, nom_log, "prediction-causal-workflow")
+            self.assertEqual(nom_log["model_type"], "logistic")
+            self.assertGreater(nom_log["apparent_discrimination"], 0.75)
+
+            # Cox nomogram on survival cohort built from age + stage + risk_score
+            surv_nom_df = pd.DataFrame(
+                {
+                    "os_months": np.round(rng.exponential(scale=np.exp(3.6 - 0.6 * x1 - 0.5 * (x2 > 0).astype(float))), 2),
+                    "os_event": rng.binomial(1, 0.65, size=n_c),
+                    "biomarker": x1,
+                    "stage_grp": np.where(x2 > 0, "III_IV", "I_II"),
+                    "age": np.round(rng.normal(63.0, 8.0, size=n_c), 1),
+                }
+            )
+            surv_nom_df["os_months"] = np.maximum(0.5, surv_nom_df["os_months"])
+            surv_nom_path = tdir / "surv_nom.tsv"
+            surv_nom_df.to_csv(surv_nom_path, sep="\t", index=False)
+
+            nom_cox = run_tool(
+                PRED_DIR,
+                "clin_nomogram.py",
+                [
+                    "--clinical", str(surv_nom_path),
+                    "--predictors", "biomarker",
+                    "--predictors", "stage_grp",
+                    "--predictors", "age",
+                    "--outcome_col", "os_event",
+                    "--time_col", "os_months",
+                    "--landmarks", "12",
+                    "--landmarks", "36",
+                    "--output_dir", str(tdir / "nom_cox"),
+                ],
+                cwd=tdir,
+            )
+            validate_output_schema(nom_cox, PRED_DIR / "schemas/nomogram-result.json")
+            assert_artifacts_valid(self, nom_cox, "prediction-causal-workflow")
+            self.assertEqual(nom_cox["model_type"], "cox")
+            self.assertEqual(nom_cox["discrimination_metric"], "c_index")
+            self.assertGreater(len(nom_cox["landmarks"]), 0)
 
 
 if __name__ == "__main__":

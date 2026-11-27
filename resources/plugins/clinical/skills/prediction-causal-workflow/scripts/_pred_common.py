@@ -250,6 +250,7 @@ def fit_logistic_weighted(
         "se_model": np.sqrt(np.maximum(np.diag(cov_model), 1e-18)),
         "se_robust": np.sqrt(np.maximum(np.diag(cov_rob), 1e-18)),
         "probs": prob_hat,
+        "nll": float(nll_cur),
         "converged": converged,
     }
 
@@ -360,6 +361,7 @@ def fit_cox_weighted(
         "cov_robust": cov_rob,
         "se_model": np.sqrt(np.maximum(np.diag(cov_model), 1e-18)),
         "se_robust": np.sqrt(np.maximum(np.diag(cov_rob), 1e-18)),
+        "nll": float(nll_cur),
         "converged": converged,
         "n_samples": n,
         "n_events": n_events,

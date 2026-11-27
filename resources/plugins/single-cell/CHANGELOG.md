@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.2 (2026-11-26)
+
+- 同步 `README.md` 与实际清单：版本号更新至 `0.7.2`，Python 路 `sc_py_*` 工具总数由 `10` 更新为 `11`，并在 Python 路工具表补齐 `sc_py_communication`（异源多亚基配受体置换检验 + Preset 8）。
+
 ## 0.7.1 (2026-11-25)
 
 - 为 `seurat-workflow` 与 `scanpy-workflow` 全部脚本工具与 Notebook 渲染工具补齐 `output` JSON Schema 声明（`step-result.json`、`notebook-result.json`）。

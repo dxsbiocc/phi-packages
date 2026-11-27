@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "design",
+    "solve_for",
+    "method",
+    "alpha",
+    "one_sided",
+    "allocation_ratio",
+    "dropout_rate",
+    "target_power",
+    "achieved_power",
+    "n_total_evaluable",
+    "n_total_enrolled",
+    "arm_breakdown",
+    "required_events",
+    "design_details",
+    "power_curve_table",
+    "figures",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "design": {
+      "type": "string",
+      "enum": ["survival_logrank", "two_proportions", "two_means", "diagnostic_auc"]
+    },
+    "solve_for": {
+      "type": "string",
+      "enum": ["sample_size", "power"]
+    },
+    "method": { "type": "string" },
+    "alpha": { "type": "number" },
+    "one_sided": { "type": "boolean" },
+    "allocation_ratio": { "type": "number" },
+    "dropout_rate": { "type": "number" },
+    "target_power": { "type": ["number", "null"] },
+    "achieved_power": { "type": "number" },
+    "n_total_evaluable": { "type": "integer" },
+    "n_total_enrolled": { "type": "integer" },
+    "arm_breakdown": { "type": "object" },
+    "required_events": { "type": ["integer", "null"] },
+    "design_details": { "type": "object" },
+    "power_curve_table": { "type": "string" },
+    "figures": { "type": "array", "items": { "type": "string" } },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

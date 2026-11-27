@@ -45,6 +45,7 @@ jobs:
           python tests/test_metabolomics_plugin.py -v
           python tests/test_metagenomics_enhancements.py -v
           python tests/test_metagenomics_plugin.py -v
+          python tests/test_molecular_cloning_plugin.py -v
           python tests/test_mr_pgx_and_rnaseq_v3.py -v
           python tests/test_multiomics_and_methylation_plugins.py -v
           python tests/test_protein_design_composites.py -v
@@ -54,6 +55,7 @@ jobs:
           python tests/test_protein_design_wrappers.py -v
           python tests/test_proteomics_plugin.py -v
           python tests/test_single_cell_and_literature_plugins.py -v
+          python tests/test_wetlab_assay_plugin.py -v
 
   scanpy-plugin-tests:
     runs-on: ubuntu-latest

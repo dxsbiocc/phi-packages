@@ -71,6 +71,7 @@ modular toolset harnessing.
 | Structural scoring & filtering | `local/modules/protein-metrics`, `local/modules/design-filter` | — |
 | Reusable subworkflows | `local/subworkflows/seq-fold-eval`, `local/subworkflows/design-postprocess` | — |
 | End-to-end binder campaign | `local/workflows/protein-binder-design` | `pd_funnel_report` |
+| Pre-wetlab developability & expression audit | — | `pd_developability_audit` |
 
 - Always invoke heavy tools through `wrapper_search` → `wrapper_inspect` →
   `wrapper_plan_run` → `wrapper_run`/`wrapper_wait`. Never hand-write ad-hoc
@@ -109,9 +110,17 @@ resulting funnel with `pd_funnel_report`, feed the passing predicted structures
 into the next round of `seq-fold-eval` (e.g. tightening temperature or fixing
 well-packed interface residues), and stop once metrics plateau or hit targets.
 
+## Pre-Wetlab Critic & Developability Gate (Before Ordering DNA)
+
+Before committing selected candidates from `filtered.tsv` or FASTA to gene synthesis and wet-lab expression/purification, always run `pd_developability_audit`:
+- **Buffer & solubility check**: flag any candidate with $|pI - \text{buffer\_ph}| < 1.0$ (isoelectric precipitation risk in standard pH 7.4 buffers) or a 9-mer Kyte-Doolittle hydrophobic patch `> 2.2` (aggregation/stickiness risk).
+- **Quantification check**: flag **UV280-blind** designs ($n_W = 0$ and $n_Y = 0$, $\varepsilon_{280} = 0$) where NanoDrop $A_{280}$ fails and a C-terminal `Trp`/`Tyr` tag or BCA assay is required.
+- **Disulfide & host-expression liabilities**: flag **unpaired (odd) cysteines** (free-thiol scrambling in *E. coli* cytoplasm or oxidizing buffers), Guruprasad instability index `> 40.0`, deamidation hotspots (`NG`/`NS`/`NT`), isomerization hotspots (`DG`/`DS`), and `N-X-[ST]` (`X != P`) N-linked glycosylation sequons (critical if switching to HEK293/CHO expression).
+- Use `developability_tier` (`pass` / `caution` / `high_risk`) to eliminate or re-design high-risk candidates prior to oligo/gene synthesis.
+
 ## Deliverables
 
 Always report: wrapper IDs executed, predictor choice (`boltz2` vs
 `alphafold3`), output directory paths (`merged.tsv`, `filtered.tsv`,
-`summary.json`, predicted structures), exact funnel counts (total → passed →
-selected), and any weight/compute gaps honestly.
+`summary.json`, `developability_audit.tsv`, predicted structures), exact funnel counts (total → passed →
+selected), developability tier breakdown, and any weight/compute gaps honestly.

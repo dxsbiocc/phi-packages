@@ -26,3 +26,15 @@
 
 - Never rank candidates pooled from different structure predictors (`boltz2` vs `alphafold3`) on raw `confidence_score` without separating or re-folding all top hits with one common oracle.
 - Always inspect `unique_parents_selected` in `pd_funnel_report` — ordering 24 sequences that all derive from a single backbone carries high experimental correlation risk.
+
+## 4. Pre-Wetlab Developability Audit (`pd_developability_audit`)
+
+| Metric / Liability | Target / Safe Range | Warning / Risk Rule |
+| --- | --- | --- |
+| Isoelectric point (`pI`) | `|pI - buffer_ph| >= 1.0` | Flag `pi_buffer_clash` if `|pI - buffer_ph| < 1.0` (isoelectric precipitation risk) |
+| UV280 extinction ($\varepsilon_{280}$, $A_{280}^{0.1\%}$) | `n_W + n_Y >= 1` | Flag `uv280_blind` if $n_W = 0$ and $n_Y = 0$ (NanoDrop A280 blind; add Trp or use BCA) |
+| Guruprasad Instability Index | `<= 40.0` | `> 40.0` flagged unstable (`> 45.0` escalates risk) |
+| 9-mer hydrophobic patch (KD) | `<= 2.2` | `> max_hydrophobic_patch` (default `2.2`) flags surface aggregation risk |
+| Unpaired Cysteines | `n_cys % 2 == 0` | Odd `n_cys` flags `unpaired_cys` (thiol scrambling / covalent dimerization) |
+| Chemical hotspots | `NG/NS/NT`, `DG/DS`, `N-X-[ST]` | Counted and localized for deamidation, isomerization, and mammalian N-glycosylation |
+| Overall tier | `pass` | `high_risk` (severe flags: `uv280_blind`, `unpaired_cys`, `pi_buffer_clash`, `hydrophobic_patch_risk`, or `II > 45`), `caution` (moderate warnings), `pass` (clean) |

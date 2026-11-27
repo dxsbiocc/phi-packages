@@ -1,16 +1,17 @@
 ---
 name: screen-editing-workflow
 description: >-
-  Pooled CRISPR functional screen QC, alpha-RRA hit calling, and post-editing
-  amplicon outcome quantification: audit count matrices from mageck count or
-  crisprcleanr (read depth, zero-dropout %, Lorenz Gini index, DESeq median
-  normalization, PCA/correlation, and essential-vs-nonessential NNMD & ROC-AUC);
-  call positive and negative selection gene hits via alpha-RRA with moderated
-  variance, seeded empirical permutation null, and BH FDR; and quantify NHEJ
+  Pooled CRISPR functional & chemogenetic screen QC, alpha-RRA & DrugZ hit
+  calling, and post-editing amplicon outcome quantification: audit count
+  matrices from mageck count or crisprcleanr (read depth, zero-dropout %, Lorenz
+  Gini index, DESeq median normalization, PCA/correlation, and essential-vs-nonessential
+  NNMD & ROC-AUC); call positive and negative selection gene hits via alpha-RRA;
+  call drug-vs-vehicle synthetic-lethal sensitizers and resistance suppressors
+  via Collimore & Hart (2019) DrugZ empirical-Bayes normZ; and quantify NHEJ
   frameshift KO %, in-frame indels, clean vs imperfect HDR %, and CBE/ABE
   target-vs-bystander editing from amplicon allele tables/FASTAs or CRISPResso2
-  outputs. Use for MAGeCK, CRISPRcleanR, CRISPResso2, Gini, NNMD, RRA, indel,
-  frameshift, HDR, base editing, 筛选质控, 富集筛选, 编辑效率定量.
+  outputs. Use for MAGeCK, DrugZ, synthetic lethality, CRISPRcleanR, CRISPResso2,
+  Gini, NNMD, RRA, indel, frameshift, HDR, base editing, 筛选质控, 富集筛选, 合成致死, 编辑效率定量.
 phi:
   environment: plugin:crispr
   attachTo:
@@ -114,6 +115,61 @@ phi:
       approval: write
       output: ./schemas/screen-hits-result.json
       timeoutSeconds: 600
+    - name: drugz
+      description: >-
+        Chemogenetic drug-vs-vehicle pooled CRISPR screen analysis implementing
+        the Collimore & Hart (2019) DrugZ algorithm: 10M RPM normalization,
+        abundance-ordered empirical-Bayes monotonic sliding-window variance
+        estimation, paired/unpaired replicate z-scores, gene-level sumZ/normZ,
+        and BH FDR for synthetic-lethal sensitizers and drug-resistance suppressors.
+      run: [python, ./scripts/crispr_drugz.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [counts, drug_cols, control_cols, output_dir]
+        properties:
+          counts:
+            type: string
+            format: input-path
+            description: sgRNA count matrix TSV/CSV (e.g. mageck count .count.txt).
+          drug_cols:
+            type: array
+            items:
+              type: string
+            description: Drug-treated replicate column names in counts.
+          control_cols:
+            type: array
+            items:
+              type: string
+            description: Vehicle/DMSO-treated control replicate column names in counts.
+          output_dir:
+            type: string
+            format: project-path
+            description: Directory for drugz_sgrna_zscores.tsv, drugz_gene_summary.tsv, and drugz_normz_waterfall.png.
+          sgrna_col:
+            type: string
+            description: sgRNA ID column name (auto-detected if omitted).
+          gene_col:
+            type: string
+            description: Target gene column name (auto-detected if omitted).
+          unpaired:
+            type: boolean
+            description: Force unpaired group-mean DrugZ comparison even when drug_cols and control_cols have equal length (default false).
+          pseudocount:
+            type: number
+            description: Stabilizing pseudocount added to 10M-normalized RPM reads before log2 fold-change (default 5.0).
+          window_size:
+            type: integer
+            minimum: 25
+            description: Abundance-ordered sliding window size for empirical-Bayes MAD variance estimation (default 500).
+          remove_genes:
+            type: array
+            items:
+              type: string
+            description: Optional core-essential genes to exclude before variance estimation so extreme pan-essential dropout does not inflate background variance.
+      approval: write
+      output: ./schemas/drugz-result.json
+      timeoutSeconds: 300
     - name: editing_quant
       description: >-
         Quantify post-editing genome modification outcomes from raw amplicon
@@ -172,6 +228,7 @@ Screen FASTQ + library ──nf-core/modules/mageck-count───────�
 Cancer lethality screen──nf-core/modules/crisprcleanr-normalize▶ CNV-corrected sgRNA count matrix
 Count matrix           ──crispr_screen_qc──────────────────────▶ Gini, zero-dropout, PCA, NNMD & ROC-AUC
 Count matrix           ──crispr_screen_hits────────────────────▶ sgRNA log2FC + gene alpha-RRA + BH FDR
+Drug vs DMSO counts    ──crispr_drugz──────────────────────────▶ Empirical-Bayes normZ synthetic lethality & resistance
 Amplicon FASTQ         ──nf-core/modules/crispresso2───────────▶ Alleles_frequency_table_around_sgRNA_*.txt
 Allele table / CRISPResso2 ──crispr_editing_quant──────────────▶ Frameshift KO %, HDR %, CBE/ABE bystander %
 ```

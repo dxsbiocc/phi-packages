@@ -1,0 +1,14 @@
+name: mc
+description: >-
+  Private molecular cloning, primer design, codon optimization, construct
+  assembly, and Sanger ABIF verification environment: Python 3.13 +
+  pandas/numpy/scipy/scikit-learn/matplotlib-base (100% pure MIT + conda-forge).
+channels:
+  - conda-forge
+dependencies:
+  - python=3.13
+  - pandas
+  - numpy
+  - scipy
+  - scikit-learn
+  - matplotlib-base

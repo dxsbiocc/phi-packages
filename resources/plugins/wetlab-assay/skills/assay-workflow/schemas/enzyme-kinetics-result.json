@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "mode",
+    "has_inhibitor",
+    "best_model",
+    "best_params",
+    "model_comparison",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "wa_enzyme_kinetics" },
+    "mode": { "type": "string", "enum": ["velocity_table", "progress_curves"] },
+    "has_inhibitor": { "type": "boolean" },
+    "best_model": { "type": "string" },
+    "best_params": { "type": "object" },
+    "kcat": { "type": ["number", "null"] },
+    "catalytic_efficiency": { "type": ["number", "null"] },
+    "cheng_prusoff_ki": { "type": ["number", "null"] },
+    "model_comparison": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": [
+        "kinetics_model_comparison",
+        "velocity_fit_table",
+        "enzyme_kinetics_plots"
+      ],
+      "properties": {
+        "kinetics_model_comparison": { "type": "string" },
+        "velocity_fit_table": { "type": "string" },
+        "enzyme_kinetics_plots": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

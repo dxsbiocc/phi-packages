@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "mode",
+    "n_sgrnas",
+    "n_genes",
+    "n_replicates",
+    "n_synthetic_lethal_fdr05",
+    "n_suppressor_fdr05",
+    "top_synthetic_lethal",
+    "top_suppressors",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "crispr_drugz" },
+    "mode": { "type": "string", "enum": ["paired", "unpaired"] },
+    "pseudocount": { "type": "number" },
+    "window_size": { "type": "integer" },
+    "n_sgrnas": { "type": "integer" },
+    "n_genes": { "type": "integer" },
+    "n_replicates": { "type": "integer" },
+    "n_synthetic_lethal_fdr05": { "type": "integer" },
+    "n_suppressor_fdr05": { "type": "integer" },
+    "top_synthetic_lethal": { "type": "array", "items": { "type": "object" } },
+    "top_suppressors": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": ["drugz_sgrna_zscores", "drugz_gene_summary", "drugz_waterfall_plot"],
+      "properties": {
+        "drugz_sgrna_zscores": { "type": "string" },
+        "drugz_gene_summary": { "type": "string" },
+        "drugz_waterfall_plot": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

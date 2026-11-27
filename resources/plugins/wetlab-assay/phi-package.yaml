@@ -1,0 +1,19 @@
+schemaVersion: 1
+id: wetlab-assay
+type: plugin
+version: 0.1.0
+title: Wet-Lab Assay Quantification & Biochemical Kinetics
+summary: >-
+  Quantitative wet-lab assay workflow (wa_): MIQE-compliant RT-qPCR relative
+  quantification (Pfaffl, geNorm & Andersen reference stability), weighted
+  4PL/5PL immunoassay calibration (LOD/LLOQ/ULOQ), Michaelis-Menten & inhibitor
+  kinetics, and global 1:1 Langmuir SPR/BLI binding kinetics.
+toolPrefix: wa
+components:
+  agents:
+    - agents/WetlabAssay.md
+  skills:
+    - skills/assay-workflow
+environments:
+  wa:
+    spec: environments/wa/environment.yml

@@ -1,4 +1,4 @@
-# single-cell (single-cell analysis) · 0.6.1
+# single-cell (single-cell analysis) · 0.7.2
 
 Two parallel single-cell RNA-seq toolchains: **R/Seurat 6** and **Python/scanpy 1.13**, each
 with a private locked environment, routed by user preference. Includes a map of the 13 teaching
@@ -16,7 +16,7 @@ scNotebooks teaching modules; Python notebook presets adapt the NBIS scanpy labs
 |--|--|
 | Agent `SingleCell` | Role, boundaries, and the **R/Python route rules**; binds no environment and builds only the chosen route's environment |
 | Skill `seurat-workflow` | The R route's executable chain: 8 `sc_*` tools (including notebook rendering) |
-| Skill `scanpy-workflow` | The Python route's executable chain: 10 `sc_py_*` tools (including notebook rendering) |
+| Skill `scanpy-workflow` | The Python route's executable chain: 11 `sc_py_*` tools (including notebook rendering) |
 | Reference `scnotebooks-curriculum` | Module-by-module map of the 13 modules, tucked into `seurat-workflow/references/maintainers/`; documentation only |
 | Environment `seurat` | R 4.5 + Seurat 6.0.0 + IRkernel, locked for three platforms |
 | Environment `scanpy` | Python 3.13 + scanpy 1.13 + ipykernel, locked for three platforms |
@@ -62,8 +62,9 @@ Python route (prefix `sc_py`, environment `plugin:scanpy`):
 | `sc_py_annotate` | Marker-panel scoring annotation or an explicit mapping; writes a dot plot |
 | `sc_py_pseudobulk` | The sample-level counts table, isomorphic to the R route (expression filtering works on unit counts, same semantics), with a returned `wrapper_hint` |
 | `sc_py_trajectory` | PAGA abstract graph plus diffusion pseudotime (DPT), with a chosen root cell |
+| `sc_py_communication` | Heteromeric ligand-receptor permutation screening across cell types on the unscaled `lognorm` layer (CellPhoneDB subunit-minimum rule + BH FDR; writes interactions TSV, hub heatmap, and dotplot) |
 | `sc_py_env_probe` | Reports missing packages in the scanpy ecosystem (bbknn, scVI, CellTypist, and so on) and the parts that cannot run |
-| `sc_py_notebook` | Renders a Python notebook: preset NBIS labs 1–7 or a steps array; the remaining capabilities are the same as the R renderer |
+| `sc_py_notebook` | Renders a Python notebook: preset NBIS labs 1–7 plus Preset 8 (communication), or a steps array; the remaining capabilities are the same as the R renderer |
 
 Both routes' `build_notebook.py` is **the same byte-identical renderer** (asserted by the
 repository tests), and the language is decided by the `--language` / `language` argument; one

@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "method",
+    "construct_name",
+    "topology",
+    "assembled_length_bp",
+    "n_fragments_assembled",
+    "n_junctions",
+    "fidelity_flags",
+    "retained_type_iis_sites",
+    "junctions",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "mc_assemble_construct" },
+    "method": { "type": "string" },
+    "construct_name": { "type": "string" },
+    "topology": { "type": "string", "enum": ["circular", "linear"] },
+    "assembled_length_bp": { "type": "integer" },
+    "n_fragments_assembled": { "type": "integer" },
+    "n_junctions": { "type": "integer" },
+    "fidelity_flags": { "type": "array", "items": { "type": "string" } },
+    "retained_type_iis_sites": { "type": "integer" },
+    "junctions": { "type": "array", "items": { "type": "object" } },
+    "outputs": {
+      "type": "object",
+      "required": ["assembled_fasta", "assembled_gb", "junctions_table", "map_and_gel"],
+      "properties": {
+        "assembled_fasta": { "type": "string" },
+        "assembled_gb": { "type": "string" },
+        "junctions_table": { "type": "string" },
+        "map_and_gel": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

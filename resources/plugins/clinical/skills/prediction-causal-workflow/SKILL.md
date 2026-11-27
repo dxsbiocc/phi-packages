@@ -2,15 +2,17 @@
 name: prediction-causal-workflow
 description: >-
   Clinical prediction validation, diagnostic discrimination, causal inference,
-  nonlinear dose-response, and evidence synthesis workflow in Python: DeLong
-  ROC & paired AUC comparison + PR-AUC + Youden/fixed-cutoff 2x2 metrics;
-  TRIPOD calibration (Brier, IPA, CITL, slope, HL) & Vickers Decision Curve
-  Analysis (DCA); logistic propensity score positivity audit, 1:k caliper PSM,
-  stabilized IPTW with ESS, Love-plot SMD audit & ATE/ATT estimation; Harrell
-  Restricted Cubic Splines (RCS) with overall/non-linearity Wald tests; and
-  Fixed/DL/PM/HKSJ meta-analysis with Egger's test, subgroups, and LOO. Use for
-  诊断ROC, DeLong检验, 校准曲线, 临床决策曲线, DCA, 倾向性评分, PSM, IPTW,
-  限制性立方样条, RCS, Meta分析, 森林图, or 漏斗图.
+  nonlinear dose-response, trial sample-size design, subgroup interaction,
+  nomogram construction, and evidence synthesis workflow in Python: DeLong ROC &
+  paired AUC comparison + PR-AUC + Youden/fixed-cutoff 2x2 metrics; TRIPOD
+  calibration (Brier, IPA, CITL, slope, HL) & Vickers Decision Curve Analysis
+  (DCA); logistic propensity score positivity audit, 1:k caliper PSM, stabilized
+  IPTW with ESS, Love-plot SMD audit & ATE/ATT estimation; Harrell Restricted
+  Cubic Splines (RCS); Fixed/DL/PM/HKSJ meta-analysis; Schoenfeld/Fleiss/Farrington-Manning/Hanley-McNeil
+  sample size & power; formal multiplicative subgroup P-for-interaction forest
+  plots; and Cox/Logistic 0-100 point clinical nomograms. Use for 诊断ROC,
+  DeLong检验, 校准曲线, 临床决策曲线, DCA, 倾向性评分, PSM, IPTW, 限制性立方样条, RCS,
+  Meta分析, 样本量计算, 检验效能, 亚组交互作用, 列线图, Nomogram, 森林图, or 漏斗图.
 phi:
   environment: plugin:clinical
   attachTo:
@@ -286,31 +288,219 @@ phi:
       approval: write
       output: ./schemas/meta-result.json
       timeoutSeconds: 300
+    - name: sample_size
+      description: >-
+        Prospective clinical study sample-size and statistical power calculator
+        across survival_logrank (Schoenfeld 1983), two_proportions (Fleiss/Casagrande
+        superiority and Farrington-Manning 1990 non-inferiority), two_means
+        (exact non-central t-distribution), and diagnostic_auc (Hanley & McNeil
+        1982), with dropout inflation and conservative/target/optimistic power curves.
+      run: [python, ./scripts/clin_sample_size.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [design, output_dir]
+        properties:
+          design:
+            type: string
+            enum: [survival_logrank, two_proportions, two_means, diagnostic_auc]
+            description: Clinical study endpoint / test family.
+          output_dir:
+            type: string
+            format: project-path
+            description: Output directory for power_curve_grid.tsv and sample_size_power_curve.png.
+          solve_for:
+            type: string
+            enum: [sample_size, power]
+            description: Solve for required sample size given target power, or achieved power given n_total (default sample_size).
+          alpha:
+            type: number
+            description: Type I error rate alpha (default 0.05).
+          power:
+            type: number
+            description: Target statistical power 1 - beta when solve_for is sample_size (default 0.80).
+          n_total:
+            type: integer
+            minimum: 4
+            description: Total enrolled sample size when solve_for is power.
+          allocation_ratio:
+            type: number
+            description: Experimental-to-control arm allocation ratio k = N_exp / N_ctrl (default 1.0).
+          one_sided:
+            type: boolean
+            description: Use one-sided significance testing instead of two-sided (default false).
+          dropout_rate:
+            type: number
+            description: Anticipated attrition/dropout fraction in [0, 1) used to inflate enrolled N (default 0.10).
+          hr:
+            type: number
+            description: Target hazard ratio (HR != 1) for survival_logrank.
+          event_rate_ctrl:
+            type: number
+            description: Control-arm cumulative event probability in (0, 1] for survival_logrank.
+          median_surv_ctrl:
+            type: number
+            description: Control-arm median survival time (alternative to event_rate_ctrl when paired with accrual_time/followup_time).
+          accrual_time:
+            type: number
+            description: Uniform patient accrual duration in same time unit as median_surv_ctrl.
+          followup_time:
+            type: number
+            description: Minimum post-accrual follow-up duration in same time unit as median_surv_ctrl.
+          p_ctrl:
+            type: number
+            description: Control-arm event/response proportion in (0, 1) for two_proportions.
+          p_exp:
+            type: number
+            description: Experimental-arm event/response proportion in (0, 1) for two_proportions.
+          non_inferiority_margin:
+            type: number
+            description: Optional Farrington-Manning non-inferiority margin delta in (0, 1) for two_proportions.
+          mean_diff:
+            type: number
+            description: Expected difference in means (mu_exp - mu_ctrl) for two_means.
+          sd:
+            type: number
+            description: Common within-group standard deviation (> 0) for two_means.
+          auc_target:
+            type: number
+            description: Expected diagnostic ROC AUC under H1 in (0, 1) for diagnostic_auc.
+          auc_null:
+            type: number
+            description: Null hypothesis ROC AUC in (0, 1) for diagnostic_auc (default 0.50).
+          prevalence:
+            type: number
+            description: Positive-case disease prevalence in (0, 1) for diagnostic_auc (default 0.30).
+      approval: write
+      output: ./schemas/sample-size-result.json
+      timeoutSeconds: 300
+    - name: subgroup_interaction
+      description: >-
+        Stratified subgroup effect estimation and formal multiplicative
+        treatment-by-subgroup interaction testing (P for interaction via LRT /
+        joint Wald chi-square) with BH-FDR multiplicity control and
+        NEJM/Lancet-style subgroup forest plot across Cox PH, Logistic, and Linear models.
+      run: [python, ./scripts/clin_subgroup_interaction.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [clinical, exposure_col, subgroups, outcome_col, output_dir]
+        properties:
+          clinical:
+            type: string
+            format: input-path
+            description: Clinical cohort table TSV/CSV.
+          exposure_col:
+            type: string
+            description: Primary treatment or exposure column (binary or continuous).
+          subgroups:
+            type: array
+            items:
+              type: string
+            description: Candidate subgroup modifier columns (continuous columns are auto-dichotomized at the median).
+          outcome_col:
+            type: string
+            description: Clinical outcome column (or survival event indicator when model_type is cox).
+          model_type:
+            type: string
+            enum: [auto, cox, logistic, linear]
+            description: Regression family (auto-inferred by default; cox requires time_col).
+          time_col:
+            type: string
+            description: Follow-up time column (required for Cox PH subgroup interaction).
+          adjust_covariates:
+            type: array
+            items:
+              type: string
+            description: Optional baseline covariates to adjust for across strata and interaction models.
+          exposed_label:
+            type: string
+            description: Optional explicit value in exposure_col denoting the exposed/treated arm.
+          output_dir:
+            type: string
+            format: project-path
+            description: Output directory for subgroup_interaction.tsv and subgroup_forest_plot.png.
+      approval: write
+      output: ./schemas/subgroup-interaction-result.json
+      timeoutSeconds: 300
+    - name: nomogram
+      description: >-
+        Build a multivariable Cox PH (with Breslow baseline survival at landmark
+        horizons) or Logistic clinical prediction alignment nomogram: exports a
+        0-100 point scorecard per predictor, exact Total Points to predicted
+        event probability / landmark survival lookup table, EPV check, and
+        publication-ready nomogram figure.
+      run: [python, ./scripts/clin_nomogram.py]
+      args:
+        type: object
+        additionalProperties: false
+        required: [clinical, predictors, outcome_col, output_dir]
+        properties:
+          clinical:
+            type: string
+            format: input-path
+            description: Clinical dataset TSV/CSV.
+          predictors:
+            type: array
+            items:
+              type: string
+            description: 2 to 12 clinical/molecular predictor columns included in the nomogram.
+          outcome_col:
+            type: string
+            description: Binary outcome column (or survival event column when model_type is cox).
+          model_type:
+            type: string
+            enum: [auto, cox, logistic]
+            description: Nomogram regression family (auto selects cox when time_col is given, else logistic).
+          time_col:
+            type: string
+            description: Follow-up time column (required for Cox survival nomogram).
+          landmarks:
+            type: array
+            items:
+              type: number
+            description: Optional survival horizons (e.g. 12, 36, 60) mapped onto bottom survival scales in Cox mode.
+          time_label:
+            type: string
+            description: Optional display unit label for landmark survival scales (e.g. months, years).
+          output_dir:
+            type: string
+            format: project-path
+            description: Output directory for nomogram_points_scorecard.tsv, nomogram_total_points_lookup.tsv, and clinical_nomogram.png.
+      approval: write
+      output: ./schemas/nomogram-result.json
+      timeoutSeconds: 300
 ---
 
-# Prediction Validation, Causal Inference & Meta-Analysis Workflow
+# Prediction Validation, Causal Inference, Trial Design & Meta-Analysis Workflow
 
-Read [references/analysis-playbook.md](references/analysis-playbook.md) before interpreting DeLong comparisons, TRIPOD calibration/DCA, PSM/IPTW balance, RCS non-linearity, or meta-analysis heterogeneity.
+Read [references/analysis-playbook.md](references/analysis-playbook.md) before interpreting DeLong comparisons, TRIPOD calibration/DCA, PSM/IPTW balance, RCS non-linearity, sample-size/power assumptions, subgroup interaction tests, nomograms, or meta-analysis heterogeneity.
 
 ## Standard Workflows
 
 ```
-Diagnostic / Prediction Validation:
-  ──▶ clin_diagnostic_roc   : DeLong AUC + paired DeLong Z-test + PR-AUC + Youden/fixed 2x2 Wilson CIs
-  ──▶ clin_calibration_dca  : TRIPOD calibration (Brier, IPA, CITL, slope, HL) + Vickers DCA net benefit
+Study Design & Sample Size:
+  ──▶ clin_sample_size          : Schoenfeld log-rank / Fleiss & Farrington-Manning proportions / exact nct / Hanley-McNeil AUC
 
-Observational Causal Inference & Dose-Response:
-  ──▶ clin_psm_iptw         : positivity audit + 1:k caliper PSM + stabilized IPTW + |SMD| < 0.1 + ATE/ATT
-  ──▶ clin_rcs              : Harrell 3/4/5-knot Restricted Cubic Splines + overall & non-linearity Wald tests
+Diagnostic / Prediction Modeling & Validation:
+  ──▶ clin_nomogram             : Cox (landmark survival) or Logistic 0-100 point scorecard + alignment nomogram
+  ──▶ clin_diagnostic_roc       : DeLong AUC + paired DeLong Z-test + PR-AUC + Youden/fixed 2x2 Wilson CIs
+  ──▶ clin_calibration_dca      : TRIPOD calibration (Brier, IPA, CITL, slope, HL) + Vickers DCA net benefit
+
+Observational Causal Inference, Subgroup Heterogeneity & Dose-Response:
+  ──▶ clin_psm_iptw             : positivity audit + 1:k caliper PSM + stabilized IPTW + |SMD| < 0.1 + ATE/ATT
+  ──▶ clin_subgroup_interaction : stratified forest plot + formal multiplicative P_interaction + BH-FDR
+  ──▶ clin_rcs                  : Harrell 3/4/5-knot Restricted Cubic Splines + overall & non-linearity Wald tests
 
 Evidence Synthesis:
-  ──▶ clin_meta             : Fixed + DL/PM/HKSJ random-effects pooling + I^2/tau^2 + 95% PI + Egger + LOO
+  ──▶ clin_meta                 : Fixed + DL/PM/HKSJ random-effects pooling + I^2/tau^2 + 95% PI + Egger + LOO
 ```
 
 ## Hard Red Lines
 
-1. **Report calibration and clinical utility alongside AUC**: high ROC AUC alone does not prove clinical utility; always run `clin_calibration_dca` for TRIPOD calibration slope, calibration-in-the-large, and DCA net benefit.
+1. **Report calibration and clinical utility alongside AUC / Nomograms**: high ROC AUC or C-index alone does not prove clinical utility; always pair `clin_nomogram` and `clin_diagnostic_roc` with `clin_calibration_dca` (calibration slope, CITL, and DCA net benefit) and verify `events_per_variable >= 10`.
 2. **Never report apparent Youden's $J$ metrics as validated cutoffs**: unless `threshold` was externally pre-specified, label `clin_diagnostic_roc` sensitivity/specificity as resubstitution estimates requiring external validation.
 3. **Check positivity and `|SMD| < 0.10` before causal claims**: in `clin_psm_iptw`, flag extreme propensity scores (`<0.05` or `>0.95`), low ESS, or residual `|SMD| >= 0.10`.
-4. **Do not assume log-linearity without testing**: run `clin_rcs` and report `p_nonlinear` before modeling continuous exposures linearly; use 4 knots unless sample size is small (`n < 100` -> 3 knots).
-5. **Respect heterogeneity & publication-bias power in meta-analysis**: report the 95% prediction interval alongside the pooled RE CI when $I^2$ is substantial, and warn that Egger's test is underpowered when $k < 10$.
+4. **Subgroup claims require formal $P_{\text{interaction}}$**: never claim treatment heterogeneity because one subgroup has $p < 0.05$ and another has $p > 0.05$; require `p_interaction < 0.05` (and `padj_interaction < 0.05` across multiple exploratory subgroups).
+5. **Do not assume log-linearity without testing**: run `clin_rcs` and report `p_nonlinear` before modeling continuous exposures linearly; use 4 knots unless sample size is small (`n < 100` -> 3 knots).
+6. **Respect heterogeneity & publication-bias power in meta-analysis**: report the 95% prediction interval alongside the pooled RE CI when $I^2$ is substantial, and warn that Egger's test is underpowered when $k < 10$.

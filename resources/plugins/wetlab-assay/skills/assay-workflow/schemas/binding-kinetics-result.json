@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "rmax_mode",
+    "conc_unit",
+    "n_concentrations",
+    "kon_m_s",
+    "koff_s",
+    "kd_m",
+    "kd_nm",
+    "half_life_s",
+    "reduced_chi2",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "wa_binding_kinetics" },
+    "rmax_mode": { "type": "string", "enum": ["global", "local"] },
+    "conc_unit": { "type": "string", "enum": ["nM", "uM", "M"] },
+    "dissociation_start": { "type": "number" },
+    "n_concentrations": { "type": "integer" },
+    "kon_m_s": { "type": "number" },
+    "kon_ci95": { "type": "array", "items": { "type": "number" } },
+    "koff_s": { "type": "number" },
+    "koff_ci95": { "type": "array", "items": { "type": "number" } },
+    "kd_m": { "type": "number" },
+    "kd_nm": { "type": "number" },
+    "kd_ci95_nm": { "type": "array", "items": { "type": "number" } },
+    "half_life_s": { "type": "number" },
+    "rmax": { "type": ["number", "null"] },
+    "local_rmax_values": { "type": ["object", "null"] },
+    "reduced_chi2": { "type": "number" },
+    "r2": { "type": "number" },
+    "kd_eq_m": { "type": ["number", "null"] },
+    "kd_eq_nm": { "type": ["number", "null"] },
+    "rmax_eq": { "type": ["number", "null"] },
+    "outputs": {
+      "type": "object",
+      "required": [
+        "binding_kinetics_summary",
+        "sensorgram_fits",
+        "binding_kinetics_sensorgrams"
+      ],
+      "properties": {
+        "binding_kinetics_summary": { "type": "string" },
+        "sensorgram_fits": { "type": "string" },
+        "binding_kinetics_sensorgrams": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

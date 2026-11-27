@@ -51,3 +51,13 @@ Before ordering oligo pools or running `nf-core/modules/mageck-count`, verify:
 - Uniform spacer length and strict `ACGT` alphabet.
 - `>= 3` sgRNAs per gene (typically 4–10 in genome-wide libraries) and `>= 1%` non-targeting / safe-harbor controls.
 - Absence of `TTTT` Pol III terminators and cloning enzyme collisions (`BsmBI`, `BbsI`, `SapI`).
+
+## 4. Prime Editing pegRNA & PE3/PE3b Nicking Design (`crispr_design_pegrna`)
+
+- **SpCas9 H840A nickase geometry**: nicks the **non-target strand** (`3 bp` upstream of PAM, pos 17 of 20-nt spacer), liberating a `3'-OH` flap that hybridizes to the `3'` **Primer Binding Site (PBS)** of the pegRNA so reverse transcriptase copies the **RT Template (RTT)**.
+- **Thermodynamic & structural design rules (Anzalone et al. 2019; Nelson et al. 2022)**:
+  - **PBS $T_m$**: optimal around $37\text{--}42^\circ\text{C}$ (`10–15 nt`, GC `35–70%`).
+  - **RTT `5'-C` penalty**: RTTs starting with cytosine (`rtt_starts_with_c: true`) base-pair with `G81` of the SpCas9 sgRNA scaffold and disrupt structure; shift `rtt_len` by `±1–2 nt` when possible.
+  - **PAM/seed disruption**: edits that disrupt the `[13..20]` seed or `NGG` PAM prevent re-nicking of the edited allele; otherwise pass `cds_frame_offset` to inspect `pam_silent_mutation_hint`.
+  - **PE3b vs. PE3**: **PE3b** opposite-strand `ngRNA` spacers match *only* the edited sequence (or place the PAM on the edited bases), nicking the unedited strand exclusively after prime-edited flap resolution and strongly suppressing concurrent DSB indels compared to distal `+40..+90 bp` **PE3** nicks.
+  - **epegRNA (`add_epgrna_motif: true`)**: appends a linker + `37-nt tevopreQ1` RNA pseudoknot to block `3'` exonuclease degradation of the RTT/PBS extension.

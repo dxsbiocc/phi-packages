@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "status",
+    "tool",
+    "control_group",
+    "n_samples",
+    "n_target_genes",
+    "n_reference_genes",
+    "reference_stability",
+    "comparisons",
+    "qc",
+    "outputs",
+    "artifacts",
+    "warnings"
+  ],
+  "properties": {
+    "status": { "type": "string", "const": "ok" },
+    "tool": { "type": "string", "const": "wa_qpcr_quant" },
+    "control_group": { "type": "string" },
+    "n_samples": { "type": "integer" },
+    "n_target_genes": { "type": "integer" },
+    "n_reference_genes": { "type": "integer" },
+    "efficiencies": { "type": "object" },
+    "reference_stability": { "type": "array", "items": { "type": "object" } },
+    "comparisons": { "type": "array", "items": { "type": "object" } },
+    "qc": { "type": "object" },
+    "outputs": {
+      "type": "object",
+      "required": [
+        "qpcr_sample_quantities",
+        "qpcr_group_comparisons",
+        "qpcr_reference_stability",
+        "qpcr_expression_summary"
+      ],
+      "properties": {
+        "qpcr_sample_quantities": { "type": "string" },
+        "qpcr_group_comparisons": { "type": "string" },
+        "qpcr_reference_stability": { "type": "string" },
+        "qpcr_expression_summary": { "type": "string" }
+      }
+    },
+    "artifacts": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}
